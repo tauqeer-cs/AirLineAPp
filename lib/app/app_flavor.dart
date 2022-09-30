@@ -16,12 +16,21 @@ class AppFlavor {
     }
   }
 
-  static String get baseUrl {
+  static String get baseUrlCMS {
     switch (appFlavor) {
       case Flavor.staging:
-        return 'https://mos-1tplus.alphareds.com/api/v1/';
+        return 'https://mya-cms.alphareds.com/';
       default:
-        return 'https://mos-1tplus.alphareds.com/api/v1/';
+        return 'https://mya-cms.alphareds.com/';
+    }
+  }
+
+  static String get baseUrlApi {
+    switch (appFlavor) {
+      case Flavor.staging:
+        return 'https://mya-api.alphareds.com/api/';
+      default:
+        return 'https://mya-api.alphareds.com/api/';
     }
   }
 }

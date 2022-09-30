@@ -17,6 +17,12 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    HomeRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const HomePage(),
+      );
+    },
     WelcomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -51,8 +57,12 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           '/#redirect',
           path: '/',
-          redirectTo: '/welcome',
+          redirectTo: '/home',
           fullMatch: true,
+        ),
+        RouteConfig(
+          HomeRoute.name,
+          path: '/home',
         ),
         RouteConfig(
           WelcomeRoute.name,
@@ -67,6 +77,18 @@ class _$AppRouter extends RootStackRouter {
           path: '/in-app-webview',
         ),
       ];
+}
+
+/// generated route for
+/// [HomePage]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute()
+      : super(
+          HomeRoute.name,
+          path: '/home',
+        );
+
+  static const String name = 'HomeRoute';
 }
 
 /// generated route for

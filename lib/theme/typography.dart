@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const double modifier = 0.5;
+const double modifier = 0;
 
 const kExtraSmallBook = TextStyle(
   fontSize: 8+modifier+modifier,

@@ -15,4 +15,6 @@ final kSliverVerticalSpacer = EdgeInsets.only(bottom: 20.h);
 
 const kPagePadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 const kPageHorizontalPadding = EdgeInsets.symmetric(horizontal: 16);
+const kPageHorizontalPaddingBig = EdgeInsets.symmetric(horizontal: 24);
+
 const kCardPadding = EdgeInsets.all(8);

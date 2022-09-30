@@ -1,0 +1,81 @@
+import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/blocs/airports/airports_cubit.dart';
+import 'package:app/models/airports.dart';
+import 'package:app/models/number_person.dart';
+import 'package:app/pages/home/bloc/filter_cubit.dart';
+import 'package:app/pages/home/ui/filter/passengers_sheet.dart';
+import 'package:app/pages/home/ui/filter/search_flight.dart';
+import 'package:app/theme/theme.dart';
+import 'package:app/widgets/animations/text_field_loader.dart';
+import 'package:app/widgets/containers/bordered_container.dart';
+import 'package:app/widgets/forms/app_dropdown.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'dropdown_transformer.dart';
+
+class AirportWidget extends StatelessWidget {
+  final bool isOrigin;
+
+  const AirportWidget({Key? key, required this.isOrigin}) : super(key: key);
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    final origin = context.watch<FilterCubit>().state.origin;
+    final selected = isOrigin
+        ? context.watch<FilterCubit>().state.origin
+        : context.watch<FilterCubit>().state.destination;
+    return BlocBuilder<AirportsCubit, AirportsState>(
+      builder: (context, state) {
+        return blocBuilderWrapper(
+          blocState: state.blocState,
+          loadingBuilder: TextFieldLoader(),
+          finishedBuilder: AppDropDown<Airports>(
+            items: isOrigin ? state.airports : (origin?.connections ?? []),
+            defaultValue: selected,
+            onChanged: (val) {
+              if (isOrigin) {
+                context.read<FilterCubit>().updateOriginAirport(val);
+              } else {
+                context.read<FilterCubit>().updateDestinationAirport(val);
+              }
+            },
+            sheetTitle: isOrigin ? "From" : "To",
+            isEnabled: true,
+            valueTransformer: (value) {
+              return DropdownTransformerWidget<Airports>(
+                value: value,
+                label: isOrigin ? "From" : "To",
+                prefix: Icon(
+                  isOrigin ? Icons.flight_takeoff : Icons.flight_land,
+                  size: 20,
+                ),
+              );
+            },
+            valueTransformerItem: (value, selected) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    value.toString(),
+                    style: kMediumMedium.copyWith(
+                      color: selected ? Styles.kPrimaryColor : null,
+                    ),
+                  ),
+                  Text(
+                    value?.code ?? "",
+                    style: kMediumMedium.copyWith(
+                      color: selected ? Styles.kPrimaryColor : null,
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}

@@ -1,0 +1,123 @@
+{
+    "@@last_modified": "2022-04-27T18:01:12.284067",
+    "hotel": "Hotel",
+    "@hotel": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "apartment": "Apartment",
+    "@apartment": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "resort": "Resort",
+    "@resort": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "destinationRequired": "Destination can't empty",
+    "@destinationRequired": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "checkInRequired": "Check in & check out date required",
+    "@checkInRequired": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "numOfRoomRequired": "Number of room and person is required",
+    "@numOfRoomRequired": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "search": "Search",
+    "@search": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "numOfRooms": "NUMBER OF ROOMS & PERSON",
+    "@numOfRooms": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "enterNumberOfPerson": "Enter Number of Person",
+    "@enterNumberOfPerson": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "checkIn": "CHECK IN & CHECK OUT",
+    "@checkIn": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "enterDate": "Enter Date",
+    "@enterDate": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "searchHere": "Search here",
+    "@searchHere": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "destination": "DESTINATION",
+    "@destination": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "popularPlaces": "Popular Places",
+    "@popularPlaces": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "viewAll": "view all",
+    "@viewAll": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "holidaysDeal": "Holidays Deal",
+    "@holidaysDeal": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "upToOff": "up to 75% off until 30 Aug",
+    "@upToOff": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "loading": "Loading",
+    "@loading": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "error": "Error",
+    "@error": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    },
+    "hotelPlus": "1250+ Hotels",
+    "@hotelPlus": {
+        "type": "text",
+        "placeholders_order": {},
+        "placeholders": {}
+    }
+}

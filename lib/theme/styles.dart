@@ -25,6 +25,7 @@ class Styles {
   static Color get kDarkContainerColor => const Color(0xFF232F3D);
 
   static Color get kCanvasColor => const Color(0xFFF2F2F3);
+  static Color get kTextColor => const Color(0xFF2b2d42);
 
   static LinearGradient get gradient => LinearGradient(colors: const <Color>[
         Color(0xFF02C2F3),
@@ -39,32 +40,27 @@ class Styles {
 
   static ThemeData theme(bool isLight) {
     return ThemeData(
-      fontFamily: 'Poppins',
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: createMaterialColor(kActiveColor),
-        brightness: isLight ? Brightness.light : Brightness.dark,
-        accentColor: kActiveColor,
-      ),
+      colorSchemeSeed: kPrimaryColor,
       canvasColor: isLight ? Colors.white : kTextLightThemeColor,
       cardColor: isLight ? Colors.white : kTextLightThemeColor,
       appBarTheme: AppBarTheme(
-        backgroundColor: isLight ? kDarkContainerColor : kDarkBgColor,
-        elevation: 0,
+        backgroundColor: isLight ? kLightBgColor : kDarkBgColor,
+        elevation: 5,
         titleTextStyle: kHugeSemiBold.copyWith(
-          color: isLight ? Colors.white : Colors.white,
+          color: isLight ? kTextColor : Colors.white,
         ),
         centerTitle: true,
         titleSpacing: 3,
         iconTheme: IconThemeData(
-          color: isLight ? Colors.white : Colors.white,
+          color: isLight ? kTextColor : Colors.white,
         ),
       ),
       iconTheme: IconThemeData(
-        color: isLight ? Colors.white : Colors.white,
+        color: isLight ? kTextColor : Colors.white,
         size: 20,
       ),
       listTileTheme: ListTileThemeData(
-        iconColor: isLight ? Colors.black : Colors.white,
+        iconColor: isLight ? kTextColor : Colors.white,
       ),
       scaffoldBackgroundColor: isLight ? kLightBgColor : kDarkBgColor,
       scrollbarTheme: ScrollbarThemeData(),
@@ -75,7 +71,7 @@ class Styles {
         ),
         thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8),
         inactiveTrackColor: Colors.grey,
-        thumbColor: Colors.white,
+        thumbColor: kTextColor,
         trackHeight: 5,
         overlayShape: SliderComponentShape.noOverlay,
         disabledInactiveTrackColor: Colors.grey,
@@ -106,26 +102,26 @@ class Styles {
                       .white; // Use the component's default./ Use the component's default.
             },
           ),
-          minimumSize: MaterialStateProperty.all(Size(100.w, 40.h)),
+          minimumSize: MaterialStateProperty.all(Size(500.w, 45.h)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: kPrimaryColor)
             ),
           ),
           padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
           ),
-          elevation: MaterialStateProperty.all(0),
         ),
       ),
+
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           side: MaterialStateProperty.resolveWith<BorderSide>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return const BorderSide(
-                  color: Color(0xFF0CCDBC),
+                return  BorderSide(
+                  color: kPrimaryColor,
                   width: 1.0,
                   style: BorderStyle.solid,
                 );
@@ -136,8 +132,8 @@ class Styles {
                   style: BorderStyle.solid,
                 );
               }
-              return const BorderSide(
-                color: Color(0xFF0CCDBC),
+              return BorderSide(
+                color: kPrimaryColor,
                 width: 1.0,
                 style: BorderStyle.solid,
               ); // Use the component's default./ Use the component's default.
@@ -148,19 +144,19 @@ class Styles {
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return isLight ? Colors.white : Colors.white;
+                return isLight ?kPrimaryColor : Colors.white;
               } else if (states.contains(MaterialState.disabled)) {
-                return Colors.white.withOpacity(0.5);
+                return kPrimaryColor.withOpacity(0.5);
               }
               return isLight
-                  ? Colors.white
+                  ? kPrimaryColor
                   : Colors
                       .white; // Use the component's default./ Use the component's default.
             },
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(5),
               side: BorderSide(
                 width: 1,
                 color: kBorderColor,
@@ -184,31 +180,31 @@ class Styles {
         errorMaxLines: 2,
         contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xFF39D2C0)),
-          borderRadius: BorderRadius.circular(8),
+          borderSide:  BorderSide(color: kPrimaryColor),
+          borderRadius: BorderRadius.circular(5),
         ),
         prefixIconColor: isLight ? Colors.white : Colors.white,
         suffixIconColor: isLight ? Colors.white : Colors.white,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xFF39D2C0)),
-          borderRadius: BorderRadius.circular(8),
+          borderSide:  BorderSide(color: kPrimaryColor),
+          borderRadius: BorderRadius.circular(5),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xFF39D2C0)),
-          borderRadius: BorderRadius.circular(8),
+          borderSide:  BorderSide(color: kPrimaryColor),
+          borderRadius: BorderRadius.circular(5),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.white),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(5),
         ),
         disabledBorder: OutlineInputBorder(
           borderSide:
-              BorderSide(color: const Color(0xFF39D2C0).withOpacity(0.3)),
-          borderRadius: BorderRadius.circular(8),
+              BorderSide(color:  kPrimaryColor.withOpacity(0.3)),
+          borderRadius: BorderRadius.circular(5),
         ),
         filled: false,
         labelStyle: kSmallSemiBold.copyWith(
@@ -247,11 +243,17 @@ class Styles {
         ),
       ),
       bottomSheetTheme: BottomSheetThemeData(
-        backgroundColor: isLight ? const Color(0xFF4B39EF) : kDarkBgColor,
+        backgroundColor: isLight ? Colors.white : kDarkBgColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(12),
+          ),
+        ),
+        elevation: 3
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: isLight ? Colors.white : Colors.white,
-        selectedItemColor: isLight ? const Color(0xFF4B39EF) : Colors.white,
+        selectedItemColor: isLight ? kPrimaryColor : Colors.white,
         selectedLabelStyle: const TextStyle(
           color: Colors.red,
         ),
@@ -268,7 +270,7 @@ class Styles {
         padding: const EdgeInsets.all(5),
         labelPadding: const EdgeInsets.all(2),
         backgroundColor: kDisabledButton,
-        shadowColor: Colors.black,
+        shadowColor: kTextColor,
         labelStyle: kMediumSemiBold.copyWith(color: Colors.white),
       ),
       tabBarTheme: TabBarTheme(
@@ -283,9 +285,9 @@ class Styles {
       ),
       cardTheme: CardTheme(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(5),
         ),
-        color: isLight ? Colors.white : Colors.black54,
+        color: isLight ? Colors.white : kTextColor.withOpacity(0.6),
       ),
       radioTheme: RadioThemeData(
         fillColor: MaterialStateProperty.resolveWith(
@@ -303,20 +305,20 @@ class Styles {
           color: Colors.white,
         ),
         titleMedium: kMediumMedium.copyWith(
-          color: isLight ? Colors.black : kLightBgColor,
+          color: isLight ? kTextColor : kLightBgColor,
         ),
         bodyLarge: kHugeMedium.copyWith(
-          color: isLight ? Colors.black : kLightBgColor,
+          color: isLight ? kTextColor : kLightBgColor,
         ),
         bodyMedium: kMediumMedium.copyWith(
-          color: isLight ? Colors.black : kLightBgColor,
+          color: isLight ? kTextColor : kLightBgColor,
         ),
         bodySmall: kSmallMedium.copyWith(
-          color: isLight ? Colors.black : kLightBgColor,
+          color: isLight ? kTextColor : kLightBgColor,
         ),
       ).apply(
-        bodyColor: isLight ? Colors.black : kLightBgColor,
-        displayColor: isLight ? Colors.black : kLightBgColor,
+        bodyColor: isLight ? kTextColor : kLightBgColor,
+        displayColor: isLight ? kTextColor : kLightBgColor,
       ),
     );
   }
