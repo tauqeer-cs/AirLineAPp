@@ -84,7 +84,7 @@ class Styles {
               if (states.contains(MaterialState.pressed)) {
                 return kActiveColor.withOpacity(0.5);
               } else if (states.contains(MaterialState.disabled)) {
-                return kDisabledButton;
+                return kActiveColor.withOpacity(0.7);
               }
               return kActiveColor; // Use the component's default./ Use the component's default.
             },

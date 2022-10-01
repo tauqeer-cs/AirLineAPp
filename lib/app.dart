@@ -1,6 +1,7 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
+import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/theme/styles.dart';
@@ -28,6 +29,8 @@ class _AppState extends State<App> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => FilterCubit()),
+        BlocProvider(create: (_) => SearchFlightCubit()),
+
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
           lazy: false,

@@ -26,6 +26,9 @@ class FilterState extends Equatable {
           departDate != null &&
           (returnDate != null || flightType == FlightType.round);
 
+  String get beautify=>"${origin?.name} To ${destination?.name}";
+  String get beautifyReverse=>"${destination?.name} To ${origin?.name}";
+
   @override
   List<Object?> get props =>
       [
@@ -55,28 +58,6 @@ class FilterState extends Equatable {
       flightType: flightType ?? this.flightType,
       numberPerson: numberPerson ?? this.numberPerson,
       destination: destination ?? this.destination,
-      origin: origin ?? this.origin,
-      departDate: departDate ?? this.departDate,
-      returnDate: returnDate ?? this.returnDate,
-    );
-  }
-
-  FilterState copyWithNull({
-    BlocState? blocState,
-    String? message,
-    FlightType? flightType,
-    NumberPerson? numberPerson,
-    Airports? destination,
-    Airports? origin,
-    DateTime? departDate,
-    DateTime? returnDate,
-  }) {
-    return FilterState(
-      message: message ?? this.message,
-      blocState: blocState ?? this.blocState,
-      flightType: flightType ?? this.flightType,
-      numberPerson: numberPerson ?? this.numberPerson,
-      destination: destination,
       origin: origin ?? this.origin,
       departDate: departDate ?? this.departDate,
       returnDate: returnDate ?? this.returnDate,

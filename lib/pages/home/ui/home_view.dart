@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
-import 'package:app/pages/home/ui/filter/search_flight.dart';
+import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
+import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/pages/home/ui/home_center.dart';
 import 'package:app/pages/home/ui/home_deal.dart';
@@ -20,9 +21,14 @@ class HomeView extends StatelessWidget {
         kVerticalSpacer,
         Padding(
           padding: kPageHorizontalPadding,
-          child: SearchFlight(),
+          child: SearchFlightWidget(),
         ),
         kVerticalSpacer,
+        Padding(
+          padding: kPageHorizontalPadding,
+          child: SubmitSearch(isHomePage: true),
+        ),
+        kVerticalSpacerBig,
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             print("home state is $state");
@@ -30,7 +36,7 @@ class HomeView extends StatelessWidget {
               blocState: state.blocState,
               finishedBuilder: Column(
                 children: state.contents.map((e) {
-                  switch(e.name){
+                  switch (e.name) {
                     case "3D Carousel Banner":
                       return Padding(
                         padding: kPageHorizontalPadding,

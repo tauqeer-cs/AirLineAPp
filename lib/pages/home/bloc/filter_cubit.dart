@@ -1,7 +1,8 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/models/airports.dart';
 import 'package:app/models/number_person.dart';
-import 'package:app/pages/home/ui/filter/search_flight.dart';
+import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -60,7 +61,7 @@ class FilterCubit extends Cubit<FilterState> {
   updateDate({DateTime? departDate, DateTime? returnDate}) {
     emit(FilterState(
       returnDate: returnDate,
-      destination: null,
+      destination: state.destination,
       blocState: state.blocState,
       message: state.message,
       departDate: departDate,

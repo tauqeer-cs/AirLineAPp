@@ -9,8 +9,26 @@ class AppDateUtils{
   }
 
   static String formatTimeWithoutLocale(DateTime? dateTime) {
-    if(dateTime==null) return tr.invalidDate;
+    if(dateTime==null) return "Invalid Date";
     String formattedDate = DateFormat.Hm().format(dateTime);
+    return formattedDate;
+  }
+
+  static String formatJM(DateTime? dateTime) {
+    if(dateTime==null) return "Invalid Date";
+    String formattedDate = DateFormat.jm().format(dateTime);
+    return formattedDate;
+  }
+
+  static String formatFullDate(DateTime? dateTime) {
+    if(dateTime==null) return "Invalid Date";
+    String formattedDate = DateFormat("EEEE dd MMMM yyyy").format(dateTime);
+    return formattedDate;
+  }
+
+  static String formatHalfDate(DateTime? dateTime) {
+    if(dateTime==null) return "Invalid Date";
+    String formattedDate = DateFormat("EEE dd MMMM yyyy").format(dateTime);
     return formattedDate;
   }
 

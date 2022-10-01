@@ -30,6 +30,13 @@ class NumberUtils {
       return num.toString();
     }
   }
+
+  static String getTimeString(num? num) {
+    final value = (num ?? 0).toInt();
+    final int hour = value ~/ 60;
+    final int minutes = value % 60;
+    return '${hour.toString().padLeft(2, "0")} hr ${minutes.toString().padLeft(2, "0")} mins';
+  }
 }
 
 extension DigitColor on double {

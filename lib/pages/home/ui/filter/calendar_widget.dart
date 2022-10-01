@@ -2,7 +2,6 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/calendar_sheet.dart';
 import 'package:app/pages/home/ui/filter/passengers_sheet.dart';
-import 'package:app/pages/home/ui/filter/search_flight.dart';
 import 'package:app/pages/home/ui/filter/table_range.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/containers/bordered_container.dart';

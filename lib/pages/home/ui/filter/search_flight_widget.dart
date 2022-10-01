@@ -10,11 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dropdown_transformer.dart';
 
-class SearchFlight extends StatelessWidget {
-  const SearchFlight({Key? key}) : super(key: key);
+class SearchFlightWidget extends StatelessWidget {
+  const SearchFlightWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         AppDropDown<FlightType>(

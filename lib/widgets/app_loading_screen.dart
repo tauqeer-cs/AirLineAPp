@@ -16,12 +16,12 @@ class AppLoadingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SpinKitFadingCircle(color: Styles.kDarkContainerColor),
+            SpinKitFadingCircle(color: Styles.kPrimaryColor),
             kVerticalSpacer,
             Text(
               message,
               style: kHugeMedium.copyWith(
-                color: Styles.kDarkContainerColor,
+                color: Styles.kPrimaryColor,
               ),
             ),
           ],

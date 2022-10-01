@@ -1,13 +1,9 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/models/airports.dart';
-import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
-import 'package:app/pages/home/ui/filter/passengers_sheet.dart';
-import 'package:app/pages/home/ui/filter/search_flight.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/animations/text_field_loader.dart';
-import 'package:app/widgets/containers/bordered_container.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
