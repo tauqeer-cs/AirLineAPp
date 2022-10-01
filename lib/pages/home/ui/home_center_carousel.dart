@@ -13,10 +13,11 @@ class HomeCenterCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppImageCarousel(
-      aspectRatio: 300/500,
+      aspectRatio: 300 / 600,
       viewPort: 0.9,
       autoPlay: false,
       showIndicator: false,
+      infiniteScroll: false,
       items: (content.items ?? [])
           .map(
             (e) => Padding(
@@ -30,15 +31,19 @@ class HomeCenterCarousel extends StatelessWidget {
                       top: 150,
                       left: 0,
                       child: Container(
-                        height: 300,
-                        width: 300,
+                        height: 400,
+                        width: 0.8.sw,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(12),
-                            bottomRight: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                            topLeft: Radius.circular(12),
+                            bottomLeft: Radius.circular(
+                                e.style == "Bottom Left Rounded" ? 50 : 12),
+                            bottomRight: Radius.circular(
+                                e.style == "Bottom Right Rounded" ? 50 : 12),
+                            topRight: Radius.circular(
+                                e.style == "Top Right Rounded" ? 50 : 12),
+                            topLeft: Radius.circular(
+                                e.style == "Top Left Rounded" ? 50 : 12),
                           ),
                         ),
                       ),
@@ -49,12 +54,15 @@ class HomeCenterCarousel extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          AppImage(imageUrl: e.image),
+                          SizedBox(
+                            height: 0.7.sw,
+                            width: 0.7.sw,
+                            child: AppImage(imageUrl: e.image),
+                          ),
                           kVerticalSpacer,
                           Text(e.title ?? "", style: kHugeSemiBold),
                           kVerticalSpacer,
                           Text(e.description ?? "", style: kLargeMedium),
-
                         ],
                       ),
                     ),

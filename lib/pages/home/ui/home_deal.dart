@@ -25,6 +25,7 @@ class HomeDeal extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           child: AppImageCarousel(
             aspectRatio: 1.7,
+            infiniteScroll: false,
             viewPort: 0.85,
             autoPlay: false,
             showIndicator: false,

@@ -22,7 +22,7 @@ class HomeBanner extends StatelessWidget {
           child: AppImageCarousel(
             aspectRatio: 393 / 185,
             showIndicator: true,
-
+            infiniteScroll: true,
             autoPlay: (content.items ?? []).length>1,
             items: (content.items ?? [])
                 .map(
