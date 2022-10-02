@@ -67,6 +67,6 @@ Widget blocBuilderWrapper({
     case BlocState.finished:
       return finishedBuilder ?? const SizedBox.shrink();
     case BlocState.failed:
-      return failedBuilder ?? const AppErrorScreen();
+      return failedBuilder ?? finishedBuilder ?? const AppErrorScreen();
   }
 }

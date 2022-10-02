@@ -43,6 +43,7 @@ class FlightResultWidget extends StatelessWidget {
                   subtitle: state.filterState?.beautify ?? "",
                   dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
                   segments: state.flights?.flightResult?.outboundSegment ?? [],
+                  isDeparture: true,
                 ),
                 kVerticalSpacer,
                 Visibility(
@@ -52,6 +53,7 @@ class FlightResultWidget extends StatelessWidget {
                     subtitle: state.filterState?.beautifyReverse ?? "",
                     dateTitle: AppDateUtils.formatFullDate(state.filterState?.returnDate),
                     segments: state.flights?.flightResult?.inboundSegment ?? [],
+                    isDeparture: false,
                   ),
                 ),
               ],

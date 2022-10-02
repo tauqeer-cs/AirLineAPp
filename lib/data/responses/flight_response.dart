@@ -7,7 +7,7 @@ part 'flight_response.g.dart';
 
 @JsonSerializable()
 class FlightResponse extends Equatable {
-  final SearchFlightRequest? searchFlightRequest;
+  final CommonFlightRequest? searchFlightRequest;
   final SearchFlightResponse? searchFlightResponse;
   final num? orderID;
   final bool? success;
@@ -121,11 +121,11 @@ class InboundOutboundSegment extends Equatable {
   final num? minInboundTotalPrice;
   final num? totalSegmentFareAmt;
   final num? adultPricePerPax;
-  final num? adultPriceTotal;
+  final num adultPriceTotal;
   final num? childPricePerPax;
-  final num? childPriceTotal;
+  final num childPriceTotal;
   final num? infantPricePerPax;
-  final num? infantPriceTotal;
+  final num infantPriceTotal;
   final List<FareTypeWithTaxDetails>? fareTypeWithTaxDetails;
   final num? lfid;
   final DateTime? departureDate;
@@ -134,23 +134,26 @@ class InboundOutboundSegment extends Equatable {
   final bool? international;
   final List<FlightLegDetails>? flightLegDetails;
 
-  const InboundOutboundSegment(
-      {this.segmentDetail,
-      this.minInboundTotalPrice,
-      this.totalSegmentFareAmt,
-      this.adultPricePerPax,
-      this.adultPriceTotal,
-      this.childPricePerPax,
-      this.childPriceTotal,
-      this.infantPricePerPax,
-      this.infantPriceTotal,
-      this.fareTypeWithTaxDetails,
-      this.lfid,
-      this.departureDate,
-      this.arrivalDate,
-      this.legCount,
-      this.international,
-      this.flightLegDetails});
+  const InboundOutboundSegment({
+    this.segmentDetail,
+    this.minInboundTotalPrice,
+    this.totalSegmentFareAmt,
+    this.adultPricePerPax,
+    this.adultPriceTotal = 0,
+    this.childPricePerPax,
+    this.childPriceTotal = 0,
+    this.infantPricePerPax,
+    this.infantPriceTotal = 0,
+    this.fareTypeWithTaxDetails,
+    this.lfid,
+    this.departureDate,
+    this.arrivalDate,
+    this.legCount,
+    this.international,
+    this.flightLegDetails,
+  });
+
+  num get getTotalPrice => adultPriceTotal + childPriceTotal + infantPriceTotal;
 
   factory InboundOutboundSegment.fromJson(Map<String, dynamic> json) =>
       _$InboundOutboundSegmentFromJson(json);
@@ -464,7 +467,6 @@ class FlightLegDetails extends Equatable {
 
   Map<String, dynamic> toJson() => _$FlightLegDetailsToJson(this);
 }
-
 
 @JsonSerializable()
 class LegDetails extends Equatable {

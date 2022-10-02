@@ -36,6 +36,26 @@ class NumberPerson extends Equatable {
     return texts.join(", ");
   }
 
+  String toBeautify() {
+    List<String> texts = [];
+    if (numberOfAdult > 0) {
+      final text = "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      texts.add(text);
+    }
+    if (numberOfChildren > 0) {
+      final text =
+          "($numberOfChildren) ${numberOfChildren > 1 ? 'Children' : 'Child'}";
+      texts.add(text);
+    }
+    if (numberOfInfant > 0) {
+      final text =
+          "($numberOfInfant) ${numberOfInfant > 1 ? 'Infants' : 'Infant'}";
+      texts.add(text);
+    }
+    final combine = texts.join(", ");
+    return "$combine passenger(s)";
+  }
+
   factory NumberPerson.fromJson(Map<String, dynamic> json) =>
       _$NumberPersonFromJson(json);
 

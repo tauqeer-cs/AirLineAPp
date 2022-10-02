@@ -1,7 +1,9 @@
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/home/ui/filter/submit_search.dart';
+import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/flight_result_widget.dart';
 import 'package:app/theme/spacer.dart';
+import 'package:app/widgets/app_divider_widget.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultView extends StatelessWidget {
@@ -23,6 +25,10 @@ class SearchResultView extends StatelessWidget {
         ),
         kVerticalSpacerBig,
         FlightResultWidget(),
+        kVerticalSpacerBig,
+        AppDividerWidget(),
+        kVerticalSpacerBig,
+        BookingSummary(),
       ],
     );
   }

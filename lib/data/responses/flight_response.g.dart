@@ -10,7 +10,7 @@ FlightResponse _$FlightResponseFromJson(Map<String, dynamic> json) =>
     FlightResponse(
       searchFlightRequest: json['searchFlightRequest'] == null
           ? null
-          : SearchFlightRequest.fromJson(
+          : CommonFlightRequest.fromJson(
               json['searchFlightRequest'] as Map<String, dynamic>),
       searchFlightResponse: json['searchFlightResponse'] == null
           ? null
@@ -97,11 +97,11 @@ InboundOutboundSegment _$InboundOutboundSegmentFromJson(
       minInboundTotalPrice: json['minInboundTotalPrice'] as num?,
       totalSegmentFareAmt: json['totalSegmentFareAmt'] as num?,
       adultPricePerPax: json['adultPricePerPax'] as num?,
-      adultPriceTotal: json['adultPriceTotal'] as num?,
+      adultPriceTotal: json['adultPriceTotal'] as num? ?? 0,
       childPricePerPax: json['childPricePerPax'] as num?,
-      childPriceTotal: json['childPriceTotal'] as num?,
+      childPriceTotal: json['childPriceTotal'] as num? ?? 0,
       infantPricePerPax: json['infantPricePerPax'] as num?,
-      infantPriceTotal: json['infantPriceTotal'] as num?,
+      infantPriceTotal: json['infantPriceTotal'] as num? ?? 0,
       fareTypeWithTaxDetails: (json['fareTypeWithTaxDetails'] as List<dynamic>?)
           ?.map(
               (e) => FareTypeWithTaxDetails.fromJson(e as Map<String, dynamic>))

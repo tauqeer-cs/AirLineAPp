@@ -35,6 +35,7 @@ class Api {
 /// Interceptor to print requests, responses, and errors
 class MyInterceptor extends Interceptor {
   final _cmsRepository = CMSRepository();
+
   ///to format data response
   final JsonEncoder _encoder = const JsonEncoder.withIndent(' ');
 
@@ -106,6 +107,13 @@ class MyInterceptor extends Interceptor {
     if (response.data is Map) {
       Map result = response.data;
       if (result.containsKey("result")) {
+        final isSuccess = result["success"] ?? true;
+        if (isSuccess is bool && !isSuccess) {
+          if(result["error"] !=null && result["error"] is Map){
+            throw ErrorResponse.fromJson(result["error"]);
+            return;
+          }
+        }
         response.data = result["result"];
         _log(
           "<= ${response.requestOptions.method} ${response.requestOptions.baseUrl} ${response.realUri.toString()}",

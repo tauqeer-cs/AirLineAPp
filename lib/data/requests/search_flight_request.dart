@@ -8,7 +8,7 @@ part 'search_flight_request.g.dart';
 
 @JsonSerializable()
 class SearchFlight extends Equatable {
-  final SearchFlightRequest? searchFlightRequest;
+  final CommonFlightRequest? searchFlightRequest;
 
   const SearchFlight({this.searchFlightRequest});
 
@@ -19,9 +19,9 @@ class SearchFlight extends Equatable {
 
   //todo currency need to be changed
   factory SearchFlight.fromFilter(FilterState filter) {
-    final searchFlightRequest = SearchFlightRequest(
-      returnDate:filter.returnDate?.toIso8601String(),
-      departDate:filter.departDate?.toIso8601String(),
+    final searchFlightRequest = CommonFlightRequest(
+      returnDate: filter.returnDate?.toIso8601String(),
+      departDate: filter.departDate?.toIso8601String(),
       adults: filter.numberPerson.numberOfAdult,
       childrens: filter.numberPerson.numberOfChildren,
       infants: filter.numberPerson.numberOfInfant,
@@ -39,8 +39,8 @@ class SearchFlight extends Equatable {
   List<Object?> get props => [searchFlightRequest];
 }
 
-@JsonSerializable()
-class SearchFlightRequest extends Equatable {
+@JsonSerializable(includeIfNull: false)
+class CommonFlightRequest extends Equatable {
   @JsonKey(name: 'OriginAirport')
   final String? originAirport;
   @JsonKey(name: 'DestinationAirport')
@@ -61,8 +61,14 @@ class SearchFlightRequest extends Equatable {
   final String? tripType;
   @JsonKey(name: 'Currency')
   final String? currency;
+  @JsonKey(name: 'OutboundLFID')
+  final List<int>? outboundLFID;
+  @JsonKey(name: 'InboundLFID')
+  final List<int>? inboundLFID;
+  @JsonKey(name: 'TotalAmount')
+  final num? totalAmount;
 
-  const SearchFlightRequest({
+  const CommonFlightRequest({
     this.originAirport,
     this.destinationAirport,
     this.departDate,
@@ -73,12 +79,15 @@ class SearchFlightRequest extends Equatable {
     this.isReturn,
     this.tripType,
     this.currency,
+    this.outboundLFID,
+    this.inboundLFID,
+    this.totalAmount,
   });
 
-  factory SearchFlightRequest.fromJson(Map<String, dynamic> json) =>
-      _$SearchFlightRequestFromJson(json);
+  factory CommonFlightRequest.fromJson(Map<String, dynamic> json) =>
+      _$CommonFlightRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SearchFlightRequestToJson(this);
+  Map<String, dynamic> toJson() => _$CommonFlightRequestToJson(this);
 
   @override
   // TODO: implement props
@@ -93,5 +102,8 @@ class SearchFlightRequest extends Equatable {
         isReturn,
         tripType,
         currency,
+        outboundLFID,
+        inboundLFID,
+        totalAmount,
       ];
 }
