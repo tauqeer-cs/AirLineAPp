@@ -56,6 +56,42 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SelectBundleRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SelectBundlePage(),
+      );
+    },
+    SelectSeatsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SelectSeatsPage(),
+      );
+    },
+    SelectMealsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SelectMealsPage(),
+      );
+    },
+    SelectBaggageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SelectBaggagePage(),
+      );
+    },
+    BookingDetailsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const BookingDetailsPage(),
+      );
+    },
+    CheckoutRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CheckoutPage(),
+      );
+    },
   };
 
   @override
@@ -85,6 +121,30 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           InAppWebViewRoute.name,
           path: '/in-app-webview',
+        ),
+        RouteConfig(
+          SelectBundleRoute.name,
+          path: '/flight/addon/bundle',
+        ),
+        RouteConfig(
+          SelectSeatsRoute.name,
+          path: '/flight/addon/seat',
+        ),
+        RouteConfig(
+          SelectMealsRoute.name,
+          path: '/flight/addon/meal',
+        ),
+        RouteConfig(
+          SelectBaggageRoute.name,
+          path: '/flight/addon/baggage',
+        ),
+        RouteConfig(
+          BookingDetailsRoute.name,
+          path: '/booking-details',
+        ),
+        RouteConfig(
+          CheckoutRoute.name,
+          path: '/checkout',
         ),
       ];
 }
@@ -196,4 +256,76 @@ class InAppWebViewRouteArgs {
   String toString() {
     return 'InAppWebViewRouteArgs{key: $key, url: $url}';
   }
+}
+
+/// generated route for
+/// [SelectBundlePage]
+class SelectBundleRoute extends PageRouteInfo<void> {
+  const SelectBundleRoute()
+      : super(
+          SelectBundleRoute.name,
+          path: '/flight/addon/bundle',
+        );
+
+  static const String name = 'SelectBundleRoute';
+}
+
+/// generated route for
+/// [SelectSeatsPage]
+class SelectSeatsRoute extends PageRouteInfo<void> {
+  const SelectSeatsRoute()
+      : super(
+          SelectSeatsRoute.name,
+          path: '/flight/addon/seat',
+        );
+
+  static const String name = 'SelectSeatsRoute';
+}
+
+/// generated route for
+/// [SelectMealsPage]
+class SelectMealsRoute extends PageRouteInfo<void> {
+  const SelectMealsRoute()
+      : super(
+          SelectMealsRoute.name,
+          path: '/flight/addon/meal',
+        );
+
+  static const String name = 'SelectMealsRoute';
+}
+
+/// generated route for
+/// [SelectBaggagePage]
+class SelectBaggageRoute extends PageRouteInfo<void> {
+  const SelectBaggageRoute()
+      : super(
+          SelectBaggageRoute.name,
+          path: '/flight/addon/baggage',
+        );
+
+  static const String name = 'SelectBaggageRoute';
+}
+
+/// generated route for
+/// [BookingDetailsPage]
+class BookingDetailsRoute extends PageRouteInfo<void> {
+  const BookingDetailsRoute()
+      : super(
+          BookingDetailsRoute.name,
+          path: '/booking-details',
+        );
+
+  static const String name = 'BookingDetailsRoute';
+}
+
+/// generated route for
+/// [CheckoutPage]
+class CheckoutRoute extends PageRouteInfo<void> {
+  const CheckoutRoute()
+      : super(
+          CheckoutRoute.name,
+          path: '/checkout',
+        );
+
+  static const String name = 'CheckoutRoute';
 }
