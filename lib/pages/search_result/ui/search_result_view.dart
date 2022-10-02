@@ -1,4 +1,5 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
@@ -32,9 +33,10 @@ class SearchResultView extends StatelessWidget {
           ),
         ),
         FlightResultWidget(),
-        kVerticalSpacerBig,
+        CheckoutSummary(),
+        kVerticalSpacer,
         AppDividerWidget(),
-        kVerticalSpacerBig,
+        kVerticalSpacer,
         BookingSummary(),
       ],
     );

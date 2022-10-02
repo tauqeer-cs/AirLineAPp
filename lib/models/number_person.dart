@@ -36,6 +36,7 @@ class NumberPerson extends Equatable {
     return texts.join(", ");
   }
 
+  int get totalPerson => numberOfAdult+numberOfChildren;
   String toBeautify() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
