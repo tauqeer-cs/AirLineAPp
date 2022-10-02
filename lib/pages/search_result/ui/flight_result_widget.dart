@@ -1,10 +1,13 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/ui/choose_flight_segment.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,23 +41,85 @@ class FlightResultWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 kVerticalSpacer,
-                ChooseFlightSegment(
-                  title: "Departing flight",
-                  subtitle: state.filterState?.beautify ?? "",
-                  dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
-                  segments: state.flights?.flightResult?.outboundSegment ?? [],
-                  isDeparture: true,
-                ),
-                kVerticalSpacer,
-                Visibility(
-                  visible: state.filterState?.flightType == FlightType.round,
-                  child: ChooseFlightSegment(
-                    title: "Returning flight",
-                    subtitle: state.filterState?.beautifyReverse ?? "",
-                    dateTitle: AppDateUtils.formatFullDate(state.filterState?.returnDate),
-                    segments: state.flights?.flightResult?.inboundSegment ?? [],
-                    isDeparture: false,
-                  ),
+                BlocBuilder<BookingCubit, BookingState>(
+                  builder: (context, bookState) {
+                    return blocBuilderWrapper(
+                      blocState: bookState.blocState,
+                      finishedBuilder: Column(
+                        children: [
+                          ChooseFlightSegment(
+                            title: "Departing flight",
+                            subtitle: state.filterState?.beautify ?? "",
+                            dateTitle: AppDateUtils.formatFullDate(
+                                state.filterState?.departDate),
+                            segments: bookState.isVerify
+                                ? [bookState.selectedDeparture!]
+                                : state.flights?.flightResult
+                                        ?.outboundSegment ??
+                                    [],
+                            isDeparture: true,
+                          ),
+                          kVerticalSpacer,
+                          Visibility(
+                            visible: state.filterState?.flightType ==
+                                FlightType.round,
+                            child: ChooseFlightSegment(
+                              title: "Returning flight",
+                              subtitle:
+                                  state.filterState?.beautifyReverse ?? "",
+                              dateTitle: AppDateUtils.formatFullDate(
+                                  state.filterState?.returnDate),
+                              segments: bookState.isVerify
+                                  ? bookState.selectedReturn != null
+                                      ? [bookState.selectedReturn!]
+                                      : []
+                                  : state.flights?.flightResult
+                                          ?.inboundSegment ??
+                                      [],
+                              isDeparture: false,
+                            ),
+                          ),
+                        ],
+                      ),
+                      initialBuilder: Column(
+                        children: [
+                          ChooseFlightSegment(
+                            title: "Departing flight",
+                            subtitle: state.filterState?.beautify ?? "",
+                            dateTitle: AppDateUtils.formatFullDate(
+                                state.filterState?.departDate),
+                            segments: bookState.isVerify
+                                ? [bookState.selectedDeparture!]
+                                : state.flights?.flightResult
+                                ?.outboundSegment ??
+                                [],
+                            isDeparture: true,
+                          ),
+                          kVerticalSpacer,
+                          Visibility(
+                            visible: state.filterState?.flightType ==
+                                FlightType.round,
+                            child: ChooseFlightSegment(
+                              title: "Returning flight",
+                              subtitle:
+                              state.filterState?.beautifyReverse ?? "",
+                              dateTitle: AppDateUtils.formatFullDate(
+                                  state.filterState?.returnDate),
+                              segments: bookState.isVerify
+                                  ? bookState.selectedReturn != null
+                                  ? [bookState.selectedReturn!]
+                                  : []
+                                  : state.flights?.flightResult
+                                  ?.inboundSegment ??
+                                  [],
+                              isDeparture: false,
+                            ),
+                          ),
+                        ],
+                      ),
+                      loadingBuilder: BookingLoader(),
+                    );
+                  },
                 ),
               ],
             ),

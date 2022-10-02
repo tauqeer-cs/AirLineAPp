@@ -11,17 +11,9 @@ class SearchResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => BookingCubit(),
-      child: BlocListener<SearchFlightCubit, SearchFlightState>(
-        listener: (context, state) {
-          context.read<BookingCubit>().emit(BookingState());
-        },
-        child: Scaffold(
-          appBar: AppAppBar(),
-          body: SearchResultView(),
-        ),
-      ),
+    return Scaffold(
+      appBar: AppAppBar(),
+      body: SearchResultView(),
     );
   }
 }

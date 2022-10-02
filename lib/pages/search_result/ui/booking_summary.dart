@@ -1,7 +1,9 @@
+import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/theme/spacer.dart';
+import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +13,11 @@ class BookingSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flightType =
-        context.watch<SearchFlightCubit>().state.filterState?.flightType;
+    final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final booking = context.watch<BookingCubit>().state;
     final isAllowedContinue = booking.selectedDeparture != null &&
-        (booking.selectedReturn != null || flightType == FlightType.oneWay);
+        (booking.selectedReturn != null ||
+            filterState?.flightType == FlightType.oneWay);
     return Padding(
       padding: kPageHorizontalPadding,
       child: Column(
@@ -25,8 +27,15 @@ class BookingSummary extends StatelessWidget {
           MoneyWidget(amount: booking.getFinalPrice),
           kVerticalSpacer,
           ElevatedButton(
-            onPressed: isAllowedContinue ? () {} : null,
-            child: Text("Continue"),
+            onPressed: isAllowedContinue
+                ? () {
+                    if (booking.blocState == BlocState.loading) return;
+                    context.read<BookingCubit>().verifyFlight(filterState);
+                  }
+                : null,
+            child: booking.blocState == BlocState.loading
+                ? AppLoading(color: Colors.white)
+                : Text("Continue"),
           ),
         ],
       ),

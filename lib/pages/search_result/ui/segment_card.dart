@@ -4,6 +4,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
+import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class SegmentCard extends StatelessWidget {
       width: 500.w,
       margin: EdgeInsets.symmetric(vertical: 12),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           if (isDeparture) {
             context.read<BookingCubit>().selectDeparture(segment);
           } else {
@@ -54,7 +55,12 @@ class SegmentCard extends StatelessWidget {
                   ),
                 ],
               ),
-              kVerticalSpacerBig,
+              kVerticalSpacer,
+              Visibility(
+                visible: isVerify,
+                child: AppDividerWidget(),
+              ),
+              kVerticalSpacer,
               Row(
                 children: [
                   Expanded(
@@ -73,7 +79,7 @@ class SegmentCard extends StatelessWidget {
                   ),
                 ],
               ),
-              kVerticalSpacerSmall,
+              kVerticalSpacerBig,
               Visibility(
                 visible: isVerify,
                 replacement: Radio<InboundOutboundSegment>(
@@ -90,7 +96,7 @@ class SegmentCard extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<BookingCubit>().changeVerify(false);
+                    context.read<BookingCubit>().changeFlight();
                   },
                   child: Text("Change Flight"),
                 ),
@@ -102,8 +108,6 @@ class SegmentCard extends StatelessWidget {
     );
   }
 }
-
-
 
 class SegmentHeader extends StatelessWidget {
   final SegmentDetail? segmentDetail;

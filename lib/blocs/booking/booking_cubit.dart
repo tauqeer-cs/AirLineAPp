@@ -14,6 +14,10 @@ class BookingCubit extends Cubit<BookingState> {
   BookingCubit() : super(BookingState());
   final _repository = FlightRepository();
 
+  resetState(){
+    emit(BookingState());
+  }
+
   selectDeparture(InboundOutboundSegment segment) {
     emit(state.copyWith(selectedDeparture: segment));
   }
@@ -22,11 +26,12 @@ class BookingCubit extends Cubit<BookingState> {
     emit(state.copyWith(selectedReturn: segment));
   }
 
-  changeVerify(bool isVerify) {
-    emit(state.copyWith(isVerify: isVerify));
+  changeFlight() {
+    emit(state.copyWith(isVerify: false));
   }
 
-  verifyFlight(FilterState filterState) async {
+  verifyFlight(FilterState? filterState) async {
+    if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final inboundLFID = state.selectedReturn?.lfid != null
@@ -45,6 +50,7 @@ class BookingCubit extends Cubit<BookingState> {
         state.copyWith(
           blocState: BlocState.finished,
           verifyResponse: verifyResponse,
+          isVerify: true,
         ),
       );
     } catch (e, st) {
