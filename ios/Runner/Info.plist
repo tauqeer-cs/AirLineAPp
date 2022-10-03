@@ -49,5 +49,35 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<true/>
+		<key>NSAppleMusicUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSBluetoothAlwaysUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSBluetoothPeripheralUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSCalendarsUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSCameraUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSContactsUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSHealthShareUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSHealthUpdateUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSLocationUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>We are not using this</string>
+        <key>NSMotionUsageDescription</key>
+        <string>This application tracks your steps</string>
 	</dict>
 </plist>

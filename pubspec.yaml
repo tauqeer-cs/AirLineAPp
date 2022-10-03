@@ -41,7 +41,6 @@ dependencies:
   loader_overlay: ^2.0.5+1
   logger: ^1.1.0
   lottie: ^1.2.2
-  pedometer: ^3.0.0
   percent_indicator: ^4.0.0
   permission_handler: ^10.0.0
   retrofit: ^3.0.1+1
@@ -50,7 +49,6 @@ dependencies:
   synchronized: ^3.0.0
   table_calendar: ^3.0.7
   timeago: ^3.2.2
-  health: ^4.1.1
   url_launcher: ^6.0.20
   visibility_detector: ^0.3.3
   webview_flutter: ^3.0.4
