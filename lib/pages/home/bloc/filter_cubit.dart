@@ -19,26 +19,35 @@ class FilterCubit extends Cubit<FilterState> {
     required PeopleType type,
     required bool isAdd,
   }) {
-    final persons = state.numberPerson;
-    int adults = persons.numberOfAdult;
-    int children = persons.numberOfChildren;
-    int infants = persons.numberOfInfant;
-    switch (type) {
-      case PeopleType.adults:
-        isAdd ? adults++ : adults--;
-        break;
-      case PeopleType.children:
-        isAdd ? children++ : children--;
-        break;
-      case PeopleType.infants:
-        isAdd ? infants++ : infants--;
-        break;
+    final numberPerson = state.numberPerson;
+    final persons = List<Person>.from(numberPerson.persons);
+    if(isAdd){
+      int adults = numberPerson.numberOfAdult;
+      int children = numberPerson.numberOfChildren;
+      int infants = numberPerson.numberOfInfant;
+      late Person person;
+      switch (type) {
+        case PeopleType.adult:
+          adults++;
+          person = Person(peopleType: type, numberOrder: adults);
+          break;
+        case PeopleType.child:
+          children++;
+          person = Person(peopleType: type, numberOrder: children);
+          break;
+        case PeopleType.infant:
+          infants++;
+          person = Person(peopleType: type, numberOrder: infants);
+          break;
+      }
+      persons.add(person);
+    }else{
+      final index= persons.lastIndexWhere((element) => element.peopleType == type);
+      persons.removeAt(index);
     }
-    final passengers = NumberPerson(
-        numberOfInfant: infants,
-        numberOfChildren: children,
-        numberOfAdult: adults);
-    emit(state.copyWith(numberPerson: passengers));
+    final newNumberPerson = NumberPerson(persons: persons);
+
+    emit(state.copyWith(numberPerson: newNumberPerson));
   }
 
   updateOriginAirport(Airports? destination) {

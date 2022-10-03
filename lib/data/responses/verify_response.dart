@@ -438,23 +438,23 @@ class BundleGroup extends Equatable {
   factory BundleGroup.fromJson(Map<String, dynamic> json) =>
       _$BundleGroupFromJson(json);
   Map<String, dynamic> toJson() => _$BundleGroupToJson(this);
-  final List<Inbound>? inbound;
-  final List<Inbound>? outbound;
+  final List<InboundBundle>? inbound;
+  final List<InboundBundle>? outbound;
 
   const BundleGroup({this.inbound, this.outbound});
 }
 
 @JsonSerializable(includeIfNull: false)
-class Inbound extends Equatable {
+class InboundBundle extends Equatable {
   @override
   List<Object?> get props => [bundle, detail];
-  factory Inbound.fromJson(Map<String, dynamic> json) =>
-      _$InboundFromJson(json);
-  Map<String, dynamic> toJson() => _$InboundToJson(this);
+  factory InboundBundle.fromJson(Map<String, dynamic> json) =>
+      _$InboundBundleFromJson(json);
+  Map<String, dynamic> toJson() => _$InboundBundleToJson(this);
   final Bundle? bundle;
   final Detail? detail;
 
-  const Inbound({this.bundle, this.detail});
+  const InboundBundle({this.bundle, this.detail});
 }
 
 @JsonSerializable(includeIfNull: false)

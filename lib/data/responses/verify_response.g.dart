@@ -474,10 +474,10 @@ Map<String, dynamic> _$FlightSSRToJson(FlightSSR instance) {
 
 BundleGroup _$BundleGroupFromJson(Map<String, dynamic> json) => BundleGroup(
       inbound: (json['inbound'] as List<dynamic>?)
-          ?.map((e) => Inbound.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => InboundBundle.fromJson(e as Map<String, dynamic>))
           .toList(),
       outbound: (json['outbound'] as List<dynamic>?)
-          ?.map((e) => Inbound.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => InboundBundle.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -495,7 +495,8 @@ Map<String, dynamic> _$BundleGroupToJson(BundleGroup instance) {
   return val;
 }
 
-Inbound _$InboundFromJson(Map<String, dynamic> json) => Inbound(
+InboundBundle _$InboundBundleFromJson(Map<String, dynamic> json) =>
+    InboundBundle(
       bundle: json['bundle'] == null
           ? null
           : Bundle.fromJson(json['bundle'] as Map<String, dynamic>),
@@ -504,7 +505,7 @@ Inbound _$InboundFromJson(Map<String, dynamic> json) => Inbound(
           : Detail.fromJson(json['detail'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$InboundToJson(Inbound instance) {
+Map<String, dynamic> _$InboundBundleToJson(InboundBundle instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

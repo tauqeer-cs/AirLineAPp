@@ -7,8 +7,6 @@ class BookingState extends Equatable {
   final InboundOutboundSegment? selectedReturn;
   final bool isVerify;
   final VerifyResponse? verifyResponse;
-  final Bundle? departureBundle;
-  final Bundle? returnBundle;
 
   const BookingState({
     this.blocState = BlocState.initial,
@@ -17,8 +15,6 @@ class BookingState extends Equatable {
     this.selectedReturn,
     this.isVerify = false,
     this.verifyResponse,
-    this.departureBundle,
-    this.returnBundle,
   });
 
   BookingState copyWith({
@@ -28,8 +24,6 @@ class BookingState extends Equatable {
     InboundOutboundSegment? selectedReturn,
     bool? isVerify,
     VerifyResponse? verifyResponse,
-    Bundle? departureBundle,
-    Bundle? returnBundle,
   }) {
     return BookingState(
       blocState: blocState ?? this.blocState,
@@ -38,8 +32,6 @@ class BookingState extends Equatable {
       selectedReturn: selectedReturn ?? this.selectedReturn,
       isVerify: isVerify ?? this.isVerify,
       verifyResponse: verifyResponse ?? this.verifyResponse,
-      departureBundle: departureBundle ?? this.departureBundle,
-      returnBundle: returnBundle ?? this.returnBundle,
     );
   }
 

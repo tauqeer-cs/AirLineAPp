@@ -38,19 +38,19 @@ class PassengersSheetState extends State<PassengersSheet> {
           InputWithPlusMinus(
             title: "Adults",
             number: passengers.numberOfAdult,
-            peopleType: PeopleType.adults,
+            peopleType: PeopleType.adult,
             handler: changeNumber,
           ),
           InputWithPlusMinus(
             title: "Children",
             number: passengers.numberOfChildren,
-            peopleType: PeopleType.children,
+            peopleType: PeopleType.child,
             handler: changeNumber,
           ),
           InputWithPlusMinus(
             title: "Infants",
             number: passengers.numberOfInfant,
-            peopleType: PeopleType.infants,
+            peopleType: PeopleType.infant,
             handler: changeNumber,
           ),
         ],

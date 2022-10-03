@@ -4,6 +4,7 @@ import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/theme/styles.dart';
@@ -33,6 +34,8 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => FilterCubit()),
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (_) => BookingCubit()),
+        BlocProvider(create: (_) => SelectedPersonCubit()),
+
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
           lazy: false,
@@ -54,6 +57,7 @@ class _AppState extends State<App> {
                 current.blocState == BlocState.finished,
             listener: (context, state) {
               context.read<BookingCubit>().resetState();
+              context.read<SelectedPersonCubit>().selectPerson(null);
             },
           ),
         ],

@@ -34,4 +34,5 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
       );
     }
   }
+
 }
