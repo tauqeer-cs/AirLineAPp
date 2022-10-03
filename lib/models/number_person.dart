@@ -48,6 +48,22 @@ class NumberPerson extends Equatable {
 
   int get totalPerson => numberOfAdult + numberOfChildren;
 
+  num getTotalBundles() {
+    num total = 0;
+    for (var element in persons) {
+      total = total + element.getTotalPrice();
+    }
+    return total;
+  }
+
+  num getTotalBundlesPartial(bool isDeparture) {
+    num total = 0;
+    for (var element in persons) {
+      total = total + element.getPartialPrice(isDeparture);
+    }
+    return total;
+  }
+
   String toBeautify() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
@@ -104,18 +120,38 @@ class Person extends Equatable {
   // TODO: implement props
   List<Object?> get props => [this.peopleType, numberOrder];
 
+  num getTotalPrice() {
+    num totalPrice = 0;
+    totalPrice = (departureBundle?.bundle?.amount ?? 0) +
+        (returnBundle?.bundle?.amount ?? 0);
+    return totalPrice;
+  }
+
+  num getPartialPrice(bool isDeparture) {
+    num totalPrice = isDeparture ? (departureBundle?.bundle?.amount ?? 0) :
+        (returnBundle?.bundle?.amount ?? 0);
+    return totalPrice;
+  }
+
   Person copyWith({
     PeopleType? peopleType,
-    InboundBundle? bundle,
-    InboundBundle? meal,
-    Seats? seats,
+    InboundBundle? Function()? departureBundle,
+    InboundBundle? Function()? returnBundle,
+    InboundBundle? departureMeal,
+    InboundBundle? returnMeal,
+    Seats? departureSeats,
+    Seats? returnSeats,
     int? numberOrder,
   }) {
     return Person(
       peopleType: peopleType ?? this.peopleType,
-      bundle: bundle ?? this.bundle,
-      meal: meal ?? this.meal,
-      seats: seats ?? this.seats,
+      departureBundle:
+          departureBundle != null ? departureBundle() : this.departureBundle,
+      departureMeal: departureMeal ?? this.departureMeal,
+      departureSeats: departureSeats ?? this.departureSeats,
+      returnBundle: returnBundle != null ? returnBundle() : this.returnBundle,
+      returnMeal: returnMeal ?? this.returnMeal,
+      returnSeats: returnSeats ?? this.returnSeats,
       numberOrder: numberOrder ?? this.numberOrder,
     );
   }

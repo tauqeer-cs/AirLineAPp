@@ -35,7 +35,6 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (_) => BookingCubit()),
         BlocProvider(create: (_) => SelectedPersonCubit()),
-
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
           lazy: false,
@@ -54,10 +53,11 @@ class _AppState extends State<App> {
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(
             listenWhen: (previous, current) =>
+                previous.blocState != BlocState.finished &&
                 current.blocState == BlocState.finished,
             listener: (context, state) {
               context.read<BookingCubit>().resetState();
-              context.read<SelectedPersonCubit>().selectPerson(null);
+              context.read<SelectedPersonCubit>().selectPerson(state.filterState?.numberPerson.persons.first);
             },
           ),
         ],

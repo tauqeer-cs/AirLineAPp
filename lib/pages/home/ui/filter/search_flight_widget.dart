@@ -19,7 +19,7 @@ class SearchFlightWidget extends StatelessWidget {
     return Column(
       children: [
         AppDropDown<FlightType>(
-          items: const [FlightType.round, FlightType.oneWay],
+          items: const [FlightType.round],
           defaultValue: FlightType.round,
           onChanged: (val) {
             context.read<FilterCubit>().updateTripType(val);

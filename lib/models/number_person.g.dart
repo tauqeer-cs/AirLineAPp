@@ -20,23 +20,38 @@ Map<String, dynamic> _$NumberPersonToJson(NumberPerson instance) =>
 
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       peopleType: $enumDecodeNullable(_$PeopleTypeEnumMap, json['peopleType']),
-      bundle: json['bundle'] == null
+      departureBundle: json['departureBundle'] == null
           ? null
-          : InboundBundle.fromJson(json['bundle'] as Map<String, dynamic>),
-      meal: json['meal'] == null
+          : InboundBundle.fromJson(
+              json['departureBundle'] as Map<String, dynamic>),
+      departureMeal: json['departureMeal'] == null
           ? null
-          : InboundBundle.fromJson(json['meal'] as Map<String, dynamic>),
-      seats: json['seats'] == null
+          : InboundBundle.fromJson(
+              json['departureMeal'] as Map<String, dynamic>),
+      departureSeats: json['departureSeats'] == null
           ? null
-          : Seats.fromJson(json['seats'] as Map<String, dynamic>),
+          : Seats.fromJson(json['departureSeats'] as Map<String, dynamic>),
+      returnBundle: json['returnBundle'] == null
+          ? null
+          : InboundBundle.fromJson(
+              json['returnBundle'] as Map<String, dynamic>),
+      returnMeal: json['returnMeal'] == null
+          ? null
+          : InboundBundle.fromJson(json['returnMeal'] as Map<String, dynamic>),
+      returnSeats: json['returnSeats'] == null
+          ? null
+          : Seats.fromJson(json['returnSeats'] as Map<String, dynamic>),
       numberOrder: json['numberOrder'] as int?,
     );
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'peopleType': _$PeopleTypeEnumMap[instance.peopleType],
-      'bundle': instance.bundle,
-      'meal': instance.meal,
-      'seats': instance.seats,
+      'departureBundle': instance.departureBundle,
+      'departureMeal': instance.departureMeal,
+      'departureSeats': instance.departureSeats,
+      'returnBundle': instance.returnBundle,
+      'returnMeal': instance.returnMeal,
+      'returnSeats': instance.returnSeats,
       'numberOrder': instance.numberOrder,
     };
 

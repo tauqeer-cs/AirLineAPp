@@ -31,7 +31,6 @@ class HomeView extends StatelessWidget {
         kVerticalSpacerBig,
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-            print("home state is $state");
             return blocBuilderWrapper(
               blocState: state.blocState,
               finishedBuilder: Column(

@@ -1,5 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/ui/fares_and_bundles.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeeAndTaxes extends StatefulWidget {
   final bool isDeparture;
+
   const FeeAndTaxes({Key? key, required this.isDeparture}) : super(key: key);
 
   @override
@@ -18,6 +20,7 @@ class FeeAndTaxes extends StatefulWidget {
 
 class _FeeAndTaxesState extends State<FeeAndTaxes> {
   bool isExpand = false;
+
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
@@ -50,15 +53,23 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
               Spacer(),
-              MoneyWidget(amount:widget.isDeparture
-                  ? bookingTotal.selectedDeparture?.getTotalPrice
-                  : bookingTotal.selectedReturn?.getTotalPrice),
+              MoneyWidget(
+                  amount: widget.isDeparture
+                      ? bookingTotal.selectedDeparture?.getTotalPrice
+                      : bookingTotal.selectedReturn?.getTotalPrice),
             ],
           ),
         ),
         ExpandedSection(
           expand: isExpand,
           child: FeeAndTaxesDetail(isDeparture: widget.isDeparture),
+        ),
+        Visibility(
+          visible: (filter?.numberPerson
+                      .getTotalBundlesPartial(widget.isDeparture) ??
+                  0) >
+              0,
+          child: FaresAndBundles(isDeparture: widget.isDeparture),
         ),
         kVerticalSpacerBig,
       ],

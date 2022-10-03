@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/pages/checkout/ui/add_on_header.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/search_result_page.dart';
 import 'package:app/theme/spacer.dart';
@@ -35,10 +36,8 @@ class AddonLayout extends StatelessWidget {
               //headerSilverBuilder only accepts slivers
               child: Column(
                 children: [
-                  // Padding(
-                  //   padding: const EdgeInsets.all(16.0),
-                  //   child: Text('My Top Widget'),
-                  // ),
+                  kVerticalSpacer,
+                  AddonHeader(),
                   kVerticalSpacer,
                   Container(
                     clipBehavior: Clip.hardEdge,

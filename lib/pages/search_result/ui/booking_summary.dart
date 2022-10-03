@@ -17,32 +17,20 @@ class BookingSummary extends StatelessWidget {
   Widget build(BuildContext context) {
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final booking = context.watch<BookingCubit>().state;
-    final isAllowedContinue = booking.selectedDeparture != null &&
-        (booking.selectedReturn != null ||
-            filterState?.flightType == FlightType.oneWay);
+
+
     return Padding(
       padding: kPageHorizontalPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text("Your total booking"),
-          MoneyWidget(amount: booking.getFinalPrice),
-          kVerticalSpacer,
-          ElevatedButton(
-            onPressed: isAllowedContinue
-                ? () {
-                    if (booking.blocState == BlocState.loading) return;
-                    if( booking.isVerify){
-                      context.router.push(SelectBundleRoute());
-                    }else{
-                      context.read<BookingCubit>().verifyFlight(filterState);
-                    }
-                  }
-                : null,
-            child: booking.blocState == BlocState.loading
-                ? AppLoading(color: Colors.white)
-                : Text("Continue"),
+          MoneyWidget(
+            amount: booking.getFinalPrice +
+                (filterState?.numberPerson.getTotalBundles() ?? 0),
           ),
+          kVerticalSpacer,
+
         ],
       ),
     );
