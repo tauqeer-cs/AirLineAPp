@@ -27,7 +27,7 @@ class BookingSummary extends StatelessWidget {
           Text("Your total booking"),
           MoneyWidget(
             amount: booking.getFinalPrice +
-                (filterState?.numberPerson.getTotalBundles() ?? 0),
+                (filterState?.numberPerson.getTotal() ?? 0),
           ),
           kVerticalSpacer,
 

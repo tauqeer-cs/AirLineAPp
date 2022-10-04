@@ -21,7 +21,7 @@ VerifyResponse _$VerifyResponseFromJson(Map<String, dynamic> json) =>
           : FlightSSR.fromJson(json['flightSSR'] as Map<String, dynamic>),
       flightSeat: json['flightSeat'] == null
           ? null
-          : BundleGroup.fromJson(json['flightSeat'] as Map<String, dynamic>),
+          : FlightSeats.fromJson(json['flightSeat'] as Map<String, dynamic>),
       orderID: json['orderID'] as num?,
       success: json['success'] as bool?,
     );
@@ -453,7 +453,7 @@ FlightSSR _$FlightSSRFromJson(Map<String, dynamic> json) => FlightSSR(
           : BaggageGroup.fromJson(json['baggageGroup'] as Map<String, dynamic>),
       seatGroup: json['seatGroup'] == null
           ? null
-          : BundleGroup.fromJson(json['seatGroup'] as Map<String, dynamic>),
+          : BundleGroupSeat.fromJson(json['seatGroup'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$FlightSSRToJson(FlightSSR instance) {
@@ -482,6 +482,30 @@ BundleGroup _$BundleGroupFromJson(Map<String, dynamic> json) => BundleGroup(
     );
 
 Map<String, dynamic> _$BundleGroupToJson(BundleGroup instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inbound', instance.inbound);
+  writeNotNull('outbound', instance.outbound);
+  return val;
+}
+
+BundleGroupSeat _$BundleGroupSeatFromJson(Map<String, dynamic> json) =>
+    BundleGroupSeat(
+      inbound: (json['inbound'] as List<dynamic>?)
+          ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outbound: (json['outbound'] as List<dynamic>?)
+          ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$BundleGroupSeatToJson(BundleGroupSeat instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

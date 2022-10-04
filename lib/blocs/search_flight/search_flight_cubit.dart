@@ -38,6 +38,28 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
+  addSeatToPerson(Person? person, Seats? seat, bool isDeparture) {
+    final persons =
+    List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+    final selected = persons.indexWhere((element) => element == person);
+    if (selected >= 0) {
+      final person = persons[selected];
+      final newPerson = isDeparture
+          ? person.copyWith(departureSeats: () => seat)
+          : person.copyWith(returnSeats: () => seat);
+      persons.removeAt(selected);
+      persons.insert(selected, newPerson);
+      final newNumberPerson = NumberPerson(persons: persons);
+      final filterState =
+      state.filterState?.copyWith(numberPerson: newNumberPerson);
+      emit(
+        state.copyWith(
+            filterState: filterState,
+            message: "${DateTime.now().millisecondsSinceEpoch}"),
+      );
+    }
+  }
+
   searchFlights(FilterState filterState) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {

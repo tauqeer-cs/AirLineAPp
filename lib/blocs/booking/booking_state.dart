@@ -7,6 +7,8 @@ class BookingState extends Equatable {
   final InboundOutboundSegment? selectedReturn;
   final bool isVerify;
   final VerifyResponse? verifyResponse;
+  final Map<num?, Color>? departureColorMapping;
+  final Map<num?, Color>? returnColorMapping;
 
   const BookingState({
     this.blocState = BlocState.initial,
@@ -15,6 +17,8 @@ class BookingState extends Equatable {
     this.selectedReturn,
     this.isVerify = false,
     this.verifyResponse,
+    this.departureColorMapping,
+    this.returnColorMapping,
   });
 
   BookingState copyWith({
@@ -24,6 +28,8 @@ class BookingState extends Equatable {
     InboundOutboundSegment? selectedReturn,
     bool? isVerify,
     VerifyResponse? verifyResponse,
+    Map<num?, Color>? departureColorMapping,
+    Map<num?, Color>? returnColorMapping,
   }) {
     return BookingState(
       blocState: blocState ?? this.blocState,
@@ -32,6 +38,8 @@ class BookingState extends Equatable {
       selectedReturn: selectedReturn ?? this.selectedReturn,
       isVerify: isVerify ?? this.isVerify,
       verifyResponse: verifyResponse ?? this.verifyResponse,
+      departureColorMapping: departureColorMapping ?? this.departureColorMapping,
+      returnColorMapping: returnColorMapping ?? this.returnColorMapping,
     );
   }
 
@@ -48,4 +56,6 @@ class BookingState extends Equatable {
         isVerify,
         verifyResponse
       ];
+
+
 }

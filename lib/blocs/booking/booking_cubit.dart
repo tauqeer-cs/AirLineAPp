@@ -7,6 +7,7 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 part 'booking_state.dart';
 
@@ -14,7 +15,19 @@ class BookingCubit extends Cubit<BookingState> {
   BookingCubit() : super(BookingState());
   final _repository = FlightRepository();
 
-  resetState(){
+  final List<Color> availableSeatsColor = [
+    Colors.blue,
+    Colors.greenAccent,
+    Colors.green,
+    Colors.yellowAccent,
+    Colors.yellow,
+    Colors.orangeAccent,
+    Colors.orange,
+    Colors.purple,
+    Colors.purpleAccent,
+  ];
+
+  resetState() {
     emit(BookingState());
   }
 
@@ -36,21 +49,39 @@ class BookingCubit extends Cubit<BookingState> {
     try {
       final inboundLFID = state.selectedReturn?.lfid != null
           ? [state.selectedReturn!.lfid!.toInt()]
-          : null;
+          : <int>[];
       final outboundLFID = state.selectedDeparture?.lfid != null
           ? [state.selectedDeparture!.lfid!.toInt()]
-          : null;
-
-      final request = VerifyRequest.fromBooking(filterState,
-          inbound: inboundLFID,
-          outbound: outboundLFID,
-          totalAmount: state.getFinalPrice);
+          : <int>[];
+      final request = VerifyRequest.fromBooking(
+        filterState,
+        inbound: inboundLFID,
+        outbound: outboundLFID,
+        totalAmount: state.getFinalPrice,
+      );
       final verifyResponse = await _repository.verifyFlight(request);
+      final seatsDeparture =
+          verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
+      final seatsReturn = verifyResponse.flightSSR?.seatGroup?.inbound ?? [];
+      final Map<num?, Color> departureColorMapping = {};
+      final Map<num?, Color> returnColorMapping = {};
+      for (int i = 0; i < seatsDeparture.length; i++) {
+        final seat = seatsDeparture[i];
+        departureColorMapping.putIfAbsent(
+            seat.serviceID, () => availableSeatsColor[i]);
+      }
+      for (int i = 0; i < seatsReturn.length; i++) {
+        final seat = seatsReturn[i];
+        returnColorMapping.putIfAbsent(
+            seat.serviceID, () => availableSeatsColor[i]);
+      }
       emit(
         state.copyWith(
           blocState: BlocState.finished,
           verifyResponse: verifyResponse,
           isVerify: true,
+          departureColorMapping: departureColorMapping,
+          returnColorMapping: returnColorMapping,
         ),
       );
     } catch (e, st) {

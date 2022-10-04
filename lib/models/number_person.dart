@@ -1,6 +1,7 @@
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,6 +16,11 @@ class NumberPerson extends Equatable {
   });
 
   static const empty = NumberPerson(persons: const []);
+
+  List<Seats?> selectedSeats(bool isDeparture) {
+    if (isDeparture) return persons.map((e) => e.departureSeats).toList()..removeWhere((element) => element==null);
+    return persons.map((e) => e.returnSeats).toList()..removeWhere((element) => element==null);
+  }
 
   int get numberOfAdult =>
       persons.where((element) => element.peopleType == PeopleType.adult).length;
@@ -48,7 +54,7 @@ class NumberPerson extends Equatable {
 
   int get totalPerson => numberOfAdult + numberOfChildren;
 
-  num getTotalBundles() {
+  num getTotal() {
     num total = 0;
     for (var element in persons) {
       total = total + element.getTotalPrice();
@@ -59,7 +65,15 @@ class NumberPerson extends Equatable {
   num getTotalBundlesPartial(bool isDeparture) {
     num total = 0;
     for (var element in persons) {
-      total = total + element.getPartialPrice(isDeparture);
+      total = total + element.getPartialPriceBundle(isDeparture);
+    }
+    return total;
+  }
+
+  num getTotalSeatsPartial(bool isDeparture) {
+    num total = 0;
+    for (var element in persons) {
+      total = total + element.getPartialPriceSeatPartial(isDeparture);
     }
     return total;
   }
@@ -99,9 +113,9 @@ class Person extends Equatable {
   final PeopleType? peopleType;
   final InboundBundle? departureBundle;
   final InboundBundle? departureMeal;
-  final Seats? departureSeats;
   final InboundBundle? returnBundle;
   final InboundBundle? returnMeal;
+  final Seats? departureSeats;
   final Seats? returnSeats;
   final int? numberOrder;
 
@@ -122,14 +136,34 @@ class Person extends Equatable {
 
   num getTotalPrice() {
     num totalPrice = 0;
-    totalPrice = (departureBundle?.bundle?.amount ?? 0) +
-        (returnBundle?.bundle?.amount ?? 0);
+    totalPrice = getTotalPriceBundle() + getTotalPriceSeat();
     return totalPrice;
   }
 
-  num getPartialPrice(bool isDeparture) {
-    num totalPrice = isDeparture ? (departureBundle?.bundle?.amount ?? 0) :
-        (returnBundle?.bundle?.amount ?? 0);
+  num getTotalPriceBundle() {
+    num totalPrice = 0;
+    totalPrice = getPartialPriceBundle(false) + getPartialPriceBundle(true);
+    return totalPrice;
+  }
+
+  num getPartialPriceBundle(bool isDeparture) {
+    num totalPrice = isDeparture
+        ? (departureBundle?.bundle?.amount ?? 0)
+        : (returnBundle?.bundle?.amount ?? 0);
+    return totalPrice;
+  }
+
+  num getTotalPriceSeat() {
+    num totalPrice = 0;
+    totalPrice =
+        getPartialPriceSeatPartial(false) + getPartialPriceSeatPartial(true);
+    return totalPrice;
+  }
+
+  num getPartialPriceSeatPartial(bool isDeparture) {
+    num totalPrice = isDeparture
+        ? (departureSeats?.seatPriceOffers?.firstOrNull?.amount ?? 0)
+        : (returnSeats?.seatPriceOffers?.firstOrNull?.amount ?? 0);
     return totalPrice;
   }
 
@@ -139,8 +173,8 @@ class Person extends Equatable {
     InboundBundle? Function()? returnBundle,
     InboundBundle? departureMeal,
     InboundBundle? returnMeal,
-    Seats? departureSeats,
-    Seats? returnSeats,
+    Seats? Function()? departureSeats,
+    Seats? Function()? returnSeats,
     int? numberOrder,
   }) {
     return Person(
@@ -148,10 +182,11 @@ class Person extends Equatable {
       departureBundle:
           departureBundle != null ? departureBundle() : this.departureBundle,
       departureMeal: departureMeal ?? this.departureMeal,
-      departureSeats: departureSeats ?? this.departureSeats,
+      departureSeats:
+          departureSeats != null ? departureSeats() : this.departureSeats,
       returnBundle: returnBundle != null ? returnBundle() : this.returnBundle,
       returnMeal: returnMeal ?? this.returnMeal,
-      returnSeats: returnSeats ?? this.returnSeats,
+      returnSeats: returnSeats != null ? returnSeats() : this.returnSeats,
       numberOrder: numberOrder ?? this.numberOrder,
     );
   }

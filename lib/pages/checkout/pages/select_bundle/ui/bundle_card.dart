@@ -27,6 +27,7 @@ class BundleCard extends StatelessWidget {
     final persons = state.filterState?.numberPerson;
     final focusedPerson = persons?.persons
         .firstWhereOrNull((element) => element == selectedPerson);
+
     final bundle = isDeparture
         ? focusedPerson?.departureBundle
         : focusedPerson?.returnBundle;

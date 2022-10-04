@@ -1,5 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes.dart';
+import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ class CheckoutSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final booking = context.watch<BookingCubit>().state;
+
     return Visibility(
       visible: booking.isVerify,
       child: Container(
@@ -29,8 +32,10 @@ class CheckoutSummary extends StatelessWidget {
             Text("Flights and bundles summary", style: kGiantSemiBold),
             kVerticalSpacer,
             FeeAndTaxes(isDeparture: true),
-            FeeAndTaxes(isDeparture: false),
-
+            Visibility(
+              visible: booking.selectedReturn!=null,
+              child: FeeAndTaxes(isDeparture: false),
+            ),
           ],
         ),
       ),

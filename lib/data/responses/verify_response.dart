@@ -23,7 +23,7 @@ class VerifyResponse extends Equatable {
   final CommonFlightRequest? flightVerifyRequest;
   final FlightVerifyResponse? flightVerifyResponse;
   final FlightSSR? flightSSR;
-  final BundleGroup? flightSeat;
+  final FlightSeats? flightSeat;
   final num? orderID;
   final bool? success;
   const VerifyResponse({
@@ -425,7 +425,7 @@ class FlightSSR extends Equatable {
   final BundleGroup? bundleGroup;
   final BundleGroup? mealGroup;
   final BaggageGroup? baggageGroup;
-  final BundleGroup? seatGroup;
+  final BundleGroupSeat? seatGroup;
 
   const FlightSSR(
       {this.bundleGroup, this.mealGroup, this.baggageGroup, this.seatGroup});
@@ -442,6 +442,19 @@ class BundleGroup extends Equatable {
   final List<InboundBundle>? outbound;
 
   const BundleGroup({this.inbound, this.outbound});
+}
+
+@JsonSerializable(includeIfNull: false)
+class BundleGroupSeat extends Equatable {
+  @override
+  List<Object?> get props => [inbound, outbound];
+  factory BundleGroupSeat.fromJson(Map<String, dynamic> json) =>
+      _$BundleGroupSeatFromJson(json);
+  Map<String, dynamic> toJson() => _$BundleGroupSeatToJson(this);
+  final List<Bundle>? inbound;
+  final List<Bundle>? outbound;
+
+  const BundleGroupSeat({this.inbound, this.outbound});
 }
 
 @JsonSerializable(includeIfNull: false)

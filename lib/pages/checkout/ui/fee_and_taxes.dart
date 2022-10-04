@@ -2,6 +2,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/fares_and_bundles.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
+import 'package:app/pages/checkout/ui/seats_fee.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -70,6 +71,13 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                   0) >
               0,
           child: FaresAndBundles(isDeparture: widget.isDeparture),
+        ),
+        Visibility(
+          visible: (filter?.numberPerson
+              .getTotalSeatsPartial(widget.isDeparture) ??
+              0) >
+              0,
+          child: SeatsFee(isDeparture: widget.isDeparture),
         ),
         kVerticalSpacerBig,
       ],
