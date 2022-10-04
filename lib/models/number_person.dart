@@ -78,6 +78,14 @@ class NumberPerson extends Equatable {
     return total;
   }
 
+  num getTotalMealPartial(bool isDeparture) {
+    num total = 0;
+    for (var element in persons) {
+      total = total + element.getPartialPriceMeal(isDeparture);
+    }
+    return total;
+  }
+
   String toBeautify() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
@@ -112,9 +120,9 @@ class NumberPerson extends Equatable {
 class Person extends Equatable {
   final PeopleType? peopleType;
   final InboundBundle? departureBundle;
-  final InboundBundle? departureMeal;
   final InboundBundle? returnBundle;
-  final InboundBundle? returnMeal;
+  final List<Bundle> departureMeal;
+  final List<Bundle> returnMeal;
   final Seats? departureSeats;
   final Seats? returnSeats;
   final int? numberOrder;
@@ -122,10 +130,10 @@ class Person extends Equatable {
   const Person({
     this.peopleType,
     this.departureBundle,
-    this.departureMeal,
+    this.departureMeal = const [],
     this.departureSeats,
     this.returnBundle,
-    this.returnMeal,
+    this.returnMeal = const [],
     this.returnSeats,
     this.numberOrder,
   });
@@ -136,7 +144,7 @@ class Person extends Equatable {
 
   num getTotalPrice() {
     num totalPrice = 0;
-    totalPrice = getTotalPriceBundle() + getTotalPriceSeat();
+    totalPrice = getTotalPriceBundle() + getTotalPriceSeat() + getTotalPriceMeal();
     return totalPrice;
   }
 
@@ -167,12 +175,32 @@ class Person extends Equatable {
     return totalPrice;
   }
 
+  num getTotalPriceMeal() {
+    num totalPrice = 0;
+    totalPrice = getPartialPriceMeal(false) + getPartialPriceMeal(true);
+    return totalPrice;
+  }
+
+  num getPartialPriceMeal(bool isDeparture) {
+    num totalPrice = 0;
+    if(isDeparture){
+      for (var element in departureMeal) {
+        totalPrice = totalPrice + (element.amount ?? 0);
+      }
+    }else{
+      for (var element in returnMeal) {
+        totalPrice = totalPrice + (element.amount ?? 0);
+      }
+    }
+    return totalPrice;
+  }
+
   Person copyWith({
     PeopleType? peopleType,
     InboundBundle? Function()? departureBundle,
     InboundBundle? Function()? returnBundle,
-    InboundBundle? departureMeal,
-    InboundBundle? returnMeal,
+    List<Bundle>? departureMeal,
+    List<Bundle>? returnMeal,
     Seats? Function()? departureSeats,
     Seats? Function()? returnSeats,
     int? numberOrder,

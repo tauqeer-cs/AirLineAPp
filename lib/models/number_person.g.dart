@@ -24,10 +24,10 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           ? null
           : InboundBundle.fromJson(
               json['departureBundle'] as Map<String, dynamic>),
-      departureMeal: json['departureMeal'] == null
-          ? null
-          : InboundBundle.fromJson(
-              json['departureMeal'] as Map<String, dynamic>),
+      departureMeal: (json['departureMeal'] as List<dynamic>?)
+              ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       departureSeats: json['departureSeats'] == null
           ? null
           : Seats.fromJson(json['departureSeats'] as Map<String, dynamic>),
@@ -35,9 +35,10 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           ? null
           : InboundBundle.fromJson(
               json['returnBundle'] as Map<String, dynamic>),
-      returnMeal: json['returnMeal'] == null
-          ? null
-          : InboundBundle.fromJson(json['returnMeal'] as Map<String, dynamic>),
+      returnMeal: (json['returnMeal'] as List<dynamic>?)
+              ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       returnSeats: json['returnSeats'] == null
           ? null
           : Seats.fromJson(json['returnSeats'] as Map<String, dynamic>),
@@ -47,10 +48,10 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'peopleType': _$PeopleTypeEnumMap[instance.peopleType],
       'departureBundle': instance.departureBundle,
-      'departureMeal': instance.departureMeal,
-      'departureSeats': instance.departureSeats,
       'returnBundle': instance.returnBundle,
+      'departureMeal': instance.departureMeal,
       'returnMeal': instance.returnMeal,
+      'departureSeats': instance.departureSeats,
       'returnSeats': instance.returnSeats,
       'numberOrder': instance.numberOrder,
     };

@@ -14,29 +14,24 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SeatSelections extends StatefulWidget {
-  const SeatSelections({Key? key}) : super(key: key);
+class MealSelections extends StatefulWidget {
+  const MealSelections({Key? key}) : super(key: key);
 
   @override
-  State<SeatSelections> createState() => _SeatSelectionsState();
+  State<MealSelections> createState() => _MealSelectionsState();
 }
 
-class _SeatSelectionsState extends State<SeatSelections>
+class _MealSelectionsState extends State<MealSelections>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final widgets = <Widget>[
       kVerticalSpacerBig,
-      Text("Seats ", style: kGiantHeavy),
+      Text("Meals Selection ", style: kGiantHeavy),
       PersonSelector(),
       kVerticalSpacer,
-      SeatsLegend(),
-      kVerticalSpacer,
-      SeatRows(),
-      kVerticalSpacer,
-      RemoveSeatSelection(),
-      kVerticalSpacer,
+
       CheckoutSummary(),
       kVerticalSpacer,
       AppDividerWidget(),
@@ -44,7 +39,7 @@ class _SeatSelectionsState extends State<SeatSelections>
       BookingSummary(),
       kVerticalSpacer,
       ElevatedButton(
-        onPressed: () => context.router.push(SelectMealsRoute()),
+        onPressed: () => context.router.push(SelectSeatsRoute()),
         child: Text("Continue"),
       ),
       kVerticalSpacer,
