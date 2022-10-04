@@ -1,6 +1,7 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/pages/checkout/pages/select_bundle/ui/bundle_card.dart';
+import 'package:app/pages/checkout/pages/select_meals/ui/available_meals.dart';
 import 'package:app/pages/checkout/pages/select_seats/ui/remove_seat_selection.dart';
 import 'package:app/pages/checkout/pages/select_seats/ui/seat_rows.dart';
 import 'package:app/pages/checkout/pages/select_seats/ui/seats_legend.dart';
@@ -31,7 +32,8 @@ class _MealSelectionsState extends State<MealSelections>
       Text("Meals Selection ", style: kGiantHeavy),
       PersonSelector(),
       kVerticalSpacer,
-
+      AvailableMeals(),
+      kVerticalSpacer,
       CheckoutSummary(),
       kVerticalSpacer,
       AppDividerWidget(),

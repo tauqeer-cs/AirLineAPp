@@ -26,7 +26,7 @@ class FaresAndBundlesDetail extends StatelessWidget {
         ...persons.map(
           (e) {
             final bundle = isDeparture ? e.departureBundle : e.returnBundle;
-            return ListTile(
+            return bundle?.bundle?.amount == null ? SizedBox.shrink() : ListTile(
               dense: true,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

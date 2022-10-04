@@ -37,7 +37,7 @@ class _BundleListState extends State<BundleList>
             child: Column(
               children: [
                 kVerticalSpacer,
-                Text("Bundle ${widget.isDeparture}", style: kGiantHeavy),
+                Text("Bundle", style: kGiantHeavy),
                 PersonSelector(),
                 kVerticalSpacer,
                 Column(

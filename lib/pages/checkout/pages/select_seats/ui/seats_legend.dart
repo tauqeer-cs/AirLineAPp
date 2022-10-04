@@ -20,6 +20,7 @@ class SeatsLegend extends StatelessWidget {
         .state;
     final availableType = isDeparture ? seatsSSR?.outbound : seatsSSR?.inbound;
     final mapColor = isDeparture ? bookingState.departureColorMapping : bookingState.returnColorMapping;
+    print("available type ${availableType?.length}");
     return Wrap(
       spacing: 16,
       runSpacing: 5,

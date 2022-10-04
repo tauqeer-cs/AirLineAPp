@@ -423,7 +423,7 @@ class FlightSSR extends Equatable {
       _$FlightSSRFromJson(json);
   Map<String, dynamic> toJson() => _$FlightSSRToJson(this);
   final BundleGroup? bundleGroup;
-  final BundleGroup? mealGroup;
+  final BundleGroupSeat? mealGroup;
   final BaggageGroup? baggageGroup;
   final BundleGroupSeat? seatGroup;
 
@@ -649,8 +649,8 @@ class BaggageGroup extends Equatable {
   factory BaggageGroup.fromJson(Map<String, dynamic> json) =>
       _$BaggageGroupFromJson(json);
   Map<String, dynamic> toJson() => _$BaggageGroupToJson(this);
-  final List<dynamic>? inbound;
-  final List<dynamic>? outbound;
+  final List<Bundle>? inbound;
+  final List<Bundle>? outbound;
 
   const BaggageGroup({this.inbound, this.outbound});
 }

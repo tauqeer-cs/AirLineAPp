@@ -447,7 +447,7 @@ FlightSSR _$FlightSSRFromJson(Map<String, dynamic> json) => FlightSSR(
           : BundleGroup.fromJson(json['bundleGroup'] as Map<String, dynamic>),
       mealGroup: json['mealGroup'] == null
           ? null
-          : BundleGroup.fromJson(json['mealGroup'] as Map<String, dynamic>),
+          : BundleGroupSeat.fromJson(json['mealGroup'] as Map<String, dynamic>),
       baggageGroup: json['baggageGroup'] == null
           ? null
           : BaggageGroup.fromJson(json['baggageGroup'] as Map<String, dynamic>),
@@ -686,8 +686,12 @@ Map<String, dynamic> _$BundleServiceDetailsToJson(
 }
 
 BaggageGroup _$BaggageGroupFromJson(Map<String, dynamic> json) => BaggageGroup(
-      inbound: json['inbound'] as List<dynamic>?,
-      outbound: json['outbound'] as List<dynamic>?,
+      inbound: (json['inbound'] as List<dynamic>?)
+          ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outbound: (json['outbound'] as List<dynamic>?)
+          ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$BaggageGroupToJson(BaggageGroup instance) {

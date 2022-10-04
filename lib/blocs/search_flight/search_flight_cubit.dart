@@ -40,7 +40,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
 
   addSeatToPerson(Person? person, Seats? seat, bool isDeparture) {
     final persons =
-    List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
     final selected = persons.indexWhere((element) => element == person);
     if (selected >= 0) {
       final person = persons[selected];
@@ -51,7 +51,45 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
       persons.insert(selected, newPerson);
       final newNumberPerson = NumberPerson(persons: persons);
       final filterState =
-      state.filterState?.copyWith(numberPerson: newNumberPerson);
+          state.filterState?.copyWith(numberPerson: newNumberPerson);
+      emit(
+        state.copyWith(
+            filterState: filterState,
+            message: "${DateTime.now().millisecondsSinceEpoch}"),
+      );
+    }
+  }
+
+  addOrRemoveMealFromPerson({
+    Person? person,
+    required Bundle meal,
+    required bool isDeparture,
+    required bool isAdd,
+  }) {
+    final persons =
+        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+    final selected = persons.indexWhere((element) => element == person);
+    if (selected >= 0) {
+      final person = persons[selected];
+      final meals = isDeparture
+          ? List<Bundle>.from(person.departureMeal)
+          : List<Bundle>.from(person.returnMeal);
+      print("meals is ${meals.length} ${isAdd}");
+      if(isAdd){
+        meals.add(meal);
+      }else{
+        meals.remove(meal);
+      }
+      print("meals 2 is ${meals.length}");
+
+      final newPerson = isDeparture
+          ? person.copyWith(departureMeal: meals)
+          : person.copyWith(returnMeal: meals);
+      persons.removeAt(selected);
+      persons.insert(selected, newPerson);
+      final newNumberPerson = NumberPerson(persons: persons);
+      final filterState =
+          state.filterState?.copyWith(numberPerson: newNumberPerson);
       emit(
         state.copyWith(
             filterState: filterState,

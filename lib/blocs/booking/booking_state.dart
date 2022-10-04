@@ -38,14 +38,15 @@ class BookingState extends Equatable {
       selectedReturn: selectedReturn ?? this.selectedReturn,
       isVerify: isVerify ?? this.isVerify,
       verifyResponse: verifyResponse ?? this.verifyResponse,
-      departureColorMapping: departureColorMapping ?? this.departureColorMapping,
+      departureColorMapping:
+          departureColorMapping ?? this.departureColorMapping,
       returnColorMapping: returnColorMapping ?? this.returnColorMapping,
     );
   }
 
-  num get getFinalPrice =>
-      (selectedDeparture?.getTotalPrice ?? 0) +
-      (selectedReturn?.getTotalPrice ?? 0);
+  num get getFinalPrice => num.parse(((selectedDeparture?.getTotalPrice ?? 0) +
+          (selectedReturn?.getTotalPrice ?? 0))
+      .toStringAsFixed(2));
 
   @override
   List<Object?> get props => [
@@ -56,6 +57,4 @@ class BookingState extends Equatable {
         isVerify,
         verifyResponse
       ];
-
-
 }

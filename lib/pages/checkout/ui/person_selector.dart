@@ -8,12 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PersonSelector extends StatelessWidget {
-  const PersonSelector({Key? key}) : super(key: key);
+  final bool isContact;
+  const PersonSelector({Key? key, this.isContact=false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final numberOfPerson = context.watch<SearchFlightCubit>().state.filterState?.numberPerson;
     final selectedPerson = context.watch<SelectedPersonCubit>().state;
+    final persons=List<Person>.from(numberOfPerson?.persons ?? []);
+    if(!isContact){
+      persons.removeWhere((element) => element.peopleType == PeopleType.infant);
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -21,7 +26,7 @@ class PersonSelector extends StatelessWidget {
         Text("Passenger", style: kHugeSemiBold),
         kVerticalSpacer,
         AppDropDown<Person>(
-          items: numberOfPerson?.persons ?? [],
+          items: persons,
           defaultValue: selectedPerson,
           onChanged: (val) {
             context.read<SelectedPersonCubit>().selectPerson(val);

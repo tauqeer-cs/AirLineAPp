@@ -43,7 +43,7 @@ class AppDefaultImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'assets/images/logo.png',
+      'assets/images/native/logo.png',
       color: color,
     );
   }
