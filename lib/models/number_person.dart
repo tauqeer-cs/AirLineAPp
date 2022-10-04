@@ -18,8 +18,11 @@ class NumberPerson extends Equatable {
   static const empty = NumberPerson(persons: const []);
 
   List<Seats?> selectedSeats(bool isDeparture) {
-    if (isDeparture) return persons.map((e) => e.departureSeats).toList()..removeWhere((element) => element==null);
-    return persons.map((e) => e.returnSeats).toList()..removeWhere((element) => element==null);
+    if (isDeparture)
+      return persons.map((e) => e.departureSeats).toList()
+        ..removeWhere((element) => element == null);
+    return persons.map((e) => e.returnSeats).toList()
+      ..removeWhere((element) => element == null);
   }
 
   int get numberOfAdult =>
@@ -86,6 +89,14 @@ class NumberPerson extends Equatable {
     return total;
   }
 
+  num getTotalBaggagePartial(bool isDeparture) {
+    num total = 0;
+    for (var element in persons) {
+      total = total + element.getPartialPriceBaggage(isDeparture);
+    }
+    return total;
+  }
+
   String toBeautify() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
@@ -125,16 +136,20 @@ class Person extends Equatable {
   final List<Bundle> returnMeal;
   final Seats? departureSeats;
   final Seats? returnSeats;
+  final Bundle? departureBaggage;
+  final Bundle? returnBaggage;
   final int? numberOrder;
 
   const Person({
     this.peopleType,
     this.departureBundle,
-    this.departureMeal = const [],
-    this.departureSeats,
     this.returnBundle,
-    this.returnMeal = const [],
+    this.departureSeats,
     this.returnSeats,
+    this.departureMeal = const [],
+    this.returnMeal = const [],
+    this.departureBaggage,
+    this.returnBaggage,
     this.numberOrder,
   });
 
@@ -144,7 +159,8 @@ class Person extends Equatable {
 
   num getTotalPrice() {
     num totalPrice = 0;
-    totalPrice = getTotalPriceBundle() + getTotalPriceSeat() + getTotalPriceMeal();
+    totalPrice =
+        getTotalPriceBundle() + getTotalPriceSeat() + getTotalPriceMeal() + getTotalPriceBaggage();
     return totalPrice;
   }
 
@@ -183,15 +199,28 @@ class Person extends Equatable {
 
   num getPartialPriceMeal(bool isDeparture) {
     num totalPrice = 0;
-    if(isDeparture){
+    if (isDeparture) {
       for (var element in departureMeal) {
         totalPrice = totalPrice + (element.amount ?? 0);
       }
-    }else{
+    } else {
       for (var element in returnMeal) {
         totalPrice = totalPrice + (element.amount ?? 0);
       }
     }
+    return totalPrice;
+  }
+
+  num getTotalPriceBaggage() {
+    num totalPrice = 0;
+    totalPrice = getPartialPriceBundle(false) + getPartialPriceBundle(true);
+    return totalPrice;
+  }
+
+  num getPartialPriceBaggage(bool isDeparture) {
+    num totalPrice = isDeparture
+        ? (departureBaggage?.amount ?? 0)
+        : (returnBaggage?.amount ?? 0);
     return totalPrice;
   }
 
@@ -203,18 +232,24 @@ class Person extends Equatable {
     List<Bundle>? returnMeal,
     Seats? Function()? departureSeats,
     Seats? Function()? returnSeats,
+    Bundle? Function()? departureBaggage,
+    Bundle? Function()? returnBaggage,
     int? numberOrder,
   }) {
     return Person(
       peopleType: peopleType ?? this.peopleType,
+      returnBundle: returnBundle != null ? returnBundle() : this.returnBundle,
       departureBundle:
           departureBundle != null ? departureBundle() : this.departureBundle,
-      departureMeal: departureMeal ?? this.departureMeal,
+      returnSeats: returnSeats != null ? returnSeats() : this.returnSeats,
       departureSeats:
           departureSeats != null ? departureSeats() : this.departureSeats,
-      returnBundle: returnBundle != null ? returnBundle() : this.returnBundle,
+      departureMeal: departureMeal ?? this.departureMeal,
       returnMeal: returnMeal ?? this.returnMeal,
-      returnSeats: returnSeats != null ? returnSeats() : this.returnSeats,
+      departureBaggage:
+          departureBaggage != null ? departureBaggage() : this.departureBaggage,
+      returnBaggage:
+          returnBaggage != null ? returnBaggage() : this.returnBaggage,
       numberOrder: numberOrder ?? this.numberOrder,
     );
   }
