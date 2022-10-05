@@ -23,6 +23,7 @@ dependencies:
   extended_image: ^6.2.1
   fl_chart: ^0.55.1
   flutter_bloc: ^8.0.1
+  flutter_custom_clippers: ^2.0.0
   flutter_inappwebview: ^5.4.3+7
   flutter_screenutil: ^5.3.1
   flutter_secure_storage: ^5.0.2

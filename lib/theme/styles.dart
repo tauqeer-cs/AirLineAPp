@@ -62,7 +62,7 @@ class Styles {
       listTileTheme: ListTileThemeData(
         iconColor: isLight ? kTextColor : Colors.white,
       ),
-      scaffoldBackgroundColor: isLight ? kLightBgColor : kDarkBgColor,
+      scaffoldBackgroundColor: isLight ? Colors.white : kDarkBgColor,
       scrollbarTheme: ScrollbarThemeData(),
       sliderTheme: SliderThemeData(
         trackShape: GradientRectSliderTrackShape(

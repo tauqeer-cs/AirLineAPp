@@ -20,6 +20,14 @@ class HomeView extends StatelessWidget {
       children: [
         kVerticalSpacer,
         Padding(
+          padding: kPageHorizontalPaddingBig,
+          child: Text(
+            "Hi Guest, \nLet's Fly",
+            style: kGiantSemiBold.copyWith(color: Colors.white),
+          ),
+        ),
+        kVerticalSpacer,
+        Padding(
           padding: kPageHorizontalPadding,
           child: SearchFlightWidget(),
         ),
