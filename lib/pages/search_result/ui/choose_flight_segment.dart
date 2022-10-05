@@ -42,10 +42,7 @@ class ChooseFlightSegment extends StatelessWidget {
         ),
         Column(
           children: segments
-              .map((e) => SegmentCard(
-                    segment: e,
-            isDeparture: isDeparture,
-                  ))
+              .map((e) => SegmentCard(segment: e, isDeparture: isDeparture))
               .toList(),
         ),
       ],

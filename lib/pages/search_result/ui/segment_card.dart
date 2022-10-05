@@ -1,5 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/pages/checkout/pages/booking_details/ui/flight_detail.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
@@ -99,6 +100,15 @@ class SegmentCard extends StatelessWidget {
                     context.read<BookingCubit>().changeFlight();
                   },
                   child: Text("Change Flight"),
+                ),
+              ),
+              Visibility(
+                visible: isVerify,
+                child: Column(
+                  children: [
+                    kVerticalSpacer,
+                    FlightDetail(isDeparture: isDeparture),
+                  ],
                 ),
               ),
             ],

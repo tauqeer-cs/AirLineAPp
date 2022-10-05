@@ -1,6 +1,7 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/pages/checkout/pages/select_baggage/ui/available_baggage.dart';
+import 'package:app/pages/checkout/pages/select_baggage/ui/baggage_notice.dart';
 import 'package:app/pages/checkout/pages/select_bundle/ui/bundle_card.dart';
 import 'package:app/pages/checkout/pages/select_meals/ui/available_meals.dart';
 import 'package:app/pages/checkout/pages/select_seats/ui/remove_seat_selection.dart';
@@ -34,6 +35,9 @@ class _BaggageSelectionsState extends State<BaggageSelections>
       PersonSelector(),
       kVerticalSpacer,
       AvailableBaggage(),
+      kVerticalSpacer,
+      BaggageNotice(),
+      kVerticalSpacer,
       CheckoutSummary(),
       kVerticalSpacer,
       AppDividerWidget(),
@@ -41,8 +45,7 @@ class _BaggageSelectionsState extends State<BaggageSelections>
       BookingSummary(),
       kVerticalSpacer,
       ElevatedButton(
-        onPressed:
-            true ? null : () => context.router.push(BookingDetailsRoute()),
+        onPressed:() => context.router.push(BookingDetailsRoute()),
         child: Text("Continue"),
       ),
       kVerticalSpacer,

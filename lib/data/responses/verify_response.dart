@@ -1,3 +1,4 @@
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:equatable/equatable.dart';
@@ -17,23 +18,47 @@ class VerifyResponse extends Equatable {
         orderID,
         success,
       ];
+
   factory VerifyResponse.fromJson(Map<String, dynamic> json) =>
       _$VerifyResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$VerifyResponseToJson(this);
   final CommonFlightRequest? flightVerifyRequest;
   final FlightVerifyResponse? flightVerifyResponse;
   final FlightSSR? flightSSR;
   final FlightSeats? flightSeat;
+  final FlightSummaryPnrRequest? flightSummaryPNRRequest;
   final num? orderID;
   final bool? success;
+
   const VerifyResponse({
     this.flightVerifyRequest,
     this.flightVerifyResponse,
+    this.flightSummaryPNRRequest,
     this.flightSSR,
     this.flightSeat,
     this.orderID,
     this.success,
   });
+
+  VerifyResponse copyWith({
+    CommonFlightRequest? flightVerifyRequest,
+    FlightVerifyResponse? flightVerifyResponse,
+    FlightSummaryPnrRequest? flightSummaryPNRRequest,
+    FlightSSR? flightSSR,
+    FlightSeats? flightSeat,
+    num? orderID,
+    bool? success,
+  }) =>
+      VerifyResponse(
+        flightVerifyRequest: flightVerifyRequest ?? this.flightVerifyRequest,
+        flightVerifyResponse: flightVerifyResponse ?? this.flightVerifyResponse,
+        flightSummaryPNRRequest: flightSummaryPNRRequest ?? this.flightSummaryPNRRequest,
+        flightSSR: flightSSR ?? this.flightSSR,
+        flightSeat: flightSeat ?? this.flightSeat,
+        orderID: orderID ?? this.orderID,
+        success: success ?? this.success,
+      );
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -53,8 +78,10 @@ class FlightVerifyRequest extends Equatable {
         outboundLFID,
         inboundLFID,
       ];
+
   factory FlightVerifyRequest.fromJson(Map<String, dynamic> json) =>
       _$FlightVerifyRequestFromJson(json);
+
   Map<String, dynamic> toJson() => _$FlightVerifyRequestToJson(this);
   final String? originAirport;
   final String? destinationAirport;
@@ -89,8 +116,10 @@ class FlightVerifyRequest extends Equatable {
 class FlightVerifyResponse extends Equatable {
   @override
   List<Object?> get props => [errors, result, session, success];
+
   factory FlightVerifyResponse.fromJson(Map<String, dynamic> json) =>
       _$FlightVerifyResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$FlightVerifyResponseToJson(this);
   final List<dynamic>? errors;
   final Result? result;
@@ -118,7 +147,9 @@ class Result extends Equatable {
         segmentDetails,
         taxDetails,
       ];
+
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
+
   Map<String, dynamic> toJson() => _$ResultToJson(this);
   final bool? commissionIncluded;
   final List<FlightSegments>? flightSegments;
@@ -161,8 +192,10 @@ class FlightSegments extends Equatable {
         fareTypes,
         flightLegDetails
       ];
+
   factory FlightSegments.fromJson(Map<String, dynamic> json) =>
       _$FlightSegmentsFromJson(json);
+
   Map<String, dynamic> toJson() => _$FlightSegmentsToJson(this);
   final num? lfid;
   final String? departureDate;
@@ -187,8 +220,10 @@ class FareTypes extends Equatable {
   @override
   List<Object?> get props =>
       [fareTypeID, fareTypeName, filterRemove, fareInfos];
+
   factory FareTypes.fromJson(Map<String, dynamic> json) =>
       _$FareTypesFromJson(json);
+
   Map<String, dynamic> toJson() => _$FareTypesToJson(this);
   final num? fareTypeID;
   final String? fareTypeName;
@@ -236,8 +271,10 @@ class FareInfos extends Equatable {
         exchangeRate,
         exchangeDate
       ];
+
   factory FareInfos.fromJson(Map<String, dynamic> json) =>
       _$FareInfosFromJson(json);
+
   Map<String, dynamic> toJson() => _$FareInfosToJson(this);
   final List<dynamic>? returnFlightSegmentDetails;
   final num? fareID;
@@ -311,8 +348,10 @@ class FareInfos extends Equatable {
 class ApplicableTaxDetails extends Equatable {
   @override
   List<Object?> get props => [taxID, amt, initiatingTaxID, commissionAmount];
+
   factory ApplicableTaxDetails.fromJson(Map<String, dynamic> json) =>
       _$ApplicableTaxDetailsFromJson(json);
+
   Map<String, dynamic> toJson() => _$ApplicableTaxDetailsToJson(this);
   final num? taxID;
   final num? amt;
@@ -327,8 +366,10 @@ class ApplicableTaxDetails extends Equatable {
 class FlightLegDetails extends Equatable {
   @override
   List<Object?> get props => [pfid, departureDate];
+
   factory FlightLegDetails.fromJson(Map<String, dynamic> json) =>
       _$FlightLegDetailsFromJson(json);
+
   Map<String, dynamic> toJson() => _$FlightLegDetailsToJson(this);
   final num? pfid;
   final String? departureDate;
@@ -340,8 +381,10 @@ class FlightLegDetails extends Equatable {
 class LegDetails extends Equatable {
   @override
   List<Object?> get props => [];
+
   factory LegDetails.fromJson(Map<String, dynamic> json) =>
       _$LegDetailsFromJson(json);
+
   Map<String, dynamic> toJson() => _$LegDetailsToJson(this);
   final num? pfid;
   final String? departureDate;
@@ -383,8 +426,10 @@ class LegDetails extends Equatable {
 class TaxDetails extends Equatable {
   @override
   List<Object?> get props => [];
+
   factory TaxDetails.fromJson(Map<String, dynamic> json) =>
       _$TaxDetailsFromJson(json);
+
   Map<String, dynamic> toJson() => _$TaxDetailsToJson(this);
   final num? taxID;
   final String? taxCode;
@@ -419,8 +464,10 @@ class TaxDetails extends Equatable {
 class FlightSSR extends Equatable {
   @override
   List<Object?> get props => [bundleGroup, mealGroup, baggageGroup, seatGroup];
+
   factory FlightSSR.fromJson(Map<String, dynamic> json) =>
       _$FlightSSRFromJson(json);
+
   Map<String, dynamic> toJson() => _$FlightSSRToJson(this);
   final BundleGroup? bundleGroup;
   final BundleGroupSeat? mealGroup;
@@ -435,8 +482,10 @@ class FlightSSR extends Equatable {
 class BundleGroup extends Equatable {
   @override
   List<Object?> get props => [inbound, outbound];
+
   factory BundleGroup.fromJson(Map<String, dynamic> json) =>
       _$BundleGroupFromJson(json);
+
   Map<String, dynamic> toJson() => _$BundleGroupToJson(this);
   final List<InboundBundle>? inbound;
   final List<InboundBundle>? outbound;
@@ -448,8 +497,10 @@ class BundleGroup extends Equatable {
 class BundleGroupSeat extends Equatable {
   @override
   List<Object?> get props => [inbound, outbound];
+
   factory BundleGroupSeat.fromJson(Map<String, dynamic> json) =>
       _$BundleGroupSeatFromJson(json);
+
   Map<String, dynamic> toJson() => _$BundleGroupSeatToJson(this);
   final List<Bundle>? inbound;
   final List<Bundle>? outbound;
@@ -461,8 +512,10 @@ class BundleGroupSeat extends Equatable {
 class InboundBundle extends Equatable {
   @override
   List<Object?> get props => [bundle, detail];
+
   factory InboundBundle.fromJson(Map<String, dynamic> json) =>
       _$InboundBundleFromJson(json);
+
   Map<String, dynamic> toJson() => _$InboundBundleToJson(this);
   final Bundle? bundle;
   final Detail? detail;
@@ -503,7 +556,9 @@ class Bundle extends Equatable {
         boardingPassSsrOrder,
         serviceType
       ];
+
   factory Bundle.fromJson(Map<String, dynamic> json) => _$BundleFromJson(json);
+
   Map<String, dynamic> toJson() => _$BundleToJson(this);
   final num? logicalFlightID;
   final num? serviceID;
@@ -580,7 +635,9 @@ class Detail extends Equatable {
         serviceBundleCode,
         version
       ];
+
   factory Detail.fromJson(Map<String, dynamic> json) => _$DetailFromJson(json);
+
   Map<String, dynamic> toJson() => _$DetailToJson(this);
   final String? bundleDescription;
   final String? bundleGlCode;
@@ -619,8 +676,10 @@ class BundleServiceDetails extends Equatable {
         serviceID,
         ssrCode
       ];
+
   factory BundleServiceDetails.fromJson(Map<String, dynamic> json) =>
       _$BundleServiceDetailsFromJson(json);
+
   Map<String, dynamic> toJson() => _$BundleServiceDetailsToJson(this);
   final num? bundleGroupIndex;
   final num? bundleQtyGroupIndex;
@@ -646,8 +705,10 @@ class BundleServiceDetails extends Equatable {
 class BaggageGroup extends Equatable {
   @override
   List<Object?> get props => [inbound, outbound];
+
   factory BaggageGroup.fromJson(Map<String, dynamic> json) =>
       _$BaggageGroupFromJson(json);
+
   Map<String, dynamic> toJson() => _$BaggageGroupToJson(this);
   final List<Bundle>? inbound;
   final List<Bundle>? outbound;
@@ -659,8 +720,10 @@ class BaggageGroup extends Equatable {
 class FlightSeats extends Equatable {
   @override
   List<Object?> get props => [inbound, outbound];
+
   factory FlightSeats.fromJson(Map<String, dynamic> json) =>
       _$FlightSeatsFromJson(json);
+
   Map<String, dynamic> toJson() => _$FlightSeatsToJson(this);
   final List<InboundSeat>? inbound;
   final List<InboundSeat>? outbound;
@@ -672,8 +735,10 @@ class FlightSeats extends Equatable {
 class InboundSeat extends Equatable {
   @override
   List<Object?> get props => [segmentCount, retrieveFlightSeatMapResponse];
+
   factory InboundSeat.fromJson(Map<String, dynamic> json) =>
       _$InboundSeatFromJson(json);
+
   Map<String, dynamic> toJson() => _$InboundSeatToJson(this);
   final num? segmentCount;
   final RetrieveFlightSeatMapResponse? retrieveFlightSeatMapResponse;
@@ -685,8 +750,10 @@ class InboundSeat extends Equatable {
 class RetrieveFlightSeatMapResponse extends Equatable {
   @override
   List<Object?> get props => [physicalFlights, rules];
+
   factory RetrieveFlightSeatMapResponse.fromJson(Map<String, dynamic> json) =>
       _$RetrieveFlightSeatMapResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$RetrieveFlightSeatMapResponseToJson(this);
   final List<PhysicalFlights>? physicalFlights;
   final Rules? rules;
@@ -707,8 +774,10 @@ class PhysicalFlights extends Equatable {
         physicalFlightID,
         physicalFlightSeatMap
       ];
+
   factory PhysicalFlights.fromJson(Map<String, dynamic> json) =>
       _$PhysicalFlightsFromJson(json);
+
   Map<String, dynamic> toJson() => _$PhysicalFlightsToJson(this);
   final String? departureDate;
   final String? destination;
@@ -741,8 +810,10 @@ class PhysicalFlightSeatMap extends Equatable {
         seatDescription,
         seatWBZones
       ];
+
   factory PhysicalFlightSeatMap.fromJson(Map<String, dynamic> json) =>
       _$PhysicalFlightSeatMapFromJson(json);
+
   Map<String, dynamic> toJson() => _$PhysicalFlightSeatMapToJson(this);
   final List<CabinClasses>? cabinClasses;
   final List<Decks>? decks;
@@ -764,8 +835,10 @@ class PhysicalFlightSeatMap extends Equatable {
 class CabinClasses extends Equatable {
   @override
   List<Object?> get props => [cabin, cabinClass, cabinClassId, cabinOrder];
+
   factory CabinClasses.fromJson(Map<String, dynamic> json) =>
       _$CabinClassesFromJson(json);
+
   Map<String, dynamic> toJson() => _$CabinClassesToJson(this);
   final String? cabin;
   final String? cabinClass;
@@ -780,7 +853,9 @@ class CabinClasses extends Equatable {
 class Decks extends Equatable {
   @override
   List<Object?> get props => [deckCode, deckId, description];
+
   factory Decks.fromJson(Map<String, dynamic> json) => _$DecksFromJson(json);
+
   Map<String, dynamic> toJson() => _$DecksToJson(this);
   final String? deckCode;
   final num? deckId;
@@ -794,8 +869,10 @@ class SeatCabins extends Equatable {
   @override
   List<Object?> get props =>
       [cabinClassId, cabinDisplayOrder, capacity, seatCabinId, seatConfigId];
+
   factory SeatCabins.fromJson(Map<String, dynamic> json) =>
       _$SeatCabinsFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatCabinsToJson(this);
   final num? cabinClassId;
   final num? cabinDisplayOrder;
@@ -824,8 +901,10 @@ class SeatConfiguration extends Equatable {
         rows,
         seatConfigurationId
       ];
+
   factory SeatConfiguration.fromJson(Map<String, dynamic> json) =>
       _$SeatConfigurationFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatConfigurationToJson(this);
   final String? carrier;
   final String? configurationDescription;
@@ -853,7 +932,9 @@ class Rows extends Equatable {
   @override
   List<Object?> get props =>
       [deckId, restrictions, rowId, rowNumber, seatConfigId, seats];
+
   factory Rows.fromJson(Map<String, dynamic> json) => _$RowsFromJson(json);
+
   Map<String, dynamic> toJson() => _$RowsToJson(this);
   final num? deckId;
   final List<dynamic>? restrictions;
@@ -891,7 +972,9 @@ class Seats extends Equatable {
         serviceId,
         weightIndex
       ];
+
   factory Seats.fromJson(Map<String, dynamic> json) => _$SeatsFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatsToJson(this);
   final num? cabinClassId;
   final bool? isSeatAvailable;
@@ -940,8 +1023,10 @@ class Restrictions extends Equatable {
         restrictionNumber,
         restrictionType
       ];
+
   factory Restrictions.fromJson(Map<String, dynamic> json) =>
       _$RestrictionsFromJson(json);
+
   Map<String, dynamic> toJson() => _$RestrictionsToJson(this);
   final bool? restrictionActive;
   final String? restrictionCategory;
@@ -978,8 +1063,10 @@ class SeatAttributes extends Equatable {
         isOperational,
         systemAttribute
       ];
+
   factory SeatAttributes.fromJson(Map<String, dynamic> json) =>
       _$SeatAttributesFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatAttributesToJson(this);
   final bool? active;
   final bool? allowSeating;
@@ -1009,8 +1096,10 @@ class SeatAttributes extends Equatable {
 class SeatPriceOffers extends Equatable {
   @override
   List<Object?> get props => [amount, currency, isBundleOffer];
+
   factory SeatPriceOffers.fromJson(Map<String, dynamic> json) =>
       _$SeatPriceOffersFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatPriceOffersToJson(this);
   final num? amount;
   final String? currency;
@@ -1023,8 +1112,10 @@ class SeatPriceOffers extends Equatable {
 class SeatDescription extends Equatable {
   @override
   List<Object?> get props => [price, seatWBZoneId, serviceDescription];
+
   factory SeatDescription.fromJson(Map<String, dynamic> json) =>
       _$SeatDescriptionFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatDescriptionToJson(this);
   final num? price;
   final num? seatWBZoneId;
@@ -1045,8 +1136,10 @@ class SeatWBZones extends Equatable {
         wbZone,
         zoneReferenced
       ];
+
   factory SeatWBZones.fromJson(Map<String, dynamic> json) =>
       _$SeatWBZonesFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatWBZonesToJson(this);
   final bool? active;
   final num? autoSeatPriority;
@@ -1068,7 +1161,9 @@ class SeatWBZones extends Equatable {
 class Rules extends Equatable {
   @override
   List<Object?> get props => [exrpar, exrptc, exrrsr, miapsr, seataj, seatgt];
+
   factory Rules.fromJson(Map<String, dynamic> json) => _$RulesFromJson(json);
+
   Map<String, dynamic> toJson() => _$RulesToJson(this);
   final Exrpar? exrpar;
   final Exrptc? exrptc;
@@ -1091,7 +1186,9 @@ class Exrpar extends Equatable {
   @override
   List<Object?> get props =>
       [ageEndRange, ageStartRange, description, reasonCode, ruleCode];
+
   factory Exrpar.fromJson(Map<String, dynamic> json) => _$ExrparFromJson(json);
+
   Map<String, dynamic> toJson() => _$ExrparToJson(this);
   final num? ageEndRange;
   final num? ageStartRange;
@@ -1111,7 +1208,9 @@ class Exrpar extends Equatable {
 class Exrptc extends Equatable {
   @override
   List<Object?> get props => [ptcIds, description, reasonCode, ruleCode];
+
   factory Exrptc.fromJson(Map<String, dynamic> json) => _$ExrptcFromJson(json);
+
   Map<String, dynamic> toJson() => _$ExrptcToJson(this);
   final List<String>? ptcIds;
   final String? description;
@@ -1125,7 +1224,9 @@ class Exrptc extends Equatable {
 class Exrrsr extends Equatable {
   @override
   List<Object?> get props => [ssrs, description, reasonCode, ruleCode];
+
   factory Exrrsr.fromJson(Map<String, dynamic> json) => _$ExrrsrFromJson(json);
+
   Map<String, dynamic> toJson() => _$ExrrsrToJson(this);
   final List<String>? ssrs;
   final String? description;
@@ -1140,7 +1241,9 @@ class Miapsr extends Equatable {
   @override
   List<Object?> get props =>
       [maxInfantAllowedPerRow, description, reasonCode, ruleCode];
+
   factory Miapsr.fromJson(Map<String, dynamic> json) => _$MiapsrFromJson(json);
+
   Map<String, dynamic> toJson() => _$MiapsrToJson(this);
   final num? maxInfantAllowedPerRow;
   final String? description;
@@ -1159,7 +1262,9 @@ class Seataj extends Equatable {
   @override
   List<Object?> get props =>
       [dependents, linkedPtcs, description, reasonCode, ruleCode];
+
   factory Seataj.fromJson(Map<String, dynamic> json) => _$SeatajFromJson(json);
+
   Map<String, dynamic> toJson() => _$SeatajToJson(this);
   final List<dynamic>? dependents;
   final List<dynamic>? linkedPtcs;

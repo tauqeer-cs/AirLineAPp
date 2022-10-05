@@ -24,24 +24,30 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           ? null
           : InboundBundle.fromJson(
               json['departureBundle'] as Map<String, dynamic>),
-      departureMeal: (json['departureMeal'] as List<dynamic>?)
-              ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      departureSeats: json['departureSeats'] == null
-          ? null
-          : Seats.fromJson(json['departureSeats'] as Map<String, dynamic>),
       returnBundle: json['returnBundle'] == null
           ? null
           : InboundBundle.fromJson(
               json['returnBundle'] as Map<String, dynamic>),
+      departureSeats: json['departureSeats'] == null
+          ? null
+          : Seats.fromJson(json['departureSeats'] as Map<String, dynamic>),
+      returnSeats: json['returnSeats'] == null
+          ? null
+          : Seats.fromJson(json['returnSeats'] as Map<String, dynamic>),
+      departureMeal: (json['departureMeal'] as List<dynamic>?)
+              ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       returnMeal: (json['returnMeal'] as List<dynamic>?)
               ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      returnSeats: json['returnSeats'] == null
+      departureBaggage: json['departureBaggage'] == null
           ? null
-          : Seats.fromJson(json['returnSeats'] as Map<String, dynamic>),
+          : Bundle.fromJson(json['departureBaggage'] as Map<String, dynamic>),
+      returnBaggage: json['returnBaggage'] == null
+          ? null
+          : Bundle.fromJson(json['returnBaggage'] as Map<String, dynamic>),
       numberOrder: json['numberOrder'] as int?,
     );
 
@@ -53,6 +59,8 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'returnMeal': instance.returnMeal,
       'departureSeats': instance.departureSeats,
       'returnSeats': instance.returnSeats,
+      'departureBaggage': instance.departureBaggage,
+      'returnBaggage': instance.returnBaggage,
       'numberOrder': instance.numberOrder,
     };
 

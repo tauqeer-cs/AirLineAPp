@@ -1,3 +1,4 @@
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
@@ -38,6 +39,7 @@ class MealCard extends StatelessWidget {
     final meals =
         isDeparture ? focusedPerson?.departureMeal : focusedPerson?.returnMeal;
     final length = meals?.where((element) => element == meal).length;
+    final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       child: AppCard(
@@ -47,7 +49,7 @@ class MealCard extends StatelessWidget {
               width: 100,
               height: 100,
               child: AppImage(
-                imageUrl: "",
+                imageUrl: cmsMeals.firstWhereOrNull((element) => element.code == meal.codeType)?.image,
               ),
             ),
             kHorizontalSpacer,

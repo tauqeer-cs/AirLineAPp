@@ -8,6 +8,7 @@ import 'package:app/pages/search_result/search_result_page.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/widgets/app_booking_header.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,6 +39,7 @@ class AddonLayout extends StatelessWidget {
               //headerSilverBuilder only accepts slivers
               child: Column(
                 children: [
+                  AppBookingHeader(passedSteps: [BookingStep.flights, BookingStep.addOn]),
                   kVerticalSpacer,
                   AddonHeader(),
                   kVerticalSpacer,

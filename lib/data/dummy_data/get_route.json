@@ -1,0 +1,448 @@
+[
+  {
+    "contentType": {
+      "key": "86fe8085-47bb-47ea-b0ab-ec797c3d0a55",
+      "id": 1056,
+      "alias": "home"
+    },
+    "key": "656c5d76-cca4-47a1-85e9-23f3e96392c9",
+    "id": 1060,
+    "name": "Home",
+    "urlSegment": "home",
+    "items": [
+      {
+        "contentType": {
+          "key": "84ea2356-a532-4719-a204-bedc6b9ce16d",
+          "id": 1057,
+          "alias": "banner"
+        },
+        "key": "34c1a0ff-ded2-4bd7-bd4c-1bd620a4c0a2",
+        "id": 1061,
+        "name": "3D Carousel Banner",
+        "urlSegment": "3d-carousel-banner",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "454a1e48-cc62-43ea-a263-9607d4f3c08e",
+          "id": 1058,
+          "alias": "deals"
+        },
+        "key": "e7b7ff66-9826-4ee2-8081-14a0cfc6d1fc",
+        "id": 1062,
+        "name": "Flight Deals",
+        "urlSegment": "flight-deals",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "b8feb9f2-80d7-4ae5-80da-40cfb9ea4f67",
+          "id": 1066,
+          "alias": "about"
+        },
+        "key": "0b562082-954a-484f-8511-32164e30e142",
+        "id": 1067,
+        "name": "Homepage center",
+        "urlSegment": "homepage-center",
+        "items": []
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "b9163bb2-5b58-4cf6-a29d-e9518994596d",
+      "id": 1103,
+      "alias": "careerPage"
+    },
+    "key": "6227bbe6-96f6-4fab-a33e-4624bfe66790",
+    "id": 1107,
+    "name": "Career",
+    "urlSegment": "career",
+    "items": [
+      {
+        "contentType": {
+          "key": "773c088f-bc23-4dc0-a87a-568e631ca147",
+          "id": 1104,
+          "alias": "positions"
+        },
+        "key": "97a8be72-1ab4-46af-bb62-d2000c056e42",
+        "id": 1110,
+        "name": "Information Technology",
+        "urlSegment": "information-technology",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "773c088f-bc23-4dc0-a87a-568e631ca147",
+          "id": 1104,
+          "alias": "positions"
+        },
+        "key": "fb27c8e1-a771-4efe-97a3-30fbe4013d46",
+        "id": 1154,
+        "name": "Operations",
+        "urlSegment": "operations",
+        "items": []
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "72a43d08-2a87-49df-8778-0dbcca87178f",
+      "id": 1106,
+      "alias": "mediaCenterPage"
+    },
+    "key": "f1d554a1-8b66-4a54-a388-3ec6cfa0621b",
+    "id": 1123,
+    "name": "Media Center",
+    "urlSegment": "media-center",
+    "items": [
+      {
+        "contentType": {
+          "key": "4f6bdd11-cf9b-49f9-b9d4-efbec66ad636",
+          "id": 1108,
+          "alias": "articles"
+        },
+        "key": "60a56d7b-a3c1-48b1-a6be-26c37bddf03e",
+        "id": 1125,
+        "name": "Articles",
+        "urlSegment": "articles",
+        "items": []
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "6bbe5b6f-b946-4c9b-81e3-75e6b1257179",
+      "id": 1115,
+      "alias": "fAQPage"
+    },
+    "key": "a7c6a2c5-4956-4d75-aee8-3b579d4a2e59",
+    "id": 1129,
+    "name": "FAQ",
+    "urlSegment": "faq",
+    "items": [
+      {
+        "contentType": {
+          "key": "7cbe0767-0fef-4f9b-9254-0b4daf270bff",
+          "id": 1401,
+          "alias": "fAQCategory"
+        },
+        "key": "923150f9-77bd-4fb4-960c-41ef8029af5c",
+        "id": 1402,
+        "name": "Booking",
+        "urlSegment": "booking",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "7cbe0767-0fef-4f9b-9254-0b4daf270bff",
+          "id": 1401,
+          "alias": "fAQCategory"
+        },
+        "key": "d64c14bc-813d-4a9a-a642-61e5248b05e6",
+        "id": 1471,
+        "name": "Manage Booking",
+        "urlSegment": "manage-booking",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "7cbe0767-0fef-4f9b-9254-0b4daf270bff",
+          "id": 1401,
+          "alias": "fAQCategory"
+        },
+        "key": "4860065b-051f-454b-a6cd-447034ff3e8e",
+        "id": 1477,
+        "name": "Baggage",
+        "urlSegment": "baggage",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "7cbe0767-0fef-4f9b-9254-0b4daf270bff",
+          "id": 1401,
+          "alias": "fAQCategory"
+        },
+        "key": "74efdd98-c7db-489d-816e-c3fb63da88e3",
+        "id": 1494,
+        "name": "Payment / Refund",
+        "urlSegment": "payment-refund",
+        "items": []
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "a899a881-8884-4d55-9b44-804bc88bb7ce",
+      "id": 1117,
+      "alias": "companyProfilePage"
+    },
+    "key": "677ce16a-71ac-46e9-ab5c-97aeda6ef470",
+    "id": 1135,
+    "name": "About",
+    "urlSegment": "about",
+    "items": [
+      {
+        "contentType": {
+          "key": "7fdf8d8d-ba30-4eba-8ef5-06fc0d53a32c",
+          "id": 1118,
+          "alias": "card"
+        },
+        "key": "c594e09a-7702-421f-a067-bac6106a25a9",
+        "id": 1136,
+        "name": "Card 1",
+        "urlSegment": "card-1"
+      },
+      {
+        "contentType": {
+          "key": "7fdf8d8d-ba30-4eba-8ef5-06fc0d53a32c",
+          "id": 1118,
+          "alias": "card"
+        },
+        "key": "70817fa8-1f3d-4179-96ef-30c37e0fd168",
+        "id": 1137,
+        "name": "Card 2",
+        "urlSegment": "card-2"
+      },
+      {
+        "contentType": {
+          "key": "7fdf8d8d-ba30-4eba-8ef5-06fc0d53a32c",
+          "id": 1118,
+          "alias": "card"
+        },
+        "key": "bb0c3560-4730-4bda-b284-5e2d1dbf6ea5",
+        "id": 1138,
+        "name": "Card 3",
+        "urlSegment": "card-3"
+      },
+      {
+        "contentType": {
+          "key": "7fdf8d8d-ba30-4eba-8ef5-06fc0d53a32c",
+          "id": 1118,
+          "alias": "card"
+        },
+        "key": "a5167237-36df-4b06-b961-733e98290a7b",
+        "id": 1139,
+        "name": "Card 4",
+        "urlSegment": "card-4"
+      },
+      {
+        "contentType": {
+          "key": "7fdf8d8d-ba30-4eba-8ef5-06fc0d53a32c",
+          "id": 1118,
+          "alias": "card"
+        },
+        "key": "e5de9fbd-7ffb-492f-9cbd-5ef2608494fd",
+        "id": 1140,
+        "name": "Card 5",
+        "urlSegment": "card-5"
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "70fa9220-1cd3-41a2-9dbb-dd2e1aad623d",
+      "id": 1157,
+      "alias": "faresAndFees"
+    },
+    "key": "ea8398f4-3842-41f0-8f8b-bf4f397bb357",
+    "id": 1158,
+    "name": "Fares & Fees",
+    "urlSegment": "fares-fees",
+    "items": [
+      {
+        "contentType": {
+          "key": "fa81beb3-cf67-463c-bc85-1131cfdbe8c6",
+          "id": 1160,
+          "alias": "Table"
+        },
+        "key": "72e900ba-ca25-4774-b37d-1c3dff291007",
+        "id": 1163,
+        "name": "Bundle Fares",
+        "urlSegment": "bundle-fares",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "fa81beb3-cf67-463c-bc85-1131cfdbe8c6",
+          "id": 1160,
+          "alias": "Table"
+        },
+        "key": "4bf3edfc-9c38-4892-bb06-5b5821579fa2",
+        "id": 1183,
+        "name": "Check-in Baggage Allowance",
+        "urlSegment": "check-in-baggage-allowance",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "fa81beb3-cf67-463c-bc85-1131cfdbe8c6",
+          "id": 1160,
+          "alias": "Table"
+        },
+        "key": "5becffcc-8604-4e00-b86d-d08ff05bdacc",
+        "id": 1201,
+        "name": "Seat Selection",
+        "urlSegment": "seat-selection",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "fa81beb3-cf67-463c-bc85-1131cfdbe8c6",
+          "id": 1160,
+          "alias": "Table"
+        },
+        "key": "3936bab0-6993-4388-b3c4-d58413412928",
+        "id": 1204,
+        "name": "Processing & Service Fees",
+        "urlSegment": "processing-service-fees",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "fa81beb3-cf67-463c-bc85-1131cfdbe8c6",
+          "id": 1160,
+          "alias": "Table"
+        },
+        "key": "f85d3399-ecb4-4bd5-a0e3-a2ebf17ef3c4",
+        "id": 1210,
+        "name": "Hand Carry Baggage",
+        "urlSegment": "hand-carry-baggage",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "fa81beb3-cf67-463c-bc85-1131cfdbe8c6",
+          "id": 1160,
+          "alias": "Table"
+        },
+        "key": "622a1133-a5fe-491d-9a17-5570fbdb74ec",
+        "id": 1213,
+        "name": "Meal",
+        "urlSegment": "meal",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "fa81beb3-cf67-463c-bc85-1131cfdbe8c6",
+          "id": 1160,
+          "alias": "Table"
+        },
+        "key": "85ae885f-1c9f-4d39-ae11-3e1efa86583d",
+        "id": 1216,
+        "name": "Wheelchair",
+        "urlSegment": "wheelchair",
+        "items": []
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "25d93b70-4ad5-4cef-bb19-6e2ad0afdd6d",
+      "id": 1396,
+      "alias": "promoPage"
+    },
+    "key": "e36a42c0-c020-41a3-9ada-a6dd07026efb",
+    "id": 1397,
+    "name": "Promotions",
+    "urlSegment": "promotions",
+    "items": [
+      {
+        "contentType": {
+          "key": "9988eb06-efd9-4a6d-bfb8-02d3ccb0c609",
+          "id": 1502,
+          "alias": "promoCategory"
+        },
+        "key": "133fa4d7-b40f-40de-b398-66c1321c460a",
+        "id": 1503,
+        "name": "Category 1",
+        "urlSegment": "category-1"
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "6bbe5b6f-b946-4c9b-81e3-75e6b1257179",
+      "id": 1115,
+      "alias": "fAQPage"
+    },
+    "key": "e69b51e2-08d7-4609-9662-d27d863beec0",
+    "id": 1406,
+    "name": "Another FAQ",
+    "urlSegment": "another-faq"
+  },
+  {
+    "contentType": {
+      "key": "b111e6a6-0115-4444-bd82-7bf439a53ad7",
+      "id": 1428,
+      "alias": "footer"
+    },
+    "key": "c4c527df-b5e4-40a4-8f67-833d1d686a33",
+    "id": 1431,
+    "name": "Footer",
+    "urlSegment": "footer",
+    "items": [
+      {
+        "contentType": {
+          "key": "22232731-0153-4326-8cec-42f1a4e2b01f",
+          "id": 1429,
+          "alias": "pageCategory"
+        },
+        "key": "46502ed6-c070-40da-b519-b9250c00d22a",
+        "id": 1432,
+        "name": "Get To Know Us",
+        "urlSegment": "get-to-know-us",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "22232731-0153-4326-8cec-42f1a4e2b01f",
+          "id": 1429,
+          "alias": "pageCategory"
+        },
+        "key": "5789f812-103b-4d06-9660-52a9d749bdd8",
+        "id": 1438,
+        "name": "Travel Information",
+        "urlSegment": "travel-information",
+        "items": []
+      },
+      {
+        "contentType": {
+          "key": "22232731-0153-4326-8cec-42f1a4e2b01f",
+          "id": 1429,
+          "alias": "pageCategory"
+        },
+        "key": "9c6e5d3c-3b98-4ae6-96bc-811c9f5f4e05",
+        "id": 1435,
+        "name": "Support",
+        "urlSegment": "support",
+        "items": []
+      }
+    ]
+  },
+  {
+    "contentType": {
+      "key": "a6e69d69-92e7-470e-a491-8e10bddddcb3",
+      "id": 1506,
+      "alias": "sSR"
+    },
+    "key": "e5a9ece8-94d5-466b-8d2d-44a3295301fc",
+    "id": 1508,
+    "name": "SSR",
+    "urlSegment": "ssr",
+    "items": [
+      {
+        "contentType": {
+          "key": "89b155a1-3702-4cfa-b381-b9dd089dd872",
+          "id": 1505,
+          "alias": "sSRType"
+        },
+        "key": "e68fef79-409e-45f9-9969-5dbdd65f3efe",
+        "id": 1509,
+        "name": "mealGroup",
+        "urlSegment": "mealgroup",
+        "items": []
+      }
+    ]
+  }
+]

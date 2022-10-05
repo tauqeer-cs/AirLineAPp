@@ -32,9 +32,9 @@ class AppDateUtils{
     return formattedDate;
   }
 
-  static String formatTransactionDate(DateTime? dateTime) {
-    if(dateTime==null) return tr.invalidDate;
-    final dateFormat = DateFormat("dd MM yyyy hh:mm:ss");
+  static String formatFullDateWithTime(DateTime? dateTime) {
+    if(dateTime==null) return "Invalid Date";
+    final dateFormat = DateFormat("EEEE dd MMMM yyyy hh:mm a");
     String formattedDate = dateFormat.format(dateTime);
     return formattedDate;
   }

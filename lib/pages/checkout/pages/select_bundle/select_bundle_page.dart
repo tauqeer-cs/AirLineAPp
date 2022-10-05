@@ -1,5 +1,8 @@
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/models/cms_route.dart';
 import 'package:app/pages/checkout/pages/select_bundle/ui/bundle_list.dart';
 import 'package:app/pages/checkout/ui/addon_layout.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
@@ -18,7 +21,16 @@ class SelectBundlePage extends StatefulWidget {
   State<SelectBundlePage> createState() => _SelectBundlePageState();
 }
 
-class _SelectBundlePageState extends State<SelectBundlePage> with AutomaticKeepAliveClientMixin{
+class _SelectBundlePageState extends State<SelectBundlePage>
+    with AutomaticKeepAliveClientMixin {
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<RoutesCubit>().state;
+    context.read<CmsSsrCubit>().getCmsSSR(state.routes);
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);

@@ -16,6 +16,10 @@ VerifyResponse _$VerifyResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : FlightVerifyResponse.fromJson(
               json['flightVerifyResponse'] as Map<String, dynamic>),
+      flightSummaryPNRRequest: json['flightSummaryPNRRequest'] == null
+          ? null
+          : FlightSummaryPnrRequest.fromJson(
+              json['flightSummaryPNRRequest'] as Map<String, dynamic>),
       flightSSR: json['flightSSR'] == null
           ? null
           : FlightSSR.fromJson(json['flightSSR'] as Map<String, dynamic>),
@@ -39,6 +43,7 @@ Map<String, dynamic> _$VerifyResponseToJson(VerifyResponse instance) {
   writeNotNull('flightVerifyResponse', instance.flightVerifyResponse);
   writeNotNull('flightSSR', instance.flightSSR);
   writeNotNull('flightSeat', instance.flightSeat);
+  writeNotNull('flightSummaryPNRRequest', instance.flightSummaryPNRRequest);
   writeNotNull('orderID', instance.orderID);
   writeNotNull('success', instance.success);
   return val;

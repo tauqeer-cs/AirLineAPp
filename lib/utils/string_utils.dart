@@ -19,7 +19,7 @@ Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate
 extension StringExtension on String {
   String capitalize() {
     if (isEmpty) return "";
-    return "${this[0].toUpperCase()}${substring(1)}";
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 
   String camelCase() {

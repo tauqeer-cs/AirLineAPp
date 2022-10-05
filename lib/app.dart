@@ -2,6 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
@@ -41,14 +42,14 @@ class _AppState extends State<App> {
         ),
         BlocProvider(create: (_) => RoutesCubit()..getRoutes(), lazy: false),
         BlocProvider(create: (_) => HomeCubit()),
+        BlocProvider(create: (_) => CmsSsrCubit()),
+
       ],
       child: MultiBlocListener(
         listeners: [
           BlocListener<RoutesCubit, RoutesState>(
             listener: (context, state) {
-              final homeId = state.routes.firstWhere(
-                  (element) => element.urlSegment?.toLowerCase() == "home");
-              context.read<HomeCubit>().getContents(homeId.key ?? "");
+              context.read<HomeCubit>().getContents(state.routes);
             },
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(
