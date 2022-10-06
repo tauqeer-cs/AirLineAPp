@@ -12,6 +12,7 @@ import 'package:app/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 final appRouter = AppRouter();
 
@@ -69,7 +70,9 @@ class _AppState extends State<App> {
           builder: (_, __) {
             return MaterialApp.router(
               routerDelegate: appRouter.delegate(),
-              // localizationsDelegates: const [],
+              localizationsDelegates: const [
+                FormBuilderLocalizations.delegate,
+              ],
               // supportedLocales: const [],
               routeInformationParser: appRouter.defaultRouteParser(),
               theme: Styles.theme(true),

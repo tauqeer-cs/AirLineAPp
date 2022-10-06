@@ -30,6 +30,35 @@ class AppDropDown<T> extends StatelessWidget {
       items: items,
       onChanged: onChanged,
       selectedItem: defaultValue,
+      // dropdownDecoratorProps: DropDownDecoratorProps(
+      //   dropdownSearchDecoration: InputDecoration(
+      //     border: OutlineInputBorder(
+      //       borderSide: BorderSide(color: Styles.kDarkContainerColor),
+      //       borderRadius: BorderRadius.circular(5),
+      //     ),
+      //     enabledBorder: OutlineInputBorder(
+      //       borderSide: BorderSide(color: Styles.kDarkContainerColor),
+      //       borderRadius: BorderRadius.circular(5),
+      //     ),
+      //     focusedBorder: OutlineInputBorder(
+      //       borderSide: BorderSide(color: Styles.kDarkContainerColor),
+      //       borderRadius: BorderRadius.circular(5),
+      //     ),
+      //     errorBorder: OutlineInputBorder(
+      //       borderSide: const BorderSide(color: Colors.red),
+      //       borderRadius: BorderRadius.circular(5),
+      //     ),
+      //     focusedErrorBorder: OutlineInputBorder(
+      //       borderSide: const BorderSide(color: Colors.red),
+      //       borderRadius: BorderRadius.circular(5),
+      //     ),
+      //     disabledBorder: OutlineInputBorder(
+      //       borderSide:
+      //           BorderSide(color: Styles.kDarkContainerColor.withOpacity(0.3)),
+      //       borderRadius: BorderRadius.circular(5),
+      //     ),
+      //   ),
+      // ),
       dropdownBuilder: (context, val) {
         return valueTransformer != null
             ? valueTransformer!(val)
@@ -49,7 +78,6 @@ class AppDropDown<T> extends StatelessWidget {
       compareFn: (val1, val2) {
         return val1 == val2;
       },
-
       popupProps: PopupProps.modalBottomSheet(
         title: Transform.translate(
           offset: const Offset(0, -10),
@@ -61,7 +89,8 @@ class AppDropDown<T> extends StatelessWidget {
           trackVisibility: true,
           thumbVisibility: true,
         ),
-        emptyBuilder: (_,__)=>Center(child: Text("No items can be selected")),
+        emptyBuilder: (_, __) =>
+            Center(child: Text("No items can be selected")),
         itemBuilder: (context, value, selected) {
           return ListTile(
             dense: true,

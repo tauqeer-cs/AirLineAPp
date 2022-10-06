@@ -14,7 +14,8 @@ class AvailableMeals extends StatelessWidget {
     final mealGroup = bookingState.verifyResponse?.flightSSR?.mealGroup;
     final isDeparture = context.watch<IsDepartureCubit>().state;
 
-    final meals = isDeparture ? mealGroup?.outbound : mealGroup?.outbound;
+    final meals = isDeparture ? mealGroup?.outbound : mealGroup?.inbound;
+    print("meals length $isDeparture ${meals?.length}");
     return Column(
       children: (meals ?? []).map((e) => MealCard(meal: e)).toList(),
     );

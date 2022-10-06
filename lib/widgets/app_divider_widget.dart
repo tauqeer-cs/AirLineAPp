@@ -14,3 +14,17 @@ class AppDividerWidget extends StatelessWidget {
     );
   }
 }
+
+
+class AppDividerFadeWidget extends StatelessWidget {
+
+  const AppDividerFadeWidget({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      color: Styles.kTextColor.withOpacity(0.6),
+      thickness: 2,
+      height: 1,
+    );
+  }
+}

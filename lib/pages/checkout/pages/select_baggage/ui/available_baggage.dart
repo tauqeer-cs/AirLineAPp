@@ -14,7 +14,7 @@ class AvailableBaggage extends StatelessWidget {
     final bookingState = context.watch<BookingCubit>().state;
     final baggageGroup = bookingState.verifyResponse?.flightSSR?.baggageGroup;
     final isDeparture = context.watch<IsDepartureCubit>().state;
-    final baggage = isDeparture ? baggageGroup?.outbound : baggageGroup?.outbound;
+    final baggage = isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Column(
       children: (baggage ?? []).map((e) => BaggageCard(selectedBundle: e)).toList(),
     );

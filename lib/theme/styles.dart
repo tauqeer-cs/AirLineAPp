@@ -77,6 +77,7 @@ class Styles {
         disabledInactiveTrackColor: Colors.grey,
       ),
       toggleableActiveColor: kPrimaryColor,
+
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -176,21 +177,21 @@ class Styles {
         selectionHandleColor: kPrimaryColor,
       ),
       inputDecorationTheme: InputDecorationTheme(
-        isDense: true,
+        isDense: false,
         errorMaxLines: 2,
         contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         border: OutlineInputBorder(
-          borderSide:  BorderSide(color: kPrimaryColor),
+          borderSide:  BorderSide(color: kDarkContainerColor),
           borderRadius: BorderRadius.circular(5),
         ),
-        prefixIconColor: isLight ? Colors.white : Colors.white,
-        suffixIconColor: isLight ? Colors.white : Colors.white,
+        prefixIconColor: isLight ? kTextColor : Colors.white,
+        suffixIconColor: isLight ? kTextColor : Colors.white,
         enabledBorder: OutlineInputBorder(
-          borderSide:  BorderSide(color: kPrimaryColor),
+          borderSide:  BorderSide(color: kDarkContainerColor),
           borderRadius: BorderRadius.circular(5),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:  BorderSide(color: kPrimaryColor),
+          borderSide:  BorderSide(color: kDarkContainerColor),
           borderRadius: BorderRadius.circular(5),
         ),
         errorBorder: OutlineInputBorder(
@@ -198,24 +199,24 @@ class Styles {
           borderRadius: BorderRadius.circular(5),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white),
+          borderSide: const BorderSide(color: Colors.red),
           borderRadius: BorderRadius.circular(5),
         ),
         disabledBorder: OutlineInputBorder(
           borderSide:
-              BorderSide(color:  kPrimaryColor.withOpacity(0.3)),
+              BorderSide(color:  kDarkContainerColor.withOpacity(0.3)),
           borderRadius: BorderRadius.circular(5),
         ),
         filled: false,
         labelStyle: kSmallSemiBold.copyWith(
-          color: isLight ? Colors.white : kLightBgColor,
+          color: isLight ?kTextColor : kLightBgColor,
         ),
         errorStyle: kSmallSemiBold.copyWith(
           color: isLight ? Colors.red : kLightBgColor,
         ),
         hintStyle: kSmallSemiBold.copyWith(
           color: isLight
-              ? Colors.white.withOpacity(0.5)
+              ? kTextColor.withOpacity(0.5)
               : kLightBgColor.withOpacity(0.5),
         ),
       ),
@@ -236,8 +237,7 @@ class Styles {
               } else if (states.contains(MaterialState.disabled)) {
                 return kDisabledButton;
               }
-              return Colors
-                  .white; // Use the component's default./ Use the component's default.
+              return kPrimaryColor; // Use the component's default./ Use the component's default.
             },
           ),
         ),

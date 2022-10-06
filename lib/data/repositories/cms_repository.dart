@@ -23,14 +23,17 @@ class CMSRepository {
   }
 
   String? cmsToken;
+  DateTime lastFetchToken = DateTime.now();
 
   CMSRepository._internal();
 
   Future<dynamic> getCMSToken() async {
-    //if (cmsToken == null) {
+    final nextExpired = lastFetchToken.add(Duration(hours: 1));
+    if (cmsToken == null || nextExpired.isBefore(DateTime.now())) {
       final token = await _provider.getToken();
+      lastFetchToken = DateTime.now();
       cmsToken = token.token;
-    //}
+    }
   }
 
   Future<List<CMSRoute>> getRoutes() async {

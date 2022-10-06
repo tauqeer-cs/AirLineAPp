@@ -1,3 +1,4 @@
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/string_utils.dart';
@@ -139,6 +140,7 @@ class Person extends Equatable {
   final Bundle? departureBaggage;
   final Bundle? returnBaggage;
   final int? numberOrder;
+  final Passenger? passenger;
 
   const Person({
     this.peopleType,
@@ -151,6 +153,7 @@ class Person extends Equatable {
     this.departureBaggage,
     this.returnBaggage,
     this.numberOrder,
+    this.passenger,
   });
 
   @override
