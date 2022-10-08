@@ -1,6 +1,7 @@
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -17,6 +18,9 @@ class VerifyResponse extends Equatable {
         flightSeat,
         orderID,
         success,
+        flightSummaryPNRRequest,
+        token,
+        verifyExpiredDateTime,
       ];
 
   factory VerifyResponse.fromJson(Map<String, dynamic> json) =>
@@ -30,6 +34,8 @@ class VerifyResponse extends Equatable {
   final FlightSummaryPnrRequest? flightSummaryPNRRequest;
   final num? orderID;
   final bool? success;
+  final String? token;
+  final DateTime? verifyExpiredDateTime;
 
   const VerifyResponse({
     this.flightVerifyRequest,
@@ -39,6 +45,8 @@ class VerifyResponse extends Equatable {
     this.flightSeat,
     this.orderID,
     this.success,
+    this.token,
+    this.verifyExpiredDateTime,
   });
 
   VerifyResponse copyWith({
@@ -49,15 +57,21 @@ class VerifyResponse extends Equatable {
     FlightSeats? flightSeat,
     num? orderID,
     bool? success,
+    String? token,
+    DateTime? verifyExpiredDateTime,
   }) =>
       VerifyResponse(
         flightVerifyRequest: flightVerifyRequest ?? this.flightVerifyRequest,
         flightVerifyResponse: flightVerifyResponse ?? this.flightVerifyResponse,
-        flightSummaryPNRRequest: flightSummaryPNRRequest ?? this.flightSummaryPNRRequest,
+        flightSummaryPNRRequest:
+            flightSummaryPNRRequest ?? this.flightSummaryPNRRequest,
         flightSSR: flightSSR ?? this.flightSSR,
         flightSeat: flightSeat ?? this.flightSeat,
         orderID: orderID ?? this.orderID,
         success: success ?? this.success,
+        token: token ?? this.token,
+        verifyExpiredDateTime:
+            verifyExpiredDateTime ?? this.verifyExpiredDateTime,
       );
 }
 
@@ -521,10 +535,32 @@ class InboundBundle extends Equatable {
   final Detail? detail;
 
   const InboundBundle({this.bundle, this.detail});
+
+  Bound toBound() {
+    return Bound(
+      name: bundle?.description?.toLowerCase(),
+      servicesType: "BUNDLE",
+      price: bundle?.amount,
+      logicalFlightId: bundle?.logicalFlightID,
+      quantity: 1,
+      serviceId: bundle?.serviceID,
+    );
+  }
 }
 
 @JsonSerializable(includeIfNull: false)
 class Bundle extends Equatable {
+  Bound toBound() {
+    return Bound(
+      name: description?.toLowerCase(),
+      servicesType: "BAGGAGE",
+      price: amount,
+      logicalFlightId: logicalFlightID,
+      quantity: 1,
+      serviceId: serviceID,
+    );
+  }
+
   @override
   List<Object?> get props => [
         logicalFlightID,
@@ -1008,6 +1044,24 @@ class Seats extends Equatable {
       this.serviceDescription,
       this.serviceId,
       this.weightIndex});
+
+  num getRowNumber(List<Rows> rows) {
+    final row = rows.firstWhereOrNull((element) => element.rowId == rowId);
+    return row?.rowNumber ?? 0;
+  }
+
+  Outbound toOutbound(List<Rows> rows) {
+    return Outbound(
+        seatRow: getRowNumber(rows),
+        price: (seatPriceOffers ?? [])
+            .map(
+              (e) => Price(
+                  amount: e.amount,
+                  currency: e.currency,
+                  isBundleOffer: e.isBundleOffer),
+            )
+            .toList());
+  }
 }
 
 @JsonSerializable(includeIfNull: false)

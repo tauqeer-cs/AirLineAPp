@@ -9,12 +9,12 @@ part of 'flight_summary_pnr_request.dart';
 FlightSummaryPnrRequest _$FlightSummaryPnrRequestFromJson(
         Map<String, dynamic> json) =>
     FlightSummaryPnrRequest(
-      contactEmail: json['ContactEmail'] as String?,
+      contactEmail: json['ContactEmail'] as String? ?? "",
       displayCurrency: json['DisplayCurrency'] as String? ?? "MYR",
       preferredContactMethod:
           json['PreferredContactMethod'] as String? ?? "email",
       comment: json['Comment'] as String? ?? "No",
-      promoCode: json['PromoCode'] as String?,
+      promoCode: json['PromoCode'] as String? ?? "",
       companyTaxInvoice: json['CompanyTaxInvoice'] == null
           ? null
           : CompanyTaxInvoice.fromJson(
@@ -24,8 +24,9 @@ FlightSummaryPnrRequest _$FlightSummaryPnrRequestFromJson(
           : EmergencyContact.fromJson(
               json['EmergencyContact'] as Map<String, dynamic>),
       passengers: (json['Passengers'] as List<dynamic>?)
-          ?.map((e) => Passenger.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => Passenger.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$FlightSummaryPnrRequestToJson(
@@ -43,12 +44,13 @@ Map<String, dynamic> _$FlightSummaryPnrRequestToJson(
 
 CompanyTaxInvoice _$CompanyTaxInvoiceFromJson(Map<String, dynamic> json) =>
     CompanyTaxInvoice(
-      companyName: json['CompanyName'] as String?,
-      companyAddress: json['CompanyAddress'] as String?,
-      country: json['Country'] as String?,
-      state: json['State'] as String?,
-      city: json['City'] as String?,
-      emailAddress: json['EmailAddress'] as String?,
+      companyName: json['CompanyName'] as String? ?? "",
+      companyAddress: json['CompanyAddress'] as String? ?? "",
+      country: json['Country'] as String? ?? "",
+      state: json['State'] as String? ?? "",
+      city: json['City'] as String? ?? "",
+      emailAddress: json['EmailAddress'] as String? ?? "",
+      postCode: json['Postcode'] as String? ?? "",
     );
 
 Map<String, dynamic> _$CompanyTaxInvoiceToJson(CompanyTaxInvoice instance) =>
@@ -59,16 +61,17 @@ Map<String, dynamic> _$CompanyTaxInvoiceToJson(CompanyTaxInvoice instance) =>
       'State': instance.state,
       'City': instance.city,
       'EmailAddress': instance.emailAddress,
+      'Postcode': instance.postCode,
     };
 
 EmergencyContact _$EmergencyContactFromJson(Map<String, dynamic> json) =>
     EmergencyContact(
-      firstName: json['FirstName'] as String?,
-      lastName: json['LastName'] as String?,
-      email: json['Email'] as String?,
-      phoneCode: json['PhoneCode'] as String?,
-      phoneNumber: json['PhoneNumber'] as String?,
-      relationship: json['Relationship'] as String?,
+      firstName: json['FirstName'] as String? ?? "",
+      lastName: json['LastName'] as String? ?? "",
+      email: json['Email'] as String? ?? "",
+      phoneCode: json['PhoneCode'] as String? ?? "",
+      phoneNumber: json['PhoneNumber'] as String? ?? "",
+      relationship: json['Relationship'] as String? ?? "",
     );
 
 Map<String, dynamic> _$EmergencyContactToJson(EmergencyContact instance) =>
@@ -83,23 +86,23 @@ Map<String, dynamic> _$EmergencyContactToJson(EmergencyContact instance) =>
 
 Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       dob: json['DOB'] == null ? null : DateTime.parse(json['DOB'] as String),
-      firstName: json['FirstName'] as String?,
-      lastName: json['LastName'] as String?,
-      middleName: json['MiddleName'] as String?,
-      title: json['Title'] as String?,
-      gender: json['Gender'] as String?,
-      infantAssociateIndex: json['InfantAssociateIndex'] as num?,
-      isPrimaryPassenger: json['IsPrimaryPassenger'] as bool?,
-      knownTravelerNumber: json['KnownTravelerNumber'] as String?,
-      nationality: json['Nationality'] as String?,
-      nationalityLanguageId: json['NationalityLanguageID'] as num?,
-      passport: json['Passport'] as String?,
-      paxType: json['PaxType'] as String?,
-      personOrgId: json['PersonOrgID'] as num?,
-      profileId: json['ProfileId'] as num?,
-      redressNumber: json['RedressNumber'] as String?,
-      relation: json['Relation'] as String?,
-      suffix: json['Suffix'] as String?,
+      firstName: json['FirstName'] as String? ?? "",
+      lastName: json['LastName'] as String? ?? "",
+      middleName: json['MiddleName'] as String? ?? "",
+      title: json['Title'] as String? ?? "",
+      gender: json['Gender'] as String? ?? "",
+      infantAssociateIndex: json['InfantAssociateIndex'] as num? ?? 0,
+      isPrimaryPassenger: json['IsPrimaryPassenger'] as bool? ?? true,
+      knownTravelerNumber: json['KnownTravelerNumber'] as String? ?? "",
+      nationality: json['Nationality'] as String? ?? "",
+      nationalityLanguageId: json['NationalityLanguageID'] as num? ?? 0,
+      passport: json['Passport'] as String? ?? "",
+      paxType: json['PaxType'] as String? ?? "",
+      personOrgId: json['PersonOrgID'] as num? ?? 1,
+      profileId: json['ProfileId'] as num? ?? -1,
+      redressNumber: json['RedressNumber'] as String? ?? "",
+      relation: json['Relation'] as String? ?? "",
+      suffix: json['Suffix'] as String? ?? "",
       ssr: json['SSR'] == null
           ? null
           : Ssr.fromJson(json['SSR'] as Map<String, dynamic>),

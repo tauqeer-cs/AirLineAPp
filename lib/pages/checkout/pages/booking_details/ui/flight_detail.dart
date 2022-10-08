@@ -48,7 +48,7 @@ class _FlightDetailState extends State<FlightDetail> {
             children: [
               Text(
                 "Details",
-                style: kLargeMedium,
+                style: kLargeMedium.copyWith(color: Colors.orange),
               ),
               kHorizontalSpacerSmall,
               Icon(

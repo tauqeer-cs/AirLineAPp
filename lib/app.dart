@@ -3,6 +3,7 @@ import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
@@ -33,6 +34,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => CountriesCubit()..getCountries()),
         BlocProvider(create: (_) => FilterCubit()),
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (_) => BookingCubit()),

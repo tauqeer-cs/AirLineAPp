@@ -98,6 +98,7 @@ class MyInterceptor extends Interceptor {
     if (accessToken != null) {
       options.headers['Authorization'] = "Bearer $accessToken";
     }
+    print("headers ${options.headers['Authorization']}");
     super.onRequest(options, handler);
   }
 

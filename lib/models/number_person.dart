@@ -160,10 +160,80 @@ class Person extends Equatable {
   // TODO: implement props
   List<Object?> get props => [this.peopleType, numberOrder];
 
+  Map<num?, List<Bundle>> groupedMeal(bool isDeparture) {
+    final meals = isDeparture ? departureMeal : returnMeal;
+    var newMap = groupBy(meals, (meal) => meal.serviceID);
+    return newMap;
+  }
+
+  Passenger toPassenger(
+    List<Rows> outboundRows,
+    List<Rows> inboundRows,
+  ) {
+    List<Bound> outboundSSR = [];
+    List<Bound> inboundSSR = [];
+    List<Outbound> outboundSeat = [];
+    List<Outbound> inboundSeat = [];
+    //bundle
+    if (departureBundle?.toBound() != null) {
+      outboundSSR.add(departureBundle!.toBound());
+    }
+    if (returnBundle?.toBound() != null) {
+      inboundSSR.add(returnBundle!.toBound());
+    }
+    //meal
+    final departureMeal = groupedMeal(true);
+    final returnMeal = groupedMeal(false);
+    departureMeal.forEach((key, value) {
+      final firstValue = value.first;
+      final outBoundMeal = Bound(
+          quantity: value.length,
+          serviceId: firstValue.serviceID,
+          logicalFlightId: firstValue.logicalFlightID,
+          price: firstValue.amount,
+          servicesType: "MEAL",
+          name: firstValue.description?.toLowerCase());
+      outboundSSR.add(outBoundMeal);
+    });
+    returnMeal.forEach((key, value) {
+      final firstValue = value.first;
+      final inboundMeal = Bound(
+          quantity: value.length,
+          serviceId: firstValue.serviceID,
+          logicalFlightId: firstValue.logicalFlightID,
+          price: firstValue.amount,
+          servicesType: "MEAL",
+          name: firstValue.description?.toLowerCase());
+      inboundSSR.add(inboundMeal);
+    });
+    //baggage
+    if (departureBaggage?.toBound() != null) {
+      outboundSSR.add(departureBaggage!.toBound());
+    }
+    if (returnBaggage?.toBound() != null) {
+      inboundSSR.add(returnBaggage!.toBound());
+    }
+
+    final passenger = Passenger(
+      paxType: peopleType?.code ?? "",
+      ssr: Ssr(
+        inbound: inboundSSR,
+        outbound: outboundSSR,
+      ),
+      seat: Seat(
+        outbound: departureSeats?.toOutbound(outboundRows),
+        inbound: returnSeats?.toOutbound(inboundRows),
+      ),
+    );
+    return passenger;
+  }
+
   num getTotalPrice() {
     num totalPrice = 0;
-    totalPrice =
-        getTotalPriceBundle() + getTotalPriceSeat() + getTotalPriceMeal() + getTotalPriceBaggage();
+    totalPrice = getTotalPriceBundle() +
+        getTotalPriceSeat() +
+        getTotalPriceMeal() +
+        getTotalPriceBaggage();
     return totalPrice;
   }
 
@@ -267,4 +337,12 @@ class Person extends Equatable {
   }
 }
 
-enum PeopleType { adult, child, infant }
+enum PeopleType {
+  adult("ADT"),
+  child("CHD"),
+  infant("INF");
+
+  const PeopleType(this.code);
+
+  final String code;
+}

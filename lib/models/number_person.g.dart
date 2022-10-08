@@ -49,6 +49,9 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           ? null
           : Bundle.fromJson(json['returnBaggage'] as Map<String, dynamic>),
       numberOrder: json['numberOrder'] as int?,
+      passenger: json['passenger'] == null
+          ? null
+          : Passenger.fromJson(json['passenger'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
@@ -62,6 +65,7 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'departureBaggage': instance.departureBaggage,
       'returnBaggage': instance.returnBaggage,
       'numberOrder': instance.numberOrder,
+      'passenger': instance.passenger,
     };
 
 const _$PeopleTypeEnumMap = {

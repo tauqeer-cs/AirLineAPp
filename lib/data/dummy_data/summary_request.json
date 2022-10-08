@@ -1,0 +1,301 @@
+{
+  "token":"b67990a0-dbe5-42ff-9bfa-13edf7ba6976",
+  "flightSummaryPNRRequest":{
+    "ContactEmail":"dariuspepo@gmail.com",
+    "DisplayCurrency":"MYR",
+    "PreferredContactMethod":"Email",
+    "Comment":"No",
+    "PromoCode":"",
+    "CompanyTaxInvoice":{
+      "CompanyName":"com",
+      "CompanyAddress":"com add",
+      "Country":"ALB",
+      "State":"tst",
+      "City":"test",
+      "EmailAddress":"dariuspepo@gmail.com",
+      "Postcode":"test"
+    },
+    "EmergencyContact":{
+      "FirstName":"emer",
+      "LastName":"emer",
+      "Email":"",
+      "PhoneCode":"60",
+      "PhoneNumber":"12345678",
+      "Relationship":"Father"
+    },
+    "Passengers":[
+      {
+        "DOB":"2004-10-08T02:29:01.774Z",
+        "FirstName":"adult test",
+        "LastName":"adult test",
+        "MiddleName":"",
+        "Title":"MR",
+        "Gender":"Male",
+        "InfantAssociateIndex":0,
+        "IsPrimaryPassenger":true,
+        "KnownTravelerNumber":"",
+        "Nationality":"MY",
+        "NationalityLanguageID":0,
+        "Passport":"",
+        "PaxType":"ADT",
+        "PersonOrgID":1,
+        "ProfileId":-1,
+        "RedressNumber":"",
+        "Relation":"Self",
+        "Suffix":"",
+        "SSR":{
+          "Outbound":[
+            {
+              "LogicalFlightID":58928,
+              "ServiceID":287,
+              "ServicesType":"BUNDLE",
+              "Quantity":1,
+              "Price":50,
+              "Name":"lite bundle"
+            },
+            {
+              "LogicalFlightID":58928,
+              "ServiceID":361,
+              "ServicesType":"MEAL",
+              "Quantity":2,
+              "Price":15,
+              "Name":"meal: korean jiajang ramyeon"
+            },
+            {
+              "LogicalFlightID":58928,
+              "ServiceID":362,
+              "ServicesType":"MEAL",
+              "Quantity":2,
+              "Price":15,
+              "Name":"meal: yong taufu"
+            },
+            {
+              "LogicalFlightID":58928,
+              "Name":"checked bag 25kg",
+              "Price":60,
+              "Quantity":1,
+              "ServiceID":301,
+              "ServicesType":"BAGGAGE"
+            }
+          ],
+          "Inbound":[
+            {
+              "LogicalFlightID":58962,
+              "ServiceID":341,
+              "ServicesType":"BUNDLE",
+              "Quantity":1,
+              "Price":123,
+              "Name":"full bundle"
+            },
+            {
+              "LogicalFlightID":58962,
+              "Name":"checked bag 25kg",
+              "Price":60,
+              "Quantity":1,
+              "ServiceID":301,
+              "ServicesType":"BAGGAGE"
+            }
+          ]
+        },
+        "Seat":{
+          "Outbound":{
+            "SeatRow":1,
+            "SeatColumn":"B",
+            "PhysicalFlightID":49372,
+            "price":[
+              {
+                "amount":10,
+                "currency":"MYR",
+                "isBundleOffer":false
+              }
+            ]
+          },
+          "Inbound":{
+            "SeatRow":1,
+            "SeatColumn":"B",
+            "PhysicalFlightID":49406,
+            "price":[
+              {
+                "amount":10,
+                "currency":"MYR",
+                "isBundleOffer":false
+              }
+            ]
+          }
+        }
+      },
+      {
+        "DOB":"2004-10-08T02:29:01.804Z",
+        "FirstName":"adult tes",
+        "LastName":"adult tes",
+        "MiddleName":"",
+        "Title":"MR",
+        "Gender":"Male",
+        "InfantAssociateIndex":0,
+        "IsPrimaryPassenger":true,
+        "KnownTravelerNumber":"",
+        "Nationality":"MY",
+        "NationalityLanguageID":0,
+        "Passport":"",
+        "PaxType":"ADT",
+        "PersonOrgID":1,
+        "ProfileId":-1,
+        "RedressNumber":"",
+        "Relation":"Self",
+        "Suffix":"",
+        "SSR":{
+          "Outbound":[
+            {
+              "LogicalFlightID":58928,
+              "ServiceID":341,
+              "ServicesType":"BUNDLE",
+              "Quantity":1,
+              "Price":123,
+              "Name":"full bundle"
+            },
+            {
+              "LogicalFlightID":58928,
+              "Name":"checked bag 40kg",
+              "Price":60,
+              "Quantity":1,
+              "ServiceID":303,
+              "ServicesType":"BAGGAGE"
+            }
+          ],
+          "Inbound":[
+            {
+              "LogicalFlightID":58962,
+              "ServiceID":287,
+              "ServicesType":"BUNDLE",
+              "Quantity":1,
+              "Price":50,
+              "Name":"lite bundle"
+            },
+            {
+              "LogicalFlightID":58962,
+              "ServiceID":361,
+              "ServicesType":"MEAL",
+              "Quantity":1,
+              "Price":15,
+              "Name":"meal: korean jiajang ramyeon"
+            },
+            {
+              "LogicalFlightID":58962,
+              "ServiceID":362,
+              "ServicesType":"MEAL",
+              "Quantity":1,
+              "Price":15,
+              "Name":"meal: yong taufu"
+            },
+            {
+              "LogicalFlightID":58962,
+              "Name":"checked bag 25kg",
+              "Price":60,
+              "Quantity":1,
+              "ServiceID":301,
+              "ServicesType":"BAGGAGE"
+            }
+          ]
+        },
+        "Seat":{
+          "Outbound":{
+            "SeatRow":1,
+            "SeatColumn":"C",
+            "PhysicalFlightID":49372,
+            "price":[
+              {
+                "amount":10,
+                "currency":"MYR",
+                "isBundleOffer":false
+              }
+            ]
+          },
+          "Inbound":{
+            "SeatRow":1,
+            "SeatColumn":"C",
+            "PhysicalFlightID":49406,
+            "price":[
+              {
+                "amount":10,
+                "currency":"MYR",
+                "isBundleOffer":false
+              }
+            ]
+          }
+        }
+      },
+      {
+        "DOB":"2004-10-08T02:29:01.819Z",
+        "FirstName":"child on",
+        "LastName":"child on",
+        "MiddleName":"",
+        "Title":"MR",
+        "Gender":"Male",
+        "InfantAssociateIndex":0,
+        "IsPrimaryPassenger":true,
+        "KnownTravelerNumber":"",
+        "Nationality":"MY",
+        "NationalityLanguageID":0,
+        "Passport":"",
+        "PaxType":"CHD",
+        "PersonOrgID":1,
+        "ProfileId":-1,
+        "RedressNumber":"",
+        "Relation":"Self",
+        "Suffix":"",
+        "SSR":{
+          "Outbound":[
+
+          ],
+          "Inbound":[
+
+          ]
+        },
+        "Seat":{
+          "Outbound":{
+
+          },
+          "Inbound":{
+
+          }
+        }
+      },
+      {
+        "DOB":"2004-10-08T02:29:01.832Z",
+        "FirstName":"inf",
+        "LastName":"inf",
+        "MiddleName":"",
+        "Title":"MR",
+        "Gender":"Male",
+        "InfantAssociateIndex":0,
+        "IsPrimaryPassenger":true,
+        "KnownTravelerNumber":"",
+        "Nationality":"MY",
+        "NationalityLanguageID":0,
+        "Passport":"",
+        "PaxType":"INF",
+        "PersonOrgID":1,
+        "ProfileId":-1,
+        "RedressNumber":"",
+        "Relation":"Self",
+        "Suffix":"",
+        "SSR":{
+          "Outbound":[
+
+          ],
+          "Inbound":[
+
+          ]
+        },
+        "Seat":{
+          "Outbound":{
+
+          },
+          "Inbound":{
+
+          }
+        }
+      }
+    ]
+  }
+}

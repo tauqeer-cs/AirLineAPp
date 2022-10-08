@@ -2,6 +2,7 @@ import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
@@ -47,27 +48,18 @@ class _PassengerInfoState extends State<PassengerInfo> {
           style: kHugeSemiBold,
         ),
         kVerticalSpacer,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: AppInputText(
-                name: "${widget.person.toString()}_first_name",
-                hintText: "First Name/Given Name",
-                initialValue: passengerInfo?.firstName,
-                validators: [FormBuilderValidators.required()],
-              ),
-            ),
-            kHorizontalSpacerMini,
-            Expanded(
-              child: AppInputText(
-                name: "${widget.person.toString()}_last_name",
-                hintText: "Last Name/Family Name",
-                initialValue: passengerInfo?.lastName,
-                validators: [FormBuilderValidators.required()],
-              ),
-            ),
-          ],
+        AppInputText(
+          name: "${widget.person.toString()}$formNameFirstName",
+          hintText: "First Name/Given Name",
+          initialValue: passengerInfo?.firstName,
+          validators: [FormBuilderValidators.required()],
+        ),
+        kVerticalSpacer,
+        AppInputText(
+          name: "${widget.person.toString()}$formNameLastName",
+          hintText: "Last Name/Family Name",
+          initialValue: passengerInfo?.lastName,
+          validators: [FormBuilderValidators.required()],
         ),
         kVerticalSpacer,
         Row(
@@ -78,7 +70,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 children: [
                   Expanded(
                     child: FormBuilderDropdown<String>(
-                      name: "${widget.person.toString()}_title",
+                      name: "${widget.person.toString()}$formNameTitle",
                       items: ["Mr", "Mrs", "Ms"]
                           .map(
                             (e) => DropdownMenuItem<String>(
@@ -94,7 +86,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   kHorizontalSpacerMini,
                   Expanded(
                     child: FormBuilderDropdown<String>(
-                      name: "${widget.person.toString()}_nationality",
+                      name: "${widget.person.toString()}$formNameNationality",
                       items: ["MY"]
                           .map((e) => DropdownMenuItem<String>(
                               child: Text(e), value: e))
@@ -110,7 +102,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
             kHorizontalSpacerMini,
             Expanded(
               child: FormBuilderDateTimePicker(
-                name: "${widget.person.toString()}_dob",
+                name: "${widget.person.toString()}$formNameDob",
                 firstDate: DateTime(1920),
                 lastDate: DateTime.now(),
                 initialValue: passengerInfo?.dob,

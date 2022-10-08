@@ -28,6 +28,10 @@ VerifyResponse _$VerifyResponseFromJson(Map<String, dynamic> json) =>
           : FlightSeats.fromJson(json['flightSeat'] as Map<String, dynamic>),
       orderID: json['orderID'] as num?,
       success: json['success'] as bool?,
+      token: json['token'] as String?,
+      verifyExpiredDateTime: json['verifyExpiredDateTime'] == null
+          ? null
+          : DateTime.parse(json['verifyExpiredDateTime'] as String),
     );
 
 Map<String, dynamic> _$VerifyResponseToJson(VerifyResponse instance) {
@@ -46,6 +50,9 @@ Map<String, dynamic> _$VerifyResponseToJson(VerifyResponse instance) {
   writeNotNull('flightSummaryPNRRequest', instance.flightSummaryPNRRequest);
   writeNotNull('orderID', instance.orderID);
   writeNotNull('success', instance.success);
+  writeNotNull('token', instance.token);
+  writeNotNull('verifyExpiredDateTime',
+      instance.verifyExpiredDateTime?.toIso8601String());
   return val;
 }
 

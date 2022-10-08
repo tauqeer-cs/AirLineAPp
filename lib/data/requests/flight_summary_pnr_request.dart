@@ -21,32 +21,32 @@ class FlightSummaryPnrRequest extends Equatable {
       ];
 
   const FlightSummaryPnrRequest({
-    this.contactEmail,
+    this.contactEmail = "",
     this.displayCurrency = "MYR",
     this.preferredContactMethod = "email",
     this.comment = "No",
-    this.promoCode,
+    this.promoCode = "",
     this.companyTaxInvoice,
     this.emergencyContact,
-    this.passengers,
+    this.passengers = const [],
   });
 
   @JsonKey(name: 'ContactEmail')
-  final String? contactEmail;
+  final String contactEmail;
   @JsonKey(name: 'DisplayCurrency')
-  final String? displayCurrency;
+  final String displayCurrency;
   @JsonKey(name: 'PreferredContactMethod')
-  final String? preferredContactMethod;
+  final String preferredContactMethod;
   @JsonKey(name: 'Comment')
-  final String? comment;
+  final String comment;
   @JsonKey(name: 'PromoCode')
-  final String? promoCode;
+  final String promoCode;
   @JsonKey(name: 'CompanyTaxInvoice')
   final CompanyTaxInvoice? companyTaxInvoice;
   @JsonKey(name: 'EmergencyContact')
   final EmergencyContact? emergencyContact;
   @JsonKey(name: 'Passengers')
-  final List<Passenger>? passengers;
+  final List<Passenger> passengers;
 
   FlightSummaryPnrRequest copyWith({
     String? contactEmail,
@@ -94,26 +94,29 @@ class CompanyTaxInvoice extends Equatable {
   Map<String, dynamic> toJson() => _$CompanyTaxInvoiceToJson(this);
 
   const CompanyTaxInvoice({
-    this.companyName,
-    this.companyAddress,
-    this.country,
-    this.state,
-    this.city,
-    this.emailAddress,
+    this.companyName = "",
+    this.companyAddress = "",
+    this.country = "",
+    this.state = "",
+    this.city = "",
+    this.emailAddress = "",
+    this.postCode = "",
   });
 
   @JsonKey(name: 'CompanyName')
-  final String? companyName;
+  final String companyName;
   @JsonKey(name: 'CompanyAddress')
-  final String? companyAddress;
+  final String companyAddress;
   @JsonKey(name: 'Country')
-  final String? country;
+  final String country;
   @JsonKey(name: 'State')
-  final String? state;
+  final String state;
   @JsonKey(name: 'City')
-  final String? city;
+  final String city;
   @JsonKey(name: 'EmailAddress')
-  final String? emailAddress;
+  final String emailAddress;
+  @JsonKey(name: 'Postcode')
+  final String postCode;
 
   CompanyTaxInvoice copyWith({
     String? companyName,
@@ -122,11 +125,13 @@ class CompanyTaxInvoice extends Equatable {
     String? state,
     String? city,
     String? emailAddress,
+    String? postCode,
   }) =>
       CompanyTaxInvoice(
         companyName: companyName ?? this.companyName,
         companyAddress: companyAddress ?? this.companyAddress,
         country: country ?? this.country,
+        postCode: postCode ?? this.postCode,
         state: state ?? this.state,
         city: city ?? this.city,
         emailAddress: emailAddress ?? this.emailAddress,
@@ -151,26 +156,26 @@ class EmergencyContact extends Equatable {
   Map<String, dynamic> toJson() => _$EmergencyContactToJson(this);
 
   const EmergencyContact({
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.phoneCode,
-    this.phoneNumber,
-    this.relationship,
+    this.firstName = "",
+    this.lastName = "",
+    this.email = "",
+    this.phoneCode = "",
+    this.phoneNumber = "",
+    this.relationship = "",
   });
 
   @JsonKey(name: 'FirstName')
-  final String? firstName;
+  final String firstName;
   @JsonKey(name: 'LastName')
-  final String? lastName;
+  final String lastName;
   @JsonKey(name: 'Email')
-  final String? email;
+  final String email;
   @JsonKey(name: 'PhoneCode')
-  final String? phoneCode;
+  final String phoneCode;
   @JsonKey(name: 'PhoneNumber')
-  final String? phoneNumber;
+  final String phoneNumber;
   @JsonKey(name: 'Relationship')
-  final String? relationship;
+  final String relationship;
 
   EmergencyContact copyWith({
     String? firstName,
@@ -223,23 +228,23 @@ class Passenger extends Equatable {
 
   const Passenger({
     this.dob,
-    this.firstName,
-    this.lastName,
-    this.middleName,
-    this.title,
-    this.gender,
-    this.infantAssociateIndex,
-    this.isPrimaryPassenger,
-    this.knownTravelerNumber,
-    this.nationality,
-    this.nationalityLanguageId,
-    this.passport,
-    this.paxType,
-    this.personOrgId,
-    this.profileId,
-    this.redressNumber,
-    this.relation,
-    this.suffix,
+    this.firstName = "",
+    this.lastName = "",
+    this.middleName = "",
+    this.title = "",
+    this.gender = "",
+    this.infantAssociateIndex = 0,
+    this.isPrimaryPassenger = true,
+    this.knownTravelerNumber = "",
+    this.nationality = "",
+    this.nationalityLanguageId = 0,
+    this.passport = "",
+    this.paxType = "",
+    this.personOrgId = 1,
+    this.profileId = -1,
+    this.redressNumber = "",
+    this.relation = "",
+    this.suffix = "",
     this.ssr,
     this.seat,
   });
@@ -247,39 +252,39 @@ class Passenger extends Equatable {
   @JsonKey(name: 'DOB')
   final DateTime? dob;
   @JsonKey(name: 'FirstName')
-  final String? firstName;
+  final String firstName;
   @JsonKey(name: 'LastName')
-  final String? lastName;
+  final String lastName;
   @JsonKey(name: 'MiddleName')
-  final String? middleName;
+  final String middleName;
   @JsonKey(name: 'Title')
-  final String? title;
+  final String title;
   @JsonKey(name: 'Gender')
-  final String? gender;
+  final String gender;
   @JsonKey(name: 'InfantAssociateIndex')
-  final num? infantAssociateIndex;
+  final num infantAssociateIndex;
   @JsonKey(name: 'IsPrimaryPassenger')
-  final bool? isPrimaryPassenger;
+  final bool isPrimaryPassenger;
   @JsonKey(name: 'KnownTravelerNumber')
-  final String? knownTravelerNumber;
+  final String knownTravelerNumber;
   @JsonKey(name: 'Nationality')
-  final String? nationality;
+  final String nationality;
   @JsonKey(name: 'NationalityLanguageID')
-  final num? nationalityLanguageId;
+  final num nationalityLanguageId;
   @JsonKey(name: 'Passport')
-  final String? passport;
+  final String passport;
   @JsonKey(name: 'PaxType')
-  final String? paxType;
+  final String paxType;
   @JsonKey(name: 'PersonOrgID')
-  final num? personOrgId;
+  final num personOrgId;
   @JsonKey(name: 'ProfileId')
-  final num? profileId;
+  final num profileId;
   @JsonKey(name: 'RedressNumber')
-  final String? redressNumber;
+  final String redressNumber;
   @JsonKey(name: 'Relation')
-  final String? relation;
+  final String relation;
   @JsonKey(name: 'Suffix')
-  final String? suffix;
+  final String suffix;
   @JsonKey(name: 'SSR')
   final Ssr? ssr;
   @JsonKey(name: 'Seat')
