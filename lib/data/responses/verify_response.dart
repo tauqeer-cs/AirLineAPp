@@ -1052,15 +1052,17 @@ class Seats extends Equatable {
 
   Outbound toOutbound(List<Rows> rows) {
     return Outbound(
-        seatRow: getRowNumber(rows),
-        price: (seatPriceOffers ?? [])
-            .map(
-              (e) => Price(
-                  amount: e.amount,
-                  currency: e.currency,
-                  isBundleOffer: e.isBundleOffer),
-            )
-            .toList());
+      seatRow: getRowNumber(rows),
+      price: (seatPriceOffers ?? [])
+          .map(
+            (e) => Price(
+                amount: e.amount,
+                currency: e.currency,
+                isBundleOffer: e.isBundleOffer),
+          )
+          .toList(),
+      seatColumn: seatColumn,
+    );
   }
 }
 

@@ -1,7 +1,9 @@
 import 'package:app/data/requests/search_flight_request.dart';
+import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/verify_request.dart';
 import 'package:app/data/responses/airports_response.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/data/responses/summary_response.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/airports.dart';
 import 'package:dio/dio.dart';
@@ -20,4 +22,7 @@ abstract class FlightProvider {
 
   @POST('checkout/verifyflight')
   Future<VerifyResponse> verifyFlight(@Body() VerifyRequest verifyRequest);
+
+  @POST('checkout/summaryflight')
+  Future<SummaryResponse> summaryFlight(@Body() SummaryRequest summaryRequest);
 }

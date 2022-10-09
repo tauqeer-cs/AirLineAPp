@@ -166,14 +166,14 @@ class Person extends Equatable {
     return newMap;
   }
 
-  Passenger toPassenger(
-    List<Rows> outboundRows,
-    List<Rows> inboundRows,
-  ) {
+  Passenger toPassenger({
+    required List<Rows> outboundRows,
+    required List<Rows> inboundRows,
+    num? inboundPhysicalId,
+    num? outboundPhysicalId,
+  }) {
     List<Bound> outboundSSR = [];
     List<Bound> inboundSSR = [];
-    List<Outbound> outboundSeat = [];
-    List<Outbound> inboundSeat = [];
     //bundle
     if (departureBundle?.toBound() != null) {
       outboundSSR.add(departureBundle!.toBound());
@@ -184,6 +184,7 @@ class Person extends Equatable {
     //meal
     final departureMeal = groupedMeal(true);
     final returnMeal = groupedMeal(false);
+
     departureMeal.forEach((key, value) {
       final firstValue = value.first;
       final outBoundMeal = Bound(
@@ -213,7 +214,8 @@ class Person extends Equatable {
     if (returnBaggage?.toBound() != null) {
       inboundSSR.add(returnBaggage!.toBound());
     }
-
+    final outboundSeat = departureSeats?.toOutbound(outboundRows);
+    final inboundSeat = returnSeats?.toOutbound(inboundRows);
     final passenger = Passenger(
       paxType: peopleType?.code ?? "",
       ssr: Ssr(
@@ -221,8 +223,8 @@ class Person extends Equatable {
         outbound: outboundSSR,
       ),
       seat: Seat(
-        outbound: departureSeats?.toOutbound(outboundRows),
-        inbound: returnSeats?.toOutbound(inboundRows),
+        outbound: outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ?? Outbound(),
+        inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ?? Outbound(),
       ),
     );
     return passenger;

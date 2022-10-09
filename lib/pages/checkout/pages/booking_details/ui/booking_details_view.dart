@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
@@ -5,6 +7,7 @@ import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/summary_request.dart';
 import 'package:app/models/country.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/card_summary.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/list_of_passenger_info.dart';
 import 'package:app/pages/checkout/ui/booking_details_header.dart';
@@ -73,8 +76,20 @@ class BookingDetailsView extends StatelessWidget {
       final value = _fbKey.currentState!.value;
       List<Passenger> passengers = [];
       for (Person person in (persons?.persons ?? [])) {
-        final passenger =
-            person.toPassenger(rowsOutBound ?? [], rowsInBound ?? []);
+        final passenger = person.toPassenger(
+          outboundRows: rowsOutBound ?? [],
+          inboundRows: rowsInBound ?? [],
+          inboundPhysicalId: inboundSeats
+              ?.firstOrNull
+              ?.retrieveFlightSeatMapResponse
+              ?.physicalFlights
+              ?.firstOrNull?.physicalFlightID,
+          outboundPhysicalId: outboundSeats
+              ?.firstOrNull
+              ?.retrieveFlightSeatMapResponse
+              ?.physicalFlights
+              ?.firstOrNull?.physicalFlightID,
+        );
         const formNameFirstName = "_first_name";
         const formNameLastName = "_last_name";
         const formNameTitle = "_title";
@@ -83,14 +98,16 @@ class BookingDetailsView extends StatelessWidget {
         final filledPassenger = passenger.copyWith(
           firstName: value["${person.toString()}$formNameFirstName"],
           lastName: value["${person.toString()}$formNameLastName"],
-          title: value["${person.toString()}$formNameTitle"],
+          title: (value["${person.toString()}$formNameTitle"] as String?)?.toUpperCase(),
           nationality: value["${person.toString()}$formNameNationality"],
           dob: value["${person.toString()}$formNameDob"],
+          gender: "Male",
+          relation: "Self"
         );
         passengers.add(filledPassenger);
       }
       final companyCountry = value[formNameCompanyCountry] as Country?;
-      final emergencyPhone = value[formNameEmergencyPhone] as Country?;
+      final emergencyPhone = value[formNameEmergencyCountry] as Country?;
 
       final summaryRequest = SummaryRequest(
         token: verifyToken ?? "",
@@ -112,13 +129,14 @@ class BookingDetailsView extends StatelessWidget {
           emergencyContact: EmergencyContact(
             firstName: value[formNameEmergencyFirstName],
             lastName: value[formNameEmergencyLastName],
-            phoneCode: value[formNameEmergencyPhone],
-            phoneNumber: value[emergencyPhone],
+            phoneCode: emergencyPhone?.phoneCode,
+            phoneNumber: value[formNameEmergencyPhone],
             relationship: value[formNameEmergencyRelation],
           ),
           passengers: passengers,
         ),
       );
+      context.read<SummaryCubit>().submitSummary(summaryRequest);
     }
   }
 

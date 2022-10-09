@@ -1,6 +1,7 @@
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/select_baggage/ui/baggage_selections.dart';
 import 'package:app/pages/checkout/pages/select_bundle/ui/bundle_list.dart';
@@ -21,10 +22,12 @@ class BookingDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppAppBar(),
-      body: BookingDetailsView(),
+    return BlocProvider(
+      create: (context) => SummaryCubit(),
+      child: Scaffold(
+        appBar: AppAppBar(),
+        body: BookingDetailsView(),
+      ),
     );
   }
 

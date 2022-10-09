@@ -104,19 +104,19 @@ class CompanyTaxInvoice extends Equatable {
   });
 
   @JsonKey(name: 'CompanyName')
-  final String companyName;
+  final String? companyName;
   @JsonKey(name: 'CompanyAddress')
-  final String companyAddress;
+  final String? companyAddress;
   @JsonKey(name: 'Country')
-  final String country;
+  final String? country;
   @JsonKey(name: 'State')
-  final String state;
+  final String? state;
   @JsonKey(name: 'City')
-  final String city;
+  final String? city;
   @JsonKey(name: 'EmailAddress')
-  final String emailAddress;
+  final String? emailAddress;
   @JsonKey(name: 'Postcode')
-  final String postCode;
+  final String? postCode;
 
   CompanyTaxInvoice copyWith({
     String? companyName,
@@ -165,17 +165,17 @@ class EmergencyContact extends Equatable {
   });
 
   @JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
   @JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
   @JsonKey(name: 'Email')
-  final String email;
+  final String? email;
   @JsonKey(name: 'PhoneCode')
-  final String phoneCode;
+  final String? phoneCode;
   @JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
   @JsonKey(name: 'Relationship')
-  final String relationship;
+  final String? relationship;
 
   EmergencyContact copyWith({
     String? firstName,
@@ -252,39 +252,39 @@ class Passenger extends Equatable {
   @JsonKey(name: 'DOB')
   final DateTime? dob;
   @JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
   @JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
   @JsonKey(name: 'MiddleName')
-  final String middleName;
+  final String? middleName;
   @JsonKey(name: 'Title')
-  final String title;
+  final String? title;
   @JsonKey(name: 'Gender')
-  final String gender;
+  final String? gender;
   @JsonKey(name: 'InfantAssociateIndex')
-  final num infantAssociateIndex;
+  final num? infantAssociateIndex;
   @JsonKey(name: 'IsPrimaryPassenger')
-  final bool isPrimaryPassenger;
+  final bool? isPrimaryPassenger;
   @JsonKey(name: 'KnownTravelerNumber')
-  final String knownTravelerNumber;
+  final String? knownTravelerNumber;
   @JsonKey(name: 'Nationality')
-  final String nationality;
+  final String? nationality;
   @JsonKey(name: 'NationalityLanguageID')
-  final num nationalityLanguageId;
+  final num? nationalityLanguageId;
   @JsonKey(name: 'Passport')
-  final String passport;
+  final String? passport;
   @JsonKey(name: 'PaxType')
-  final String paxType;
+  final String? paxType;
   @JsonKey(name: 'PersonOrgID')
-  final num personOrgId;
+  final num? personOrgId;
   @JsonKey(name: 'ProfileId')
-  final num profileId;
+  final num? profileId;
   @JsonKey(name: 'RedressNumber')
-  final String redressNumber;
+  final String? redressNumber;
   @JsonKey(name: 'Relation')
-  final String relation;
+  final String? relation;
   @JsonKey(name: 'Suffix')
-  final String suffix;
+  final String? suffix;
   @JsonKey(name: 'SSR')
   final Ssr? ssr;
   @JsonKey(name: 'Seat')
@@ -369,7 +369,7 @@ class Seat extends Equatable {
       );
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class Outbound extends Equatable {
   @override
   List<Object?> get props => [

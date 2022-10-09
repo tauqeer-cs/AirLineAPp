@@ -6,6 +6,7 @@ import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/verify_request.dart';
 import 'package:app/data/responses/airports_response.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/data/responses/summary_response.dart';
 import 'package:app/data/responses/verify_response.dart';
 
 class FlightRepository {
@@ -34,7 +35,7 @@ class FlightRepository {
     return await _provider.verifyFlight(verifyRequest);
   }
 
-  // Future<VerifyResponse> summaryFlight(SummaryRequest summaryRequest) async {
-  //   return await _provider.verifyFlight(verifyRequest);
-  // }
+  Future<SummaryResponse> summaryFlight(SummaryRequest summaryRequest) async {
+    return await _provider.summaryFlight(summaryRequest);
+  }
 }

@@ -165,7 +165,7 @@ class PassengerCompanyInfo extends StatelessWidget {
         ),
         kVerticalSpacer,
         const AppCountriesDropdown(
-          name: formNameEmergencyCountry,
+          name: formNameCompanyCountry,
           hintText: "Country",
           isPhoneCode: false,
         ),

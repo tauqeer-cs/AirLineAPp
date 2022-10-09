@@ -142,10 +142,16 @@ class MyInterceptor extends Interceptor {
       //_repository.deleteCurrentUser();
       throw ErrorResponse.fromJson(errors);
     } else if (err.response?.data is Map) {
+
       Map<String, dynamic> data = err.response!.data;
-      logger.e(data);
+      logger.e('Error is map $data');
       if (data.containsKey("message")) {
         throw ErrorResponse.fromJson(data);
+      }
+      if (data.containsKey("title")) {
+        Map<String, dynamic> errors = {'message': data['title']};
+
+        throw ErrorResponse.fromJson(errors);
       }
     } else if (error is SocketException) {
       logger.e('SocketException');
@@ -155,6 +161,9 @@ class MyInterceptor extends Interceptor {
       logger.e('Error is String $error');
       Map<String, dynamic> errors = {'message': error};
       throw ErrorResponse.fromJson(errors);
+    } else{
+      print("error unknown format ${error.runtimeType}");
+      print("error unknown format ${error}");
     }
     super.onError(error, handler);
   }
