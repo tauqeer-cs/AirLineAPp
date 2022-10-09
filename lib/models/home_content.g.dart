@@ -22,20 +22,28 @@ HomeContent _$HomeContentFromJson(Map<String, dynamic> json) => HomeContent(
           .toList(),
     );
 
-Map<String, dynamic> _$HomeContentToJson(HomeContent instance) =>
-    <String, dynamic>{
-      'buttonText': instance.buttonText,
-      'cardSectionTitleBold': instance.cardSectionTitleBold,
-      'cardSectionTitleNoBold': instance.cardSectionTitleNoBold,
-      'description': instance.description,
-      'link': instance.link,
-      'subtitle': instance.subtitle,
-      'title': instance.title,
-      'titleBold': instance.titleBold,
-      'id': instance.id,
-      'name': instance.name,
-      'items': instance.items,
-    };
+Map<String, dynamic> _$HomeContentToJson(HomeContent instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('buttonText', instance.buttonText);
+  writeNotNull('cardSectionTitleBold', instance.cardSectionTitleBold);
+  writeNotNull('cardSectionTitleNoBold', instance.cardSectionTitleNoBold);
+  writeNotNull('description', instance.description);
+  writeNotNull('link', instance.link);
+  writeNotNull('subtitle', instance.subtitle);
+  writeNotNull('title', instance.title);
+  writeNotNull('titleBold', instance.titleBold);
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('items', instance.items);
+  return val;
+}
 
 HomeItems _$HomeItemsFromJson(Map<String, dynamic> json) => HomeItems(
       description: json['description'] as String?,
@@ -48,13 +56,22 @@ HomeItems _$HomeItemsFromJson(Map<String, dynamic> json) => HomeItems(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$HomeItemsToJson(HomeItems instance) => <String, dynamic>{
-      'description': instance.description,
-      'image': instance.image,
-      'img': instance.img,
-      'style': instance.style,
-      'title': instance.title,
-      'id': instance.id,
-      'price': instance.price,
-      'name': instance.name,
-    };
+Map<String, dynamic> _$HomeItemsToJson(HomeItems instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('description', instance.description);
+  writeNotNull('image', instance.image);
+  writeNotNull('img', instance.img);
+  writeNotNull('style', instance.style);
+  writeNotNull('title', instance.title);
+  writeNotNull('id', instance.id);
+  writeNotNull('price', instance.price);
+  writeNotNull('name', instance.name);
+  return val;
+}

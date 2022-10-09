@@ -54,19 +54,28 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           : Passenger.fromJson(json['passenger'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
-      'peopleType': _$PeopleTypeEnumMap[instance.peopleType],
-      'departureBundle': instance.departureBundle,
-      'returnBundle': instance.returnBundle,
-      'departureMeal': instance.departureMeal,
-      'returnMeal': instance.returnMeal,
-      'departureSeats': instance.departureSeats,
-      'returnSeats': instance.returnSeats,
-      'departureBaggage': instance.departureBaggage,
-      'returnBaggage': instance.returnBaggage,
-      'numberOrder': instance.numberOrder,
-      'passenger': instance.passenger,
-    };
+Map<String, dynamic> _$PersonToJson(Person instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('peopleType', _$PeopleTypeEnumMap[instance.peopleType]);
+  writeNotNull('departureBundle', instance.departureBundle);
+  writeNotNull('returnBundle', instance.returnBundle);
+  val['departureMeal'] = instance.departureMeal;
+  val['returnMeal'] = instance.returnMeal;
+  writeNotNull('departureSeats', instance.departureSeats);
+  writeNotNull('returnSeats', instance.returnSeats);
+  writeNotNull('departureBaggage', instance.departureBaggage);
+  writeNotNull('returnBaggage', instance.returnBaggage);
+  writeNotNull('numberOrder', instance.numberOrder);
+  writeNotNull('passenger', instance.passenger);
+  return val;
+}
 
 const _$PeopleTypeEnumMap = {
   PeopleType.adult: 'adult',

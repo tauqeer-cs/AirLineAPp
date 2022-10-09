@@ -16,9 +16,17 @@ ErrorResponse _$ErrorResponseFromJson(Map<String, dynamic> json) =>
             MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
       );
 
-Map<String, dynamic> _$ErrorResponseToJson(ErrorResponse instance) =>
-    <String, dynamic>{
-      'message': instance.message,
-      'code': instance.code,
-      'errors': instance.errors,
-    };
+Map<String, dynamic> _$ErrorResponseToJson(ErrorResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('message', instance.message);
+  writeNotNull('code', instance.code);
+  writeNotNull('errors', instance.errors);
+  return val;
+}

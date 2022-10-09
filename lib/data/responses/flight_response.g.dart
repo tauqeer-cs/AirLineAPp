@@ -20,13 +20,21 @@ FlightResponse _$FlightResponseFromJson(Map<String, dynamic> json) =>
       success: json['success'] as bool?,
     );
 
-Map<String, dynamic> _$FlightResponseToJson(FlightResponse instance) =>
-    <String, dynamic>{
-      'searchFlightRequest': instance.searchFlightRequest,
-      'searchFlightResponse': instance.searchFlightResponse,
-      'orderID': instance.orderID,
-      'success': instance.success,
-    };
+Map<String, dynamic> _$FlightResponseToJson(FlightResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('searchFlightRequest', instance.searchFlightRequest);
+  writeNotNull('searchFlightResponse', instance.searchFlightResponse);
+  writeNotNull('orderID', instance.orderID);
+  writeNotNull('success', instance.success);
+  return val;
+}
 
 SearchFlightResponse _$SearchFlightResponseFromJson(
         Map<String, dynamic> json) =>
@@ -38,11 +46,19 @@ SearchFlightResponse _$SearchFlightResponseFromJson(
     );
 
 Map<String, dynamic> _$SearchFlightResponseToJson(
-        SearchFlightResponse instance) =>
-    <String, dynamic>{
-      'errors': instance.errors,
-      'flightResult': instance.flightResult,
-    };
+    SearchFlightResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('errors', instance.errors);
+  writeNotNull('flightResult', instance.flightResult);
+  return val;
+}
 
 FlightResult _$FlightResultFromJson(Map<String, dynamic> json) => FlightResult(
       inboundSegment: (json['inboundSegment'] as List<dynamic>?)
@@ -71,21 +87,31 @@ FlightResult _$FlightResultFromJson(Map<String, dynamic> json) => FlightResult(
           .toList(),
     );
 
-Map<String, dynamic> _$FlightResultToJson(FlightResult instance) =>
-    <String, dynamic>{
-      'inboundSegment': instance.inboundSegment,
-      'outboundSegment': instance.outboundSegment,
-      'commissionIncluded': instance.commissionIncluded,
-      'legDetails': instance.legDetails,
-      'requestReservationChannel': instance.requestReservationChannel,
-      'requestedCorporationID': instance.requestedCorporationID,
-      'requestedCurrencyOfFareQuote': instance.requestedCurrencyOfFareQuote,
-      'requestedFareFilterMethod': instance.requestedFareFilterMethod,
-      'requestedGroupMethod': instance.requestedGroupMethod,
-      'requestedIataNumber': instance.requestedIataNumber,
-      'requestedInventoryFilterMethod': instance.requestedInventoryFilterMethod,
-      'taxDetails': instance.taxDetails,
-    };
+Map<String, dynamic> _$FlightResultToJson(FlightResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inboundSegment', instance.inboundSegment);
+  writeNotNull('outboundSegment', instance.outboundSegment);
+  writeNotNull('commissionIncluded', instance.commissionIncluded);
+  writeNotNull('legDetails', instance.legDetails);
+  writeNotNull('requestReservationChannel', instance.requestReservationChannel);
+  writeNotNull('requestedCorporationID', instance.requestedCorporationID);
+  writeNotNull(
+      'requestedCurrencyOfFareQuote', instance.requestedCurrencyOfFareQuote);
+  writeNotNull('requestedFareFilterMethod', instance.requestedFareFilterMethod);
+  writeNotNull('requestedGroupMethod', instance.requestedGroupMethod);
+  writeNotNull('requestedIataNumber', instance.requestedIataNumber);
+  writeNotNull('requestedInventoryFilterMethod',
+      instance.requestedInventoryFilterMethod);
+  writeNotNull('taxDetails', instance.taxDetails);
+  return val;
+}
 
 InboundOutboundSegment _$InboundOutboundSegmentFromJson(
         Map<String, dynamic> json) =>
@@ -121,25 +147,33 @@ InboundOutboundSegment _$InboundOutboundSegmentFromJson(
     );
 
 Map<String, dynamic> _$InboundOutboundSegmentToJson(
-        InboundOutboundSegment instance) =>
-    <String, dynamic>{
-      'segmentDetail': instance.segmentDetail,
-      'minInboundTotalPrice': instance.minInboundTotalPrice,
-      'totalSegmentFareAmt': instance.totalSegmentFareAmt,
-      'adultPricePerPax': instance.adultPricePerPax,
-      'adultPriceTotal': instance.adultPriceTotal,
-      'childPricePerPax': instance.childPricePerPax,
-      'childPriceTotal': instance.childPriceTotal,
-      'infantPricePerPax': instance.infantPricePerPax,
-      'infantPriceTotal': instance.infantPriceTotal,
-      'fareTypeWithTaxDetails': instance.fareTypeWithTaxDetails,
-      'lfid': instance.lfid,
-      'departureDate': instance.departureDate?.toIso8601String(),
-      'arrivalDate': instance.arrivalDate?.toIso8601String(),
-      'legCount': instance.legCount,
-      'international': instance.international,
-      'flightLegDetails': instance.flightLegDetails,
-    };
+    InboundOutboundSegment instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('segmentDetail', instance.segmentDetail);
+  writeNotNull('minInboundTotalPrice', instance.minInboundTotalPrice);
+  writeNotNull('totalSegmentFareAmt', instance.totalSegmentFareAmt);
+  writeNotNull('adultPricePerPax', instance.adultPricePerPax);
+  val['adultPriceTotal'] = instance.adultPriceTotal;
+  writeNotNull('childPricePerPax', instance.childPricePerPax);
+  val['childPriceTotal'] = instance.childPriceTotal;
+  writeNotNull('infantPricePerPax', instance.infantPricePerPax);
+  val['infantPriceTotal'] = instance.infantPriceTotal;
+  writeNotNull('fareTypeWithTaxDetails', instance.fareTypeWithTaxDetails);
+  writeNotNull('lfid', instance.lfid);
+  writeNotNull('departureDate', instance.departureDate?.toIso8601String());
+  writeNotNull('arrivalDate', instance.arrivalDate?.toIso8601String());
+  writeNotNull('legCount', instance.legCount);
+  writeNotNull('international', instance.international);
+  writeNotNull('flightLegDetails', instance.flightLegDetails);
+  return val;
+}
 
 SegmentDetail _$SegmentDetailFromJson(Map<String, dynamic> json) =>
     SegmentDetail(
@@ -171,31 +205,39 @@ SegmentDetail _$SegmentDetailFromJson(Map<String, dynamic> json) =>
       deiDisclosure: json['deiDisclosure'] as String?,
     );
 
-Map<String, dynamic> _$SegmentDetailToJson(SegmentDetail instance) =>
-    <String, dynamic>{
-      'lfid': instance.lfid,
-      'origin': instance.origin,
-      'destination': instance.destination,
-      'departureDate': instance.departureDate?.toIso8601String(),
-      'carrierCode': instance.carrierCode,
-      'arrivalDate': instance.arrivalDate?.toIso8601String(),
-      'stops': instance.stops,
-      'flightTime': instance.flightTime,
-      'aircraftType': instance.aircraftType,
-      'sellingCarrier': instance.sellingCarrier,
-      'flightNum': instance.flightNum,
-      'operatingCarrier': instance.operatingCarrier,
-      'operatingFlightNum': instance.operatingFlightNum,
-      'flyMonday': instance.flyMonday,
-      'flyTuesday': instance.flyTuesday,
-      'flyWednesday': instance.flyWednesday,
-      'flyThursday': instance.flyThursday,
-      'flyFriday': instance.flyFriday,
-      'flySaturday': instance.flySaturday,
-      'flySunday': instance.flySunday,
-      'aircraftDescription': instance.aircraftDescription,
-      'deiDisclosure': instance.deiDisclosure,
-    };
+Map<String, dynamic> _$SegmentDetailToJson(SegmentDetail instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('lfid', instance.lfid);
+  writeNotNull('origin', instance.origin);
+  writeNotNull('destination', instance.destination);
+  writeNotNull('departureDate', instance.departureDate?.toIso8601String());
+  writeNotNull('carrierCode', instance.carrierCode);
+  writeNotNull('arrivalDate', instance.arrivalDate?.toIso8601String());
+  writeNotNull('stops', instance.stops);
+  writeNotNull('flightTime', instance.flightTime);
+  writeNotNull('aircraftType', instance.aircraftType);
+  writeNotNull('sellingCarrier', instance.sellingCarrier);
+  writeNotNull('flightNum', instance.flightNum);
+  writeNotNull('operatingCarrier', instance.operatingCarrier);
+  writeNotNull('operatingFlightNum', instance.operatingFlightNum);
+  writeNotNull('flyMonday', instance.flyMonday);
+  writeNotNull('flyTuesday', instance.flyTuesday);
+  writeNotNull('flyWednesday', instance.flyWednesday);
+  writeNotNull('flyThursday', instance.flyThursday);
+  writeNotNull('flyFriday', instance.flyFriday);
+  writeNotNull('flySaturday', instance.flySaturday);
+  writeNotNull('flySunday', instance.flySunday);
+  writeNotNull('aircraftDescription', instance.aircraftDescription);
+  writeNotNull('deiDisclosure', instance.deiDisclosure);
+  return val;
+}
 
 FareTypeWithTaxDetails _$FareTypeWithTaxDetailsFromJson(
         Map<String, dynamic> json) =>
@@ -210,13 +252,21 @@ FareTypeWithTaxDetails _$FareTypeWithTaxDetailsFromJson(
     );
 
 Map<String, dynamic> _$FareTypeWithTaxDetailsToJson(
-        FareTypeWithTaxDetails instance) =>
-    <String, dynamic>{
-      'fareInfoWithTaxDetails': instance.fareInfoWithTaxDetails,
-      'fareTypeID': instance.fareTypeID,
-      'fareTypeName': instance.fareTypeName,
-      'filterRemove': instance.filterRemove,
-    };
+    FareTypeWithTaxDetails instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fareInfoWithTaxDetails', instance.fareInfoWithTaxDetails);
+  writeNotNull('fareTypeID', instance.fareTypeID);
+  writeNotNull('fareTypeName', instance.fareTypeName);
+  writeNotNull('filterRemove', instance.filterRemove);
+  return val;
+}
 
 FareInfoWithTaxDetails _$FareInfoWithTaxDetailsFromJson(
         Map<String, dynamic> json) =>
@@ -263,41 +313,50 @@ FareInfoWithTaxDetails _$FareInfoWithTaxDetailsFromJson(
     );
 
 Map<String, dynamic> _$FareInfoWithTaxDetailsToJson(
-        FareInfoWithTaxDetails instance) =>
-    <String, dynamic>{
-      'applicationTaxDetailBinds': instance.applicationTaxDetailBinds,
-      'returnFlightSegmentDetails': instance.returnFlightSegmentDetails,
-      'fareID': instance.fareID,
-      'fcCode': instance.fcCode,
-      'fbCode': instance.fbCode,
-      'baseFareAmtNoTaxes': instance.baseFareAmtNoTaxes,
-      'baseFareAmt': instance.baseFareAmt,
-      'fareAmtNoTaxes': instance.fareAmtNoTaxes,
-      'fareAmt': instance.fareAmt,
-      'baseFareAmtInclTax': instance.baseFareAmtInclTax,
-      'fareAmtInclTax': instance.fareAmtInclTax,
-      'pvtFare': instance.pvtFare,
-      'ptcid': instance.ptcid,
-      'cabin': instance.cabin,
-      'seatsAvailable': instance.seatsAvailable,
-      'infantSeatsAvailable': instance.infantSeatsAvailable,
-      'fareScheduleID': instance.fareScheduleID,
-      'promotionID': instance.promotionID,
-      'roundTrip': instance.roundTrip,
-      'displayFareAmt': instance.displayFareAmt,
-      'displayTaxSum': instance.displayTaxSum,
-      'specialMarketed': instance.specialMarketed,
-      'waitList': instance.waitList,
-      'spaceAvailable': instance.spaceAvailable,
-      'positiveSpace': instance.positiveSpace,
-      'promotionCatID': instance.promotionCatID,
-      'commissionAmount': instance.commissionAmount,
-      'promotionAmount': instance.promotionAmount,
-      'bundleCode': instance.bundleCode,
-      'originalCurrency': instance.originalCurrency,
-      'exchangeRate': instance.exchangeRate,
-      'exchangeDate': instance.exchangeDate?.toIso8601String(),
-    };
+    FareInfoWithTaxDetails instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('applicationTaxDetailBinds', instance.applicationTaxDetailBinds);
+  writeNotNull(
+      'returnFlightSegmentDetails', instance.returnFlightSegmentDetails);
+  writeNotNull('fareID', instance.fareID);
+  writeNotNull('fcCode', instance.fcCode);
+  writeNotNull('fbCode', instance.fbCode);
+  writeNotNull('baseFareAmtNoTaxes', instance.baseFareAmtNoTaxes);
+  writeNotNull('baseFareAmt', instance.baseFareAmt);
+  writeNotNull('fareAmtNoTaxes', instance.fareAmtNoTaxes);
+  writeNotNull('fareAmt', instance.fareAmt);
+  writeNotNull('baseFareAmtInclTax', instance.baseFareAmtInclTax);
+  writeNotNull('fareAmtInclTax', instance.fareAmtInclTax);
+  writeNotNull('pvtFare', instance.pvtFare);
+  writeNotNull('ptcid', instance.ptcid);
+  writeNotNull('cabin', instance.cabin);
+  writeNotNull('seatsAvailable', instance.seatsAvailable);
+  writeNotNull('infantSeatsAvailable', instance.infantSeatsAvailable);
+  writeNotNull('fareScheduleID', instance.fareScheduleID);
+  writeNotNull('promotionID', instance.promotionID);
+  writeNotNull('roundTrip', instance.roundTrip);
+  writeNotNull('displayFareAmt', instance.displayFareAmt);
+  writeNotNull('displayTaxSum', instance.displayTaxSum);
+  writeNotNull('specialMarketed', instance.specialMarketed);
+  writeNotNull('waitList', instance.waitList);
+  writeNotNull('spaceAvailable', instance.spaceAvailable);
+  writeNotNull('positiveSpace', instance.positiveSpace);
+  writeNotNull('promotionCatID', instance.promotionCatID);
+  writeNotNull('commissionAmount', instance.commissionAmount);
+  writeNotNull('promotionAmount', instance.promotionAmount);
+  writeNotNull('bundleCode', instance.bundleCode);
+  writeNotNull('originalCurrency', instance.originalCurrency);
+  writeNotNull('exchangeRate', instance.exchangeRate);
+  writeNotNull('exchangeDate', instance.exchangeDate?.toIso8601String());
+  return val;
+}
 
 ApplicationTaxDetailBinds _$ApplicationTaxDetailBindsFromJson(
         Map<String, dynamic> json) =>
@@ -312,14 +371,22 @@ ApplicationTaxDetailBinds _$ApplicationTaxDetailBindsFromJson(
     );
 
 Map<String, dynamic> _$ApplicationTaxDetailBindsToJson(
-        ApplicationTaxDetailBinds instance) =>
-    <String, dynamic>{
-      'taxDetail': instance.taxDetail,
-      'taxID': instance.taxID,
-      'amt': instance.amt,
-      'initiatingTaxID': instance.initiatingTaxID,
-      'commissionAmount': instance.commissionAmount,
-    };
+    ApplicationTaxDetailBinds instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taxDetail', instance.taxDetail);
+  writeNotNull('taxID', instance.taxID);
+  writeNotNull('amt', instance.amt);
+  writeNotNull('initiatingTaxID', instance.initiatingTaxID);
+  writeNotNull('commissionAmount', instance.commissionAmount);
+  return val;
+}
 
 TaxDetail _$TaxDetailFromJson(Map<String, dynamic> json) => TaxDetail(
       taxID: json['taxID'] as num?,
@@ -338,20 +405,29 @@ TaxDetail _$TaxDetailFromJson(Map<String, dynamic> json) => TaxDetail(
       commissionable: json['commissionable'] as bool?,
     );
 
-Map<String, dynamic> _$TaxDetailToJson(TaxDetail instance) => <String, dynamic>{
-      'taxID': instance.taxID,
-      'taxCode': instance.taxCode,
-      'codeType': instance.codeType,
-      'taxCurr': instance.taxCurr,
-      'taxDesc': instance.taxDesc,
-      'taxType': instance.taxType,
-      'isVat': instance.isVat,
-      'includedInFare': instance.includedInFare,
-      'originalCurrency': instance.originalCurrency,
-      'exchangeRate': instance.exchangeRate,
-      'exchangeDate': instance.exchangeDate?.toIso8601String(),
-      'commissionable': instance.commissionable,
-    };
+Map<String, dynamic> _$TaxDetailToJson(TaxDetail instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('taxID', instance.taxID);
+  writeNotNull('taxCode', instance.taxCode);
+  writeNotNull('codeType', instance.codeType);
+  writeNotNull('taxCurr', instance.taxCurr);
+  writeNotNull('taxDesc', instance.taxDesc);
+  writeNotNull('taxType', instance.taxType);
+  writeNotNull('isVat', instance.isVat);
+  writeNotNull('includedInFare', instance.includedInFare);
+  writeNotNull('originalCurrency', instance.originalCurrency);
+  writeNotNull('exchangeRate', instance.exchangeRate);
+  writeNotNull('exchangeDate', instance.exchangeDate?.toIso8601String());
+  writeNotNull('commissionable', instance.commissionable);
+  return val;
+}
 
 FlightLegDetails _$FlightLegDetailsFromJson(Map<String, dynamic> json) =>
     FlightLegDetails(
@@ -361,11 +437,19 @@ FlightLegDetails _$FlightLegDetailsFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['departureDate'] as String),
     );
 
-Map<String, dynamic> _$FlightLegDetailsToJson(FlightLegDetails instance) =>
-    <String, dynamic>{
-      'pfid': instance.pfid,
-      'departureDate': instance.departureDate?.toIso8601String(),
-    };
+Map<String, dynamic> _$FlightLegDetailsToJson(FlightLegDetails instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pfid', instance.pfid);
+  writeNotNull('departureDate', instance.departureDate?.toIso8601String());
+  return val;
+}
 
 LegDetails _$LegDetailsFromJson(Map<String, dynamic> json) => LegDetails(
       pfid: json['pfid'] as num?,
@@ -390,22 +474,30 @@ LegDetails _$LegDetailsFromJson(Map<String, dynamic> json) => LegDetails(
       serviceType: json['serviceType'] as String?,
     );
 
-Map<String, dynamic> _$LegDetailsToJson(LegDetails instance) =>
-    <String, dynamic>{
-      'pfid': instance.pfid,
-      'departureDate': instance.departureDate?.toIso8601String(),
-      'origin': instance.origin,
-      'destination': instance.destination,
-      'flightNum': instance.flightNum,
-      'international': instance.international,
-      'arrivalDate': instance.arrivalDate?.toIso8601String(),
-      'flightTime': instance.flightTime,
-      'operatingCarrier': instance.operatingCarrier,
-      'fromTerminal': instance.fromTerminal,
-      'toTerminal': instance.toTerminal,
-      'aircraftType': instance.aircraftType,
-      'aircraftDescription': instance.aircraftDescription,
-      'deiDisclosure': instance.deiDisclosure,
-      'aircraftLayoutName': instance.aircraftLayoutName,
-      'serviceType': instance.serviceType,
-    };
+Map<String, dynamic> _$LegDetailsToJson(LegDetails instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pfid', instance.pfid);
+  writeNotNull('departureDate', instance.departureDate?.toIso8601String());
+  writeNotNull('origin', instance.origin);
+  writeNotNull('destination', instance.destination);
+  writeNotNull('flightNum', instance.flightNum);
+  writeNotNull('international', instance.international);
+  writeNotNull('arrivalDate', instance.arrivalDate?.toIso8601String());
+  writeNotNull('flightTime', instance.flightTime);
+  writeNotNull('operatingCarrier', instance.operatingCarrier);
+  writeNotNull('fromTerminal', instance.fromTerminal);
+  writeNotNull('toTerminal', instance.toTerminal);
+  writeNotNull('aircraftType', instance.aircraftType);
+  writeNotNull('aircraftDescription', instance.aircraftDescription);
+  writeNotNull('deiDisclosure', instance.deiDisclosure);
+  writeNotNull('aircraftLayoutName', instance.aircraftLayoutName);
+  writeNotNull('serviceType', instance.serviceType);
+  return val;
+}

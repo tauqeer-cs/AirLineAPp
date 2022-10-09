@@ -13,7 +13,15 @@ AirportsResponse _$AirportsResponseFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$AirportsResponseToJson(AirportsResponse instance) =>
-    <String, dynamic>{
-      'airports': instance.airports,
-    };
+Map<String, dynamic> _$AirportsResponseToJson(AirportsResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('airports', instance.airports);
+  return val;
+}

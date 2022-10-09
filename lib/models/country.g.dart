@@ -12,9 +12,18 @@ Countries _$CountriesFromJson(Map<String, dynamic> json) => Countries(
           .toList(),
     );
 
-Map<String, dynamic> _$CountriesToJson(Countries instance) => <String, dynamic>{
-      'countries': instance.countries,
-    };
+Map<String, dynamic> _$CountriesToJson(Countries instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('countries', instance.countries);
+  return val;
+}
 
 Country _$CountryFromJson(Map<String, dynamic> json) => Country(
       countryCode: json['countryCode'] as String?,
@@ -24,10 +33,19 @@ Country _$CountryFromJson(Map<String, dynamic> json) => Country(
       phoneCodeDisplay: json['phoneCodeDisplay'] as String?,
     );
 
-Map<String, dynamic> _$CountryToJson(Country instance) => <String, dynamic>{
-      'countryCode': instance.countryCode,
-      'countryCode2': instance.countryCode2,
-      'country': instance.country,
-      'phoneCode': instance.phoneCode,
-      'phoneCodeDisplay': instance.phoneCodeDisplay,
-    };
+Map<String, dynamic> _$CountryToJson(Country instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('countryCode', instance.countryCode);
+  writeNotNull('countryCode2', instance.countryCode2);
+  writeNotNull('country', instance.country);
+  writeNotNull('phoneCode', instance.phoneCode);
+  writeNotNull('phoneCodeDisplay', instance.phoneCodeDisplay);
+  return val;
+}

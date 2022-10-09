@@ -19,14 +19,22 @@ SummaryResponse _$SummaryResponseFromJson(Map<String, dynamic> json) =>
       success: json['success'] as bool?,
     );
 
-Map<String, dynamic> _$SummaryResponseToJson(SummaryResponse instance) =>
-    <String, dynamic>{
-      'flightSummaryPnrResult': instance.flightSummaryPnrResult,
-      'orderId': instance.orderId,
-      'verifyExpiredDateTime':
-          instance.verifyExpiredDateTime?.toIso8601String(),
-      'success': instance.success,
-    };
+Map<String, dynamic> _$SummaryResponseToJson(SummaryResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('flightSummaryPnrResult', instance.flightSummaryPnrResult);
+  writeNotNull('orderId', instance.orderId);
+  writeNotNull('verifyExpiredDateTime',
+      instance.verifyExpiredDateTime?.toIso8601String());
+  writeNotNull('success', instance.success);
+  return val;
+}
 
 FlightSummaryPnrResult _$FlightSummaryPnrResultFromJson(
         Map<String, dynamic> json) =>
@@ -38,10 +46,18 @@ FlightSummaryPnrResult _$FlightSummaryPnrResultFromJson(
     );
 
 Map<String, dynamic> _$FlightSummaryPnrResultToJson(
-        FlightSummaryPnrResult instance) =>
-    <String, dynamic>{
-      'summarySuccess': instance.summarySuccess,
-      'summaryAmount': instance.summaryAmount,
-      'currency': instance.currency,
-      'session': instance.session,
-    };
+    FlightSummaryPnrResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('summarySuccess', instance.summarySuccess);
+  writeNotNull('summaryAmount', instance.summaryAmount);
+  writeNotNull('currency', instance.currency);
+  writeNotNull('session', instance.session);
+  return val;
+}

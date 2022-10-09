@@ -16,10 +16,19 @@ Airports _$AirportsFromJson(Map<String, dynamic> json) => Airports(
       currency: json['currency'] as String?,
     );
 
-Map<String, dynamic> _$AirportsToJson(Airports instance) => <String, dynamic>{
-      'connections': instance.connections,
-      'code': instance.code,
-      'name': instance.name,
-      'contryCode': instance.contryCode,
-      'currency': instance.currency,
-    };
+Map<String, dynamic> _$AirportsToJson(Airports instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('connections', instance.connections);
+  writeNotNull('code', instance.code);
+  writeNotNull('name', instance.name);
+  writeNotNull('contryCode', instance.contryCode);
+  writeNotNull('currency', instance.currency);
+  return val;
+}

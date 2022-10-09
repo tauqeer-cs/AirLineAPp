@@ -14,11 +14,20 @@ CMSFlight _$CMSFlightFromJson(Map<String, dynamic> json) => CMSFlight(
           .toList(),
     );
 
-Map<String, dynamic> _$CMSFlightToJson(CMSFlight instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'items': instance.items,
-    };
+Map<String, dynamic> _$CMSFlightToJson(CMSFlight instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('items', instance.items);
+  return val;
+}
 
 SSRItem _$SSRItemFromJson(Map<String, dynamic> json) => SSRItem(
       id: json['id'] as int?,
@@ -28,11 +37,20 @@ SSRItem _$SSRItemFromJson(Map<String, dynamic> json) => SSRItem(
           .toList(),
     );
 
-Map<String, dynamic> _$SSRItemToJson(SSRItem instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'items': instance.items,
-    };
+Map<String, dynamic> _$SSRItemToJson(SSRItem instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('items', instance.items);
+  return val;
+}
 
 SSRItemType _$SSRItemTypeFromJson(Map<String, dynamic> json) => SSRItemType(
       code: json['code'] as String?,
@@ -41,10 +59,18 @@ SSRItemType _$SSRItemTypeFromJson(Map<String, dynamic> json) => SSRItemType(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$SSRItemTypeToJson(SSRItemType instance) =>
-    <String, dynamic>{
-      'code': instance.code,
-      'image': instance.image,
-      'id': instance.id,
-      'name': instance.name,
-    };
+Map<String, dynamic> _$SSRItemTypeToJson(SSRItemType instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('code', instance.code);
+  writeNotNull('image', instance.image);
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  return val;
+}

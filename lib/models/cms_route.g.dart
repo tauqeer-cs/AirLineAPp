@@ -20,14 +20,23 @@ CMSRoute _$CMSRouteFromJson(Map<String, dynamic> json) => CMSRoute(
           .toList(),
     );
 
-Map<String, dynamic> _$CMSRouteToJson(CMSRoute instance) => <String, dynamic>{
-      'contentType': instance.contentType,
-      'key': instance.key,
-      'id': instance.id,
-      'name': instance.name,
-      'urlSegment': instance.urlSegment,
-      'items': instance.items,
-    };
+Map<String, dynamic> _$CMSRouteToJson(CMSRoute instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('contentType', instance.contentType);
+  writeNotNull('key', instance.key);
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('urlSegment', instance.urlSegment);
+  writeNotNull('items', instance.items);
+  return val;
+}
 
 RouteContentType _$RouteContentTypeFromJson(Map<String, dynamic> json) =>
     RouteContentType(
@@ -36,12 +45,20 @@ RouteContentType _$RouteContentTypeFromJson(Map<String, dynamic> json) =>
       alias: json['alias'] as String?,
     );
 
-Map<String, dynamic> _$RouteContentTypeToJson(RouteContentType instance) =>
-    <String, dynamic>{
-      'key': instance.key,
-      'id': instance.id,
-      'alias': instance.alias,
-    };
+Map<String, dynamic> _$RouteContentTypeToJson(RouteContentType instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('key', instance.key);
+  writeNotNull('id', instance.id);
+  writeNotNull('alias', instance.alias);
+  return val;
+}
 
 RouteItems _$RouteItemsFromJson(Map<String, dynamic> json) => RouteItems(
       contentType: json['contentType'] == null
@@ -55,12 +72,20 @@ RouteItems _$RouteItemsFromJson(Map<String, dynamic> json) => RouteItems(
       items: json['items'] as List<dynamic>?,
     );
 
-Map<String, dynamic> _$RouteItemsToJson(RouteItems instance) =>
-    <String, dynamic>{
-      'contentType': instance.contentType,
-      'key': instance.key,
-      'id': instance.id,
-      'name': instance.name,
-      'urlSegment': instance.urlSegment,
-      'items': instance.items,
-    };
+Map<String, dynamic> _$RouteItemsToJson(RouteItems instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('contentType', instance.contentType);
+  writeNotNull('key', instance.key);
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('urlSegment', instance.urlSegment);
+  writeNotNull('items', instance.items);
+  return val;
+}

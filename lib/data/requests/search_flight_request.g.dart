@@ -13,10 +13,18 @@ SearchFlight _$SearchFlightFromJson(Map<String, dynamic> json) => SearchFlight(
               json['searchFlightRequest'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SearchFlightToJson(SearchFlight instance) =>
-    <String, dynamic>{
-      'searchFlightRequest': instance.searchFlightRequest,
-    };
+Map<String, dynamic> _$SearchFlightToJson(SearchFlight instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('searchFlightRequest', instance.searchFlightRequest);
+  return val;
+}
 
 CommonFlightRequest _$CommonFlightRequestFromJson(Map<String, dynamic> json) =>
     CommonFlightRequest(

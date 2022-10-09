@@ -30,17 +30,26 @@ FlightSummaryPnrRequest _$FlightSummaryPnrRequestFromJson(
     );
 
 Map<String, dynamic> _$FlightSummaryPnrRequestToJson(
-        FlightSummaryPnrRequest instance) =>
-    <String, dynamic>{
-      'ContactEmail': instance.contactEmail,
-      'DisplayCurrency': instance.displayCurrency,
-      'PreferredContactMethod': instance.preferredContactMethod,
-      'Comment': instance.comment,
-      'PromoCode': instance.promoCode,
-      'CompanyTaxInvoice': instance.companyTaxInvoice,
-      'EmergencyContact': instance.emergencyContact,
-      'Passengers': instance.passengers,
-    };
+    FlightSummaryPnrRequest instance) {
+  final val = <String, dynamic>{
+    'ContactEmail': instance.contactEmail,
+    'DisplayCurrency': instance.displayCurrency,
+    'PreferredContactMethod': instance.preferredContactMethod,
+    'Comment': instance.comment,
+    'PromoCode': instance.promoCode,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CompanyTaxInvoice', instance.companyTaxInvoice);
+  writeNotNull('EmergencyContact', instance.emergencyContact);
+  val['Passengers'] = instance.passengers;
+  return val;
+}
 
 CompanyTaxInvoice _$CompanyTaxInvoiceFromJson(Map<String, dynamic> json) =>
     CompanyTaxInvoice(
@@ -53,16 +62,24 @@ CompanyTaxInvoice _$CompanyTaxInvoiceFromJson(Map<String, dynamic> json) =>
       postCode: json['Postcode'] as String? ?? "",
     );
 
-Map<String, dynamic> _$CompanyTaxInvoiceToJson(CompanyTaxInvoice instance) =>
-    <String, dynamic>{
-      'CompanyName': instance.companyName,
-      'CompanyAddress': instance.companyAddress,
-      'Country': instance.country,
-      'State': instance.state,
-      'City': instance.city,
-      'EmailAddress': instance.emailAddress,
-      'Postcode': instance.postCode,
-    };
+Map<String, dynamic> _$CompanyTaxInvoiceToJson(CompanyTaxInvoice instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CompanyName', instance.companyName);
+  writeNotNull('CompanyAddress', instance.companyAddress);
+  writeNotNull('Country', instance.country);
+  writeNotNull('State', instance.state);
+  writeNotNull('City', instance.city);
+  writeNotNull('EmailAddress', instance.emailAddress);
+  writeNotNull('Postcode', instance.postCode);
+  return val;
+}
 
 EmergencyContact _$EmergencyContactFromJson(Map<String, dynamic> json) =>
     EmergencyContact(
@@ -74,15 +91,23 @@ EmergencyContact _$EmergencyContactFromJson(Map<String, dynamic> json) =>
       relationship: json['Relationship'] as String? ?? "",
     );
 
-Map<String, dynamic> _$EmergencyContactToJson(EmergencyContact instance) =>
-    <String, dynamic>{
-      'FirstName': instance.firstName,
-      'LastName': instance.lastName,
-      'Email': instance.email,
-      'PhoneCode': instance.phoneCode,
-      'PhoneNumber': instance.phoneNumber,
-      'Relationship': instance.relationship,
-    };
+Map<String, dynamic> _$EmergencyContactToJson(EmergencyContact instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FirstName', instance.firstName);
+  writeNotNull('LastName', instance.lastName);
+  writeNotNull('Email', instance.email);
+  writeNotNull('PhoneCode', instance.phoneCode);
+  writeNotNull('PhoneNumber', instance.phoneNumber);
+  writeNotNull('Relationship', instance.relationship);
+  return val;
+}
 
 Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       dob: json['DOB'] == null ? null : DateTime.parse(json['DOB'] as String),
@@ -111,28 +136,37 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
           : Seat.fromJson(json['Seat'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PassengerToJson(Passenger instance) => <String, dynamic>{
-      'DOB': instance.dob?.toIso8601String(),
-      'FirstName': instance.firstName,
-      'LastName': instance.lastName,
-      'MiddleName': instance.middleName,
-      'Title': instance.title,
-      'Gender': instance.gender,
-      'InfantAssociateIndex': instance.infantAssociateIndex,
-      'IsPrimaryPassenger': instance.isPrimaryPassenger,
-      'KnownTravelerNumber': instance.knownTravelerNumber,
-      'Nationality': instance.nationality,
-      'NationalityLanguageID': instance.nationalityLanguageId,
-      'Passport': instance.passport,
-      'PaxType': instance.paxType,
-      'PersonOrgID': instance.personOrgId,
-      'ProfileId': instance.profileId,
-      'RedressNumber': instance.redressNumber,
-      'Relation': instance.relation,
-      'Suffix': instance.suffix,
-      'SSR': instance.ssr,
-      'Seat': instance.seat,
-    };
+Map<String, dynamic> _$PassengerToJson(Passenger instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DOB', instance.dob?.toIso8601String());
+  writeNotNull('FirstName', instance.firstName);
+  writeNotNull('LastName', instance.lastName);
+  writeNotNull('MiddleName', instance.middleName);
+  writeNotNull('Title', instance.title);
+  writeNotNull('Gender', instance.gender);
+  writeNotNull('InfantAssociateIndex', instance.infantAssociateIndex);
+  writeNotNull('IsPrimaryPassenger', instance.isPrimaryPassenger);
+  writeNotNull('KnownTravelerNumber', instance.knownTravelerNumber);
+  writeNotNull('Nationality', instance.nationality);
+  writeNotNull('NationalityLanguageID', instance.nationalityLanguageId);
+  writeNotNull('Passport', instance.passport);
+  writeNotNull('PaxType', instance.paxType);
+  writeNotNull('PersonOrgID', instance.personOrgId);
+  writeNotNull('ProfileId', instance.profileId);
+  writeNotNull('RedressNumber', instance.redressNumber);
+  writeNotNull('Relation', instance.relation);
+  writeNotNull('Suffix', instance.suffix);
+  writeNotNull('SSR', instance.ssr);
+  writeNotNull('Seat', instance.seat);
+  return val;
+}
 
 Seat _$SeatFromJson(Map<String, dynamic> json) => Seat(
       outbound: json['Outbound'] == null
@@ -143,10 +177,19 @@ Seat _$SeatFromJson(Map<String, dynamic> json) => Seat(
           : Outbound.fromJson(json['Inbound'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SeatToJson(Seat instance) => <String, dynamic>{
-      'Outbound': instance.outbound,
-      'Inbound': instance.inbound,
-    };
+Map<String, dynamic> _$SeatToJson(Seat instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Outbound', instance.outbound);
+  writeNotNull('Inbound', instance.inbound);
+  return val;
+}
 
 Outbound _$OutboundFromJson(Map<String, dynamic> json) => Outbound(
       seatRow: json['SeatRow'] as num?,
@@ -157,12 +200,21 @@ Outbound _$OutboundFromJson(Map<String, dynamic> json) => Outbound(
           .toList(),
     );
 
-Map<String, dynamic> _$OutboundToJson(Outbound instance) => <String, dynamic>{
-      'SeatRow': instance.seatRow,
-      'SeatColumn': instance.seatColumn,
-      'PhysicalFlightID': instance.physicalFlightId,
-      'price': instance.price,
-    };
+Map<String, dynamic> _$OutboundToJson(Outbound instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SeatRow', instance.seatRow);
+  writeNotNull('SeatColumn', instance.seatColumn);
+  writeNotNull('PhysicalFlightID', instance.physicalFlightId);
+  writeNotNull('price', instance.price);
+  return val;
+}
 
 Price _$PriceFromJson(Map<String, dynamic> json) => Price(
       amount: json['amount'] as num?,
@@ -170,11 +222,20 @@ Price _$PriceFromJson(Map<String, dynamic> json) => Price(
       isBundleOffer: json['isBundleOffer'] as bool?,
     );
 
-Map<String, dynamic> _$PriceToJson(Price instance) => <String, dynamic>{
-      'amount': instance.amount,
-      'currency': instance.currency,
-      'isBundleOffer': instance.isBundleOffer,
-    };
+Map<String, dynamic> _$PriceToJson(Price instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('amount', instance.amount);
+  writeNotNull('currency', instance.currency);
+  writeNotNull('isBundleOffer', instance.isBundleOffer);
+  return val;
+}
 
 Ssr _$SsrFromJson(Map<String, dynamic> json) => Ssr(
       outbound: (json['Outbound'] as List<dynamic>?)
@@ -185,10 +246,19 @@ Ssr _$SsrFromJson(Map<String, dynamic> json) => Ssr(
           .toList(),
     );
 
-Map<String, dynamic> _$SsrToJson(Ssr instance) => <String, dynamic>{
-      'Outbound': instance.outbound,
-      'Inbound': instance.inbound,
-    };
+Map<String, dynamic> _$SsrToJson(Ssr instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Outbound', instance.outbound);
+  writeNotNull('Inbound', instance.inbound);
+  return val;
+}
 
 Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
       logicalFlightId: json['LogicalFlightID'] as num?,
@@ -199,11 +269,20 @@ Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
       name: json['Name'] as String?,
     );
 
-Map<String, dynamic> _$BoundToJson(Bound instance) => <String, dynamic>{
-      'LogicalFlightID': instance.logicalFlightId,
-      'ServiceID': instance.serviceId,
-      'ServicesType': instance.servicesType,
-      'Quantity': instance.quantity,
-      'Price': instance.price,
-      'Name': instance.name,
-    };
+Map<String, dynamic> _$BoundToJson(Bound instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LogicalFlightID', instance.logicalFlightId);
+  writeNotNull('ServiceID', instance.serviceId);
+  writeNotNull('ServicesType', instance.servicesType);
+  writeNotNull('Quantity', instance.quantity);
+  writeNotNull('Price', instance.price);
+  writeNotNull('Name', instance.name);
+  return val;
+}
