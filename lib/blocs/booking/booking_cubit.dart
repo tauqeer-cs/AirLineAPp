@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/flight_repository.dart';
+import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/verify_request.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/verify_response.dart';
@@ -40,6 +41,10 @@ class BookingCubit extends Cubit<BookingState> {
   }
 
   changeFlight() {
+    emit(state.copyWith(isVerify: false));
+  }
+
+  summaryFlight(SummaryRequest summaryRequest) {
     emit(state.copyWith(isVerify: false));
   }
 

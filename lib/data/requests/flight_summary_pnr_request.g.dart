@@ -3,6 +3,198 @@
 part of 'flight_summary_pnr_request.dart';
 
 // **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
+class FlightSummaryPnrRequestAdapter
+    extends TypeAdapter<FlightSummaryPnrRequest> {
+  @override
+  final int typeId = 0;
+
+  @override
+  FlightSummaryPnrRequest read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return FlightSummaryPnrRequest(
+      contactEmail: fields[0] as String,
+      companyTaxInvoice: fields[1] as CompanyTaxInvoice?,
+      emergencyContact: fields[2] as EmergencyContact?,
+      passengers: (fields[3] as List).cast<Passenger>(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, FlightSummaryPnrRequest obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.contactEmail)
+      ..writeByte(1)
+      ..write(obj.companyTaxInvoice)
+      ..writeByte(2)
+      ..write(obj.emergencyContact)
+      ..writeByte(3)
+      ..write(obj.passengers);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FlightSummaryPnrRequestAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class CompanyTaxInvoiceAdapter extends TypeAdapter<CompanyTaxInvoice> {
+  @override
+  final int typeId = 1;
+
+  @override
+  CompanyTaxInvoice read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return CompanyTaxInvoice(
+      companyName: fields[0] as String?,
+      companyAddress: fields[1] as String?,
+      country: fields[2] as String?,
+      state: fields[3] as String?,
+      city: fields[4] as String?,
+      emailAddress: fields[5] as String?,
+      postCode: fields[6] as String?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, CompanyTaxInvoice obj) {
+    writer
+      ..writeByte(7)
+      ..writeByte(0)
+      ..write(obj.companyName)
+      ..writeByte(1)
+      ..write(obj.companyAddress)
+      ..writeByte(2)
+      ..write(obj.country)
+      ..writeByte(3)
+      ..write(obj.state)
+      ..writeByte(4)
+      ..write(obj.city)
+      ..writeByte(5)
+      ..write(obj.emailAddress)
+      ..writeByte(6)
+      ..write(obj.postCode);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CompanyTaxInvoiceAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class EmergencyContactAdapter extends TypeAdapter<EmergencyContact> {
+  @override
+  final int typeId = 2;
+
+  @override
+  EmergencyContact read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return EmergencyContact(
+      firstName: fields[0] as String?,
+      lastName: fields[1] as String?,
+      email: fields[2] as String?,
+      phoneCode: fields[3] as String?,
+      phoneNumber: fields[4] as String?,
+      relationship: fields[5] as String?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, EmergencyContact obj) {
+    writer
+      ..writeByte(6)
+      ..writeByte(0)
+      ..write(obj.firstName)
+      ..writeByte(1)
+      ..write(obj.lastName)
+      ..writeByte(2)
+      ..write(obj.email)
+      ..writeByte(3)
+      ..write(obj.phoneCode)
+      ..writeByte(4)
+      ..write(obj.phoneNumber)
+      ..writeByte(5)
+      ..write(obj.relationship);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EmergencyContactAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class PassengerAdapter extends TypeAdapter<Passenger> {
+  @override
+  final int typeId = 3;
+
+  @override
+  Passenger read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Passenger(
+      dob: fields[0] as DateTime?,
+      firstName: fields[1] as String?,
+      lastName: fields[2] as String?,
+      title: fields[3] as String?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Passenger obj) {
+    writer
+      ..writeByte(4)
+      ..writeByte(0)
+      ..write(obj.dob)
+      ..writeByte(1)
+      ..write(obj.firstName)
+      ..writeByte(2)
+      ..write(obj.lastName)
+      ..writeByte(3)
+      ..write(obj.title);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PassengerAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 

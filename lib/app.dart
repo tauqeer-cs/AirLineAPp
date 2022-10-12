@@ -4,6 +4,7 @@ import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/countries/countries_cubit.dart';
+import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
@@ -39,14 +40,14 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (_) => BookingCubit()),
         BlocProvider(create: (_) => SelectedPersonCubit()),
+        BlocProvider(create: (_) => HomeCubit()),
+        BlocProvider(create: (_) => CmsSsrCubit()),
+        BlocProvider(create: (_) => RoutesCubit()..getRoutes(), lazy: false),
+        BlocProvider(create: (_) => LocalUserBloc()..add(Init()), lazy: false),
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
           lazy: false,
         ),
-        BlocProvider(create: (_) => RoutesCubit()..getRoutes(), lazy: false),
-        BlocProvider(create: (_) => HomeCubit()),
-        BlocProvider(create: (_) => CmsSsrCubit()),
-
       ],
       child: MultiBlocListener(
         listeners: [
@@ -61,7 +62,9 @@ class _AppState extends State<App> {
                 current.blocState == BlocState.finished,
             listener: (context, state) {
               context.read<BookingCubit>().resetState();
-              context.read<SelectedPersonCubit>().selectPerson(state.filterState?.numberPerson.persons.first);
+              context
+                  .read<SelectedPersonCubit>()
+                  .selectPerson(state.filterState?.numberPerson.persons.first);
             },
           ),
         ],

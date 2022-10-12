@@ -92,6 +92,18 @@ class _$AppRouter extends RootStackRouter {
         child: const CheckoutPage(),
       );
     },
+    BookingConfirmationRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const BookingConfirmationPage(),
+      );
+    },
+    PaymentRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const PaymentPage(),
+      );
+    },
   };
 
   @override
@@ -145,6 +157,14 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CheckoutRoute.name,
           path: '/checkout',
+        ),
+        RouteConfig(
+          BookingConfirmationRoute.name,
+          path: '/booking-confirmation',
+        ),
+        RouteConfig(
+          PaymentRoute.name,
+          path: '/payment',
         ),
       ];
 }
@@ -328,4 +348,28 @@ class CheckoutRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CheckoutRoute';
+}
+
+/// generated route for
+/// [BookingConfirmationPage]
+class BookingConfirmationRoute extends PageRouteInfo<void> {
+  const BookingConfirmationRoute()
+      : super(
+          BookingConfirmationRoute.name,
+          path: '/booking-confirmation',
+        );
+
+  static const String name = 'BookingConfirmationRoute';
+}
+
+/// generated route for
+/// [PaymentPage]
+class PaymentRoute extends PageRouteInfo<void> {
+  const PaymentRoute()
+      : super(
+          PaymentRoute.name,
+          path: '/payment',
+        );
+
+  static const String name = 'PaymentRoute';
 }

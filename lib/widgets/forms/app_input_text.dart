@@ -13,12 +13,15 @@ class AppInputText extends StatelessWidget {
   final bool isRequired;
   final int? minLines;
   final int? maxLines;
+  final  Function(String?)? onChanged;
   final TextInputType? textInputType;
+  final String? autofillHints;
 
   const AppInputText({
     Key? key,
     required this.name,
     this.label,
+    this.onChanged,
     this.validators,
     this.isObstructedText = false,
     this.hintText,
@@ -28,6 +31,7 @@ class AppInputText extends StatelessWidget {
     this.textInputType,
     this.minLines,
     this.maxLines,
+    this.autofillHints,
   }) : super(key: key);
 
   @override
@@ -42,7 +46,9 @@ class AppInputText extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText ?? "",
       ),
+      onChanged: onChanged,
       initialValue: initialValue,
+      autofillHints: autofillHints != null ? [autofillHints!] : null,
     );
   }
 }

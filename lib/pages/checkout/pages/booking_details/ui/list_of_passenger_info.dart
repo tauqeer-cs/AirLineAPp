@@ -1,3 +1,4 @@
+import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/pessenger_info.dart';
@@ -41,10 +42,24 @@ class ListOfPassengerInfo extends StatelessWidget {
   }
 }
 
-class PassengerContact extends StatelessWidget {
+class PassengerContact extends StatefulWidget {
   const PassengerContact({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<PassengerContact> createState() => _PassengerContactState();
+}
+
+class _PassengerContactState extends State<PassengerContact> {
+  String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    final contact = context.read<LocalUserBloc>().state.contactEmail;
+    email = contact;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +76,47 @@ class PassengerContact extends StatelessWidget {
         AppInputText(
           name: formNameContactEmail,
           hintText: "Email Address",
-          validators: [FormBuilderValidators.required()],
+          validators: [
+            FormBuilderValidators.required(),
+            FormBuilderValidators.email(),
+          ],
+          initialValue: email,
+          onChanged: (value) {
+            final request = context.read<LocalUserBloc>().state;
+            final newRequest = request.copyWith(contactEmail: value);
+            context
+                .read<LocalUserBloc>()
+                .add(UpdateEmailContact(newRequest.contactEmail));
+          },
         ),
       ],
     );
   }
 }
 
-class PassengerEmergencyContact extends StatelessWidget {
+class PassengerEmergencyContact extends StatefulWidget {
   const PassengerEmergencyContact({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<PassengerEmergencyContact> createState() =>
+      _PassengerEmergencyContactState();
+}
+
+class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
+  String? firstName;
+  String? lastName;
+  String? phoneNumber;
+
+  @override
+  void initState() {
+    super.initState();
+    final contact = context.read<LocalUserBloc>().state.emergencyContact;
+    firstName = contact?.firstName;
+    lastName = contact?.lastName;
+    phoneNumber = contact?.phoneNumber;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +135,26 @@ class PassengerEmergencyContact extends StatelessWidget {
           name: formNameEmergencyFirstName,
           hintText: "First Name/Given Name",
           validators: [FormBuilderValidators.required()],
+          initialValue: firstName,
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.emergencyContact;
+            final newRequest = request?.copyWith(firstName: value);
+            context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
+          },
         ),
         kVerticalSpacer,
         AppInputText(
           name: formNameEmergencyLastName,
           hintText: "Last Name/Family Name",
           validators: [FormBuilderValidators.required()],
+          initialValue: lastName,
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.emergencyContact;
+            final newRequest = request?.copyWith(lastName: value);
+            context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
+          },
         ),
         kVerticalSpacer,
         FormBuilderDropdown<String>(
@@ -128,8 +187,17 @@ class PassengerEmergencyContact extends StatelessWidget {
               flex: 5,
               child: AppInputText(
                 name: formNameEmergencyPhone,
+                initialValue: phoneNumber,
                 hintText: "Phone Number",
                 validators: [FormBuilderValidators.required()],
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.emergencyContact;
+                  final newRequest = request?.copyWith(phoneNumber: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateEmergency(newRequest));
+                },
               ),
             ),
           ],

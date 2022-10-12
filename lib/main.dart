@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app/data/repositories/local_repositories.dart';
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 import 'app.dart';
 import 'app/app_bloc_observer.dart';
 import 'app/app_logger.dart';
@@ -18,6 +20,12 @@ void run() async {
   if (Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
+  await Hive.initFlutter();
+  Hive.registerAdapter<FlightSummaryPnrRequest>(FlightSummaryPnrRequestAdapter());
+  Hive.registerAdapter<CompanyTaxInvoice>(CompanyTaxInvoiceAdapter());
+  Hive.registerAdapter<EmergencyContact>(EmergencyContactAdapter());
+  Hive.registerAdapter<Passenger>(PassengerAdapter());
+  await Hive.openBox<FlightSummaryPnrRequest>(passengerInfoBox);
   FlutterError.onError = (details) {
     logger.e(details.exceptionAsString());
     logger.e(details.stack);

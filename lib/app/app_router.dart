@@ -1,5 +1,7 @@
+import 'package:app/pages/checkout/pages/booking_confirmation/booking_confirmation_page.dart';
 import 'package:app/pages/checkout/pages/booking_details/booking_details.dart';
 import 'package:app/pages/checkout/pages/checkout/checkout_page.dart';
+import 'package:app/pages/checkout/pages/payment/payment_page.dart';
 import 'package:app/pages/checkout/pages/select_baggage/select_baggage_page.dart';
 import 'package:app/pages/checkout/pages/select_bundle/select_bundle_page.dart';
 import 'package:app/pages/checkout/pages/select_meals/select_meals_page.dart';
@@ -30,7 +32,8 @@ part 'app_router.gr.dart';
     AutoRoute(page: SelectBaggagePage, path: "/flight/addon/baggage"),
     AutoRoute(page: BookingDetailsPage, path: "/booking-details"),
     AutoRoute(page: CheckoutPage, path: "/checkout"),
-
+    AutoRoute(page: BookingConfirmationPage, path: "/booking-confirmation"),
+    AutoRoute(page: PaymentPage, path: "/payment"),
   ],
 )
 class AppRouter extends _$AppRouter {}

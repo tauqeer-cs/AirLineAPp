@@ -3,11 +3,13 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:hive/hive.dart';
 
 part 'flight_summary_pnr_request.g.dart';
 
+@HiveType(typeId: 0)
 @JsonSerializable()
-class FlightSummaryPnrRequest extends Equatable {
+class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
   @override
   List<Object?> get props => [
         contactEmail,
@@ -20,7 +22,7 @@ class FlightSummaryPnrRequest extends Equatable {
         passengers,
       ];
 
-  const FlightSummaryPnrRequest({
+  FlightSummaryPnrRequest({
     this.contactEmail = "",
     this.displayCurrency = "MYR",
     this.preferredContactMethod = "email",
@@ -31,6 +33,7 @@ class FlightSummaryPnrRequest extends Equatable {
     this.passengers = const [],
   });
 
+  @HiveField(0)
   @JsonKey(name: 'ContactEmail')
   final String contactEmail;
   @JsonKey(name: 'DisplayCurrency')
@@ -41,10 +44,13 @@ class FlightSummaryPnrRequest extends Equatable {
   final String comment;
   @JsonKey(name: 'PromoCode')
   final String promoCode;
+  @HiveField(1)
   @JsonKey(name: 'CompanyTaxInvoice')
   final CompanyTaxInvoice? companyTaxInvoice;
+  @HiveField(2)
   @JsonKey(name: 'EmergencyContact')
   final EmergencyContact? emergencyContact;
+  @HiveField(3)
   @JsonKey(name: 'Passengers')
   final List<Passenger> passengers;
 
@@ -76,8 +82,9 @@ class FlightSummaryPnrRequest extends Equatable {
   Map<String, dynamic> toJson() => _$FlightSummaryPnrRequestToJson(this);
 }
 
+@HiveType(typeId: 1)
 @JsonSerializable()
-class CompanyTaxInvoice extends Equatable {
+class CompanyTaxInvoice extends HiveObject with EquatableMixin {
   @override
   List<Object?> get props => [
         companyName,
@@ -93,7 +100,7 @@ class CompanyTaxInvoice extends Equatable {
 
   Map<String, dynamic> toJson() => _$CompanyTaxInvoiceToJson(this);
 
-  const CompanyTaxInvoice({
+  CompanyTaxInvoice({
     this.companyName = "",
     this.companyAddress = "",
     this.country = "",
@@ -103,18 +110,25 @@ class CompanyTaxInvoice extends Equatable {
     this.postCode = "",
   });
 
+  @HiveField(0)
   @JsonKey(name: 'CompanyName')
   final String? companyName;
+  @HiveField(1)
   @JsonKey(name: 'CompanyAddress')
   final String? companyAddress;
+  @HiveField(2)
   @JsonKey(name: 'Country')
   final String? country;
+  @HiveField(3)
   @JsonKey(name: 'State')
   final String? state;
+  @HiveField(4)
   @JsonKey(name: 'City')
   final String? city;
+  @HiveField(5)
   @JsonKey(name: 'EmailAddress')
   final String? emailAddress;
+  @HiveField(6)
   @JsonKey(name: 'Postcode')
   final String? postCode;
 
@@ -138,8 +152,9 @@ class CompanyTaxInvoice extends Equatable {
       );
 }
 
+@HiveType(typeId: 2)
 @JsonSerializable()
-class EmergencyContact extends Equatable {
+class EmergencyContact extends HiveObject with EquatableMixin {
   @override
   List<Object?> get props => [
         firstName,
@@ -155,7 +170,7 @@ class EmergencyContact extends Equatable {
 
   Map<String, dynamic> toJson() => _$EmergencyContactToJson(this);
 
-  const EmergencyContact({
+  EmergencyContact({
     this.firstName = "",
     this.lastName = "",
     this.email = "",
@@ -164,16 +179,22 @@ class EmergencyContact extends Equatable {
     this.relationship = "",
   });
 
+  @HiveField(0)
   @JsonKey(name: 'FirstName')
   final String? firstName;
+  @HiveField(1)
   @JsonKey(name: 'LastName')
   final String? lastName;
+  @HiveField(2)
   @JsonKey(name: 'Email')
   final String? email;
+  @HiveField(3)
   @JsonKey(name: 'PhoneCode')
   final String? phoneCode;
+  @HiveField(4)
   @JsonKey(name: 'PhoneNumber')
   final String? phoneNumber;
+  @HiveField(5)
   @JsonKey(name: 'Relationship')
   final String? relationship;
 
@@ -195,8 +216,9 @@ class EmergencyContact extends Equatable {
       );
 }
 
+@HiveType(typeId: 3)
 @JsonSerializable()
-class Passenger extends Equatable {
+class Passenger extends HiveObject with EquatableMixin {
   @override
   List<Object?> get props => [
         dob,
@@ -226,7 +248,7 @@ class Passenger extends Equatable {
 
   Map<String, dynamic> toJson() => _$PassengerToJson(this);
 
-  const Passenger({
+  Passenger({
     this.dob,
     this.firstName = "",
     this.lastName = "",
@@ -249,14 +271,18 @@ class Passenger extends Equatable {
     this.seat,
   });
 
+  @HiveField(0)
   @JsonKey(name: 'DOB')
   final DateTime? dob;
+  @HiveField(1)
   @JsonKey(name: 'FirstName')
   final String? firstName;
+  @HiveField(2)
   @JsonKey(name: 'LastName')
   final String? lastName;
   @JsonKey(name: 'MiddleName')
   final String? middleName;
+  @HiveField(3)
   @JsonKey(name: 'Title')
   final String? title;
   @JsonKey(name: 'Gender')

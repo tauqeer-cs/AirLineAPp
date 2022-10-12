@@ -40,83 +40,86 @@ class _PassengerInfoState extends State<PassengerInfo> {
   Widget build(BuildContext context) {
     final passengerInfo = widget.person.passenger;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.person.toString(),
-          style: kHugeSemiBold,
-        ),
-        kVerticalSpacer,
-        AppInputText(
-          name: "${widget.person.toString()}$formNameFirstName",
-          hintText: "First Name/Given Name",
-          initialValue: passengerInfo?.firstName,
-          validators: [FormBuilderValidators.required()],
-        ),
-        kVerticalSpacer,
-        AppInputText(
-          name: "${widget.person.toString()}$formNameLastName",
-          hintText: "Last Name/Family Name",
-          initialValue: passengerInfo?.lastName,
-          validators: [FormBuilderValidators.required()],
-        ),
-        kVerticalSpacer,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FormBuilderDropdown<String>(
-                      name: "${widget.person.toString()}$formNameTitle",
-                      items: ["Mr", "Mrs", "Ms"]
-                          .map(
-                            (e) => DropdownMenuItem<String>(
-                              child: Text(e),
-                              value: e,
-                            ),
-                          )
-                          .toList(),
-                      initialValue: passengerInfo?.title ?? "Mr",
-                      validator: FormBuilderValidators.required(),
+    return AutofillGroup(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.person.toString(),
+            style: kHugeSemiBold,
+          ),
+          kVerticalSpacer,
+          AppInputText(
+            name: "${widget.person.toString()}$formNameFirstName",
+            hintText: "First Name/Given Name",
+            initialValue: passengerInfo?.firstName,
+            validators: [FormBuilderValidators.required()],
+          ),
+          kVerticalSpacer,
+          AppInputText(
+            name: "${widget.person.toString()}$formNameLastName",
+            hintText: "Last Name/Family Name",
+            initialValue: passengerInfo?.lastName,
+            validators: [FormBuilderValidators.required()],
+          ),
+          kVerticalSpacer,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FormBuilderDropdown<String>(
+                        name: "${widget.person.toString()}$formNameTitle",
+                        items: ["Mr", "Mrs", "Ms"]
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                child: Text(e),
+                                value: e,
+                              ),
+                            )
+                            .toList(),
+                        initialValue: passengerInfo?.title ?? "Mr",
+                        validator: FormBuilderValidators.required(),
+
+                      ),
                     ),
-                  ),
-                  kHorizontalSpacerMini,
-                  Expanded(
-                    child: FormBuilderDropdown<String>(
-                      name: "${widget.person.toString()}$formNameNationality",
-                      items: ["MY"]
-                          .map((e) => DropdownMenuItem<String>(
-                              child: Text(e), value: e))
-                          .toList(),
-                      enabled: false,
-                      initialValue: passengerInfo?.title ?? "MY",
-                      validator: FormBuilderValidators.required(),
+                    kHorizontalSpacerMini,
+                    Expanded(
+                      child: FormBuilderDropdown<String>(
+                        name: "${widget.person.toString()}$formNameNationality",
+                        items: ["MY"]
+                            .map((e) => DropdownMenuItem<String>(
+                                child: Text(e), value: e))
+                            .toList(),
+                        enabled: false,
+                        initialValue: passengerInfo?.title ?? "MY",
+                        validator: FormBuilderValidators.required(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            kHorizontalSpacerMini,
-            Expanded(
-              child: FormBuilderDateTimePicker(
-                name: "${widget.person.toString()}$formNameDob",
-                firstDate: DateTime(1920),
-                lastDate: DateTime.now(),
-                initialValue: passengerInfo?.dob,
-                format: DateFormat("dd MMM yyyy"),
-                initialDate: passengerInfo?.dob ?? DateTime(2000),
-                initialEntryMode: DatePickerEntryMode.calendar,
-                decoration: InputDecoration(hintText: "Date of Birth"),
-                inputType: InputType.date,
-                validator: FormBuilderValidators.required(),
+              kHorizontalSpacerMini,
+              Expanded(
+                child: FormBuilderDateTimePicker(
+                  name: "${widget.person.toString()}$formNameDob",
+                  firstDate: DateTime(1920),
+                  lastDate: DateTime.now(),
+                  initialValue: passengerInfo?.dob,
+                  format: DateFormat("dd MMM yyyy"),
+                  initialDate: passengerInfo?.dob ?? DateTime(2000),
+                  initialEntryMode: DatePickerEntryMode.calendar,
+                  decoration: InputDecoration(hintText: "Date of Birth"),
+                  inputType: InputType.date,
+                  validator: FormBuilderValidators.required(),
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
