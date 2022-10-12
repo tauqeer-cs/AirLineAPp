@@ -1,11 +1,15 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/pages/home/ui/home_center.dart';
 import 'package:app/pages/home/ui/home_deal.dart';
+import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_error_screen.dart';
+import 'package:app/widgets/containers/glass_card.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +31,28 @@ class HomeView extends StatelessWidget {
           ),
         ),
         kVerticalSpacer,
+        BlocBuilder<CmsSsrCubit, CmsSsrState>(
+          builder: (context, state) {
+            final notification = state.notifications?.firstOrNull;
+            return blocBuilderWrapper(
+              blocState: state.blocState,
+              finishedBuilder: notification == null
+                  ? SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: GlassCard(
+                        color: Colors.yellowAccent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(notification.content ?? ""),
+                          ],
+                        ),
+                      ),
+                    ),
+            );
+          },
+        ),
         Padding(
           padding: kPageHorizontalPadding,
           child: SearchFlightWidget(),

@@ -1,5 +1,6 @@
 import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/pessenger_info.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
@@ -33,7 +34,7 @@ class ListOfPassengerInfo extends StatelessWidget {
             children: const [
               PassengerContact(),
               PassengerEmergencyContact(),
-              PassengerCompanyInfo(),
+              //PassengerCompanyInfo(),
             ],
           ),
         ),
@@ -138,8 +139,8 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
           initialValue: firstName,
           onChanged: (value) {
             final request =
-                context.read<LocalUserBloc>().state.emergencyContact;
-            final newRequest = request?.copyWith(firstName: value);
+                context.read<LocalUserBloc>().state.emergencyContact ?? EmergencyContact();
+            final newRequest = request.copyWith(firstName: value);
             context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
           },
         ),
@@ -188,6 +189,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               child: AppInputText(
                 name: formNameEmergencyPhone,
                 initialValue: phoneNumber,
+                textInputType: TextInputType.number,
                 hintText: "Phone Number",
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {

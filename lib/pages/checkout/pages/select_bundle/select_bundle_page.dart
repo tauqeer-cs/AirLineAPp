@@ -28,7 +28,6 @@ class _SelectBundlePageState extends State<SelectBundlePage>
   void initState() {
     super.initState();
     final state = context.read<RoutesCubit>().state;
-    context.read<CmsSsrCubit>().getCmsSSR(state.routes);
   }
 
   @override

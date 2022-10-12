@@ -288,7 +288,7 @@ class Person extends Equatable {
 
   num getTotalPriceBaggage() {
     num totalPrice = 0;
-    totalPrice = getPartialPriceBundle(false) + getPartialPriceBundle(true);
+    totalPrice = getPartialPriceBaggage(false) + getPartialPriceBaggage(true);
     return totalPrice;
   }
 

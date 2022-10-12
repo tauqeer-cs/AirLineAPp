@@ -26,10 +26,10 @@ abstract class CMSProvider {
 
   @GET('shared/get')
   Future<CMSFlight> getSSRContent(
-      @Query("key") String key, {
-        @Query("query") String? query =
-        "code,image",
-      });
+    @Query("key") String key, {
+    @Query("query") String? query = "content,image,code",
+    @Query("deep") String? deep = "6",
+  });
 
   @GET('auth/gettoken')
   Future<TokenResponse> getToken();

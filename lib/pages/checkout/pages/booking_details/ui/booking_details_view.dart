@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/summary_request.dart';
 import 'package:app/models/country.dart';
@@ -48,97 +49,6 @@ class BookingDetailsView extends StatelessWidget {
 
   const BookingDetailsView({Key? key}) : super(key: key);
 
-  onBooking(BuildContext context) {
-    if (_fbKey.currentState!.saveAndValidate()) {
-      final bookingState = context.read<BookingCubit>().state;
-      final state = context.read<SearchFlightCubit>().state;
-      final verifyToken = bookingState.verifyResponse?.token;
-      final flightSeats = bookingState.verifyResponse?.flightSeat;
-      final outboundSeats = flightSeats?.outbound;
-      final inboundSeats = flightSeats?.inbound;
-      final rowsOutBound = outboundSeats
-          ?.firstOrNull
-          ?.retrieveFlightSeatMapResponse
-          ?.physicalFlights
-          ?.firstOrNull
-          ?.physicalFlightSeatMap
-          ?.seatConfiguration
-          ?.rows;
-      final rowsInBound = inboundSeats
-          ?.firstOrNull
-          ?.retrieveFlightSeatMapResponse
-          ?.physicalFlights
-          ?.firstOrNull
-          ?.physicalFlightSeatMap
-          ?.seatConfiguration
-          ?.rows;
-      final persons = state.filterState?.numberPerson;
-      final value = _fbKey.currentState!.value;
-      List<Passenger> passengers = [];
-      for (Person person in (persons?.persons ?? [])) {
-        final passenger = person.toPassenger(
-          outboundRows: rowsOutBound ?? [],
-          inboundRows: rowsInBound ?? [],
-          inboundPhysicalId: inboundSeats
-              ?.firstOrNull
-              ?.retrieveFlightSeatMapResponse
-              ?.physicalFlights
-              ?.firstOrNull?.physicalFlightID,
-          outboundPhysicalId: outboundSeats
-              ?.firstOrNull
-              ?.retrieveFlightSeatMapResponse
-              ?.physicalFlights
-              ?.firstOrNull?.physicalFlightID,
-        );
-        const formNameFirstName = "_first_name";
-        const formNameLastName = "_last_name";
-        const formNameTitle = "_title";
-        const formNameNationality = "_nationality";
-        const formNameDob = "_dob";
-        final filledPassenger = passenger.copyWith(
-          firstName: value["${person.toString()}$formNameFirstName"],
-          lastName: value["${person.toString()}$formNameLastName"],
-          title: (value["${person.toString()}$formNameTitle"] as String?)?.toUpperCase(),
-          nationality: value["${person.toString()}$formNameNationality"],
-          dob: value["${person.toString()}$formNameDob"],
-          gender: "Male",
-          relation: "Self"
-        );
-        passengers.add(filledPassenger);
-      }
-      final companyCountry = value[formNameCompanyCountry] as Country?;
-      final emergencyPhone = value[formNameEmergencyCountry] as Country?;
-
-      final summaryRequest = SummaryRequest(
-        token: verifyToken ?? "",
-        flightSummaryPNRRequest: FlightSummaryPnrRequest(
-          contactEmail: value[formNameContactEmail],
-          displayCurrency: "MYR",
-          preferredContactMethod: "Email",
-          comment: "No",
-          promoCode: "",
-          companyTaxInvoice: CompanyTaxInvoice(
-            companyName: value[formNameCompanyName],
-            companyAddress: value[formNameCompanyAddress],
-            country: companyCountry?.countryCode ?? "",
-            state: value[formNameCompanyState],
-            city: value[formNameCompanyCity],
-            emailAddress: value[formNameCompanyEmailAddress],
-            postCode: value[formNameCompanyPostCode],
-          ),
-          emergencyContact: EmergencyContact(
-            firstName: value[formNameEmergencyFirstName],
-            lastName: value[formNameEmergencyLastName],
-            phoneCode: emergencyPhone?.phoneCode,
-            phoneNumber: value[formNameEmergencyPhone],
-            relationship: value[formNameEmergencyRelation],
-          ),
-          passengers: passengers,
-        ),
-      );
-      context.read<SummaryCubit>().submitSummary(summaryRequest);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -236,4 +146,98 @@ class BookingDetailsView extends StatelessWidget {
             ),
     );
   }
+
+  onBooking(BuildContext context) {
+    if (_fbKey.currentState!.saveAndValidate()) {
+      final bookingState = context.read<BookingCubit>().state;
+      final state = context.read<SearchFlightCubit>().state;
+      final verifyToken = bookingState.verifyResponse?.token;
+      final flightSeats = bookingState.verifyResponse?.flightSeat;
+      final outboundSeats = flightSeats?.outbound;
+      final inboundSeats = flightSeats?.inbound;
+      final rowsOutBound = outboundSeats
+          ?.firstOrNull
+          ?.retrieveFlightSeatMapResponse
+          ?.physicalFlights
+          ?.firstOrNull
+          ?.physicalFlightSeatMap
+          ?.seatConfiguration
+          ?.rows;
+      final rowsInBound = inboundSeats
+          ?.firstOrNull
+          ?.retrieveFlightSeatMapResponse
+          ?.physicalFlights
+          ?.firstOrNull
+          ?.physicalFlightSeatMap
+          ?.seatConfiguration
+          ?.rows;
+      final persons = state.filterState?.numberPerson;
+      final value = _fbKey.currentState!.value;
+      List<Passenger> passengers = [];
+      for (Person person in (persons?.persons ?? [])) {
+        final passenger = person.toPassenger(
+          outboundRows: rowsOutBound ?? [],
+          inboundRows: rowsInBound ?? [],
+          inboundPhysicalId: inboundSeats
+              ?.firstOrNull
+              ?.retrieveFlightSeatMapResponse
+              ?.physicalFlights
+              ?.firstOrNull?.physicalFlightID,
+          outboundPhysicalId: outboundSeats
+              ?.firstOrNull
+              ?.retrieveFlightSeatMapResponse
+              ?.physicalFlights
+              ?.firstOrNull?.physicalFlightID,
+        );
+        const formNameFirstName = "_first_name";
+        const formNameLastName = "_last_name";
+        const formNameTitle = "_title";
+        const formNameNationality = "_nationality";
+        const formNameDob = "_dob";
+        final filledPassenger = passenger.copyWith(
+            firstName: value["${person.toString()}$formNameFirstName"],
+            lastName: value["${person.toString()}$formNameLastName"],
+            title: (value["${person.toString()}$formNameTitle"] as String?)?.toUpperCase(),
+            nationality: value["${person.toString()}$formNameNationality"],
+            dob: value["${person.toString()}$formNameDob"],
+            gender: "Male",
+            relation: "Self"
+        );
+        passengers.add(filledPassenger);
+      }
+      final companyCountry = value[formNameCompanyCountry] as Country?;
+      final emergencyPhone = value[formNameEmergencyCountry] as Country?;
+
+      final summaryRequest = SummaryRequest(
+        token: verifyToken ?? "",
+        flightSummaryPNRRequest: FlightSummaryPnrRequest(
+          contactEmail: value[formNameContactEmail],
+          displayCurrency: "MYR",
+          preferredContactMethod: "Email",
+          comment: "No",
+          promoCode: "",
+          companyTaxInvoice: CompanyTaxInvoice(
+            companyName: value[formNameCompanyName],
+            companyAddress: value[formNameCompanyAddress],
+            country: companyCountry?.countryCode ?? "",
+            state: value[formNameCompanyState],
+            city: value[formNameCompanyCity],
+            emailAddress: value[formNameCompanyEmailAddress],
+            postCode: value[formNameCompanyPostCode],
+          ),
+          emergencyContact: EmergencyContact(
+            firstName: value[formNameEmergencyFirstName],
+            lastName: value[formNameEmergencyLastName],
+            phoneCode: emergencyPhone?.phoneCode,
+            phoneNumber: value[formNameEmergencyPhone],
+            relationship: value[formNameEmergencyRelation],
+          ),
+          passengers: passengers,
+        ),
+      );
+      LocalRepository().setPassengerInfo(summaryRequest.flightSummaryPNRRequest);
+      context.read<SummaryCubit>().submitSummary(summaryRequest);
+    }
+  }
+
 }

@@ -16,15 +16,30 @@ class CmsSsrCubit extends Cubit<CmsSsrState> {
   getCmsSSR(List<CMSRoute> cmsRoutes) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      final ssr = cmsRoutes.firstWhere(
-          (element) => element.contentType?.alias?.toLowerCase() == "ssr");
-      final cmsSSRs = await _repository.getSSRContent(ssr.key ?? "");
-      final ssrItems = cmsSSRs.items ?? [];
+      final universalSetting = cmsRoutes.firstWhereOrNull(
+          (element) => element.contentType?.alias?.toLowerCase() == "universalsharedsettings");
+
+      if(universalSetting == null){
+        emit(state.copyWith(
+          blocState: BlocState.finished,
+          mealGroups: [],
+        ));
+        return;
+      }
+      final cmsSSRs = await _repository.getSSRContent(universalSetting.key ?? "");
+      final ssr = cmsSSRs.items?.firstWhereOrNull((element) => element.name?.toLowerCase()=="ssr");
+      final notifications = cmsSSRs.items?.firstWhereOrNull(
+              (element) => element.name?.toLowerCase() == "notification alert");
+      final yptaMessage = cmsSSRs.items?.firstWhereOrNull(
+              (element) => element.name?.toLowerCase() == "ypta message");
+      final ssrItems = ssr?.items ?? [];
       final meal = ssrItems.firstWhereOrNull(
           (element) => element.name?.toLowerCase() == "mealgroup");
       emit(state.copyWith(
         blocState: BlocState.finished,
         mealGroups: meal?.items ?? [],
+        notifications: notifications?.items ?? [],
+        notice: yptaMessage,
       ));
     } catch (e, st) {
       emit(

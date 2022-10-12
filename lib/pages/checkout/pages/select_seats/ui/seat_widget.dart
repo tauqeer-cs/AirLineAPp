@@ -33,6 +33,7 @@ class SeatWidget extends StatelessWidget {
     final otherSelected = otherSeats?.contains(seats) ?? false;
     return GestureDetector(
       onTap: () {
+        if(!(seats.isSeatAvailable ?? true)) return;
         if(otherSelected) return;
         context
             .read<SearchFlightCubit>()

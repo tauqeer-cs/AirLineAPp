@@ -1,3 +1,4 @@
+import 'package:app/data/requests/book_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/verify_request.dart';
@@ -25,4 +26,7 @@ abstract class FlightProvider {
 
   @POST('checkout/summaryflight')
   Future<SummaryResponse> summaryFlight(@Body() SummaryRequest summaryRequest);
+
+  @POST('checkout/bookflight')
+  Future<dynamic> bookFlight(@Body() BookRequest bookRequest);
 }

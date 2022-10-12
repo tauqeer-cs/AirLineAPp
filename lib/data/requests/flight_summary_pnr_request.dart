@@ -1,6 +1,8 @@
 import 'package:app/models/home_content.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:hive/hive.dart';
@@ -361,6 +363,8 @@ class Passenger extends HiveObject with EquatableMixin {
         ssr: ssr ?? this.ssr,
         seat: seat ?? this.seat,
       );
+
+  PeopleType? get getType=> PeopleType.values.firstWhereOrNull((element) => element.code == paxType);
 }
 
 @JsonSerializable()

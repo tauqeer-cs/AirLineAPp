@@ -18,7 +18,7 @@ import 'package:stream_transform/stream_transform.dart';
 
 part 'local_user_event.dart';
 
-const throttleDuration = Duration(milliseconds: 500);
+const throttleDuration = Duration(milliseconds: 100);
 
 EventTransformer<E> throttleRestartable<E>(Duration duration) {
   return (events, mapper) {
@@ -33,24 +33,15 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
     on<Init>(
       _onInit,
     );
-    on<UpdateEmailContact>(
-      _onUpdateEmailContact,
-      transformer: throttleRestartable(throttleDuration),
-    );
-    on<UpdateEmergency>(
-      _onUpdateEmergency,
-      transformer: throttleRestartable(throttleDuration),
-    );
-    on<UpdateCompany>(
-      _onUpdateCompany,
-      transformer: throttleRestartable(throttleDuration),
-    );
+    on<UpdateEmailContact>(_onUpdateEmailContact);
+    on<UpdateEmergency>(_onUpdateEmergency);
+    on<UpdateCompany>(_onUpdateCompany);
   }
 
   void _onInit(
-      Init event,
-      Emitter<FlightSummaryPnrRequest> emit,
-      ) async {
+    Init event,
+    Emitter<FlightSummaryPnrRequest> emit,
+  ) async {
     final storage = _repository.getPassengerInfo();
     emit(storage);
   }
@@ -58,9 +49,14 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
   void _onUpdateEmailContact(
     UpdateEmailContact event,
     Emitter<FlightSummaryPnrRequest> emit,
-  ) async {
-    emit(state.copyWith(contactEmail: event.email));
-    _repository.setPassengerInfo(state);
+  ) {
+    print("event email ${event.email} , is emitter alive: ${!emit.isDone}");
+    final newEmail = state.copyWith(contactEmail: event.email);
+    if (emit.isDone) return;
+    print(
+        'Finished event email ${event.email}, is emitter alive: ${!emit.isDone}');
+    _repository.setPassengerInfo(newEmail);
+    emit(newEmail);
   }
 
   void _onUpdateEmergency(

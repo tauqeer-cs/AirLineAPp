@@ -77,12 +77,14 @@ class _CMSProvider implements CMSProvider {
   @override
   Future<CMSFlight> getSSRContent(
     key, {
-    query = "code,image",
+    query = "content,image,code",
+    deep = "6",
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
       r'query': query,
+      r'deep': deep,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

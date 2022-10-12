@@ -8,7 +8,7 @@ part 'cms_flight.g.dart';
 class CMSFlight extends Equatable{
   final int? id;
   final String? name;
-  final List<SSRItem>? items;
+  final List<SharedSetting>? items;
   const CMSFlight({this.id, this.name, this.items});
 
   @override
@@ -21,14 +21,34 @@ class CMSFlight extends Equatable{
 }
 
 @JsonSerializable()
+class SharedSetting  extends Equatable{
+  final int? id;
+  final String? name;
+  final List<SSRItem>? items;
+  final String? content;
+
+  const SharedSetting({this.id, this.name, this.items, this.content});
+
+  @override
+  List<Object?> get props => [id, name, items, content];
+
+  factory SharedSetting.fromJson(Map<String, dynamic> json) =>
+      _$SharedSettingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SharedSettingToJson(this);
+}
+
+@JsonSerializable()
 class SSRItem  extends Equatable{
   final int? id;
   final String? name;
   final List<SSRItemType>? items;
-  const SSRItem({this.id, this.name, this.items});
+  final String? content;
+
+  const SSRItem({this.id, this.name, this.items, this.content});
 
   @override
-  List<Object?> get props => [id, name, items];
+  List<Object?> get props => [id, name, items, content];
 
   factory SSRItem.fromJson(Map<String, dynamic> json) =>
       _$SSRItemFromJson(json);
@@ -42,11 +62,13 @@ class SSRItemType extends Equatable{
   final String? image;
   final int? id;
   final String? name;
+  final String? content;
 
-  const SSRItemType({this.code, this.image, this.id, this.name});
+
+  const SSRItemType({this.code, this.image, this.id, this.name, this.content});
 
   @override
-  List<Object?> get props => [code, image, id, name];
+  List<Object?> get props => [code, image, id, name, content];
 
   factory SSRItemType.fromJson(Map<String, dynamic> json) =>
       _$SSRItemTypeFromJson(json);

@@ -15,7 +15,7 @@ class LocalRepository {
 
   void setPassengerInfo(FlightSummaryPnrRequest flightSummaryPnrRequest) {
     var box = Hive.box<FlightSummaryPnrRequest>(passengerInfoBox);
-    print("saved is ${flightSummaryPnrRequest.contactEmail}");
+    print("saved is ${flightSummaryPnrRequest.emergencyContact?.toJson()}");
     box.put("info", flightSummaryPnrRequest);
   }
 

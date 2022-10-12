@@ -1,3 +1,6 @@
+import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_router.dart';
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
@@ -13,7 +16,10 @@ import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/app_app_bar.dart';
-import 'package:app/widgets/app_divider_widget.dart';
+import 'package:app/widgets/app_loading_screen.dart';
+import 'package:app/widgets/app_toast.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,13 +28,37 @@ class BookingDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SummaryCubit(),
-      child: Scaffold(
-        appBar: AppAppBar(),
-        body: BookingDetailsView(),
+    return LoaderOverlay(
+      useDefaultLoading: false,
+      child: BlocProvider(
+        create: (context) => SummaryCubit(),
+        child: BlocListener<SummaryCubit, SummaryState>(
+          listener: (context, state) {
+            blocListenerWrapper(
+              blocState: state.blocState,
+              onLoading: () {
+                print("summary loading");
+                context.loaderOverlay.show(
+                  widget: AppLoadingScreen(message: "Loading"),
+                );
+              },
+              onFailed: () {
+                context.loaderOverlay.hide();
+                Toast.of(context).show(message: state.message);
+              },
+              onFinished: () {
+                context.loaderOverlay.hide();
+                context.read<BookingCubit>().summaryFlight(state.summaryRequest);
+                context.router.push(PaymentRoute());
+              },
+            );
+          },
+          child: Scaffold(
+            appBar: AppAppBar(),
+            body: BookingDetailsView(),
+          ),
+        ),
       ),
     );
   }
-
 }

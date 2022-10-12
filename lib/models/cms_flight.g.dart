@@ -10,7 +10,7 @@ CMSFlight _$CMSFlightFromJson(Map<String, dynamic> json) => CMSFlight(
       id: json['id'] as int?,
       name: json['name'] as String?,
       items: (json['items'] as List<dynamic>?)
-          ?.map((e) => SSRItem.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => SharedSetting.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -29,12 +29,39 @@ Map<String, dynamic> _$CMSFlightToJson(CMSFlight instance) {
   return val;
 }
 
+SharedSetting _$SharedSettingFromJson(Map<String, dynamic> json) =>
+    SharedSetting(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      items: (json['items'] as List<dynamic>?)
+          ?.map((e) => SSRItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      content: json['content'] as String?,
+    );
+
+Map<String, dynamic> _$SharedSettingToJson(SharedSetting instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  writeNotNull('name', instance.name);
+  writeNotNull('items', instance.items);
+  writeNotNull('content', instance.content);
+  return val;
+}
+
 SSRItem _$SSRItemFromJson(Map<String, dynamic> json) => SSRItem(
       id: json['id'] as int?,
       name: json['name'] as String?,
       items: (json['items'] as List<dynamic>?)
           ?.map((e) => SSRItemType.fromJson(e as Map<String, dynamic>))
           .toList(),
+      content: json['content'] as String?,
     );
 
 Map<String, dynamic> _$SSRItemToJson(SSRItem instance) {
@@ -49,6 +76,7 @@ Map<String, dynamic> _$SSRItemToJson(SSRItem instance) {
   writeNotNull('id', instance.id);
   writeNotNull('name', instance.name);
   writeNotNull('items', instance.items);
+  writeNotNull('content', instance.content);
   return val;
 }
 
@@ -57,6 +85,7 @@ SSRItemType _$SSRItemTypeFromJson(Map<String, dynamic> json) => SSRItemType(
       image: json['image'] as String?,
       id: json['id'] as int?,
       name: json['name'] as String?,
+      content: json['content'] as String?,
     );
 
 Map<String, dynamic> _$SSRItemTypeToJson(SSRItemType instance) {
@@ -72,5 +101,6 @@ Map<String, dynamic> _$SSRItemTypeToJson(SSRItemType instance) {
   writeNotNull('image', instance.image);
   writeNotNull('id', instance.id);
   writeNotNull('name', instance.name);
+  writeNotNull('content', instance.content);
   return val;
 }

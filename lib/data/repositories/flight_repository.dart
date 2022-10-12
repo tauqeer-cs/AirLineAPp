@@ -1,6 +1,7 @@
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/flight_provider.dart';
+import 'package:app/data/requests/book_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/verify_request.dart';
@@ -37,5 +38,9 @@ class FlightRepository {
 
   Future<SummaryResponse> summaryFlight(SummaryRequest summaryRequest) async {
     return await _provider.summaryFlight(summaryRequest);
+  }
+
+  Future<dynamic> bookFlight(BookRequest bookRequest) async {
+    return await _provider.bookFlight(bookRequest);
   }
 }

@@ -108,11 +108,19 @@ class MyInterceptor extends Interceptor {
     if (response.data is Map) {
       Map result = response.data;
       if (result.containsKey("result")) {
+        final data = result["result"];
         final isSuccess = result["success"] ?? true;
-        if (isSuccess is bool && !isSuccess) {
+        final isSuccessResult = data["success"] ?? true;
+
+        print("isSuccess is $isSuccess isSuccessResult $isSuccessResult");
+        if ((isSuccess is bool && !isSuccess) || (isSuccessResult is bool && !isSuccessResult)) {
           if(result["error"] !=null && result["error"] is Map){
             throw ErrorResponse.fromJson(result["error"]);
-            return;
+          }else if(data["error"] !=null && data["error"] is Map){
+            throw ErrorResponse.fromJson(data["error"]);
+          }else{
+            throw ErrorResponse.fromJson(data["error"]);
+
           }
         }
         response.data = result["result"];
@@ -161,7 +169,9 @@ class MyInterceptor extends Interceptor {
       logger.e('Error is String $error');
       Map<String, dynamic> errors = {'message': error};
       throw ErrorResponse.fromJson(errors);
-    } else{
+    } else if (error is ErrorResponse) {
+      throw error;
+    }else{
       print("error unknown format ${error.runtimeType}");
       print("error unknown format ${error}");
     }

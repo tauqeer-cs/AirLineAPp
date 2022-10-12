@@ -19,6 +19,7 @@ class SummaryCubit extends Cubit<SummaryState> {
       emit(state.copyWith(
         blocState: BlocState.finished,
         summaryResponse:response,
+        summaryRequest: summaryRequest,
       ));
     } catch (e, st) {
       emit(

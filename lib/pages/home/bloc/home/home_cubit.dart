@@ -4,6 +4,7 @@ import 'package:app/models/cms_route.dart';
 import 'package:app/models/home_content.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 part 'home_state.dart';
@@ -15,9 +16,9 @@ class HomeCubit extends Cubit<HomeState> {
   getContents(List<CMSRoute> routes) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      final homeId = routes.firstWhere(
+      final homeId = routes.firstWhereOrNull(
               (element) => element.contentType?.alias?.toLowerCase() == "home");
-      final response = await _repository.getHomeContent(homeId.key ?? "");
+      final response = await _repository.getHomeContent(homeId?.key ?? "");
       emit(state.copyWith(
         blocState: BlocState.finished,
         contents: response.items ?? [],

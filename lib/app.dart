@@ -54,6 +54,7 @@ class _AppState extends State<App> {
           BlocListener<RoutesCubit, RoutesState>(
             listener: (context, state) {
               context.read<HomeCubit>().getContents(state.routes);
+              context.read<CmsSsrCubit>().getCmsSSR(state.routes);
             },
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(

@@ -44,8 +44,8 @@ class BookingCubit extends Cubit<BookingState> {
     emit(state.copyWith(isVerify: false));
   }
 
-  summaryFlight(SummaryRequest summaryRequest) {
-    emit(state.copyWith(isVerify: false));
+  summaryFlight(SummaryRequest? summaryRequest) {
+    emit(state.copyWith(summaryRequest: summaryRequest));
   }
 
   verifyFlight(FilterState? filterState) async {

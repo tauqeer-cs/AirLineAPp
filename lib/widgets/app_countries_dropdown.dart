@@ -14,12 +14,13 @@ class AppCountriesDropdown extends StatelessWidget {
   final String? hintText;
   final List<String? Function(Country?)>? validators;
 
-
   const AppCountriesDropdown(
       {Key? key,
       required this.name,
       this.initialValue,
-      required this.isPhoneCode, this.hintText, this.validators})
+      required this.isPhoneCode,
+      this.hintText,
+      this.validators})
       : super(key: key);
 
   @override
@@ -30,11 +31,21 @@ class AppCountriesDropdown extends StatelessWidget {
           blocState: state.blocState,
           finishedBuilder: FormBuilderDropdown<Country>(
               validator: FormBuilderValidators.compose(validators ?? []),
-            decoration: InputDecoration(
-              hintText: hintText,
-            ),
+              decoration: InputDecoration(
+                hintText: hintText,
+              ),
               name: name,
-              items: state.countries
+              items: (state.countries.isNotEmpty
+                      ? state.countries
+                      : [
+                          Country(
+                            countryCode: "MY",
+                            phoneCode: "60",
+                            phoneCodeDisplay: "+60",
+                            country: "Malaysia",
+                            countryCode2: "MYS",
+                          )
+                        ])
                   .map(
                     (e) => DropdownMenuItem<Country>(
                       child: Text(
