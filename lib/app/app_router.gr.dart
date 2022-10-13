@@ -43,6 +43,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           url: args.url,
           title: args.title,
+          htmlContent: args.htmlContent,
         ),
       );
     },
@@ -212,6 +213,7 @@ class WebViewRoute extends PageRouteInfo<WebViewRouteArgs> {
     Key? key,
     required String url,
     String? title,
+    String? htmlContent,
   }) : super(
           WebViewRoute.name,
           path: '/webview',
@@ -219,6 +221,7 @@ class WebViewRoute extends PageRouteInfo<WebViewRouteArgs> {
             key: key,
             url: url,
             title: title,
+            htmlContent: htmlContent,
           ),
         );
 
@@ -230,6 +233,7 @@ class WebViewRouteArgs {
     this.key,
     required this.url,
     this.title,
+    this.htmlContent,
   });
 
   final Key? key;
@@ -238,9 +242,11 @@ class WebViewRouteArgs {
 
   final String? title;
 
+  final String? htmlContent;
+
   @override
   String toString() {
-    return 'WebViewRouteArgs{key: $key, url: $url, title: $title}';
+    return 'WebViewRouteArgs{key: $key, url: $url, title: $title, htmlContent: $htmlContent}';
   }
 }
 

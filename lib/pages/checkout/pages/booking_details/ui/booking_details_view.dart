@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
@@ -11,6 +12,7 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/card_summary.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/list_of_passenger_info.dart';
+import 'package:app/pages/checkout/pages/select_seats/ui/seats_legend.dart';
 import 'package:app/pages/checkout/ui/booking_details_header.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/checkout/ui/person_selector.dart';
@@ -22,6 +24,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../theme/theme.dart';
 
@@ -52,51 +56,11 @@ class BookingDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final widgets = <Widget>[
-      kVerticalSpacerBig,
-      Padding(
-        padding: kPageHorizontalPadding,
-        child: Column(
-          children: [
-            AppBookingHeader(passedSteps: [
-              BookingStep.flights,
-              BookingStep.addOn,
-              BookingStep.bookingDetails
-            ]),
-            kVerticalSpacer,
-            BookingDetailsHeader(),
-            kVerticalSpacer,
-            CardSummary(),
-            kVerticalSpacer,
-            ListOfPassengerInfo(),
-          ],
-        ),
-      ),
-      CheckoutSummary(),
-      kVerticalSpacer,
-      Padding(
-        padding: kPageHorizontalPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            AppDividerWidget(),
-            kVerticalSpacer,
-            BookingSummary(),
-            kVerticalSpacer,
-            ElevatedButton(
-              onPressed: () => onBooking(context),
-              child: Text("Continue"),
-            ),
-            kVerticalSpacer,
-          ],
-        ),
-      ),
-    ];
+    final  notice= context.watch<CmsSsrCubit>().state.notice;
     return FormBuilder(
       autoFocusOnValidationFailure: true,
       key: _fbKey,
-      child: true
-          ? SingleChildScrollView(
+      child: SingleChildScrollView(
               child: Column(
                 children: [
                   kVerticalSpacerBig,
@@ -115,6 +79,24 @@ class BookingDetailsView extends StatelessWidget {
                         CardSummary(),
                         kVerticalSpacer,
                         ListOfPassengerInfo(),
+                        kVerticalSpacer,
+
+                        kVerticalSpacer,
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          width: 500.w,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Checkbox(value: true, onChanged: (_){}),
+                              Expanded(child: Html(data: notice?.content ?? "")),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -139,10 +121,6 @@ class BookingDetailsView extends StatelessWidget {
                   )
                 ],
               ),
-            )
-          : ListView.builder(
-              itemBuilder: (context, index) => widgets[index],
-              itemCount: widgets.length,
             ),
     );
   }

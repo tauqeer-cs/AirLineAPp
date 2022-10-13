@@ -1,25 +1,30 @@
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class BaggageNotice extends StatelessWidget {
   const BaggageNotice({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final  carryNotice= context.watch<CmsSsrCubit>().state.carryNotice;
+    final  oversizedNotice= context.watch<CmsSsrCubit>().state.oversizedNotice;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Carry-on Baggage", style: kGiantSemiBold),
           kVerticalSpacer,
-          Text("You have a carry-on allowance of 7kg "),
-          kVerticalSpacerSmall,
-          Text("You can bring 2 items: one main item and one small item weighing a combined 7kg. "),
-          kVerticalSpacerSmall,
-          Text("Baggage fees apply at the airport if you exceed your allowance. "),
-          kVerticalSpacerSmall,
-          Text("If you need more, add 7kg to increase your allowance to 14kg. Limited availability per flight. "),
+          Html(data: carryNotice?.content ?? ""),
+          kVerticalSpacerBig,
+          kVerticalSpacer,
+          Text("Travel with Oversized items? ", style: kGiantSemiBold),
+          kVerticalSpacer,
+          Html(data: oversizedNotice?.content ?? ""),
         ],
       ),
     );

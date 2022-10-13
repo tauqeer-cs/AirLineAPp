@@ -9,7 +9,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 class AppCountriesDropdown extends StatelessWidget {
   final String name;
-  final String? initialValue;
+  final Country? initialValue;
   final bool isPhoneCode;
   final String? hintText;
   final List<String? Function(Country?)>? validators;
@@ -35,17 +35,13 @@ class AppCountriesDropdown extends StatelessWidget {
                 hintText: hintText,
               ),
               name: name,
+              initialValue: initialValue ?? Country.defaultCountry,
+              onChanged: (country){
+                print(country);
+              },
               items: (state.countries.isNotEmpty
                       ? state.countries
-                      : [
-                          Country(
-                            countryCode: "MY",
-                            phoneCode: "60",
-                            phoneCodeDisplay: "+60",
-                            country: "Malaysia",
-                            countryCode2: "MYS",
-                          )
-                        ])
+                      : [Country.defaultCountry])
                   .map(
                     (e) => DropdownMenuItem<Country>(
                       child: Text(

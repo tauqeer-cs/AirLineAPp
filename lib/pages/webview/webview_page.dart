@@ -9,8 +9,9 @@ import 'ui/web_view_stack.dart';
 class WebViewPage extends StatefulWidget {
   final String url;
   final String? title;
+  final String? htmlContent;
 
-  const WebViewPage({Key? key, required this.url, this.title})
+  const WebViewPage({Key? key, required this.url, this.title, this.htmlContent})
       : super(key: key);
 
   @override
@@ -38,12 +39,14 @@ class _WebViewPageState extends State<WebViewPage> {
               child: WebViewStack(
                 controller: controller,
                 url: widget.url,
+                htmlContent: widget.htmlContent,
               ),
             )
           : WebViewStack(
               controller: controller,
               url: widget.url,
-            ),
+        htmlContent: widget.htmlContent,
+      ),
     );
   }
 }

@@ -16,6 +16,7 @@ class BookRequest extends Equatable {
     this.token,
     this.flightSummaryPNRRequest,
     this.paymentDetail,
+    this.superPNRNo,
   });
 
   factory BookRequest.fromJson(Map<String, dynamic> json) =>
@@ -27,17 +28,21 @@ class BookRequest extends Equatable {
   final FlightSummaryPnrRequest? flightSummaryPNRRequest;
   @JsonKey(name: 'PaymentDetail')
   final PaymentDetail? paymentDetail;
+  @JsonKey(name: 'SuperPNRNo')
+  final String? superPNRNo;
 
   BookRequest copyWith({
     String? token,
     FlightSummaryPnrRequest? flightSummaryPNRRequest,
     PaymentDetail? paymentDetail,
+    String? superPNRNo,
   }) =>
       BookRequest(
         token: token ?? this.token,
         flightSummaryPNRRequest:
             flightSummaryPNRRequest ?? this.flightSummaryPNRRequest,
         paymentDetail: paymentDetail ?? this.paymentDetail,
+        superPNRNo: superPNRNo ?? this.superPNRNo,
       );
 
   @override

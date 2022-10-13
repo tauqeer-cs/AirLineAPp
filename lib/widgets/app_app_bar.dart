@@ -1,12 +1,16 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/widgets/app_image_carousel.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:html/parser.dart' as htmlparser;
+import 'package:html/dom.dart' as dom;
 
 import '../theme/theme.dart';
 
@@ -26,9 +30,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final bool canPop = parentRoute?.canPop ?? false;
-    final notifications = context.watch<CmsSsrCubit>().state.notifications;
     return PreferredSize(
-      preferredSize: Size.fromHeight(120.h),
+      preferredSize: Size.fromHeight(125.h),
       child: AppBar(
         toolbarHeight: 60.h,
         centerTitle: false,
@@ -47,32 +50,9 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icon(Icons.menu),
           ),
         ],
-        flexibleSpace: BlocBuilder<CmsSsrCubit, CmsSsrState>(
-          builder: (context, state) {
-            final notification = state.notifications?.firstOrNull;
-            return blocBuilderWrapper(
-              blocState: state.blocState,
-              finishedBuilder: notification == null
-                  ? SizedBox()
-                  : Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 75.h,
-                        width: 500.w,
-                        padding: const EdgeInsets.all(12.0),
-                        child: GlassCard(
-                          color: Colors.yellowAccent,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(notification.content ?? ""),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-            );
-          },
+        flexibleSpace: Align(
+          alignment: Alignment.bottomLeft,
+          child: NotificationsWidget(),
         ),
         title: Container(
           padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 20),
@@ -89,5 +69,46 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(120.h);
+  Size get preferredSize => Size.fromHeight(125.h);
+}
+
+class NotificationsWidget extends StatelessWidget {
+  const NotificationsWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print("notifications is asd");
+    return BlocBuilder<CmsSsrCubit, CmsSsrState>(
+      builder: (context, state) {
+        final notifications = state.notifications;
+        print("notifications is ${notifications?.length} ${state.blocState}");
+        return blocBuilderWrapper(
+          blocState: state.blocState,
+          finishedBuilder: notifications?.isEmpty ?? true
+              ? SizedBox()
+              : Container(
+                  padding: const EdgeInsets.all(12.0),
+                  width: 500.w,
+                  height: 85.h,
+                  child: GlassCard(
+                    color: Colors.yellowAccent,
+                    child: AppImageCarousel(
+                      aspectRatio: 500.w / 40.h,
+                      items: notifications!
+                          .map((e) => Html(
+                                data: e.content ?? "",
+                              ))
+                          .toList(),
+                      showIndicator: false,
+                      autoPlay: notifications.length > 1,
+                      infiniteScroll: true,
+                    ),
+                  ),
+                ),
+        );
+      },
+    );
+  }
 }

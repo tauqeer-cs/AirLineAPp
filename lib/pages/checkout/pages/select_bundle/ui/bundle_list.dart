@@ -1,6 +1,8 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/pages/checkout/pages/select_bundle/ui/bundle_card.dart';
+import 'package:app/pages/checkout/pages/select_seats/ui/seats_legend.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/checkout/ui/person_selector.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
@@ -29,6 +31,8 @@ class _BundleListState extends State<BundleList>
     final bundles = widget.isDeparture
         ? ssr?.bundleGroup?.outbound
         : ssr?.bundleGroup?.inbound;
+    final bundleNotice = context.watch<CmsSsrCubit>().state.bundleNotice;
+
     return ListView(
       children: [
         Padding(
@@ -39,6 +43,8 @@ class _BundleListState extends State<BundleList>
                 kVerticalSpacer,
                 Text("Bundle", style: kGiantHeavy),
                 PersonSelector(),
+                kVerticalSpacer,
+                ContainerNotice(sharedNotice: bundleNotice),
                 kVerticalSpacer,
                 Column(
                   children: [

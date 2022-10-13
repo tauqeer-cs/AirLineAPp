@@ -1,9 +1,12 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/data/api.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/book_request.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
+import 'package:app/models/pay_redirection.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 part 'payment_state.dart';
@@ -27,16 +30,33 @@ class PaymentCubit extends Cubit<PaymentState> {
         totalAmount: total,
         totalAmountNeedToPay: totalNeedPaid,
       );
-      final bookRequest = BookRequest(
-        token: token,
-        paymentDetail: paymentDetail,
-        flightSummaryPNRRequest: flightSummaryPnrRequest,
+      final bookRequest = state.paymentResponse != null
+          ? BookRequest(
+              paymentDetail: paymentDetail,
+              superPNRNo: state.paymentResponse?.superPnrNo,
+            )
+          : BookRequest(
+              token: token,
+              paymentDetail: paymentDetail,
+              flightSummaryPNRRequest: flightSummaryPnrRequest,
+            );
+      final redirectionData = await _repository.bookFlight(bookRequest);
+      FormData formData = FormData.fromMap(
+          redirectionData.paymentRedirectData?.redirectMap() ?? {});
+      print(
+          "payment url is ${redirectionData.paymentRedirectData?.paymentUrl}");
+      var response = await Dio().post(
+        redirectionData.paymentRedirectData?.paymentUrl ?? "",
+        data: formData,
       );
-      final response = await _repository.bookFlight(bookRequest);
+      print("response from payment ${response.data}");
+
       emit(state.copyWith(
-          blocState: BlocState.finished,
-          bookRequest: bookRequest,
-          paymentResponse: response));
+        blocState: BlocState.finished,
+        bookRequest: bookRequest,
+        paymentResponse: redirectionData,
+        paymentRedirect: response.data,
+      ));
     } catch (e, st) {
       emit(
         state.copyWith(

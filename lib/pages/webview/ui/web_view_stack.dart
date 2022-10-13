@@ -1,11 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:app/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewStack extends StatefulWidget {
   final String url;
-  const WebViewStack({required this.controller, Key? key, required this.url}) : super(key: key);
+  final String? htmlContent;
+
+  const WebViewStack({
+    required this.controller,
+    Key? key,
+    required this.url,
+    this.htmlContent,
+  }) : super(key: key);
 
   final Completer<WebViewController> controller;
 
@@ -18,16 +26,18 @@ class _WebViewStackState extends State<WebViewStack> {
 
   @override
   Widget build(BuildContext context) {
+    print("widget ${widget.htmlContent}");
     return Stack(
       children: [
         WebView(
-          initialUrl: widget.url,
+          initialUrl: widget.htmlContent!=null ? 'about:blank':widget.url,
           onWebViewCreated: (webViewController) {
             widget.controller.complete(webViewController);
+            _loadHtmlFromAssets(webViewController);
           },
           onPageStarted: (url) {
             setState(() {
-                loadingPercentage = 0;
+              loadingPercentage = 0;
             });
           },
           onProgress: (progress) {
@@ -40,8 +50,8 @@ class _WebViewStackState extends State<WebViewStack> {
               loadingPercentage = 100;
             });
           },
-
           navigationDelegate: (navigation) {
+            print("navigation url is ${navigation.url}");
             final host = Uri.parse(navigation.url).host;
             if (host.contains('youtube.com')) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -64,6 +74,14 @@ class _WebViewStackState extends State<WebViewStack> {
             color: Styles.kPrimaryColor,
           ),
       ],
+    );
+  }
+
+  _loadHtmlFromAssets(WebViewController webViewController) async {
+    webViewController.loadUrl(
+      Uri.dataFromString(widget.htmlContent ?? "",
+              mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+          .toString(),
     );
   }
 

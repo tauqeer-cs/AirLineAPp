@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'country.g.dart';
+
 @JsonSerializable()
 class Countries extends Equatable {
   Countries({
@@ -12,6 +13,7 @@ class Countries extends Equatable {
   });
 
   final List<Country>? countries;
+
   Countries copyWith({
     List<Country>? countries,
   }) =>
@@ -27,13 +29,13 @@ class Countries extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    this.countries,
-  ];
+        this.countries,
+      ];
 }
 
 @JsonSerializable()
 class Country extends Equatable {
-  Country({
+  const Country({
     this.countryCode,
     this.countryCode2,
     this.country,
@@ -70,10 +72,14 @@ class Country extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.countryCode,
-        this.countryCode2,
-        this.country,
         this.phoneCode,
-        this.phoneCodeDisplay,
       ];
+
+  static const Country defaultCountry = const Country(
+    countryCode: "MYS",
+    phoneCode: "60",
+    phoneCodeDisplay: "+60",
+    country: "Malaysia",
+    countryCode2: "MY",
+  );
 }

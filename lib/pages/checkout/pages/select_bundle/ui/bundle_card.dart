@@ -1,10 +1,12 @@
 import 'package:app/app.dart';
+import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_card.dart';
+import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,8 @@ class BundleCard extends StatelessWidget {
     final bundle = isDeparture
         ? focusedPerson?.departureBundle
         : focusedPerson?.returnBundle;
+    final cmsBundles = context.watch<CmsSsrCubit>().state.bundleGroups;
+    final image = cmsBundles.firstWhereOrNull((element) => element.code == inboundBundle?.bundle?.codeType)?.image;
     return GestureDetector(
       onTap: () {
         context.read<SearchFlightCubit>().addBundleToPerson(selectedPerson, inboundBundle, isDeparture);
@@ -41,7 +45,9 @@ class BundleCard extends StatelessWidget {
         child: AppCard(
           child: Column(
             children: [
-              Image.asset("assets/images/design/package.png"),
+              image!=null ? AppImage(
+                imageUrl: image,
+              ):Image.asset("assets/images/design/package.png"),
               kVerticalSpacer,
               Text(inboundBundle?.bundle?.description?.capitalize() ??
                   "No Service Bundle"),

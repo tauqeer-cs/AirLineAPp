@@ -65,22 +65,26 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
           ),
           items: widget.items,
         ),
-        kVerticalSpacerSmall,
         Visibility(
           visible: widget.showIndicator,
-          child: AnimatedSmoothIndicator(
-            activeIndex: _current,
-            count: widget.items.length,
-            effect: ScrollingDotsEffect(
-              activeStrokeWidth: 2.6,
-              activeDotScale: 1.3,
-              maxVisibleDots: 5,
-              radius: 10,
-              spacing: 5,
-              dotHeight: 10,
-              dotWidth: 10,
-              activeDotColor: Styles.kPrimaryColor,
-            ),
+          child: Column(
+            children: [
+              kVerticalSpacerSmall,
+              AnimatedSmoothIndicator(
+                activeIndex: _current,
+                count: widget.items.length,
+                effect: ScrollingDotsEffect(
+                  activeStrokeWidth: 2.6,
+                  activeDotScale: 1.3,
+                  maxVisibleDots: 5,
+                  radius: 10,
+                  spacing: 5,
+                  dotHeight: 10,
+                  dotWidth: 10,
+                  activeDotColor: Styles.kPrimaryColor,
+                ),
+              ),
+            ],
           ),
         )
       ],

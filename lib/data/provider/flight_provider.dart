@@ -7,6 +7,7 @@ import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/summary_response.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/airports.dart';
+import 'package:app/models/pay_redirection.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -28,5 +29,5 @@ abstract class FlightProvider {
   Future<SummaryResponse> summaryFlight(@Body() SummaryRequest summaryRequest);
 
   @POST('checkout/bookflight')
-  Future<dynamic> bookFlight(@Body() BookRequest bookRequest);
+  Future<PayRedirection> bookFlight(@Body() BookRequest bookRequest);
 }
