@@ -1,9 +1,11 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/booking_local/booking_local_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/models/booking_local.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/payment/bloc/payment_cubit.dart';
@@ -26,9 +28,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
+
+class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -45,20 +52,62 @@ class PaymentPage extends StatelessWidget {
               },
               onFailed: () {
                 context.loaderOverlay.hide();
+                if (state.message == "Error: Reach Maximum Payment Attempts") {
+                  context.router.replaceAll([HomeRoute()]);
+                }
                 Toast.of(context).show(message: state.message);
               },
-              onFinished: () {
+              onFinished: () async {
                 context.loaderOverlay.hide();
-                //context.read<BookingCubit>().summaryFlight(state.summaryRequest);
-                context.router.push(
+                final result = await context.router.push(
                   WebViewRoute(url: "", htmlContent: state.paymentRedirect),
                 );
+                if (result != null && result is String) {
+                  final urlParsed = Uri.parse(result);
+                  var query = urlParsed.queryParametersAll;
+                  String? status = query['status']?.first;
+                  String? superPNR = query['superPNR']?.first;
+                  if (status != "FAIL") {
+                    if (mounted) {
+                      final filter =
+                          context.read<SearchFlightCubit>().state.filterState;
+                      final bookingLocal = BookingLocal(
+                        bookingId: superPNR,
+                        departureDate: filter?.departDate,
+                        returnDate: filter?.returnDate,
+                        departureString: filter?.beautify,
+                        returnString: filter?.beautifyReverse,
+                      );
+                      context
+                          .read<BookingLocalCubit>()
+                          .saveBooking(bookingLocal);
+                    }
+                    //context.router.popUntilRoot();
+                    context.router.replaceAll([
+                      HomeRoute(),
+                      BookingConfirmationRoute(bookingId: superPNR ?? "")
+                    ]);
+                  } else {
+                    if (mounted) {
+                      Toast.of(context).show(message: "Payment failed");
+                    }
+                  }
+                } else {
+                  // context.router.push(HomeRoute());
+                  // context.router.replaceAll(
+                  //   [
+                  //     HomeRoute(),
+                  //     BookingConfirmationRoute(bookingId: ""),
+                  //   ],
+                  // );
+                  // context.router.push(HomeRoute());
+                  // context.router.push(BookingConfirmationRoute(bookingId: ""));
+                }
               },
             );
           },
-          child: Scaffold(
-            appBar: AppAppBar(),
-            body: PaymentView(),
+          child: AppScaffold(
+            child: PaymentView(),
           ),
         ),
       ),

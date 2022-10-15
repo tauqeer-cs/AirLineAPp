@@ -11,9 +11,8 @@ class SearchResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppAppBar(),
-      body: SearchResultView(),
+    return AppScaffold(
+      child: SearchResultView(),
     );
   }
 }

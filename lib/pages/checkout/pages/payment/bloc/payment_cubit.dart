@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/book_request.dart';
@@ -29,6 +30,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         promoCode: promoCode,
         totalAmount: total,
         totalAmountNeedToPay: totalNeedPaid,
+        frontendUrl: AppFlavor.paymentRedirectUrl,
       );
       final bookRequest = state.paymentResponse != null
           ? BookRequest(

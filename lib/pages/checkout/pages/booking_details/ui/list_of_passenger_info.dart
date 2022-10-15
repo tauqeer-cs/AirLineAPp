@@ -35,7 +35,7 @@ class ListOfPassengerInfo extends StatelessWidget {
             children: const [
               PassengerContact(),
               PassengerEmergencyContact(),
-              //PassengerCompanyInfo(),
+              PassengerCompanyInfo(),
             ],
           ),
         ),
@@ -140,7 +140,8 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
           initialValue: firstName,
           onChanged: (value) {
             final request =
-                context.read<LocalUserBloc>().state.emergencyContact ?? EmergencyContact();
+                context.read<LocalUserBloc>().state.emergencyContact ??
+                    EmergencyContact();
             final newRequest = request.copyWith(firstName: value);
             context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
           },
@@ -211,10 +212,34 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   }
 }
 
-class PassengerCompanyInfo extends StatelessWidget {
+class PassengerCompanyInfo extends StatefulWidget {
   const PassengerCompanyInfo({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<PassengerCompanyInfo> createState() => _PassengerCompanyInfoState();
+}
+
+class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
+  String? name;
+  String? address;
+  String? state;
+  String? city;
+  String? postCode;
+  String? emailAddress;
+
+  @override
+  void initState() {
+    super.initState();
+    final contact = context.read<LocalUserBloc>().state.companyTaxInvoice;
+    name = contact?.companyName;
+    address = contact?.companyAddress;
+    state = contact?.state;
+    city = contact?.city;
+    postCode = contact?.postCode;
+    emailAddress = contact?.emailAddress;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,40 +251,89 @@ class PassengerCompanyInfo extends StatelessWidget {
         kVerticalSpacer,
         const Text("Company Tax Invoice (Optional)", style: kHugeSemiBold),
         kVerticalSpacer,
-        const AppInputText(
+        AppInputText(
           name: formNameCompanyName,
+          initialValue: name,
           hintText: "Company",
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.companyTaxInvoice;
+            final newRequest = request?.copyWith(companyName: value);
+            context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+          },
         ),
         kVerticalSpacer,
-        const AppInputText(
+        AppInputText(
           name: formNameCompanyAddress,
+          initialValue: address,
+
           hintText: "Company Address",
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.companyTaxInvoice;
+            final newRequest = request?.copyWith(companyAddress: value);
+            context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+          },
         ),
         kVerticalSpacer,
         const AppCountriesDropdown(
+
           name: formNameCompanyCountry,
           hintText: "Country",
           isPhoneCode: false,
+
         ),
         kVerticalSpacer,
-        const AppInputText(
+        AppInputText(
           name: formNameCompanyState,
+          initialValue: state,
+
           hintText: "State",
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.companyTaxInvoice;
+            final newRequest = request?.copyWith(state: value);
+            context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+          },
         ),
         kVerticalSpacer,
-        const AppInputText(
+        AppInputText(
           name: formNameCompanyCity,
+          initialValue: city,
+
           hintText: "City",
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.companyTaxInvoice;
+            final newRequest = request?.copyWith(city: value);
+            context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+          },
         ),
         kVerticalSpacer,
-        const AppInputText(
+        AppInputText(
           name: formNameCompanyPostCode,
+          initialValue: postCode,
+
           hintText: "Postcode",
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.companyTaxInvoice;
+            final newRequest = request?.copyWith(postCode: value);
+            context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+          },
         ),
         kVerticalSpacer,
-        const AppInputText(
+        AppInputText(
           name: formNameCompanyEmailAddress,
           hintText: "Email Address",
+          initialValue: emailAddress,
+          validators: [FormBuilderValidators.email()],
+          onChanged: (value) {
+            final request =
+                context.read<LocalUserBloc>().state.companyTaxInvoice;
+            final newRequest = request?.copyWith(emailAddress: value);
+            context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+          },
         ),
         kVerticalSpacer,
       ],

@@ -137,6 +137,29 @@ class _FlightProvider implements FlightProvider {
     return value;
   }
 
+  @override
+  Future<ConfirmationModel> bookingDetail(key) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'superPNRNo': key};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ConfirmationModel>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'checkout/flightbookingdetail',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ConfirmationModel.fromJson(_result.data!);
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

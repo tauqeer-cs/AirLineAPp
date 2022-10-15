@@ -63,7 +63,7 @@ class PaymentDetail extends Equatable {
     this.totalAmountNeedToPay,
     this.myRewardPoints = 0,
     this.promoCode,
-    this.frontendUrl = "https://mya-booking.alphareds.com/booked",
+    required this.frontendUrl,
   });
 
   factory PaymentDetail.fromJson(Map<String, dynamic> json) =>
@@ -84,7 +84,7 @@ class PaymentDetail extends Equatable {
   @JsonKey(name: 'PromoCode')
   final dynamic promoCode;
   @JsonKey(name: 'FrontendURL')
-  final String? frontendUrl;
+  final String frontendUrl;
 
   PaymentDetail copyWith({
     String? paymentMethod,
@@ -92,7 +92,7 @@ class PaymentDetail extends Equatable {
     num? totalAmount,
     num? totalAmountNeedToPay,
     num? myRewardPoints,
-    dynamic promoCode,
+    String? promoCode,
     String? frontendUrl,
   }) =>
       PaymentDetail(

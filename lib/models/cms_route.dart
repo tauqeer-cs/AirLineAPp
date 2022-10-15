@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cms_route.g.dart';
@@ -24,7 +23,6 @@ class CMSRoute extends Equatable {
 
   factory CMSRoute.fromJson(Map<String, dynamic> json) =>
       _$CMSRouteFromJson(json);
-
   Map<String, dynamic> toJson() => _$CMSRouteToJson(this);
 
   @override

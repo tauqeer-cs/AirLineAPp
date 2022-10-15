@@ -43,9 +43,8 @@ class _SelectSeatsPageState extends State<SelectSeatsPage>
         ),
       );
     }
-    return Scaffold(
-      appBar: AppAppBar(),
-      body: AddonLayout(
+    return AppScaffold(
+      child: AddonLayout(
         child: tabBody,
       ),
     );

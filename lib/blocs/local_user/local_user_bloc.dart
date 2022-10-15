@@ -50,11 +50,7 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
     UpdateEmailContact event,
     Emitter<FlightSummaryPnrRequest> emit,
   ) {
-    print("event email ${event.email} , is emitter alive: ${!emit.isDone}");
     final newEmail = state.copyWith(contactEmail: event.email);
-    if (emit.isDone) return;
-    print(
-        'Finished event email ${event.email}, is emitter alive: ${!emit.isDone}');
     _repository.setPassengerInfo(newEmail);
     emit(newEmail);
   }
@@ -63,15 +59,17 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
     UpdateEmergency event,
     Emitter<FlightSummaryPnrRequest> emit,
   ) async {
-    emit(state.copyWith(emergencyContact: event.emergencyContact));
-    _repository.setPassengerInfo(state);
+    final emergency = state.copyWith(emergencyContact: event.emergencyContact);
+    _repository.setPassengerInfo(emergency);
+    emit(emergency);
   }
 
   void _onUpdateCompany(
     UpdateCompany event,
     Emitter<FlightSummaryPnrRequest> emit,
   ) async {
-    emit(state.copyWith(companyTaxInvoice: event.companyInfo));
-    _repository.setPassengerInfo(state);
+    final company = state.copyWith(companyTaxInvoice: event.companyInfo);
+    _repository.setPassengerInfo(company);
+    emit(company);
   }
 }

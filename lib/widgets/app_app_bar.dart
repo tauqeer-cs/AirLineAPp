@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_router.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:app/widgets/app_logo_widget.dart';
@@ -14,16 +15,59 @@ import 'package:html/dom.dart' as dom;
 
 import '../theme/theme.dart';
 
+class AppScaffold extends StatelessWidget {
+  final Widget child;
+
+  const AppScaffold({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final notifications = context.watch<CmsSsrCubit>().state.notifications ?? [];
+    return Scaffold(
+      endDrawer: Drawer(
+        width: 250.w,
+        backgroundColor: Styles.kPrimaryColor,
+        child: Builder(
+          builder: (context) {
+            return SafeArea(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: Text("Manage Bookings", style: TextStyle().copyWith(color: Colors.white),),
+                    onTap: () {
+                      Scaffold.of(context).closeEndDrawer();
+                      context.router.push(BookingListRoute());
+                    },
+                  ),
+                ],
+              ),
+            );
+          }
+        ),
+      ),
+      appBar: AppAppBar(
+        onAction: () => Scaffold.of(context).openEndDrawer(),
+        height: notifications.isEmpty ? 60.h : 125.h,
+      ),
+      body: child,
+    );
+  }
+}
+
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool canBack;
   final Widget? child;
+  final Function() onAction;
+  final double height;
 
   const AppAppBar({
     Key? key,
     this.child,
     this.title,
+    required this.onAction,
     this.canBack = true,
+    required this.height,
   }) : super(key: key);
 
   @override
@@ -31,7 +75,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final bool canPop = parentRoute?.canPop ?? false;
     return PreferredSize(
-      preferredSize: Size.fromHeight(125.h),
+      preferredSize: Size.fromHeight(height),
       child: AppBar(
         toolbarHeight: 60.h,
         centerTitle: false,
@@ -45,10 +89,10 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
               )
             : null,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu),
-          ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: Icon(Icons.menu),
+          // ),
         ],
         flexibleSpace: Align(
           alignment: Alignment.bottomLeft,
@@ -69,7 +113,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(125.h);
+  Size get preferredSize => Size.fromHeight(height);
 }
 
 class NotificationsWidget extends StatelessWidget {
@@ -79,11 +123,9 @@ class NotificationsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("notifications is asd");
     return BlocBuilder<CmsSsrCubit, CmsSsrState>(
       builder: (context, state) {
         final notifications = state.notifications;
-        print("notifications is ${notifications?.length} ${state.blocState}");
         return blocBuilderWrapper(
           blocState: state.blocState,
           finishedBuilder: notifications?.isEmpty ?? true
@@ -107,6 +149,8 @@ class NotificationsWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+          loadingBuilder: SizedBox(),
+          failedBuilder: SizedBox(),
         );
       },
     );

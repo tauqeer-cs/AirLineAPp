@@ -10,12 +10,21 @@ class AppFlavor {
   static String get title {
     switch (appFlavor) {
       case Flavor.staging:
-        return '1Tplus - Staging';
+        return 'MyAirline - Staging';
       default:
-        return '1Tplus';
+        return 'MyAirline';
     }
   }
 
+
+  static String get paymentRedirectUrl {
+    switch (appFlavor) {
+      case Flavor.staging:
+        return 'https://mya-booking.alphareds.com/booked';
+      default:
+        return 'https://mya-booking.alphareds.com/booked';
+    }
+  }
   static String get baseUrlCMS {
     switch (appFlavor) {
       case Flavor.staging:

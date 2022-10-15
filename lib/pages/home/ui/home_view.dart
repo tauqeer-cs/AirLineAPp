@@ -23,16 +23,16 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        kVerticalSpacer,
-        Padding(
-          padding: kPageHorizontalPaddingBig,
-          child: Text(
-            "Hi Guest, \nLet's Fly",
-            style: kGiantSemiBold.copyWith(color: Colors.white),
-          ),
-        ),
-        kVerticalSpacer,
-        NotificationsWidget(),
+         kVerticalSpacer,
+        // Padding(
+        //   padding: kPageHorizontalPaddingBig,
+        //   child: Text(
+        //     "Hi Guest, \nLet's Fly",
+        //     style: kGiantSemiBold.copyWith(color: Colors.white),
+        //   ),
+        // ),
+        // kVerticalSpacer,
+        // NotificationsWidget(),
         Padding(
           padding: kPageHorizontalPadding,
           child: SearchFlightWidget(),

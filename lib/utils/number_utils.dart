@@ -7,6 +7,11 @@ class NumberUtils {
     return numberFormat.format(number ?? 0);
   }
 
+  static String formatNum(num? number) {
+    NumberFormat numberFormat = NumberFormat("#,##0.00", "en_US");
+    return numberFormat.format(number ?? 0);
+  }
+
   static String formatLotDigit(double? number) {
     NumberFormat numberFormat = NumberFormat("#,##0.0000000000", "en_US");
     final string = numberFormat.format(number ?? 0);

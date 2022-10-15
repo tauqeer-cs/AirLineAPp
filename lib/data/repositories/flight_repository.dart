@@ -9,6 +9,7 @@ import 'package:app/data/responses/airports_response.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/summary_response.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/models/confirmation_model.dart';
 import 'package:app/models/pay_redirection.dart';
 
 class FlightRepository {
@@ -43,5 +44,9 @@ class FlightRepository {
 
   Future<PayRedirection> bookFlight(BookRequest bookRequest) async {
     return await _provider.bookFlight(bookRequest);
+  }
+
+  Future<ConfirmationModel> bookingDetail(String bookingId) async {
+    return await _provider.bookingDetail(bookingId);
   }
 }

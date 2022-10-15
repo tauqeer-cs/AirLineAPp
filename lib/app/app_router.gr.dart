@@ -93,16 +93,29 @@ class _$AppRouter extends RootStackRouter {
         child: const CheckoutPage(),
       );
     },
-    BookingConfirmationRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const BookingConfirmationPage(),
-      );
-    },
     PaymentRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const PaymentPage(),
+      );
+    },
+    BookingListRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const BookingListPage(),
+      );
+    },
+    BookingConfirmationRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<BookingConfirmationRouteArgs>(
+          orElse: () => BookingConfirmationRouteArgs(
+              bookingId: pathParams.getString('id')));
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: BookingConfirmationPage(
+          key: args.key,
+          bookingId: args.bookingId,
+        ),
       );
     },
   };
@@ -160,12 +173,16 @@ class _$AppRouter extends RootStackRouter {
           path: '/checkout',
         ),
         RouteConfig(
-          BookingConfirmationRoute.name,
-          path: '/booking-confirmation',
-        ),
-        RouteConfig(
           PaymentRoute.name,
           path: '/payment',
+        ),
+        RouteConfig(
+          BookingListRoute.name,
+          path: '/booking-list',
+        ),
+        RouteConfig(
+          BookingConfirmationRoute.name,
+          path: '/booking-confirmation/:id',
         ),
       ];
 }
@@ -357,18 +374,6 @@ class CheckoutRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [BookingConfirmationPage]
-class BookingConfirmationRoute extends PageRouteInfo<void> {
-  const BookingConfirmationRoute()
-      : super(
-          BookingConfirmationRoute.name,
-          path: '/booking-confirmation',
-        );
-
-  static const String name = 'BookingConfirmationRoute';
-}
-
-/// generated route for
 /// [PaymentPage]
 class PaymentRoute extends PageRouteInfo<void> {
   const PaymentRoute()
@@ -378,4 +383,52 @@ class PaymentRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PaymentRoute';
+}
+
+/// generated route for
+/// [BookingListPage]
+class BookingListRoute extends PageRouteInfo<void> {
+  const BookingListRoute()
+      : super(
+          BookingListRoute.name,
+          path: '/booking-list',
+        );
+
+  static const String name = 'BookingListRoute';
+}
+
+/// generated route for
+/// [BookingConfirmationPage]
+class BookingConfirmationRoute
+    extends PageRouteInfo<BookingConfirmationRouteArgs> {
+  BookingConfirmationRoute({
+    Key? key,
+    required String bookingId,
+  }) : super(
+          BookingConfirmationRoute.name,
+          path: '/booking-confirmation/:id',
+          args: BookingConfirmationRouteArgs(
+            key: key,
+            bookingId: bookingId,
+          ),
+          rawPathParams: {'id': bookingId},
+        );
+
+  static const String name = 'BookingConfirmationRoute';
+}
+
+class BookingConfirmationRouteArgs {
+  const BookingConfirmationRouteArgs({
+    this.key,
+    required this.bookingId,
+  });
+
+  final Key? key;
+
+  final String bookingId;
+
+  @override
+  String toString() {
+    return 'BookingConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
+  }
 }

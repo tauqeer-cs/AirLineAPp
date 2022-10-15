@@ -2,6 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/booking_local/booking_local_cubit.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/blocs/local_user/local_user_bloc.dart';
@@ -43,7 +44,8 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => CmsSsrCubit()),
         BlocProvider(create: (_) => RoutesCubit()..getRoutes(), lazy: false),
-        BlocProvider(create: (_) => LocalUserBloc()..add(Init()), lazy: false),
+        BlocProvider(create: (_) => LocalUserBloc()..add(const Init()), lazy: false),
+        BlocProvider(create: (_) => BookingLocalCubit()..getBooking()),
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
           lazy: false,

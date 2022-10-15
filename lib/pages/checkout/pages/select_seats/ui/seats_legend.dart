@@ -5,6 +5,7 @@ import 'package:app/models/cms_flight.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SeatsLegend extends StatelessWidget {
@@ -70,7 +71,7 @@ class ContainerNotice extends StatelessWidget {
           color: Colors.grey.withOpacity(0.5),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: Text(sharedNotice?.content ?? ""),
+        child: Html(data: sharedNotice?.content ?? ""),
       ),
     );
   }

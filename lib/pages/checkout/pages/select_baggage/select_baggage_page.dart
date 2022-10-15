@@ -45,9 +45,8 @@ class _SelectBaggagePageState extends State<SelectBaggagePage>
         ),
       );
     }
-    return Scaffold(
-      appBar: AppAppBar(),
-      body: AddonLayout(
+    return AppScaffold(
+      child: AddonLayout(
         child: tabBody,
       ),
     );

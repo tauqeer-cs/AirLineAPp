@@ -43,8 +43,7 @@ PaymentDetail _$PaymentDetailFromJson(Map<String, dynamic> json) =>
       totalAmountNeedToPay: json['TotalAmountNeedToPay'] as num?,
       myRewardPoints: json['MyRewardPoints'] as num? ?? 0,
       promoCode: json['PromoCode'],
-      frontendUrl: json['FrontendURL'] as String? ??
-          "https://mya-booking.alphareds.com/booked",
+      frontendUrl: json['FrontendURL'] as String,
     );
 
 Map<String, dynamic> _$PaymentDetailToJson(PaymentDetail instance) =>

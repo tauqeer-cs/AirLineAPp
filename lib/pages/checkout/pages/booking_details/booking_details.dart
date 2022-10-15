@@ -53,9 +53,8 @@ class BookingDetailsPage extends StatelessWidget {
               },
             );
           },
-          child: Scaffold(
-            appBar: AppAppBar(),
-            body: BookingDetailsView(),
+          child: AppScaffold(
+            child: BookingDetailsView(),
           ),
         ),
       ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:app/app/app_flavor.dart';
 import 'package:app/theme/styles.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -36,22 +38,30 @@ class _WebViewStackState extends State<WebViewStack> {
             _loadHtmlFromAssets(webViewController);
           },
           onPageStarted: (url) {
+            if(!mounted) return;
             setState(() {
               loadingPercentage = 0;
             });
           },
           onProgress: (progress) {
+            if(!mounted) return;
+
             setState(() {
               loadingPercentage = progress;
             });
           },
           onPageFinished: (url) {
+            if(!mounted) return;
+
             setState(() {
               loadingPercentage = 100;
             });
           },
           navigationDelegate: (navigation) {
             print("navigation url is ${navigation.url}");
+            if(navigation.url.contains(AppFlavor.paymentRedirectUrl)){
+              context.router.pop(navigation.url);
+            }
             final host = Uri.parse(navigation.url).host;
             if (host.contains('youtube.com')) {
               ScaffoldMessenger.of(context).showSnackBar(

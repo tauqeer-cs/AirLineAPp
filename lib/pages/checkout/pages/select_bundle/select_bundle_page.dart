@@ -41,9 +41,8 @@ class _SelectBundlePageState extends State<SelectBundlePage>
     if (type == FlightType.round) {
       tabBody.add(BundleList(isDeparture: false));
     }
-    return Scaffold(
-      appBar: AppAppBar(),
-      body: AddonLayout(
+    return AppScaffold(
+      child: AddonLayout(
         child: tabBody,
       ),
     );

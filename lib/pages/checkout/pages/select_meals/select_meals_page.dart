@@ -44,9 +44,8 @@ class _SelectMealsPageState extends State<SelectMealsPage>
         ),
       );
     }
-    return Scaffold(
-      appBar: AppAppBar(),
-      body: AddonLayout(
+    return AppScaffold(
+      child: AddonLayout(
         child: tabBody,
       ),
     );
