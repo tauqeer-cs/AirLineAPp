@@ -50,6 +50,7 @@ dependencies:
   permission_handler: ^10.0.0
   retrofit: ^3.0.1+1
   shimmer: ^2.0.0
+  sign_in_with_apple: ^4.1.0
   smooth_page_indicator: ^1.0.0+2
   synchronized: ^3.0.0
   table_calendar: ^3.0.7

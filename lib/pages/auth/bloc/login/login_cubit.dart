@@ -29,4 +29,20 @@ class LoginCubit extends Cubit<LoginState> {
       );
     }
   }
+
+  Future<void> loginWithApple() async {
+    emit(state.copyWith(blocState: BlocState.loading));
+    try {
+      await _authenticationRepository.loginWithApple();
+      emit(state.copyWith(blocState: BlocState.finished));
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+        ),
+      );
+    }
+  }
+
 }

@@ -14,7 +14,7 @@ class AuthView extends StatelessWidget {
       children: [
         SignInButton(
           Buttons.Apple,
-          onPressed: ()=>context.read<LoginCubit>().logInWithGoogle(),
+          onPressed: ()=>context.read<LoginCubit>().loginWithApple(),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         ),
         SignInButton(

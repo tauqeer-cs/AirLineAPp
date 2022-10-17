@@ -8,9 +8,11 @@ import 'package:app/data/provider/auth_provider.dart';
 import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
+import 'package:app/utils/security_utils.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 const accessTokenKey = "accessToken";
 const String userBoxName = "userBox";
@@ -51,13 +53,34 @@ class AuthenticationRepository {
     final googleAppUser = await _googleSignIn.signIn();
     final googleAuth = await googleAppUser!.authentication;
     final requests = OauthRequest(
-      token: googleAuth.accessToken,
+      token: googleAuth.idToken,
       platform: "GOOGLE",
       fcmToken: FCMNotification.token,
     );
     final response = await _provider.oauthSignIn(requests);
     print("google auth ${response}");
   }
+
+  Future<AuthorizationCredentialAppleID> loginWithApple() async {
+    final rawNonce = SecurityUtils.generateNonce();
+    final nonce = SecurityUtils.sha256ofString(rawNonce);
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: nonce,
+    );
+    final requests = OauthRequest(
+      token: appleCredential.authorizationCode,
+      platform: "APPLE",
+      fcmToken: FCMNotification.token,
+    );
+    final response = await _provider.oauthSignIn(requests);
+    print("apple auth ${response}");
+    return appleCredential;
+  }
+
 
   Future<void> storeAccessToken(String? value) async {
     var box = Hive.box(tokenBoxName);
