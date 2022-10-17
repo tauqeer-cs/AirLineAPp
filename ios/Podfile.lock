@@ -1,6 +1,89 @@
 PODS:
-  - device_info_plus (0.0.1):
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
+    - AppAuth/Core
+  - Firebase/Analytics (9.6.0):
+    - Firebase/Core
+  - Firebase/Core (9.6.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (~> 9.6.0)
+  - Firebase/CoreOnly (9.6.0):
+    - FirebaseCore (= 9.6.0)
+  - Firebase/Crashlytics (9.6.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 9.6.0)
+  - Firebase/Messaging (9.6.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 9.6.0)
+  - firebase_analytics (9.3.8):
+    - Firebase/Analytics (= 9.6.0)
+    - firebase_core
     - Flutter
+  - firebase_core (1.24.0):
+    - Firebase/CoreOnly (= 9.6.0)
+    - Flutter
+  - firebase_crashlytics (2.9.0):
+    - Firebase/Crashlytics (= 9.6.0)
+    - firebase_core
+    - Flutter
+  - firebase_messaging (13.1.0):
+    - Firebase/Messaging (= 9.6.0)
+    - firebase_core
+    - Flutter
+  - FirebaseAnalytics (9.6.0):
+    - FirebaseAnalytics/AdIdSupport (= 9.6.0)
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (9.6.0):
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleAppMeasurement (= 9.6.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCore (9.6.0):
+    - FirebaseCoreDiagnostics (~> 9.0)
+    - FirebaseCoreInternal (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/Logger (~> 7.7)
+  - FirebaseCoreDiagnostics (9.6.0):
+    - GoogleDataTransport (< 10.0.0, >= 9.1.4)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/Logger (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCoreInternal (9.6.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+  - FirebaseCrashlytics (9.6.0):
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleDataTransport (< 10.0.0, >= 9.1.4)
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (~> 2.1)
+  - FirebaseInstallations (9.6.0):
+    - FirebaseCore (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/UserDefaults (~> 7.7)
+    - PromisesObjC (~> 2.1)
+  - FirebaseMessaging (9.6.0):
+    - FirebaseCore (~> 9.0)
+    - FirebaseInstallations (~> 9.0)
+    - GoogleDataTransport (< 10.0.0, >= 9.1.4)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/Environment (~> 7.7)
+    - GoogleUtilities/Reachability (~> 7.7)
+    - GoogleUtilities/UserDefaults (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
   - flutter_inappwebview (0.0.1):
     - Flutter
@@ -9,73 +92,170 @@ PODS:
   - flutter_inappwebview/Core (0.0.1):
     - Flutter
     - OrderedSet (~> 5.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - health (1.0.4):
+  - google_sign_in_ios (0.0.1):
     - Flutter
+    - GoogleSignIn (~> 6.2)
+  - GoogleAppMeasurement (9.6.0):
+    - GoogleAppMeasurement/AdIdSupport (= 9.6.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (9.6.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.6.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (9.6.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
+    - GoogleUtilities/MethodSwizzler (~> 7.7)
+    - GoogleUtilities/Network (~> 7.7)
+    - "GoogleUtilities/NSData+zlib (~> 7.7)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleDataTransport (9.2.0):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleSignIn (6.2.4):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (~> 1.3)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
+  - GoogleUtilities/AppDelegateSwizzler (7.8.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.8.0):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.8.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (7.8.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (7.8.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.8.0)"
+  - GoogleUtilities/Reachability (7.8.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.8.0):
+    - GoogleUtilities/Logger
+  - GTMAppAuth (1.3.1):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
+  - GTMSessionFetcher/Core (2.1.0)
   - image_picker_ios (0.0.1):
     - Flutter
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
   - OrderedSet (5.0.0)
   - path_provider_ios (0.0.1):
     - Flutter
-  - pedometer (0.0.1):
-    - Flutter
   - permission_handler_apple (9.0.4):
+    - Flutter
+  - PromisesObjC (2.1.1)
+  - sign_in_with_apple (0.0.1):
     - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - Toast (4.0.0)
   - url_launcher_ios (0.0.1):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
 DEPENDENCIES:
-  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
+  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - health (from `.symlinks/plugins/health/ios`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
-  - pedometer (from `.symlinks/plugins/pedometer/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
   trunk:
+    - AppAuth
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreInternal
+    - FirebaseCrashlytics
+    - FirebaseInstallations
+    - FirebaseMessaging
     - FMDB
+    - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleSignIn
+    - GoogleUtilities
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - nanopb
     - OrderedSet
+    - PromisesObjC
+    - Toast
 
 EXTERNAL SOURCES:
-  device_info_plus:
-    :path: ".symlinks/plugins/device_info_plus/ios"
+  firebase_analytics:
+    :path: ".symlinks/plugins/firebase_analytics/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_crashlytics:
+    :path: ".symlinks/plugins/firebase_crashlytics/ios"
+  firebase_messaging:
+    :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  health:
-    :path: ".symlinks/plugins/health/ios"
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
+  google_sign_in_ios:
+    :path: ".symlinks/plugins/google_sign_in_ios/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
-  pedometer:
-    :path: ".symlinks/plugins/pedometer/ios"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  sign_in_with_apple:
+    :path: ".symlinks/plugins/sign_in_with_apple/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher_ios:
@@ -84,19 +264,42 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
+  Firebase: 5ae8b7cf8efce559a653aef0ad95bab3f427c351
+  firebase_analytics: 9937a91df25cce5b0ee19eaf65277ff8bf0f88e5
+  firebase_core: 7c28ecc1e5dd74e03829ac3e9ff5ba3314e737a9
+  firebase_crashlytics: 520a59314eaaadb34f9be4c2a285d99cfa88ebdb
+  firebase_messaging: a2a8c6db6d799c7f59b1c0d7c68a2f0027bfa2c4
+  FirebaseAnalytics: 89ad762c6c3852a685794174757e2c60a36b6a82
+  FirebaseCore: 2082fffcd855f95f883c0a1641133eb9bbe76d40
+  FirebaseCoreDiagnostics: 99a495094b10a57eeb3ae8efa1665700ad0bdaa6
+  FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
+  FirebaseCrashlytics: 3210572ddb77801e5a0bd9d7bc890769f2066a0c
+  FirebaseInstallations: 0a115432c4e223c5ab20b0dbbe4cbefa793a0e8e
+  FirebaseMessaging: a4d7910e4af663c9cbfc1071c5bef34651690949
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
+  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  health: 5a380c0f6c4f619535845992993964293962e99e
+  google_sign_in_ios: 4f85eb9f937450765c8573bb85fd8cd6a5af675c
+  GoogleAppMeasurement: 6de2b1a69e4326eb82ee05d138f6a5cb7311bcb1
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
+  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
+  GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
+  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
+  GTMSessionFetcher: ffbb25ec00ebcb5201adab0a56d808f6f1902d9f
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
-  pedometer: 381969883680ade42559782cc41a3bbd453d8234
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
