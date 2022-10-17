@@ -36,10 +36,6 @@ void run() async {
   await Hive.openBox<List>(bookingBox);
 
   //await box.clear();
-  FlutterError.onError = (details) {
-    logger.e(details.exceptionAsString());
-    logger.e(details.stack);
-  };
   Bloc.observer = AppBlocObserver();
   runZonedGuarded(
     () async {
@@ -49,7 +45,7 @@ void run() async {
     },
     (error, stackTrace) {
       // The following lines are the same as previously explained in "Handling uncaught errors"
-      FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+      FirebaseCrashlytics.instance.recordError(error, stackTrace);
       logger.e(error.toString());
       logger.e(stackTrace);
     },

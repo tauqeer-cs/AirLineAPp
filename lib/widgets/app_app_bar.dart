@@ -24,6 +24,10 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final notifications = context.watch<CmsSsrCubit>().state.notifications ?? [];
     return Scaffold(
+      // floatingActionButton: TextButton(
+      //   onPressed: () => throw Exception(),
+      //   child: const Text("Throw Test Exception"),
+      // ),
       endDrawer: Drawer(
         width: 250.w,
         backgroundColor: Styles.kPrimaryColor,

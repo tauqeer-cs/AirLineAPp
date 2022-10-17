@@ -11,7 +11,7 @@ class ErrorUtils {
   static String getErrorMessage(Object e, StackTrace? st) {
     logger.e(e);
     logger.e(st);
-    FirebaseCrashlytics.instance.recordError(e, st, fatal: true);
+    FirebaseCrashlytics.instance.recordError(e, st);
     String message;
     if (e is ErrorResponse) {
       message = e.message ?? "Error Response null";

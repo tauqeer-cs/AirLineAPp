@@ -63,6 +63,7 @@ class FCMNotification {
 
     FirebaseMessaging.instance.getToken().then((value) {
       // sync firebase token to the server
+      print("token is $value");
       if (value != null) {
         //final fcmRequest = FCMRequest(fcmToken: value);
         //_userRepository.setFCM(fcmRequest);
