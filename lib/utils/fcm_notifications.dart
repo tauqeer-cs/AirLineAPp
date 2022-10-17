@@ -7,17 +7,17 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FCMNotification {
   final FlutterLocalNotificationsPlugin localNotification =
-  FlutterLocalNotificationsPlugin();
-
+      FlutterLocalNotificationsPlugin();
+  static String? token;
   final AndroidNotificationChannel channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'general', // title
     importance: Importance.max,
   );
   final AndroidInitializationSettings initializationSettingsAndroid =
-  const AndroidInitializationSettings('ic_stat_logo');
+      const AndroidInitializationSettings('ic_stat_logo');
   final IOSInitializationSettings initializationSettingsIos =
-  const IOSInitializationSettings();
+      const IOSInitializationSettings();
 
   late BuildContext context;
   static final FCMNotification _fcmNotification = FCMNotification._internal();
@@ -49,7 +49,7 @@ class FCMNotification {
 
     await localNotification
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await FirebaseMessaging.instance.requestPermission();
@@ -63,15 +63,18 @@ class FCMNotification {
 
     FirebaseMessaging.instance.getToken().then((value) {
       // sync firebase token to the server
-      print("token is $value");
+      print("token fcm is ${value}");
       if (value != null) {
+        token = value;
+
         //final fcmRequest = FCMRequest(fcmToken: value);
         //_userRepository.setFCM(fcmRequest);
       }
     });
 
     FirebaseMessaging.instance.onTokenRefresh.listen(
-          (token) {
+      (token) {
+        token = token;
         //final fcmRequest = FCMRequest(fcmToken: token);
         //_userRepository.setFCM(fcmRequest);
       },
@@ -116,7 +119,7 @@ class FCMNotification {
     final convertJson = jsonDecode(value);
     final jsonValue = convertJson['path'] as String?;
     if (jsonValue?.isNotEmpty ?? false) {
-    }else{
+    } else {
       //context.router.push(NotificationRoute());
     }
   }

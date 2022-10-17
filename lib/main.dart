@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/booking_local.dart';
+import 'package:app/models/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,8 @@ void run() async {
   Hive.registerAdapter<EmergencyContact>(EmergencyContactAdapter());
   Hive.registerAdapter<Passenger>(PassengerAdapter());
   Hive.registerAdapter(BookingLocalAdapter());
+  Hive.registerAdapter(UserAdapter());
+
   await Hive.openBox<FlightSummaryPnrRequest>(passengerInfoBox);
   await Hive.openBox<List>(bookingBox);
 

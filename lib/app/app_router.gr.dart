@@ -118,6 +118,18 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AuthRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const AuthPage(),
+      );
+    },
+    EditProfileRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const EditProfilePage(),
+      );
+    },
   };
 
   @override
@@ -183,6 +195,14 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           BookingConfirmationRoute.name,
           path: '/booking-confirmation/:id',
+        ),
+        RouteConfig(
+          AuthRoute.name,
+          path: '/auth',
+        ),
+        RouteConfig(
+          EditProfileRoute.name,
+          path: '/edit-profile',
         ),
       ];
 }
@@ -431,4 +451,28 @@ class BookingConfirmationRouteArgs {
   String toString() {
     return 'BookingConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
   }
+}
+
+/// generated route for
+/// [AuthPage]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute()
+      : super(
+          AuthRoute.name,
+          path: '/auth',
+        );
+
+  static const String name = 'AuthRoute';
+}
+
+/// generated route for
+/// [EditProfilePage]
+class EditProfileRoute extends PageRouteInfo<void> {
+  const EditProfileRoute()
+      : super(
+          EditProfileRoute.name,
+          path: '/edit-profile',
+        );
+
+  static const String name = 'EditProfileRoute';
 }

@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
@@ -22,7 +23,8 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifications = context.watch<CmsSsrCubit>().state.notifications ?? [];
+    final notifications =
+        context.watch<CmsSsrCubit>().state.notifications ?? [];
     return Scaffold(
       // floatingActionButton: TextButton(
       //   onPressed: () => throw Exception(),
@@ -31,23 +33,40 @@ class AppScaffold extends StatelessWidget {
       endDrawer: Drawer(
         width: 250.w,
         backgroundColor: Styles.kPrimaryColor,
-        child: Builder(
-          builder: (context) {
-            return SafeArea(
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text("Manage Bookings", style: TextStyle().copyWith(color: Colors.white),),
-                    onTap: () {
-                      Scaffold.of(context).closeEndDrawer();
-                      context.router.push(BookingListRoute());
-                    },
+        child: Builder(builder: (context) {
+          return SafeArea(
+            child: Column(
+              children: [
+                Image.asset(
+                  "assets/images/native/icon.png",
+                  width: 80,
+                ),
+                kVerticalSpacer,
+                AppDividerWidget(color: Colors.white),
+                ListTile(
+                  title: Text(
+                    "Manage Bookings",
+                    style: TextStyle().copyWith(color: Colors.white),
                   ),
-                ],
-              ),
-            );
-          }
-        ),
+                  onTap: () {
+                    Scaffold.of(context).closeEndDrawer();
+                    context.router.push(BookingListRoute());
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    "Sign In",
+                    style: TextStyle().copyWith(color: Colors.white),
+                  ),
+                  onTap: () {
+                    Scaffold.of(context).closeEndDrawer();
+                    context.router.push(AuthRoute());
+                  },
+                ),
+              ],
+            ),
+          );
+        }),
       ),
       appBar: AppAppBar(
         onAction: () => Scaffold.of(context).openEndDrawer(),
