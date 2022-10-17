@@ -5,19 +5,24 @@ import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/booking_local.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'app.dart';
 import 'app/app_bloc_observer.dart';
 import 'app/app_logger.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 main() {
   run();
 }
 
 void run() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   if (Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
@@ -39,12 +44,12 @@ void run() async {
   runZonedGuarded(
     () async {
       // The following lines are the same as previously explained in "Handling uncaught errors"
-      //FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
       runApp(App());
     },
     (error, stackTrace) {
       // The following lines are the same as previously explained in "Handling uncaught errors"
-      //FirebaseCrashlytics.instance.recordError(error, stackTrace);
+      FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
       logger.e(error.toString());
       logger.e(stackTrace);
     },

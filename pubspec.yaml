@@ -55,6 +55,11 @@ dependencies:
   url_launcher: ^6.0.20
   visibility_detector: ^0.3.3
   webview_flutter: ^3.0.4
+  firebase_core: ^1.24.0
+  firebase_analytics: ^9.3.8
+  firebase_crashlytics: ^2.9.0
+  firebase_messaging: ^13.1.0
+  flutter_local_notifications: ^9.2.0
 
 
 dev_dependencies:

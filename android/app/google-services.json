@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "123907775175",
+    "project_id": "myairline-4ef5b",
+    "storage_bucket": "myairline-4ef5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123907775175:android:5910b78872cec0990d7ce2",
+        "android_client_info": {
+          "package_name": "com.myairline.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWJe57vSQHkQUG9i4ekERvu-hOussPfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "123907775175-gr6cg40jdgiqta5rs9vcmsl8cvlfr77k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myairline.mobileapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

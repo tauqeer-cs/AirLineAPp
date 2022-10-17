@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -10,6 +11,7 @@ class ErrorUtils {
   static String getErrorMessage(Object e, StackTrace? st) {
     logger.e(e);
     logger.e(st);
+    FirebaseCrashlytics.instance.recordError(e, st, fatal: true);
     String message;
     if (e is ErrorResponse) {
       message = e.message ?? "Error Response null";

@@ -12,6 +12,7 @@ import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/utils/fcm_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,9 +28,11 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  
   @override
   void initState() {
     super.initState();
+    FCMNotification.of(context).initialize();
   }
 
   @override
