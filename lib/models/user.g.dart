@@ -22,7 +22,7 @@ class UserAdapter extends TypeAdapter<User> {
       contactNo: fields[2] as String?,
       authenticated: fields[3] as bool?,
       token: fields[4] as String?,
-      fullName: fields[5] as String?,
+      surName: fields[5] as String?,
       message: fields[6] as String?,
       address: fields[7] as String?,
       postcode: fields[8] as String?,
@@ -31,8 +31,8 @@ class UserAdapter extends TypeAdapter<User> {
       uuid: fields[12] as String?,
       location: fields[11] as String?,
       currentBalance: fields[13] as double?,
-      isAccountActive: fields[14] as bool?,
-      walletAddress: fields[15] as String?,
+      isAccountVerified: fields[14] as bool?,
+      firstName: fields[15] as String?,
       accountExpiryDate: fields[16] as DateTime?,
     );
   }
@@ -52,7 +52,7 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(4)
       ..write(obj.token)
       ..writeByte(5)
-      ..write(obj.fullName)
+      ..write(obj.surName)
       ..writeByte(6)
       ..write(obj.message)
       ..writeByte(7)
@@ -70,9 +70,9 @@ class UserAdapter extends TypeAdapter<User> {
       ..writeByte(13)
       ..write(obj.currentBalance)
       ..writeByte(14)
-      ..write(obj.isAccountActive)
+      ..write(obj.isAccountVerified)
       ..writeByte(15)
-      ..write(obj.walletAddress)
+      ..write(obj.firstName)
       ..writeByte(16)
       ..write(obj.accountExpiryDate);
   }
@@ -147,7 +147,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       contactNo: json['contactNo'] as String?,
       authenticated: json['authenticated'] as bool?,
       token: json['token'] as String?,
-      fullName: json['fullName'] as String?,
+      surName: json['surName'] as String?,
       message: json['message'] as String?,
       address: json['address'] as String?,
       postcode: json['postcode'] as String?,
@@ -156,8 +156,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       uuid: json['uuid'] as String?,
       location: json['location'] as String?,
       currentBalance: (json['currentBalance'] as num?)?.toDouble(),
-      isAccountActive: json['isAccountActive'] as bool?,
-      walletAddress: json['walletAddress'] as String?,
+      isAccountVerified: json['isAccountVerified'] as bool?,
+      firstName: json['firstName'] as String?,
       accountExpiryDate: json['accountExpiryDate'] == null
           ? null
           : DateTime.parse(json['accountExpiryDate'] as String),
@@ -177,7 +177,7 @@ Map<String, dynamic> _$UserToJson(User instance) {
   writeNotNull('contactNo', instance.contactNo);
   writeNotNull('authenticated', instance.authenticated);
   writeNotNull('token', instance.token);
-  writeNotNull('fullName', instance.fullName);
+  writeNotNull('surName', instance.surName);
   writeNotNull('message', instance.message);
   writeNotNull('address', instance.address);
   writeNotNull('postcode', instance.postcode);
@@ -186,8 +186,8 @@ Map<String, dynamic> _$UserToJson(User instance) {
   writeNotNull('location', instance.location);
   writeNotNull('uuid', instance.uuid);
   writeNotNull('currentBalance', instance.currentBalance);
-  writeNotNull('isAccountActive', instance.isAccountActive);
-  writeNotNull('walletAddress', instance.walletAddress);
+  writeNotNull('isAccountVerified', instance.isAccountVerified);
+  writeNotNull('firstName', instance.firstName);
   writeNotNull(
       'accountExpiryDate', instance.accountExpiryDate?.toIso8601String());
   return val;

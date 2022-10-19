@@ -14,6 +14,7 @@ import 'app.dart';
 import 'app/app_bloc_observer.dart';
 import 'app/app_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'data/repositories/auth_repository.dart';
 import 'firebase_options.dart';
 main() {
   run();
@@ -37,6 +38,10 @@ void run() async {
 
   await Hive.openBox<FlightSummaryPnrRequest>(passengerInfoBox);
   await Hive.openBox<List>(bookingBox);
+  await Hive.openBox<User>(userBoxName);
+  await Hive.openBox<String>(tokenBoxName);
+
+  AuthenticationRepository().init();
 
   //await box.clear();
   Bloc.observer = AppBlocObserver();

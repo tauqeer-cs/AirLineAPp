@@ -5,6 +5,7 @@ import 'package:app/app/app_flavor.dart';
 import 'package:app/app/app_logger.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/auth_provider.dart';
+import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
@@ -46,19 +47,27 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
+  Future<void> loginWithEmail(LoginRequest loginRequest) async{
+    final user = await _provider.emailLogin(loginRequest);
+    setCurrentUser(user);
+    storeAccessToken(user.token);
+  }
+
   /// Starts the Sign In with Google Flow.
   ///
   /// Throws a [LogInWithGoogleFailure] if an exception occurs.
   Future<void> logInWithGoogle() async {
     final googleAppUser = await _googleSignIn.signIn();
-    final googleAuth = await googleAppUser!.authentication;
+    if(googleAppUser==null) return;
+    final googleAuth = await googleAppUser.authentication;
     final requests = OauthRequest(
       token: googleAuth.idToken,
       platform: "GOOGLE",
       fcmToken: FCMNotification.token,
     );
     final response = await _provider.oauthSignIn(requests);
-    print("google auth ${response}");
+    setCurrentUser(response);
+    storeAccessToken(response.token);
   }
 
   Future<AuthorizationCredentialAppleID> loginWithApple() async {
@@ -77,21 +86,22 @@ class AuthenticationRepository {
       fcmToken: FCMNotification.token,
     );
     final response = await _provider.oauthSignIn(requests);
-    print("apple auth ${response}");
+    setCurrentUser(response);
+    storeAccessToken(response.token);
     return appleCredential;
   }
 
 
   Future<void> storeAccessToken(String? value) async {
-    var box = Hive.box(tokenBoxName);
+    var box = Hive.box<String>(tokenBoxName);
     logger.i("saved token $value");
     await box.clear();
-    box.add(value);
+    box.add(value ?? "");
     //return await _storage.write(key: accessTokenKey, value: value);
   }
 
   Future<String?> getAccessToken() async {
-    var box = Hive.box(tokenBoxName);
+    var box = Hive.box<String>(tokenBoxName);
     var token = box.isNotEmpty ? box.getAt(0) : "";
     //logger.i("loaded user ${user?.toJson()}");
     //String? token = await _storage.read(key: accessTokenKey);
@@ -100,19 +110,19 @@ class AuthenticationRepository {
   }
 
   Future<void> deleteAccessToken() async {
-    var box = Hive.box(tokenBoxName);
+    var box = Hive.box<String>(tokenBoxName);
     box.clear();
     //return await _storage.delete(key: accessTokenKey);
   }
 
   void deleteCurrentUser() {
-    var box = Hive.box(userBoxName);
+    var box = Hive.box<User>(userBoxName);
     _controller.add(User.empty);
     box.clear();
   }
 
   void setCurrentUser(User user) async {
-    var box = Hive.box(userBoxName);
+    var box = Hive.box<User>(userBoxName);
     logger.i("saved user ${user.toJson()}");
     await box.clear();
     box.add(user);
@@ -120,13 +130,17 @@ class AuthenticationRepository {
   }
 
   User getCurrentUser() {
-    var box = Hive.box(userBoxName);
+    var box = Hive.box<User>(userBoxName);
     var user = box.isNotEmpty ? box.getAt(0) : User.empty;
     logger.i("loaded user ${user?.toJson()}");
-    return user;
+    return user ?? User.empty;
   }
 
-  void logout() {
+  void logout() async {
+    if(Platform.isAndroid){
+      final isLogin = await _googleSignIn.isSignedIn();
+      if(isLogin) await _googleSignIn.signOut();
+    }
     deleteAccessToken();
     deleteCurrentUser();
   }

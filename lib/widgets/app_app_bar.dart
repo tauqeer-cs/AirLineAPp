@@ -5,6 +5,7 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
+import 'package:app/widgets/wrapper/auth_wrapper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class AppScaffold extends StatelessWidget {
           return SafeArea(
             child: Column(
               children: [
+                kVerticalSpacer,
                 Image.asset(
                   "assets/images/native/icon.png",
                   width: 80,
@@ -53,17 +55,29 @@ class AppScaffold extends StatelessWidget {
                     context.router.push(BookingListRoute());
                   },
                 ),
-                ListTile(
-                  title: Text(
-                    "Sign In",
-                    style: TextStyle().copyWith(color: Colors.white),
+                AuthWrapper(
+                  authChild: ListTile(
+                    title: Text(
+                      "Member",
+                      style: TextStyle().copyWith(color: Colors.white),
+                    ),
+                    onTap: () {
+                      Scaffold.of(context).closeEndDrawer();
+                      context.router.push(AuthRoute());
+                    },
                   ),
-                  onTap: () {
-                    Scaffold.of(context).closeEndDrawer();
-                    context.router.push(AuthRoute());
-                  },
+                  child: ListTile(
+                    title: Text(
+                      "Sign In / Sign Up",
+                      style: TextStyle().copyWith(color: Colors.white),
+                    ),
+                    onTap: () {
+                      Scaffold.of(context).closeEndDrawer();
+                      context.router.push(AuthRoute());
+                    },
+                  ),
                 ),
-              ],
+                              ],
             ),
           );
         }),

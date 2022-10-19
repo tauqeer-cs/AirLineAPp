@@ -1,4 +1,7 @@
 import 'package:app/pages/auth/auth_page.dart';
+import 'package:app/pages/auth/pages/signup/signup_account.dart';
+import 'package:app/pages/auth/pages/signup/signup_address.dart';
+import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/booking_confirmation_page.dart';
 import 'package:app/pages/checkout/pages/booking_details/booking_details.dart';
 import 'package:app/pages/checkout/pages/booking_list/booking_list_page.dart';
@@ -16,6 +19,7 @@ import 'package:app/pages/webview/webview_page.dart';
 import 'package:app/pages/welcome/welcome_page.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+
 part 'app_router.gr.dart';
 
 // @CupertinoAutoRouter
@@ -39,8 +43,15 @@ part 'app_router.gr.dart';
     AutoRoute(page: BookingListPage, path: "/booking-list"),
     AutoRoute(page: BookingConfirmationPage, path: "/booking-confirmation/:id"),
     AutoRoute(page: AuthPage, path: "/auth"),
+    AutoRoute(
+      page: SignupWrapperPage,
+      path: 'signup',
+      children: [
+        AutoRoute(page: SignupAccountPage, path: '1', initial: true),
+        AutoRoute(page: SignupAddressPage, path: '2'),
+      ],
+    ),
     AutoRoute(page: EditProfilePage, path: "/edit-profile"),
-
   ],
 )
 class AppRouter extends _$AppRouter {}

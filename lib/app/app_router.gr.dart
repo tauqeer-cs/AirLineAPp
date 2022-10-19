@@ -124,10 +124,28 @@ class _$AppRouter extends RootStackRouter {
         child: const AuthPage(),
       );
     },
+    SignupWrapperRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SignupWrapperPage(),
+      );
+    },
     EditProfileRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const EditProfilePage(),
+      );
+    },
+    SignupAccountRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SignupAccountPage(),
+      );
+    },
+    SignupAddressRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SignupAddressPage(),
       );
     },
   };
@@ -199,6 +217,29 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           AuthRoute.name,
           path: '/auth',
+        ),
+        RouteConfig(
+          SignupWrapperRoute.name,
+          path: 'signup',
+          children: [
+            RouteConfig(
+              '#redirect',
+              path: '',
+              parent: SignupWrapperRoute.name,
+              redirectTo: '1',
+              fullMatch: true,
+            ),
+            RouteConfig(
+              SignupAccountRoute.name,
+              path: '1',
+              parent: SignupWrapperRoute.name,
+            ),
+            RouteConfig(
+              SignupAddressRoute.name,
+              path: '2',
+              parent: SignupWrapperRoute.name,
+            ),
+          ],
         ),
         RouteConfig(
           EditProfileRoute.name,
@@ -466,6 +507,19 @@ class AuthRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [SignupWrapperPage]
+class SignupWrapperRoute extends PageRouteInfo<void> {
+  const SignupWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          SignupWrapperRoute.name,
+          path: 'signup',
+          initialChildren: children,
+        );
+
+  static const String name = 'SignupWrapperRoute';
+}
+
+/// generated route for
 /// [EditProfilePage]
 class EditProfileRoute extends PageRouteInfo<void> {
   const EditProfileRoute()
@@ -475,4 +529,28 @@ class EditProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EditProfileRoute';
+}
+
+/// generated route for
+/// [SignupAccountPage]
+class SignupAccountRoute extends PageRouteInfo<void> {
+  const SignupAccountRoute()
+      : super(
+          SignupAccountRoute.name,
+          path: '1',
+        );
+
+  static const String name = 'SignupAccountRoute';
+}
+
+/// generated route for
+/// [SignupAddressPage]
+class SignupAddressRoute extends PageRouteInfo<void> {
+  const SignupAddressRoute()
+      : super(
+          SignupAddressRoute.name,
+          path: '2',
+        );
+
+  static const String name = 'SignupAddressRoute';
 }

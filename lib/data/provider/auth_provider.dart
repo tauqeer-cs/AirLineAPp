@@ -1,4 +1,7 @@
+import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
+import 'package:app/data/requests/signup_request.dart';
+import 'package:app/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -10,8 +13,11 @@ const String userBoxName = "user";
 abstract class AuthProvider {
   factory AuthProvider(Dio dio, {String baseUrl}) = _AuthProvider;
 
+  @POST('user/sign-in')
+  Future<User> emailLogin(@Body() LoginRequest loginRequest);
+
   @POST('Public/oauth')
-  Future<String> oauthSignIn(@Body() OauthRequest loginRequest);
+  Future<User> oauthSignIn(@Body() OauthRequest loginRequest);
 
   @POST('sign-up')
   Future<dynamic> signup(@Body() dynamic signupRequest);

@@ -20,7 +20,7 @@ class User extends HiveObject with EquatableMixin {
   @HiveField(4)
   final String? token;
   @HiveField(5)
-  final String? fullName;
+  final String? surName;
   @HiveField(6)
   final String? message;
   @HiveField(7)
@@ -38,9 +38,9 @@ class User extends HiveObject with EquatableMixin {
   @HiveField(13)
   final double? currentBalance;
   @HiveField(14)
-  final bool? isAccountActive;
+  final bool? isAccountVerified;
   @HiveField(15)
-  final String? walletAddress;
+  final String? firstName;
   @HiveField(16)
   final DateTime? accountExpiryDate;
 
@@ -50,7 +50,7 @@ class User extends HiveObject with EquatableMixin {
     this.contactNo,
     this.authenticated,
     this.token,
-    this.fullName,
+    this.surName,
     this.message,
     this.address,
     this.postcode,
@@ -59,8 +59,8 @@ class User extends HiveObject with EquatableMixin {
     this.uuid,
     this.location,
     this.currentBalance,
-    this.isAccountActive,
-    this.walletAddress,
+    this.isAccountVerified,
+    this.firstName,
     this.accountExpiryDate,
   });
 
@@ -76,7 +76,7 @@ class User extends HiveObject with EquatableMixin {
     contactNo,
     authenticated,
     token,
-    fullName,
+    surName,
     message,
     address,
     postcode,
@@ -85,8 +85,8 @@ class User extends HiveObject with EquatableMixin {
     uuid,
     location,
     currentBalance,
-    isAccountActive,
-    walletAddress,
+    isAccountVerified,
+    firstName,
     accountExpiryDate,
   ];
 
@@ -105,7 +105,7 @@ class User extends HiveObject with EquatableMixin {
     String? contactNo,
     bool? authenticated,
     String? token,
-    String? fullName,
+    String? surName,
     String? message,
     String? address,
     String? postcode,
@@ -114,8 +114,8 @@ class User extends HiveObject with EquatableMixin {
     String? location,
     String? uuid,
     double? currentBalance,
-    bool? isAccountActive,
-    String? walletAddress,
+    bool? isAccountVerified,
+    String? firstName,
     DateTime? accountExpiryDate,
   }) {
     return User(
@@ -124,7 +124,7 @@ class User extends HiveObject with EquatableMixin {
       contactNo: contactNo ?? this.contactNo,
       authenticated: authenticated ?? this.authenticated,
       token: token ?? this.token,
-      fullName: fullName ?? this.fullName,
+      surName: surName ?? this.surName,
       message: message ?? this.message,
       address: address ?? this.address,
       postcode: postcode ?? this.postcode,
@@ -133,8 +133,8 @@ class User extends HiveObject with EquatableMixin {
       uuid: uuid ?? this.uuid,
       location: location ?? this.location,
       currentBalance: currentBalance ?? this.currentBalance,
-      isAccountActive: isAccountActive ?? this.isAccountActive,
-      walletAddress: walletAddress ?? this.walletAddress,
+      isAccountVerified: isAccountVerified ?? this.isAccountVerified,
+      firstName: firstName ?? this.firstName,
       accountExpiryDate: accountExpiryDate ?? this.accountExpiryDate,
     );
   }
