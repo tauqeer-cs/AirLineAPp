@@ -72,7 +72,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     Expanded(
                       child: FormBuilderDropdown<String>(
                         name: "${widget.person.toString()}$formNameTitle",
-                        items: ["Mr", "Mrs", "Ms"]
+                        items: availableTitle
                             .map(
                               (e) => DropdownMenuItem<String>(
                                 child: Text(e),

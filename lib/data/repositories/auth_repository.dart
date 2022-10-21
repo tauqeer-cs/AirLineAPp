@@ -7,6 +7,7 @@ import 'package:app/data/api.dart';
 import 'package:app/data/provider/auth_provider.dart';
 import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
+import 'package:app/data/requests/signup_request.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/security_utils.dart';
@@ -45,6 +46,12 @@ class AuthenticationRepository {
 
   Stream<User> get user async* {
     yield* _controller.stream;
+  }
+
+  Future<void> signUp(SignupRequest signupRequest) async{
+    final user = await _provider.signup(signupRequest);
+    //setCurrentUser(user);
+    //storeAccessToken(user.token);
   }
 
   Future<void> loginWithEmail(LoginRequest loginRequest) async{

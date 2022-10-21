@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
@@ -8,8 +9,10 @@ part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   SignupCubit() : super(SignupState());
+  final AuthenticationRepository _authenticationRepository =
+      AuthenticationRepository();
 
-  signup(SignupRequest signupRequest) async{
+  signup(SignupRequest signupRequest) async {
     final newRequest = state.signupRequest.copyWith(
       gender: signupRequest.gender,
       dob: signupRequest.dob,
@@ -18,10 +21,11 @@ class SignupCubit extends Cubit<SignupState> {
       state: signupRequest.state,
       postCode: signupRequest.postCode,
       country: signupRequest.country,
+
     );
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      //await _authenticationRepository.loginWithApple();
+      await _authenticationRepository.signUp(newRequest);
       emit(state.copyWith(blocState: BlocState.finished));
     } catch (e, st) {
       emit(
@@ -33,7 +37,10 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  addAccountDetail(SignupRequest signupRequest){
-    emit(state.copyWith(signupRequest: signupRequest));
+  addAccountDetail(SignupRequest signupRequest) {
+    emit(
+      state.copyWith(
+          signupRequest: signupRequest, blocState: BlocState.initial),
+    );
   }
 }

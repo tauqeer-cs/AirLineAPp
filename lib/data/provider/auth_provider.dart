@@ -19,6 +19,6 @@ abstract class AuthProvider {
   @POST('Public/oauth')
   Future<User> oauthSignIn(@Body() OauthRequest loginRequest);
 
-  @POST('sign-up')
-  Future<dynamic> signup(@Body() dynamic signupRequest);
+  @POST('user/sign-up')
+  Future<User> signup(@Body() SignupRequest signupRequest);
 }

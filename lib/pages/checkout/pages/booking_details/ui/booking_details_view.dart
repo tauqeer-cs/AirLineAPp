@@ -53,75 +53,73 @@ class BookingDetailsView extends StatelessWidget {
 
   const BookingDetailsView({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-    final  notice= context.watch<CmsSsrCubit>().state.notice;
+    final notice = context.watch<CmsSsrCubit>().state.notice;
     return FormBuilder(
       autoFocusOnValidationFailure: true,
       key: _fbKey,
       child: SingleChildScrollView(
+        child: Column(
+          children: [
+            kVerticalSpacerBig,
+            Padding(
+              padding: kPageHorizontalPadding,
               child: Column(
                 children: [
-                  kVerticalSpacerBig,
-                  Padding(
-                    padding: kPageHorizontalPadding,
-                    child: Column(
-                      children: [
-                        AppBookingHeader(passedSteps: [
-                          BookingStep.flights,
-                          BookingStep.addOn,
-                          BookingStep.bookingDetails
-                        ]),
-                        kVerticalSpacer,
-                        BookingDetailsHeader(),
-                        kVerticalSpacer,
-                        CardSummary(),
-                        kVerticalSpacer,
-                        ListOfPassengerInfo(),
-                        kVerticalSpacer,
-
-                        kVerticalSpacer,
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          width: 500.w,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Checkbox(value: true, onChanged: (_){}),
-                              Expanded(child: Html(data: notice?.content ?? "")),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  CheckoutSummary(),
+                  AppBookingHeader(passedSteps: [
+                    BookingStep.flights,
+                    BookingStep.addOn,
+                    BookingStep.bookingDetails
+                  ]),
                   kVerticalSpacer,
-                  Padding(
-                    padding: kPageHorizontalPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                  BookingDetailsHeader(),
+                  kVerticalSpacer,
+                  CardSummary(),
+                  kVerticalSpacer,
+                  ListOfPassengerInfo(),
+                  kVerticalSpacer,
+                  kVerticalSpacer,
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    width: 500.w,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppDividerWidget(),
-                        kVerticalSpacer,
-                        BookingSummary(),
-                        kVerticalSpacer,
-                        ElevatedButton(
-                          onPressed: () => onBooking(context),
-                          child: Text("Continue"),
-                        ),
-                        kVerticalSpacer,
+                        Checkbox(value: true, onChanged: (_) {}),
+                        Expanded(child: Html(data: notice?.content ?? "")),
                       ],
                     ),
                   )
                 ],
               ),
             ),
+            CheckoutSummary(),
+            kVerticalSpacer,
+            Padding(
+              padding: kPageHorizontalPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AppDividerWidget(),
+                  kVerticalSpacer,
+                  BookingSummary(),
+                  kVerticalSpacer,
+                  ElevatedButton(
+                    onPressed: () => onBooking(context),
+                    child: Text("Continue"),
+                  ),
+                  kVerticalSpacer,
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -160,27 +158,24 @@ class BookingDetailsView extends StatelessWidget {
               ?.firstOrNull
               ?.retrieveFlightSeatMapResponse
               ?.physicalFlights
-              ?.firstOrNull?.physicalFlightID,
+              ?.firstOrNull
+              ?.physicalFlightID,
           outboundPhysicalId: outboundSeats
               ?.firstOrNull
               ?.retrieveFlightSeatMapResponse
               ?.physicalFlights
-              ?.firstOrNull?.physicalFlightID,
+              ?.firstOrNull
+              ?.physicalFlightID,
         );
-        const formNameFirstName = "_first_name";
-        const formNameLastName = "_last_name";
-        const formNameTitle = "_title";
-        const formNameNationality = "_nationality";
-        const formNameDob = "_dob";
         final filledPassenger = passenger.copyWith(
             firstName: value["${person.toString()}$formNameFirstName"],
             lastName: value["${person.toString()}$formNameLastName"],
-            title: (value["${person.toString()}$formNameTitle"] as String?)?.toUpperCase(),
+            title: (value["${person.toString()}$formNameTitle"] as String?)
+                ?.toUpperCase(),
             nationality: value["${person.toString()}$formNameNationality"],
             dob: value["${person.toString()}$formNameDob"],
             gender: "Male",
-            relation: "Self"
-        );
+            relation: "Self");
         passengers.add(filledPassenger);
       }
       final companyCountry = value[formNameCompanyCountry] as Country?;
@@ -213,9 +208,9 @@ class BookingDetailsView extends StatelessWidget {
           passengers: passengers,
         ),
       );
-      LocalRepository().setPassengerInfo(summaryRequest.flightSummaryPNRRequest);
+      LocalRepository()
+          .setPassengerInfo(summaryRequest.flightSummaryPNRRequest);
       context.read<SummaryCubit>().submitSummary(summaryRequest);
     }
   }
-
 }

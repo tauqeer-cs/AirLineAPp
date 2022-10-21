@@ -15,6 +15,7 @@ class AppInputPassword extends StatefulWidget {
   final int maxLines;
   final Widget? prefixIcon;
   final bool isDarkBackground;
+  final TextEditingController? textEditingController;
 
   final bool showShadow;
 
@@ -29,7 +30,7 @@ class AppInputPassword extends StatefulWidget {
     this.isObstructedText = true,
     this.hintText,
     this.prefixIcon,
-    this.showShadow = false,
+    this.showShadow = false, this.textEditingController,
   }) : super(key: key);
 
   @override
@@ -42,15 +43,14 @@ class _AppInputPasswordState extends State<AppInputPassword> {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
+      controller: widget.textEditingController,
       name: widget.name,
       initialValue: widget.defaultValue,
       maxLines: widget.maxLines,
       validator: FormBuilderValidators.compose(widget.validators ?? []),
       obscureText: isObstructedText,
       cursorColor: Styles.kPrimaryColor,
-      style: kMediumMedium.copyWith(
-        color: widget.isDarkBackground ? Colors.white : Colors.black,
-      ),
+      style: kMediumMedium.copyWith(),
       decoration: InputDecoration(
         hintText: widget.hintText ?? "",
         prefixIcon: widget.prefixIcon,

@@ -348,3 +348,5 @@ enum PeopleType {
 
   final String code;
 }
+
+List<String> availableTitle = ["Mr.", "Mrs.", "Miss", "Ms", "Tun", "Tun Sri"];
