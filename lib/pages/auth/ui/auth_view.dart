@@ -1,7 +1,10 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/spacer.dart';
+import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
+import 'package:app/widgets/app_logo_widget.dart';
+import 'package:app/widgets/containers/glass_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
@@ -35,63 +38,79 @@ class AuthView extends StatelessWidget {
           key: _fbKey,
           child: Column(
             children: [
-              AppInputText(
-                isRequired: false,
-                textInputType: TextInputType.emailAddress,
-                name: formEmailLogin,
-                hintText: 'Email Address',
-                validators: [
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.email(),
+              kVerticalSpacer,
+              Column(
+                children: [
+                  AppLogoWidget(useWhite: true),
+                  kVerticalSpacer,
+                  Text("Welcome Back!", style: kGiantRegular.copyWith(color: Colors.white),),
                 ],
               ),
               kVerticalSpacer,
-              //Text(tr.password, style: kMediumHeavy),
-              AppInputPassword(
-                name: formPasswordLogin,
-                hintText: "Password",
-                validators: [FormBuilderValidators.required()],
-                isDarkBackground: false,
+              GlassCard(
+                child: Column(
+                  children: [
+                    AppInputText(
+                      isRequired: false,
+                      textInputType: TextInputType.emailAddress,
+                      name: formEmailLogin,
+                      hintText: 'Email Address',
+                      validators: [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.email(),
+                      ],
+                    ),
+                    kVerticalSpacer,
+                    //Text(tr.password, style: kMediumHeavy),
+                    AppInputPassword(
+                      name: formPasswordLogin,
+                      hintText: "Password",
+                      validators: [FormBuilderValidators.required()],
+                      isDarkBackground: false,
+                    ),
+                    kVerticalSpacer,
+                    ElevatedButton(
+                      onPressed: () => onLogin(context),
+                      child: Text("Login"),
+                    ),
+                    kVerticalSpacerSmall,
+                    OutlinedButton(
+                      onPressed: () => context.router.push(SignupWrapperRoute()),
+                      child: Text("Create Acccount"),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
         ),
-        kVerticalSpacer,
-        ElevatedButton(
-          onPressed: () => onLogin(context),
-          child: Text("Login"),
-        ),
-        kVerticalSpacer,
-        Row(
-          children: [
-            Expanded(child: AppDividerWidget(color: Colors.grey)),
-            kHorizontalSpacer,
-            Text("Or continue with"),
-            kHorizontalSpacer,
-            Expanded(child: AppDividerWidget(color: Colors.grey)),
-          ],
-        ),
-        kVerticalSpacer,
-        SignInButton(
-          Buttons.Apple,
-          onPressed: () => context.read<LoginCubit>().loginWithApple(),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        ),
-        SignInButton(
-          Buttons.Google,
-          onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        ),
-        kVerticalSpacer,
 
-        AppDividerWidget(),
-        kVerticalSpacer,
-        Text("Don't have account?"),
-        kVerticalSpacerSmall,
-        ElevatedButton(
-          onPressed: () => context.router.push(SignupWrapperRoute()),
-          child: Text("Create Acccount"),
-        )
+        // kVerticalSpacer,
+        // Row(
+        //   children: [
+        //     Expanded(child: AppDividerWidget(color: Colors.grey)),
+        //     kHorizontalSpacer,
+        //     Text("Or continue with"),
+        //     kHorizontalSpacer,
+        //     Expanded(child: AppDividerWidget(color: Colors.grey)),
+        //   ],
+        // ),
+        // kVerticalSpacer,
+        // SignInButton(
+        //   Buttons.Apple,
+        //   onPressed: () => context.read<LoginCubit>().loginWithApple(),
+        //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        // ),
+        // SignInButton(
+        //   Buttons.Google,
+        //   onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
+        //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        // ),
+        // kVerticalSpacer,
+        // AppDividerWidget(),
+        // kVerticalSpacer,
+        // Text("Don't have account?"),
+        //
       ],
     );
   }

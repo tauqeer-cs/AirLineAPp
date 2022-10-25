@@ -2,6 +2,8 @@ import 'package:app/pages/auth/auth_page.dart';
 import 'package:app/pages/auth/pages/signup/signup_account.dart';
 import 'package:app/pages/auth/pages/signup/signup_address.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
+import 'package:app/pages/bookings/bookings_page.dart';
+import 'package:app/pages/check_in/check_in_page.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/booking_confirmation_page.dart';
 import 'package:app/pages/checkout/pages/booking_details/booking_details.dart';
 import 'package:app/pages/checkout/pages/booking_list/booking_list_page.dart';
@@ -11,9 +13,11 @@ import 'package:app/pages/checkout/pages/select_baggage/select_baggage_page.dart
 import 'package:app/pages/checkout/pages/select_bundle/select_bundle_page.dart';
 import 'package:app/pages/checkout/pages/select_meals/select_meals_page.dart';
 import 'package:app/pages/checkout/pages/select_seats/select_seats_page.dart';
+import 'package:app/pages/deals/deals_page.dart';
 import 'package:app/pages/edit_profile/edit_profile.dart';
 import 'package:app/pages/home/home_page.dart';
 import 'package:app/pages/inapp_webview/in_app_webview_page.dart';
+import 'package:app/pages/navigation/navigation_page.dart';
 import 'package:app/pages/search_result/search_result_page.dart';
 import 'package:app/pages/webview/webview_page.dart';
 import 'package:app/pages/welcome/welcome_page.dart';
@@ -28,8 +32,19 @@ part 'app_router.gr.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(page: HomePage, initial: true, path: "/home"),
-    AutoRoute(page: SearchResultPage, initial: true, path: "/flight"),
+    AutoRoute(
+      page: NavigationPage,
+      path: "/navigation",
+      initial: true,
+      children: [
+        AutoRoute(page: HomePage, initial: true, path: "home"),
+        AutoRoute(page: DealsPage, path: "deals"),
+        AutoRoute(page: BookingsPage, path: "bookings"),
+        AutoRoute(page: CheckInPage, path: "check-in"),
+        AutoRoute(page: AuthPage, path: "auth"),
+      ],
+    ),
+    AutoRoute(page: SearchResultPage, path: "/flight"),
     AutoRoute(page: WelcomePage, path: "/welcome"),
     AutoRoute(page: WebViewPage, path: "/webview"),
     AutoRoute(page: InAppWebViewPage, path: "/in-app-webview"),
@@ -42,7 +57,6 @@ part 'app_router.gr.dart';
     AutoRoute(page: PaymentPage, path: "/payment"),
     AutoRoute(page: BookingListPage, path: "/booking-list"),
     AutoRoute(page: BookingConfirmationPage, path: "/booking-confirmation/:id"),
-    AutoRoute(page: AuthPage, path: "/auth"),
     AutoRoute(
       page: SignupWrapperPage,
       path: 'signup',

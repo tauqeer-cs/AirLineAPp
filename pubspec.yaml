@@ -95,6 +95,11 @@ flutter_native_splash:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: MyFlutterApp
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
   assets:
     - assets/images/native/
     - assets/images/design/
+    - assets/fonts/

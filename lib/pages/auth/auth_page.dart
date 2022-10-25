@@ -35,12 +35,22 @@ class AuthPage extends StatelessWidget {
               onFinished: () => context.loaderOverlay.hide(),
             );
           },
-          child: Scaffold(
-            appBar: AppBar(),
-            body: AuthWrapper(
-              authChild: ProfileView(),
-              child: AuthView(),
-            ),
+          child: Stack(
+            children: [
+              Image.asset(
+                "assets/images/design/home_bg.png",
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
+              Scaffold(
+                backgroundColor: Colors.transparent,
+                body: AuthWrapper(
+                  authChild: ProfileView(),
+                  child: AuthView(),
+                ),
+              ),
+            ],
           ),
         ),
       ),

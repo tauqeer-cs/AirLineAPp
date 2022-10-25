@@ -17,10 +17,10 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    HomeRoute.name: (routeData) {
+    NavigationRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const HomePage(),
+        child: const NavigationPage(),
       );
     },
     SearchResultRoute.name: (routeData) {
@@ -118,12 +118,6 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    AuthRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const AuthPage(),
-      );
-    },
     SignupWrapperRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -134,6 +128,36 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const EditProfilePage(),
+      );
+    },
+    HomeRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const HomePage(),
+      );
+    },
+    DealsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const DealsPage(),
+      );
+    },
+    BookingsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const BookingsPage(),
+      );
+    },
+    CheckInRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CheckInPage(),
+      );
+    },
+    AuthRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const AuthPage(),
       );
     },
     SignupAccountRoute.name: (routeData) {
@@ -155,12 +179,46 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           '/#redirect',
           path: '/',
-          redirectTo: '/home',
+          redirectTo: '/navigation',
           fullMatch: true,
         ),
         RouteConfig(
-          HomeRoute.name,
-          path: '/home',
+          NavigationRoute.name,
+          path: '/navigation',
+          children: [
+            RouteConfig(
+              '#redirect',
+              path: '',
+              parent: NavigationRoute.name,
+              redirectTo: 'home',
+              fullMatch: true,
+            ),
+            RouteConfig(
+              HomeRoute.name,
+              path: 'home',
+              parent: NavigationRoute.name,
+            ),
+            RouteConfig(
+              DealsRoute.name,
+              path: 'deals',
+              parent: NavigationRoute.name,
+            ),
+            RouteConfig(
+              BookingsRoute.name,
+              path: 'bookings',
+              parent: NavigationRoute.name,
+            ),
+            RouteConfig(
+              CheckInRoute.name,
+              path: 'check-in',
+              parent: NavigationRoute.name,
+            ),
+            RouteConfig(
+              AuthRoute.name,
+              path: 'auth',
+              parent: NavigationRoute.name,
+            ),
+          ],
         ),
         RouteConfig(
           SearchResultRoute.name,
@@ -215,10 +273,6 @@ class _$AppRouter extends RootStackRouter {
           path: '/booking-confirmation/:id',
         ),
         RouteConfig(
-          AuthRoute.name,
-          path: '/auth',
-        ),
-        RouteConfig(
           SignupWrapperRoute.name,
           path: 'signup',
           children: [
@@ -249,15 +303,16 @@ class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [HomePage]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute()
+/// [NavigationPage]
+class NavigationRoute extends PageRouteInfo<void> {
+  const NavigationRoute({List<PageRouteInfo>? children})
       : super(
-          HomeRoute.name,
-          path: '/home',
+          NavigationRoute.name,
+          path: '/navigation',
+          initialChildren: children,
         );
 
-  static const String name = 'HomeRoute';
+  static const String name = 'NavigationRoute';
 }
 
 /// generated route for
@@ -495,18 +550,6 @@ class BookingConfirmationRouteArgs {
 }
 
 /// generated route for
-/// [AuthPage]
-class AuthRoute extends PageRouteInfo<void> {
-  const AuthRoute()
-      : super(
-          AuthRoute.name,
-          path: '/auth',
-        );
-
-  static const String name = 'AuthRoute';
-}
-
-/// generated route for
 /// [SignupWrapperPage]
 class SignupWrapperRoute extends PageRouteInfo<void> {
   const SignupWrapperRoute({List<PageRouteInfo>? children})
@@ -529,6 +572,66 @@ class EditProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EditProfileRoute';
+}
+
+/// generated route for
+/// [HomePage]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute()
+      : super(
+          HomeRoute.name,
+          path: 'home',
+        );
+
+  static const String name = 'HomeRoute';
+}
+
+/// generated route for
+/// [DealsPage]
+class DealsRoute extends PageRouteInfo<void> {
+  const DealsRoute()
+      : super(
+          DealsRoute.name,
+          path: 'deals',
+        );
+
+  static const String name = 'DealsRoute';
+}
+
+/// generated route for
+/// [BookingsPage]
+class BookingsRoute extends PageRouteInfo<void> {
+  const BookingsRoute()
+      : super(
+          BookingsRoute.name,
+          path: 'bookings',
+        );
+
+  static const String name = 'BookingsRoute';
+}
+
+/// generated route for
+/// [CheckInPage]
+class CheckInRoute extends PageRouteInfo<void> {
+  const CheckInRoute()
+      : super(
+          CheckInRoute.name,
+          path: 'check-in',
+        );
+
+  static const String name = 'CheckInRoute';
+}
+
+/// generated route for
+/// [AuthPage]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute()
+      : super(
+          AuthRoute.name,
+          path: 'auth',
+        );
+
+  static const String name = 'AuthRoute';
 }
 
 /// generated route for

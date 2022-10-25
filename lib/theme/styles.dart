@@ -22,9 +22,11 @@ class Styles {
 
   static Color get kTextLightThemeColor => const Color(0xFF4B4B4B);
 
-  static Color get kDarkContainerColor => const Color(0xFF232F3D);
+  static Color get kDarkContainerColor =>
+      const Color.fromRGBO(185, 195, 199, 1);
 
   static Color get kCanvasColor => const Color(0xFFF2F2F3);
+
   static Color get kTextColor => const Color(0xFF2b2d42);
 
   static LinearGradient get gradient => LinearGradient(colors: const <Color>[
@@ -77,7 +79,6 @@ class Styles {
         disabledInactiveTrackColor: Colors.grey,
       ),
       toggleableActiveColor: kPrimaryColor,
-
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -106,22 +107,31 @@ class Styles {
           minimumSize: MaterialStateProperty.all(Size(500.w, 45.h)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-              side: BorderSide(color: kPrimaryColor)
-            ),
+                borderRadius: BorderRadius.circular(50),
+                side: BorderSide(color: kPrimaryColor)),
           ),
+          textStyle: MaterialStateProperty.all(kLargeSemiBold),
           padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
           ),
         ),
       ),
-
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (Set<MaterialState> states) {
+              if (states.contains(MaterialState.pressed)) {
+                return Colors.white.withOpacity(0.5);
+              } else if (states.contains(MaterialState.disabled)) {
+                return Colors.white.withOpacity(0.7);
+              }
+              return Colors.white; // Use the component's default./ Use the component's default.
+            },
+          ),
           side: MaterialStateProperty.resolveWith<BorderSide>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return  BorderSide(
+                return BorderSide(
                   color: kPrimaryColor,
                   width: 1.0,
                   style: BorderStyle.solid,
@@ -141,11 +151,11 @@ class Styles {
             },
           ),
           textStyle: MaterialStateProperty.all(kLargeSemiBold),
-          minimumSize: MaterialStateProperty.all(Size(100, 48.h)),
+          minimumSize: MaterialStateProperty.all(Size(500.w, 45.h)),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return isLight ?kPrimaryColor : Colors.white;
+                return isLight ? kPrimaryColor : Colors.white;
               } else if (states.contains(MaterialState.disabled)) {
                 return kPrimaryColor.withOpacity(0.5);
               }
@@ -157,7 +167,7 @@ class Styles {
           ),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(50),
               side: BorderSide(
                 width: 1,
                 color: kBorderColor,
@@ -180,43 +190,34 @@ class Styles {
         isDense: false,
         errorMaxLines: 2,
         contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        border: OutlineInputBorder(
-          borderSide:  BorderSide(color: kDarkContainerColor),
-          borderRadius: BorderRadius.circular(5),
-        ),
+        border: UnderlineInputBorder(),
         prefixIconColor: isLight ? kTextColor : Colors.white,
         suffixIconColor: isLight ? kTextColor : Colors.white,
-        enabledBorder: OutlineInputBorder(
-          borderSide:  BorderSide(color: kDarkContainerColor),
-          borderRadius: BorderRadius.circular(5),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: kDarkContainerColor),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide:  BorderSide(color: kDarkContainerColor),
-          borderRadius: BorderRadius.circular(5),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: kDarkContainerColor),
         ),
-        errorBorder: OutlineInputBorder(
+        errorBorder: UnderlineInputBorder(
           borderSide: const BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(5),
         ),
-        focusedErrorBorder: OutlineInputBorder(
+        focusedErrorBorder: UnderlineInputBorder(
           borderSide: const BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(5),
         ),
-        disabledBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color:  kDarkContainerColor.withOpacity(0.3)),
-          borderRadius: BorderRadius.circular(5),
+        disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: kDarkContainerColor.withOpacity(0.3)),
         ),
         filled: false,
         labelStyle: kSmallSemiBold.copyWith(
-          color: isLight ?kTextColor : kLightBgColor,
+          color: isLight ? kTextColor : kLightBgColor,
         ),
         errorStyle: kSmallSemiBold.copyWith(
           color: isLight ? Colors.red : kLightBgColor,
         ),
         hintStyle: kSmallSemiBold.copyWith(
           color: isLight
-              ? kTextColor.withOpacity(0.5)
+              ? Color.fromRGBO(43, 45, 66, 1).withOpacity(0.5)
               : kLightBgColor.withOpacity(0.5),
         ),
       ),
@@ -249,11 +250,16 @@ class Styles {
             top: Radius.circular(12),
           ),
         ),
-        elevation: 3
+        elevation: 3,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: isLight ? Colors.white : Colors.white,
+        backgroundColor:
+            isLight ? Color.fromRGBO(241, 241, 241, 0.8) : Colors.white,
         selectedItemColor: isLight ? kPrimaryColor : Colors.white,
+        unselectedIconTheme:
+            IconThemeData(color: Color.fromRGBO(0, 48, 73, 1), size: 30),
+        selectedIconTheme: IconThemeData(color: kPrimaryColor, size: 30),
+        showUnselectedLabels: true,
         selectedLabelStyle: const TextStyle(
           color: Colors.red,
         ),
