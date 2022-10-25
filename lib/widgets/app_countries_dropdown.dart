@@ -2,10 +2,14 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/models/country.dart';
+import 'package:app/pages/home/ui/filter/dropdown_transformer.dart';
+import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+
+import 'forms/app_dropdown.dart';
 
 class AppCountriesDropdown extends StatelessWidget {
   final String name;
@@ -29,27 +33,39 @@ class AppCountriesDropdown extends StatelessWidget {
       builder: (context, state) {
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: FormBuilderDropdown<Country>(
-              validator: FormBuilderValidators.compose(validators ?? []),
-              decoration: InputDecoration(
-                hintText: hintText,
-              ),
-              name: name,
-              initialValue: initialValue ?? Country.defaultCountry,
-              onChanged: (country){
-                print(country);
-              },
-              items: (state.countries.isNotEmpty
-                      ? state.countries
-                      : [Country.defaultCountry])
-                  .map(
-                    (e) => DropdownMenuItem<Country>(
-                      child: Text(
-                          (isPhoneCode ? e.phoneCodeDisplay : e.country) ?? ""),
-                      value: e,
+          finishedBuilder: AppDropDown<Country>(
+            sheetTitle: isPhoneCode ? "Phone" : "Country",
+            defaultValue: initialValue ?? Country.defaultCountry,
+            onChanged: (country) {
+              print(country);
+            },
+            valueTransformerItem: (value, selected) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    isPhoneCode
+                        ? "${value?.country} (${value?.phoneCodeDisplay})"
+                        : value?.country ?? "",
+                    style: kMediumMedium.copyWith(
+                      color: selected ? Styles.kPrimaryColor : null,
                     ),
-                  )
-                  .toList()),
+                  ),
+                ],
+              );
+            },
+            valueTransformer: (value) {
+              return DropdownTransformerWidget<Country>(
+                value: value,
+                valueCustom: isPhoneCode
+                    ? "${value?.country} (${value?.phoneCodeDisplay})"
+                    : value?.country,
+              );
+            },
+            items: (state.countries.isNotEmpty
+                ? state.countries
+                : [Country.defaultCountry]),
+          ),
         );
       },
     );

@@ -8,7 +8,7 @@ class Styles {
 
   static Color get kActiveColor => const Color.fromRGBO(227, 30, 51, 1);
 
-  static Color get kDisabledButton => const Color(0xFF555555);
+  static Color get kDisabledButton => const Color.fromRGBO(185, 195, 199, 1);
 
   static Color get kLightBgColor => const Color(0xFFFFFFFF);
 
@@ -27,7 +27,8 @@ class Styles {
 
   static Color get kCanvasColor => const Color(0xFFF2F2F3);
 
-  static Color get kTextColor => const Color(0xFF2b2d42);
+  static Color get kTextColor => const Color.fromRGBO(43, 45, 66, 1);
+  static Color get kSubTextColor => const Color.fromRGBO(102, 102, 102, 1);
 
   static LinearGradient get gradient => LinearGradient(colors: const <Color>[
         Color(0xFF02C2F3),

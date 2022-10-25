@@ -75,6 +75,7 @@ class Country extends Equatable {
         this.phoneCode,
       ];
 
+
   static const Country defaultCountry = const Country(
     countryCode: "MYS",
     phoneCode: "60",

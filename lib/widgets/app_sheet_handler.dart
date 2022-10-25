@@ -30,18 +30,19 @@ class AppSheetHandler extends StatelessWidget {
                 title ?? "",
                 style: kMediumHeavy.copyWith(letterSpacing: 1.5),
               ),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
+              // IconButton(
+              //   icon: const Icon(Icons.close),
+              //   onPressed: () {
+              //     Navigator.pop(context);
+              //   },
+              // )
             ],
           ),
         ),
+        kVerticalSpacer,
         Padding(
           padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 16.0),
-          child: const AppDividerWidget(),
+          child: const AppDividerWidget(color: Colors.white),
         ),
       ],
     );

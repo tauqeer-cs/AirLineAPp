@@ -35,6 +35,7 @@ class AuthView extends StatelessWidget {
       padding: kPagePadding,
       children: [
         FormBuilder(
+          autoFocusOnValidationFailure: true,
           key: _fbKey,
           child: Column(
             children: [

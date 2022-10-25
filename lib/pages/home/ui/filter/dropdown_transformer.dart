@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 
 class DropdownTransformerWidget<T> extends StatelessWidget {
   final T? value;
-  final String? label;
+  final String? label, valueCustom;
   final Widget? prefix;
   final Widget? suffix;
 
   const DropdownTransformerWidget({
     Key? key,
-    required this.value,
+    this.value,
     this.label,
     this.prefix,
     this.suffix,
+    this.valueCustom,
   }) : super(key: key);
 
   @override
@@ -26,31 +27,28 @@ class DropdownTransformerWidget<T> extends StatelessWidget {
           child: prefix,
         ): SizedBox.shrink(),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Visibility(
-                  visible: label != null,
-                  child: Padding(
-                    padding:  EdgeInsets.only(bottom: value!=null ? 5 : 10, top: value!=null ? 0 : 10),
-                    child: Text(
-                      label ?? "",
-                      style: kSmallMedium.copyWith(color: Colors.grey),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: value!=null,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: label != null,
+                child: Padding(
+                  padding:  EdgeInsets.only(bottom: value!=null ? 5 : 10, top: value!=null ? 0 : 10),
                   child: Text(
-                    value!=null ? value.toString() : "",
-                    style: kMediumMedium,
+                    label ?? "",
+                    style: kSmallMedium.copyWith(color: Colors.grey),
                   ),
                 ),
-              ],
-            ),
+              ),
+              Visibility(
+                visible: value!=null,
+                child: Text(
+                  valueCustom!=null ? valueCustom! : (value?.toString() ?? ""),
+                  style: kMediumMedium,
+                ),
+              ),
+            ],
           ),
         ),
         suffix ?? SizedBox.shrink(),

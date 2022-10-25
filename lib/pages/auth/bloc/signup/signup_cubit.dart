@@ -20,8 +20,6 @@ class SignupCubit extends Cubit<SignupState> {
       city: signupRequest.city,
       state: signupRequest.state,
       postCode: signupRequest.postCode,
-      country: signupRequest.country,
-
     );
     emit(state.copyWith(blocState: BlocState.loading));
     try {
@@ -35,6 +33,34 @@ class SignupCubit extends Cubit<SignupState> {
         ),
       );
     }
+  }
+
+  editTitle(String? title) {
+    final newData = state.signupRequest.copyWith(title: title);
+    emit(
+      state.copyWith(signupRequest: newData),
+    );
+  }
+
+  editPhoneCode(String phoneCode) {
+    final newData = state.signupRequest.copyWith(phoneCode: phoneCode);
+    emit(
+      state.copyWith(signupRequest: newData),
+    );
+  }
+
+  editCountry(String country) {
+    final newData = state.signupRequest.copyWith(country: country);
+    emit(
+      state.copyWith(signupRequest: newData),
+    );
+  }
+
+  editGender(String gender) {
+    final newData = state.signupRequest.copyWith(gender: gender);
+    emit(
+      state.copyWith(signupRequest: newData),
+    );
   }
 
   addAccountDetail(SignupRequest signupRequest) {

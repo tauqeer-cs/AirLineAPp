@@ -2,6 +2,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_sheet_handler.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppDropDown<T> extends StatelessWidget {
   final T? defaultValue;
@@ -30,36 +31,39 @@ class AppDropDown<T> extends StatelessWidget {
       items: items,
       onChanged: onChanged,
       selectedItem: defaultValue,
-      // dropdownDecoratorProps: DropDownDecoratorProps(
-      //   dropdownSearchDecoration: InputDecoration(
-      //     border: OutlineInputBorder(
-      //       borderSide: BorderSide(color: Styles.kDarkContainerColor),
-      //       borderRadius: BorderRadius.circular(5),
-      //     ),
-      //     enabledBorder: OutlineInputBorder(
-      //       borderSide: BorderSide(color: Styles.kDarkContainerColor),
-      //       borderRadius: BorderRadius.circular(5),
-      //     ),
-      //     focusedBorder: OutlineInputBorder(
-      //       borderSide: BorderSide(color: Styles.kDarkContainerColor),
-      //       borderRadius: BorderRadius.circular(5),
-      //     ),
-      //     errorBorder: OutlineInputBorder(
-      //       borderSide: const BorderSide(color: Colors.red),
-      //       borderRadius: BorderRadius.circular(5),
-      //     ),
-      //     focusedErrorBorder: OutlineInputBorder(
-      //       borderSide: const BorderSide(color: Colors.red),
-      //       borderRadius: BorderRadius.circular(5),
-      //     ),
-      //     disabledBorder: OutlineInputBorder(
-      //       borderSide:
-      //           BorderSide(color: Styles.kDarkContainerColor.withOpacity(0.3)),
-      //       borderRadius: BorderRadius.circular(5),
-      //     ),
-      //   ),
-      // ),
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+          // border: OutlineInputBorder(
+          //   borderSide: BorderSide(color: Styles.kDarkContainerColor),
+          //   borderRadius: BorderRadius.circular(5),
+          // ),
+          // enabledBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(color: Styles.kDarkContainerColor),
+          //   borderRadius: BorderRadius.circular(5),
+          // ),
+          // focusedBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(color: Styles.kDarkContainerColor),
+          //   borderRadius: BorderRadius.circular(5),
+          // ),
+          // errorBorder: OutlineInputBorder(
+          //   borderSide: const BorderSide(color: Colors.red),
+          //   borderRadius: BorderRadius.circular(5),
+          // ),
+          // focusedErrorBorder: OutlineInputBorder(
+          //   borderSide: const BorderSide(color: Colors.red),
+          //   borderRadius: BorderRadius.circular(5),
+          // ),
+          // disabledBorder: OutlineInputBorder(
+          //   borderSide:
+          //       BorderSide(color: Styles.kDarkContainerColor.withOpacity(0.3)),
+          //   borderRadius: BorderRadius.circular(5),
+          // ),
+          hintText: sheetTitle,
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12)
+        ),
+      ),
       dropdownBuilder: (context, val) {
+        if(val==null) return Text(sheetTitle ?? "", style: kMediumMedium.copyWith(color: Styles.kTextColor.withOpacity(0.5)),);
         return valueTransformer != null
             ? valueTransformer!(val)
             : Align(
@@ -85,7 +89,7 @@ class AppDropDown<T> extends StatelessWidget {
         ),
         showSelectedItems: true,
         scrollbarProps: ScrollbarProps(
-          thumbColor: Styles.kActiveColor,
+          thumbColor: Color.fromRGBO(112, 112, 112, 1),
           trackVisibility: true,
           thumbVisibility: true,
         ),
@@ -120,7 +124,7 @@ class AppDropDown<T> extends StatelessWidget {
           actionsPadding: EdgeInsets.zero,
         ),*/
         modalBottomSheetProps: ModalBottomSheetProps(
-          backgroundColor: Colors.white,
+          backgroundColor: Color.fromRGBO(235, 235, 235, 0.85),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(16),
@@ -130,7 +134,8 @@ class AppDropDown<T> extends StatelessWidget {
           elevation: 5,
           enableDrag: true,
           constraints: BoxConstraints(
-            maxHeight: (items.length * 70 == 0 ? 70 : items.length * 70) + 80,
+            maxHeight: 300,
+            maxWidth: 0.9.sw
           ),
         ),
       ),

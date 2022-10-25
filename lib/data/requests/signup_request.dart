@@ -13,17 +13,17 @@ part 'signup_request.g.dart';
 @JsonSerializable()
 class SignupRequest extends Equatable {
   const SignupRequest({
-    this.title,
+    this.title = "Mr.",
     this.firstName,
     this.lastName,
     this.email,
-    this.phoneCode,
+    this.phoneCode = "60",
     this.phoneNumber,
     this.password,
-    this.gender,
+    this.gender = "Male",
     this.dob,
     this.address,
-    this.country,
+    this.country = "MY",
     this.state,
     this.city,
     this.postCode,
