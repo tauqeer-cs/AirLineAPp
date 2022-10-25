@@ -45,8 +45,7 @@ class SignupWrapperPage extends StatelessWidget {
               },
               onFinished: () {
                 context.loaderOverlay.hide();
-                context.router.replaceAll([NavigationRoute()]);
-
+                context.router.root.replace(CompleteSignupRoute(signupRequest: state.signupRequest));
                 Toast.of(context).show(message: "Account created", success: true);
               },
             );

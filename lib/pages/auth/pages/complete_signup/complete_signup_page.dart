@@ -19,28 +19,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class SignupAccountPage extends StatelessWidget {
-  const SignupAccountPage({Key? key}) : super(key: key);
-  static final _fbKey = GlobalKey<FormBuilderState>();
-
-  onContinue(BuildContext context) {
-
-    //context.router.replace(CompleteSignupRoute(signupRequest: SignupRequest()));
-    //return;
-    if (_fbKey.currentState!.saveAndValidate()) {
-      final value = _fbKey.currentState!.value;
-      final signupRequest = SignupRequest(
-        firstName: value[formNameFirstName],
-        lastName: value[formNameLastName],
-        email: value[formNameEmail],
-        phoneNumber: value[formNamePhone],
-        password: value[formNamePassword],
-        confirmPassword: value[formNameConfirmPassword],
-      );
-      context.read<SignupCubit>().addAccountDetail(signupRequest);
-      AutoRouter.of(context).push(SignupAddressRoute());
-    }
-  }
+class CompleteSignupPage extends StatelessWidget {
+  final SignupRequest signupRequest;
+  const CompleteSignupPage({Key? key, required this.signupRequest}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,29 +50,13 @@ class SignupAccountPage extends StatelessWidget {
                 kVerticalSpacer,
                 Expanded(
                   child: SignupContainer(
-                    step: 1,
-                    child: FormBuilder(
-                      autoFocusOnValidationFailure: true,
+                    step: 3,
+                    child: Column(
+                      children: [
+                        Text('''Please check your email for a link to verify your registration.
 
-                      key: _fbKey,
-                      child: SingleChildScrollView(
-                        padding: kPageHorizontalPaddingBig,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            kVerticalSpacer,
-                            NameInput(),
-                            kVerticalSpacer,
-                            CredentialInput(),
-                            kVerticalSpacer,
-                            PasswordInput(),
-                            kVerticalSpacer,
-                            ElevatedButton(
-                                onPressed: () => onContinue(context),
-                                child: Text("Continue"))
-                          ],
-                        ),
-                      ),
+Please sign back in after you complete the verification of your email address.''')
+                      ],
                     ),
                   ),
                 ),

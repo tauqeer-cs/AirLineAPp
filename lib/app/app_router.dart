@@ -1,4 +1,6 @@
+import 'package:app/data/requests/signup_request.dart';
 import 'package:app/pages/auth/auth_page.dart';
+import 'package:app/pages/auth/pages/complete_signup/complete_signup_page.dart';
 import 'package:app/pages/auth/pages/signup/signup_account.dart';
 import 'package:app/pages/auth/pages/signup/signup_address.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
@@ -56,6 +58,7 @@ part 'app_router.gr.dart';
     AutoRoute(page: CheckoutPage, path: "/checkout"),
     AutoRoute(page: PaymentPage, path: "/payment"),
     AutoRoute(page: BookingListPage, path: "/booking-list"),
+    AutoRoute(page: CompleteSignupPage, path: "/complete-signup"),
     AutoRoute(page: BookingConfirmationPage, path: "/booking-confirmation/:id"),
     AutoRoute(
       page: SignupWrapperPage,

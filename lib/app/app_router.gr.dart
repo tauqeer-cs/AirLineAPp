@@ -105,6 +105,16 @@ class _$AppRouter extends RootStackRouter {
         child: const BookingListPage(),
       );
     },
+    CompleteSignupRoute.name: (routeData) {
+      final args = routeData.argsAs<CompleteSignupRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: CompleteSignupPage(
+          key: args.key,
+          signupRequest: args.signupRequest,
+        ),
+      );
+    },
     BookingConfirmationRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<BookingConfirmationRouteArgs>(
@@ -267,6 +277,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           BookingListRoute.name,
           path: '/booking-list',
+        ),
+        RouteConfig(
+          CompleteSignupRoute.name,
+          path: '/complete-signup',
         ),
         RouteConfig(
           BookingConfirmationRoute.name,
@@ -511,6 +525,40 @@ class BookingListRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BookingListRoute';
+}
+
+/// generated route for
+/// [CompleteSignupPage]
+class CompleteSignupRoute extends PageRouteInfo<CompleteSignupRouteArgs> {
+  CompleteSignupRoute({
+    Key? key,
+    required SignupRequest signupRequest,
+  }) : super(
+          CompleteSignupRoute.name,
+          path: '/complete-signup',
+          args: CompleteSignupRouteArgs(
+            key: key,
+            signupRequest: signupRequest,
+          ),
+        );
+
+  static const String name = 'CompleteSignupRoute';
+}
+
+class CompleteSignupRouteArgs {
+  const CompleteSignupRouteArgs({
+    this.key,
+    required this.signupRequest,
+  });
+
+  final Key? key;
+
+  final SignupRequest signupRequest;
+
+  @override
+  String toString() {
+    return 'CompleteSignupRouteArgs{key: $key, signupRequest: $signupRequest}';
+  }
 }
 
 /// generated route for

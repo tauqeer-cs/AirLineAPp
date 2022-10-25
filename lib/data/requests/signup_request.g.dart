@@ -8,17 +8,17 @@ part of 'signup_request.dart';
 
 SignupRequest _$SignupRequestFromJson(Map<String, dynamic> json) =>
     SignupRequest(
-      title: json['Title'] as String?,
+      title: json['Title'] as String? ?? "Mr.",
       firstName: json['FirstName'] as String?,
       lastName: json['LastName'] as String?,
       email: json['Email'] as String?,
-      phoneCode: json['PhoneCode'] as String?,
+      phoneCode: json['PhoneCode'] as String? ?? "60",
       phoneNumber: json['PhoneNumber'] as String?,
       password: json['Password'] as String?,
-      gender: json['Gender'] as String?,
+      gender: json['Gender'] as String? ?? "Male",
       dob: json['DOB'] == null ? null : DateTime.parse(json['DOB'] as String),
       address: json['Address'] as String?,
-      country: json['Country'] as String?,
+      country: json['Country'] as String? ?? "MY",
       state: json['State'] as String?,
       city: json['City'] as String?,
       postCode: json['PostCode'] as String?,
