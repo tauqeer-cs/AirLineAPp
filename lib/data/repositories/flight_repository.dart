@@ -11,6 +11,7 @@ import 'package:app/data/responses/summary_response.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/confirmation_model.dart';
 import 'package:app/models/pay_redirection.dart';
+import 'package:app/models/search_date_range.dart';
 
 class FlightRepository {
   static final FlightRepository _instance = FlightRepository._internal();
@@ -32,6 +33,10 @@ class FlightRepository {
 
   Future<FlightResponse> searchFlight(SearchFlight searchFlight) async {
     return await _provider.searchFlight(searchFlight);
+  }
+
+  Future<SearchDateRange> searchFlightDateRange(SearchFlight searchFlight) async {
+    return await _provider.searchFlightDateRange(searchFlight);
   }
 
   Future<VerifyResponse> verifyFlight(VerifyRequest verifyRequest) async {

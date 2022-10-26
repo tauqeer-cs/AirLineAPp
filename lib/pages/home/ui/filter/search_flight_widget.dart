@@ -3,9 +3,12 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/airport_widget.dart';
 import 'package:app/pages/home/ui/filter/calendar_widget.dart';
 import 'package:app/pages/home/ui/filter/passengers_widget.dart';
+import 'package:app/pages/home/ui/filter/trip_selection.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/containers/glass_card.dart';
+import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
+import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,33 +19,23 @@ class SearchFlightWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return GlassCard(
+    return GreyCard(
       child: Column(
         children: [
-          AppDropDown<FlightType>(
-            items: const [FlightType.round, FlightType.oneWay],
-            defaultValue: FlightType.round,
-            onChanged: (val) {
-              context.read<FilterCubit>().updateTripType(val);
-            },
-            sheetTitle: "Trip Type",
-            isEnabled: true,
-            valueTransformer: (value){
-              return DropdownTransformerWidget<FlightType>(
-                value: value ?? FlightType.round,
-                label: "Trip Type",
-              );
-            },
-          ),
-          kVerticalSpacer,
-          PassengersWidget(),
-          kVerticalSpacer,
+          TripSelection(),
           AirportWidget(isOrigin: true),
-          kVerticalSpacer,
+          kVerticalSpacerMini,
           AirportWidget(isOrigin: false),
-          kVerticalSpacer,
+          kVerticalSpacerMini,
+          PassengersWidget(),
+          kVerticalSpacerMini,
           CalendarWidget(),
+          kVerticalSpacerMini,
+          // AppInputText(
+          //   name: "promoFlight",
+          //   onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
+          //   hintText: "Promo Code",
+          // ),
         ],
       ),
     );
@@ -54,11 +47,12 @@ enum FlightType {
   oneWay('One Way', false);
 
   const FlightType(this.message, this.value);
+
   final String message;
   final bool value;
 
   @override
-  String toString(){
+  String toString() {
     return message;
   }
 }

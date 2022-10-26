@@ -11,6 +11,10 @@ part 'filter_state.dart';
 class FilterCubit extends Cubit<FilterState> {
   FilterCubit() : super(FilterState());
 
+  updatePromoCode(String? promoCode) {
+    emit(state.copyWith(promoCode: promoCode));
+  }
+
   updateTripType(FlightType? flightType) {
     emit(state.copyWith(flightType: flightType));
   }

@@ -30,6 +30,7 @@ class SearchFlight extends Equatable {
       isReturn: filter.flightType == FlightType.round,
       originAirport: filter.origin?.code,
       tripType: filter.flightType.message,
+      promoCode: filter.promoCode,
     );
     return SearchFlight(searchFlightRequest: searchFlightRequest);
   }
@@ -67,6 +68,8 @@ class CommonFlightRequest extends Equatable {
   final List<int>? inboundLFID;
   @JsonKey(name: 'TotalAmount')
   final num? totalAmount;
+  @JsonKey(name: 'PromoCode')
+  final String? promoCode;
 
   const CommonFlightRequest({
     this.originAirport,
@@ -82,6 +85,7 @@ class CommonFlightRequest extends Equatable {
     this.outboundLFID,
     this.inboundLFID,
     this.totalAmount,
+    this.promoCode,
   });
 
   factory CommonFlightRequest.fromJson(Map<String, dynamic> json) =>
@@ -105,5 +109,6 @@ class CommonFlightRequest extends Equatable {
         outboundLFID,
         inboundLFID,
         totalAmount,
+        promoCode,
       ];
 }

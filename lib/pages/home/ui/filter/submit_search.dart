@@ -23,7 +23,7 @@ class SubmitSearch extends StatelessWidget {
               }
               context.read<SearchFlightCubit>().searchFlights(filter);
             },
-      child: Text("Select Flight"),
+      child: Text("Search Flight"),
     );
   }
 }

@@ -66,6 +66,30 @@ class _FlightProvider implements FlightProvider {
   }
 
   @override
+  Future<SearchDateRange> searchFlightDateRange(searchFlight) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(searchFlight.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<SearchDateRange>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'flight/searchdaterange',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SearchDateRange.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<VerifyResponse> verifyFlight(verifyRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

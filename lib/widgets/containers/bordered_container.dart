@@ -12,10 +12,11 @@ class BorderedContainer extends StatelessWidget {
       height: 60,
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Styles.kDarkContainerColor),
+        border: Border(
+          bottom: BorderSide(width: 1.0, color: Styles.kBorderColor),
+        ),
       ),
-      child: child,
+      child: Center(child: child),
     );
   }
 }

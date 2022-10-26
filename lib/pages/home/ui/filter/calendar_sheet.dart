@@ -1,6 +1,12 @@
+import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/models/search_date_range.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
+import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
+import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/number_utils.dart';
+import 'package:app/widgets/animations/shimmer_rectangle.dart';
 import 'package:app/widgets/app_sheet_handler.dart';
 import 'package:app/widgets/bottom_sheet_header_widget.dart';
 import 'package:flutter/material.dart';
@@ -30,13 +36,17 @@ class CalendarSheetState extends State<CalendarSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final departDate = context.watch<FilterCubit>().state.departDate;
-    final returnDate = context.watch<FilterCubit>().state.returnDate;
+    final filterCubit = context.watch<FilterCubit>();
+    final departDate = filterCubit.state.departDate;
+    final returnDate = filterCubit.state.returnDate;
+    final isRoundTrip = filterCubit.state.flightType == FlightType.round;
+    final priceState = context.watch<PriceRangeCubit>().state;
+    final prices = priceState.prices;
 
     return Padding(
       padding: kPagePadding,
       child: SizedBox(
-        height: 0.55.sh,
+        height: 0.65.sh,
         child: TableCalendar(
           calendarBuilders: CalendarBuilders(
             headerTitleBuilder: (context, dateTime) {
@@ -55,7 +65,39 @@ class CalendarSheetState extends State<CalendarSheet> {
                 ],
               );
             },
+            singleMarkerBuilder:
+                (BuildContext context, date, DateRangePrice? events) {
+              if (priceState.blocState == BlocState.loading)
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: ShimmerRectangle(
+                    height: 10,
+                    width: 30,
+                  ),
+                );
+              if (events == null) return SizedBox();
+              return Column(
+                children: [
+                  kVerticalSpacerMini,
+                  Text(
+                    "MYR",
+                    style: kSmallHeavy,
+                  ),
+                  Text(
+                    NumberUtils.formatNum(events.price),
+                    style: kSmallSemiBold.copyWith(color: Styles.kPrimaryColor),
+                  ),
+                ],
+              );
+            },
           ),
+          rowHeight: 60,
+          eventLoader: (day) {
+            if (priceState.blocState == BlocState.loading) {
+              return [DateRangePrice()];
+            }
+            return prices.where((event) => isSameDay(event.date, day)).toList();
+          },
           headerStyle: const HeaderStyle(formatButtonVisible: false),
           firstDay: DateTime.now(),
           lastDay: DateTime.now().add(Duration(days: 90)),
@@ -64,16 +106,27 @@ class CalendarSheetState extends State<CalendarSheet> {
           rangeStartDay: departDate,
           rangeEndDay: returnDate,
           calendarFormat: CalendarFormat.month,
-          rangeSelectionMode: _rangeSelectionMode,
+          rangeSelectionMode:
+              !isRoundTrip ? RangeSelectionMode.disabled : _rangeSelectionMode,
           onDaySelected: (selectedDay, focusedDay) {
-            if (!isSameDay(_selectedDay, selectedDay)) {
+            if (isRoundTrip) {
+              if (!isSameDay(_selectedDay, selectedDay)) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                  context
+                      .read<FilterCubit>()
+                      .updateDate(departDate: null, returnDate: null);
+                  _rangeSelectionMode = RangeSelectionMode.toggledOff;
+                });
+              }
+            } else {
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
                 context
                     .read<FilterCubit>()
-                    .updateDate(departDate: null, returnDate: null);
-                _rangeSelectionMode = RangeSelectionMode.toggledOff;
+                    .updateDate(departDate: _selectedDay, returnDate: null);
               });
             }
           },
@@ -88,11 +141,18 @@ class CalendarSheetState extends State<CalendarSheet> {
             });
           },
           onPageChanged: (focusedDay) {
+            print("page changed $focusedDay");
+            context
+                .read<FilterCubit>()
+                .updateDate(departDate: focusedDay, returnDate: null);
+            context
+                .read<PriceRangeCubit>()
+                .getPrices(filterCubit.state, startFilter: focusedDay);
             _focusedDay = focusedDay;
           },
           calendarStyle: CalendarStyle(
             selectedDecoration: BoxDecoration(
-              color: Colors.white,
+              color: Styles.kPrimaryColor,
               border: Border.all(color: Styles.kPrimaryColor),
               shape: BoxShape.circle,
             ),

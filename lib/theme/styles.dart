@@ -16,7 +16,7 @@ class Styles {
 
   static Color get underlineColor => const Color(0xFFD8D8DE);
 
-  static Color get kBorderColor => const Color(0xFF94959E);
+  static Color get kBorderColor =>  const Color.fromRGBO(141, 153, 174, 1);
 
   static Color get kContainerColor => const Color(0xC5EEEEEE);
 
@@ -195,10 +195,10 @@ class Styles {
         prefixIconColor: isLight ? kTextColor : Colors.white,
         suffixIconColor: isLight ? kTextColor : Colors.white,
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: kDarkContainerColor),
+          borderSide: BorderSide(color: kBorderColor),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: kDarkContainerColor),
+          borderSide: BorderSide(color: kBorderColor),
         ),
         errorBorder: UnderlineInputBorder(
           borderSide: const BorderSide(color: Colors.red),
@@ -207,7 +207,7 @@ class Styles {
           borderSide: const BorderSide(color: Colors.red),
         ),
         disabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: kDarkContainerColor.withOpacity(0.3)),
+          borderSide: BorderSide(color: kBorderColor.withOpacity(0.3)),
         ),
         filled: false,
         labelStyle: kSmallSemiBold.copyWith(

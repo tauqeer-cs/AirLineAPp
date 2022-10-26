@@ -1,8 +1,10 @@
+import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/home_view.dart';
 import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,13 +18,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     FCMNotification.of(context).initialize();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      child: HomeView(),
+    return Scaffold(
+      body: BlocProvider(
+        create: (context) => PriceRangeCubit(),
+        child: HomeView(),
+      ),
     );
   }
 }

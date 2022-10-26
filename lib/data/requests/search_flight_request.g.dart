@@ -45,6 +45,7 @@ CommonFlightRequest _$CommonFlightRequestFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as int)
           .toList(),
       totalAmount: json['TotalAmount'] as num?,
+      promoCode: json['PromoCode'] as String?,
     );
 
 Map<String, dynamic> _$CommonFlightRequestToJson(CommonFlightRequest instance) {
@@ -69,5 +70,6 @@ Map<String, dynamic> _$CommonFlightRequestToJson(CommonFlightRequest instance) {
   writeNotNull('OutboundLFID', instance.outboundLFID);
   writeNotNull('InboundLFID', instance.inboundLFID);
   writeNotNull('TotalAmount', instance.totalAmount);
+  writeNotNull('PromoCode', instance.promoCode);
   return val;
 }

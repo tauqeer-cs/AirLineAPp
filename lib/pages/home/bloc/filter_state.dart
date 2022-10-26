@@ -9,6 +9,7 @@ class FilterState extends Equatable {
   final Airports? origin;
   final DateTime? departDate;
   final DateTime? returnDate;
+  final String? promoCode;
 
   const FilterState({
     this.blocState = BlocState.initial,
@@ -19,6 +20,7 @@ class FilterState extends Equatable {
     this.origin,
     this.departDate,
     this.returnDate,
+    this.promoCode,
   });
 
   bool get isValid =>
@@ -40,6 +42,7 @@ class FilterState extends Equatable {
         origin,
         departDate,
         returnDate,
+        promoCode,
       ];
 
   FilterState copyWith({
@@ -51,6 +54,7 @@ class FilterState extends Equatable {
     Airports? origin,
     DateTime? departDate,
     DateTime? returnDate,
+    String? promoCode,
   }) {
     return FilterState(
       message: message ?? this.message,
@@ -61,6 +65,7 @@ class FilterState extends Equatable {
       origin: origin ?? this.origin,
       departDate: departDate ?? this.departDate,
       returnDate: returnDate ?? this.returnDate,
+      promoCode: promoCode ?? this.promoCode,
     );
   }
 }
