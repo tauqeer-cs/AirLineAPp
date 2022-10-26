@@ -30,7 +30,8 @@ class FilterState extends Equatable {
 
   String get beautify=>"${origin?.name} To ${destination?.name}";
   String get beautifyReverse=>"${destination?.name} To ${origin?.name}";
-
+  String get beautifyShort=>"${origin?.code} To ${destination?.code}";
+  String get beautifyReverseShort=>"${destination?.code} To ${origin?.code}";
   @override
   List<Object?> get props =>
       [

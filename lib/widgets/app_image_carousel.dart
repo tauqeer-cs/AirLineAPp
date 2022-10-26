@@ -12,6 +12,7 @@ class AppImageCarousel extends StatefulWidget {
   final bool showIndicator;
   final bool autoPlay;
   final bool infiniteScroll;
+  final bool showArrow;
 
   const AppImageCarousel({
     Key? key,
@@ -22,7 +23,7 @@ class AppImageCarousel extends StatefulWidget {
     required this.showIndicator,
     required this.autoPlay,
     required this.infiniteScroll,
-
+    this.showArrow = false,
   }) : super(key: key);
 
   @override
@@ -46,48 +47,95 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CarouselSlider(
-          carouselController: _controller,
-          options: CarouselOptions(
-            padEnds: false,
-            viewportFraction: widget.viewPort,
-            autoPlay: widget.autoPlay,
-            aspectRatio: widget.aspectRatio,
-            enableInfiniteScroll: widget.infiniteScroll,
-            enlargeCenterPage: false,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _current = index;
-              });
-            },
-          ),
-          items: widget.items,
-        ),
-        Visibility(
-          visible: widget.showIndicator,
-          child: Column(
-            children: [
-              kVerticalSpacerSmall,
-              AnimatedSmoothIndicator(
-                activeIndex: _current,
-                count: widget.items.length,
-                effect: ScrollingDotsEffect(
-                  activeStrokeWidth: 2.6,
-                  activeDotScale: 1.3,
-                  maxVisibleDots: 5,
-                  radius: 10,
-                  spacing: 5,
-                  dotHeight: 10,
-                  dotWidth: 10,
-                  activeDotColor: Styles.kPrimaryColor,
+    return AspectRatio(
+      aspectRatio: widget.aspectRatio,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: widget.showArrow? 20.0:0),
+              child: CarouselSlider(
+                carouselController: _controller,
+                options: CarouselOptions(
+                  padEnds: false,
+                  viewportFraction: widget.viewPort,
+                  autoPlay: widget.autoPlay,
+                  aspectRatio: widget.aspectRatio,
+                  enableInfiniteScroll: widget.infiniteScroll,
+                  enlargeCenterPage: false,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
                 ),
+                items: widget.items,
               ),
+            ),
+          ),
+          Column(
+            children: [
+
+              /*Visibility(
+                visible: widget.showIndicator,
+                child: Column(
+                  children: [
+                    kVerticalSpacerSmall,
+                    AnimatedSmoothIndicator(
+                      activeIndex: _current,
+                      count: widget.items.length,
+                      effect: ScrollingDotsEffect(
+                        activeStrokeWidth: 2.6,
+                        activeDotScale: 1.3,
+                        maxVisibleDots: 5,
+                        radius: 10,
+                        spacing: 5,
+                        dotHeight: 10,
+                        dotWidth: 10,
+                        activeDotColor: Styles.kPrimaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              )*/
             ],
           ),
-        )
-      ],
+          Visibility(
+            visible: widget.showArrow,
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: ()=>_controller.previousPage(),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.grey,
+                        child: Icon(Icons.chevron_left, color: Colors.white,),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: ()=>_controller.nextPage(),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.grey,
+                        child: Icon(Icons.chevron_right, color: Colors.white,),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

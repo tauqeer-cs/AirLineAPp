@@ -4,6 +4,7 @@ import 'package:app/pages/home/ui/filter/passengers_sheet.dart';
 import 'package:app/widgets/containers/bordered_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'dropdown_transformer.dart';
 
@@ -12,11 +13,19 @@ class PassengersWidget extends StatelessWidget {
 
   _onPeoplePick(BuildContext context) {
     return showModalBottomSheet(
-
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
       builder: (_) => PassengersSheet(),
+      constraints: BoxConstraints(
+        maxWidth: 0.9.sw,
+      ),
+      backgroundColor: Color.fromRGBO(235, 235, 235, 0.85),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
     );
   }
 

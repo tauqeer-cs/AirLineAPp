@@ -25,6 +25,7 @@ class HomeView extends StatelessWidget {
     return SafeArea(
       child: ListView(
         children: [
+          //NotificationsWidget(),
           kVerticalSpacer,
           AppLogoWidget(),
           // Padding(
@@ -36,16 +37,12 @@ class HomeView extends StatelessWidget {
           // ),
           // kVerticalSpacer,
           // NotificationsWidget(),
+          kVerticalSpacer,
           Padding(
             padding: kPageHorizontalPadding,
             child: SearchFlightWidget(),
           ),
-          kVerticalSpacer,
-          Padding(
-            padding: kPageHorizontalPadding,
-            child: SubmitSearch(isHomePage: true),
-          ),
-          kVerticalSpacerBig,
+          kVerticalSpacerSmall,
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               return blocBuilderWrapper(
@@ -55,16 +52,16 @@ class HomeView extends StatelessWidget {
                     switch (e.name) {
                       case "3D Carousel Banner":
                         return Padding(
-                          padding: kPageHorizontalPadding,
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           child: HomeBanner(content: e),
                         );
-                      case "Flight Deals":
+                     /* case "Flight Deals":
                         return Padding(
                           padding: kPageHorizontalPaddingBig,
                           child: HomeDeal(content: e),
-                        );
-                      case "Homepage center":
-                        return HomeCenter(content: e);
+                        );*/
+                      /*case "Homepage center":
+                        return HomeCenter(content: e);*/
                     }
                     return SizedBox();
                   }).toList(),

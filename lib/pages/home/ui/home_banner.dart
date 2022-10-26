@@ -20,6 +20,7 @@ class HomeBanner extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: AppImageCarousel(
+            showArrow: true,
             aspectRatio: 393 / 185,
             showIndicator: true,
             infiniteScroll: true,
@@ -28,7 +29,10 @@ class HomeBanner extends StatelessWidget {
                 .map(
                   (e) => GestureDetector(
                     onTap: () {},
-                    child: AppImage(imageUrl: e.img),
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: AppImage(imageUrl: e.img),
+                    ),
                   ),
                 )
                 .toList(),

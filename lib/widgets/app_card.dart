@@ -1,14 +1,16 @@
+import 'package:app/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
-
-  const AppCard({Key? key, required this.child}) : super(key: key);
+  final EdgeInsets? edgeInsets;
+  final bool isHighlighted;
+  const AppCard({Key? key, required this.child, this.edgeInsets, this.isHighlighted = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: edgeInsets ?? EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(15),
@@ -21,8 +23,8 @@ class AppCard extends StatelessWidget {
           ),
         ],
         border: Border.all(
-          color: const Color(0xFFE0E0E0),
-          width: 1,
+          color: isHighlighted ? Styles.kPrimaryColor : const Color(0xFFE0E0E0),
+          width: 2,
         ),
       ),
       child: child,

@@ -6,6 +6,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChooseFlightSegment extends StatelessWidget {
   final String title;
@@ -30,9 +31,26 @@ class ChooseFlightSegment extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacer,
-        Text(title, style: kGiantHeavy),
-        kVerticalSpacer,
-        Text(subtitle, style: kMediumMedium),
+        Transform.translate(
+          offset: Offset(-12,0),
+          child: Container(
+            width: 155.w,
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(237, 242, 244,1 ),
+              borderRadius: BorderRadius.horizontal(
+                right: Radius.circular(50),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: kHugeHeavy),
+                Text(subtitle, style: kLargeRegular),
+              ],
+            ),
+          ),
+        ),
         kVerticalSpacerBig,
         Text(dateTitle, style: kGiantHeavy),
         kVerticalSpacer,

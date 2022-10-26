@@ -86,23 +86,23 @@ TextStyle(fontSize: 14+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
 
 // large
 const kLargeBook = TextStyle(
-  fontSize: 17+modifier,
+  fontSize: 16+modifier,
   fontWeight: FontWeight.w200,
 );
 const kLargeRegular = TextStyle(
-  fontSize: 17+modifier,
+  fontSize: 16+modifier,
   fontWeight: FontWeight.w400,
 );
 const kLargeMedium = TextStyle(
-  fontSize: 17+modifier,
+  fontSize: 16+modifier,
   fontWeight: FontWeight.w500,
 );
 const kLargeSemiBold = TextStyle(
-  fontSize: 17+modifier,
+  fontSize: 16+modifier,
   fontWeight: FontWeight.w600,
 );
 const kLargeHeavy =
-TextStyle(fontSize: 17+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 16+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
 
 // huge
 const kHugeBook = TextStyle(

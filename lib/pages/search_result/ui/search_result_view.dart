@@ -23,33 +23,20 @@ class SearchResultView extends StatelessWidget {
     return ListView(
       children: [
         kVerticalSpacer,
-        Visibility(
-          visible: !isVerify,
-          child: Padding(
-            padding: kPageHorizontalPadding,
-            child: Column(
-              children: [
-                SearchFlightWidget(),
-                kVerticalSpacer,
-                SubmitSearch(isHomePage: false),
-                kVerticalSpacerBig,
-              ],
-            ),
-          ),
-        ),
+
         FlightResultWidget(),
         CheckoutSummary(),
         kVerticalSpacer,
-        AppDividerWidget(),
-        kVerticalSpacer,
-        Padding(
-          padding: kPagePadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              BookingSummary(),
-              ContinueButton(),
-            ],
+        SummaryContainer(
+          child: Padding(
+            padding: kPagePadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                BookingSummary(),
+                ContinueButton(),
+              ],
+            ),
           ),
         )
       ],

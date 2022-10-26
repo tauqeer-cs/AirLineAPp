@@ -51,7 +51,7 @@ class FlightSegment extends StatelessWidget {
               textAlign: TextAlign.left,
             ),
             kVerticalSpacer,
-            FlightDetail(isDeparture: isDeparture),
+            FlightDetail(isDeparture: isDeparture, segment: segments.first),
           ],
         ),
       ),

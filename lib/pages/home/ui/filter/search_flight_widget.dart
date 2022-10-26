@@ -3,6 +3,7 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/airport_widget.dart';
 import 'package:app/pages/home/ui/filter/calendar_widget.dart';
 import 'package:app/pages/home/ui/filter/passengers_widget.dart';
+import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/filter/trip_selection.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/containers/glass_card.dart';
@@ -30,7 +31,11 @@ class SearchFlightWidget extends StatelessWidget {
           PassengersWidget(),
           kVerticalSpacerMini,
           CalendarWidget(),
-          kVerticalSpacerMini,
+          kVerticalSpacer,
+          Padding(
+            padding: kPageHorizontalPadding,
+            child: SubmitSearch(isHomePage: true),
+          ),
           // AppInputText(
           //   name: "promoFlight",
           //   onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),

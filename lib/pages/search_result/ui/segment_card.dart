@@ -37,80 +37,108 @@ class SegmentCard extends StatelessWidget {
           }
         },
         child: AppCard(
+          isHighlighted: selected == segment && !isVerify,
+          edgeInsets: EdgeInsets.zero,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: SegmentHeader(
-                      segmentDetail: segment.segmentDetail,
-                      isDeparture: true,
-                    ),
-                  ),
-                  kHorizontalSpacer,
-                  Expanded(
-                    child: SegmentHeader(
-                      segmentDetail: segment.segmentDetail,
-                      isDeparture: false,
-                    ),
-                  ),
-                ],
-              ),
-              kVerticalSpacer,
-              Visibility(
-                visible: isVerify,
-                child: AppDividerWidget(),
-              ),
-              kVerticalSpacer,
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                        "Direct flight - ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)}  travel"),
-                  ),
-                  kHorizontalSpacer,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("from"),
-                        MoneyWidget(amount: segment.getTotalPrice),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              kVerticalSpacerBig,
-              Visibility(
-                visible: isVerify,
-                replacement: Radio<InboundOutboundSegment>(
-                  value: segment,
-                  groupValue: selected,
-                  onChanged: (value) {
-                    if (value == null) return;
-                    if (isDeparture) {
-                      context.read<BookingCubit>().selectDeparture(value);
-                    } else {
-                      context.read<BookingCubit>().selectReturn(value);
-                    }
-                  },
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<BookingCubit>().changeFlight();
-                  },
-                  child: Text("Change Flight"),
-                ),
-              ),
-              Visibility(
-                visible: isVerify,
+              Padding(
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SegmentHeader(
+                            segmentDetail: segment.segmentDetail,
+                            isDeparture: true,
+                          ),
+                        ),
+                        kHorizontalSpacer,
+                        Image.asset(
+                          "assets/images/icons/iconFlight.png",
+                          width: 32,
+                          height: 32,
+                        ),
+                        kHorizontalSpacer,
+                        Expanded(
+                          child: SegmentHeader(
+                            segmentDetail: segment.segmentDetail,
+                            isDeparture: false,
+                          ),
+                        ),
+                      ],
+                    ),
                     kVerticalSpacer,
-                    FlightDetail(isDeparture: isDeparture),
+                    AppDividerWidget(),
+                    Transform.translate(
+                      offset: Offset(0, 15),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 7,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Direct flight - ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
+                                  style: kSmallMedium,
+                                ),
+                              ],
+                            ),
+                          ),
+                          kHorizontalSpacer,
+                          Expanded(
+                            flex: 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "from",
+                                  style: kTinyHeavy,
+                                ),
+                                MoneyWidget(amount: segment.getTotalPrice),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    FlightDetail(isDeparture: isDeparture, segment: segment),
+                    kVerticalSpacerSmall,
                   ],
                 ),
               ),
+              Visibility(
+                visible: isVerify,
+                replacement: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(bottom: Radius.circular(15)),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (isDeparture) {
+                      context.read<BookingCubit>().selectDeparture(segment);
+                    } else {
+                      context.read<BookingCubit>().selectReturn(segment);
+                    }
+                  },
+                  child: Text("Select"),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      context.read<BookingCubit>().changeFlight();
+                    },
+                    child: Text("Change Flight"),
+                  ),
+                ),
+              ),
+
             ],
           ),
         ),
@@ -138,16 +166,20 @@ class SegmentHeader extends StatelessWidget {
           AppDateUtils.formatHalfDate(isDeparture
               ? segmentDetail?.departureDate
               : segmentDetail?.arrivalDate),
+          style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
         ),
-        kVerticalSpacerMini,
         Text(
-          AppDateUtils.formatJM(isDeparture
-              ? segmentDetail?.departureDate
-              : segmentDetail?.arrivalDate),
+          AppDateUtils.formatJM(
+            isDeparture
+                ? segmentDetail?.departureDate
+                : segmentDetail?.arrivalDate,
+          ),
+          style: kLargeHeavy,
         ),
-        kVerticalSpacerMini,
         Text(
-            "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'Departure' : 'Arrival'}")
+          "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'Departure' : 'Arrival'}",
+          style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
+        )
       ],
     );
   }

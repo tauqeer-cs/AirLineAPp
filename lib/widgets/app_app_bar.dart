@@ -77,7 +77,7 @@ class AppScaffold extends StatelessWidget {
                     },
                   ),
                 ),
-                              ],
+              ],
             ),
           );
         }),
@@ -95,16 +95,18 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool canBack;
   final Widget? child;
-  final Function() onAction;
-  final double height;
+  final Function()? onAction;
+  final double? height;
+  final Widget? flexibleWidget;
 
   const AppAppBar({
     Key? key,
     this.child,
     this.title,
-    required this.onAction,
+    this.onAction,
     this.canBack = true,
-    required this.height,
+    this.height,
+    this.flexibleWidget,
   }) : super(key: key);
 
   @override
@@ -112,16 +114,17 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
     final bool canPop = parentRoute?.canPop ?? false;
     return PreferredSize(
-      preferredSize: Size.fromHeight(height),
+      preferredSize: Size.fromHeight(height ?? 60.h),
       child: AppBar(
         toolbarHeight: 60.h,
         centerTitle: false,
         leading: canPop
             ? GestureDetector(
                 onTap: () => context.router.pop(),
-                child: const Icon(
+                child: Icon(
                   Icons.chevron_left,
                   size: 35,
+                  color: Styles.kPrimaryColor,
                 ),
               )
             : null,
@@ -133,7 +136,10 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
         flexibleSpace: Align(
           alignment: Alignment.bottomLeft,
-          child: NotificationsWidget(),
+          child: flexibleWidget,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
         ),
         title: Container(
           padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 20),
@@ -150,7 +156,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(height);
+  Size get preferredSize => Size.fromHeight(height ?? 125.h);
 }
 
 class NotificationsWidget extends StatelessWidget {

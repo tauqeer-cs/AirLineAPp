@@ -9,6 +9,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:app/widgets/app_booking_header.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,20 +26,31 @@ class FlightResultWidget extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: Column(
               children: [
-                AppBookingHeader(passedSteps: [BookingStep.flights]),
-                kVerticalSpacer,
-                Text(
-                  " Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage weight and select your choice of seat. ",
-                  textAlign: TextAlign.center,
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Text(
+                        state.filterState?.beautify ?? "",
+                        style: kHugeHeavy.copyWith(letterSpacing: 1),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: OutlinedButton(
+                        child: FittedBox(child: Text("Change Search")),
+                        onPressed: ()=>context.router.pop(),
+                      ),
+                    ),
+                  ],
                 ),
-                kVerticalSpacer,
+                kVerticalSpacerSmall,
                 Text(
-                  state.filterState?.beautify ?? "",
-                  style: kMediumSemiBold.copyWith(
-                      color: Styles.kPrimaryColor, letterSpacing: 1),
-                  textAlign: TextAlign.center,
+                  "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage weight and select your choice of seat. ",
+                  textAlign: TextAlign.left,
+                  style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                 ),
-                kVerticalSpacer,
                 BlocBuilder<BookingCubit, BookingState>(
                   builder: (context, bookState) {
                     return blocBuilderWrapper(
@@ -61,8 +73,8 @@ class FlightResultWidget extends StatelessWidget {
     return Column(
       children: [
         ChooseFlightSegment(
-          title: "Departing flight",
-          subtitle: state.filterState?.beautify ?? "",
+          title: "DEP",
+          subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
           segments: bookState.isVerify
               ? [bookState.selectedDeparture!]
@@ -73,8 +85,8 @@ class FlightResultWidget extends StatelessWidget {
         Visibility(
           visible: state.filterState?.flightType == FlightType.round,
           child: ChooseFlightSegment(
-            title: "Returning flight",
-            subtitle: state.filterState?.beautifyReverse ?? "",
+            title: "ARR",
+            subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
                 AppDateUtils.formatFullDate(state.filterState?.returnDate),
             segments: bookState.isVerify

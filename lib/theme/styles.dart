@@ -22,7 +22,7 @@ class Styles {
 
   static Color get kTextLightThemeColor => const Color(0xFF4B4B4B);
 
-  static Color get kDarkContainerColor =>
+  static Color get kInactiveColor =>
       const Color.fromRGBO(185, 195, 199, 1);
 
   static Color get kCanvasColor => const Color(0xFFF2F2F3);
@@ -50,7 +50,8 @@ class Styles {
         backgroundColor: isLight ? kLightBgColor : kDarkBgColor,
         elevation: 5,
         titleTextStyle: kHugeSemiBold.copyWith(
-          color: isLight ? kTextColor : Colors.white,
+          color: isLight ? Color.fromRGBO(0, 48, 73, 1) : Colors.white,
+          fontSize: 20,
         ),
         centerTitle: true,
         titleSpacing: 3,
