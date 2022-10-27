@@ -11,6 +11,7 @@ import 'package:collection/collection.dart';
 
 class FeeAndTaxesDetail extends StatelessWidget {
   final bool isDeparture;
+
   const FeeAndTaxesDetail({Key? key, required this.isDeparture})
       : super(key: key);
 
@@ -28,19 +29,23 @@ class FeeAndTaxesDetail extends StatelessWidget {
     if (taxes?.isEmpty ?? true) return SizedBox();
     return Column(
       children: [
-        kVerticalSpacerSmall,
-        AppDividerWidget(color: Styles.kTextColor),
-        ListTile(
-          dense: true,
-          title: Row(
+        AppDividerWidget(color: Styles.kDisabledButton),
+        PriceContainer(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Ticket"),
+              Text(
+                "Ticket",
+                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+              ),
               Row(
                 children: [
-                  Text("${filter?.numberPerson.totalPerson}x @", style: kSmallSemiBold,),
+                  Text(
+                    "${filter?.numberPerson.totalPerson}x @",
+                    style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                  ),
                   kHorizontalSpacerMini,
-                  MoneyWidget(amount: info?.baseFareAmt, isDense: true),
+                  MoneyWidgetSmall(amount: info?.baseFareAmt, isDense: true),
                 ],
               ),
             ],
@@ -48,17 +53,26 @@ class FeeAndTaxesDetail extends StatelessWidget {
         ),
         ...taxes!
             .map(
-              (e) => ListTile(
-                dense: true,
-                title: Row(
+              (e) => PriceContainer(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(e.taxDetail?.taxDesc ?? ""),
+                    Expanded(
+                      child: Text(
+                        e.taxDetail?.taxDesc ?? "",
+                        style:
+                            kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                      ),
+                    ),
                     Row(
                       children: [
-                        Text("${filter?.numberPerson.totalPerson}x @", style: kSmallSemiBold,),
+                        Text(
+                          "${filter?.numberPerson.totalPerson}x @",
+                          style: kSmallRegular.copyWith(
+                              color: Styles.kSubTextColor),
+                        ),
                         kHorizontalSpacerMini,
-                        MoneyWidget(amount: e.amt, isDense: true),
+                        MoneyWidgetSmall(amount: e.amt, isDense: true),
                       ],
                     ),
                   ],
@@ -66,7 +80,22 @@ class FeeAndTaxesDetail extends StatelessWidget {
               ),
             )
             .toList(),
+        AppDividerWidget(color: Styles.kDisabledButton),
       ],
     );
   }
 }
+
+class PriceContainer extends StatelessWidget {
+  final Widget child;
+  const PriceContainer({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+      child: child,
+    );
+  }
+}
+

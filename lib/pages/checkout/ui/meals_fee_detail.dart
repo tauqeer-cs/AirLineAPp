@@ -2,6 +2,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
@@ -28,25 +29,33 @@ class MealsFeeDetail extends StatelessWidget {
             final meals = isDeparture ? e.departureMeal : e.returnMeal;
             return meals.isEmpty
                 ? SizedBox.shrink()
-                : ListTile(
-                    dense: true,
-                    title: Column(
+                : PriceContainer(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${e.toString()} :", style: kMediumSemiBold,),
+                        Text(
+                          "${e.toString()} :",
+                          style: kSmallRegular,
+                        ),
                         kVerticalSpacerMini,
                         ...meals
                             .map(
                               (meal) => Padding(
-                                padding: const EdgeInsets.only(left: 5.0, bottom: 5),
+                                padding:
+                                    const EdgeInsets.only(left: 5.0, bottom: 5),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
-                                        child: Text(meal.description ?? "")),
+                                      child: Text(
+                                        meal.description ?? "",
+                                        style: kSmallRegular.copyWith(
+                                            color: Styles.kSubTextColor),
+                                      ),
+                                    ),
                                     kHorizontalSpacerMini,
-                                    MoneyWidget(
+                                    MoneyWidgetSmall(
                                         amount: meal.amount,
                                         isDense: true,
                                         currency: meal.currencyCode),

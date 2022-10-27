@@ -19,11 +19,9 @@ class SearchResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isVerify = context.watch<BookingCubit>().state.isVerify;
     return ListView(
       children: [
         kVerticalSpacer,
-
         FlightResultWidget(),
         CheckoutSummary(),
         kVerticalSpacer,

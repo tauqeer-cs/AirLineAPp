@@ -35,14 +35,14 @@ class _SeatsFeeState extends State<SeatsFee> {
             children: [
               Text(
                 "- Seats",
-                style: kLargeMedium,
+                style: kMediumRegular,
               ),
               kHorizontalSpacerSmall,
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
               Spacer(),
-              MoneyWidget(amount:filter?.numberPerson.getTotalSeatsPartial(widget.isDeparture)),
+              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalSeatsPartial(widget.isDeparture)),
             ],
           ),
         ),

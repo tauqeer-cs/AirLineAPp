@@ -103,6 +103,25 @@ const kLargeSemiBold = TextStyle(
 );
 const kLargeHeavy =
 TextStyle(fontSize: 16+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+// 18
+const k18Book = TextStyle(
+  fontSize: 18+modifier,
+  fontWeight: FontWeight.w200,
+);
+const k18Regular = TextStyle(
+  fontSize: 18+modifier,
+  fontWeight: FontWeight.w400,
+);
+const k18Medium = TextStyle(
+  fontSize: 18+modifier,
+  fontWeight: FontWeight.w500,
+);
+const k18SemiBold = TextStyle(
+  fontSize: 18+modifier,
+  fontWeight: FontWeight.w600,
+);
+const k18Heavy =
+TextStyle(fontSize: 18+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
 
 // huge
 const kHugeBook = TextStyle(

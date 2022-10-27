@@ -35,14 +35,14 @@ class _BaggageFeeState extends State<BaggageFee> {
             children: [
               Text(
                 "- Baggage",
-                style: kLargeMedium,
+                style: kMediumRegular,
               ),
               kHorizontalSpacerSmall,
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
               Spacer(),
-              MoneyWidget(amount:filter?.numberPerson.getTotalBaggagePartial(widget.isDeparture)),
+              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBaggagePartial(widget.isDeparture)),
             ],
           ),
         ),

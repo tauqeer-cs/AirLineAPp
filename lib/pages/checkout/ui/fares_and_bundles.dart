@@ -34,14 +34,14 @@ class _FaresAndBundlesState extends State<FaresAndBundles> {
             children: [
               Text(
                 "- Fares and Bundles",
-                style: kLargeMedium,
+                style: kMediumRegular,
               ),
               kHorizontalSpacerSmall,
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
               Spacer(),
-              MoneyWidget(amount:filter?.numberPerson.getTotalBundlesPartial(widget.isDeparture)),
+              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBundlesPartial(widget.isDeparture)),
             ],
           ),
         ),

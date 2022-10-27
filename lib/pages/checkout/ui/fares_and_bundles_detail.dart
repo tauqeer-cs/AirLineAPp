@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
@@ -22,20 +23,28 @@ class FaresAndBundlesDetail extends StatelessWidget {
     return Column(
       children: [
         kVerticalSpacerSmall,
-        AppDividerWidget(color: Styles.kTextColor),
+        AppDividerWidget(color: Styles.kDisabledButton),
         ...persons.map(
           (e) {
             final bundle = isDeparture ? e.departureBundle : e.returnBundle;
-            return bundle?.bundle?.amount == null ? SizedBox.shrink() : ListTile(
-              dense: true,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("${e.toString()} : ${bundle?.bundle?.description ?? 'No Bundle'}"),
-                  MoneyWidget(amount: bundle?.bundle?.amount, isDense: true, currency: bundle?.bundle?.currencyCode),
-                ],
-              ),
-            );
+            return bundle?.bundle?.amount == null
+                ? SizedBox.shrink()
+                : PriceContainer(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${e.toString()} : ${bundle?.bundle?.description ?? 'No Bundle'}",
+                          style: kSmallRegular.copyWith(
+                              color: Styles.kSubTextColor),
+                        ),
+                        MoneyWidgetSmall(
+                            amount: bundle?.bundle?.amount,
+                            isDense: true,
+                            currency: bundle?.bundle?.currencyCode),
+                      ],
+                    ),
+                  );
           },
         ).toList(),
       ],

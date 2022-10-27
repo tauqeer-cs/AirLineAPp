@@ -49,10 +49,9 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
 
   @override
   Widget build(BuildContext context) {
-    final filter = context
-        .watch<SearchFlightCubit>()
-        .state
-        .filterState;
+    final isVerify = context.watch<BookingCubit>().state.isVerify;
+
+
     final sortedSegment = List<InboundOutboundSegment>.from(widget.segments);
     sort(sortedSegment);
     return Column(
@@ -82,23 +81,26 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
               ),
             ),
             Spacer(flex: 1,),
-            Expanded(
-              flex: 2,
-              child: GestureDetector(
-                onTap: _onOpenSheet,
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.filter_alt_rounded,
-                      color: Styles.kBorderColor,
-                      size: 25,
-                    ),
-                    Text(
-                      "Sort by",
-                      style: kSmallRegular.copyWith(color: Styles.kBorderColor),
-                    ),
-                    Text(selectedSort.toString(), style: kSmallHeavy,)
-                  ],
+            Visibility(
+              visible: !isVerify,
+              child: Expanded(
+                flex: 2,
+                child: GestureDetector(
+                  onTap: _onOpenSheet,
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.filter_alt_rounded,
+                        color: Styles.kBorderColor,
+                        size: 25,
+                      ),
+                      Text(
+                        "Sort by",
+                        style: kSmallRegular.copyWith(color: Styles.kBorderColor),
+                      ),
+                      Text(selectedSort.toString(), style: kSmallHeavy,)
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -106,12 +108,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
         ),
         kVerticalSpacerBig,
         Text(widget.dateTitle, style: kGiantHeavy),
-        kVerticalSpacer,
-        Text(
-          "Prices are based on an ${filter?.numberPerson
-              .toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
-          style: kMediumMedium,
-        ),
+
         Column(
           children: widget.segments
               .map((e) =>

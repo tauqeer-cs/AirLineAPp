@@ -36,14 +36,14 @@ class _MealsFeeState extends State<MealsFee> {
             children: [
               Text(
                 "- Meals",
-                style: kLargeMedium,
+                style: kMediumRegular,
               ),
               kHorizontalSpacerSmall,
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
               Spacer(),
-              MoneyWidget(amount:filter?.numberPerson.getTotalMealPartial(widget.isDeparture)),
+              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalMealPartial(widget.isDeparture)),
             ],
           ),
         ),

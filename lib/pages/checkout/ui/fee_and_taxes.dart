@@ -37,8 +37,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
           style: kMediumHeavy,
         ),
         kVerticalSpacer,
-        AppDividerWidget(),
-        kVerticalSpacer,
+        AppDividerWidget(color: Styles.kDisabledButton),
         ListTile(
           onTap: () {
             setState(() {
@@ -49,14 +48,14 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             children: [
               Text(
                 "- Fees and Taxes",
-                style: kLargeMedium,
+                style: kMediumRegular,
               ),
               kHorizontalSpacerSmall,
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
               Spacer(),
-              MoneyWidget(
+              MoneyWidgetSmall(
                   amount: widget.isDeparture
                       ? bookingTotal.selectedDeparture?.getTotalPrice
                       : bookingTotal.selectedReturn?.getTotalPrice),

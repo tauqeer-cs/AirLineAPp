@@ -18,6 +18,10 @@ class FlightResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filter = context
+        .watch<SearchFlightCubit>()
+        .state
+        .filterState;
     return BlocBuilder<SearchFlightCubit, SearchFlightState>(
       builder: (context, state) {
         return blocBuilderWrapper(
@@ -60,6 +64,12 @@ class FlightResultWidget extends StatelessWidget {
                       loadingBuilder: BookingLoader(),
                     );
                   },
+                ),
+                kVerticalSpacer,
+                Text(
+                  "Prices are based on an ${filter?.numberPerson
+                      .toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                  style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                 ),
               ],
             ),
