@@ -22,7 +22,7 @@ class VerifyRequest extends Equatable{
   Map<String, dynamic> toJson() => _$VerifyRequestToJson(this);
 
   factory VerifyRequest.fromBooking(FilterState filter,
-      {List<int>? inbound, List<int>? outbound, num? totalAmount}) {
+      {List<OutboundFares>? inbound, List<OutboundFares>? outbound, num? totalAmount}) {
     final searchFlightRequest = CommonFlightRequest(
       returnDate: filter.returnDate?.toIso8601String(),
       departDate: filter.departDate?.toIso8601String(),
@@ -34,8 +34,8 @@ class VerifyRequest extends Equatable{
       isReturn: filter.flightType == FlightType.round,
       originAirport: filter.origin?.code,
       tripType: filter.flightType.message,
-      inboundLFID: inbound,
-      outboundLFID: outbound,
+      inboundFares: inbound ?? [],
+      outboundFares: outbound ?? [],
       totalAmount: totalAmount,
     );
     return VerifyRequest(flightVerifyRequest: searchFlightRequest);
@@ -46,3 +46,29 @@ class VerifyRequest extends Equatable{
   List<Object?> get props => [flightVerifyRequest];
 }
 
+@JsonSerializable(includeIfNull: false)
+class OutboundFares {
+  OutboundFares({
+    this.lfid,
+    this.fbCode,
+  });
+
+  @JsonKey(name: 'LFID')
+  final num? lfid;
+  @JsonKey(name: 'FBCode')
+  final String? fbCode;
+
+  OutboundFares copyWith({
+    num? lfid,
+    String? fbCode,
+  }) =>
+      OutboundFares(
+        lfid: lfid ?? this.lfid,
+        fbCode: fbCode ?? this.fbCode,
+      );
+
+  factory OutboundFares.fromJson(Map<String, dynamic> json) =>
+      _$OutboundFaresFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OutboundFaresToJson(this);
+}

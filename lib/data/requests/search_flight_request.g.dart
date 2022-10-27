@@ -38,12 +38,14 @@ CommonFlightRequest _$CommonFlightRequestFromJson(Map<String, dynamic> json) =>
       isReturn: json['IsReturn'] as bool?,
       tripType: json['TripType'] as String?,
       currency: json['Currency'] as String?,
-      outboundLFID: (json['OutboundLFID'] as List<dynamic>?)
-          ?.map((e) => e as int)
-          .toList(),
-      inboundLFID: (json['InboundLFID'] as List<dynamic>?)
-          ?.map((e) => e as int)
-          .toList(),
+      outboundFares: (json['OutboundFares'] as List<dynamic>?)
+              ?.map((e) => OutboundFares.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      inboundFares: (json['InboundFares'] as List<dynamic>?)
+              ?.map((e) => OutboundFares.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       totalAmount: json['TotalAmount'] as num?,
       promoCode: json['PromoCode'] as String?,
     );
@@ -67,8 +69,8 @@ Map<String, dynamic> _$CommonFlightRequestToJson(CommonFlightRequest instance) {
   writeNotNull('IsReturn', instance.isReturn);
   writeNotNull('TripType', instance.tripType);
   writeNotNull('Currency', instance.currency);
-  writeNotNull('OutboundLFID', instance.outboundLFID);
-  writeNotNull('InboundLFID', instance.inboundLFID);
+  val['OutboundFares'] = instance.outboundFares;
+  val['InboundFares'] = instance.inboundFares;
   writeNotNull('TotalAmount', instance.totalAmount);
   writeNotNull('PromoCode', instance.promoCode);
   return val;

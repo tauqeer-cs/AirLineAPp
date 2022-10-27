@@ -9,6 +9,7 @@ import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/animations/shimmer_rectangle.dart';
 import 'package:app/widgets/app_sheet_handler.dart';
 import 'package:app/widgets/bottom_sheet_header_widget.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,7 +47,7 @@ class CalendarSheetState extends State<CalendarSheet> {
     return Padding(
       padding: kPagePadding,
       child: SizedBox(
-        height: 0.65.sh,
+        height: 0.75.sh,
         child: TableCalendar(
           calendarBuilders: CalendarBuilders(
             headerTitleBuilder: (context, dateTime) {
@@ -81,17 +82,17 @@ class CalendarSheetState extends State<CalendarSheet> {
                   kVerticalSpacerMini,
                   Text(
                     "MYR",
-                    style: kSmallHeavy,
+                    style: kTinyHeavy,
                   ),
                   Text(
-                    NumberUtils.formatNum(events.price),
+                    NumberUtils.formatNum(departDate==null? events.returnPrice : events.departPrice),
                     style: kSmallSemiBold.copyWith(color: Styles.kPrimaryColor),
                   ),
                 ],
               );
             },
           ),
-          rowHeight: 60,
+          rowHeight: 80,
           eventLoader: (day) {
             if (priceState.blocState == BlocState.loading) {
               return [DateRangePrice()];
@@ -116,7 +117,7 @@ class CalendarSheetState extends State<CalendarSheet> {
                   _focusedDay = focusedDay;
                   context
                       .read<FilterCubit>()
-                      .updateDate(departDate: null, returnDate: null);
+                      .updateDate(departDate: _selectedDay, returnDate: null);
                   _rangeSelectionMode = RangeSelectionMode.toggledOff;
                 });
               }
@@ -128,6 +129,7 @@ class CalendarSheetState extends State<CalendarSheet> {
                     .read<FilterCubit>()
                     .updateDate(departDate: _selectedDay, returnDate: null);
               });
+              context.router.pop();
             }
           },
           onRangeSelected: (start, end, focusedDay) {
@@ -139,6 +141,10 @@ class CalendarSheetState extends State<CalendarSheet> {
               _focusedDay = focusedDay;
               _rangeSelectionMode = RangeSelectionMode.toggledOn;
             });
+            print("on range selected ${start} ${end}");
+            if(start!=null && end!=null){
+              context.router.pop();
+            }
           },
           onPageChanged: (focusedDay) {
             print("page changed $focusedDay");

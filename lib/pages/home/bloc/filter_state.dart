@@ -24,9 +24,9 @@ class FilterState extends Equatable {
   });
 
   bool get isValid =>
-      numberPerson != null && destination != null && origin != null &&
+      numberPerson != NumberPerson.empty && destination != null && origin != null &&
           departDate != null &&
-          (returnDate != null || flightType == FlightType.round);
+          (returnDate != null || flightType == FlightType.oneWay);
 
   String get beautify=>"${origin?.name} To ${destination?.name}";
   String get beautifyReverse=>"${destination?.name} To ${origin?.name}";

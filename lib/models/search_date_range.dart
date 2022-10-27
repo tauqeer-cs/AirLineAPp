@@ -56,26 +56,37 @@ class SearchDateRangeResponse extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [this.errors,
-    this.dateRangePrices,];
+  List<Object?> get props => [
+        this.errors,
+        this.dateRangePrices,
+      ];
 }
 
 @JsonSerializable(explicitToJson: true)
 class DateRangePrice extends Equatable {
   const DateRangePrice({
     this.price,
+    this.departPrice,
+    this.returnPrice,
     this.date,
   });
 
   final num? price;
+  final num? departPrice;
+  final num? returnPrice;
+
   final DateTime? date;
 
   DateRangePrice copyWith({
     num? price,
+    num? departPrice,
+    num? returnPrice,
     DateTime? date,
   }) =>
       DateRangePrice(
         price: price ?? this.price,
+        departPrice: departPrice ?? this.departPrice,
+        returnPrice: returnPrice ?? this.returnPrice,
         date: date ?? this.date,
       );
 

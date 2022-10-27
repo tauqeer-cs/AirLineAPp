@@ -114,7 +114,12 @@ class InboundOutboundSegment extends Equatable {
         arrivalDate,
         legCount,
         international,
-        flightLegDetails
+        flightLegDetails,
+        totalSegmentFareAmtWithInfantSSR,
+        beforeDiscountTotalAmt,
+        beforeDiscountTotalAmtWithInfantSSR,
+        fbCode,
+        discountPCT,
       ];
 
   final SegmentDetail? segmentDetail;
@@ -133,12 +138,23 @@ class InboundOutboundSegment extends Equatable {
   final num? legCount;
   final bool? international;
   final List<FlightLegDetails>? flightLegDetails;
+  final num? totalSegmentFareAmtWithInfantSSR;
+  final num? beforeDiscountTotalAmt;
+  final num? beforeDiscountTotalAmtWithInfantSSR;
+  final num? discountPCT;
+
+  final String? fbCode;
 
   const InboundOutboundSegment({
+    this.totalSegmentFareAmtWithInfantSSR,
+    this.beforeDiscountTotalAmt,
+    this.beforeDiscountTotalAmtWithInfantSSR,
+    this.fbCode,
     this.segmentDetail,
     this.minInboundTotalPrice,
     this.totalSegmentFareAmt,
     this.adultPricePerPax,
+    this.discountPCT,
     this.adultPriceTotal = 0,
     this.childPricePerPax,
     this.childPriceTotal = 0,

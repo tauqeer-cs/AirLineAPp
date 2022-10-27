@@ -21,7 +21,7 @@ class Styles {
   static Color get kContainerColor => const Color(0xC5EEEEEE);
 
   static Color get kTextLightThemeColor => const Color(0xFF4B4B4B);
-
+  static Color get kDividerColor => const Color.fromRGBO(237, 242, 244,1 );
   static Color get kInactiveColor =>
       const Color.fromRGBO(185, 195, 199, 1);
 

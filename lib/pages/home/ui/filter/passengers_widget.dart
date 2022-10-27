@@ -36,7 +36,7 @@ class PassengersWidget extends StatelessWidget {
       onTap: ()=>_onPeoplePick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<NumberPerson>(
-          value: numberOfPerson,
+          value: numberOfPerson == NumberPerson.empty ? null : numberOfPerson,
           label: "Passengers",
           suffix: Icon(Icons.keyboard_arrow_down_rounded, size: 25,),
         ),

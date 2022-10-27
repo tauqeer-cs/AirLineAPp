@@ -56,6 +56,8 @@ Map<String, dynamic> _$SearchDateRangeResponseToJson(
 DateRangePrice _$DateRangePriceFromJson(Map<String, dynamic> json) =>
     DateRangePrice(
       price: json['price'] as num?,
+      departPrice: json['departPrice'] as num?,
+      returnPrice: json['returnPrice'] as num?,
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
     );
@@ -70,6 +72,8 @@ Map<String, dynamic> _$DateRangePriceToJson(DateRangePrice instance) {
   }
 
   writeNotNull('price', instance.price);
+  writeNotNull('departPrice', instance.departPrice);
+  writeNotNull('returnPrice', instance.returnPrice);
   writeNotNull('date', instance.date?.toIso8601String());
   return val;
 }

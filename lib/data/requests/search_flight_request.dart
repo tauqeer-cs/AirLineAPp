@@ -1,3 +1,4 @@
+import 'package:app/data/requests/verify_request.dart';
 import 'package:app/models/home_content.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -62,10 +63,10 @@ class CommonFlightRequest extends Equatable {
   final String? tripType;
   @JsonKey(name: 'Currency')
   final String? currency;
-  @JsonKey(name: 'OutboundLFID')
-  final List<int>? outboundLFID;
-  @JsonKey(name: 'InboundLFID')
-  final List<int>? inboundLFID;
+  @JsonKey(name: 'OutboundFares')
+  final List<OutboundFares> outboundFares;
+  @JsonKey(name: 'InboundFares')
+  final List<OutboundFares> inboundFares;
   @JsonKey(name: 'TotalAmount')
   final num? totalAmount;
   @JsonKey(name: 'PromoCode')
@@ -82,8 +83,8 @@ class CommonFlightRequest extends Equatable {
     this.isReturn,
     this.tripType,
     this.currency,
-    this.outboundLFID,
-    this.inboundLFID,
+    this.outboundFares = const [],
+    this.inboundFares = const [],
     this.totalAmount,
     this.promoCode,
   });
@@ -106,8 +107,8 @@ class CommonFlightRequest extends Equatable {
         isReturn,
         tripType,
         currency,
-        outboundLFID,
-        inboundLFID,
+        outboundFares,
+        inboundFares,
         totalAmount,
         promoCode,
       ];

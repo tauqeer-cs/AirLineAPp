@@ -52,16 +52,17 @@ class BookingCubit extends Cubit<BookingState> {
     if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      final inboundLFID = state.selectedReturn?.lfid != null
-          ? [state.selectedReturn!.lfid!.toInt()]
-          : <int>[];
-      final outboundLFID = state.selectedDeparture?.lfid != null
-          ? [state.selectedDeparture!.lfid!.toInt()]
-          : <int>[];
+      final inboundLFID =state.selectedReturn?.lfid;
+      final inboundFBCode = state.selectedReturn?.fbCode;
+      final outboundLFID = state.selectedDeparture?.lfid;
+      final outboundFBCode = state.selectedDeparture?.fbCode;
+      final inboundFares = OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
+      final outboundFares = OutboundFares(fbCode: outboundFBCode, lfid: outboundLFID);
+
       final request = VerifyRequest.fromBooking(
         filterState,
-        inbound: inboundLFID,
-        outbound: outboundLFID,
+        inbound: (inboundLFID==null||inboundFBCode==null) ? [] : [inboundFares],
+        outbound: (outboundLFID==null||outboundFBCode==null) ? [] : [outboundFares],
         totalAmount: state.getFinalPrice,
       );
       final verifyResponse = await _repository.verifyFlight(request);

@@ -116,6 +116,12 @@ Map<String, dynamic> _$FlightResultToJson(FlightResult instance) {
 InboundOutboundSegment _$InboundOutboundSegmentFromJson(
         Map<String, dynamic> json) =>
     InboundOutboundSegment(
+      totalSegmentFareAmtWithInfantSSR:
+          json['totalSegmentFareAmtWithInfantSSR'] as num?,
+      beforeDiscountTotalAmt: json['beforeDiscountTotalAmt'] as num?,
+      beforeDiscountTotalAmtWithInfantSSR:
+          json['beforeDiscountTotalAmtWithInfantSSR'] as num?,
+      fbCode: json['fbCode'] as String?,
       segmentDetail: json['segmentDetail'] == null
           ? null
           : SegmentDetail.fromJson(
@@ -123,6 +129,7 @@ InboundOutboundSegment _$InboundOutboundSegmentFromJson(
       minInboundTotalPrice: json['minInboundTotalPrice'] as num?,
       totalSegmentFareAmt: json['totalSegmentFareAmt'] as num?,
       adultPricePerPax: json['adultPricePerPax'] as num?,
+      discountPCT: json['discountPCT'] as num?,
       adultPriceTotal: json['adultPriceTotal'] as num? ?? 0,
       childPricePerPax: json['childPricePerPax'] as num?,
       childPriceTotal: json['childPriceTotal'] as num? ?? 0,
@@ -172,6 +179,13 @@ Map<String, dynamic> _$InboundOutboundSegmentToJson(
   writeNotNull('legCount', instance.legCount);
   writeNotNull('international', instance.international);
   writeNotNull('flightLegDetails', instance.flightLegDetails);
+  writeNotNull('totalSegmentFareAmtWithInfantSSR',
+      instance.totalSegmentFareAmtWithInfantSSR);
+  writeNotNull('beforeDiscountTotalAmt', instance.beforeDiscountTotalAmt);
+  writeNotNull('beforeDiscountTotalAmtWithInfantSSR',
+      instance.beforeDiscountTotalAmtWithInfantSSR);
+  writeNotNull('discountPCT', instance.discountPCT);
+  writeNotNull('fbCode', instance.fbCode);
   return val;
 }
 

@@ -11,7 +11,7 @@ class AppDropDown<T> extends StatelessWidget {
   final Widget Function(T?)? valueTransformer;
   final Widget Function(T?, bool isSelected)? valueTransformerItem;
   final String? sheetTitle;
-  final bool isEnabled;
+  final bool isEnabled, isMinimalism;
 
   const AppDropDown({
     Key? key,
@@ -22,6 +22,7 @@ class AppDropDown<T> extends StatelessWidget {
     this.valueTransformerItem,
     this.sheetTitle,
     this.isEnabled = true,
+    this.isMinimalism = false,
   }) : super(key: key);
 
   @override
@@ -59,21 +60,30 @@ class AppDropDown<T> extends StatelessWidget {
           //   borderRadius: BorderRadius.circular(5),
           // ),
           hintText: sheetTitle,
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12)
+          contentPadding: isMinimalism
+              ? EdgeInsets.zero
+              : EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         ),
       ),
       dropdownBuilder: (context, val) {
-        if(val==null) return Text(sheetTitle ?? "", style: kMediumMedium.copyWith(color: Styles.kTextColor.withOpacity(0.5)),);
+        if (val == null)
+          return Text(
+            sheetTitle ?? "",
+            style: kMediumMedium.copyWith(
+                color: Styles.kTextColor.withOpacity(0.5)),
+          );
         return valueTransformer != null
             ? valueTransformer!(val)
             : Align(
-                alignment: Alignment.centerLeft,
+                alignment:
+                    isMinimalism ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
                   padding: const EdgeInsets.only(left: 0.0),
                   child: Text(
                     val.toString(),
                     style: kSmallMedium,
-                    textAlign: TextAlign.start,
+                    textAlign:
+                        isMinimalism ? TextAlign.center : TextAlign.start,
                     maxLines: 2,
                   ),
                 ),
@@ -133,15 +143,16 @@ class AppDropDown<T> extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           elevation: 5,
           enableDrag: true,
-          constraints: BoxConstraints(
-            maxHeight: 300,
-            maxWidth: 0.9.sw
-          ),
+          constraints: BoxConstraints(maxHeight: 300, maxWidth: 0.9.sw),
         ),
       ),
       dropdownButtonProps: DropdownButtonProps(
         color: Colors.black,
         icon: Icon(Icons.keyboard_arrow_down),
+        isVisible: !isMinimalism,
+        constraints:
+            isMinimalism ? BoxConstraints(minWidth: 0, maxWidth: 0) : null,
+
       ),
     );
   }

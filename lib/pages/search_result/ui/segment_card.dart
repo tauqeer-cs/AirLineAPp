@@ -54,10 +54,17 @@ class SegmentCard extends StatelessWidget {
                           ),
                         ),
                         kHorizontalSpacer,
-                        Image.asset(
-                          "assets/images/icons/iconFlight.png",
-                          width: 32,
-                          height: 32,
+                        Visibility(
+                          visible: segment.discountPCT!=null && segment.discountPCT! > 0,
+                          replacement: Image.asset(
+                            "assets/images/icons/iconFlight.png",
+                            width: 32,
+                            height: 32,
+                          ),
+                          child: CircleAvatar(
+                            backgroundColor: Styles.kPrimaryColor,
+                            child: Text("-${segment.discountPCT}%", style: kTinyHeavy,),
+                          ),
                         ),
                         kHorizontalSpacer,
                         Expanded(
@@ -138,7 +145,6 @@ class SegmentCard extends StatelessWidget {
                   ),
                 ),
               ),
-
             ],
           ),
         ),

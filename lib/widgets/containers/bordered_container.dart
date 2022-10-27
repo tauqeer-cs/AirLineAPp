@@ -9,7 +9,7 @@ class BorderedContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      height: 55,
       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
       decoration: BoxDecoration(
         border: Border(
