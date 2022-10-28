@@ -30,7 +30,6 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            kVerticalSpacer,
             GestureDetector(
               onTap: () {
                 setState(() {

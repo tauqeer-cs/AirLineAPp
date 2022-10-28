@@ -1,7 +1,8 @@
-
 import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
+import 'package:app/models/country.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
+import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/theme/typography.dart';
@@ -32,6 +33,7 @@ class _PassengerContactState extends State<PassengerContact> {
     super.initState();
     final contact = context.read<LocalUserBloc>().state.contactEmail;
     email = contact;
+    nationalityController.text = Country.defaultCountry.phoneCode ?? "";
   }
 
   @override
@@ -39,7 +41,7 @@ class _PassengerContactState extends State<PassengerContact> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const AppDividerFadeWidget(),
+        const AppDividerWidget(),
         kVerticalSpacer,
         const Text("Contact", style: k18Heavy),
         kVerticalSpacerSmall,
@@ -48,7 +50,7 @@ class _PassengerContactState extends State<PassengerContact> {
             children: [
               TextSpan(
                 text:
-                "Please ensure you get these details right. We'll email you your travel itinerary and notify you of any important changes to your booking. ",
+                    "Please ensure you get these details right. We'll email you your travel itinerary and notify you of any important changes to your booking. ",
                 style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor, height: 1.5),
               ),
@@ -66,16 +68,14 @@ class _PassengerContactState extends State<PassengerContact> {
           ),
           textAlign: TextAlign.left,
         ),
+        kVerticalSpacerSmall,
         GreyCard(
           child: Column(
             children: [
               AppInputText(
                 name: formNameContactFirstName,
                 hintText: "First Name / Given Name",
-                validators: [
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.email(),
-                ],
+                validators: [FormBuilderValidators.required()],
                 //initialValue: email,
                 onChanged: (value) {
                   // final request = context.read<LocalUserBloc>().state;
@@ -88,10 +88,7 @@ class _PassengerContactState extends State<PassengerContact> {
               AppInputText(
                 name: formNameContactLastName,
                 hintText: "Last Name / Surname",
-                validators: [
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.email(),
-                ],
+                validators: [FormBuilderValidators.required()],
                 //initialValue: email,
                 onChanged: (value) {
                   // final request = context.read<LocalUserBloc>().state;
@@ -101,21 +98,16 @@ class _PassengerContactState extends State<PassengerContact> {
                   //     .add(UpdateEmailContact(newRequest.contactEmail));
                 },
               ),
-              Stack(
-                children: [
-                  AppInputText(
-                    isHidden: true,
-                    textEditingController: nationalityController,
-                    name: formNameContactPhoneCode,
-                  ),
-                  AppCountriesDropdown(
-                    hintText: "Phone Code",
-                    isPhoneCode: true,
-                    onChanged: (value) {
-                      nationalityController.text = value?.countryCode2 ?? "";
-                    },
-                  ),
-                ],
+              ShadowInput(
+                textEditingController: nationalityController,
+                name: formNameContactPhoneCode,
+                child: AppCountriesDropdown(
+                  hintText: "Phone Code",
+                  isPhoneCode: true,
+                  onChanged: (value) {
+                    nationalityController.text = value?.phoneCode ?? "";
+                  },
+                ),
               ),
               AppInputText(
                 name: formNameContactPhoneNumber,
@@ -150,7 +142,8 @@ class _PassengerContactState extends State<PassengerContact> {
               ),
               FormBuilderCheckbox(
                 name: formNameContactReceiveEmail,
-                title: Text("I wish to receive news and promotions from MYAirline by email."),
+                title: Text(
+                    "I wish to receive news and promotions from MYAirline by email."),
               ),
             ],
           ),

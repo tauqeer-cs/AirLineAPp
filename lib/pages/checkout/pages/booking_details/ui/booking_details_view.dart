@@ -43,6 +43,7 @@ const formNameContactReceiveEmail = "contact_receive_email";
 const formNameEmergencyFirstName = "emergency_first_name";
 const formNameEmergencyLastName = "emergency_last_name";
 const formNameEmergencyRelation = "emergency_relation";
+const formNameEmergencyEmail = "emergency_email";
 const formNameEmergencyCountry = "emergency_country";
 const formNameEmergencyPhone = "emergency_phone";
 const formNameCompanyName = "company_name";
@@ -66,7 +67,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    final notice = context.watch<CmsSsrCubit>().state.notice;
     return FormBuilder(
       autoFocusOnValidationFailure: true,
       key: BookingDetailsView._fbKey,
@@ -83,45 +83,28 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                   CardSummary(),
                   kVerticalSpacer,
                   ListOfPassengerInfo(),
-                  kVerticalSpacer,
-                  kVerticalSpacer,
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    width: 500.w,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Checkbox(value: true, onChanged: (_) {}),
-                        Expanded(child: Html(data: notice?.content ?? "")),
-                      ],
-                    ),
-                  )
+
                 ],
               ),
             ),
             CheckoutSummary(),
             kVerticalSpacer,
-            Padding(
-              padding: kPageHorizontalPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  AppDividerWidget(),
-                  kVerticalSpacer,
-                  BookingSummary(),
-                  kVerticalSpacer,
-                  ElevatedButton(
-                    onPressed: () => onBooking(context),
-                    child: Text("Continue"),
-                  ),
-                  kVerticalSpacer,
-                ],
+            SummaryContainer(
+              child: Padding(
+                padding: kPagePadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BookingSummary(),
+                    ElevatedButton(
+                      onPressed: () => onBooking(context),
+                      child: Text("Continue"),
+                    ),
+                    kVerticalSpacer,
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -183,8 +166,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
             relation: "Self");
         passengers.add(filledPassenger);
       }
-      final companyCountry = value[formNameCompanyCountry] as Country?;
-      final emergencyPhone = value[formNameEmergencyCountry] as Country?;
 
       final summaryRequest = SummaryRequest(
         token: verifyToken ?? "",
@@ -201,7 +182,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           companyTaxInvoice: CompanyTaxInvoice(
             companyName: value[formNameCompanyName],
             companyAddress: value[formNameCompanyAddress],
-            country: companyCountry?.countryCode ?? "",
+            country: value[formNameCompanyCountry],
             state: value[formNameCompanyState],
             city: value[formNameCompanyCity],
             emailAddress: value[formNameCompanyEmailAddress],
@@ -210,9 +191,10 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           emergencyContact: EmergencyContact(
             firstName: value[formNameEmergencyFirstName],
             lastName: value[formNameEmergencyLastName],
-            phoneCode: emergencyPhone?.phoneCode,
+            phoneCode: value[formNameEmergencyCountry],
             phoneNumber: value[formNameEmergencyPhone],
             relationship: value[formNameEmergencyRelation],
+            email: value[formNameEmergencyEmail]
           ),
           passengers: passengers,
         ),

@@ -1,11 +1,12 @@
-
-
 import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/country.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
+import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
+import 'package:app/widgets/containers/grey_card.dart';
+import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,8 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   String? firstName;
   String? lastName;
   String? phoneNumber;
+  final nationalityController = TextEditingController();
+  final relationController = TextEditingController();
 
   @override
   void initState() {
@@ -36,6 +39,8 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
     firstName = contact?.firstName;
     lastName = contact?.lastName;
     phoneNumber = contact?.phoneNumber;
+    nationalityController.text = Country.defaultCountry.phoneCode ?? "";
+    relationController.text = "Father";
   }
 
   @override
@@ -44,69 +49,76 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacer,
-        const AppDividerFadeWidget(),
+        const AppDividerWidget(),
         kVerticalSpacer,
-        const Text("Emergency Contact Person Details", style: kHugeSemiBold),
+        const Text("Emergency Contact Person Details", style: k18Heavy),
         kVerticalSpacerSmall,
-        const Text(
-            " Let us know who we can contact in case of an emergency. Make sure this person isn't a passenger on this flight and is easily reachable. "),
-        kVerticalSpacer,
-        AppInputText(
-          name: formNameEmergencyFirstName,
-          hintText: "First Name/Given Name",
-          validators: [FormBuilderValidators.required()],
-          initialValue: firstName,
-          onChanged: (value) {
-            final request =
-                context.read<LocalUserBloc>().state.emergencyContact ??
-                    EmergencyContact();
-            final newRequest = request.copyWith(firstName: value);
-            context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
-          },
+        Text(
+          "Let us know who we can contact in case of an emergency. Make sure this person isn't a passenger on this flight and is easily reachable. ",
+          style:
+              kMediumRegular.copyWith(color: Styles.kSubTextColor, height: 1.5),
         ),
         kVerticalSpacer,
-        AppInputText(
-          name: formNameEmergencyLastName,
-          hintText: "Last Name/Family Name",
-          validators: [FormBuilderValidators.required()],
-          initialValue: lastName,
-          onChanged: (value) {
-            final request =
-                context.read<LocalUserBloc>().state.emergencyContact;
-            final newRequest = request?.copyWith(lastName: value);
-            context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
-          },
-        ),
-        kVerticalSpacer,
-        FormBuilderDropdown<String>(
-          name: formNameEmergencyRelation,
-          items: ["Father", "Mother", "Sibling", "Others"]
-              .map(
-                (e) => DropdownMenuItem<String>(
-              child: Text(e),
-              value: e,
-            ),
-          )
-              .toList(),
-          decoration: const InputDecoration(hintText: "Relationship"),
-          validator: FormBuilderValidators.required(),
-        ),
-        kVerticalSpacer,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Expanded(
-              flex: 2,
-              child: AppCountriesDropdown(
-                isPhoneCode: true,
-                hintText: "Phone",
-                initialValue: Country.defaultCountry,
+        GreyCard(
+          child: Column(
+            children: [
+              AppInputText(
+                name: formNameEmergencyFirstName,
+                hintText: "First Name/Given Name",
+                validators: [FormBuilderValidators.required()],
+                initialValue: firstName,
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.emergencyContact ??
+                          EmergencyContact();
+                  final newRequest = request.copyWith(firstName: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateEmergency(newRequest));
+                },
               ),
-            ),
-            kHorizontalSpacerMini,
-            Expanded(
-              flex: 5,
-              child: AppInputText(
+              kVerticalSpacerMini,
+              AppInputText(
+                name: formNameEmergencyLastName,
+                hintText: "Last Name/Family Name",
+                validators: [FormBuilderValidators.required()],
+                initialValue: lastName,
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.emergencyContact;
+                  final newRequest = request?.copyWith(lastName: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateEmergency(newRequest));
+                },
+              ),
+              kVerticalSpacerMini,
+              ShadowInput(
+                name: formNameEmergencyRelation,
+                textEditingController: relationController,
+                child: AppDropDown<String>(
+                  items: ["Father", "Mother", "Sibling", "Friends", "Other"],
+                  defaultValue: "Father",
+                  sheetTitle: "Relationship",
+                  onChanged: (value) {
+                    relationController.text = value ?? "";
+                  },
+                ),
+              ),
+              kVerticalSpacerMini,
+              ShadowInput(
+                textEditingController: nationalityController,
+                name: formNameEmergencyCountry,
+                child: AppCountriesDropdown(
+                  isPhoneCode: true,
+                  hintText: "Phone",
+                  initialValue: Country.defaultCountry,
+                  onChanged: (value) {
+                    nationalityController.text = value?.phoneCode ?? "";
+                  },
+                ),
+              ),
+              AppInputText(
                 name: formNameEmergencyPhone,
                 initialValue: phoneNumber,
                 textInputType: TextInputType.number,
@@ -121,8 +133,23 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                       .add(UpdateEmergency(newRequest));
                 },
               ),
-            ),
-          ],
+              AppInputText(
+                name: formNameEmergencyEmail,
+                hintText: "Email",
+                validators: [
+                  FormBuilderValidators.required(),
+                  FormBuilderValidators.email(),
+                ],
+                //initialValue: lastName,
+                onChanged: (value) {
+                  // final request =
+                  //     context.read<LocalUserBloc>().state.emergencyContact;
+                  // final newRequest = request?.copyWith(lastName: value);
+                  // context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );
