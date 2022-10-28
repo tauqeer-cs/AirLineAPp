@@ -16,19 +16,24 @@ class Styles {
 
   static Color get underlineColor => const Color(0xFFD8D8DE);
 
-  static Color get kBorderColor =>  const Color.fromRGBO(141, 153, 174, 1);
+  static Color get kBorderColor => const Color.fromRGBO(141, 153, 174, 1);
 
   static Color get kContainerColor => const Color(0xC5EEEEEE);
 
   static Color get kTextLightThemeColor => const Color(0xFF4B4B4B);
-  static Color get kDividerColor => const Color.fromRGBO(237, 242, 244,1 );
-  static Color get kInactiveColor =>
-      const Color.fromRGBO(185, 195, 199, 1);
+
+  static Color get kDividerColor => const Color.fromRGBO(237, 242, 244, 1);
+
+  static Color get kInactiveColor => const Color.fromRGBO(185, 195, 199, 1);
 
   static Color get kCanvasColor => const Color(0xFFF2F2F3);
 
   static Color get kTextColor => const Color.fromRGBO(43, 45, 66, 1);
+
   static Color get kSubTextColor => const Color.fromRGBO(102, 102, 102, 1);
+
+  static Color get kBorderActionColor => const Color.fromRGBO(112, 112, 112, 1);
+
 
   static LinearGradient get gradient => LinearGradient(colors: const <Color>[
         Color(0xFF02C2F3),
@@ -121,13 +126,14 @@ class Styles {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
+            (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
                 return Colors.white.withOpacity(0.5);
               } else if (states.contains(MaterialState.disabled)) {
                 return Colors.white.withOpacity(0.7);
               }
-              return Colors.white; // Use the component's default./ Use the component's default.
+              return Colors
+                  .white; // Use the component's default./ Use the component's default.
             },
           ),
           side: MaterialStateProperty.resolveWith<BorderSide>(
@@ -224,8 +230,14 @@ class Styles {
         ),
       ),
       checkboxTheme: CheckboxThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(3),
+        ),
         materialTapTargetSize: MaterialTapTargetSize.padded,
+        side: BorderSide(
+          color: kBorderActionColor,
+          width: 1.5,
+        ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(

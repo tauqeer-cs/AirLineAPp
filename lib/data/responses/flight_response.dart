@@ -169,7 +169,7 @@ class InboundOutboundSegment extends Equatable {
     this.flightLegDetails,
   });
 
-  num get getTotalPrice => adultPriceTotal + childPriceTotal + infantPriceTotal;
+  num get getTotalPrice => totalSegmentFareAmt ?? 0;
 
   factory InboundOutboundSegment.fromJson(Map<String, dynamic> json) =>
       _$InboundOutboundSegmentFromJson(json);

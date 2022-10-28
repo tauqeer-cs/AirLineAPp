@@ -99,7 +99,7 @@ class AppDropDown<T> extends StatelessWidget {
         ),
         showSelectedItems: true,
         scrollbarProps: ScrollbarProps(
-          thumbColor: Color.fromRGBO(112, 112, 112, 1),
+          thumbColor: Styles.kBorderActionColor,
           trackVisibility: true,
           thumbVisibility: true,
         ),

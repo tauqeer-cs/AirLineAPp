@@ -35,6 +35,11 @@ const formNameTitle = "_title";
 const formNameNationality = "_nationality";
 const formNameDob = "_dob";
 const formNameContactEmail = "contact_email";
+const formNameContactFirstName = "contact_first_name";
+const formNameContactLastName = "contact_last_name";
+const formNameContactPhoneCode = "contact_phone_code";
+const formNameContactPhoneNumber = "contact_phone_number";
+const formNameContactReceiveEmail = "contact_receive_email";
 const formNameEmergencyFirstName = "emergency_first_name";
 const formNameEmergencyLastName = "emergency_last_name";
 const formNameEmergencyRelation = "emergency_relation";
@@ -48,17 +53,23 @@ const formNameCompanyCity = "company_city";
 const formNameCompanyPostCode = "company_post_code";
 const formNameCompanyEmailAddress = "company_email";
 
-class BookingDetailsView extends StatelessWidget {
+class BookingDetailsView extends StatefulWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
 
   const BookingDetailsView({Key? key}) : super(key: key);
+
+  @override
+  State<BookingDetailsView> createState() => _BookingDetailsViewState();
+}
+
+class _BookingDetailsViewState extends State<BookingDetailsView> {
 
   @override
   Widget build(BuildContext context) {
     final notice = context.watch<CmsSsrCubit>().state.notice;
     return FormBuilder(
       autoFocusOnValidationFailure: true,
-      key: _fbKey,
+      key: BookingDetailsView._fbKey,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -67,12 +78,6 @@ class BookingDetailsView extends StatelessWidget {
               padding: kPageHorizontalPadding,
               child: Column(
                 children: [
-                  AppBookingHeader(passedSteps: [
-                    BookingStep.flights,
-                    BookingStep.addOn,
-                    BookingStep.bookingDetails
-                  ]),
-                  kVerticalSpacer,
                   BookingDetailsHeader(),
                   kVerticalSpacer,
                   CardSummary(),
@@ -124,7 +129,7 @@ class BookingDetailsView extends StatelessWidget {
   }
 
   onBooking(BuildContext context) {
-    if (_fbKey.currentState!.saveAndValidate()) {
+    if (BookingDetailsView._fbKey.currentState!.saveAndValidate()) {
       final bookingState = context.read<BookingCubit>().state;
       final state = context.read<SearchFlightCubit>().state;
       final verifyToken = bookingState.verifyResponse?.token;
@@ -148,7 +153,7 @@ class BookingDetailsView extends StatelessWidget {
           ?.seatConfiguration
           ?.rows;
       final persons = state.filterState?.numberPerson;
-      final value = _fbKey.currentState!.value;
+      final value = BookingDetailsView._fbKey.currentState!.value;
       List<Passenger> passengers = [];
       for (Person person in (persons?.persons ?? [])) {
         final passenger = person.toPassenger(
@@ -185,8 +190,12 @@ class BookingDetailsView extends StatelessWidget {
         token: verifyToken ?? "",
         flightSummaryPNRRequest: FlightSummaryPnrRequest(
           contactEmail: value[formNameContactEmail],
+          contactFullName: "${value[formNameContactFirstName]} ${value[formNameContactLastName]}",
+          contactPhoneCode: value[formNameContactPhoneCode],
+          contactPhoneNumber: value[formNameContactPhoneNumber],
           displayCurrency: "MYR",
           preferredContactMethod: "Email",
+          acceptNewsAndPromotionByEmail: value[formNameContactReceiveEmail],
           comment: "No",
           promoCode: "",
           companyTaxInvoice: CompanyTaxInvoice(

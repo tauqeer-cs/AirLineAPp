@@ -12,20 +12,20 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'forms/app_dropdown.dart';
 
 class AppCountriesDropdown extends StatelessWidget {
-  final String name;
   final Country? initialValue;
   final bool isPhoneCode;
   final String? hintText;
   final List<String? Function(Country?)>? validators;
+  final Function(Country?)? onChanged;
 
-  const AppCountriesDropdown(
-      {Key? key,
-      required this.name,
-      this.initialValue,
-      required this.isPhoneCode,
-      this.hintText,
-      this.validators})
-      : super(key: key);
+  const AppCountriesDropdown({
+    Key? key,
+    this.initialValue,
+    required this.isPhoneCode,
+    this.hintText,
+    this.validators,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,7 @@ class AppCountriesDropdown extends StatelessWidget {
           finishedBuilder: AppDropDown<Country>(
             sheetTitle: isPhoneCode ? "Phone" : "Country",
             defaultValue: initialValue ?? Country.defaultCountry,
-            onChanged: (country) {
-              print(country);
-            },
+            onChanged: onChanged,
             valueTransformerItem: (value, selected) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

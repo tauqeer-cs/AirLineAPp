@@ -102,7 +102,7 @@ class CalendarSheetState extends State<CalendarSheet> {
           headerStyle: const HeaderStyle(formatButtonVisible: false),
           firstDay: DateTime.now(),
           lastDay: DateTime.now().add(Duration(days: 90)),
-          focusedDay: departDate ?? _focusedDay,
+          focusedDay: _focusedDay,
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           rangeStartDay: departDate,
           rangeEndDay: returnDate,
@@ -148,9 +148,9 @@ class CalendarSheetState extends State<CalendarSheet> {
           },
           onPageChanged: (focusedDay) {
             print("page changed $focusedDay");
-            context
-                .read<FilterCubit>()
-                .updateDate(departDate: focusedDay, returnDate: null);
+            // context
+            //     .read<FilterCubit>()
+            //     .updateDate(departDate: focusedDay, returnDate: null);
             context
                 .read<PriceRangeCubit>()
                 .getPrices(filterCubit.state, startFilter: focusedDay);

@@ -95,18 +95,19 @@ class HomeDealGrid extends StatelessWidget {
                                 children: [
                                   Text(
                                     "Start from",
-                                    style: kMediumMedium.copyWith(
+                                    style: kSmallMedium.copyWith(
                                         color: Colors.black),
                                   ),
                                   Text(
                                     "RM ${e.price}",
-                                    style: kHugeSemiBold.copyWith(
+                                    style: kMediumMedium.copyWith(
                                         color: Colors.black),
                                   ),
                                 ],
                               ),
                             ),
                             CircleAvatar(
+                              radius: 15,
                               backgroundColor: Styles.kPrimaryColor,
                               child: Icon(
                                 Icons.chevron_right,

@@ -50,7 +50,6 @@ class FilterCubit extends Cubit<FilterState> {
       persons.removeAt(index);
     }
     final newNumberPerson = NumberPerson(persons: persons);
-
     emit(state.copyWith(numberPerson: newNumberPerson));
   }
 

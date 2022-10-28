@@ -6,11 +6,13 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:hive/hive.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 
 part 'flight_summary_pnr_request.g.dart';
 
 @HiveType(typeId: 0)
 @JsonSerializable()
+@CopyWith(copyWithNull: true)
 class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
   @override
   List<Object?> get props => [
@@ -22,6 +24,10 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
         companyTaxInvoice,
         emergencyContact,
         passengers,
+        contactPhoneCode,
+        contactPhoneNumber,
+        contactFullName,
+        acceptNewsAndPromotionByEmail,
       ];
 
   FlightSummaryPnrRequest({
@@ -33,11 +39,23 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
     this.companyTaxInvoice,
     this.emergencyContact,
     this.passengers = const [],
+    this.contactPhoneCode = "",
+    this.contactPhoneNumber = "",
+    this.contactFullName = "",
+    this.acceptNewsAndPromotionByEmail = false,
   });
 
   @HiveField(0)
   @JsonKey(name: 'ContactEmail')
   final String contactEmail;
+  @JsonKey(name: 'ContactPhoneCode')
+  final String contactPhoneCode;
+  @JsonKey(name: 'ContactPhoneNumber')
+  final String contactPhoneNumber;
+  @JsonKey(name: 'ContactFullName')
+  final String contactFullName;
+  @JsonKey(name: 'AcceptNewsAndPromotionByEmail')
+  final bool acceptNewsAndPromotionByEmail;
   @JsonKey(name: 'DisplayCurrency')
   final String displayCurrency;
   @JsonKey(name: 'PreferredContactMethod')
@@ -55,28 +73,6 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
   @HiveField(3)
   @JsonKey(name: 'Passengers')
   final List<Passenger> passengers;
-
-  FlightSummaryPnrRequest copyWith({
-    String? contactEmail,
-    String? displayCurrency,
-    String? preferredContactMethod,
-    String? comment,
-    String? promoCode,
-    CompanyTaxInvoice? companyTaxInvoice,
-    EmergencyContact? emergencyContact,
-    List<Passenger>? passengers,
-  }) =>
-      FlightSummaryPnrRequest(
-        contactEmail: contactEmail ?? this.contactEmail,
-        displayCurrency: displayCurrency ?? this.displayCurrency,
-        preferredContactMethod:
-            preferredContactMethod ?? this.preferredContactMethod,
-        comment: comment ?? this.comment,
-        promoCode: promoCode ?? this.promoCode,
-        companyTaxInvoice: companyTaxInvoice ?? this.companyTaxInvoice,
-        emergencyContact: emergencyContact ?? this.emergencyContact,
-        passengers: passengers ?? this.passengers,
-      );
 
   factory FlightSummaryPnrRequest.fromJson(Map<String, dynamic> json) =>
       _$FlightSummaryPnrRequestFromJson(json);
@@ -364,7 +360,8 @@ class Passenger extends HiveObject with EquatableMixin {
         seat: seat ?? this.seat,
       );
 
-  PeopleType? get getType=> PeopleType.values.firstWhereOrNull((element) => element.code == paxType);
+  PeopleType? get getType =>
+      PeopleType.values.firstWhereOrNull((element) => element.code == paxType);
 }
 
 @JsonSerializable()

@@ -37,19 +37,20 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                   isExpand = !isExpand;
                 });
               },
-              child: Row(
-                children: [
-                  Padding(
-                    padding: kPageHorizontalPadding,
-                    child: Text("Flights and bundles summary", style: k18Heavy),
-                  ),
-                  Spacer(),
-                  Icon(
-                    isExpand
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                  ),
-                ],
+              child: Padding(
+                padding: kPageHorizontalPadding,
+
+                child: Row(
+                  children: [
+                    Text("Flights and bundles summary", style: k18Heavy),
+                    Spacer(),
+                    Icon(
+                      isExpand
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                    ),
+                  ],
+                ),
               ),
             ),
             kVerticalSpacer,

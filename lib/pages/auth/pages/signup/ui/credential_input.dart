@@ -37,7 +37,6 @@ class CredentialInput extends StatelessWidget {
               ),
               kVerticalSpacer,
               AppCountriesDropdown(
-                name: formNamePhoneCode,
                 isPhoneCode: true,
                 hintText: "Phone",
                 initialValue: Country.defaultCountry,

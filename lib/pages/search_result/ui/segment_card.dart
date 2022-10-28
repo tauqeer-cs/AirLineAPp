@@ -55,7 +55,8 @@ class SegmentCard extends StatelessWidget {
                         ),
                         kHorizontalSpacer,
                         Visibility(
-                          visible: segment.discountPCT!=null && segment.discountPCT! > 0,
+                          visible: segment.discountPCT != null &&
+                              segment.discountPCT! > 0,
                           replacement: Image.asset(
                             "assets/images/icons/iconFlight.png",
                             width: 32,
@@ -63,7 +64,10 @@ class SegmentCard extends StatelessWidget {
                           ),
                           child: CircleAvatar(
                             backgroundColor: Styles.kPrimaryColor,
-                            child: Text("-${segment.discountPCT}%", style: kTinyHeavy,),
+                            child: Text(
+                              "-${segment.discountPCT}%",
+                              style: kTinyHeavy.copyWith(color: Colors.white),
+                            ),
                           ),
                         ),
                         kHorizontalSpacer,
@@ -78,7 +82,7 @@ class SegmentCard extends StatelessWidget {
                     kVerticalSpacer,
                     AppDividerWidget(),
                     Transform.translate(
-                      offset: Offset(0, 15),
+                      offset: Offset(0, 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -105,6 +109,15 @@ class SegmentCard extends StatelessWidget {
                                   style: kTinyHeavy,
                                 ),
                                 MoneyWidget(amount: segment.getTotalPrice),
+                                Visibility(
+                                  visible: segment.discountPCT != null &&
+                                      segment.discountPCT! > 0,
+                                  child: Text(
+                                    "RM ${segment.beforeDiscountTotalAmt}",
+                                    style: kSmallRegular.copyWith(
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

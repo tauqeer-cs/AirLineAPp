@@ -3,6 +3,236 @@
 part of 'flight_summary_pnr_request.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+abstract class _$FlightSummaryPnrRequestCWProxy {
+  FlightSummaryPnrRequest acceptNewsAndPromotionByEmail(
+      bool acceptNewsAndPromotionByEmail);
+
+  FlightSummaryPnrRequest comment(String comment);
+
+  FlightSummaryPnrRequest companyTaxInvoice(
+      CompanyTaxInvoice? companyTaxInvoice);
+
+  FlightSummaryPnrRequest contactEmail(String contactEmail);
+
+  FlightSummaryPnrRequest contactFullName(String contactFullName);
+
+  FlightSummaryPnrRequest contactPhoneCode(String contactPhoneCode);
+
+  FlightSummaryPnrRequest contactPhoneNumber(String contactPhoneNumber);
+
+  FlightSummaryPnrRequest displayCurrency(String displayCurrency);
+
+  FlightSummaryPnrRequest emergencyContact(EmergencyContact? emergencyContact);
+
+  FlightSummaryPnrRequest passengers(List<Passenger> passengers);
+
+  FlightSummaryPnrRequest preferredContactMethod(String preferredContactMethod);
+
+  FlightSummaryPnrRequest promoCode(String promoCode);
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `FlightSummaryPnrRequest(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// FlightSummaryPnrRequest(...).copyWith(id: 12, name: "My name")
+  /// ````
+  FlightSummaryPnrRequest call({
+    bool? acceptNewsAndPromotionByEmail,
+    String? comment,
+    CompanyTaxInvoice? companyTaxInvoice,
+    String? contactEmail,
+    String? contactFullName,
+    String? contactPhoneCode,
+    String? contactPhoneNumber,
+    String? displayCurrency,
+    EmergencyContact? emergencyContact,
+    List<Passenger>? passengers,
+    String? preferredContactMethod,
+    String? promoCode,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfFlightSummaryPnrRequest.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfFlightSummaryPnrRequest.copyWith.fieldName(...)`
+class _$FlightSummaryPnrRequestCWProxyImpl
+    implements _$FlightSummaryPnrRequestCWProxy {
+  final FlightSummaryPnrRequest _value;
+
+  const _$FlightSummaryPnrRequestCWProxyImpl(this._value);
+
+  @override
+  FlightSummaryPnrRequest acceptNewsAndPromotionByEmail(
+          bool acceptNewsAndPromotionByEmail) =>
+      this(acceptNewsAndPromotionByEmail: acceptNewsAndPromotionByEmail);
+
+  @override
+  FlightSummaryPnrRequest comment(String comment) => this(comment: comment);
+
+  @override
+  FlightSummaryPnrRequest companyTaxInvoice(
+          CompanyTaxInvoice? companyTaxInvoice) =>
+      this(companyTaxInvoice: companyTaxInvoice);
+
+  @override
+  FlightSummaryPnrRequest contactEmail(String contactEmail) =>
+      this(contactEmail: contactEmail);
+
+  @override
+  FlightSummaryPnrRequest contactFullName(String contactFullName) =>
+      this(contactFullName: contactFullName);
+
+  @override
+  FlightSummaryPnrRequest contactPhoneCode(String contactPhoneCode) =>
+      this(contactPhoneCode: contactPhoneCode);
+
+  @override
+  FlightSummaryPnrRequest contactPhoneNumber(String contactPhoneNumber) =>
+      this(contactPhoneNumber: contactPhoneNumber);
+
+  @override
+  FlightSummaryPnrRequest displayCurrency(String displayCurrency) =>
+      this(displayCurrency: displayCurrency);
+
+  @override
+  FlightSummaryPnrRequest emergencyContact(
+          EmergencyContact? emergencyContact) =>
+      this(emergencyContact: emergencyContact);
+
+  @override
+  FlightSummaryPnrRequest passengers(List<Passenger> passengers) =>
+      this(passengers: passengers);
+
+  @override
+  FlightSummaryPnrRequest preferredContactMethod(
+          String preferredContactMethod) =>
+      this(preferredContactMethod: preferredContactMethod);
+
+  @override
+  FlightSummaryPnrRequest promoCode(String promoCode) =>
+      this(promoCode: promoCode);
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `FlightSummaryPnrRequest(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// FlightSummaryPnrRequest(...).copyWith(id: 12, name: "My name")
+  /// ````
+  FlightSummaryPnrRequest call({
+    Object? acceptNewsAndPromotionByEmail = const $CopyWithPlaceholder(),
+    Object? comment = const $CopyWithPlaceholder(),
+    Object? companyTaxInvoice = const $CopyWithPlaceholder(),
+    Object? contactEmail = const $CopyWithPlaceholder(),
+    Object? contactFullName = const $CopyWithPlaceholder(),
+    Object? contactPhoneCode = const $CopyWithPlaceholder(),
+    Object? contactPhoneNumber = const $CopyWithPlaceholder(),
+    Object? displayCurrency = const $CopyWithPlaceholder(),
+    Object? emergencyContact = const $CopyWithPlaceholder(),
+    Object? passengers = const $CopyWithPlaceholder(),
+    Object? preferredContactMethod = const $CopyWithPlaceholder(),
+    Object? promoCode = const $CopyWithPlaceholder(),
+  }) {
+    return FlightSummaryPnrRequest(
+      acceptNewsAndPromotionByEmail:
+          acceptNewsAndPromotionByEmail == const $CopyWithPlaceholder() ||
+                  acceptNewsAndPromotionByEmail == null
+              ? _value.acceptNewsAndPromotionByEmail
+              // ignore: cast_nullable_to_non_nullable
+              : acceptNewsAndPromotionByEmail as bool,
+      comment: comment == const $CopyWithPlaceholder() || comment == null
+          ? _value.comment
+          // ignore: cast_nullable_to_non_nullable
+          : comment as String,
+      companyTaxInvoice: companyTaxInvoice == const $CopyWithPlaceholder()
+          ? _value.companyTaxInvoice
+          // ignore: cast_nullable_to_non_nullable
+          : companyTaxInvoice as CompanyTaxInvoice?,
+      contactEmail:
+          contactEmail == const $CopyWithPlaceholder() || contactEmail == null
+              ? _value.contactEmail
+              // ignore: cast_nullable_to_non_nullable
+              : contactEmail as String,
+      contactFullName: contactFullName == const $CopyWithPlaceholder() ||
+              contactFullName == null
+          ? _value.contactFullName
+          // ignore: cast_nullable_to_non_nullable
+          : contactFullName as String,
+      contactPhoneCode: contactPhoneCode == const $CopyWithPlaceholder() ||
+              contactPhoneCode == null
+          ? _value.contactPhoneCode
+          // ignore: cast_nullable_to_non_nullable
+          : contactPhoneCode as String,
+      contactPhoneNumber: contactPhoneNumber == const $CopyWithPlaceholder() ||
+              contactPhoneNumber == null
+          ? _value.contactPhoneNumber
+          // ignore: cast_nullable_to_non_nullable
+          : contactPhoneNumber as String,
+      displayCurrency: displayCurrency == const $CopyWithPlaceholder() ||
+              displayCurrency == null
+          ? _value.displayCurrency
+          // ignore: cast_nullable_to_non_nullable
+          : displayCurrency as String,
+      emergencyContact: emergencyContact == const $CopyWithPlaceholder()
+          ? _value.emergencyContact
+          // ignore: cast_nullable_to_non_nullable
+          : emergencyContact as EmergencyContact?,
+      passengers:
+          passengers == const $CopyWithPlaceholder() || passengers == null
+              ? _value.passengers
+              // ignore: cast_nullable_to_non_nullable
+              : passengers as List<Passenger>,
+      preferredContactMethod:
+          preferredContactMethod == const $CopyWithPlaceholder() ||
+                  preferredContactMethod == null
+              ? _value.preferredContactMethod
+              // ignore: cast_nullable_to_non_nullable
+              : preferredContactMethod as String,
+      promoCode: promoCode == const $CopyWithPlaceholder() || promoCode == null
+          ? _value.promoCode
+          // ignore: cast_nullable_to_non_nullable
+          : promoCode as String,
+    );
+  }
+}
+
+extension $FlightSummaryPnrRequestCopyWith on FlightSummaryPnrRequest {
+  /// Returns a callable class that can be used as follows: `instanceOfFlightSummaryPnrRequest.copyWith(...)` or like so:`instanceOfFlightSummaryPnrRequest.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
+  _$FlightSummaryPnrRequestCWProxy get copyWith =>
+      _$FlightSummaryPnrRequestCWProxyImpl(this);
+
+  /// Copies the object with the specific fields set to `null`. If you pass `false` as a parameter, nothing will be done and it will be ignored. Don't do it. Prefer `copyWith(field: null)` or `FlightSummaryPnrRequest(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// FlightSummaryPnrRequest(...).copyWithNull(firstField: true, secondField: true)
+  /// ````
+  FlightSummaryPnrRequest copyWithNull({
+    bool companyTaxInvoice = false,
+    bool emergencyContact = false,
+  }) {
+    return FlightSummaryPnrRequest(
+      acceptNewsAndPromotionByEmail: acceptNewsAndPromotionByEmail,
+      comment: comment,
+      companyTaxInvoice:
+          companyTaxInvoice == true ? null : this.companyTaxInvoice,
+      contactEmail: contactEmail,
+      contactFullName: contactFullName,
+      contactPhoneCode: contactPhoneCode,
+      contactPhoneNumber: contactPhoneNumber,
+      displayCurrency: displayCurrency,
+      emergencyContact: emergencyContact == true ? null : this.emergencyContact,
+      passengers: passengers,
+      preferredContactMethod: preferredContactMethod,
+      promoCode: promoCode,
+    );
+  }
+}
+
+// **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
@@ -219,12 +449,21 @@ FlightSummaryPnrRequest _$FlightSummaryPnrRequestFromJson(
               ?.map((e) => Passenger.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      contactPhoneCode: json['ContactPhoneCode'] as String? ?? "",
+      contactPhoneNumber: json['ContactPhoneNumber'] as String? ?? "",
+      contactFullName: json['ContactFullName'] as String? ?? "",
+      acceptNewsAndPromotionByEmail:
+          json['AcceptNewsAndPromotionByEmail'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$FlightSummaryPnrRequestToJson(
     FlightSummaryPnrRequest instance) {
   final val = <String, dynamic>{
     'ContactEmail': instance.contactEmail,
+    'ContactPhoneCode': instance.contactPhoneCode,
+    'ContactPhoneNumber': instance.contactPhoneNumber,
+    'ContactFullName': instance.contactFullName,
+    'AcceptNewsAndPromotionByEmail': instance.acceptNewsAndPromotionByEmail,
     'DisplayCurrency': instance.displayCurrency,
     'PreferredContactMethod': instance.preferredContactMethod,
     'Comment': instance.comment,

@@ -46,6 +46,7 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
     emit(storage);
   }
 
+
   void _onUpdateEmailContact(
     UpdateEmailContact event,
     Emitter<FlightSummaryPnrRequest> emit,

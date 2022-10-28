@@ -20,6 +20,7 @@ class GreyCard extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5.0),
         child: Container(
+          margin: EdgeInsets.all(8),
           padding: edgeInsets ?? EdgeInsets.all(12),
           decoration: BoxDecoration(
               color: Color.fromRGBO(235, 235, 235, 0.75),

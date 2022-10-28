@@ -30,30 +30,40 @@ class FlightSegment extends StatelessWidget {
       width: 500.w,
       margin: EdgeInsets.symmetric(vertical: 12),
       child: AppCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor)),
-            kVerticalSpacer,
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: '$subtitle - ',
-                    style: kMediumHeavy.copyWith(color: Styles.kTextColor),
+        child: Row(children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Text(title, style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor)),
+                // kVerticalSpacer,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '$subtitle',
+                        style: kLargeHeavy.copyWith(color: Styles.kTextColor),
+                      ),
+                    ],
                   ),
-                  TextSpan(
-                    text: ' $dateTitle ',
-                    style: kMediumMedium.copyWith(color: Styles.kTextColor),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.left,
+                  textAlign: TextAlign.left,
+                ),
+                kVerticalSpacerMini,
+                Text(
+                  dateTitle,
+                  style: kLargeRegular,
+                ),
+                kVerticalSpacerSmall,
+                FlightDetail(isDeparture: isDeparture, segment: segments.first),
+              ],
             ),
-            kVerticalSpacer,
-            FlightDetail(isDeparture: isDeparture, segment: segments.first),
-          ],
-        ),
+          ),
+          Text(
+            title,
+            style: kGiantHeavy.copyWith(
+                color: Styles.kDisabledButton, fontSize: 32),
+          )
+        ]),
       ),
     );
   }
