@@ -10,7 +10,7 @@ class BookingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => BookingsCubit(),
-      child: BookingsView(),
+      child: Scaffold(body: BookingsView()),
     );
   }
 }

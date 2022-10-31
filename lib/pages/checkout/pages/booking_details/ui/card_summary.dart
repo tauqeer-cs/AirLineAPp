@@ -12,7 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../theme/theme.dart';
 
 class CardSummary extends StatelessWidget {
-  const CardSummary({Key? key}) : super(key: key);
+  final bool showFees;
+
+  const CardSummary({Key? key, required this.showFees}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class CardSummary extends StatelessWidget {
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
           isDeparture: true,
+          showFees: showFees,
         ),
         Visibility(
           visible: state.filterState?.flightType == FlightType.round,
@@ -47,17 +50,17 @@ class CardSummary extends StatelessWidget {
             title: "RET",
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
-            AppDateUtils.formatFullDate(state.filterState?.returnDate),
+                AppDateUtils.formatFullDate(state.filterState?.returnDate),
             segments: bookState.isVerify
                 ? bookState.selectedReturn != null
-                ? [bookState.selectedReturn!]
-                : []
+                    ? [bookState.selectedReturn!]
+                    : []
                 : state.flights?.flightResult?.inboundSegment ?? [],
             isDeparture: false,
+            showFees: showFees,
           ),
         ),
       ],
     );
   }
-
 }

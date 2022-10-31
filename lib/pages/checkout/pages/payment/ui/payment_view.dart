@@ -25,17 +25,10 @@ class PaymentView extends StatelessWidget {
         padding: kPageHorizontalPadding,
         child: Column(
           children: [
-            AppBookingHeader(passedSteps: [
-              BookingStep.flights,
-              BookingStep.addOn,
-              BookingStep.bookingDetails,
-              BookingStep.payment,
-            ]),
-            PaymentHeader(),
             kVerticalSpacer,
             PassengerCard(),
             kVerticalSpacer,
-            CardSummary(),
+            CardSummary(showFees: true),
           ],
         ),
       ),

@@ -22,7 +22,6 @@ class PassengerCard extends StatelessWidget {
     int adult = 0;
     int infant = 0;
     int children = 0;
-    print("passengers ${passengers?.length}");
     return AppCard(
       child: Row(
         children: [
@@ -34,10 +33,10 @@ class PassengerCard extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Passengers",
-                    style: kHugeSemiBold,
+                    style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
                   ),
                 ),
-                kVerticalSpacerSmall,
+                kVerticalSpacerMini,
                 ...(passengers ?? []).mapIndexed(
                   (index, e) {
                     int number;
@@ -59,15 +58,12 @@ class PassengerCard extends StatelessWidget {
                         break;
                     }
 
-                    return Row(
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${e.getType?.name.capitalize()} $number"),
-                        kHorizontalSpacerSmall,
-                        Expanded(
-                          child:
-                              Text("${e.title} ${e.firstName} ${e.lastName}"),
-                        ),
+                        Text("${e.getType?.name.capitalize()} $number", style: kLargeHeavy,),
+                        kVerticalSpacerMini,
+                        Text("${e.title} ${e.firstName} ${e.lastName}"),
                       ],
                     );
                   },

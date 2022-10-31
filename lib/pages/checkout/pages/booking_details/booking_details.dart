@@ -46,6 +46,9 @@ class BookingDetailsPage extends StatelessWidget {
               },
               onFailed: () {
                 context.loaderOverlay.hide();
+                if(state.message.contains("please request a new GUID")){
+                  context.router.replaceAll([NavigationRoute(), HomeRoute()]);
+                }
                 Toast.of(context).show(message: state.message);
               },
               onFinished: () {

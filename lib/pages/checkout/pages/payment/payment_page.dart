@@ -20,9 +20,11 @@ import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/app_app_bar.dart';
+import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,7 +86,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     }
                     //context.router.popUntilRoot();
                     context.router.replaceAll([
-                      HomeRoute(),
+                      NavigationRoute(),
                       BookingConfirmationRoute(bookingId: superPNR ?? "")
                     ]);
                   } else {
@@ -106,8 +108,15 @@ class _PaymentPageState extends State<PaymentPage> {
               },
             );
           },
-          child: AppScaffold(
-            child: PaymentView(),
+          child: Scaffold(
+            appBar: AppAppBar(
+              title: "Your Trip Starts Here",
+              height: 100.h,
+              flexibleWidget: AppBookingStep(
+                passedSteps: [BookingStep.flights, BookingStep.addOn, BookingStep.bookingDetails, BookingStep.payment],
+              ),
+            ),
+            body: PaymentView(),
           ),
         ),
       ),
