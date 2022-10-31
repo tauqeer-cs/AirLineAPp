@@ -45,28 +45,31 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
         ),
         kVerticalSpacer,
         AppDividerWidget(color: Styles.kDisabledButton),
-        ListTile(
-          onTap: () {
-            setState(() {
-              isExpand = !isExpand;
-            });
-          },
-          title: Row(
-            children: [
-              Text(
-                "- Fees and Taxes",
-                style: kMediumRegular,
-              ),
-              kHorizontalSpacerSmall,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
-              Spacer(),
-              MoneyWidgetSmall(
-                  amount: widget.isDeparture
-                      ? bookingTotal.selectedDeparture?.getTotalPrice
-                      : bookingTotal.selectedReturn?.getTotalPrice),
-            ],
+        Visibility(
+          visible: is,
+          child: ListTile(
+            onTap: () {
+              setState(() {
+                isExpand = !isExpand;
+              });
+            },
+            title: Row(
+              children: [
+                Text(
+                  "- Fees and Taxes",
+                  style: kMediumRegular,
+                ),
+                kHorizontalSpacerSmall,
+                Icon(
+                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                ),
+                Spacer(),
+                MoneyWidgetSmall(
+                    amount: widget.isDeparture
+                        ? bookingTotal.selectedDeparture?.getTotalPrice
+                        : bookingTotal.selectedReturn?.getTotalPrice),
+              ],
+            ),
           ),
         ),
         ExpandedSection(
