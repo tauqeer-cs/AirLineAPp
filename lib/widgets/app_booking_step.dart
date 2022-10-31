@@ -73,7 +73,7 @@ enum BookingStep {
   flights("Flights"),
   addOn("Add-On"),
   bookingDetails("Booking Details"),
-  payment("Payment");
+  payment("Summary & Payment");
 
   const BookingStep(this.message);
 

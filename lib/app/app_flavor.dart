@@ -25,6 +25,15 @@ class AppFlavor {
         return 'https://mya-booking.alphareds.com/booked';
     }
   }
+
+  static String get thirdPartyUrl {
+    switch (appFlavor) {
+      case Flavor.staging:
+        return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
+      default:
+        return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
+    }
+  }
   static String get baseUrlCMS {
     switch (appFlavor) {
       case Flavor.staging:

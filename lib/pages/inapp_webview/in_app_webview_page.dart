@@ -56,94 +56,100 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Stack(
-                children: [
-                  InAppWebView(
-                    key: webViewKey,
-                    initialUrlRequest:
-                        URLRequest(url: Uri.parse(widget.url)),
-                    initialOptions: options,
-                    pullToRefreshController: pullToRefreshController,
-                    onWebViewCreated: (controller) {
-                      webViewController = controller;
-                    },
-                    onLoadStart: (controller, url) {
-                      setState(() {
-                        this.url = url.toString();
-                      });
-                    },
-                    androidOnPermissionRequest:
-                        (controller, origin, resources) async {
-                      return PermissionRequestResponse(
-                          resources: resources,
-                          action: PermissionRequestResponseAction.GRANT);
-                    },
-                    shouldOverrideUrlLoading:
-                        (controller, navigationAction) async {},
-                    onLoadStop: (controller, url) async {
+      appBar: AppBar(),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Stack(
+              children: [
+                InAppWebView(
+                  key: webViewKey,
+                  initialUrlRequest:
+                      URLRequest(url: Uri.parse(widget.url)),
+                  initialOptions: options,
+                  pullToRefreshController: pullToRefreshController,
+                  onWebViewCreated: (controller) {
+                    webViewController = controller;
+                  },
+                  onLoadStart: (controller, url) {
+                    setState(() {
+                      this.url = url.toString();
+                    });
+                  },
+                  androidOnPermissionRequest:
+                      (controller, origin, resources) async {
+                    return PermissionRequestResponse(
+                        resources: resources,
+                        action: PermissionRequestResponseAction.GRANT);
+                  },
+                  shouldOverrideUrlLoading:
+                      (controller, navigationAction) async {},
+                  onLoadStop: (controller, url) async {
+                    pullToRefreshController.endRefreshing();
+                    setState(() {
+                      this.url = url.toString();
+                    });
+                  },
+                  onLoadError: (controller, url, code, message) {
+                    pullToRefreshController.endRefreshing();
+                  },
+                  onProgressChanged: (controller, progress) {
+                    if (progress == 100) {
                       pullToRefreshController.endRefreshing();
-                      setState(() {
-                        this.url = url.toString();
-                      });
-                    },
-                    onLoadError: (controller, url, code, message) {
-                      pullToRefreshController.endRefreshing();
-                    },
-                    onProgressChanged: (controller, progress) {
-                      if (progress == 100) {
-                        pullToRefreshController.endRefreshing();
-                      }
-                      setState(() {
-                        this.progress = progress / 100;
-                      });
-                    },
-                    onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                      setState(() {
-                        this.url = url.toString();
-                      });
-                    },
-                    onConsoleMessage: (controller, consoleMessage) {
-                      print(consoleMessage);
-                    },
-                    onReceivedHttpAuthRequest: (InAppWebViewController controller, URLAuthenticationChallenge challenge) async {
-                      return HttpAuthResponse(username: "myairline", password: "BwH.gCrBhbh3xggH443pJdH", action: HttpAuthResponseAction.PROCEED);
-                    },
-                  ),
-                  progress < 1.0
-                      ? LinearProgressIndicator(value: progress)
-                      : Container(),
-                ],
-              ),
-            ),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  child: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    webViewController?.goBack();
+                    }
+                    setState(() {
+                      this.progress = progress / 100;
+                    });
+                  },
+                  onUpdateVisitedHistory: (controller, url, androidIsReload) {
+                    setState(() {
+                      this.url = url.toString();
+                    });
+                  },
+                  onConsoleMessage: (controller, consoleMessage) {
+                    print(consoleMessage);
+                  },
+                  onReceivedHttpAuthRequest: (InAppWebViewController controller, URLAuthenticationChallenge challenge) async {
+                    return HttpAuthResponse(username: "myairline", password: "BwH.gCrBhbh3xggH443pJdH", action: HttpAuthResponseAction.PROCEED);
                   },
                 ),
-                ElevatedButton(
-                  child: const Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    webViewController?.goForward();
-                  },
-                ),
-                ElevatedButton(
-                  child: const Icon(Icons.refresh),
-                  onPressed: () {
-                    webViewController?.reload();
-                  },
-                ),
+                progress < 1.0
+                    ? LinearProgressIndicator(value: progress)
+                    : Container(),
               ],
             ),
-          ],
-        ),
+          ),
+          // Row(
+          //   children: <Widget>[
+          //     Expanded(
+          //       child: ElevatedButton(
+          //         child: const Icon(Icons.arrow_back),
+          //         onPressed: () {
+          //           webViewController?.goBack();
+          //         },
+          //       ),
+          //     ),
+          //     Spacer(),
+          //     Expanded(
+          //       child: ElevatedButton(
+          //         child: const Icon(Icons.arrow_forward),
+          //         onPressed: () {
+          //           webViewController?.goForward();
+          //         },
+          //       ),
+          //     ),
+          //     Spacer(),
+          //     Expanded(
+          //       child: ElevatedButton(
+          //         child: const Icon(Icons.refresh),
+          //         onPressed: () {
+          //           webViewController?.reload();
+          //         },
+          //       ),
+          //     ),
+          //   ],
+          // ),
+        ],
       ),
     );
   }

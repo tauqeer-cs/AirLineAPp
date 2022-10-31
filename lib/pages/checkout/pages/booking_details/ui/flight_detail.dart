@@ -2,6 +2,8 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/checkout/ui/baggage_fee_detail.dart';
+import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
+import 'package:app/pages/checkout/ui/fee_and_taxes.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/utils/string_utils.dart';
@@ -16,7 +18,14 @@ import '../../../../../theme/theme.dart';
 class FlightDetail extends StatefulWidget {
   final bool isDeparture;
   final InboundOutboundSegment segment;
-  const FlightDetail({Key? key, required this.isDeparture, required this.segment}) : super(key: key);
+  final bool showFees;
+
+  const FlightDetail({
+    Key? key,
+    required this.isDeparture,
+    required this.segment,
+    this.showFees = false,
+  }) : super(key: key);
 
   @override
   State<FlightDetail> createState() => _FlightDetailState();
@@ -27,7 +36,6 @@ class _FlightDetailState extends State<FlightDetail> {
 
   @override
   Widget build(BuildContext context) {
-
     final detail = widget.segment.segmentDetail;
     final info = widget.segment.fareTypeWithTaxDetails?.firstOrNull
         ?.fareInfoWithTaxDetails?.firstOrNull;
@@ -37,7 +45,7 @@ class _FlightDetailState extends State<FlightDetail> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
-          onTap: (){
+          onTap: () {
             setState(() {
               isExpand = !isExpand;
             });
@@ -47,12 +55,13 @@ class _FlightDetailState extends State<FlightDetail> {
             children: [
               Text(
                 "Details",
-                style: kSmallRegular.copyWith(color: Color.fromRGBO(243, 110, 56, 1)),
+                style: kSmallRegular.copyWith(
+                    color: Color.fromRGBO(243, 110, 56, 1)),
               ),
               kHorizontalSpacerMini,
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                  color: Color.fromRGBO(243, 110, 56, 1),
+                color: Color.fromRGBO(243, 110, 56, 1),
               ),
             ],
           ),
@@ -69,12 +78,14 @@ class _FlightDetailState extends State<FlightDetail> {
                 children: [
                   Expanded(
                     child: BorderedLeftContainer(
-                      title: "Flight:", content: '${detail?.carrierCode}${detail?.flightNum}',
+                      title: "Flight:",
+                      content: '${detail?.carrierCode}${detail?.flightNum}',
                     ),
                   ),
                   Expanded(
                     child: BorderedLeftContainer(
-                      title: "Aircraft:", content: '${detail?.aircraftType}',
+                      title: "Aircraft:",
+                      content: '${detail?.aircraftType}',
                     ),
                   ),
                 ],
@@ -85,17 +96,29 @@ class _FlightDetailState extends State<FlightDetail> {
               // ),
               // kVerticalSpacer,
               BorderedLeftContainer(
-                title: "Duration:", content: '${NumberUtils.getTimeString(detail?.flightTime)}',
+                title: "Duration:",
+                content: '${NumberUtils.getTimeString(detail?.flightTime)}',
               ),
               kVerticalSpacer,
-              
+
               BorderedLeftContainer(
-                title: "DEP:", content: "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
+                title: "DEP:",
+                content:
+                    "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
               ),
               kVerticalSpacer,
               BorderedLeftContainer(
-                title: "ARR:", content: "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
+                title: "ARR:",
+                content:
+                    "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
               ),
+              Visibility(
+                visible: widget.showFees,
+                child: BlocProvider(
+                  create: (context) => IsPaymentPageCubit(true),
+                  child: FeeAndTaxes(isDeparture: widget.isDeparture),
+                ),
+              )
             ],
           ),
         ),

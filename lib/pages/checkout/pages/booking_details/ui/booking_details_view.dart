@@ -80,7 +80,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                 children: [
                   BookingDetailsHeader(),
                   kVerticalSpacer,
-                  CardSummary(),
+                  CardSummary(showFees: false),
                   kVerticalSpacer,
                   ListOfPassengerInfo(),
 
@@ -176,7 +176,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           contactPhoneNumber: value[formNameContactPhoneNumber],
           displayCurrency: "MYR",
           preferredContactMethod: "Email",
-          acceptNewsAndPromotionByEmail: value[formNameContactReceiveEmail],
+          acceptNewsAndPromotionByEmail: value[formNameContactReceiveEmail] ?? false,
           comment: "No",
           promoCode: "",
           companyTaxInvoice: CompanyTaxInvoice(

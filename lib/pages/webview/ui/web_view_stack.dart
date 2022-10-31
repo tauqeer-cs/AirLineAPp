@@ -29,13 +29,16 @@ class _WebViewStackState extends State<WebViewStack> {
   @override
   Widget build(BuildContext context) {
     print("widget ${widget.htmlContent}");
+    print("url ${widget.url}");
     return Stack(
       children: [
         WebView(
           initialUrl: widget.htmlContent!=null ? 'about:blank':widget.url,
           onWebViewCreated: (webViewController) {
             widget.controller.complete(webViewController);
-            _loadHtmlFromAssets(webViewController);
+            if(widget.htmlContent!=null){
+              _loadHtmlFromAssets(webViewController);
+            }
           },
           onPageStarted: (url) {
             if(!mounted) return;

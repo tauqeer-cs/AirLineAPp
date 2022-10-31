@@ -12,7 +12,7 @@ class CheckInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CheckInCubit(),
-      child: CheckInView(),
+      child: Scaffold(body: CheckInView()),
     );
   }
 }

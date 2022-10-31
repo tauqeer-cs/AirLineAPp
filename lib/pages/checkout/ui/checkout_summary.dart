@@ -1,5 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/theme/spacer.dart';
@@ -38,7 +39,6 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
               },
               child: Padding(
                 padding: kPageHorizontalPadding,
-
                 child: Row(
                   children: [
                     Text("Flights and bundles summary", style: k18Heavy),
@@ -61,10 +61,16 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                 child: Column(
                   children: [
                     kVerticalSpacer,
-                    FeeAndTaxes(isDeparture: true),
+                    BlocProvider(
+                      create: (context) => IsPaymentPageCubit(false),
+                      child: FeeAndTaxes(isDeparture: true),
+                    ),
                     Visibility(
                       visible: booking.selectedReturn != null,
-                      child: FeeAndTaxes(isDeparture: false),
+                      child: BlocProvider(
+                        create: (context) => IsPaymentPageCubit(false),
+                        child: FeeAndTaxes(isDeparture: false),
+                      ),
                     ),
                   ],
                 ),
