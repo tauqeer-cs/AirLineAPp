@@ -46,7 +46,10 @@ class BookingConfirmationPage extends StatelessWidget {
               return blocBuilderWrapper(
                 blocState: state.blocState,
                 finishedBuilder: ConfirmationView(),
-                loadingBuilder: BookingLoader(),
+                loadingBuilder: SingleChildScrollView(
+                  padding: kPagePadding,
+                  child: BookingLoader(),
+                ),
               );
             },
           ),

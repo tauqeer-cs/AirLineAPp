@@ -66,6 +66,7 @@ PaymentRedirectData _$PaymentRedirectDataFromJson(Map<String, dynamic> json) =>
               ?.map((e) =>
                   PaymentRedirectValueList.fromJson(e as Map<String, dynamic>))
               .toList(),
+      isAlreadySuccessPayment: json['isAlreadySuccessPayment'] as bool?,
     );
 
 Map<String, dynamic> _$PaymentRedirectDataToJson(PaymentRedirectData instance) {
@@ -78,6 +79,7 @@ Map<String, dynamic> _$PaymentRedirectDataToJson(PaymentRedirectData instance) {
   }
 
   writeNotNull('paymentURL', instance.paymentUrl);
+  writeNotNull('isAlreadySuccessPayment', instance.isAlreadySuccessPayment);
   writeNotNull('paymentRedirectValueList',
       instance.paymentRedirectValueList?.map((e) => e.toJson()).toList());
   return val;

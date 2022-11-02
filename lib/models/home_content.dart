@@ -39,17 +39,17 @@ class HomeContent extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.buttonText,
-        this.cardSectionTitleBold,
-        this.cardSectionTitleNoBold,
-        this.description,
-        this.link,
-        this.subtitle,
-        this.title,
-        this.titleBold,
-        this.id,
-        this.name,
-        this.items
+        buttonText,
+        cardSectionTitleBold,
+        cardSectionTitleNoBold,
+        description,
+        link,
+        subtitle,
+        title,
+        titleBold,
+        id,
+        name,
+        items
       ];
 }
 
@@ -63,6 +63,7 @@ class HomeItems extends Equatable {
   final int? id;
   final double? price;
   final String? name;
+  final String? link;
 
   HomeItems({
     this.description,
@@ -72,6 +73,7 @@ class HomeItems extends Equatable {
     this.style,
     this.title,
     this.id,
+    this.link,
     this.name,
   });
 
@@ -82,12 +84,12 @@ class HomeItems extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [this.description,
-    this.image,
-    this.price,
-    this.img,
-    this.style,
-    this.title,
-    this.id,
-    this.name,];
+  List<Object?> get props => [description,
+    image,
+    price,
+    img,
+    style,
+    title,
+    id,
+    name,link];
 }

@@ -6,11 +6,12 @@ class GreyCard extends StatelessWidget {
   final Widget child;
   final BorderRadius? borderRadius;
   final EdgeInsets? edgeInsets;
+  final double margin;
   const GreyCard({
     Key? key,
     required this.child,
     this.edgeInsets,
-    this.borderRadius,
+    this.borderRadius, this.margin = 8,
   }) : super(key: key);
 
   @override
@@ -20,7 +21,7 @@ class GreyCard extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5.0),
         child: Container(
-          margin: EdgeInsets.all(8),
+          margin: EdgeInsets.all(margin),
           padding: edgeInsets ?? EdgeInsets.all(12),
           decoration: BoxDecoration(
               color: Color.fromRGBO(235, 235, 235, 0.75),

@@ -33,79 +33,89 @@ class _ConfirmationViewState extends State<ConfirmationView> {
 
   onShare() async {
     final directory = (await getApplicationDocumentsDirectory()).path; //from path_provide package
-    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+    String fileName = "${DateTime.now().microsecondsSinceEpoch.toString()}.jpg";
     await screenshotController.captureAndSave(directory, fileName: fileName);
-    Share.shareFiles(['$directory/$fileName.jpg']);
+    Share.shareFiles(['$directory/$fileName']);
 
   }
 
   @override
   Widget build(BuildContext context) {
     final confirmationDetail = context.watch<ConfirmationCubit>().state;
-    return ListView(
-      padding: kPagePadding,
-      children: [
-        kVerticalSpacerSmall,
-        Text(
-          "Your booking has been confirmed.\nA confirmation email has been sent to\n${confirmationDetail.confirmationModel?.value?.bookingContact?.email}",
-          style:
-              kMediumMedium.copyWith(color: Styles.kSubTextColor, height: 1.5),
-          textAlign: TextAlign.center,
-        ),
-        kVerticalSpacerSmall,
-        Text(
-          "Booking reference:  ${confirmationDetail.confirmationModel?.value?.superPNR?.superPNRNo}",
-          style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
-          textAlign: TextAlign.center,
-        ),
-        kVerticalSpacer,
-        AppCard(
-          child: Column(
+    return SingleChildScrollView(
+      child: Screenshot(
+        controller: screenshotController,
+        child: Container(
+          color: Colors.white,
+          child: ListView(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: kPagePadding,
             children: [
-              PassengersWidget(),
-            ],
-          ),
-        ),
-        kVerticalSpacer,
-        SummaryWidget(),
-        kVerticalSpacer,
-        AppCard(
-          child: Column(
-            children: [
-              FaresAndBundles(),
-              ConfirmationSeats(),
-              ConfirmationMeals(),
-              ConfirmationBaggage(),
-              ConfirmationPromo(),
               kVerticalSpacerSmall,
-              AppDividerWidget(),
-              kVerticalSpacerSmall,
-              Row(
-                children: [
-                  Text("Total", style: kGiantHeavy),
-                  Spacer(),
-                  MoneyWidget(
-                    amount: (confirmationDetail.confirmationModel?.value
-                                ?.superPNROrder?.totalBookingAmt ??
-                            0) -
-                        (confirmationDetail.confirmationModel?.value
-                                ?.superPNROrder?.voucherDiscountAmt ??
-                            0),
-                    isDense: false,
-                  ),
-                ],
+              Text(
+                "Your booking has been confirmed.\nA confirmation email has been sent to\n${confirmationDetail.confirmationModel?.value?.bookingContact?.email}",
+                style:
+                    kMediumMedium.copyWith(color: Styles.kSubTextColor, height: 1.5),
+                textAlign: TextAlign.center,
               ),
+              kVerticalSpacerSmall,
+              Text(
+                "Booking reference:  ${confirmationDetail.confirmationModel?.value?.superPNR?.superPNRNo}",
+                style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                textAlign: TextAlign.center,
+              ),
+              kVerticalSpacer,
+              AppCard(
+                child: Column(
+                  children: [
+                    PassengersWidget(),
+                  ],
+                ),
+              ),
+              kVerticalSpacer,
+              SummaryWidget(),
+              kVerticalSpacer,
+              AppCard(
+                child: Column(
+                  children: [
+                    FaresAndBundles(),
+                    ConfirmationSeats(),
+                    ConfirmationMeals(),
+                    ConfirmationBaggage(),
+                    ConfirmationPromo(),
+                    kVerticalSpacerSmall,
+                    AppDividerWidget(),
+                    kVerticalSpacerSmall,
+                    Row(
+                      children: [
+                        Text("Total", style: kGiantHeavy),
+                        Spacer(),
+                        MoneyWidget(
+                          amount: (confirmationDetail.confirmationModel?.value
+                                      ?.superPNROrder?.totalBookingAmt ??
+                                  0) -
+                              (confirmationDetail.confirmationModel?.value
+                                      ?.superPNROrder?.voucherDiscountAmt ??
+                                  0),
+                          isDense: false,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              kVerticalSpacer,
+              kVerticalSpacerSmall,
+              PaymentInfo(),
+              kVerticalSpacer,
+              OutlinedButton(onPressed: onShare, child: Text("Share")),
+              kVerticalSpacerSmall,
+              ElevatedButton(onPressed: () {}, child: Text("Back to Home")),
             ],
           ),
         ),
-        kVerticalSpacer,
-        kVerticalSpacerSmall,
-        PaymentInfo(),
-        kVerticalSpacer,
-        OutlinedButton(onPressed: onShare, child: Text("Share")),
-        kVerticalSpacerSmall,
-        ElevatedButton(onPressed: () {}, child: Text("Back to Home")),
-      ],
+      ),
     );
   }
 }
