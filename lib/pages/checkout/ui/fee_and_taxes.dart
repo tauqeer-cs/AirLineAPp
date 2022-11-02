@@ -16,9 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FeeAndTaxes extends StatefulWidget {
   final bool isDeparture;
 
-  const FeeAndTaxes(
-      {Key? key, required this.isDeparture})
-      : super(key: key);
+  const FeeAndTaxes({Key? key, required this.isDeparture}) : super(key: key);
 
   @override
   State<FeeAndTaxes> createState() => _FeeAndTaxesState();
@@ -45,18 +43,18 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
         ),
         kVerticalSpacer,
         AppDividerWidget(color: Styles.kDisabledButton),
-        Visibility(
-          visible: is,
-          child: ListTile(
-            onTap: () {
-              setState(() {
-                isExpand = !isExpand;
-              });
-            },
-            title: Row(
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isExpand = !isExpand;
+            });
+          },
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
               children: [
                 Text(
-                  "- Fees and Taxes",
+                  isPaymentPage ? "Fees and Taxes" : "- Fees and Taxes",
                   style: kMediumRegular,
                 ),
                 kHorizontalSpacerSmall,
@@ -65,9 +63,10 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 ),
                 Spacer(),
                 MoneyWidgetSmall(
-                    amount: widget.isDeparture
-                        ? bookingTotal.selectedDeparture?.getTotalPrice
-                        : bookingTotal.selectedReturn?.getTotalPrice),
+                  amount: widget.isDeparture
+                      ? bookingTotal.selectedDeparture?.getTotalPrice
+                      : bookingTotal.selectedReturn?.getTotalPrice,
+                ),
               ],
             ),
           ),

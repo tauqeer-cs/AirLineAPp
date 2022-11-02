@@ -9,6 +9,7 @@ import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
@@ -30,7 +31,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-
   @override
   void initState() {
     super.initState();
@@ -45,11 +45,15 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (_) => BookingCubit()),
         BlocProvider(create: (_) => SelectedPersonCubit()),
+        BlocProvider(create: (context) => VoucherCubit()),
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => CmsSsrCubit()),
-        BlocProvider(create: (_) => AuthBloc(authenticationRepository: AuthenticationRepository())),
+        BlocProvider(
+            create: (_) =>
+                AuthBloc(authenticationRepository: AuthenticationRepository())),
         BlocProvider(create: (_) => RoutesCubit()..getRoutes(), lazy: false),
-        BlocProvider(create: (_) => LocalUserBloc()..add(const Init()), lazy: false),
+        BlocProvider(
+            create: (_) => LocalUserBloc()..add(const Init()), lazy: false),
         BlocProvider(create: (_) => BookingLocalCubit()..getBooking()),
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
@@ -70,6 +74,7 @@ class _AppState extends State<App> {
                 current.blocState == BlocState.finished,
             listener: (context, state) {
               context.read<BookingCubit>().resetState();
+              context.read<VoucherCubit>().resetState();
               context
                   .read<SelectedPersonCubit>()
                   .selectPerson(state.filterState?.numberPerson.persons.first);

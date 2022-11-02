@@ -232,6 +232,353 @@ extension $FlightSummaryPnrRequestCopyWith on FlightSummaryPnrRequest {
   }
 }
 
+abstract class _$PassengerCWProxy {
+  Passenger dob(DateTime? dob);
+
+  Passenger firstName(String? firstName);
+
+  Passenger gender(String? gender);
+
+  Passenger infantAssociateIndex(num? infantAssociateIndex);
+
+  Passenger isPrimaryPassenger(bool? isPrimaryPassenger);
+
+  Passenger knownTravelerNumber(String? knownTravelerNumber);
+
+  Passenger lastName(String? lastName);
+
+  Passenger middleName(String? middleName);
+
+  Passenger nationality(String? nationality);
+
+  Passenger nationalityLanguageId(num? nationalityLanguageId);
+
+  Passenger oKUIDNumber(bool? oKUIDNumber);
+
+  Passenger passport(String? passport);
+
+  Passenger paxType(String? paxType);
+
+  Passenger personOrgId(num? personOrgId);
+
+  Passenger profileId(num? profileId);
+
+  Passenger redressNumber(String? redressNumber);
+
+  Passenger relation(String? relation);
+
+  Passenger seat(Seat? seat);
+
+  Passenger ssr(Ssr? ssr);
+
+  Passenger suffix(String? suffix);
+
+  Passenger title(String? title);
+
+  Passenger wheelChairNeeded(bool? wheelChairNeeded);
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `Passenger(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// Passenger(...).copyWith(id: 12, name: "My name")
+  /// ````
+  Passenger call({
+    DateTime? dob,
+    String? firstName,
+    String? gender,
+    num? infantAssociateIndex,
+    bool? isPrimaryPassenger,
+    String? knownTravelerNumber,
+    String? lastName,
+    String? middleName,
+    String? nationality,
+    num? nationalityLanguageId,
+    bool? oKUIDNumber,
+    String? passport,
+    String? paxType,
+    num? personOrgId,
+    num? profileId,
+    String? redressNumber,
+    String? relation,
+    Seat? seat,
+    Ssr? ssr,
+    String? suffix,
+    String? title,
+    bool? wheelChairNeeded,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfPassenger.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfPassenger.copyWith.fieldName(...)`
+class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
+  final Passenger _value;
+
+  const _$PassengerCWProxyImpl(this._value);
+
+  @override
+  Passenger dob(DateTime? dob) => this(dob: dob);
+
+  @override
+  Passenger firstName(String? firstName) => this(firstName: firstName);
+
+  @override
+  Passenger gender(String? gender) => this(gender: gender);
+
+  @override
+  Passenger infantAssociateIndex(num? infantAssociateIndex) =>
+      this(infantAssociateIndex: infantAssociateIndex);
+
+  @override
+  Passenger isPrimaryPassenger(bool? isPrimaryPassenger) =>
+      this(isPrimaryPassenger: isPrimaryPassenger);
+
+  @override
+  Passenger knownTravelerNumber(String? knownTravelerNumber) =>
+      this(knownTravelerNumber: knownTravelerNumber);
+
+  @override
+  Passenger lastName(String? lastName) => this(lastName: lastName);
+
+  @override
+  Passenger middleName(String? middleName) => this(middleName: middleName);
+
+  @override
+  Passenger nationality(String? nationality) => this(nationality: nationality);
+
+  @override
+  Passenger nationalityLanguageId(num? nationalityLanguageId) =>
+      this(nationalityLanguageId: nationalityLanguageId);
+
+  @override
+  Passenger oKUIDNumber(bool? oKUIDNumber) => this(oKUIDNumber: oKUIDNumber);
+
+  @override
+  Passenger passport(String? passport) => this(passport: passport);
+
+  @override
+  Passenger paxType(String? paxType) => this(paxType: paxType);
+
+  @override
+  Passenger personOrgId(num? personOrgId) => this(personOrgId: personOrgId);
+
+  @override
+  Passenger profileId(num? profileId) => this(profileId: profileId);
+
+  @override
+  Passenger redressNumber(String? redressNumber) =>
+      this(redressNumber: redressNumber);
+
+  @override
+  Passenger relation(String? relation) => this(relation: relation);
+
+  @override
+  Passenger seat(Seat? seat) => this(seat: seat);
+
+  @override
+  Passenger ssr(Ssr? ssr) => this(ssr: ssr);
+
+  @override
+  Passenger suffix(String? suffix) => this(suffix: suffix);
+
+  @override
+  Passenger title(String? title) => this(title: title);
+
+  @override
+  Passenger wheelChairNeeded(bool? wheelChairNeeded) =>
+      this(wheelChairNeeded: wheelChairNeeded);
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `Passenger(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// Passenger(...).copyWith(id: 12, name: "My name")
+  /// ````
+  Passenger call({
+    Object? dob = const $CopyWithPlaceholder(),
+    Object? firstName = const $CopyWithPlaceholder(),
+    Object? gender = const $CopyWithPlaceholder(),
+    Object? infantAssociateIndex = const $CopyWithPlaceholder(),
+    Object? isPrimaryPassenger = const $CopyWithPlaceholder(),
+    Object? knownTravelerNumber = const $CopyWithPlaceholder(),
+    Object? lastName = const $CopyWithPlaceholder(),
+    Object? middleName = const $CopyWithPlaceholder(),
+    Object? nationality = const $CopyWithPlaceholder(),
+    Object? nationalityLanguageId = const $CopyWithPlaceholder(),
+    Object? oKUIDNumber = const $CopyWithPlaceholder(),
+    Object? passport = const $CopyWithPlaceholder(),
+    Object? paxType = const $CopyWithPlaceholder(),
+    Object? personOrgId = const $CopyWithPlaceholder(),
+    Object? profileId = const $CopyWithPlaceholder(),
+    Object? redressNumber = const $CopyWithPlaceholder(),
+    Object? relation = const $CopyWithPlaceholder(),
+    Object? seat = const $CopyWithPlaceholder(),
+    Object? ssr = const $CopyWithPlaceholder(),
+    Object? suffix = const $CopyWithPlaceholder(),
+    Object? title = const $CopyWithPlaceholder(),
+    Object? wheelChairNeeded = const $CopyWithPlaceholder(),
+  }) {
+    return Passenger(
+      dob: dob == const $CopyWithPlaceholder()
+          ? _value.dob
+          // ignore: cast_nullable_to_non_nullable
+          : dob as DateTime?,
+      firstName: firstName == const $CopyWithPlaceholder()
+          ? _value.firstName
+          // ignore: cast_nullable_to_non_nullable
+          : firstName as String?,
+      gender: gender == const $CopyWithPlaceholder()
+          ? _value.gender
+          // ignore: cast_nullable_to_non_nullable
+          : gender as String?,
+      infantAssociateIndex: infantAssociateIndex == const $CopyWithPlaceholder()
+          ? _value.infantAssociateIndex
+          // ignore: cast_nullable_to_non_nullable
+          : infantAssociateIndex as num?,
+      isPrimaryPassenger: isPrimaryPassenger == const $CopyWithPlaceholder()
+          ? _value.isPrimaryPassenger
+          // ignore: cast_nullable_to_non_nullable
+          : isPrimaryPassenger as bool?,
+      knownTravelerNumber: knownTravelerNumber == const $CopyWithPlaceholder()
+          ? _value.knownTravelerNumber
+          // ignore: cast_nullable_to_non_nullable
+          : knownTravelerNumber as String?,
+      lastName: lastName == const $CopyWithPlaceholder()
+          ? _value.lastName
+          // ignore: cast_nullable_to_non_nullable
+          : lastName as String?,
+      middleName: middleName == const $CopyWithPlaceholder()
+          ? _value.middleName
+          // ignore: cast_nullable_to_non_nullable
+          : middleName as String?,
+      nationality: nationality == const $CopyWithPlaceholder()
+          ? _value.nationality
+          // ignore: cast_nullable_to_non_nullable
+          : nationality as String?,
+      nationalityLanguageId:
+          nationalityLanguageId == const $CopyWithPlaceholder()
+              ? _value.nationalityLanguageId
+              // ignore: cast_nullable_to_non_nullable
+              : nationalityLanguageId as num?,
+      oKUIDNumber: oKUIDNumber == const $CopyWithPlaceholder()
+          ? _value.oKUIDNumber
+          // ignore: cast_nullable_to_non_nullable
+          : oKUIDNumber as bool?,
+      passport: passport == const $CopyWithPlaceholder()
+          ? _value.passport
+          // ignore: cast_nullable_to_non_nullable
+          : passport as String?,
+      paxType: paxType == const $CopyWithPlaceholder()
+          ? _value.paxType
+          // ignore: cast_nullable_to_non_nullable
+          : paxType as String?,
+      personOrgId: personOrgId == const $CopyWithPlaceholder()
+          ? _value.personOrgId
+          // ignore: cast_nullable_to_non_nullable
+          : personOrgId as num?,
+      profileId: profileId == const $CopyWithPlaceholder()
+          ? _value.profileId
+          // ignore: cast_nullable_to_non_nullable
+          : profileId as num?,
+      redressNumber: redressNumber == const $CopyWithPlaceholder()
+          ? _value.redressNumber
+          // ignore: cast_nullable_to_non_nullable
+          : redressNumber as String?,
+      relation: relation == const $CopyWithPlaceholder()
+          ? _value.relation
+          // ignore: cast_nullable_to_non_nullable
+          : relation as String?,
+      seat: seat == const $CopyWithPlaceholder()
+          ? _value.seat
+          // ignore: cast_nullable_to_non_nullable
+          : seat as Seat?,
+      ssr: ssr == const $CopyWithPlaceholder()
+          ? _value.ssr
+          // ignore: cast_nullable_to_non_nullable
+          : ssr as Ssr?,
+      suffix: suffix == const $CopyWithPlaceholder()
+          ? _value.suffix
+          // ignore: cast_nullable_to_non_nullable
+          : suffix as String?,
+      title: title == const $CopyWithPlaceholder()
+          ? _value.title
+          // ignore: cast_nullable_to_non_nullable
+          : title as String?,
+      wheelChairNeeded: wheelChairNeeded == const $CopyWithPlaceholder()
+          ? _value.wheelChairNeeded
+          // ignore: cast_nullable_to_non_nullable
+          : wheelChairNeeded as bool?,
+    );
+  }
+}
+
+extension $PassengerCopyWith on Passenger {
+  /// Returns a callable class that can be used as follows: `instanceOfPassenger.copyWith(...)` or like so:`instanceOfPassenger.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
+  _$PassengerCWProxy get copyWith => _$PassengerCWProxyImpl(this);
+
+  /// Copies the object with the specific fields set to `null`. If you pass `false` as a parameter, nothing will be done and it will be ignored. Don't do it. Prefer `copyWith(field: null)` or `Passenger(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// Passenger(...).copyWithNull(firstField: true, secondField: true)
+  /// ````
+  Passenger copyWithNull({
+    bool dob = false,
+    bool firstName = false,
+    bool gender = false,
+    bool infantAssociateIndex = false,
+    bool isPrimaryPassenger = false,
+    bool knownTravelerNumber = false,
+    bool lastName = false,
+    bool middleName = false,
+    bool nationality = false,
+    bool nationalityLanguageId = false,
+    bool oKUIDNumber = false,
+    bool passport = false,
+    bool paxType = false,
+    bool personOrgId = false,
+    bool profileId = false,
+    bool redressNumber = false,
+    bool relation = false,
+    bool seat = false,
+    bool ssr = false,
+    bool suffix = false,
+    bool title = false,
+    bool wheelChairNeeded = false,
+  }) {
+    return Passenger(
+      dob: dob == true ? null : this.dob,
+      firstName: firstName == true ? null : this.firstName,
+      gender: gender == true ? null : this.gender,
+      infantAssociateIndex:
+          infantAssociateIndex == true ? null : this.infantAssociateIndex,
+      isPrimaryPassenger:
+          isPrimaryPassenger == true ? null : this.isPrimaryPassenger,
+      knownTravelerNumber:
+          knownTravelerNumber == true ? null : this.knownTravelerNumber,
+      lastName: lastName == true ? null : this.lastName,
+      middleName: middleName == true ? null : this.middleName,
+      nationality: nationality == true ? null : this.nationality,
+      nationalityLanguageId:
+          nationalityLanguageId == true ? null : this.nationalityLanguageId,
+      oKUIDNumber: oKUIDNumber == true ? null : this.oKUIDNumber,
+      passport: passport == true ? null : this.passport,
+      paxType: paxType == true ? null : this.paxType,
+      personOrgId: personOrgId == true ? null : this.personOrgId,
+      profileId: profileId == true ? null : this.profileId,
+      redressNumber: redressNumber == true ? null : this.redressNumber,
+      relation: relation == true ? null : this.relation,
+      seat: seat == true ? null : this.seat,
+      ssr: ssr == true ? null : this.ssr,
+      suffix: suffix == true ? null : this.suffix,
+      title: title == true ? null : this.title,
+      wheelChairNeeded: wheelChairNeeded == true ? null : this.wheelChairNeeded,
+    );
+  }
+}
+
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
@@ -547,6 +894,8 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       middleName: json['MiddleName'] as String? ?? "",
       title: json['Title'] as String? ?? "",
       gender: json['Gender'] as String? ?? "",
+      wheelChairNeeded: json['WheelChairNeeded'] as bool?,
+      oKUIDNumber: json['OKUIDNumber'] as bool?,
       infantAssociateIndex: json['InfantAssociateIndex'] as num? ?? 0,
       isPrimaryPassenger: json['IsPrimaryPassenger'] as bool? ?? true,
       knownTravelerNumber: json['KnownTravelerNumber'] as String? ?? "",
@@ -584,6 +933,8 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
   writeNotNull('Gender', instance.gender);
   writeNotNull('InfantAssociateIndex', instance.infantAssociateIndex);
   writeNotNull('IsPrimaryPassenger', instance.isPrimaryPassenger);
+  writeNotNull('WheelChairNeeded', instance.wheelChairNeeded);
+  writeNotNull('OKUIDNumber', instance.oKUIDNumber);
   writeNotNull('KnownTravelerNumber', instance.knownTravelerNumber);
   writeNotNull('Nationality', instance.nationality);
   writeNotNull('NationalityLanguageID', instance.nationalityLanguageId);

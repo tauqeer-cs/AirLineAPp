@@ -1,4 +1,5 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fares_and_bundles_detail.dart';
 import 'package:app/pages/checkout/ui/seats_fee_detail.dart';
 import 'package:app/theme/spacer.dart';
@@ -11,6 +12,7 @@ import '../../../theme/theme.dart';
 
 class SeatsFee extends StatefulWidget {
   final bool isDeparture;
+
   const SeatsFee({Key? key, required this.isDeparture}) : super(key: key);
 
   @override
@@ -23,27 +25,34 @@ class _SeatsFeeState extends State<SeatsFee> {
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
+
     return Column(
       children: [
-        ListTile(
+        GestureDetector(
           onTap: () {
             setState(() {
               isExpand = !isExpand;
             });
           },
-          title: Row(
-            children: [
-              Text(
-                "- Seats",
-                style: kMediumRegular,
-              ),
-              kHorizontalSpacerSmall,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
-              Spacer(),
-              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalSeatsPartial(widget.isDeparture)),
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              children: [
+                Text(
+                  isPaymentPage ? "Seats" : "- Seats",
+                  style: kMediumRegular,
+                ),
+                kHorizontalSpacerSmall,
+                Icon(
+                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                ),
+                Spacer(),
+                MoneyWidgetSmall(
+                    amount: filter?.numberPerson
+                        .getTotalSeatsPartial(widget.isDeparture)),
+              ],
+            ),
           ),
         ),
         ExpandedSection(

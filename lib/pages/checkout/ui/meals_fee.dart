@@ -1,4 +1,5 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fares_and_bundles_detail.dart';
 import 'package:app/pages/checkout/ui/meals_fee_detail.dart';
 import 'package:app/pages/checkout/ui/seats_fee_detail.dart';
@@ -12,6 +13,7 @@ import '../../../theme/theme.dart';
 
 class MealsFee extends StatefulWidget {
   final bool isDeparture;
+
   const MealsFee({Key? key, required this.isDeparture}) : super(key: key);
 
   @override
@@ -24,27 +26,33 @@ class _MealsFeeState extends State<MealsFee> {
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
     return Column(
       children: [
-        ListTile(
+        GestureDetector(
           onTap: () {
             setState(() {
               isExpand = !isExpand;
             });
           },
-          title: Row(
-            children: [
-              Text(
-                "- Meals",
-                style: kMediumRegular,
-              ),
-              kHorizontalSpacerSmall,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
-              Spacer(),
-              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalMealPartial(widget.isDeparture)),
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              children: [
+                Text(
+                  isPaymentPage ? "Meals" : "- Meals",
+                  style: kMediumRegular,
+                ),
+                kHorizontalSpacerSmall,
+                Icon(
+                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                ),
+                Spacer(),
+                MoneyWidgetSmall(
+                    amount: filter?.numberPerson
+                        .getTotalMealPartial(widget.isDeparture)),
+              ],
+            ),
           ),
         ),
         ExpandedSection(

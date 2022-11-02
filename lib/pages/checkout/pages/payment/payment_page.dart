@@ -4,6 +4,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/booking_local/booking_local_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/booking_local.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
@@ -40,8 +41,12 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PaymentCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => PaymentCubit(),
+        ),
+      ],
       child: LoaderOverlay(
         child: BlocListener<PaymentCubit, PaymentState>(
           listener: (context, state) {
@@ -113,7 +118,12 @@ class _PaymentPageState extends State<PaymentPage> {
               title: "Your Trip Starts Here",
               height: 100.h,
               flexibleWidget: AppBookingStep(
-                passedSteps: [BookingStep.flights, BookingStep.addOn, BookingStep.bookingDetails, BookingStep.payment],
+                passedSteps: [
+                  BookingStep.flights,
+                  BookingStep.addOn,
+                  BookingStep.bookingDetails,
+                  BookingStep.payment
+                ],
               ),
             ),
             body: PaymentView(),

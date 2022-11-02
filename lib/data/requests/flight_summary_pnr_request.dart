@@ -216,6 +216,7 @@ class EmergencyContact extends HiveObject with EquatableMixin {
 
 @HiveType(typeId: 3)
 @JsonSerializable()
+@CopyWith(copyWithNull: true)
 class Passenger extends HiveObject with EquatableMixin {
   @override
   List<Object?> get props => [
@@ -239,6 +240,8 @@ class Passenger extends HiveObject with EquatableMixin {
         suffix,
         ssr,
         seat,
+        this.wheelChairNeeded,
+        this.oKUIDNumber,
       ];
 
   factory Passenger.fromJson(Map<String, dynamic> json) =>
@@ -253,6 +256,8 @@ class Passenger extends HiveObject with EquatableMixin {
     this.middleName = "",
     this.title = "",
     this.gender = "",
+    this.wheelChairNeeded,
+    this.oKUIDNumber,
     this.infantAssociateIndex = 0,
     this.isPrimaryPassenger = true,
     this.knownTravelerNumber = "",
@@ -289,6 +294,10 @@ class Passenger extends HiveObject with EquatableMixin {
   final num? infantAssociateIndex;
   @JsonKey(name: 'IsPrimaryPassenger')
   final bool? isPrimaryPassenger;
+  @JsonKey(name: 'WheelChairNeeded')
+  final bool? wheelChairNeeded;
+  @JsonKey(name: 'OKUIDNumber')
+  final bool? oKUIDNumber;
   @JsonKey(name: 'KnownTravelerNumber')
   final String? knownTravelerNumber;
   @JsonKey(name: 'Nationality')
@@ -313,52 +322,6 @@ class Passenger extends HiveObject with EquatableMixin {
   final Ssr? ssr;
   @JsonKey(name: 'Seat')
   final Seat? seat;
-
-  Passenger copyWith({
-    DateTime? dob,
-    String? firstName,
-    String? lastName,
-    String? middleName,
-    String? title,
-    String? gender,
-    num? infantAssociateIndex,
-    bool? isPrimaryPassenger,
-    String? knownTravelerNumber,
-    String? nationality,
-    num? nationalityLanguageId,
-    String? passport,
-    String? paxType,
-    num? personOrgId,
-    num? profileId,
-    String? redressNumber,
-    String? relation,
-    String? suffix,
-    Ssr? ssr,
-    Seat? seat,
-  }) =>
-      Passenger(
-        dob: dob ?? this.dob,
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
-        middleName: middleName ?? this.middleName,
-        title: title ?? this.title,
-        gender: gender ?? this.gender,
-        infantAssociateIndex: infantAssociateIndex ?? this.infantAssociateIndex,
-        isPrimaryPassenger: isPrimaryPassenger ?? this.isPrimaryPassenger,
-        knownTravelerNumber: knownTravelerNumber ?? this.knownTravelerNumber,
-        nationality: nationality ?? this.nationality,
-        nationalityLanguageId:
-            nationalityLanguageId ?? this.nationalityLanguageId,
-        passport: passport ?? this.passport,
-        paxType: paxType ?? this.paxType,
-        personOrgId: personOrgId ?? this.personOrgId,
-        profileId: profileId ?? this.profileId,
-        redressNumber: redressNumber ?? this.redressNumber,
-        relation: relation ?? this.relation,
-        suffix: suffix ?? this.suffix,
-        ssr: ssr ?? this.ssr,
-        seat: seat ?? this.seat,
-      );
 
   PeopleType? get getType =>
       PeopleType.values.firstWhereOrNull((element) => element.code == paxType);

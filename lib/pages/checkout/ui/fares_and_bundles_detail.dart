@@ -36,12 +36,14 @@ class FaresAndBundlesDetail extends StatelessWidget {
                         Text(
                           "${e.toString()} : ${bundle?.bundle?.description ?? 'No Bundle'}",
                           style: kSmallRegular.copyWith(
-                              color: Styles.kSubTextColor),
+                            color: Styles.kSubTextColor,
+                          ),
                         ),
                         MoneyWidgetSmall(
-                            amount: bundle?.bundle?.amount,
-                            isDense: true,
-                            currency: bundle?.bundle?.currencyCode),
+                          amount: bundle?.bundle?.amount,
+                          isDense: true,
+                          currency: bundle?.bundle?.currencyCode,
+                        ),
                       ],
                     ),
                   );

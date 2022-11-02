@@ -1,4 +1,5 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fares_and_bundles_detail.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -22,27 +23,31 @@ class _FaresAndBundlesState extends State<FaresAndBundles> {
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
     return Column(
       children: [
-        ListTile(
+        GestureDetector(
           onTap: () {
             setState(() {
               isExpand = !isExpand;
             });
           },
-          title: Row(
-            children: [
-              Text(
-                "- Fares and Bundles",
-                style: kMediumRegular,
-              ),
-              kHorizontalSpacerSmall,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
-              Spacer(),
-              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBundlesPartial(widget.isDeparture)),
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              children: [
+                Text(
+                  isPaymentPage ? "Fares and Bundles" : "- Fares and Bundles",
+                  style: kMediumRegular,
+                ),
+                kHorizontalSpacerSmall,
+                Icon(
+                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                ),
+                Spacer(),
+                MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBundlesPartial(widget.isDeparture)),
+              ],
+            ),
           ),
         ),
         ExpandedSection(

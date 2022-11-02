@@ -1,5 +1,6 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/baggage_fee_detail.dart';
+import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fares_and_bundles_detail.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -11,6 +12,7 @@ import '../../../theme/theme.dart';
 
 class BaggageFee extends StatefulWidget {
   final bool isDeparture;
+
   const BaggageFee({Key? key, required this.isDeparture}) : super(key: key);
 
   @override
@@ -23,27 +25,34 @@ class _BaggageFeeState extends State<BaggageFee> {
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
+
     return Column(
       children: [
-        ListTile(
+        GestureDetector(
           onTap: () {
             setState(() {
               isExpand = !isExpand;
             });
           },
-          title: Row(
-            children: [
-              Text(
-                "- Baggage",
-                style: kMediumRegular,
-              ),
-              kHorizontalSpacerSmall,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
-              Spacer(),
-              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBaggagePartial(widget.isDeparture)),
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Row(
+              children: [
+                Text(
+                  isPaymentPage ? "Baggage" : "- Baggage",
+                  style: kMediumRegular,
+                ),
+                kHorizontalSpacerSmall,
+                Icon(
+                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                ),
+                Spacer(),
+                MoneyWidgetSmall(
+                    amount: filter?.numberPerson
+                        .getTotalBaggagePartial(widget.isDeparture)),
+              ],
+            ),
           ),
         ),
         ExpandedSection(
