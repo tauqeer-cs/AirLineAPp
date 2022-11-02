@@ -1,8 +1,10 @@
+import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,15 @@ class BookingConfirmationPage extends StatelessWidget {
             height: 60.h,
             centerTitle: true,
           ),
-          body: ConfirmationView(),
+          body: BlocBuilder<ConfirmationCubit, ConfirmationState>(
+            builder: (context, state) {
+              return blocBuilderWrapper(
+                blocState: state.blocState,
+                finishedBuilder: ConfirmationView(),
+                loadingBuilder: BookingLoader(),
+              );
+            },
+          ),
         ),
       ),
     );

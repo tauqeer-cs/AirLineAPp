@@ -109,17 +109,19 @@ class MyInterceptor extends Interceptor {
       Map result = response.data;
       if (result.containsKey("result")) {
         final data = result["result"];
-        final dataValue = result["result"]["value"];
         final isSuccess = result["success"] ?? true;
         final isSuccessResult = data["success"] ?? true;
-        final isSuccessValue = dataValue["success"] ?? true;
-
-        print("isSuccess is $isSuccess isSuccessResult $isSuccessResult");
-        if(isSuccessValue is bool && !isSuccessValue){
-          if(dataValue["error"] !=null && dataValue["error"] is Map){
-            throw ErrorResponse.fromJson(dataValue["error"]);
+        if(data is Map && data.containsKey("value")){
+          final dataValue = result["result"]["value"];
+          final isSuccessValue = dataValue["success"] ?? true;
+          print("isSuccess is $isSuccess isSuccessResult $isSuccessResult");
+          if(isSuccessValue is bool && !isSuccessValue){
+            if(dataValue["error"] !=null && dataValue["error"] is Map){
+              throw ErrorResponse.fromJson(dataValue["error"]);
+            }
           }
         }
+
         if ((isSuccess is bool && !isSuccess) || (isSuccessResult is bool && !isSuccessResult)) {
           if(result["error"] !=null && result["error"] is Map){
             throw ErrorResponse.fromJson(result["error"]);
