@@ -102,22 +102,36 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               kVerticalSpacer,
-              AppDividerWidget(color: Styles.kTextColor),
+              AppDividerWidget(),
               kVerticalSpacer,
-              BorderedLeftContainer(
-                title: "Flight:", content: '${widget.bound.operatingCode}${widget.bound.operatingNumber}',
+              Row(
+                children: [
+                  Expanded(
+                    child: BorderedLeftContainer(
+                      title: "Flight:", content: '${widget.bound.operatingCode}${widget.bound.operatingNumber}',
+                    ),
+                  ),
+                  Expanded(
+                    child: BorderedLeftContainer(
+                      title: "Cabin:", content: 'Economy',
+                    ),
+                  ),
+                ],
               ),
               kVerticalSpacer,
-              BorderedLeftContainer(
-                title: "Cabin:", content: 'Economy',
-              ),
-              kVerticalSpacer,
-              BorderedLeftContainer(
-                title: "Duration:", content: '${NumberUtils.getTimeString(widget.bound.elapsedTime)}',
-              ),
-              kVerticalSpacer,
-              BorderedLeftContainer(
-                title: "Aircraft:", content: '${widget.bound.aircraftDescription}',
+              Row(
+                children: [
+                  Expanded(
+                    child: BorderedLeftContainer(
+                      title: "Duration:", content: '${NumberUtils.getTimeString(widget.bound.elapsedTime)}',
+                    ),
+                  ),
+                  Expanded(
+                    child: BorderedLeftContainer(
+                      title: "Aircraft:", content: '${widget.bound.aircraftDescription}',
+                    ),
+                  ),
+                ],
               ),
               kVerticalSpacer,
               BorderedLeftContainer(

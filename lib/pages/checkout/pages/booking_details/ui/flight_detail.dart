@@ -147,9 +147,9 @@ class BorderedLeftContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: kHugeSemiBold),
+          Text(title, style: kLargeHeavy),
           kVerticalSpacerSmall,
-          Text(content, style: kLargeMedium),
+          Text(content, style: kLargeRegular),
         ],
       ),
     );

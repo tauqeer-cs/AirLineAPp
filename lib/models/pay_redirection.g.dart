@@ -6,6 +6,26 @@ part of 'pay_redirection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+PayRedirectionValue _$PayRedirectionValueFromJson(Map<String, dynamic> json) =>
+    PayRedirectionValue(
+      value: json['value'] == null
+          ? null
+          : PayRedirection.fromJson(json['value'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$PayRedirectionValueToJson(PayRedirectionValue instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('value', instance.value?.toJson());
+  return val;
+}
+
 PayRedirection _$PayRedirectionFromJson(Map<String, dynamic> json) =>
     PayRedirection(
       paymentRedirectData: json['paymentRedirectData'] == null

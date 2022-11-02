@@ -36,11 +36,11 @@ abstract class FlightProvider {
   Future<SummaryResponse> summaryFlight(@Body() SummaryRequest summaryRequest);
 
   @POST('checkout/bookflight')
-  Future<PayRedirection> bookFlight(@Body() BookRequest bookRequest);
+  Future<PayRedirectionValue> bookFlight(@Body() BookRequest bookRequest);
 
   @GET('checkout/flightbookingdetail')
   Future<ConfirmationModel> bookingDetail(@Query("superPNRNo") String key);
 
-  @GET('checkout/addvoucherflight')
+  @POST('checkout/addvoucherflight')
   Future<VoucherResponse> addVoucher(@Body() VoucherRequest voucher);
 }

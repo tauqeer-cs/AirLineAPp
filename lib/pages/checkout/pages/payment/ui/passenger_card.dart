@@ -64,6 +64,8 @@ class PassengerCard extends StatelessWidget {
                         Text("${e.getType?.name.capitalize()} $number", style: kLargeHeavy,),
                         kVerticalSpacerMini,
                         Text("${e.title} ${e.firstName} ${e.lastName}"),
+                        kVerticalSpacerSmall,
+
                       ],
                     );
                   },

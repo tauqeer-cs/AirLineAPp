@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/voucher_request.dart';
+import 'package:app/data/responses/voucher_response.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
@@ -23,7 +24,8 @@ class VoucherCubit extends Cubit<VoucherState> {
       emit(
         state.copyWith(
           blocState: BlocState.finished,
-          response: response
+          response: response,
+          appliedVoucher: voucherRequest.insertVoucher ?? ""
         ),
       );
     } catch (e, st) {
@@ -31,6 +33,8 @@ class VoucherCubit extends Cubit<VoucherState> {
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
+          response: VoucherResponse(),
+          appliedVoucher: ""
         ),
       );
     }

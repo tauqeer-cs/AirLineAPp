@@ -7,6 +7,7 @@ import 'package:app/widgets/app_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class BookingConfirmationPage extends StatelessWidget {
@@ -33,14 +34,10 @@ class BookingConfirmationPage extends StatelessWidget {
           //     );
           //   }
           // ),
-          appBar: AppBar(
-            title: Text(
-              "Confirmation",
-              style: TextStyle().copyWith(
-                color: Styles.kPrimaryColor,
-              ),
-            ),
-            centerTitle: false,
+          appBar: AppAppBar(
+            title: "Confirmation",
+            height: 60.h,
+            centerTitle: true,
           ),
           body: ConfirmationView(),
         ),

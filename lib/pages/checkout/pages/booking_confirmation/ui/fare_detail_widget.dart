@@ -18,33 +18,36 @@ class FareDetailWidget extends StatelessWidget {
             Text(
                 "${fareAndBundle.title} ${fareAndBundle.givenName} ${fareAndBundle.surName}"),
             Spacer(),
-            MoneyWidget(
-              currency: fareAndBundle.currency,
-              amount: fareAndBundle.fareAmount,
-              isDense: true,
-            ),
-            /*Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Column(
-                children: (fareAndBundle.bundleItems ?? [])
-                    .map((f) => Row(
-                          children: [
-                            Text(
-                                "${fareAndBundle.title} ${fareAndBundle.givenName} ${fareAndBundle.surName}"),
-                            Spacer(),
-                            MoneyWidget(
-                              currency: fareAndBundle.currency,
-                              amount: fareAndBundle.fareAmount,
-                              isDense: true,
-                            ),
-                          ],
-                        ))
-                    .toList(),
-              ),
-            ),*/
-            kVerticalSpacer,
+            // MoneyWidget(
+            //   currency: fareAndBundle.currency,
+            //   amount: fareAndBundle.fareAmount,
+            //   isDense: true,
+            // ),
+            //
+            // kVerticalSpacer,
           ],
         ),
+        kVerticalSpacerMini,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+          child: Column(
+            children: (fareAndBundle.bundleItems ?? [])
+                .map((f) => Row(
+              children: [
+                Text(
+                    "${f.bundleName}"),
+                // Spacer(),
+                // MoneyWidget(
+                //   currency: fareAndBundle.currency,
+                //   amount: fareAndBundle.fareAmount,
+                //   isDense: true,
+                // ),
+              ],
+            ))
+                .toList(),
+          ),
+        ),
+        kVerticalSpacerSmall,
       ],
     );
   }

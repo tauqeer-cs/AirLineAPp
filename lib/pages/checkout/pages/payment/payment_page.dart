@@ -60,7 +60,7 @@ class _PaymentPageState extends State<PaymentPage> {
               onFailed: () {
                 context.loaderOverlay.hide();
                 if (state.message == "Error: Reach Maximum Payment Attempts") {
-                  context.router.replaceAll([HomeRoute()]);
+                  context.router.replaceAll([NavigationRoute(), HomeRoute()]);
                 }
                 Toast.of(context).show(message: state.message);
               },

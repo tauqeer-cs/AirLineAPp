@@ -93,7 +93,7 @@ class AppScaffold extends StatelessWidget {
 
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  final bool canBack;
+  final bool canBack, centerTitle;
   final Widget? child;
   final Function()? onAction;
   final double? height;
@@ -104,6 +104,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.child,
     this.title,
     this.onAction,
+    this.centerTitle = false,
     this.canBack = true,
     this.height,
     this.flexibleWidget,
@@ -117,7 +118,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
       preferredSize: Size.fromHeight(height ?? 60.h),
       child: AppBar(
         toolbarHeight: 60.h,
-        centerTitle: false,
+        centerTitle: centerTitle,
         leading: canPop
             ? GestureDetector(
                 onTap: () => context.router.pop(),
@@ -139,8 +140,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: flexibleWidget,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
-        ),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
         title: Container(
           padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 20),
           child: child ??
@@ -149,7 +149,9 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                       height: 50.h,
                       width: 120.w,
                     )
-                  : Text(title!, style: kGiantMedium)),
+                  : Text(title!,
+                      style: kGiantMedium.copyWith(
+                          color: centerTitle ? Styles.kPrimaryColor : null))),
         ),
       ),
     );

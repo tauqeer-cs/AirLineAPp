@@ -5,6 +5,25 @@ import 'package:json_annotation/json_annotation.dart';
 part 'pay_redirection.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class PayRedirectionValue extends Equatable {
+  const PayRedirectionValue({
+    this.value,
+  });
+
+  @override
+  List<Object?> get props => [
+    value,
+  ];
+
+  final PayRedirection? value;
+
+  factory PayRedirectionValue.fromJson(Map<String, dynamic> json) =>
+      _$PayRedirectionValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PayRedirectionValueToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class PayRedirection extends Equatable {
   const PayRedirection({
     this.paymentRedirectData,
@@ -58,20 +77,24 @@ class PaymentRedirectData extends Equatable {
   const PaymentRedirectData({
     this.paymentUrl,
     this.paymentRedirectValueList,
+    this.isAlreadySuccessPayment,
   });
 
   @override
   List<Object?> get props => [];
   @JsonKey(name: 'paymentURL')
   final String? paymentUrl;
+  final bool? isAlreadySuccessPayment;
   final List<PaymentRedirectValueList>? paymentRedirectValueList;
 
   PaymentRedirectData copyWith({
     String? paymentUrl,
+    bool? isAlreadySuccessPayment,
     List<PaymentRedirectValueList>? paymentRedirectValueList,
   }) =>
       PaymentRedirectData(
         paymentUrl: paymentUrl ?? this.paymentUrl,
+        isAlreadySuccessPayment: isAlreadySuccessPayment ?? this.isAlreadySuccessPayment,
         paymentRedirectValueList:
             paymentRedirectValueList ?? this.paymentRedirectValueList,
       );
@@ -85,7 +108,7 @@ class PaymentRedirectData extends Equatable {
     if (paymentRedirectValueList == null) return {};
     Map<String, dynamic> map = {};
     for (PaymentRedirectValueList element in paymentRedirectValueList!) {
-      map.putIfAbsent(element.key ?? "", () => element.value);
+      map.putIfAbsent(element.key ?? "", () => element.value?.replaceAll(",", ""));
     }
     return map;
   }

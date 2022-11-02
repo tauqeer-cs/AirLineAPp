@@ -48,14 +48,12 @@ class _WebViewStackState extends State<WebViewStack> {
           },
           onProgress: (progress) {
             if(!mounted) return;
-
             setState(() {
               loadingPercentage = progress;
             });
           },
           onPageFinished: (url) {
             if(!mounted) return;
-
             setState(() {
               loadingPercentage = 100;
             });

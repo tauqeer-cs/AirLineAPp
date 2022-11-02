@@ -32,6 +32,14 @@ class PaymentCubit extends Cubit<PaymentState> {
         totalAmountNeedToPay: totalNeedPaid,
         frontendUrl: AppFlavor.paymentRedirectUrl,
       );
+      FlightSummaryPnrRequest? flightSummaryPnrRequestNew;
+      if((promoCode?.isNotEmpty ?? false) && flightSummaryPnrRequest!=null){
+         flightSummaryPnrRequestNew = flightSummaryPnrRequest.copyWith(
+          promoCode: promoCode
+        );
+      }else{
+        flightSummaryPnrRequestNew = flightSummaryPnrRequest;
+      }
       final bookRequest = state.paymentResponse != null
           ? BookRequest(
               paymentDetail: paymentDetail,
@@ -40,15 +48,18 @@ class PaymentCubit extends Cubit<PaymentState> {
           : BookRequest(
               token: token,
               paymentDetail: paymentDetail,
-              flightSummaryPNRRequest: flightSummaryPnrRequest,
+              flightSummaryPNRRequest: flightSummaryPnrRequestNew,
             );
-      final redirectionData = await _repository.bookFlight(bookRequest);
+      final payRedirection = await _repository.bookFlight(bookRequest);
+      if(payRedirection.value?.paymentRedirectData?.isAlreadySuccessPayment ?? false){
+
+      }
       FormData formData = FormData.fromMap(
-          redirectionData.paymentRedirectData?.redirectMap() ?? {});
+          payRedirection.value?.paymentRedirectData?.redirectMap() ?? {});
       print(
-          "payment url is ${redirectionData.paymentRedirectData?.paymentUrl}");
+          "payment url is ${payRedirection.value?.paymentRedirectData?.paymentUrl}");
       var response = await Dio().post(
-        redirectionData.paymentRedirectData?.paymentUrl ?? "",
+        payRedirection.value?.paymentRedirectData?.paymentUrl ?? "",
         data: formData,
       );
       print("response from payment ${response.data}");
@@ -56,7 +67,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       emit(state.copyWith(
         blocState: BlocState.finished,
         bookRequest: bookRequest,
-        paymentResponse: redirectionData,
+        paymentResponse: payRedirection.value,
         paymentRedirect: response.data,
       ));
     } catch (e, st) {

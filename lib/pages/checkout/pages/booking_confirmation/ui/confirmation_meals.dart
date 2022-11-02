@@ -8,32 +8,43 @@ import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FaresAndBundles extends StatelessWidget {
-  const FaresAndBundles({Key? key}) : super(key: key);
+class ConfirmationMeals extends StatelessWidget {
+  const ConfirmationMeals({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final fares = context
+    final meals = context
         .watch<ConfirmationCubit>()
         .state
         .confirmationModel
         ?.value
-        ?.fareAndBundleDetail;
+        ?.mealDetail;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Text(
-              "Fares And Bundles",
+              "Meals",
               style: kHugeSemiBold,
             ),
             Spacer(),
-            MoneyWidget(amount: fares?.totalAmount, isDense: true,),
+            MoneyWidget(
+              amount: meals?.totalAmount,
+              isDense: true,
+            ),
           ],
         ),
         kVerticalSpacerSmall,
-        ...(fares?.fareAndBundles ?? [])
-            .map((e) => FareDetailWidget(fareAndBundle: e))
+        ...(meals?.meals ?? [])
+            .map((e) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${e.title} ${e.givenName} ${e.surName}"),
+                    ...(e.mealList??[]).map((e) => Text("${e.mealName} x${e.quantity}")).toList(),
+                    kVerticalSpacerSmall,
+                  ],
+                ))
             .toList(),
         kVerticalSpacerSmall,
       ],

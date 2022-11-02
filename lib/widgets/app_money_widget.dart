@@ -7,12 +7,13 @@ class MoneyWidget extends StatelessWidget {
   final num? amount;
   final bool isDense;
   final String? currency;
+  final bool isNegative;
 
   const MoneyWidget({
     Key? key,
     this.amount,
     this.isDense = true,
-    this.currency,
+    this.currency,  this.isNegative = false,
   }) : super(key: key);
 
   @override
@@ -23,7 +24,7 @@ class MoneyWidget extends StatelessWidget {
           isDense ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Text(
-          "${currency ?? 'MYR'} ",
+          "${isNegative ? "- " :""}${currency ?? 'MYR'} ",
           style:
               kMediumHeavy.copyWith(height: 1.5, fontSize: isDense ? 10 : 14),
         ),
@@ -41,12 +42,13 @@ class MoneyWidgetSmall extends StatelessWidget {
   final num? amount;
   final bool isDense;
   final String? currency;
+  final bool isNegative;
 
   const MoneyWidgetSmall({
     Key? key,
     this.amount,
     this.isDense = true,
-    this.currency,
+    this.currency,  this.isNegative = false,
   }) : super(key: key);
 
   @override
@@ -57,7 +59,7 @@ class MoneyWidgetSmall extends StatelessWidget {
           isDense ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Text(
-          "${currency ?? 'MYR'} ",
+          "${isNegative ? "- " :""}${currency ?? 'MYR'} ",
           style: kMediumRegular.copyWith(
             fontSize: isDense ? 12 : 14,
             color: Styles.kSubTextColor,

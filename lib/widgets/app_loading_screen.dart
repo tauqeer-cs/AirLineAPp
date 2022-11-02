@@ -33,14 +33,16 @@ class AppLoadingScreen extends StatelessWidget {
 
 class AppLoading extends StatelessWidget {
   final Color? color;
+  final double? size;
   const AppLoading({
-    Key? key, this.color,
+    Key? key, this.color, this.size,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SpinKitFadingCircle(
       color: color?? Styles.kPrimaryColor,
+      size: size ?? 50,
     );
   }
 }

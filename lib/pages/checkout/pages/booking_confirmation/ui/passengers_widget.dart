@@ -33,7 +33,7 @@ class PassengersWidget extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             "Passengers",
-            style: kHugeSemiBold,
+            style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
           ),
         ),
         kVerticalSpacerSmall,
@@ -58,15 +58,13 @@ class PassengersWidget extends StatelessWidget {
                 break;
             }
 
-            return Row(
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${e.getType?.name.capitalize()} $number"),
-                kHorizontalSpacerSmall,
-                Expanded(
-                  child:
-                      Text("${e.titleCode} ${e.givenName} ${e.surname}"),
-                ),
+                Text("${e.getType?.name.capitalize()} $number", style: kLargeHeavy),
+                kVerticalSpacerMini,
+                Text("${e.titleCode} ${e.givenName} ${e.surname}"),
+                kVerticalSpacerSmall,
               ],
             );
           },

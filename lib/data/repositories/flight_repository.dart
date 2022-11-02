@@ -49,7 +49,7 @@ class FlightRepository {
     return await _provider.summaryFlight(summaryRequest);
   }
 
-  Future<PayRedirection> bookFlight(BookRequest bookRequest) async {
+  Future<PayRedirectionValue> bookFlight(BookRequest bookRequest) async {
     return await _provider.bookFlight(bookRequest);
   }
 

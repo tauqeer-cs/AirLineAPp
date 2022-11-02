@@ -138,14 +138,14 @@ class _FlightProvider implements FlightProvider {
   }
 
   @override
-  Future<PayRedirection> bookFlight(bookRequest) async {
+  Future<PayRedirectionValue> bookFlight(bookRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(bookRequest.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<PayRedirection>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PayRedirectionValue>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -157,7 +157,7 @@ class _FlightProvider implements FlightProvider {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = PayRedirection.fromJson(_result.data!);
+    final value = PayRedirectionValue.fromJson(_result.data!);
     return value;
   }
 
@@ -193,7 +193,7 @@ class _FlightProvider implements FlightProvider {
     _data.addAll(voucher.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<VoucherResponse>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )

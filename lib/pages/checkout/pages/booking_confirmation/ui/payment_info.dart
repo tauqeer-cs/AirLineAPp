@@ -37,7 +37,6 @@ class PaymentInfo extends StatelessWidget {
           ...(payments ?? [])
               .map((f) => PaymentDetail(paymentOrder: f))
               .toList(),
-
         ],
       ),
     );
@@ -46,36 +45,67 @@ class PaymentInfo extends StatelessWidget {
 
 class PaymentDetail extends StatelessWidget {
   final PaymentOrder paymentOrder;
+
   const PaymentDetail({Key? key, required this.paymentOrder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        kVerticalSpacer,
-        AppDividerWidget(color: Styles.kTextColor),
-        kVerticalSpacer,
-        BorderedLeftContainer(
-          title: "Payment:", content: '${paymentOrder.cardOption}',
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          kVerticalSpacer,
+          BorderedLeftContainerNoTitle(
+            content: '${paymentOrder.paymentMethodCode}    ${paymentOrder.cardOption}',
+          ),
+          kVerticalSpacer,
+          BorderedLeftContainerNoTitle(
+            content: paymentOrder.paymentStatusCode ?? "",
+          ),
+
+          kVerticalSpacer,
+          BorderedLeftContainerNoTitle(
+            content:
+            '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate)} Local Time',
+          ),
+          kVerticalSpacer,
+          BorderedLeftContainerNoTitle(
+            content:
+                '${AppDateUtils.formatHalfDate(paymentOrder.paymentDate)}',
+          ),
+          kVerticalSpacer,
+          BorderedLeftContainerNoTitle(
+            content:
+                "Total ${paymentOrder.currencyCode} ${NumberUtils.formatNum(paymentOrder.paymentAmount)}",
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BorderedLeftContainerNoTitle extends StatelessWidget {
+  final String content;
+
+  const BorderedLeftContainerNoTitle({Key? key, required this.content})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(color: Styles.kPrimaryColor, width: 4),
         ),
-        kVerticalSpacer,
-        BorderedLeftContainer(
-          title: "Status:", content: paymentOrder.paymentStatusCode ?? "",
-        ),
-        kVerticalSpacer,
-        BorderedLeftContainer(
-          title: "Payment Date:", content: '${AppDateUtils.formatDateWithoutLocale(paymentOrder.paymentDate)}',
-        ),
-        kVerticalSpacer,
-        BorderedLeftContainer(
-          title: "Payment Time:", content: '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate)}',
-        ),
-        kVerticalSpacer,
-        BorderedLeftContainer(
-          title: "Amount:", content: "${paymentOrder.currencyCode} ${NumberUtils.formatNum(paymentOrder.paymentAmount)}",
-        ),
-      ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(content, style: kLargeRegular),
+        ],
+      ),
     );
   }
 }
