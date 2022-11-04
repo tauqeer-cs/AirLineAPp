@@ -76,7 +76,7 @@ class AuthView extends StatelessWidget {
                     ),
                     kVerticalSpacerSmall,
                     OutlinedButton(
-                      onPressed: () => context.router.push(BookingListRoute()),
+                      onPressed: () => context.router.push(SignupWrapperRoute()),
                       child: Text("Create Acccount"),
                     )
                   ],

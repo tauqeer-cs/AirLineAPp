@@ -24,7 +24,10 @@ class SignupCubit extends Cubit<SignupState> {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       await _authenticationRepository.signUp(newRequest);
-      emit(state.copyWith(blocState: BlocState.finished));
+      emit(state.copyWith(
+        blocState: BlocState.finished,
+        signupRequest: newRequest,
+      ));
     } catch (e, st) {
       emit(
         state.copyWith(

@@ -21,7 +21,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class CompleteSignupPage extends StatelessWidget {
   final SignupRequest signupRequest;
-  const CompleteSignupPage({Key? key, required this.signupRequest}) : super(key: key);
+
+  const CompleteSignupPage({Key? key, required this.signupRequest})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class CompleteSignupPage extends StatelessWidget {
                 Row(
                   children: [
                     BackButton(
-                      onPressed: ()=>AutoRouter.of(context).pop(),
+                      onPressed: () => AutoRouter.of(context).pop(),
                       color: Colors.white,
                     ),
                     Expanded(
@@ -50,13 +52,21 @@ class CompleteSignupPage extends StatelessWidget {
                 kVerticalSpacer,
                 Expanded(
                   child: SignupContainer(
+                    name: signupRequest.firstName,
                     step: 3,
-                    child: Column(
-                      children: [
-                        Text('''Please check your email for a link to verify your registration.
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+                      child: Column(
+                        children: [
+                          Text(
+                            '''Please check your email for a link to verify your registration.
 
-Please sign back in after you complete the verification of your email address.''')
-                      ],
+Please sign back in after you complete the verification of your email address.''',
+                            style: kLargeRegular.copyWith(
+                                color: Styles.kSubTextColor),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

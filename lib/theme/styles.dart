@@ -49,6 +49,7 @@ class Styles {
 
   static ThemeData theme(bool isLight) {
     return ThemeData(
+      fontFamily: "EncodeSans",
       colorSchemeSeed: kPrimaryColor,
       canvasColor: isLight ? Colors.white : kTextLightThemeColor,
       cardColor: isLight ? Colors.white : kTextLightThemeColor,

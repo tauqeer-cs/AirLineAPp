@@ -100,10 +100,29 @@ flutter_native_splash:
 
 flutter:
   uses-material-design: true
+
   fonts:
     - family: MyFlutterApp
       fonts:
         - asset: assets/fonts/MyFlutterApp.ttf
+    - family: EncodeSans
+      fonts:
+        - asset: assets/fonts/EncodeSans-Black.otf
+          weight: 900
+        - asset: assets/fonts/EncodeSans-Bold.otf
+          weight: 700
+        - asset: assets/fonts/EncodeSans-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/EncodeSans-Medium.otf
+          weight: 500
+        - asset: assets/fonts/EncodeSans-Regular.otf
+          weight: 400
+        - asset: assets/fonts/EncodeSans-Light.otf
+          weight: 300
+        - asset: assets/fonts/EncodeSans-ExtraLight.otf
+          weight: 200
+        - asset: assets/fonts/EncodeSans-Thin.otf
+          weight: 100
   assets:
     - assets/images/native/
     - assets/images/design/
