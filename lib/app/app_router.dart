@@ -1,4 +1,8 @@
 import 'package:app/data/requests/signup_request.dart';
+import 'package:app/pages/add_on/baggage/baggage_page.dart';
+import 'package:app/pages/add_on/bundle/bundle_page.dart';
+import 'package:app/pages/add_on/meals/meals_page.dart';
+import 'package:app/pages/add_on/seats/seats_page.dart';
 import 'package:app/pages/auth/auth_page.dart';
 import 'package:app/pages/auth/pages/complete_signup/complete_signup_page.dart';
 import 'package:app/pages/auth/pages/signup/signup_account.dart';
@@ -50,6 +54,10 @@ part 'app_router.gr.dart';
     AutoRoute(page: WelcomePage, path: "/welcome"),
     AutoRoute(page: WebViewPage, path: "/webview"),
     AutoRoute(page: InAppWebViewPage, path: "/in-app-webview"),
+    AutoRoute(page: BundlePage, path: "/flight/addon/new-bundle"),
+    AutoRoute(page: SeatsPage, path: "/flight/addon/new-seats"),
+    AutoRoute(page: MealsPage, path: "/flight/addon/new-meals"),
+    AutoRoute(page: BaggagePage, path: "/flight/addon/new-baggage"),
     AutoRoute(page: SelectBundlePage, path: "/flight/addon/bundle"),
     AutoRoute(page: SelectSeatsPage, path: "/flight/addon/seat"),
     AutoRoute(page: SelectMealsPage, path: "/flight/addon/meal"),

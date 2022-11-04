@@ -7,6 +7,7 @@ class AppImage extends StatelessWidget {
   final Color? color;
   final double? borderRadius;
   final BoxFit? boxFit;
+  final double? height;
 
   const AppImage({
     Key? key,
@@ -14,6 +15,7 @@ class AppImage extends StatelessWidget {
     this.color,
     this.borderRadius,
     this.boxFit,
+    this.height,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class AppImage extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: imageUrl!,
               color: color,
+              height: height,
               fit: boxFit ?? BoxFit.cover,
               colorBlendMode: BlendMode.darken,
               placeholder: (context, url) => const AppLoading(),

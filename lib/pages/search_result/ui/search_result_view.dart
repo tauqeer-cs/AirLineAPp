@@ -4,12 +4,10 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/flight_result_widget.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +25,15 @@ class SearchResultView extends StatelessWidget {
           finishedBuilder: ListView(
             children: [
               kVerticalSpacer,
-              FlightResultWidget(),
-              CheckoutSummary(),
+              const FlightResultWidget(),
+              const CheckoutSummary(),
               kVerticalSpacer,
               SummaryContainer(
                 child: Padding(
                   padding: kPagePadding,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
+                    children: const [
                       BookingSummary(),
                       ContinueButton(),
                     ],
@@ -46,7 +44,7 @@ class SearchResultView extends StatelessWidget {
           ),
           loadingBuilder: ListView(
             padding: kPagePadding,
-            children: [BookingLoader()],
+            children: const [BookingLoader()],
           ),
         );
       },
@@ -72,15 +70,15 @@ class ContinueButton extends StatelessWidget {
           ? () {
               if (booking.blocState == BlocState.loading) return;
               if (booking.isVerify) {
-                context.router.push(SelectBundleRoute());
+                context.router.push(BundleRoute());
               } else {
                 context.read<BookingCubit>().verifyFlight(filterState);
               }
             }
           : null,
       child: booking.blocState == BlocState.loading
-          ? AppLoading(color: Colors.white)
-          : Text("Continue"),
+          ? const AppLoading(color: Colors.white)
+          : const Text("Continue"),
     );
   }
 }

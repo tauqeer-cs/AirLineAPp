@@ -34,6 +34,7 @@ class Styles {
 
   static Color get kBorderActionColor => const Color.fromRGBO(112, 112, 112, 1);
 
+  static Color get kOrangeColor => const Color.fromRGBO(243, 110, 56, 1);
 
   static LinearGradient get gradient => LinearGradient(colors: const <Color>[
         Color(0xFF02C2F3),

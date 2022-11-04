@@ -57,6 +57,50 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    BundleRoute.name: (routeData) {
+      final args = routeData.argsAs<BundleRouteArgs>(
+          orElse: () => const BundleRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: BundlePage(
+          key: args.key,
+          isDeparture: args.isDeparture,
+        ),
+      );
+    },
+    SeatsRoute.name: (routeData) {
+      final args = routeData.argsAs<SeatsRouteArgs>(
+          orElse: () => const SeatsRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SeatsPage(
+          key: args.key,
+          isDeparture: args.isDeparture,
+        ),
+      );
+    },
+    MealsRoute.name: (routeData) {
+      final args = routeData.argsAs<MealsRouteArgs>(
+          orElse: () => const MealsRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: MealsPage(
+          key: args.key,
+          isDeparture: args.isDeparture,
+        ),
+      );
+    },
+    BaggageRoute.name: (routeData) {
+      final args = routeData.argsAs<BaggageRouteArgs>(
+          orElse: () => const BaggageRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: BaggagePage(
+          key: args.key,
+          isDeparture: args.isDeparture,
+        ),
+      );
+    },
     SelectBundleRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -247,6 +291,22 @@ class _$AppRouter extends RootStackRouter {
           path: '/in-app-webview',
         ),
         RouteConfig(
+          BundleRoute.name,
+          path: '/flight/addon/new-bundle',
+        ),
+        RouteConfig(
+          SeatsRoute.name,
+          path: '/flight/addon/new-seats',
+        ),
+        RouteConfig(
+          MealsRoute.name,
+          path: '/flight/addon/new-meals',
+        ),
+        RouteConfig(
+          BaggageRoute.name,
+          path: '/flight/addon/new-baggage',
+        ),
+        RouteConfig(
           SelectBundleRoute.name,
           path: '/flight/addon/bundle',
         ),
@@ -428,6 +488,142 @@ class InAppWebViewRouteArgs {
   @override
   String toString() {
     return 'InAppWebViewRouteArgs{key: $key, url: $url}';
+  }
+}
+
+/// generated route for
+/// [BundlePage]
+class BundleRoute extends PageRouteInfo<BundleRouteArgs> {
+  BundleRoute({
+    Key? key,
+    bool isDeparture = true,
+  }) : super(
+          BundleRoute.name,
+          path: '/flight/addon/new-bundle',
+          args: BundleRouteArgs(
+            key: key,
+            isDeparture: isDeparture,
+          ),
+        );
+
+  static const String name = 'BundleRoute';
+}
+
+class BundleRouteArgs {
+  const BundleRouteArgs({
+    this.key,
+    this.isDeparture = true,
+  });
+
+  final Key? key;
+
+  final bool isDeparture;
+
+  @override
+  String toString() {
+    return 'BundleRouteArgs{key: $key, isDeparture: $isDeparture}';
+  }
+}
+
+/// generated route for
+/// [SeatsPage]
+class SeatsRoute extends PageRouteInfo<SeatsRouteArgs> {
+  SeatsRoute({
+    Key? key,
+    bool isDeparture = true,
+  }) : super(
+          SeatsRoute.name,
+          path: '/flight/addon/new-seats',
+          args: SeatsRouteArgs(
+            key: key,
+            isDeparture: isDeparture,
+          ),
+        );
+
+  static const String name = 'SeatsRoute';
+}
+
+class SeatsRouteArgs {
+  const SeatsRouteArgs({
+    this.key,
+    this.isDeparture = true,
+  });
+
+  final Key? key;
+
+  final bool isDeparture;
+
+  @override
+  String toString() {
+    return 'SeatsRouteArgs{key: $key, isDeparture: $isDeparture}';
+  }
+}
+
+/// generated route for
+/// [MealsPage]
+class MealsRoute extends PageRouteInfo<MealsRouteArgs> {
+  MealsRoute({
+    Key? key,
+    bool isDeparture = true,
+  }) : super(
+          MealsRoute.name,
+          path: '/flight/addon/new-meals',
+          args: MealsRouteArgs(
+            key: key,
+            isDeparture: isDeparture,
+          ),
+        );
+
+  static const String name = 'MealsRoute';
+}
+
+class MealsRouteArgs {
+  const MealsRouteArgs({
+    this.key,
+    this.isDeparture = true,
+  });
+
+  final Key? key;
+
+  final bool isDeparture;
+
+  @override
+  String toString() {
+    return 'MealsRouteArgs{key: $key, isDeparture: $isDeparture}';
+  }
+}
+
+/// generated route for
+/// [BaggagePage]
+class BaggageRoute extends PageRouteInfo<BaggageRouteArgs> {
+  BaggageRoute({
+    Key? key,
+    bool isDeparture = true,
+  }) : super(
+          BaggageRoute.name,
+          path: '/flight/addon/new-baggage',
+          args: BaggageRouteArgs(
+            key: key,
+            isDeparture: isDeparture,
+          ),
+        );
+
+  static const String name = 'BaggageRoute';
+}
+
+class BaggageRouteArgs {
+  const BaggageRouteArgs({
+    this.key,
+    this.isDeparture = true,
+  });
+
+  final Key? key;
+
+  final bool isDeparture;
+
+  @override
+  String toString() {
+    return 'BaggageRouteArgs{key: $key, isDeparture: $isDeparture}';
   }
 }
 
