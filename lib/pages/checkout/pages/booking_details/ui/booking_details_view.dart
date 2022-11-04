@@ -64,6 +64,7 @@ class BookingDetailsView extends StatefulWidget {
 }
 
 class _BookingDetailsViewState extends State<BookingDetailsView> {
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +72,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       autoFocusOnValidationFailure: true,
       key: BookingDetailsView._fbKey,
       child: SingleChildScrollView(
+        controller: scrollController,
         child: Column(
           children: [
             kVerticalSpacerBig,
@@ -87,7 +89,26 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                 ],
               ),
             ),
-            CheckoutSummary(),
+            Stack(
+              children: [
+                CheckoutSummary(),
+                Positioned(
+                  bottom: 15,
+                  right: 15,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      scrollController.animateTo(
+                        scrollController.position.minScrollExtent,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.fastOutSlowIn,
+                      );
+                    },
+                    backgroundColor: Styles.kPrimaryColor,
+                    child: const Icon(Icons.keyboard_arrow_up),
+                  ),
+                )
+              ],
+            ),
             kVerticalSpacer,
             SummaryContainer(
               child: Padding(
