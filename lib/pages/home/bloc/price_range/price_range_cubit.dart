@@ -20,7 +20,7 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
       print("start is $start");
       final newFilter = filterState.copyWith(
         departDate: start.isBefore(DateTime.now()) ? DateTime.now() : start,
-        returnDate: DateTime(start.year, start.month+1, 0),
+        returnDate: DateTime(start.year, start.month+2, 0),
       );
       final request = SearchFlight.fromFilter(newFilter);
       final prices = await _repository.searchFlightDateRange(request);
