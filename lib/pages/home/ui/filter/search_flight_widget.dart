@@ -23,6 +23,7 @@ class SearchFlightWidget extends StatelessWidget {
     return GreyCard(
       child: Column(
         children: [
+          kVerticalSpacerSmall,
           TripSelection(),
           AirportWidget(isOrigin: true),
           kVerticalSpacerMini,
@@ -36,6 +37,8 @@ class SearchFlightWidget extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: SubmitSearch(isHomePage: true),
           ),
+          kVerticalSpacerSmall,
+
           // AppInputText(
           //   name: "promoFlight",
           //   onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
@@ -48,7 +51,7 @@ class SearchFlightWidget extends StatelessWidget {
 }
 
 enum FlightType {
-  round('Round', true),
+  round('Round Trip', true),
   oneWay('One Way', false);
 
   const FlightType(this.message, this.value);

@@ -31,6 +31,7 @@ class PassengerSelector extends StatelessWidget {
         valueTransformer: (value) {
           return DropdownTransformerWidget<Person>(
             value: value,
+            hintText: "Please Select",
           );
         },
       ),

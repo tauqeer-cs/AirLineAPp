@@ -2,6 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/models/airports.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
+import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/animations/text_field_loader.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
@@ -38,6 +39,14 @@ class AirportWidget extends StatelessWidget {
                 context.read<FilterCubit>().updateDestinationAirport(val);
               }
             },
+            prefix: Padding(
+              padding: const EdgeInsets.only(right:   8.0),
+              child: Icon(
+                isOrigin ? Icons.flight_takeoff : Icons.flight_land,
+                size: 20,
+                color: Styles.kIconColor,
+              ),
+            ),
             sheetTitle: isOrigin ? "From" : "To",
             isEnabled: true,
             valueTransformer: (value) {
@@ -45,7 +54,7 @@ class AirportWidget extends StatelessWidget {
                 value: value,
                 label: isOrigin ? "From" : "To",
                 prefix: Icon(
-                  isOrigin ? Icons.flight_takeoff : Icons.flight_land,
+                  isOrigin ? MyFlutterApp.icoflyfrom : MyFlutterApp.icoflyto,
                   size: 20,
                 ),
               );

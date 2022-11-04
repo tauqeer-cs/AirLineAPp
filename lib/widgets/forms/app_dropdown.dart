@@ -11,6 +11,7 @@ class AppDropDown<T> extends StatelessWidget {
   final Widget Function(T?)? valueTransformer;
   final Widget Function(T?, bool isSelected)? valueTransformerItem;
   final String? sheetTitle;
+  final Widget? prefix;
   final bool isEnabled, isMinimalism;
 
   const AppDropDown({
@@ -23,6 +24,7 @@ class AppDropDown<T> extends StatelessWidget {
     this.sheetTitle,
     this.isEnabled = true,
     this.isMinimalism = false,
+    this.prefix,
   }) : super(key: key);
 
   @override
@@ -67,10 +69,14 @@ class AppDropDown<T> extends StatelessWidget {
       ),
       dropdownBuilder: (context, val) {
         if (val == null)
-          return Text(
-            sheetTitle ?? "",
-            style: kMediumMedium.copyWith(
-                color: Styles.kTextColor.withOpacity(0.5)),
+          return Row(
+            children: [
+              prefix != null ? prefix! : SizedBox.shrink(),
+              Text(
+                sheetTitle ?? "",
+                style: kMediumMedium.copyWith(color: Styles.kTextColor),
+              ),
+            ],
           );
         return valueTransformer != null
             ? valueTransformer!(val)
@@ -152,7 +158,6 @@ class AppDropDown<T> extends StatelessWidget {
         isVisible: !isMinimalism,
         constraints:
             isMinimalism ? BoxConstraints(minWidth: 0, maxWidth: 0) : null,
-
       ),
     );
   }

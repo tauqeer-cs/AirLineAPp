@@ -1,11 +1,9 @@
-
-
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class DropdownTransformerWidget<T> extends StatelessWidget {
   final T? value;
-  final String? label, valueCustom;
+  final String? label, valueCustom, hintText;
   final Widget? prefix;
   final Widget? suffix;
 
@@ -16,16 +14,19 @@ class DropdownTransformerWidget<T> extends StatelessWidget {
     this.prefix,
     this.suffix,
     this.valueCustom,
+    this.hintText,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        prefix!=null ? Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: prefix,
-        ): SizedBox.shrink(),
+        prefix != null
+            ? Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: prefix,
+              )
+            : SizedBox.shrink(),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -34,17 +35,25 @@ class DropdownTransformerWidget<T> extends StatelessWidget {
               Visibility(
                 visible: label != null,
                 child: Padding(
-                  padding:  EdgeInsets.only(bottom: value!=null ? 5 : 10, top: value!=null ? 0 : 10),
+                  padding: EdgeInsets.only(
+                      bottom: value != null ? 5 : 5,
+                      top: value != null ? 0 : 0),
                   child: Text(
                     label ?? "",
-                    style: kSmallMedium.copyWith(color: Colors.grey),
+                    style: kSmallMedium,
                   ),
                 ),
               ),
               Visibility(
-                visible: value!=null,
+                visible: value != null,
                 child: Text(
-                  valueCustom!=null ? valueCustom! : (value?.toString() ?? ""),
+                  valueCustom != null
+                      ? valueCustom!
+                      : (value?.toString() ?? ""),
+                  style: kMediumMedium,
+                ),
+                replacement: Text(
+                  hintText ?? "Please Select",
                   style: kMediumMedium,
                 ),
               ),

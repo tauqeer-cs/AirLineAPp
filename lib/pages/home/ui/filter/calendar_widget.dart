@@ -4,6 +4,8 @@ import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/filter/calendar_sheet.dart';
 import 'package:app/pages/home/ui/filter/passengers_sheet.dart';
 import 'package:app/pages/home/ui/filter/table_range.dart';
+import 'package:app/theme/my_flutter_app_icons.dart';
+import 'package:app/theme/styles.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/containers/bordered_container.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +55,9 @@ class CalendarWidget extends StatelessWidget {
           value: texts.join(" to "),
           label: null,
           prefix: Icon(
-            Icons.calendar_today_outlined,
+            MyFlutterApp.icodate,
             size: 20,
+            color: Styles.kIconColor,
           ),
         ),
       ),

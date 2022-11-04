@@ -36,6 +36,8 @@ class Styles {
 
   static Color get kOrangeColor => const Color.fromRGBO(243, 110, 56, 1);
 
+  static Color get kIconColor => const Color(0xFF8299B9);
+
   static LinearGradient get gradient => LinearGradient(colors: const <Color>[
         Color(0xFF02C2F3),
         Color(0xFF10C7E9),
@@ -227,7 +229,7 @@ class Styles {
         ),
         hintStyle: kSmallSemiBold.copyWith(
           color: isLight
-              ? Color.fromRGBO(43, 45, 66, 1).withOpacity(0.5)
+              ? Color.fromRGBO(43, 45, 66, 1)
               : kLightBgColor.withOpacity(0.5),
         ),
       ),

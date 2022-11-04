@@ -68,6 +68,7 @@ dependencies:
   screenshot: ^1.2.3
   path_provider: ^2.0.11
   share_plus: ^6.2.0
+  paged_vertical_calendar: ^1.1.5
 
 
 dev_dependencies:
