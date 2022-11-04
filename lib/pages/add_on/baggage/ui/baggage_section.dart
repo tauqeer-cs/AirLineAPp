@@ -33,7 +33,7 @@ class BaggageSection extends StatelessWidget {
           kVerticalSpacer,
           const PassengerSelector(),
           kVerticalSpacer,
-          buildBaggageCards(baggages),
+          buildBaggageCards(baggages, isDeparture),
           kVerticalSpacer,
           const BaggageNotice(),
           kVerticalSpacer,
@@ -42,14 +42,15 @@ class BaggageSection extends StatelessWidget {
     );
   }
 
-  Column buildBaggageCards(List<Bundle>? baggages) {
+  Column buildBaggageCards(List<Bundle>? baggages, bool isDeparture) {
     return Column(
       children: [
         ...baggages?.map(
               (e) {
                 return Column(
                   children: [
-                    NewBaggageCard(selectedBaggage: e, isDeparture: true),
+                    NewBaggageCard(
+                        selectedBaggage: e, isDeparture: isDeparture),
                     kVerticalSpacerSmall,
                   ],
                 );

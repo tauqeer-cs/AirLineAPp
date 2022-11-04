@@ -34,20 +34,20 @@ class BundleSection extends StatelessWidget {
           kVerticalSpacer,
           const PassengerSelector(),
           kVerticalSpacer,
-          buildBundleCards(bundles),
+          buildBundleCards(bundles, isDeparture),
         ],
       ),
     );
   }
 
-  Column buildBundleCards(List<InboundBundle>? bundles) {
+  Column buildBundleCards(List<InboundBundle>? bundles, bool isDeparture) {
     return Column(
       children: [
         ...bundles?.map(
               (e) {
                 return Column(
                   children: [
-                    NewBundleCard(inboundBundle: e, isDeparture: true),
+                    NewBundleCard(inboundBundle: e, isDeparture: isDeparture),
                     kVerticalSpacerSmall,
                   ],
                 );
