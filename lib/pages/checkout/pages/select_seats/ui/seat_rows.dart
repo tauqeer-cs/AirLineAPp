@@ -1,6 +1,5 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
-import 'package:app/data/responses/verify_response.dart';
 import 'package:app/pages/checkout/pages/select_seats/ui/seat_widget.dart';
 import 'package:app/theme/theme.dart';
 import 'package:collection/collection.dart';
@@ -30,13 +29,13 @@ class SeatRows extends StatelessWidget {
         ?.seatConfiguration
         ?.rows;
     final firstRow = rows?.firstOrNull;
-    if (firstRow == null) return SizedBox();
+    if (firstRow == null) return const SizedBox();
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(flex: 1, child: SizedBox()),
+            const Expanded(flex: 1, child: SizedBox()),
             ...(firstRow.seats ?? [])
                 .map((e) => Expanded(
                       flex: 1,
@@ -45,7 +44,7 @@ class SeatRows extends StatelessWidget {
                       ),
                     ))
                 .toList(),
-            Expanded(flex: 1, child: SizedBox()),
+            const Expanded(flex: 1, child: SizedBox()),
           ],
         ),
         kVerticalSpacer,
@@ -57,7 +56,7 @@ class SeatRows extends StatelessWidget {
                   Expanded(flex: 1, child: Text("${row.rowNumber ?? 0}")),
                   ...(row.seats ?? [])
                       .map((e) => e.serviceId == 0
-                          ? Expanded(flex: 1, child: SizedBox())
+                          ? const Expanded(flex: 1, child: SizedBox())
                           : Expanded(
                               flex: 1,
                               child: SeatWidget(mapColor: mapColor, seats: e,),

@@ -1,10 +1,6 @@
-import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
-import 'package:app/pages/home/ui/filter/calendar_sheet.dart';
 import 'package:app/pages/home/ui/filter/calendar_sheet_vertical.dart';
-import 'package:app/pages/home/ui/filter/passengers_sheet.dart';
-import 'package:app/pages/home/ui/filter/table_range.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/date_utils.dart';
@@ -25,15 +21,15 @@ class CalendarWidget extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      backgroundColor: Color.fromRGBO(235, 235, 235, 0.85),
-      shape: RoundedRectangleBorder(
+      backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),
         ),
       ),
       builder: (_) => BlocProvider.value(
         value: priceCubit,
-        child: CalendarSheetVertical(),
+        child: const CalendarSheetVertical(),
       ),
     );
   }

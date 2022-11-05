@@ -46,7 +46,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
           },
           title: Row(
             children: [
-              Text(
+              const Text(
                 "- Fees and Taxes",
                 style: kMediumRegular,
               ),
@@ -54,7 +54,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
-              Spacer(),
+              const Spacer(),
               MoneyWidgetSmall(
                   amount: widget.isDeparture
                       ? bookingTotal.selectedDeparture?.getTotalPrice

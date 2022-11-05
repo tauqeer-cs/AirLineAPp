@@ -28,7 +28,7 @@ class AirportWidget extends StatelessWidget {
       builder: (context, state) {
         return blocBuilderWrapper(
           blocState: state.blocState,
-          loadingBuilder: TextFieldLoader(),
+          loadingBuilder: const TextFieldLoader(),
           finishedBuilder: AppDropDown<Airports>(
             items: isOrigin ? state.airports : (origin?.connections ?? []),
             defaultValue: selected,

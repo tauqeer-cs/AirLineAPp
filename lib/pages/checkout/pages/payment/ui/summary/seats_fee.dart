@@ -1,7 +1,5 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/seats_fee_detail.dart';
-import 'package:app/pages/checkout/ui/fares_and_bundles_detail.dart';
-import 'package:app/pages/checkout/ui/seats_fee_detail.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -34,7 +32,7 @@ class _SeatsFeePaymentState extends State<SeatsFeePayment> {
           },
           title: Row(
             children: [
-              Text(
+              const Text(
                 "- Seats",
                 style: kMediumRegular,
               ),
@@ -42,7 +40,7 @@ class _SeatsFeePaymentState extends State<SeatsFeePayment> {
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
-              Spacer(),
+              const Spacer(),
               MoneyWidgetSmall(amount:filter?.numberPerson.getTotalSeatsPartial(widget.isDeparture)),
             ],
           ),

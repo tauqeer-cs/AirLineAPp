@@ -38,7 +38,7 @@ class Styles {
 
   static Color get kIconColor => const Color(0xFF8299B9);
 
-  static LinearGradient get gradient => LinearGradient(colors: const <Color>[
+  static LinearGradient get gradient => const LinearGradient(colors: <Color>[
         Color(0xFF02C2F3),
         Color(0xFF10C7E9),
         Color(0xFF2AD0D8),
@@ -59,7 +59,7 @@ class Styles {
         backgroundColor: isLight ? kLightBgColor : kDarkBgColor,
         elevation: 5,
         titleTextStyle: kHugeSemiBold.copyWith(
-          color: isLight ? Color.fromRGBO(0, 48, 73, 1) : Colors.white,
+          color: isLight ? const Color.fromRGBO(0, 48, 73, 1) : Colors.white,
           fontSize: 20,
         ),
         centerTitle: true,
@@ -76,13 +76,13 @@ class Styles {
         iconColor: isLight ? kTextColor : Colors.white,
       ),
       scaffoldBackgroundColor: isLight ? Colors.white : kDarkBgColor,
-      scrollbarTheme: ScrollbarThemeData(),
+      scrollbarTheme: const ScrollbarThemeData(),
       sliderTheme: SliderThemeData(
         trackShape: GradientRectSliderTrackShape(
           gradient: gradient,
           darkenInactive: true,
         ),
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8),
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
         inactiveTrackColor: Colors.grey,
         thumbColor: kTextColor,
         trackHeight: 5,
@@ -201,8 +201,8 @@ class Styles {
       inputDecorationTheme: InputDecorationTheme(
         isDense: false,
         errorMaxLines: 2,
-        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        border: UnderlineInputBorder(),
+        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        border: const UnderlineInputBorder(),
         prefixIconColor: isLight ? kTextColor : Colors.white,
         suffixIconColor: isLight ? kTextColor : Colors.white,
         enabledBorder: UnderlineInputBorder(
@@ -211,11 +211,11 @@ class Styles {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: kBorderColor),
         ),
-        errorBorder: UnderlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red),
+        errorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
         ),
-        focusedErrorBorder: UnderlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red),
+        focusedErrorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
         ),
         disabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: kBorderColor.withOpacity(0.3)),
@@ -229,7 +229,7 @@ class Styles {
         ),
         hintStyle: kSmallSemiBold.copyWith(
           color: isLight
-              ? Color.fromRGBO(43, 45, 66, 1)
+              ? const Color.fromRGBO(43, 45, 66, 1)
               : kLightBgColor.withOpacity(0.5),
         ),
       ),
@@ -272,10 +272,10 @@ class Styles {
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor:
-            isLight ? Color.fromRGBO(241, 241, 241, 0.8) : Colors.white,
+            isLight ? const Color.fromRGBO(241, 241, 241, 0.8) : Colors.white,
         selectedItemColor: isLight ? kPrimaryColor : Colors.white,
         unselectedIconTheme:
-            IconThemeData(color: Color.fromRGBO(0, 48, 73, 1), size: 30),
+            const IconThemeData(color: Color.fromRGBO(0, 48, 73, 1), size: 30),
         selectedIconTheme: IconThemeData(color: kPrimaryColor, size: 30),
         showUnselectedLabels: true,
         selectedLabelStyle: const TextStyle(

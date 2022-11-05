@@ -9,11 +9,11 @@ part 'booking_local.g.dart';
 class BookingLocal extends HiveObject with EquatableMixin {
   @override
   List<Object?> get props => [
-        this.bookingId,
-        this.departureDate,
-        this.returnDate,
-        this.departureString,
-        this.returnString,
+        bookingId,
+        departureDate,
+        returnDate,
+        departureString,
+        returnString,
       ];
 
   BookingLocal({

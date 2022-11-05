@@ -1,5 +1,4 @@
 import 'package:app/data/requests/verify_request.dart';
-import 'package:app/models/home_content.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:equatable/equatable.dart';

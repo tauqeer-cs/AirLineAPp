@@ -34,7 +34,7 @@ class BaggageCard extends StatelessWidget {
             .addBaggageToPerson(selectedPerson, selectedBundle, isDeparture);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
         width: 500.w,
         child: AppCard(
           child: Column(

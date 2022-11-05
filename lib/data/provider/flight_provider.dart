@@ -8,7 +8,6 @@ import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/summary_response.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/data/responses/voucher_response.dart';
-import 'package:app/models/airports.dart';
 import 'package:app/models/confirmation_model.dart';
 import 'package:app/models/pay_redirection.dart';
 import 'package:app/models/search_date_range.dart';

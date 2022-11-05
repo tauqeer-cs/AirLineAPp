@@ -1,4 +1,3 @@
-import 'package:app/app.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
@@ -40,7 +39,7 @@ class BundleCard extends StatelessWidget {
         context.read<SearchFlightCubit>().addBundleToPerson(selectedPerson, inboundBundle, isDeparture);
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
         width: 500.w,
         child: AppCard(
           child: Column(

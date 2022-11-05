@@ -10,7 +10,7 @@ import 'package:equatable/equatable.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeState());
+  HomeCubit() : super(const HomeState());
   final _repository = CMSRepository();
 
   getContents(List<CMSRoute> routes) async {

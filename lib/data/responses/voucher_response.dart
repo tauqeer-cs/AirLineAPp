@@ -1,11 +1,4 @@
-import 'package:app/data/requests/search_flight_request.dart';
-import 'package:app/pages/home/bloc/filter_cubit.dart';
-import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:equatable/equatable.dart';
-import 'package:app/models/home_content.dart';
-import 'package:app/pages/home/bloc/filter_cubit.dart';
-import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -36,11 +29,11 @@ class VoucherResponse extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.addVoucherResult,
-        this.orderID,
-        this.verifyExpiredDateTime,
-        this.success,
-        this.isInvalidMemberID,
+        addVoucherResult,
+        orderID,
+        verifyExpiredDateTime,
+        success,
+        isInvalidMemberID,
       ];
 }
 
@@ -58,8 +51,8 @@ class AddVoucherResult extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.voucherDiscounts,
-        this.voucherTotalDiscountAmount,
+        voucherDiscounts,
+        voucherTotalDiscountAmount,
       ];
   factory AddVoucherResult.fromJson(Map<String, dynamic> json) =>
       _$AddVoucherResultFromJson(json);

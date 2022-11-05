@@ -10,7 +10,7 @@ class BookingDetailsHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           "Booking Details",
           style: kHugeHeavy,
         ),

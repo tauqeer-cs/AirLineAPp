@@ -49,7 +49,7 @@ void run() async {
     () async {
       // The following lines are the same as previously explained in "Handling uncaught errors"
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-      runApp(App());
+      runApp(const App());
     },
     (error, stackTrace) {
       // The following lines are the same as previously explained in "Handling uncaught errors"

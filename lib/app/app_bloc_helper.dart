@@ -63,7 +63,7 @@ Widget blocBuilderWrapper({
     case BlocState.initial:
       return initialBuilder ?? const SizedBox.shrink();
     case BlocState.loading:
-      return loadingBuilder ?? AppLoadingScreen(message: "Loading");
+      return loadingBuilder ?? const AppLoadingScreen(message: "Loading");
     case BlocState.finished:
       return finishedBuilder ?? const SizedBox.shrink();
     case BlocState.failed:

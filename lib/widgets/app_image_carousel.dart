@@ -1,8 +1,5 @@
-import 'package:app/theme/spacer.dart';
-import 'package:app/theme/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AppImageCarousel extends StatefulWidget {
   final List<Widget> items;
@@ -31,7 +28,7 @@ class AppImageCarousel extends StatefulWidget {
 }
 
 class _AppImageCarouselState extends State<AppImageCarousel> {
-  int _current = 0;
+  //int _current = 0;
   late CarouselController _controller;
 
   @override
@@ -64,9 +61,9 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
                   enableInfiniteScroll: widget.infiniteScroll,
                   enlargeCenterPage: false,
                   onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
+                    // setState(() {
+                    //   _current = index;
+                    // });
                   },
                 ),
                 items: widget.items,
@@ -74,7 +71,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
             ),
           ),
           Column(
-            children: [
+            children: const [
 
               /*Visibility(
                 visible: widget.showIndicator,
@@ -108,7 +105,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
                 children: [
                   GestureDetector(
                     onTap: ()=>_controller.previousPage(),
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       radius: 20,
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
@@ -120,7 +117,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
                   ),
                   GestureDetector(
                     onTap: ()=>_controller.nextPage(),
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       radius: 20,
                       backgroundColor: Colors.white,
                       child: CircleAvatar(

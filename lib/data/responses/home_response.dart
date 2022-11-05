@@ -25,9 +25,9 @@ class HomeResponse extends Equatable {
 
   @override
   List<Object?> get props => [
-        this.id,
-        this.name,
-        this.urlSegment,
-        this.items,
+        id,
+        name,
+        urlSegment,
+        items,
       ];
 }

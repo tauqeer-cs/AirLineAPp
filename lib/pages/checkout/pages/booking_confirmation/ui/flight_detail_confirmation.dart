@@ -1,17 +1,11 @@
-import 'package:app/blocs/search_flight/search_flight_cubit.dart';
-import 'package:app/data/responses/flight_response.dart';
 import 'package:app/models/confirmation_model.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/flight_detail.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
-import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FlightDetailConfirmation extends StatelessWidget {
   final String title;
@@ -102,7 +96,7 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               kVerticalSpacer,
-              AppDividerWidget(),
+              const AppDividerWidget(),
               kVerticalSpacer,
               Row(
                 children: [
@@ -111,7 +105,7 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
                       title: "Flight:", content: '${widget.bound.operatingCode}${widget.bound.operatingNumber}',
                     ),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: BorderedLeftContainer(
                       title: "Cabin:", content: 'Economy',
                     ),
@@ -123,7 +117,7 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
                 children: [
                   Expanded(
                     child: BorderedLeftContainer(
-                      title: "Duration:", content: '${NumberUtils.getTimeString(widget.bound.elapsedTime)}',
+                      title: "Duration:", content: NumberUtils.getTimeString(widget.bound.elapsedTime),
                     ),
                   ),
                   Expanded(

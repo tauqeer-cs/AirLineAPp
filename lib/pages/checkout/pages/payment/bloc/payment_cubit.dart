@@ -1,6 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_flavor.dart';
-import 'package:app/data/api.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/book_request.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
@@ -13,7 +12,7 @@ import 'package:equatable/equatable.dart';
 part 'payment_state.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {
-  PaymentCubit() : super(PaymentState());
+  PaymentCubit() : super(const PaymentState());
   final _repository = FlightRepository();
 
   pay({

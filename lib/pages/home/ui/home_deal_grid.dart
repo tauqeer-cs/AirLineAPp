@@ -1,16 +1,11 @@
-import 'dart:ui';
 
 import 'package:app/app/app_router.dart';
 import 'package:app/models/home_content.dart';
-import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_image.dart';
-import 'package:app/widgets/app_image_carousel.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeDealGrid extends StatelessWidget {
   final HomeContent content;
@@ -24,7 +19,7 @@ class HomeDealGrid extends StatelessWidget {
       children: [
         GridView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
@@ -62,7 +57,7 @@ class HomeDealGrid extends StatelessWidget {
                                   style: kLargeSemiBold.copyWith(
                                     color: Colors.white,
                                     shadows: [
-                                      Shadow(
+                                      const Shadow(
                                         offset: Offset(0.0, 2.0),
                                         blurRadius: 4.0,
                                         color: Color.fromRGBO(0, 0, 0, 0.5),
@@ -76,7 +71,7 @@ class HomeDealGrid extends StatelessWidget {
                                   style: kMediumMedium.copyWith(
                                     color: Colors.white,
                                     shadows: [
-                                      Shadow(
+                                      const Shadow(
                                         offset: Offset(0.0, 2.0),
                                         blurRadius: 4.0,
                                         color: Color.fromRGBO(0, 0, 0, 0.5),
@@ -91,8 +86,8 @@ class HomeDealGrid extends StatelessWidget {
                         ),
                         GreyCard(
                           margin: 0,
-                          edgeInsets: EdgeInsets.all(8),
-                          borderRadius: BorderRadius.vertical(
+                          edgeInsets: const EdgeInsets.all(8),
+                          borderRadius: const BorderRadius.vertical(
                               bottom: Radius.circular(12)),
                           child: Row(
                             children: [
@@ -116,7 +111,7 @@ class HomeDealGrid extends StatelessWidget {
                               CircleAvatar(
                                 radius: 15,
                                 backgroundColor: Styles.kPrimaryColor,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.chevron_right,
                                   color: Colors.white,
                                   size: 30,

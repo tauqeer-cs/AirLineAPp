@@ -1,8 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
-import 'package:app/theme/spacer.dart';
-import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,17 +20,17 @@ class DiscountSummary extends StatelessWidget {
     return Visibility(
       visible: discount!=0,
       child: Transform.translate(
-        offset: Offset(0,20),
+        offset: const Offset(0,20),
         child: Container(
           color: Styles.kDividerColor,
-          padding: EdgeInsets.all(20),
-          margin: EdgeInsets.only(top: 10,bottom: 10),
+          padding: const EdgeInsets.all(20),
+          margin: const EdgeInsets.only(top: 10,bottom: 10),
           child: Column(
             children: [
               Row(
                 children: [
                   Text("Subtotal", style: kMediumRegular.copyWith(color: Styles.kSubTextColor),),
-                  Spacer(),
+                  const Spacer(),
                   MoneyWidgetSmall(
                     isDense: false,
                     amount: booking.getFinalPrice +
@@ -44,7 +42,7 @@ class DiscountSummary extends StatelessWidget {
               Row(
                 children: [
                   Text("Voucher", style: kMediumRegular.copyWith(color: Styles.kSubTextColor),),
-                  Spacer(),
+                  const Spacer(),
                   MoneyWidgetSmall(
                     isDense: false,
                     amount: discount,

@@ -2,8 +2,6 @@ import 'package:app/app/app_router.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({Key? key}) : super(key: key);
@@ -28,25 +26,25 @@ class _NavigationPageState extends State<NavigationPage> {
         return BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
-          items: [
+          items: const [
             BottomNavigationBarItem(
-              icon: const Icon(MyFlutterApp.icohome),
+              icon: Icon(MyFlutterApp.icohome),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: const Icon(MyFlutterApp.ico_deals),
+              icon: Icon(MyFlutterApp.ico_deals),
               label: "Deals",
             ),
             BottomNavigationBarItem(
-              icon: const Icon(MyFlutterApp.icomybooking),
+              icon: Icon(MyFlutterApp.icomybooking),
               label: "Bookings",
             ),
             BottomNavigationBarItem(
-              icon: const Icon(MyFlutterApp.icocheckin),
+              icon: Icon(MyFlutterApp.icocheckin),
               label: "Check-In",
             ),
             BottomNavigationBarItem(
-              icon: const Icon(MyFlutterApp.icologinactive),
+              icon: Icon(MyFlutterApp.icologinactive),
               label: "Login",
             ),
           ],

@@ -1,9 +1,5 @@
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
-import 'package:app/pages/checkout/pages/booking_confirmation/ui/fare_detail_widget.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_card.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,11 +22,11 @@ class ConfirmationPromo extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(
+              const Text(
                 "Promo/Voucher",
                 style: kHugeSemiBold,
               ),
-              Spacer(),
+              const Spacer(),
               MoneyWidget(
                 amount: pnrOrder?.voucherDiscountAmt,
                 isDense: true,
@@ -39,7 +35,7 @@ class ConfirmationPromo extends StatelessWidget {
             ],
           ),
           kVerticalSpacerSmall,
-          Text("Voucher"),
+          const Text("Voucher"),
           Text("${pnrOrder?.voucherCode}"),
           kVerticalSpacerSmall,
         ],

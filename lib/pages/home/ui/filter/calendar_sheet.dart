@@ -3,12 +3,9 @@ import 'package:app/models/search_date_range.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/animations/shimmer_rectangle.dart';
-import 'package:app/widgets/app_sheet_handler.dart';
-import 'package:app/widgets/bottom_sheet_header_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,19 +65,20 @@ class CalendarSheetState extends State<CalendarSheet> {
             },
             singleMarkerBuilder:
                 (BuildContext context, date, DateRangePrice? events) {
-              if (priceState.blocState == BlocState.loading)
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+              if (priceState.blocState == BlocState.loading) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
                   child: ShimmerRectangle(
                     height: 10,
                     width: 30,
                   ),
                 );
-              if (events == null) return SizedBox();
+              }
+              if (events == null) return const SizedBox();
               return Column(
                 children: [
                   kVerticalSpacerMini,
-                  Text(
+                  const Text(
                     "MYR",
                     style: kTinyHeavy,
                   ),
@@ -95,13 +93,13 @@ class CalendarSheetState extends State<CalendarSheet> {
           rowHeight: 80,
           eventLoader: (day) {
             if (priceState.blocState == BlocState.loading) {
-              return [DateRangePrice()];
+              return [const DateRangePrice()];
             }
             return prices.where((event) => isSameDay(event.date, day)).toList();
           },
           headerStyle: const HeaderStyle(formatButtonVisible: false),
           firstDay: DateTime.now(),
-          lastDay: DateTime.now().add(Duration(days: 90)),
+          lastDay: DateTime.now().add(const Duration(days: 90)),
           focusedDay: _focusedDay,
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           rangeStartDay: departDate,

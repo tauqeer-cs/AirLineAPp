@@ -16,12 +16,12 @@ class PassengersWidget extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      builder: (_) => PassengersSheet(),
+      builder: (_) => const PassengersSheet(),
       constraints: BoxConstraints(
         maxWidth: 0.9.sw,
       ),
-      backgroundColor: Color.fromRGBO(235, 235, 235, 0.85),
-      shape: RoundedRectangleBorder(
+      backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),
         ),
@@ -38,7 +38,7 @@ class PassengersWidget extends StatelessWidget {
         child: DropdownTransformerWidget<NumberPerson>(
           value: numberOfPerson == NumberPerson.empty ? null : numberOfPerson,
           label: "Passengers",
-          suffix: Icon(Icons.keyboard_arrow_down_rounded, size: 25,),
+          suffix: const Icon(Icons.keyboard_arrow_down_rounded, size: 25,),
         ),
       ),
     );

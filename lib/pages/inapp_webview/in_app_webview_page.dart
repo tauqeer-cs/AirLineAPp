@@ -83,7 +83,9 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
                         action: PermissionRequestResponseAction.GRANT);
                   },
                   shouldOverrideUrlLoading:
-                      (controller, navigationAction) async {},
+                      (controller, navigationAction) async {
+                        return null;
+                      },
                   onLoadStop: (controller, url) async {
                     pullToRefreshController.endRefreshing();
                     setState(() {

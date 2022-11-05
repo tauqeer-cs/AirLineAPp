@@ -1,14 +1,8 @@
-import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
-import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
@@ -51,11 +45,11 @@ class SummaryContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
-              offset: Offset(0, -2),
+              offset: const Offset(0, -2),
               blurRadius: 6,
             ),
           ]),

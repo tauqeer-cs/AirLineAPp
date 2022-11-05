@@ -28,8 +28,8 @@ class BookingsView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   kVerticalSpacer,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
                         vertical: 0.0, horizontal: 0),
                     child: Text("Manage My Booking", style: kGiantHeavy),
                   ),
@@ -63,7 +63,7 @@ class BookingsView extends StatelessWidget {
                       onPressed: () {
                         onManageBooking(context);
                       },
-                      child: Text("Manage Booking"))
+                      child: const Text("Manage Booking"))
                 ],
               ),
             ),

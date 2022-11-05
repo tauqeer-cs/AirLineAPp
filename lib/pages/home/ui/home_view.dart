@@ -1,17 +1,9 @@
 import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
-import 'package:app/pages/home/ui/home_center.dart';
-import 'package:app/pages/home/ui/home_deal.dart';
-import 'package:app/widgets/app_app_bar.dart';
-import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_error_screen.dart';
 import 'package:app/widgets/app_logo_widget.dart';
-import 'package:app/widgets/containers/glass_card.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,7 +19,7 @@ class HomeView extends StatelessWidget {
         children: [
           //NotificationsWidget(),
           kVerticalSpacer,
-          AppLogoWidget(),
+          const AppLogoWidget(),
           // Padding(
           //   padding: kPageHorizontalPaddingBig,
           //   child: Text(
@@ -38,7 +30,7 @@ class HomeView extends StatelessWidget {
           // kVerticalSpacer,
           // NotificationsWidget(),
           kVerticalSpacer,
-          Padding(
+          const Padding(
             padding: kPageHorizontalPadding,
             child: SearchFlightWidget(),
           ),
@@ -52,7 +44,7 @@ class HomeView extends StatelessWidget {
                     switch (e.name) {
                       case "3D Carousel Banner":
                         return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: HomeBanner(content: e),
                         );
                      /* case "Flight Deals":
@@ -63,7 +55,7 @@ class HomeView extends StatelessWidget {
                       /*case "Homepage center":
                         return HomeCenter(content: e);*/
                     }
-                    return SizedBox();
+                    return const SizedBox();
                   }).toList(),
                 ),
                 failedBuilder: AppErrorScreen(message: state.message),

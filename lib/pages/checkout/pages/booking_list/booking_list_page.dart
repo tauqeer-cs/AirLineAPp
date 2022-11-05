@@ -1,7 +1,5 @@
-import 'package:app/app.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking_local/booking_local_cubit.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/app_card.dart';
@@ -18,7 +16,7 @@ class BookingListPage extends StatelessWidget {
     final bookings = context.watch<BookingLocalCubit>().state.bookings;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Manage Bookings"),
+        title: const Text("Manage Bookings"),
       ),
       body: ListView(
         padding: kPagePadding,
@@ -38,7 +36,7 @@ class BookingListPage extends StatelessWidget {
                           style: kHugeSemiBold.copyWith(
                               color: Styles.kPrimaryColor),
                         ),
-                        AppDividerWidget(),
+                        const AppDividerWidget(),
                         kVerticalSpacerSmall,
                         Text(AppDateUtils.formatFullDate(e.departureDate)),
                         Text(e.departureString ?? ""),

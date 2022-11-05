@@ -7,7 +7,6 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:convert';
 
-import '../app/app_flavor.dart';
 import '../app/app_logger.dart';
 import '../models/error_response.dart';
 

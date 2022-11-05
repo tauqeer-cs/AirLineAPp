@@ -1,6 +1,5 @@
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/booking_local.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 const String passengerInfoBox = "passengerInfoBox";

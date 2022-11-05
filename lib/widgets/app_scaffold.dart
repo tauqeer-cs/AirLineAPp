@@ -1,6 +1,4 @@
 import 'package:app/theme/styles.dart';
-import 'package:app/widgets/app_app_bar.dart';
-import 'package:app/widgets/shape/curve_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

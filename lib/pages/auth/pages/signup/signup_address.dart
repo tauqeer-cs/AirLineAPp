@@ -1,18 +1,11 @@
-import 'package:app/app/app_router.dart';
 import 'package:app/data/requests/signup_request.dart';
-import 'package:app/models/country.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
-import 'package:app/pages/auth/pages/signup/ui/credential_input.dart';
-import 'package:app/pages/auth/pages/signup/ui/name_input.dart';
-import 'package:app/pages/auth/pages/signup/ui/password_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/personal_detail/address_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/personal_detail/dob_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/personal_detail/gender_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/signup_container.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -56,10 +49,10 @@ class SignupAddressPage extends StatelessWidget {
                     onPressed: ()=>AutoRouter.of(context).pop(),
                     color: Colors.white,
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Center(child: AppLogoWidget(useWhite: true)),
                   ),
-                  BackButton(color: Colors.transparent),
+                  const BackButton(color: Colors.transparent),
                 ],
               ),
               kVerticalSpacer,
@@ -82,17 +75,17 @@ class SignupAddressPage extends StatelessWidget {
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
-                          DobInput(),
+                          const DobInput(),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
-                          AddressInput(),
+                          const AddressInput(),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
                           ElevatedButton(
                             onPressed: () => onSignup(context),
-                            child: Text("Continue"),
+                            child: const Text("Continue"),
                           )
                         ],
                       ),

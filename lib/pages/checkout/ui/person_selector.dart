@@ -23,7 +23,7 @@ class PersonSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacer,
-        Text("Passenger", style: kHugeSemiBold),
+        const Text("Passenger", style: kHugeSemiBold),
         kVerticalSpacer,
         AppDropDown<Person>(
           items: persons,
@@ -36,7 +36,7 @@ class PersonSelector extends StatelessWidget {
           valueTransformer: (value) {
             return DropdownTransformerWidget<Person>(
               value: value,
-              prefix: Icon(
+              prefix: const Icon(
                 Icons.person,
                 size: 20,
               ),

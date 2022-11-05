@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit() : super(SignupState());
+  SignupCubit() : super(const SignupState());
   final AuthenticationRepository _authenticationRepository =
       AuthenticationRepository();
 

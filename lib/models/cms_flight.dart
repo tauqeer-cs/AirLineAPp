@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cms_flight.g.dart';

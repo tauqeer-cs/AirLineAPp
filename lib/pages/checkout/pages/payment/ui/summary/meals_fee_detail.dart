@@ -1,15 +1,10 @@
-import 'package:app/blocs/booking/booking_cubit.dart';
-import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
-import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:collection/collection.dart';
 
 class MealsFeeDetailPayment extends StatelessWidget {
   final bool isDeparture;
@@ -28,7 +23,7 @@ class MealsFeeDetailPayment extends StatelessWidget {
           (e) {
             final meals = isDeparture ? e.departureMeal : e.returnMeal;
             return meals.isEmpty
-                ? SizedBox.shrink()
+                ? const SizedBox.shrink()
                 : PriceContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

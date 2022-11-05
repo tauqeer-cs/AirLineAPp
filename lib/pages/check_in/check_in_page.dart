@@ -1,5 +1,3 @@
-import 'package:app/pages/bookings/bloc/bookings_cubit.dart';
-import 'package:app/pages/bookings/ui/bookings_view.dart';
 import 'package:app/pages/check_in/bloc/check_in_cubit.dart';
 import 'package:app/pages/check_in/ui/check_in_view.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +10,7 @@ class CheckInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CheckInCubit(),
-      child: Scaffold(body: CheckInView()),
+      child: const Scaffold(body: CheckInView()),
     );
   }
 }

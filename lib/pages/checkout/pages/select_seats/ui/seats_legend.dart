@@ -64,7 +64,7 @@ class ContainerNotice extends StatelessWidget {
     return Visibility(
       visible: sharedNotice?.content?.isNotEmpty ?? false,
       child: Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         width: 500.w,
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.5),

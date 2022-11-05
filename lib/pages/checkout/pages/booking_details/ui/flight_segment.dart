@@ -1,11 +1,8 @@
-import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/flight_detail.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FlightSegment extends StatelessWidget {
@@ -30,7 +27,7 @@ class FlightSegment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 500.w,
-      margin: EdgeInsets.symmetric(vertical: 12),
+      margin: const EdgeInsets.symmetric(vertical: 12),
       child: AppCard(
         child: Column(
           children: [
@@ -45,7 +42,7 @@ class FlightSegment extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: '$subtitle',
+                            text: subtitle,
                             style: kLargeHeavy.copyWith(color: Styles.kTextColor),
                           ),
                         ],

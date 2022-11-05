@@ -21,7 +21,6 @@ class BundleSection extends StatelessWidget {
     final ssr = context.watch<BookingCubit>().state.verifyResponse?.flightSSR;
     final bundles =
         isDeparture ? ssr?.bundleGroup?.outbound : ssr?.bundleGroup?.inbound;
-    final bundleNotice = context.watch<CmsSsrCubit>().state.bundleNotice;
     return Padding(
       padding: kPageHorizontalPadding,
       child: Column(

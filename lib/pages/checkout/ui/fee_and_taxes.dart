@@ -50,7 +50,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             });
           },
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
                 Text(
@@ -61,7 +61,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 Icon(
                   isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                 ),
-                Spacer(),
+                const Spacer(),
                 MoneyWidgetSmall(
                   amount: widget.isDeparture
                       ? bookingTotal.selectedDeparture?.getTotalPrice

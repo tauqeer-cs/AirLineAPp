@@ -2,13 +2,11 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/pages/auth/ui/auth_view.dart';
 import 'package:app/pages/auth/ui/profile_view.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/wrapper/auth_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class AuthPage extends StatelessWidget {
@@ -22,7 +20,7 @@ class AuthPage extends StatelessWidget {
       ],
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: AppLoadingScreen(message: "Loading"),
+        overlayWidget: const AppLoadingScreen(message: "Loading"),
         child: BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
             blocListenerWrapper(
@@ -43,7 +41,7 @@ class AuthPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
-              Scaffold(
+              const Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AuthWrapper(
                   authChild: ProfileView(),

@@ -1,19 +1,12 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
-import 'package:app/blocs/is_departure/is_departure_cubit.dart';
-import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/models/number_person.dart';
-import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
-import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -55,7 +48,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             widget.person.toString(),
             style: kHugeSemiBold,
@@ -113,15 +106,15 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   format: DateFormat("dd MMM yyyy"),
                   initialDate: passengerInfo?.dob ?? DateTime(2000),
                   initialEntryMode: DatePickerEntryMode.calendar,
-                  decoration: InputDecoration(hintText: "Date of Birth"),
+                  decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,
                   validator: FormBuilderValidators.required(),
                 ),
                 Visibility(
                   visible: (notice?.content?.isNotEmpty ?? false) && widget.person.peopleType != PeopleType.adult,
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 12),
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
                     width: 500.w,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.5),

@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 part 'booking_state.dart';
 
 class BookingCubit extends Cubit<BookingState> {
-  BookingCubit() : super(BookingState());
+  BookingCubit() : super(const BookingState());
   final _repository = FlightRepository();
 
   final List<Color> availableSeatsColor = [
@@ -29,7 +29,7 @@ class BookingCubit extends Cubit<BookingState> {
   ];
 
   resetState() {
-    emit(BookingState());
+    emit(const BookingState());
   }
 
   selectDeparture(InboundOutboundSegment segment) {

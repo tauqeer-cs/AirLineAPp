@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../app/app_logger.dart';
-import '../localizations/localizations_util.dart';
 import '../models/error_response.dart';
 
 class ErrorUtils {

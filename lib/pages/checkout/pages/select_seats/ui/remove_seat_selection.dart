@@ -34,9 +34,9 @@ class RemoveSeatSelection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("I don’t mind where I sit", style: kLargeSemiBold),
+                  const Text("I don’t mind where I sit", style: kLargeSemiBold),
                   kVerticalSpacer,
-                  Text("To avoid the middle seat, choose the option from above.", style: kLargeMedium),
+                  const Text("To avoid the middle seat, choose the option from above.", style: kLargeMedium),
                 ],
               ),
             ),

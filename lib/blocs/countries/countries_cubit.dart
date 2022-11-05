@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 part 'countries_state.dart';
 
 class CountriesCubit extends Cubit<CountriesState> {
-  CountriesCubit() : super(CountriesState());
+  CountriesCubit() : super(const CountriesState());
 
   final _repository = PublicRepository();
 

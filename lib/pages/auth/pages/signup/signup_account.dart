@@ -1,8 +1,6 @@
-import 'dart:ui';
 
 import 'package:app/app/app_router.dart';
 import 'package:app/data/requests/signup_request.dart';
-import 'package:app/models/country.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
 import 'package:app/pages/auth/pages/signup/ui/credential_input.dart';
@@ -11,8 +9,6 @@ import 'package:app/pages/auth/pages/signup/ui/password_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/signup_container.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_app_bar.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +34,7 @@ class SignupAccountPage extends StatelessWidget {
         confirmPassword: value[formNameConfirmPassword],
       );
       context.read<SignupCubit>().addAccountDetail(signupRequest);
-      AutoRouter.of(context).push(SignupAddressRoute());
+      AutoRouter.of(context).push(const SignupAddressRoute());
     }
   }
 
@@ -61,9 +57,9 @@ class SignupAccountPage extends StatelessWidget {
                       onPressed: ()=>AutoRouter.of(context).pop(),
                       color: Colors.white,
                     ),
-                    Expanded(
+                    const Expanded(
                         child: Center(child: AppLogoWidget(useWhite: true))),
-                    BackButton(color: Colors.transparent),
+                    const BackButton(color: Colors.transparent),
                   ],
                 ),
                 kVerticalSpacer,
@@ -80,15 +76,15 @@ class SignupAccountPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             kVerticalSpacer,
-                            NameInput(),
+                            const NameInput(),
                             kVerticalSpacer,
-                            CredentialInput(),
+                            const CredentialInput(),
                             kVerticalSpacer,
-                            PasswordInput(),
+                            const PasswordInput(),
                             kVerticalSpacer,
                             ElevatedButton(
                                 onPressed: () => onContinue(context),
-                                child: Text("Continue"))
+                                child: const Text("Continue"))
                           ],
                         ),
                       ),

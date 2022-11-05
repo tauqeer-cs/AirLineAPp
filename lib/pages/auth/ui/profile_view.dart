@@ -14,10 +14,10 @@ class ProfileView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text("Welcome back ${user?.firstName}"),
-        Spacer(),
+        const Spacer(),
         OutlinedButton(
           onPressed: () => context.read<LoginCubit>().logout(),
-          child: Text("Logout"),
+          child: const Text("Logout"),
         ),
         kVerticalSpacer,
       ],

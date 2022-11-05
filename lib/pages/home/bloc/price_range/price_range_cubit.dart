@@ -10,7 +10,7 @@ import 'package:equatable/equatable.dart';
 part 'price_range_state.dart';
 
 class PriceRangeCubit extends Cubit<PriceRangeState> {
-  PriceRangeCubit() : super(PriceRangeState());
+  PriceRangeCubit() : super(const PriceRangeState());
   final _repository = FlightRepository();
 
   getPrices(FilterState filterState, {DateTime? startFilter, DateTime? endFilter}) async {

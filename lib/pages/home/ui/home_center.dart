@@ -1,14 +1,8 @@
-import 'dart:ui';
 
 import 'package:app/models/home_content.dart';
-import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/home/ui/home_center_carousel.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_image.dart';
-import 'package:app/widgets/app_image_carousel.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeCenter extends StatelessWidget {
@@ -19,7 +13,7 @@ class HomeCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/images/design/bgsky.png"),
           fit: BoxFit.cover,
@@ -41,7 +35,7 @@ class HomeCenter extends StatelessWidget {
                 onPressed: () {}, child: Text(content.buttonText ?? "")),
             kVerticalSpacer,
             Transform.translate(
-              offset: Offset(-15, 0),
+              offset: const Offset(-15, 0),
               child: Image.asset("assets/images/design/plane.png", width: 200.w,),
             ),
             Row(

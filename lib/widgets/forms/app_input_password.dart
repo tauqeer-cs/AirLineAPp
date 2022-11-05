@@ -1,4 +1,5 @@
-import 'package:app/theme/styles.dart';
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -55,7 +56,7 @@ class _AppInputPasswordState extends State<AppInputPassword> {
         hintText: widget.hintText ?? "",
         prefixIcon: widget.prefixIcon,
         label: widget.label != null ? Text(widget.label!) : null,
-        suffixIconConstraints: BoxConstraints(
+        suffixIconConstraints: const BoxConstraints(
           minWidth: 40,
           minHeight: 20,
           maxHeight: 20,

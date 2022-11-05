@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_date_range.g.dart';
@@ -57,8 +56,8 @@ class SearchDateRangeResponse extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.errors,
-        this.dateRangePrices,
+        errors,
+        dateRangePrices,
       ];
 }
 
@@ -98,7 +97,7 @@ class DateRangePrice extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.price,
-        this.date,
+        price,
+        date,
       ];
 }

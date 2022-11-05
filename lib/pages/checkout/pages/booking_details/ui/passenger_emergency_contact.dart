@@ -10,7 +10,6 @@ import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../../theme/theme.dart';
@@ -97,7 +96,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 name: formNameEmergencyRelation,
                 textEditingController: relationController,
                 child: AppDropDown<String>(
-                  items: ["Father", "Mother", "Sibling", "Friends", "Other"],
+                  items: const ["Father", "Mother", "Sibling", "Friends", "Other"],
                   defaultValue: "Father",
                   sheetTitle: "Relationship",
                   onChanged: (value) {

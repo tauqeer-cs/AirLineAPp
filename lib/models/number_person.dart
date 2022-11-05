@@ -1,6 +1,5 @@
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
-import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
@@ -19,9 +18,10 @@ class NumberPerson extends Equatable {
   static const empty = NumberPerson(persons: []);
 
   List<Seats?> selectedSeats(bool isDeparture) {
-    if (isDeparture)
+    if (isDeparture) {
       return persons.map((e) => e.departureSeats).toList()
         ..removeWhere((element) => element == null);
+    }
     return persons.map((e) => e.returnSeats).toList()
       ..removeWhere((element) => element == null);
   }
@@ -158,7 +158,7 @@ class Person extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [this.peopleType, numberOrder];
+  List<Object?> get props => [peopleType, numberOrder];
 
   Map<num?, List<Bundle>> groupedMeal(bool isDeparture) {
     final meals = isDeparture ? departureMeal : returnMeal;
@@ -223,8 +223,8 @@ class Person extends Equatable {
         outbound: outboundSSR,
       ),
       seat: Seat(
-        outbound: outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ?? Outbound(),
-        inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ?? Outbound(),
+        outbound: outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ?? const Outbound(),
+        inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ?? const Outbound(),
       ),
     );
     return passenger;

@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 part 'airports_state.dart';
 
 class AirportsCubit extends Cubit<AirportsState> {
-  AirportsCubit() : super(AirportsState());
+  AirportsCubit() : super(const AirportsState());
   final _repository = FlightRepository();
 
   getAirports() async {

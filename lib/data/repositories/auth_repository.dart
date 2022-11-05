@@ -11,7 +11,6 @@ import 'package:app/data/requests/signup_request.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/security_utils.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -49,7 +48,7 @@ class AuthenticationRepository {
   }
 
   Future<void> signUp(SignupRequest signupRequest) async{
-    final user = await _provider.signup(signupRequest);
+    await _provider.signup(signupRequest);
     //setCurrentUser(user);
     //storeAccessToken(user.token);
   }

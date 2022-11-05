@@ -9,7 +9,7 @@ import 'package:equatable/equatable.dart';
 part 'summary_state.dart';
 
 class SummaryCubit extends Cubit<SummaryState> {
-  SummaryCubit() : super(SummaryState());
+  SummaryCubit() : super(const SummaryState());
   final _repository = FlightRepository();
 
   submitSummary(SummaryRequest summaryRequest) async {

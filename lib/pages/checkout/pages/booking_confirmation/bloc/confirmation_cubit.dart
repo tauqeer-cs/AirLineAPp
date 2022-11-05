@@ -1,6 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/flight_repository.dart';
-import 'package:app/data/responses/summary_response.dart';
 import 'package:app/models/confirmation_model.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
@@ -11,7 +10,7 @@ part 'confirmation_state.dart';
 class ConfirmationCubit extends Cubit<ConfirmationState> {
   final _repository = FlightRepository();
 
-  ConfirmationCubit() : super(ConfirmationState());
+  ConfirmationCubit() : super(const ConfirmationState());
 
   getConfirmation(String id) async {
     emit(state.copyWith(blocState: BlocState.loading));

@@ -64,20 +64,21 @@ class AppDropDown<T> extends StatelessWidget {
           hintText: sheetTitle,
           contentPadding: isMinimalism
               ? EdgeInsets.zero
-              : EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+              : const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         ),
       ),
       dropdownBuilder: (context, val) {
-        if (val == null)
+        if (val == null) {
           return Row(
             children: [
-              prefix != null ? prefix! : SizedBox.shrink(),
+              prefix != null ? prefix! : const SizedBox.shrink(),
               Text(
                 sheetTitle ?? "",
                 style: kMediumMedium.copyWith(color: Styles.kTextColor),
               ),
             ],
           );
+        }
         return valueTransformer != null
             ? valueTransformer!(val)
             : Align(
@@ -110,7 +111,7 @@ class AppDropDown<T> extends StatelessWidget {
           thumbVisibility: true,
         ),
         emptyBuilder: (_, __) =>
-            Center(child: Text("No items can be selected")),
+            const Center(child: Text("No items can be selected")),
         itemBuilder: (context, value, selected) {
           return ListTile(
             dense: true,
@@ -140,8 +141,8 @@ class AppDropDown<T> extends StatelessWidget {
           actionsPadding: EdgeInsets.zero,
         ),*/
         modalBottomSheetProps: ModalBottomSheetProps(
-          backgroundColor: Color.fromRGBO(235, 235, 235, 0.85),
-          shape: RoundedRectangleBorder(
+          backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(16),
             ),
@@ -154,10 +155,10 @@ class AppDropDown<T> extends StatelessWidget {
       ),
       dropdownButtonProps: DropdownButtonProps(
         color: Colors.black,
-        icon: Icon(Icons.keyboard_arrow_down),
+        icon: const Icon(Icons.keyboard_arrow_down),
         isVisible: !isMinimalism,
         constraints:
-            isMinimalism ? BoxConstraints(minWidth: 0, maxWidth: 0) : null,
+            isMinimalism ? const BoxConstraints(minWidth: 0, maxWidth: 0) : null,
       ),
     );
   }

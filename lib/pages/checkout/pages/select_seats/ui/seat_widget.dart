@@ -50,7 +50,7 @@ class SeatWidget extends StatelessWidget {
         radius: 12,
         child: Visibility(
           visible: selected || otherSelected,
-          child: Icon(
+          child: const Icon(
             Icons.check,
             color: Colors.white,
           ),

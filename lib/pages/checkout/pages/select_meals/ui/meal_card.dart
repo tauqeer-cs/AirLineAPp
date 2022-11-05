@@ -41,7 +41,7 @@ class MealCard extends StatelessWidget {
     final length = meals?.where((element) => element == meal).length;
     final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
     return Container(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       child: AppCard(
         child: Row(
           children: [
@@ -101,7 +101,7 @@ class InputWithPlusMinus extends StatelessWidget {
                 height: 35.h,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                      shape: CircleBorder(), padding: EdgeInsets.zero),
+                      shape: const CircleBorder(), padding: EdgeInsets.zero),
                   onPressed: number > 0
                       ? () => handler(context, person, false, isDeparture)
                       : null,
@@ -117,7 +117,7 @@ class InputWithPlusMinus extends StatelessWidget {
                 height: 35.h,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                      shape: CircleBorder(), padding: EdgeInsets.zero),
+                      shape: const CircleBorder(), padding: EdgeInsets.zero),
                   onPressed: () => handler(context, person, true, isDeparture),
                   child: const Icon(
                     Icons.add,

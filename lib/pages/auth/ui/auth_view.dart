@@ -1,8 +1,6 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
@@ -11,7 +9,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class AuthView extends StatelessWidget {
@@ -42,7 +39,7 @@ class AuthView extends StatelessWidget {
               kVerticalSpacer,
               Column(
                 children: [
-                  AppLogoWidget(useWhite: true),
+                  const AppLogoWidget(useWhite: true),
                   kVerticalSpacer,
                   Text("Welcome Back!", style: kGiantRegular.copyWith(color: Colors.white),),
                 ],
@@ -72,12 +69,12 @@ class AuthView extends StatelessWidget {
                     kVerticalSpacer,
                     ElevatedButton(
                       onPressed: () => onLogin(context),
-                      child: Text("Login"),
+                      child: const Text("Login"),
                     ),
                     kVerticalSpacerSmall,
                     OutlinedButton(
-                      onPressed: () => context.router.push(SignupWrapperRoute()),
-                      child: Text("Create Acccount"),
+                      onPressed: () => context.router.push(const SignupWrapperRoute()),
+                      child: const Text("Create Acccount"),
                     )
                   ],
                 ),

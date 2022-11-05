@@ -7,13 +7,10 @@ import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
 import 'package:app/widgets/wrapper/auth_wrapper.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:html/parser.dart' as htmlparser;
-import 'package:html/dom.dart' as dom;
 
 import '../theme/theme.dart';
 
@@ -44,36 +41,36 @@ class AppScaffold extends StatelessWidget {
                   width: 80,
                 ),
                 kVerticalSpacer,
-                AppDividerWidget(color: Colors.white),
+                const AppDividerWidget(color: Colors.white),
                 ListTile(
                   title: Text(
                     "Manage Bookings",
-                    style: TextStyle().copyWith(color: Colors.white),
+                    style: const TextStyle().copyWith(color: Colors.white),
                   ),
                   onTap: () {
                     Scaffold.of(context).closeEndDrawer();
-                    context.router.push(BookingListRoute());
+                    context.router.push(const BookingListRoute());
                   },
                 ),
                 AuthWrapper(
                   authChild: ListTile(
                     title: Text(
                       "Member",
-                      style: TextStyle().copyWith(color: Colors.white),
+                      style: const TextStyle().copyWith(color: Colors.white),
                     ),
                     onTap: () {
                       Scaffold.of(context).closeEndDrawer();
-                      context.router.push(AuthRoute());
+                      context.router.push(const AuthRoute());
                     },
                   ),
                   child: ListTile(
                     title: Text(
                       "Sign In / Sign Up",
-                      style: TextStyle().copyWith(color: Colors.white),
+                      style: const TextStyle().copyWith(color: Colors.white),
                     ),
                     onTap: () {
                       Scaffold.of(context).closeEndDrawer();
-                      context.router.push(AuthRoute());
+                      context.router.push(const AuthRoute());
                     },
                   ),
                 ),
@@ -129,7 +126,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               )
             : null,
-        actions: [
+        actions: const [
           // IconButton(
           //   onPressed: () {},
           //   icon: Icon(Icons.menu),
@@ -139,7 +136,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
           alignment: Alignment.bottomLeft,
           child: flexibleWidget,
         ),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
         title: Container(
           padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 0),
@@ -174,7 +171,7 @@ class NotificationsWidget extends StatelessWidget {
         return blocBuilderWrapper(
           blocState: state.blocState,
           finishedBuilder: notifications?.isEmpty ?? true
-              ? SizedBox()
+              ? const SizedBox()
               : Container(
                   padding: const EdgeInsets.all(12.0),
                   width: 500.w,
@@ -194,8 +191,8 @@ class NotificationsWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-          loadingBuilder: SizedBox(),
-          failedBuilder: SizedBox(),
+          loadingBuilder: const SizedBox(),
+          failedBuilder: const SizedBox(),
         );
       },
     );

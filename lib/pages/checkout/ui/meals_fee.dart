@@ -1,9 +1,6 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
-import 'package:app/pages/checkout/ui/fares_and_bundles_detail.dart';
 import 'package:app/pages/checkout/ui/meals_fee_detail.dart';
-import 'package:app/pages/checkout/ui/seats_fee_detail.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +33,7 @@ class _MealsFeeState extends State<MealsFee> {
             });
           },
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
                 Text(
@@ -47,7 +44,7 @@ class _MealsFeeState extends State<MealsFee> {
                 Icon(
                   isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                 ),
-                Spacer(),
+                const Spacer(),
                 MoneyWidgetSmall(
                     amount: filter?.numberPerson
                         .getTotalMealPartial(widget.isDeparture)),

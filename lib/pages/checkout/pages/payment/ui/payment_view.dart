@@ -5,13 +5,8 @@ import 'package:app/pages/checkout/pages/booking_details/ui/card_summary.dart';
 import 'package:app/pages/checkout/pages/payment/bloc/payment_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/discount_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/passenger_card.dart';
-import 'package:app/pages/checkout/pages/payment/ui/payment_header.dart';
 import 'package:app/pages/checkout/pages/payment/ui/reward_and_discount.dart';
-import 'package:app/pages/checkout/ui/booking_details_header.dart';
-import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
-import 'package:app/widgets/app_booking_header.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,16 +23,16 @@ class PaymentView extends StatelessWidget {
         child: Column(
           children: [
             kVerticalSpacer,
-            PassengerCard(),
+            const PassengerCard(),
             kVerticalSpacer,
-            CardSummary(showFees: true),
+            const CardSummary(showFees: true),
           ],
         ),
       ),
       kVerticalSpacer,
-      RewardAndDiscount(),
+      const RewardAndDiscount(),
       kVerticalSpacer,
-      DiscountSummary(),
+      const DiscountSummary(),
       SummaryContainer(
         child: Padding(
           padding: kPageHorizontalPadding,
@@ -45,11 +40,11 @@ class PaymentView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               kVerticalSpacer,
-              BookingSummary(),
+              const BookingSummary(),
               kVerticalSpacer,
               ElevatedButton(
                 onPressed: () => onBook(context),
-                child: Text("Continue"),
+                child: const Text("Continue"),
               ),
               kVerticalSpacer,
             ],
