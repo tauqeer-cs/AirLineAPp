@@ -56,13 +56,10 @@ class PaymentCubit extends Cubit<PaymentState> {
       }
       FormData formData = FormData.fromMap(
           payRedirection.value?.paymentRedirectData?.redirectMap() ?? {});
-      print(
-          "payment url is ${payRedirection.value?.paymentRedirectData?.paymentUrl}");
       var response = await Dio().post(
         payRedirection.value?.paymentRedirectData?.paymentUrl ?? "",
         data: formData,
       );
-      print("response from payment ${response.data}");
 
       emit(state.copyWith(
         blocState: BlocState.finished,

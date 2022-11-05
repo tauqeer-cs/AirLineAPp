@@ -141,13 +141,11 @@ class CalendarSheetState extends State<CalendarSheet> {
               _focusedDay = focusedDay;
               _rangeSelectionMode = RangeSelectionMode.toggledOn;
             });
-            print("on range selected ${start} ${end}");
             if(start!=null && end!=null){
               context.router.pop();
             }
           },
           onPageChanged: (focusedDay) {
-            print("page changed $focusedDay");
             // context
             //     .read<FilterCubit>()
             //     .updateDate(departDate: focusedDay, returnDate: null);

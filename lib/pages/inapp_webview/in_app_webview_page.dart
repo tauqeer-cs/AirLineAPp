@@ -107,7 +107,6 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
                     });
                   },
                   onConsoleMessage: (controller, consoleMessage) {
-                    print(consoleMessage);
                   },
                   onReceivedHttpAuthRequest: (InAppWebViewController controller, URLAuthenticationChallenge challenge) async {
                     return HttpAuthResponse(username: "myairline", password: "BwH.gCrBhbh3xggH443pJdH", action: HttpAuthResponseAction.PROCEED);

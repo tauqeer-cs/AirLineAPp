@@ -39,7 +39,6 @@ class BookingDetailsPage extends StatelessWidget {
             blocListenerWrapper(
               blocState: state.blocState,
               onLoading: () {
-                print("summary loading");
                 context.loaderOverlay.show(
                   widget: AppLoadingScreen(message: "Loading"),
                 );

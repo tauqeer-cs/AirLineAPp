@@ -142,7 +142,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
         title: Container(
-          padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 20),
+          padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 0),
           child: child ??
               (title == null
                   ? AppLogoWidget(

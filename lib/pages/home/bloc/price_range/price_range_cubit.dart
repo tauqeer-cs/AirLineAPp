@@ -17,7 +17,6 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final start = startFilter ?? filterState.departDate ?? DateTime.now();
-      print("start is $start");
       final newFilter = filterState.copyWith(
         departDate: start.isBefore(DateTime.now()) ? DateTime.now() : start,
         returnDate: DateTime(start.year, start.month+2, 0),

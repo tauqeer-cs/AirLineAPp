@@ -11,16 +11,16 @@ class AppSheetHandler extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: Container(
-            width: 80,
-            height: 6,
-            decoration: BoxDecoration(
-              color: const Color(0xFFDBDBDB),
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
-        ),
+        // Center(
+        //   child: Container(
+        //     width: 80,
+        //     height: 6,
+        //     decoration: BoxDecoration(
+        //       color: const Color(0xFFDBDBDB),
+        //       borderRadius: BorderRadius.circular(6),
+        //     ),
+        //   ),
+        // ),
         Padding(
           padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(

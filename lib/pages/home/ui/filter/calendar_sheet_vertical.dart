@@ -136,7 +136,6 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                       maxDate: DateTime.now().add(Duration(days: 180)),
                       initialDate: departDate ?? DateTime.now(),
                       onMonthLoaded: (year, month) {
-                        print("month loaded $year $month");
                       },
                       startWeekWithSunday: true,
                       onDayPressed: (value) {
@@ -164,7 +163,6 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         }
                       },
                       onPaginationCompleted: (direction) {
-                        print("pagination completed $direction");
                       },
                       monthBuilder: (context, month, year) {
                         return Padding(
@@ -352,13 +350,11 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                     _focusedDay = focusedDay;
                     _rangeSelectionMode = RangeSelectionMode.toggledOn;
                   });
-                  print("on range selected ${start} ${end}");
                   if (start != null && end != null) {
                     context.router.pop();
                   }
                 },
                 onPageChanged: (focusedDay) {
-                  print("page changed $focusedDay");
                   // context
                   //     .read<FilterCubit>()
                   //     .updateDate(departDate: focusedDay, returnDate: null);

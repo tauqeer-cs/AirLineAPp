@@ -19,28 +19,31 @@ class ConfirmationPromo extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.superPNROrder;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              "Promo/Voucher",
-              style: kHugeSemiBold,
-            ),
-            Spacer(),
-            MoneyWidget(
-              amount: pnrOrder?.voucherDiscountAmt,
-              isDense: true,
-              isNegative: true,
-            ),
-          ],
-        ),
-        kVerticalSpacerSmall,
-        Text("Voucher"),
-        Text("${pnrOrder?.voucherCode}"),
-        kVerticalSpacerSmall,
-      ],
+    return Visibility(
+      visible: pnrOrder?.voucherDiscountAmt!=null && pnrOrder!.voucherDiscountAmt! >0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                "Promo/Voucher",
+                style: kHugeSemiBold,
+              ),
+              Spacer(),
+              MoneyWidget(
+                amount: pnrOrder?.voucherDiscountAmt,
+                isDense: true,
+                isNegative: true,
+              ),
+            ],
+          ),
+          kVerticalSpacerSmall,
+          Text("Voucher"),
+          Text("${pnrOrder?.voucherCode}"),
+          kVerticalSpacerSmall,
+        ],
+      ),
     );
   }
 }

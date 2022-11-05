@@ -22,7 +22,6 @@ class SeatsLegend extends StatelessWidget {
         : bookingState.returnColorMapping;
     final seatNotice = context.watch<CmsSsrCubit>().state.seatNotice;
 
-    print("available type ${availableType?.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

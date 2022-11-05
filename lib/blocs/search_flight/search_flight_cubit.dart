@@ -74,13 +74,11 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
       final meals = isDeparture
           ? List<Bundle>.from(person.departureMeal)
           : List<Bundle>.from(person.returnMeal);
-      print("meals is ${meals.length} ${isAdd}");
       if(isAdd){
         meals.add(meal);
       }else{
         meals.remove(meal);
       }
-      print("meals 2 is ${meals.length}");
 
       final newPerson = isDeparture
           ? person.copyWith(departureMeal: meals)

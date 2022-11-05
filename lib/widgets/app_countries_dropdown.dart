@@ -33,10 +33,8 @@ class AppCountriesDropdown extends StatelessWidget {
       builder: (context, state) {
         List<Country> newList = [];
         if(state.countries.isNotEmpty){
-          print("list not empty");
           newList = List<Country>.from(state.countries);
           final my = newList.firstWhere((element) => element == Country.defaultCountry);
-          print("found my $my");
           newList.removeWhere((element) => element == my);
           newList.insert(0, my);
         }

@@ -19,7 +19,6 @@ class AvailableMeals extends StatelessWidget {
     final  bundleNotice= context.watch<CmsSsrCubit>().state.bundleNotice;
 
     final meals = isDeparture ? mealGroup?.outbound : mealGroup?.inbound;
-    print("meals length $isDeparture ${meals?.length}");
     return Column(
       children: [
         ContainerNotice(sharedNotice: bundleNotice),

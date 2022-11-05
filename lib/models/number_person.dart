@@ -16,7 +16,7 @@ class NumberPerson extends Equatable {
     this.persons = const [],
   });
 
-  static const empty = NumberPerson(persons: const []);
+  static const empty = NumberPerson(persons: []);
 
   List<Seats?> selectedSeats(bool isDeparture) {
     if (isDeparture)

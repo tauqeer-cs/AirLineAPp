@@ -100,9 +100,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     hintText: "Country",
                     isPhoneCode: false,
                     onChanged: (value) {
-                      print("value is $value");
                       nationalityController.text = value?.countryCode2 ?? "";
-                      print("${nationalityController.text} nationaliity");
 
                     },
                   ),
