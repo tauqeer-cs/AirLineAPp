@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String designAuthBg = 'assets/images/design/auth_bg.png';
+  static const String designBackgroundBackground = 'assets/images/design/gridBackground.png';
   static const String designBaggage-small = 'assets/images/design/baggage-small.png';
   static const String designBgsky = 'assets/images/design/bgsky.png';
   static const String designHomeBg = 'assets/images/design/home_bg.png';
@@ -23,14 +24,14 @@ class Assets {
   static const String fontsEncodeSans-Thin = 'assets/fonts/EncodeSans-Thin.ttf';
   static const String fontsFlutter-icons-6c118f25 = 'assets/fonts/flutter-icons-6c118f25.zip';
   static const String fontsMyFlutterApp = 'assets/fonts/MyFlutterApp.ttf';
-  static const String iconsFamilyIcon = 'assets/images/icons/family_icon.png';
+  static const String iconsFamilyIcon = 'assets/images/icons/iconFamily.png';
   static const String iconsIconFlight = 'assets/images/icons/iconFlight.png';
-  static const String iconsIconLogout = 'assets/images/icons/icon_logout.png';
+  static const String iconsIconLogout = 'assets/images/icons/iconLogout.png';
   static const String iconsIconVoucher = 'assets/images/icons/iconVoucher.png';
-  static const String iconsInfoIcon = 'assets/images/icons/info_icon.png';
-  static const String iconsPaymentIcon = 'assets/images/icons/payment_icon.png';
-  static const String iconsPrefrencesIcon = 'assets/images/icons/prefrences_icon.png';
-  static const String iconsSettingIcon = 'assets/images/icons/setting_icon.png';
+  static const String iconsInfoIcon = 'assets/images/icons/iconInfo.png';
+  static const String iconsPaymentIcon = 'assets/images/icons/iconPayment.png';
+  static const String iconsPrefrencesIcon = 'assets/images/icons/iconPref.png';
+  static const String iconsSettingIcon = 'assets/images/icons/iconSetting.png';
   static const String imagesNativeIcon = 'assets/images/native/icon.png';
   static const String nativeIcon = 'assets/images/native/icon.jpg';
   static const String nativeLogo = 'assets/images/native/logo.png';
