@@ -22,7 +22,7 @@ class GreyCard extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5.0),
         child: Container(
           margin: EdgeInsets.all(margin),
-          padding: edgeInsets ?? const EdgeInsets.all(12),
+          padding: edgeInsets ?? EdgeInsets.all(24),
           decoration: BoxDecoration(
               color: const Color.fromRGBO(235, 235, 235, 0.75),
               borderRadius: borderRadius ?? BorderRadius.circular(12),

@@ -1,5 +1,7 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
+import 'package:app/theme/my_flutter_app_icons.dart';
+import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
@@ -48,6 +50,17 @@ class AuthView extends StatelessWidget {
               GlassCard(
                 child: Column(
                   children: [
+                    Row(
+                      children: [
+                        Icon(
+                          MyFlutterApp.icon0vector49301__1_,
+                          color: Styles.kPrimaryColor,
+                          size: 20,
+                        ),
+                        kHorizontalSpacerMini,
+                        Text("Login", style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),),
+                      ],
+                    ),
                     AppInputText(
                       isRequired: false,
                       textInputType: TextInputType.emailAddress,
