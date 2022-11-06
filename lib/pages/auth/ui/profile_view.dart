@@ -129,7 +129,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       Expanded(
@@ -153,7 +153,7 @@ class ProfileView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     children: [
                       Expanded(
@@ -176,10 +176,10 @@ class ProfileView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Spacer(),
-                  Spacer(),
-                  Spacer(),
-                  Spacer(),
+                  const Spacer(),
+                  const Spacer(),
+                  const Spacer(),
+                  const Spacer(),
 
                 ],
               ),
