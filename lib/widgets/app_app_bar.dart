@@ -97,6 +97,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? height;
   final Widget? flexibleWidget;
 
+  final bool overrideInnerHeight;
+
 
   const AppAppBar({
     Key? key,
@@ -107,6 +109,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.canBack = true,
     this.height,
     this.flexibleWidget,
+    this.overrideInnerHeight = false,
+
   }) : super(key: key);
 
   @override
@@ -116,10 +120,10 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.fromHeight(height ?? 60.h),
       child: AppBar(
-        toolbarHeight: height ?? 60.h,
+        toolbarHeight: overrideInnerHeight ? (height ?? 60.h) : 60.h,
         centerTitle: centerTitle,
         leading: canPop
-            ? Padding(
+            ? overrideInnerHeight ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
           alignment: Alignment.topLeft,
@@ -132,7 +136,14 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
               ),
-            )
+            ) : GestureDetector(
+          onTap: () => context.router.pop(),
+          child: Icon(
+            Icons.chevron_left,
+            size: 35,
+            color: Styles.kPrimaryColor,
+          ),
+        )
             : null,
         actions: const [
           // IconButton(

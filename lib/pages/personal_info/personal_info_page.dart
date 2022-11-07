@@ -47,6 +47,7 @@ class PersonalInfoPage extends StatelessWidget {
               title: "Personal Info",
               height: 100.h,
 
+              overrideInnerHeight: true ,
               child: Column(
                 children: [
 
