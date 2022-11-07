@@ -130,7 +130,10 @@ class ProfileView extends StatelessWidget {
                       ProfileBoxButton(
                         text: 'My Payment Cards',
                         imageName: 'iconPayment',
-                        onTap: () {},
+                        onTap: () {
+                          print('Not required at this time');
+                          
+                        },
                       ),
                       Expanded(
                         child: Container(),
@@ -146,7 +149,10 @@ class ProfileView extends StatelessWidget {
                       ProfileBoxButton(
                         text: 'Family and Friends',
                         imageName: 'iconFamily',
-                        onTap: () {},
+                        onTap: () {
+                          print('Not required at this time');
+
+                        },
                       ),
                       Expanded(
                         child: Container(),
