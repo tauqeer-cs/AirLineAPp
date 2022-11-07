@@ -38,6 +38,9 @@ class Styles {
 
   static Color get kIconColor => const Color(0xFF8299B9);
 
+  static Color get kDartTeal => const Color.fromRGBO(0, 48, 73, 1);
+
+
   static LinearGradient get gradient => LinearGradient(colors: const <Color>[
         Color(0xFF02C2F3),
         Color(0xFF10C7E9),

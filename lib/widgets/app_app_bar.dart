@@ -94,10 +94,12 @@ class AppScaffold extends StatelessWidget {
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool canBack, centerTitle;
+
   final Widget? child;
   final Function()? onAction;
   final double? height;
   final Widget? flexibleWidget;
+
 
   const AppAppBar({
     Key? key,
@@ -117,17 +119,23 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.fromHeight(height ?? 60.h),
       child: AppBar(
-        toolbarHeight: 60.h,
+        toolbarHeight: height ?? 60.h,
         centerTitle: centerTitle,
         leading: canPop
-            ? GestureDetector(
-                onTap: () => context.router.pop(),
-                child: Icon(
-                  Icons.chevron_left,
-                  size: 35,
-                  color: Styles.kPrimaryColor,
-                ),
-              )
+            ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+          alignment: Alignment.topLeft,
+                child: GestureDetector(
+                    onTap: () => context.router.pop(),
+                    child: Icon(
+                      Icons.chevron_left,
+                      size: 35,
+                      color: Styles.kPrimaryColor,
+                    ),
+                  ),
+              ),
+            )
             : null,
         actions: [
           // IconButton(

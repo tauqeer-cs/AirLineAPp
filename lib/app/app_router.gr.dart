@@ -184,6 +184,12 @@ class _$AppRouter extends RootStackRouter {
         child: const EditProfilePage(),
       );
     },
+    PersonalInfoRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const PersonalInfoPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -372,6 +378,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           EditProfileRoute.name,
           path: '/edit-profile',
+        ),
+        RouteConfig(
+          PersonalInfoRoute.name,
+          path: '/personal-info',
         ),
       ];
 }
@@ -816,6 +826,18 @@ class EditProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EditProfileRoute';
+}
+
+/// generated route for
+/// [PersonalInfoPage]
+class PersonalInfoRoute extends PageRouteInfo<void> {
+  const PersonalInfoRoute()
+      : super(
+          PersonalInfoRoute.name,
+          path: '/personal-info',
+        );
+
+  static const String name = 'PersonalInfoRoute';
 }
 
 /// generated route for

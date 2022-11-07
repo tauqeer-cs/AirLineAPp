@@ -11,8 +11,6 @@ import 'package:app/pages/auth/pages/signup/ui/password_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/signup_container.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_app_bar.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -61,9 +59,9 @@ class SignupAccountPage extends StatelessWidget {
                       onPressed: ()=>AutoRouter.of(context).pop(),
                       color: Colors.white,
                     ),
-                    Expanded(
+                    const Expanded(
                         child: Center(child: AppLogoWidget(useWhite: true))),
-                    BackButton(color: Colors.transparent),
+                    const BackButton(color: Colors.transparent),
                   ],
                 ),
                 kVerticalSpacer,

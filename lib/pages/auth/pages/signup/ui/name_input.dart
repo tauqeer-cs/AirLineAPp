@@ -14,7 +14,22 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import '../signup_wrapper.dart';
 
 class NameInput extends StatelessWidget {
-  const NameInput({Key? key}) : super(key: key);
+  final String? title;
+  final String? subText;
+  final bool smallerSubText;
+  final EdgeInsets? customGreyEdgeInsets;
+
+  final double greyMargin;
+
+  const NameInput(
+      {Key? key,
+      this.title,
+      this.subText,
+      this.smallerSubText = false,
+      this.greyMargin = 8.0,
+      this.customGreyEdgeInsets
+      })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,45 +37,51 @@ class NameInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormHeader(
-          title: "What's your full name?",
-          subtitle: "Please enter it as stated in your MyKad/Passport ",
+          title: title ?? "What's your full name?",
+          subtitle: subText ?? "Please enter it as stated in your MyKad/Passport ",
+          graySubText: true,
+          smallerHeaderText: true,
         ),
         GreyCard(
-          child: Column(
-            children: [
-              AppDropDown<String>(
-                items: availableTitle,
-                defaultValue: "Mr.",
-                sheetTitle: "Title",
-                onChanged: (value){
-                  context.read<SignupCubit>().editTitle(value);
-                },
-              ),
-              kVerticalSpacer,
-              AppInputText(
-                isRequired: false,
-                textInputType: TextInputType.name,
-                name: formNameFirstName,
-                hintText: 'First Name',
-                validators: [
-                  FormBuilderValidators.required(),
-                ],
-              ),
-              kVerticalSpacer,
-              AppInputText(
-                isRequired: false,
-                textInputType: TextInputType.name,
-                name: formNameLastName,
-                hintText: 'Last Name',
-                validators: [
-                  FormBuilderValidators.required(),
-                ],
-              ),
-              kVerticalSpacer,
-            ],
+          margin: greyMargin,
+          edgeInsets: customGreyEdgeInsets ?? const EdgeInsets.all(12),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                AppDropDown<String>(
+                  items: availableTitle,
+                  defaultValue: "Mr.",
+                  sheetTitle: "Title",
+                  onChanged: (value) {
+                    context.read<SignupCubit>().editTitle(value);
+                  },
+                ),
+                kVerticalSpacer,
+                AppInputText(
+                  isRequired: false,
+                  textInputType: TextInputType.name,
+                  name: formNameFirstName,
+                  hintText: 'First Name',
+                  validators: [
+                    FormBuilderValidators.required(),
+                  ],
+                ),
+                kVerticalSpacer,
+                AppInputText(
+                  isRequired: false,
+                  textInputType: TextInputType.name,
+                  name: formNameLastName,
+                  hintText: 'Last Name',
+                  validators: [
+                    FormBuilderValidators.required(),
+                  ],
+                ),
+                kVerticalSpacer,
+              ],
+            ),
           ),
         ),
-
       ],
     );
   }

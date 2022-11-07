@@ -1,15 +1,17 @@
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/theme.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../app/app_router.dart';
+
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
 
-  //iconLogout
-  //
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,10 @@ class ProfileView extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<LoginCubit>().logout();
+
+                },
                 child: Column(
                   children: [
                     Image.asset(
@@ -114,7 +119,10 @@ class ProfileView extends StatelessWidget {
                       ProfileBoxButton(
                         text: 'Personal Info',
                         imageName: 'iconInfo',
-                        onTap: () {},
+                        onTap: () {
+                          context.router.push(const PersonalInfoRoute());
+
+                        },
                       ),
                       Expanded(
                         child: Container(),

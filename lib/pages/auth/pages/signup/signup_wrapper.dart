@@ -14,6 +14,7 @@ const formNameTitle = "_title";
 const formNameNationality = "_nationality";
 const formNameDob = "_dob";
 const formNameEmail = "contact_email";
+
 const formNamePhone = "phone";
 const formNamePhoneCode = "phone_code";
 const formNamePassword = "password";
@@ -24,6 +25,16 @@ const formNameCountry = "country";
 const formNameState = "state";
 const formNameCity = "city";
 const formNamePostCode = "postCode";
+const formNameMyKad = "myKadNo";
+const formNameAddressEmail = "contact_address_email";
+
+const formNameFirstNameEmergency = "emergency_first_name";
+const formNameLastNameEmergency = "emergency_last_name";
+const formNameRelationshipEmergency = "emergency_relationship";
+const formNamePhoneRelationship = "emergency_phone";
+const formNamePhoneCodeRelationship = "emergency_phone_code";
+
+
 
 class SignupWrapperPage extends StatelessWidget {
   const SignupWrapperPage({Key? key}) : super(key: key);

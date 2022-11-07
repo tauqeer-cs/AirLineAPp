@@ -29,6 +29,7 @@ import 'package:app/pages/webview/webview_page.dart';
 import 'package:app/pages/welcome/welcome_page.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:app/pages/personal_info/personal_info_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -77,6 +78,8 @@ part 'app_router.gr.dart';
       ],
     ),
     AutoRoute(page: EditProfilePage, path: "/edit-profile"),
+    AutoRoute(page: PersonalInfoPage, path: "/personal-info")
+
   ],
 )
 class AppRouter extends _$AppRouter {}
