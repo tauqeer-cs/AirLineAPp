@@ -4,7 +4,7 @@ class Assets {
 
   static const String designAuthBg = 'assets/images/design/auth_bg.png';
   static const String designBackgroundBackground = 'assets/images/design/gridBackground.png';
-  static const String designBaggage-small = 'assets/images/design/baggage-small.png';
+  static const String designBaggageSmall = 'assets/images/design/baggageSmall.png';
   static const String designBgsky = 'assets/images/design/bgsky.png';
   static const String designHomeBg = 'assets/images/design/home_bg.png';
   static const String designPackage = 'assets/images/design/package.png';

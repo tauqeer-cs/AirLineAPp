@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/repositories/cms_repository.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
@@ -49,6 +50,9 @@ class MyInterceptor extends Interceptor {
     }
   }
 
+  final _repository = AuthenticationRepository();
+
+
   @override
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
@@ -91,9 +95,14 @@ class MyInterceptor extends Interceptor {
     }
 
     ///used if API request is using access token
+    ///
+
+    String? accessTokenData = await _repository.getAccessToken();
+
+
     String? accessToken = options.baseUrl.contains("mya-cms.alphareds.com")
         ? _cmsRepository.cmsToken
-        : null;
+        : accessTokenData;
     if (accessToken != null) {
       options.headers['Authorization'] = "Bearer $accessToken";
     }

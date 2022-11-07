@@ -39,7 +39,7 @@ class BaggageCard extends StatelessWidget {
         child: AppCard(
           child: Column(
             children: [
-              Image.asset("assets/images/design/baggage-small.png"),
+              Image.asset("assets/images/design/baggageSmall.png"),
               kVerticalSpacer,
               Text(selectedBundle.codeType?.capitalize() ?? "No Code"),
               kVerticalSpacer,

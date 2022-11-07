@@ -129,7 +129,7 @@ class NewBaggageCard extends StatelessWidget {
             ),
             Positioned(
               right: -11,
-              child: Image.asset("assets/images/design/baggage-small.png",
+              child: Image.asset("assets/images/design/baggageSmall.png",
                   height: 50),
             ),
           ],
