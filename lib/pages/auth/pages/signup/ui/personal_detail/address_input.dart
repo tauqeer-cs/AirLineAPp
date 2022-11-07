@@ -5,6 +5,7 @@ import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 class AddressInput extends StatelessWidget {
   final String? title;
@@ -60,7 +61,7 @@ class AddressInput extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    Expanded(
+                    const Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNameState,
@@ -72,7 +73,7 @@ class AddressInput extends StatelessWidget {
                 kVerticalSpacer,
                 Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNameCity,
@@ -80,7 +81,7 @@ class AddressInput extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    Expanded(
+                    const Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNamePostCode,

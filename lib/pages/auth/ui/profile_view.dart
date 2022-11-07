@@ -1,8 +1,12 @@
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/theme.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../app/app_router.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -192,6 +196,74 @@ class ProfileView extends StatelessWidget {
                   const Spacer(),
 
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileBoxButton extends StatelessWidget {
+  final String text;
+  final String imageName;
+  final VoidCallback onTap;
+
+  const ProfileBoxButton({
+    Key? key,
+    required this.text,
+    required this.imageName,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(12),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        width: MediaQuery.of(context).size.width / 2.462,
+        height: MediaQuery.of(context).size.width / 3.7,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 52,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Image.asset(
+                  'assets/images/icons/$imageName.png',
+                  width: MediaQuery.of(context).size.width / 11,
+                  height: MediaQuery.of(context).size.width / 11,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 10,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 38,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: kMediumRegular.copyWith(color: Styles.kTextColor),
+                ),
               ),
             ),
           ],
