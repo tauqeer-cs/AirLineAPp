@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 part 'routes_state.dart';
 
 class RoutesCubit extends Cubit<RoutesState> {
-  RoutesCubit() : super(RoutesState());
+  RoutesCubit() : super(const RoutesState());
   final _repository = CMSRepository();
 
   getRoutes() async {

@@ -1,7 +1,4 @@
-import 'package:app/models/home_content.dart';
 import 'package:app/models/number_person.dart';
-import 'package:app/pages/home/bloc/filter_cubit.dart';
-import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -240,8 +237,8 @@ class Passenger extends HiveObject with EquatableMixin {
         suffix,
         ssr,
         seat,
-        this.wheelChairNeeded,
-        this.oKUIDNumber,
+        wheelChairNeeded,
+        oKUIDNumber,
       ];
 
   factory Passenger.fromJson(Map<String, dynamic> json) =>

@@ -1,14 +1,11 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
-import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/search_result/ui/segment_card.dart';
-import 'package:app/pages/search_result/ui/sort_button.dart';
 import 'package:app/pages/search_result/ui/sort_sheet.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/string_utils.dart';
-import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,13 +58,13 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
         Row(
           children: [
             Transform.translate(
-              offset: Offset(-12, 0),
+              offset: const Offset(-12, 0),
               child: Container(
                 width: 155.w,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Styles.kDividerColor,
-                  borderRadius: BorderRadius.horizontal(
+                  borderRadius: const BorderRadius.horizontal(
                     right: Radius.circular(50),
                   ),
                 ),
@@ -80,7 +77,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                 ),
               ),
             ),
-            Spacer(flex: 1,),
+            const Spacer(flex: 1,),
             Visibility(
               visible: !isVerify,
               child: Expanded(
@@ -128,8 +125,8 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
       constraints: BoxConstraints(
         maxWidth: 0.9.sw,
       ),
-      backgroundColor: Color.fromRGBO(235, 235, 235, 0.85),
-      shape: RoundedRectangleBorder(
+      backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),
         ),

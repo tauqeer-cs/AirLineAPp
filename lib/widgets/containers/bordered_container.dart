@@ -10,7 +10,7 @@ class BorderedContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 55,
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1.0, color: Styles.kBorderColor),

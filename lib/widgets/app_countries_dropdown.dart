@@ -1,13 +1,10 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/countries/countries_cubit.dart';
-import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/models/country.dart';
 import 'package:app/pages/home/ui/filter/dropdown_transformer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'forms/app_dropdown.dart';
 
@@ -33,10 +30,8 @@ class AppCountriesDropdown extends StatelessWidget {
       builder: (context, state) {
         List<Country> newList = [];
         if(state.countries.isNotEmpty){
-          print("list not empty");
           newList = List<Country>.from(state.countries);
           final my = newList.firstWhere((element) => element == Country.defaultCountry);
-          print("found my $my");
           newList.removeWhere((element) => element == my);
           newList.insert(0, my);
         }

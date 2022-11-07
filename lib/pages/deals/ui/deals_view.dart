@@ -1,8 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
-import 'package:app/pages/home/ui/home_center.dart';
-import 'package:app/pages/home/ui/home_deal.dart';
 import 'package:app/pages/home/ui/home_deal_grid.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
@@ -20,7 +18,7 @@ class DealsView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             Text("On a tight budget?", style: kHugeRegular),
             Text("Check out these amazing deals", style: kGiantHeavy),
           ],
@@ -35,18 +33,18 @@ class DealsView extends StatelessWidget {
                 switch (e.name) {
                   case "3D Carousel Banner":
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: HomeBanner(content: e),
                     );
                   case "Flight Deals":
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: HomeDealGrid(content: e),
                     );
                   // case "Homepage center":
                   //   return HomeCenter(content: e);
                 }
-                return SizedBox();
+                return const SizedBox();
               }).toList(),
             ),
             failedBuilder: AppErrorScreen(message: state.message),

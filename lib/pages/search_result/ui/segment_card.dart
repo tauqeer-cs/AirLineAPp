@@ -27,7 +27,7 @@ class SegmentCard extends StatelessWidget {
         : context.watch<BookingCubit>().state.selectedReturn;
     return Container(
       width: 500.w,
-      margin: EdgeInsets.symmetric(vertical: 12),
+      margin: const EdgeInsets.symmetric(vertical: 12),
       child: GestureDetector(
         onTap: () {
           if (isDeparture) {
@@ -80,9 +80,9 @@ class SegmentCard extends StatelessWidget {
                       ],
                     ),
                     kVerticalSpacer,
-                    AppDividerWidget(),
+                    const AppDividerWidget(),
                     Transform.translate(
-                      offset: Offset(0, 20),
+                      offset: const Offset(0, 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -104,7 +104,7 @@ class SegmentCard extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "from",
                                   style: kTinyHeavy,
                                 ),
@@ -134,7 +134,7 @@ class SegmentCard extends StatelessWidget {
                 replacement: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(bottom: Radius.circular(15)),
                     ),
@@ -146,7 +146,7 @@ class SegmentCard extends StatelessWidget {
                       context.read<BookingCubit>().selectReturn(segment);
                     }
                   },
-                  child: Text("Select"),
+                  child: const Text("Select"),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
@@ -154,7 +154,7 @@ class SegmentCard extends StatelessWidget {
                     onPressed: () {
                       context.read<BookingCubit>().changeFlight();
                     },
-                    child: Text("Change Flight"),
+                    child: const Text("Change Flight"),
                   ),
                 ),
               ),

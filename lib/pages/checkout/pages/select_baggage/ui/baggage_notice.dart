@@ -17,12 +17,12 @@ class BaggageNotice extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Carry-on Baggage", style: kGiantSemiBold),
+          const Text("Carry-on Baggage", style: kGiantSemiBold),
           kVerticalSpacer,
           Html(data: carryNotice?.content ?? ""),
           kVerticalSpacerBig,
           kVerticalSpacer,
-          Text("Travel with Oversized items? ", style: kGiantSemiBold),
+          const Text("Travel with Oversized items? ", style: kGiantSemiBold),
           kVerticalSpacer,
           Html(data: oversizedNotice?.content ?? ""),
         ],

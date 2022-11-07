@@ -7,7 +7,6 @@ import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:convert';
 
-import '../app/app_flavor.dart';
 import '../app/app_logger.dart';
 import '../models/error_response.dart';
 
@@ -98,7 +97,6 @@ class MyInterceptor extends Interceptor {
     if (accessToken != null) {
       options.headers['Authorization'] = "Bearer $accessToken";
     }
-    print("headers ${options.headers['Authorization']}");
     super.onRequest(options, handler);
   }
 
@@ -114,7 +112,6 @@ class MyInterceptor extends Interceptor {
         if(data is Map && data.containsKey("value")){
           final dataValue = result["result"]["value"];
           final isSuccessValue = dataValue["success"] ?? true;
-          print("isSuccess is $isSuccess isSuccessResult $isSuccessResult");
           if(isSuccessValue is bool && !isSuccessValue){
             if(dataValue["error"] !=null && dataValue["error"] is Map){
               throw ErrorResponse.fromJson(dataValue["error"]);
@@ -180,8 +177,6 @@ class MyInterceptor extends Interceptor {
     } else if (error is ErrorResponse) {
       throw error;
     }else{
-      print("error unknown format ${error.runtimeType}");
-      print("error unknown format ${error}");
     }
     super.onError(error, handler);
   }

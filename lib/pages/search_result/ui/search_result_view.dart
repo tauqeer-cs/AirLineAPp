@@ -6,7 +6,6 @@ import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/flight_result_widget.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:app/widgets/app_loading_screen.dart';
@@ -32,8 +31,8 @@ class SearchResultView extends StatelessWidget {
               const FlightResultWidget(),
               Stack(
                 children: [
-                  SizedBox(height: 80),
-                  CheckoutSummary(),
+                  const SizedBox(height: 80),
+                  const CheckoutSummary(),
                   Positioned(
                     bottom: 15,
                     right: 15,

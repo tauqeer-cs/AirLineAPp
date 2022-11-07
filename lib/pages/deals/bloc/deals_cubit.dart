@@ -5,5 +5,5 @@ import 'package:equatable/equatable.dart';
 part 'deals_state.dart';
 
 class DealsCubit extends Cubit<DealsState> {
-  DealsCubit() : super(DealsState());
+  DealsCubit() : super(const DealsState());
 }

@@ -1,5 +1,4 @@
 import 'package:app/theme/theme.dart';
-import 'package:app/theme/typography.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +29,7 @@ class MoneyWidget extends StatelessWidget {
         ),
         kHorizontalSpacerMini,
         Text(
-          "${NumberUtils.formatNumber(amount?.toDouble())}",
+          NumberUtils.formatNumber(amount?.toDouble()),
           style: kHeaderHeavy.copyWith(fontSize: isDense ? 20 : 28),
         ),
       ],
@@ -67,7 +66,7 @@ class MoneyWidgetSmall extends StatelessWidget {
         ),
         kHorizontalSpacerMini,
         Text(
-          "${NumberUtils.formatNumber(amount?.toDouble())}",
+          NumberUtils.formatNumber(amount?.toDouble()),
           style: kMediumRegular.copyWith(
             fontSize: isDense ? 12 : 14,
             color: Styles.kSubTextColor,

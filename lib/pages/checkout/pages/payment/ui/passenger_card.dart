@@ -73,7 +73,7 @@ class PassengerCard extends StatelessWidget {
               ],
             ),
           ),
-          TextButton(onPressed: () => context.router.pop(), child: Text("Edit"))
+          TextButton(onPressed: () => context.router.pop(), child: const Text("Edit"))
         ],
       ),
     );

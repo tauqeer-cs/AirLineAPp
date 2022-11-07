@@ -1,7 +1,5 @@
-import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
-import 'package:app/pages/checkout/ui/baggage_fee_detail.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes.dart';
 import 'package:app/utils/date_utils.dart';
@@ -9,7 +7,6 @@ import 'package:app/utils/number_utils.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,8 +34,6 @@ class _FlightDetailState extends State<FlightDetail> {
   @override
   Widget build(BuildContext context) {
     final detail = widget.segment.segmentDetail;
-    final info = widget.segment.fareTypeWithTaxDetails?.firstOrNull
-        ?.fareInfoWithTaxDetails?.firstOrNull;
     final filter = context.watch<SearchFlightCubit>().state.filterState;
 
     return Column(
@@ -56,12 +51,12 @@ class _FlightDetailState extends State<FlightDetail> {
               Text(
                 "Details",
                 style: kSmallRegular.copyWith(
-                    color: Color.fromRGBO(243, 110, 56, 1)),
+                    color: const Color.fromRGBO(243, 110, 56, 1)),
               ),
               kHorizontalSpacerMini,
               Icon(
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                color: Color.fromRGBO(243, 110, 56, 1),
+                color: const Color.fromRGBO(243, 110, 56, 1),
               ),
             ],
           ),
@@ -97,7 +92,7 @@ class _FlightDetailState extends State<FlightDetail> {
               // kVerticalSpacer,
               BorderedLeftContainer(
                 title: "Duration:",
-                content: '${NumberUtils.getTimeString(detail?.flightTime)}',
+                content: NumberUtils.getTimeString(detail?.flightTime),
               ),
               kVerticalSpacer,
 
@@ -138,7 +133,7 @@ class BorderedLeftContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
         border: Border(
           left: BorderSide(color: Styles.kPrimaryColor, width: 4),

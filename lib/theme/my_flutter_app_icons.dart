@@ -13,6 +13,8 @@
 ///
 /// 
 ///
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/widgets.dart';
 
 class MyFlutterApp {
@@ -29,4 +31,5 @@ class MyFlutterApp {
   static const IconData icologinactive = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData icoflyto = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData icodate = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData icon0vector49301__1_ = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

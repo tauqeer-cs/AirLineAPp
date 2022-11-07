@@ -128,7 +128,7 @@ class BookingContact extends Equatable {
 
   Map<String, dynamic> toJson() => _$BookingContactToJson(this);
 
-  BookingContact({
+  const BookingContact({
     this.superPNRID,
     this.userId,
     this.titleCode,
@@ -228,28 +228,28 @@ class BookingContact extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.superPNRID,
-        this.userId,
-        this.titleCode,
-        this.givenName,
-        this.surname,
-        this.email,
-        this.phone1,
-        this.phone1LocationCode,
-        this.dob,
-        this.nationality,
-        this.passportExpiryDate,
-        this.emergencyGivenName,
-        this.emergencySurname,
-        this.emergencyEmail,
-        this.emergencyPhone,
-        this.emergencyPhoneCode,
-        this.createdById,
-        this.createdDate,
-        this.createdDateUTC,
-        this.modifiedById,
-        this.modifiedDate,
-        this.modifiedDateUTC,
+        superPNRID,
+        userId,
+        titleCode,
+        givenName,
+        surname,
+        email,
+        phone1,
+        phone1LocationCode,
+        dob,
+        nationality,
+        passportExpiryDate,
+        emergencyGivenName,
+        emergencySurname,
+        emergencyEmail,
+        emergencyPhone,
+        emergencyPhoneCode,
+        createdById,
+        createdDate,
+        createdDateUTC,
+        modifiedById,
+        modifiedDate,
+        modifiedDateUTC,
       ];
 }
 
@@ -1400,20 +1400,20 @@ class SuperPNR extends Equatable {
 
   @override
   List<Object?> get props => [
-        this.superPNRID,
-        this.superPNRNo,
-        this.channelTypeCode,
-        this.bookingDate,
-        this.userId,
-        this.validDateFrom,
-        this.validDateTo,
-        this.isActive,
-        this.createdById,
-        this.createdDate,
-        this.createdDateUTC,
-        this.modifiedById,
-        this.modifiedDate,
-        this.modifiedDateUTC,
+        superPNRID,
+        superPNRNo,
+        channelTypeCode,
+        bookingDate,
+        userId,
+        validDateFrom,
+        validDateTo,
+        isActive,
+        createdById,
+        createdDate,
+        createdDateUTC,
+        modifiedById,
+        modifiedDate,
+        modifiedDateUTC,
       ];
 
   final num? superPNRID;

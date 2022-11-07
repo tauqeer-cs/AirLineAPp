@@ -28,8 +28,6 @@ class _WebViewStackState extends State<WebViewStack> {
 
   @override
   Widget build(BuildContext context) {
-    print("widget ${widget.htmlContent}");
-    print("url ${widget.url}");
     return Stack(
       children: [
         WebView(
@@ -59,7 +57,6 @@ class _WebViewStackState extends State<WebViewStack> {
             });
           },
           navigationDelegate: (navigation) {
-            print("navigation url is ${navigation.url}");
             if(navigation.url.contains(AppFlavor.paymentRedirectUrl)){
               context.router.pop(navigation.url);
             }

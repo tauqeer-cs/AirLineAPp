@@ -12,17 +12,17 @@ class GlassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: new ClipRRect(
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: new BackdropFilter(
-          filter: new ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-          child: new Container(
-            padding: EdgeInsets.all(12),
-            decoration: new BoxDecoration(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
                 color: color != null
                     ? color?.withOpacity(0.8)
                     : Colors.white.withOpacity(0.8)),
-            child: new Center(
+            child: Center(
               child: child,
             ),
           ),

@@ -9,7 +9,7 @@ part 'booking_local_state.dart';
 class BookingLocalCubit extends Cubit<BookingLocalState> {
   final _repository = LocalRepository();
 
-  BookingLocalCubit() : super(BookingLocalState());
+  BookingLocalCubit() : super(const BookingLocalState());
 
   saveBooking(BookingLocal bookingLocal){
     final list = List<BookingLocal>.from(state.bookings);

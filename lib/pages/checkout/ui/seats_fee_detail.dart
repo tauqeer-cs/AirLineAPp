@@ -1,9 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
-import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
-import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -42,7 +39,7 @@ class SeatsFeeDetail extends StatelessWidget {
             final row = (rows ?? [])
                 .firstWhereOrNull((element) => element.rowId == seats?.rowId);
             return seats == null
-                ? SizedBox.shrink()
+                ? const SizedBox.shrink()
                 : PriceContainer(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

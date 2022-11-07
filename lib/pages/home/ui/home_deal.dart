@@ -1,13 +1,10 @@
 import 'dart:ui';
 
 import 'package:app/models/home_content.dart';
-import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_image_carousel.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeDeal extends StatelessWidget {
   final HomeContent content;
@@ -45,13 +42,13 @@ class HomeDeal extends StatelessWidget {
                           ),
                           Container(
                             width: double.infinity,
-                            padding: EdgeInsets.fromLTRB(10, 10, 40, 10),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 40, 10),
                             child: ClipRect(
                               child: BackdropFilter(
                                 filter:
                                     ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                                 child: Container(
-                                  padding: EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
                                     color: Colors.grey.shade200.withOpacity(0.5),
@@ -80,12 +77,12 @@ class HomeDeal extends StatelessWidget {
                                         style: kHugeSemiBold.copyWith(
                                             color: Colors.black),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       SizedBox(
                                         width: double.infinity,
                                         child: ElevatedButton(
                                           onPressed: () {},
-                                          child: Text("Buy Now"),
+                                          child: const Text("Buy Now"),
                                         ),
                                       ),
                                     ],

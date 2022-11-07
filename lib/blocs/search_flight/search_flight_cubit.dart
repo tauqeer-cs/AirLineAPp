@@ -3,7 +3,6 @@ import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/verify_response.dart';
-import 'package:app/models/airports.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
@@ -13,7 +12,7 @@ import 'package:equatable/equatable.dart';
 part 'search_flight_state.dart';
 
 class SearchFlightCubit extends Cubit<SearchFlightState> {
-  SearchFlightCubit() : super(SearchFlightState());
+  SearchFlightCubit() : super(const SearchFlightState());
   final _repository = FlightRepository();
 
   addBundleToPerson(Person? person, InboundBundle? bundle, bool isDeparture) {
@@ -74,13 +73,11 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
       final meals = isDeparture
           ? List<Bundle>.from(person.departureMeal)
           : List<Bundle>.from(person.returnMeal);
-      print("meals is ${meals.length} ${isAdd}");
       if(isAdd){
         meals.add(meal);
       }else{
         meals.remove(meal);
       }
-      print("meals 2 is ${meals.length}");
 
       final newPerson = isDeparture
           ? person.copyWith(departureMeal: meals)

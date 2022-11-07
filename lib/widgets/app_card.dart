@@ -10,7 +10,7 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: edgeInsets ?? EdgeInsets.all(15),
+      padding: edgeInsets ?? const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(15),

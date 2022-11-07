@@ -9,17 +9,17 @@ class BookingLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ShimmerRectangle(height: 50),
+        const ShimmerRectangle(height: 50),
         kVerticalSpacer,
-        ShimmerRectangle(),
+        const ShimmerRectangle(),
         kVerticalSpacer,
-        ShimmerRectangle(height: 300),
+        const ShimmerRectangle(height: 300),
         kVerticalSpacerBig,
-        ShimmerRectangle(height: 50),
+        const ShimmerRectangle(height: 50),
         kVerticalSpacer,
-        ShimmerRectangle(),
+        const ShimmerRectangle(),
         kVerticalSpacer,
-        ShimmerRectangle(height: 300),
+        const ShimmerRectangle(height: 300),
       ],
     );
   }

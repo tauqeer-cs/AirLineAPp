@@ -3,13 +3,11 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/flight_segment.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/pages/search_result/ui/choose_flight_segment.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../theme/theme.dart';
 
 class CardSummary extends StatelessWidget {
   final bool showFees;
@@ -25,7 +23,7 @@ class CardSummary extends StatelessWidget {
           blocState: bookState.blocState,
           finishedBuilder: buildFlights(state, bookState),
           initialBuilder: buildFlights(state, bookState),
-          loadingBuilder: BookingLoader(),
+          loadingBuilder: const BookingLoader(),
         );
       },
     );

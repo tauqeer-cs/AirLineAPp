@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
@@ -107,8 +105,7 @@ class NewMealCard extends StatelessWidget {
         isDeparture ? focusedPerson?.departureMeal : focusedPerson?.returnMeal;
     final length = meals?.where((element) => element == meal).length;
     final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
-    const mealSoldOut = false;
-
+    //const mealSoldOut = false;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: Card(
@@ -159,22 +156,22 @@ class NewMealCard extends StatelessWidget {
                   kVerticalSpacer,
                 ],
               ),
-              if (mealSoldOut)
-                ClipRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
-                    child: Container(
-                      color: Colors.grey.shade200.withOpacity(0.1),
-                      child: Center(
-                        child: Text(
-                          "Sold Out",
-                          style:
-                              kGiantHeavy.copyWith(color: Styles.kPrimaryColor),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              // if (mealSoldOut)
+              //   ClipRect(
+              //     child: BackdropFilter(
+              //       filter: ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
+              //       child: Container(
+              //         color: Colors.grey.shade200.withOpacity(0.1),
+              //         child: Center(
+              //           child: Text(
+              //             "Sold Out",
+              //             style:
+              //                 kGiantHeavy.copyWith(color: Styles.kPrimaryColor),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
             ],
           ),
         ),

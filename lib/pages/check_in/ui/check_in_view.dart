@@ -28,8 +28,8 @@ class CheckInView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   kVerticalSpacer,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
                         vertical: 0.0, horizontal: 0),
                     child: Text("Online Check In", style: kGiantHeavy),
                   ),
@@ -63,7 +63,7 @@ class CheckInView extends StatelessWidget {
                       onPressed: () {
                         onManageBooking(context);
                       },
-                      child: Text("Check In"))
+                      child: const Text("Check In"))
                 ],
               ),
             ),

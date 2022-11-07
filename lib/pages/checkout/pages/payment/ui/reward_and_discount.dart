@@ -7,7 +7,6 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_loading_screen.dart';
-import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -35,7 +34,7 @@ class RewardAndDiscount extends StatelessWidget {
               style: kGiantSemiBold.copyWith(color: Styles.kPrimaryColor),
             ),
             kVerticalSpacerSmall,
-            Text(
+            const Text(
               "Voucher Code",
               style: kHugeSemiBold,
             ),
@@ -44,7 +43,7 @@ class RewardAndDiscount extends StatelessWidget {
               child: FormBuilderTextField(
                 name: "voucherCode",
                 validator: FormBuilderValidators.required(),
-                style: TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14),
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   hintText: "Voucher Code",
@@ -55,9 +54,9 @@ class RewardAndDiscount extends StatelessWidget {
                   focusedBorder: InputBorder.none,
                   focusedErrorBorder: InputBorder.none,
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
                   isDense: true,
-                  suffixIconConstraints: BoxConstraints(
+                  suffixIconConstraints: const BoxConstraints(
                     minWidth: 40,
                     minHeight: 20,
                     maxHeight: 20,
@@ -65,11 +64,11 @@ class RewardAndDiscount extends StatelessWidget {
                   ),
                   suffixIcon: blocBuilderWrapper(
                       blocState: state.blocState,
-                      loadingBuilder: AppLoading(
+                      loadingBuilder: const AppLoading(
                         size: 20,
                       ),
                       failedBuilder:
-                          Icon(Icons.clear, color: Colors.red, size: 15),
+                          const Icon(Icons.clear, color: Colors.red, size: 15),
                       finishedBuilder:
                           Image.asset("assets/images/icons/iconVoucher.png")),
                 ),
@@ -102,11 +101,11 @@ class RewardAndDiscount extends StatelessWidget {
                       }
                     },
               child: state.blocState == BlocState.loading
-                  ? AppLoading(
+                  ? const AppLoading(
                       size: 25,
                       color: Colors.white,
                     )
-                  : Text("Apply"),
+                  : const Text("Apply"),
             ),
             // AppCard(
             //   child: Column(

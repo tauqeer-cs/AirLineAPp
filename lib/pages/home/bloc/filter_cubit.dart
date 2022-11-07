@@ -1,5 +1,4 @@
 import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/models/airports.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -9,7 +8,7 @@ import 'package:equatable/equatable.dart';
 part 'filter_state.dart';
 
 class FilterCubit extends Cubit<FilterState> {
-  FilterCubit() : super(FilterState());
+  FilterCubit() : super(const FilterState());
 
   updatePromoCode(String? promoCode) {
     emit(state.copyWith(promoCode: promoCode));

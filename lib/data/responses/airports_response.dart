@@ -1,6 +1,5 @@
 import 'package:app/models/airports.dart';
 import 'package:equatable/equatable.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'airports_response.g.dart';

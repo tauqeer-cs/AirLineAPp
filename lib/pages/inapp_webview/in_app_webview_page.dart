@@ -83,7 +83,9 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
                         action: PermissionRequestResponseAction.GRANT);
                   },
                   shouldOverrideUrlLoading:
-                      (controller, navigationAction) async {},
+                      (controller, navigationAction) async {
+                        return null;
+                      },
                   onLoadStop: (controller, url) async {
                     pullToRefreshController.endRefreshing();
                     setState(() {
@@ -107,7 +109,6 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
                     });
                   },
                   onConsoleMessage: (controller, consoleMessage) {
-                    print(consoleMessage);
                   },
                   onReceivedHttpAuthRequest: (InAppWebViewController controller, URLAuthenticationChallenge challenge) async {
                     return HttpAuthResponse(username: "myairline", password: "BwH.gCrBhbh3xggH443pJdH", action: HttpAuthResponseAction.PROCEED);

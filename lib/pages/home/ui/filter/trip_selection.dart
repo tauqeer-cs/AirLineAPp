@@ -1,9 +1,6 @@
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/theme/spacer.dart';
-import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +19,7 @@ class TripSelection extends StatelessWidget {
                   context.read<FilterCubit>().updateTripType(e);
                 },
                 child: Container(
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       color:
                           e == tripType ? Styles.kPrimaryColor : Colors.white,

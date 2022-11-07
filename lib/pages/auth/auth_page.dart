@@ -20,7 +20,7 @@ class AuthPage extends StatelessWidget {
       ],
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: AppLoadingScreen(message: "Loading"),
+        overlayWidget: const AppLoadingScreen(message: "Loading"),
         child: BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
             blocListenerWrapper(
@@ -41,7 +41,7 @@ class AuthPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
-              Scaffold(
+              const Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AuthWrapper(
                   authChild: ProfileView(),

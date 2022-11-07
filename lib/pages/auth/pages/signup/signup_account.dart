@@ -1,8 +1,6 @@
-import 'dart:ui';
 
 import 'package:app/app/app_router.dart';
 import 'package:app/data/requests/signup_request.dart';
-import 'package:app/models/country.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
 import 'package:app/pages/auth/pages/signup/ui/credential_input.dart';
@@ -36,7 +34,7 @@ class SignupAccountPage extends StatelessWidget {
         confirmPassword: value[formNameConfirmPassword],
       );
       context.read<SignupCubit>().addAccountDetail(signupRequest);
-      AutoRouter.of(context).push(SignupAddressRoute());
+      AutoRouter.of(context).push(const SignupAddressRoute());
     }
   }
 
@@ -78,15 +76,15 @@ class SignupAccountPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             kVerticalSpacer,
-                            NameInput(),
+                            const NameInput(),
                             kVerticalSpacer,
-                            CredentialInput(),
+                            const CredentialInput(),
                             kVerticalSpacer,
-                            PasswordInput(),
+                            const PasswordInput(),
                             kVerticalSpacer,
                             ElevatedButton(
                                 onPressed: () => onContinue(context),
-                                child: Text("Continue"))
+                                child: const Text("Continue"))
                           ],
                         ),
                       ),

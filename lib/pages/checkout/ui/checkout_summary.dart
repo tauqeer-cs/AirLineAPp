@@ -1,11 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
-import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes.dart';
-import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +23,7 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
     return Visibility(
       visible: booking.isVerify,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 12),
+        margin: const EdgeInsets.symmetric(vertical: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,8 +37,8 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                 padding: kPageHorizontalPadding,
                 child: Row(
                   children: [
-                    Text("Flights and bundles summary", style: k18Heavy),
-                    Spacer(),
+                    const Text("Flights and bundles summary", style: k18Heavy),
+                    const Spacer(),
                     Icon(
                       isExpand
                           ? Icons.keyboard_arrow_up
@@ -63,13 +59,13 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                     kVerticalSpacer,
                     BlocProvider(
                       create: (context) => IsPaymentPageCubit(false),
-                      child: FeeAndTaxes(isDeparture: true),
+                      child: const FeeAndTaxes(isDeparture: true),
                     ),
                     Visibility(
                       visible: booking.selectedReturn != null,
                       child: BlocProvider(
                         create: (context) => IsPaymentPageCubit(false),
-                        child: FeeAndTaxes(isDeparture: false),
+                        child: const FeeAndTaxes(isDeparture: false),
                       ),
                     ),
                   ],

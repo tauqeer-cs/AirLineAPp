@@ -1,19 +1,9 @@
-import 'dart:async';
 
-import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/data/repositories/cms_repository.dart';
 import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
-import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
-import 'package:app/pages/checkout/pages/booking_details/ui/list_of_passenger_info.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 part 'local_user_event.dart';

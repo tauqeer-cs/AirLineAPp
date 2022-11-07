@@ -1,8 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_view.dart';
-import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
-import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:app/widgets/app_app_bar.dart';
@@ -45,8 +43,8 @@ class BookingConfirmationPage extends StatelessWidget {
             builder: (context, state) {
               return blocBuilderWrapper(
                 blocState: state.blocState,
-                finishedBuilder: ConfirmationView(),
-                loadingBuilder: SingleChildScrollView(
+                finishedBuilder: const ConfirmationView(),
+                loadingBuilder: const SingleChildScrollView(
                   padding: kPagePadding,
                   child: BookingLoader(),
                 ),

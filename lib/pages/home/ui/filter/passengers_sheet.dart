@@ -1,11 +1,6 @@
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
-import 'package:app/theme/spacer.dart';
-import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_divider_widget.dart';
-import 'package:app/widgets/app_sheet_handler.dart';
-import 'package:app/widgets/bottom_sheet_header_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +29,7 @@ class PassengersSheetState extends State<PassengersSheet> {
   Widget build(BuildContext context) {
     final passengers = context.watch<FilterCubit>().state.numberPerson;
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
       child: Wrap(
         children: [
           InputWithPlusMinus(
@@ -63,7 +58,7 @@ class PassengersSheetState extends State<PassengersSheet> {
               onPressed: () {
                 context.router.pop();
               },
-              child: Text("Confirm"))
+              child: const Text("Confirm"))
         ],
       ),
     );
@@ -118,7 +113,7 @@ class InputWithPlusMinus extends StatelessWidget {
                       height: 30.h,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                            shape: CircleBorder(),
+                            shape: const CircleBorder(),
                             padding: EdgeInsets.zero,
                             backgroundColor: Colors.transparent),
                         onPressed: number > 0
@@ -136,7 +131,7 @@ class InputWithPlusMinus extends StatelessWidget {
                       height: 30.h,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           padding: EdgeInsets.zero,
                           backgroundColor: Colors.transparent,
                         ),

@@ -1,10 +1,7 @@
-import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/string_utils.dart';
-import 'package:app/widgets/app_card.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +22,6 @@ class PassengersWidget extends StatelessWidget {
     int adult = 0;
     int infant = 0;
     int children = 0;
-    print("passengers ${passengers.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -1,6 +1,5 @@
 import 'package:app/models/confirmation_model.dart';
 import 'package:app/theme/spacer.dart';
-import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 
 class FareDetailWidget extends StatelessWidget {
@@ -17,7 +16,7 @@ class FareDetailWidget extends StatelessWidget {
           children: [
             Text(
                 "${fareAndBundle.title} ${fareAndBundle.givenName} ${fareAndBundle.surName}"),
-            Spacer(),
+            const Spacer(),
             // MoneyWidget(
             //   currency: fareAndBundle.currency,
             //   amount: fareAndBundle.fareAmount,

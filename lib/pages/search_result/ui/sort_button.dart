@@ -1,4 +1,3 @@
-import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class SortButton extends StatelessWidget {
           "Sort by",
           style: kSmallRegular.copyWith(color: Styles.kBorderColor),
         ),
-        AppDropDown(items: [])
+        const AppDropDown(items: [])
       ],
     );
   }

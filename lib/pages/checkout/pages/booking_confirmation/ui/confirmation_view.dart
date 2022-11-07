@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_baggage.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_meals.dart';
@@ -9,10 +7,10 @@ import 'package:app/pages/checkout/pages/booking_confirmation/ui/fares_and_bundl
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/passengers_widget.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/payment_info.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/summary_widget.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
+import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,15 +26,21 @@ class ConfirmationView extends StatefulWidget {
 }
 
 class _ConfirmationViewState extends State<ConfirmationView> {
-  Uint8List? _imageFile;
   ScreenshotController screenshotController = ScreenshotController();
+  bool isLoading = false;
 
   onShare() async {
-    final directory = (await getApplicationDocumentsDirectory()).path; //from path_provide package
+    setState(() {
+      isLoading = true;
+    });
+    final directory = (await getApplicationDocumentsDirectory())
+        .path; //from path_provide package
     String fileName = "${DateTime.now().microsecondsSinceEpoch.toString()}.jpg";
     await screenshotController.captureAndSave(directory, fileName: fileName);
-    Share.shareFiles(['$directory/$fileName']);
-
+    setState(() {
+      isLoading = false;
+    });
+    Share.shareXFiles([XFile('$directory/$fileName')]);
   }
 
   @override
@@ -48,15 +52,15 @@ class _ConfirmationViewState extends State<ConfirmationView> {
         child: Container(
           color: Colors.white,
           child: ListView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: kPagePadding,
             children: [
               kVerticalSpacerSmall,
               Text(
                 "Your booking has been confirmed.\nA confirmation email has been sent to\n${confirmationDetail.confirmationModel?.value?.bookingContact?.email}",
-                style:
-                    kMediumMedium.copyWith(color: Styles.kSubTextColor, height: 1.5),
+                style: kMediumMedium.copyWith(
+                    color: Styles.kSubTextColor, height: 1.5),
                 textAlign: TextAlign.center,
               ),
               kVerticalSpacerSmall,
@@ -68,29 +72,29 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               kVerticalSpacer,
               AppCard(
                 child: Column(
-                  children: [
+                  children: const [
                     PassengersWidget(),
                   ],
                 ),
               ),
               kVerticalSpacer,
-              SummaryWidget(),
+              const SummaryWidget(),
               kVerticalSpacer,
               AppCard(
                 child: Column(
                   children: [
-                    FaresAndBundles(),
-                    ConfirmationSeats(),
-                    ConfirmationMeals(),
-                    ConfirmationBaggage(),
-                    ConfirmationPromo(),
+                    const FaresAndBundles(),
+                    const ConfirmationSeats(),
+                    const ConfirmationMeals(),
+                    const ConfirmationBaggage(),
+                    const ConfirmationPromo(),
                     kVerticalSpacerSmall,
-                    AppDividerWidget(),
+                    const AppDividerWidget(),
                     kVerticalSpacerSmall,
                     Row(
                       children: [
-                        Text("Total", style: kGiantHeavy),
-                        Spacer(),
+                        const Text("Total", style: kGiantHeavy),
+                        const Spacer(),
                         MoneyWidget(
                           amount: (confirmationDetail.confirmationModel?.value
                                       ?.superPNROrder?.totalBookingAmt ??
@@ -107,11 +111,15 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               ),
               kVerticalSpacer,
               kVerticalSpacerSmall,
-              PaymentInfo(),
+              const PaymentInfo(),
               kVerticalSpacer,
-              OutlinedButton(onPressed: onShare, child: Text("Share")),
+              OutlinedButton(
+                onPressed: isLoading ? null : onShare,
+                child: isLoading ? AppLoading(size: 20,) : const Text("Share"),
+              ),
               kVerticalSpacerSmall,
-              ElevatedButton(onPressed: () {}, child: Text("Back to Home")),
+              ElevatedButton(
+                  onPressed: () {}, child: const Text("Back to Home")),
             ],
           ),
         ),

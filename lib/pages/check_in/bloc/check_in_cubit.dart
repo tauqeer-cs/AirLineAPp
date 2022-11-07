@@ -5,5 +5,5 @@ import 'package:equatable/equatable.dart';
 part 'check_in_state.dart';
 
 class CheckInCubit extends Cubit<CheckInState> {
-  CheckInCubit() : super(CheckInState());
+  CheckInCubit() : super(const CheckInState());
 }

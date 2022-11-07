@@ -27,8 +27,8 @@ class MealsPage extends StatelessWidget {
           appBar: AppAppBar(
             title: "Your Trip Starts Here",
             height: 100.h,
-            flexibleWidget: AppBookingStep(
-              passedSteps: const [BookingStep.flights, BookingStep.addOn],
+            flexibleWidget: const AppBookingStep(
+              passedSteps: [BookingStep.flights, BookingStep.addOn],
             ),
           ),
           body: MealsView(isDeparture: isDeparture),

@@ -42,7 +42,7 @@ class SignupWrapperPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
-      overlayWidget: AppLoadingScreen(message: "Loading"),
+      overlayWidget: const AppLoadingScreen(message: "Loading"),
       child: BlocProvider(
         create: (context) => SignupCubit(),
         child: BlocListener<SignupCubit, SignupState>(
@@ -61,7 +61,7 @@ class SignupWrapperPage extends StatelessWidget {
               },
             );
           },
-          child: AutoRouter(),
+          child: const AutoRouter(),
         ),
       ),
     );

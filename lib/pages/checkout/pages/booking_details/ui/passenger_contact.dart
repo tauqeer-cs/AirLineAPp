@@ -3,9 +3,7 @@ import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/country.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/grey_card.dart';
@@ -142,7 +140,7 @@ class _PassengerContactState extends State<PassengerContact> {
               ),
               FormBuilderCheckbox(
                 name: formNameContactReceiveEmail,
-                title: Text(
+                title: const Text(
                     "I wish to receive news and promotions from MYAirline by email."),
               ),
             ],

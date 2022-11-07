@@ -10,7 +10,7 @@ import 'package:equatable/equatable.dart';
 part 'cms_ssr_state.dart';
 
 class CmsSsrCubit extends Cubit<CmsSsrState> {
-  CmsSsrCubit() : super(CmsSsrState());
+  CmsSsrCubit() : super(const CmsSsrState());
   final _repository = CMSRepository();
 
   getCmsSSR(List<CMSRoute> cmsRoutes) async {

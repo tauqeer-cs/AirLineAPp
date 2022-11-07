@@ -1,4 +1,3 @@
-import 'package:app/models/home_content.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,7 +5,7 @@ part 'summary_response.g.dart';
 
 @JsonSerializable()
 class SummaryResponse extends Equatable{
-  SummaryResponse({
+  const SummaryResponse({
     this.flightSummaryPnrResult,
     this.orderId,
     this.verifyExpiredDateTime,
@@ -49,7 +48,7 @@ class SummaryResponse extends Equatable{
 
 @JsonSerializable()
 class FlightSummaryPnrResult extends Equatable{
-  FlightSummaryPnrResult({
+  const FlightSummaryPnrResult({
     this.summarySuccess,
     this.summaryAmount,
     this.currency,

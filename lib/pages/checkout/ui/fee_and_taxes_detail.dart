@@ -1,7 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -26,7 +25,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
         info?.applicationTaxDetailBinds;
     final filter = context.watch<SearchFlightCubit>().state.filterState;
 
-    if (taxes?.isEmpty ?? true) return SizedBox();
+    if (taxes?.isEmpty ?? true) return const SizedBox();
     return Column(
       children: [
         AppDividerWidget(color: Styles.kDisabledButton),
@@ -93,7 +92,7 @@ class PriceContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
       child: child,
     );
   }

@@ -1,4 +1,3 @@
-import 'package:app/localizations/localizations_util.dart';
 import 'package:intl/intl.dart';
 
 class AppDateUtils {

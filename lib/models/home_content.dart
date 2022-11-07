@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'home_content.g.dart';
@@ -18,7 +17,7 @@ class HomeContent extends Equatable {
   final String? name;
   final List<HomeItems>? items;
 
-  HomeContent(
+  const HomeContent(
       {this.buttonText,
       this.cardSectionTitleBold,
       this.cardSectionTitleNoBold,
@@ -65,7 +64,7 @@ class HomeItems extends Equatable {
   final String? name;
   final String? link;
 
-  HomeItems({
+  const HomeItems({
     this.description,
     this.image,
     this.price,

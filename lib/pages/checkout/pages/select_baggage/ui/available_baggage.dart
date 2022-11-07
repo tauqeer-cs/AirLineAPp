@@ -1,8 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/pages/checkout/pages/select_baggage/ui/baggage_card.dart';
-import 'package:app/pages/checkout/pages/select_meals/ui/meal_card.dart';
-import 'package:app/widgets/app_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

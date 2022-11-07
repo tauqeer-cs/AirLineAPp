@@ -10,14 +10,13 @@ import 'package:equatable/equatable.dart';
 part 'price_range_state.dart';
 
 class PriceRangeCubit extends Cubit<PriceRangeState> {
-  PriceRangeCubit() : super(PriceRangeState());
+  PriceRangeCubit() : super(const PriceRangeState());
   final _repository = FlightRepository();
 
   getPrices(FilterState filterState, {DateTime? startFilter, DateTime? endFilter}) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final start = startFilter ?? filterState.departDate ?? DateTime.now();
-      print("start is $start");
       final newFilter = filterState.copyWith(
         departDate: start.isBefore(DateTime.now()) ? DateTime.now() : start,
         returnDate: DateTime(start.year, start.month+2, 0),

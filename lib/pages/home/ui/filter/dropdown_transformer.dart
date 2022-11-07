@@ -26,7 +26,7 @@ class DropdownTransformerWidget<T> extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: prefix,
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,21 +46,21 @@ class DropdownTransformerWidget<T> extends StatelessWidget {
               ),
               Visibility(
                 visible: value != null,
+                replacement: Text(
+                  hintText ?? "Please Select",
+                  style: kMediumMedium,
+                ),
                 child: Text(
                   valueCustom != null
                       ? valueCustom!
                       : (value?.toString() ?? ""),
                   style: kMediumMedium,
                 ),
-                replacement: Text(
-                  hintText ?? "Please Select",
-                  style: kMediumMedium,
-                ),
               ),
             ],
           ),
         ),
-        suffix ?? SizedBox.shrink(),
+        suffix ?? const SizedBox.shrink(),
       ],
     );
   }

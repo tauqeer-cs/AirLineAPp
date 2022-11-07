@@ -12,7 +12,7 @@ class CMSRoute extends Equatable {
   final String? urlSegment;
   final List<RouteItems>? items;
 
-  CMSRoute({
+  const CMSRoute({
     this.contentType,
     this.key,
     this.id,
@@ -28,22 +28,22 @@ class CMSRoute extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.contentType,
-        this.key,
-        this.id,
-        this.name,
-        this.urlSegment,
-        this.items,
+        contentType,
+        key,
+        id,
+        name,
+        urlSegment,
+        items,
       ];
 }
 
 @JsonSerializable()
 class RouteContentType extends Equatable {
-  String? key;
-  int? id;
-  String? alias;
+  final String? key;
+  final int? id;
+  final String? alias;
 
-  RouteContentType({this.key, this.id, this.alias});
+  const RouteContentType({this.key, this.id, this.alias});
 
   factory RouteContentType.fromJson(Map<String, dynamic> json) =>
       _$RouteContentTypeFromJson(json);
@@ -52,19 +52,19 @@ class RouteContentType extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [this.key, this.id, this.alias];
+  List<Object?> get props => [key, id, alias];
 }
 
 @JsonSerializable()
 class RouteItems extends Equatable {
-  RouteContentType? contentType;
-  String? key;
-  int? id;
-  String? name;
-  String? urlSegment;
-  List<dynamic>? items;
+  final RouteContentType? contentType;
+  final String? key;
+  final int? id;
+  final String? name;
+  final String? urlSegment;
+  final List<dynamic>? items;
 
-  RouteItems({
+  const RouteItems({
     this.contentType,
     this.key,
     this.id,
@@ -81,11 +81,11 @@ class RouteItems extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.contentType,
-        this.key,
-        this.id,
-        this.name,
-        this.urlSegment,
-        this.items,
+        contentType,
+        key,
+        id,
+        name,
+        urlSegment,
+        items,
       ];
 }
