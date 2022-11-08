@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/pages/auth/ui/auth_view.dart';
 import 'package:app/pages/auth/ui/profile_view.dart';

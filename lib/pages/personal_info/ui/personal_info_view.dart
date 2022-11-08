@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import '../../../blocs/profile/profile_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../auth/pages/signup/ui/name_input.dart';
 import '../../auth/pages/signup/ui/personal_detail/address_input.dart';
@@ -15,6 +17,9 @@ class PersonalInfoView extends StatelessWidget {
   //iconLogout
   //
   onSave(BuildContext context) {
+    // var profileObject = context.watch<ProfileCubit>().state.profile;
+    var cubut = context.watch<ProfileCubit>().state;
+
     if (_fbKey.currentState!.saveAndValidate()) {
       final value = _fbKey.currentState!.value;
 
@@ -35,6 +40,10 @@ class PersonalInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cu = context.watch<ProfileCubit>().state;
+
+    var profile = context.watch<ProfileCubit>().state.profile;
+
     return FormBuilder(
       autoFocusOnValidationFailure: true,
       key: _fbKey,
@@ -43,44 +52,62 @@ class PersonalInfoView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const NameInput(
+              NameInput(
                 title: 'Full Name',
                 subText:
                     'Make sure your name is the same as it appears on your driver’s license or other government-issued ID.',
                 smallerSubText: true,
                 greyMargin: 0,
                 customGreyEdgeInsets: EdgeInsets.zero,
+                firstNameInitValue: profile?.userProfile?.firstName,
+                lastNameInitValue: profile?.userProfile?.lastName,
               ),
               kVerticalSpacer,
-              const AdditionInfoView(),
+              AdditionInfoView(
+                countrySelected: profile?.userProfile?.country,
+                myKadSelected: profile?.userProfile?.icNumber,
+                emailSelected: profile?.userProfile?.email,
+                dobSelected: profile?.userProfile?.dob,
+                phoneCountryCodeSelected: profile?.userProfile?.phoneCode,
+                phoneSelected: profile?.userProfile?.phoneCode,
+              ),
               kVerticalSpacer,
-              const AddressInput(
+              AddressInput(
                 title: 'Address',
                 subText: '',
                 hideSubText: true,
                 greyMargin: 0,
                 customGreyEdgeInsets: EdgeInsets.zero,
-                withEmail: true,
+                withEmail: false,
+                selectedAddress: profile?.userProfile?.address,
+                selectedCity: profile?.userProfile?.country,
+                selectedState: profile?.userProfile?.state,
+                selectedCountry: profile?.userProfile?.country,
+                selectedPosCode: profile?.userProfile?.postCode,
               ),
               kVerticalSpacer,
-              const EmergencyInfoView(),
+              EmergencyInfoView(
+                firstName: profile?.userProfile?.emergencyContact?.firstName,
+                lastName: profile?.userProfile?.emergencyContact?.lastName,
+                relationShip: profile?.userProfile?.emergencyContact?.relationship,
+                countryCode: profile?.userProfile?.emergencyContact?.phoneCode,
+                phoneNo: profile?.userProfile?.emergencyContact?.phoneCode,
+              ),
               kVerticalSpacer,
-
               OutlinedButton(
-                onPressed: (){
-
-                },
+                onPressed: () {},
                 child: const Text("Cancel"),
               ),
               kVerticalSpacerSmall,
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+//                  var profile = cubut;
 
+                  print('');
                 },
                 child: const Text("Save"),
               ),
               kVerticalSpacer,
-
             ],
           ),
         ),

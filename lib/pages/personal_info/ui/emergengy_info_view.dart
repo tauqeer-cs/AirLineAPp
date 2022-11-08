@@ -13,14 +13,22 @@ import '../../auth/pages/signup/ui/form_header.dart';
 
 
 class EmergencyInfoView extends StatelessWidget {
-  const EmergencyInfoView({Key? key}) : super(key: key);
+  const EmergencyInfoView({Key? key, this.firstName, this.lastName, this.relationShip, this.countryCode, this.phoneNo}) : super(key: key);
+
+  final String? firstName;
+  final String? lastName;
+  final String? relationShip;
+  final String? countryCode;
+  final String? phoneNo;
+
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children:   [
-        FormHeader(
+        const FormHeader(
           title: 'Emergency Contact Person Details',
           subtitle: 'We’ll call them when there’s an emergency.',
           graySubText: true,
@@ -38,6 +46,7 @@ class EmergencyInfoView extends StatelessWidget {
                   textInputType: TextInputType.name,
                   name: formNameFirstNameEmergency,
                   hintText: 'First Name / Given Name',
+                  initialValue: firstName,
                   validators: [
                     FormBuilderValidators.required(),
                   ],
@@ -49,6 +58,7 @@ class EmergencyInfoView extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.name,
                   name: formNameLastNameEmergency ,
+                  initialValue: lastName,
                   hintText: 'Last Name / Surname',
                   validators: [
                     FormBuilderValidators.required(),
@@ -62,6 +72,7 @@ class EmergencyInfoView extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.name,
                   name: formNameRelationshipEmergency  ,
+                  initialValue: relationShip,
                   hintText: 'Relationship',
                   validators: [
                     FormBuilderValidators.required(),
@@ -82,6 +93,7 @@ class EmergencyInfoView extends StatelessWidget {
                   name: formNamePhoneRelationship,
                   textInputType: TextInputType.number,
                   hintText: "Phone Number",
+                  initialValue: phoneNo,
                   validators: [FormBuilderValidators.required()],
                 ),
 

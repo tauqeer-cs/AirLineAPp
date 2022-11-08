@@ -13,200 +13,210 @@ class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final user = context.watch<AuthBloc>().state.user;
-    return BlocProvider(
-      create: (context) => ProfileCubit()..getProfile(),
-      child: BlocListener<ProfileCubit, ProfileState>(
-        listener: (context, state) {
+  Widget build(BuildContext profileContact) {
+    final user = profileContact.watch<AuthBloc>().state.user;
+    return BlocListener<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        print('object');
 
-          print('object');
 
-        },
-        child: Container(
-          color: Colors.white,
-          child: Container(
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage('assets/images/design/gridBackground.png'),
-              fit: BoxFit.fill,
-            )),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 40.h,
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: TextButton(
-                    onPressed: () {
-                      context.read<LoginCubit>().logout();
-                    },
+      },
+      child: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          if(state.blocState.index == 0) {
+            context.read<ProfileCubit>().getProfile();
+          }
+          return Container(
+            color: Colors.white,
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage('assets/images/design/gridBackground.png'),
+                fit: BoxFit.fill,
+              )),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      onPressed: () {
+                        profileContact.read<LoginCubit>().logout();
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'assets/images/icons/iconLogout.png',
+                            width: 50.w,
+                            height: 50.w,
+                          ),
+                          Text(
+                            "Logout",
+                            style: kMediumRegular.copyWith(
+                                color: Styles.kPrimaryColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          Text(
+                            "Welcome back, ",
+                            style: kHugeRegular.copyWith(
+                                color: Styles.kPrimaryColor),
+                          ),
+                          Text(
+                            "${user?.firstName}",
+                            style: kHugeHeavy.copyWith(
+                                color: Styles.kPrimaryColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(profileContact).size.width,
+                    height: MediaQuery.of(profileContact).size.height / 1.6,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(
+                              0, 3), // changes position of shadow
+                        ),
+                      ],
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(40),
+                          topLeft: Radius.circular(40)),
+                    ),
                     child: Column(
                       children: [
-                        Image.asset(
-                          'assets/images/icons/iconLogout.png',
-                          width: 50.w,
-                          height: 50.w,
+                        const SizedBox(
+                          height: 24,
                         ),
-                        Text(
-                          "Logout",
-                          style: kMediumRegular.copyWith(
-                              color: Styles.kPrimaryColor),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Let’s manage your account",
+                              style: kLargeRegular.copyWith(
+                                  color: Styles.kSubTextColor),
+                            ),
+                          ),
                         ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(),
+                            ),
+                            ProfileBoxButton(
+                              text: 'Personal Info',
+                              imageName: 'iconInfo',
+                              onTap: () {
+
+                                profileContact.router
+                                    .push(const PersonalInfoRoute());
+                              },
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            ProfileBoxButton(
+                              text: 'My Payment Cards',
+                              imageName: 'iconPayment',
+                              onTap: () {
+                                print('Not required at this time');
+                              },
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(),
+                            ),
+                            ProfileBoxButton(
+                              text: 'Family and Friends',
+                              imageName: 'iconFamily',
+                              onTap: () {
+                                print('Not required at this time');
+                              },
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            ProfileBoxButton(
+                              text: 'Account Settings',
+                              imageName: 'iconSetting',
+                              onTap: () {},
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(),
+                            ),
+                            ProfileBoxButton(
+                              text: 'Communication\nPreferences',
+                              imageName: 'iconPref',
+                              onTap: () {},
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(profileContact).size.width /
+                                      2.462,
+                              height:
+                                  MediaQuery.of(profileContact).size.width /
+                                      3.7,
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        const Spacer(),
+                        const Spacer(),
+                        const Spacer(),
                       ],
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Container(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      children: [
-                        Text(
-                          "Welcome back, ",
-                          style: kHugeRegular.copyWith(
-                              color: Styles.kPrimaryColor),
-                        ),
-                        Text(
-                          "${user?.firstName}",
-                          style:
-                              kHugeHeavy.copyWith(color: Styles.kPrimaryColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 1.6,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(40),
-                        topLeft: Radius.circular(40)),
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Let’s manage your account",
-                            style: kLargeRegular.copyWith(
-                                color: Styles.kSubTextColor),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(),
-                          ),
-                          ProfileBoxButton(
-                            text: 'Personal Info',
-                            imageName: 'iconInfo',
-                            onTap: () {
-                              context.router.push(const PersonalInfoRoute());
-                            },
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          ProfileBoxButton(
-                            text: 'My Payment Cards',
-                            imageName: 'iconPayment',
-                            onTap: () {
-                              print('Not required at this time');
-                            },
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(),
-                          ),
-                          ProfileBoxButton(
-                            text: 'Family and Friends',
-                            imageName: 'iconFamily',
-                            onTap: () {
-                              print('Not required at this time');
-                            },
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          ProfileBoxButton(
-                            text: 'Account Settings',
-                            imageName: 'iconSetting',
-                            onTap: () {},
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(),
-                          ),
-                          ProfileBoxButton(
-                            text: 'Communication\nPreferences',
-                            imageName: 'iconPref',
-                            onTap: () {},
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.462,
-                            height: MediaQuery.of(context).size.width / 3.7,
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      const Spacer(),
-                      const Spacer(),
-                      const Spacer(),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

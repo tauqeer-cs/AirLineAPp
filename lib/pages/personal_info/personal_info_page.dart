@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../blocs/profile/profile_cubit.dart';
 import '../../theme/spacer.dart';
 import '../../theme/styles.dart';
 import '../../theme/typography.dart';
@@ -22,53 +23,41 @@ class PersonalInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => LoginCubit()),
-      ],
-      child: LoaderOverlay(
-        useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: "Loading"),
-        child: BlocListener<LoginCubit, LoginState>(
-          listener: (context, state) {
-            blocListenerWrapper(
-              blocState: state.blocState,
-              onLoading: () => context.loaderOverlay.show(),
-              onFailed: () {
-                context.loaderOverlay.hide();
-                Toast.of(context).show(message: state.message);
-              },
-              onFinished: () => context.loaderOverlay.hide(),
-            );
-          },
-          child: Scaffold(
-            appBar: AppAppBar(
-              centerTitle: true,
-              title: "Personal Info",
-              height: 100.h,
-
-              overrideInnerHeight: true ,
-              child: Column(
-                children: [
-
-                  Text('Personal Info',
-                      style: kHugeSemiBold.copyWith(
-                          color: Styles.kDartTeal),),
-                  kVerticalSpacerSmall,
-
-                  Text('Your details and contact info.',
-                      style: kLargeRegular.copyWith(
-                          color: Styles.kSubTextColor)),
-
-                ],
+    return BlocListener<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        // TODO: implement listener}
+      },
+      child: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return LoaderOverlay(
+            useDefaultLoading: false,
+            overlayWidget: const AppLoadingScreen(message: "Loading"),
+            child: Scaffold(
+              appBar: AppAppBar(
+                centerTitle: true,
+                title: "Personal Info",
+                height: 100.h,
+                overrideInnerHeight: true,
+                child: Column(
+                  children: [
+                    Text(
+                      'Personal Info',
+                      style: kHugeSemiBold.copyWith(color: Styles.kDartTeal),
+                    ),
+                    kVerticalSpacerSmall,
+                    Text('Your details and contact info.',
+                        style: kLargeRegular.copyWith(
+                            color: Styles.kSubTextColor)),
+                  ],
+                ),
+              ),
+              body: Container(
+                color: Colors.white,
+                child: const PersonalInfoView(),
               ),
             ),
-            body: Container(
-              color: Colors.white,
-              child: const PersonalInfoView(),
-            ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

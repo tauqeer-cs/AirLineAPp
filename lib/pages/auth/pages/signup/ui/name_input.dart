@@ -19,6 +19,10 @@ class NameInput extends StatelessWidget {
   final bool smallerSubText;
   final EdgeInsets? customGreyEdgeInsets;
 
+  final String? initialTitle;
+  final String? firstNameInitValue;
+  final String? lastNameInitValue;
+
   final double greyMargin;
 
   const NameInput(
@@ -27,7 +31,7 @@ class NameInput extends StatelessWidget {
       this.subText,
       this.smallerSubText = false,
       this.greyMargin = 8.0,
-      this.customGreyEdgeInsets
+      this.customGreyEdgeInsets, this.firstNameInitValue, this.lastNameInitValue, this.initialTitle
       })
       : super(key: key);
 
@@ -51,11 +55,13 @@ class NameInput extends StatelessWidget {
               children: [
                 AppDropDown<String>(
                   items: availableTitle,
-                  defaultValue: "Mr.",
+
+                  defaultValue: initialTitle ?? "Mr.",
                   sheetTitle: "Title",
                   onChanged: (value) {
                     context.read<SignupCubit>().editTitle(value);
                   },
+
                 ),
                 kVerticalSpacer,
                 AppInputText(
@@ -63,6 +69,7 @@ class NameInput extends StatelessWidget {
                   textInputType: TextInputType.name,
                   name: formNameFirstName,
                   hintText: 'First Name',
+                  initialValue: firstNameInitValue,
                   validators: [
                     FormBuilderValidators.required(),
                   ],
@@ -72,6 +79,7 @@ class NameInput extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.name,
                   name: formNameLastName,
+                  initialValue: lastNameInitValue,
                   hintText: 'Last Name',
                   validators: [
                     FormBuilderValidators.required(),

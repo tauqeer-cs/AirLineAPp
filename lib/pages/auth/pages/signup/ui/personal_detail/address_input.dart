@@ -19,6 +19,13 @@ class AddressInput extends StatelessWidget {
 
   final double greyMargin;
 
+  final String? selectedAddress;
+  final String? selectedCountry;
+  final String? selectedState;
+  final String? selectedCity;
+  final String? selectedPosCode;
+
+
   const AddressInput(
       {Key? key,
       this.title,
@@ -26,7 +33,7 @@ class AddressInput extends StatelessWidget {
           "We will update you with offers that we have based on your address.",
       this.hideSubText = false,
       this.greyMargin = 8.0,
-      this.customGreyEdgeInsets, this.withEmail = false})
+      this.customGreyEdgeInsets, this.withEmail = false, this.selectedAddress, this.selectedCountry, this.selectedState, this.selectedCity, this.selectedPosCode})
       : super(key: key);
 
   @override
@@ -46,10 +53,11 @@ class AddressInput extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                const AppInputText(
+                 AppInputText(
                   isRequired: false,
                   name: formNameAddress,
                   hintText: 'Address',
+                  initialValue: selectedAddress,
                 ),
                 kVerticalSpacer,
                 Row(
@@ -61,11 +69,12 @@ class AddressInput extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    const Expanded(
+                     Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNameState,
                         hintText: 'State',
+                        initialValue: selectedState,
                       ),
                     ),
                   ],
@@ -73,19 +82,21 @@ class AddressInput extends StatelessWidget {
                 kVerticalSpacer,
                 Row(
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNameCity,
                         hintText: 'City',
+                        initialValue: selectedCity,
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    const Expanded(
+                     Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNamePostCode,
                         hintText: 'Postal Code',
+                        initialValue: selectedPosCode,
                       ),
                     ),
                   ],

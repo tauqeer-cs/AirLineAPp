@@ -35,6 +35,7 @@ class UserProfile extends Equatable {
   String? city;
   String? state;
   String? postCode;
+  String? email;
 
   EmergencyContact? emergencyContact;
 
@@ -60,6 +61,7 @@ class UserProfile extends Equatable {
       this.memberID,
       this.referralCode,
       this.referralBy,
+      this.email,
       this.emergencyContact});
 
   @override
@@ -80,7 +82,8 @@ class UserProfile extends Equatable {
         memberID,
         referralCode,
         referralBy,
-        emergencyContact
+        emergencyContact,
+        email,
       ];
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>

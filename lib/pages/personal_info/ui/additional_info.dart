@@ -14,7 +14,15 @@ import '../../auth/pages/signup/signup_wrapper.dart';
 
 
 class AdditionInfoView extends StatelessWidget {
-  const AdditionInfoView({Key? key}) : super(key: key);
+
+  final String? countrySelected;
+  final String? myKadSelected;
+  final String? emailSelected;
+  final DateTime? dobSelected;
+  final String? phoneCountryCodeSelected;
+  final String? phoneSelected;
+
+  const AdditionInfoView({Key? key, this.countrySelected, this.myKadSelected, this.emailSelected, this.dobSelected, this.phoneCountryCodeSelected, this.phoneSelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +51,7 @@ class AdditionInfoView extends StatelessWidget {
                   textInputType: TextInputType.name,
                   name: formNameMyKad,
                   hintText: 'MyKad Number',
+                  initialValue: myKadSelected,
                   validators: [
                     FormBuilderValidators.required(),
                   ],
@@ -54,6 +63,7 @@ class AdditionInfoView extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.emailAddress,
                   name: formNameEmail,
+                  initialValue: emailSelected,
                   hintText: 'Email',
                   validators: [
                     FormBuilderValidators.required(),
@@ -65,6 +75,7 @@ class AdditionInfoView extends StatelessWidget {
                   name: formNameDob,
                   firstDate: DateTime(1920),
                   lastDate: DateTime.now(),
+                  initialValue: dobSelected,
                   format: DateFormat("dd MMM yyyy"),
                   initialDate: DateTime(2000),
                   initialEntryMode: DatePickerEntryMode.calendar,
@@ -86,6 +97,7 @@ class AdditionInfoView extends StatelessWidget {
                   name: formNamePhone,
                   textInputType: TextInputType.number,
                   hintText: "Phone Number",
+                  initialValue: phoneSelected,
                   validators: [FormBuilderValidators.required()],
                 ),
 

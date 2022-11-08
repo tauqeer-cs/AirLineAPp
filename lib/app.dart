@@ -7,6 +7,7 @@ import 'package:app/blocs/booking_local/booking_local_cubit.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/blocs/local_user/local_user_bloc.dart';
+import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
@@ -47,6 +48,7 @@ class _AppState extends State<App> {
         BlocProvider(create: (context) => VoucherCubit()),
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => CmsSsrCubit()),
+        BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(
             create: (_) =>
                 AuthBloc(authenticationRepository: AuthenticationRepository())),
