@@ -1304,17 +1304,19 @@ mixin StringResources {
     return Intl.message('What is quantitative trading?',name: 'faqQ1');
   }
 
-  String get faqQ2 {
-    return Intl.message('Binance API Binding',name: 'faqQ2');
+  String get detailnContactInfo {
+    return Intl.message('Your details and contact info.',name: 'detailnContactInfo');
   }
 
-  String get faqQ3 {
-    return Intl.message('Huobi API Binding',name: 'faqQ3');
+  String get personalInfo {
+    return Intl.message('Personal Info',name: 'personalInfo');
   }
 
-  String get faqQ4 {
-    return Intl.message('Coinbase Pro API Binding',name: 'faqQ4');
+  String get userDatedSuccessMessage {
+    return Intl.message('User information updated successfully',name: 'faqQ4');
   }
+
+
 
 
 

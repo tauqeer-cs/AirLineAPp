@@ -2,6 +2,7 @@ import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/profile_provider.dart';
 import 'package:app/data/provider/public_provider.dart';
+import 'package:app/data/responses/common_response.dart';
 import 'package:app/models/country.dart';
 
 import '../../models/profile.dart';
@@ -26,5 +27,10 @@ class ProfileRepository {
   Future<Profile> getProfile() async {
     return await _provider.getProfile();
   }
+
+  Future<CommonResponse> updateProfile(Profile profile) async {
+    return await _provider.updateUserProfile(profile);
+  }
+
 
 }

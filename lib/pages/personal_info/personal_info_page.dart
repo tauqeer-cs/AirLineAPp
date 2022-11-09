@@ -6,12 +6,14 @@ import 'package:app/pages/personal_info/ui/personal_info_view.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/wrapper/auth_wrapper.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 import '../../blocs/profile/profile_cubit.dart';
+import '../../localizations/localizations_util.dart';
 import '../../theme/spacer.dart';
 import '../../theme/styles.dart';
 import '../../theme/typography.dart';
@@ -24,28 +26,46 @@ class PersonalInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProfileCubit, ProfileState>(
-      listener: (context, state) {
-        // TODO: implement listener}
+      listener: (context, state) async {
+
+        if(state.blocState == BlocState.finished) {
+
+          Toast.of(context).show(message: tr.userDatedSuccessMessage);
+
+          await Future.delayed(const Duration(seconds: 1), (){
+            context.router.pop();
+          });
+
+        }
       },
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
+
+          if(state.blocState == BlocState.loading) {
+
+
+            return Container(color: Colors.white,child: AppLoadingScreen(message: tr.loading),);
+
+          }
+
+
           return LoaderOverlay(
             useDefaultLoading: false,
-            overlayWidget: const AppLoadingScreen(message: "Loading"),
+            overlayWidget:  AppLoadingScreen(message: tr.loading),
             child: Scaffold(
               appBar: AppAppBar(
                 centerTitle: true,
-                title: "Personal Info",
+                title: tr.personalInfo,
                 height: 100.h,
                 overrideInnerHeight: true,
                 child: Column(
                   children: [
                     Text(
-                      'Personal Info',
+                      tr.personalInfo,
                       style: kHugeSemiBold.copyWith(color: Styles.kDartTeal),
                     ),
                     kVerticalSpacerSmall,
-                    Text('Your details and contact info.',
+                    Text(tr.detailnContactInfo,
                         style: kLargeRegular.copyWith(
                             color: Styles.kSubTextColor)),
                   ],

@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../app/app_router.dart';
 import '../../../blocs/profile/profile_cubit.dart';
+import '../../../widgets/app_loading_screen.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -25,6 +26,8 @@ class ProfileView extends StatelessWidget {
         builder: (context, state) {
           if(state.blocState.index == 0) {
             context.read<ProfileCubit>().getProfile();
+            return Container(color: Colors.white,child: const AppLoadingScreen(message: "Loading"),);
+
           }
           return Container(
             color: Colors.white,

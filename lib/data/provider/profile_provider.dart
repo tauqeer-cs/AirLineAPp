@@ -14,7 +14,7 @@ abstract class ProfileProvider {
   @GET('user/userprofile')
   Future<Profile> getProfile();
 
-  @POST('user/userprofile')
-  Future<CommonResponse> updateUserProfile(@Body() Profile searchFlight);
+  @POST('user/user-update')
+  Future<CommonResponse> updateUserProfile(@Body() Profile profile);
 
 }

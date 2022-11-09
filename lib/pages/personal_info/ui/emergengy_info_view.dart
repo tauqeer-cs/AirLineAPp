@@ -90,7 +90,7 @@ class EmergencyInfoView extends StatelessWidget {
                 ),
                 kVerticalSpacer,
                 AppInputText(
-                  name: formNamePhoneRelationship,
+                  name: formNamePhoneNoRelationship,
                   textInputType: TextInputType.number,
                   hintText: "Phone Number",
                   initialValue: phoneNo,

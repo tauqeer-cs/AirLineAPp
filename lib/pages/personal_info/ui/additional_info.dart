@@ -77,6 +77,9 @@ class AdditionInfoView extends StatelessWidget {
                   lastDate: DateTime.now(),
                   initialValue: dobSelected,
                   format: DateFormat("dd MMM yyyy"),
+                  onChanged: (newData){
+
+                  },
                   initialDate: DateTime(2000),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: InputDecoration(
@@ -91,6 +94,7 @@ class AdditionInfoView extends StatelessWidget {
                   isPhoneCode: true,
                   hintText: "Phone",
                   initialValue: Country.defaultCountry,
+
                 ),
                 kVerticalSpacer,
                 AppInputText(

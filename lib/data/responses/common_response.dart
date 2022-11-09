@@ -6,10 +6,9 @@ part 'common_response.g.dart';
 @JsonSerializable()
 class CommonResponse extends Equatable{
   final bool? success;
-  final String? message;
-  final String? response;
 
-  const CommonResponse({this.success, this.message,this.response});
+
+  const CommonResponse({this.success});
 
   factory CommonResponse.fromJson(Map<String, dynamic> json) =>
       _$CommonResponseFromJson(json);
@@ -17,5 +16,5 @@ class CommonResponse extends Equatable{
   Map<String, dynamic> toJson() => _$CommonResponseToJson(this);
 
   @override
-  List<Object?> get props => [success, message,response];
+  List<Object?> get props => [success,];
 }

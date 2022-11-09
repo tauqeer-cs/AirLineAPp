@@ -14,6 +14,9 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import '../signup_wrapper.dart';
 
 class NameInput extends StatelessWidget {
+
+
+
   final String? title;
   final String? subText;
   final bool smallerSubText;
@@ -55,7 +58,6 @@ class NameInput extends StatelessWidget {
               children: [
                 AppDropDown<String>(
                   items: availableTitle,
-
                   defaultValue: initialTitle ?? "Mr.",
                   sheetTitle: "Title",
                   onChanged: (value) {

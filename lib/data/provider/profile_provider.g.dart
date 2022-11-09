@@ -42,12 +42,12 @@ class _ProfileProvider implements ProfileProvider {
   }
 
   @override
-  Future<CommonResponse> updateUserProfile(searchFlight) async {
+  Future<CommonResponse> updateUserProfile(profile) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(searchFlight.toJson());
+    _data.addAll(profile.toJson());
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<CommonResponse>(Options(
       method: 'POST',
@@ -56,7 +56,7 @@ class _ProfileProvider implements ProfileProvider {
     )
             .compose(
               _dio.options,
-              'user/userprofile',
+              'user/user-update',
               queryParameters: queryParameters,
               data: _data,
             )

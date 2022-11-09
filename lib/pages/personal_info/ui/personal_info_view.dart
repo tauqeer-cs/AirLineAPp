@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../blocs/profile/profile_cubit.dart';
 import '../../../theme/spacer.dart';
+import '../../auth/pages/signup/signup_wrapper.dart';
 import '../../auth/pages/signup/ui/name_input.dart';
 import '../../auth/pages/signup/ui/personal_detail/address_input.dart';
 import 'additional_info.dart';
@@ -40,7 +41,7 @@ class PersonalInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cu = context.watch<ProfileCubit>().state;
+    var cubit = context.watch<ProfileCubit>();
 
     var profile = context.watch<ProfileCubit>().state.profile;
 
@@ -89,19 +90,64 @@ class PersonalInfoView extends StatelessWidget {
               EmergencyInfoView(
                 firstName: profile?.userProfile?.emergencyContact?.firstName,
                 lastName: profile?.userProfile?.emergencyContact?.lastName,
-                relationShip: profile?.userProfile?.emergencyContact?.relationship,
+                relationShip:
+                    profile?.userProfile?.emergencyContact?.relationship,
                 countryCode: profile?.userProfile?.emergencyContact?.phoneCode,
                 phoneNo: profile?.userProfile?.emergencyContact?.phoneCode,
               ),
               kVerticalSpacer,
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: const Text("Cancel"),
               ),
               kVerticalSpacerSmall,
               ElevatedButton(
                 onPressed: () async {
 //                  var profile = cubut;
+
+                  if (_fbKey.currentState!.saveAndValidate()) {
+                    final value = _fbKey.currentState!.value;
+
+                    String? fName = value[formNameFirstName];
+                    String? lName = value[formNameLastName];
+                    String? myId = value[formNameMyKad];
+                    String? email = value[formNameEmail];
+                    DateTime? dob = value[formNameDob];
+                    String? phoneNo = value[formNamePhone];
+
+                    String? address = value[formNameAddress];
+                    String? state = value[formNameState];
+                    String? city = value[formNameCity];
+                    String? posCode = value[formNamePostCode];
+                    String? eFirstName = value[formNameFirstNameEmergency];
+                    String? eLastName = value[formNameLastNameEmergency];
+                    String? eRelationShip =
+                        value[formNameRelationshipEmergency];
+                    String? ePhoneNo = value[formNamePhoneNoRelationship];
+
+                    cubit.updateProfile(
+                        icNumber: myId,
+                        newTitle: null,
+                        newFirstName: fName,
+                        lastName: lName,
+                        newCountry: null,
+                        newEmail: email,
+                        newDob: dob,
+                        newPhoneCountryCode: null,
+                        newPhNo: phoneNo,
+                        newAddress: address,
+                        newAddressCountry: null,
+                        newAddressState: state,
+                        newAddressCity: city,
+                        newAddresZipCode: posCode,
+                        emergencyFirstName: eFirstName,
+                        emergencyLastName: eLastName,
+                        emergencyRelationShip: eRelationShip,
+                        emergencyPhCode: null,
+                        emergencyPhNo: ePhoneNo);
+                  }
 
                   print('');
                 },
