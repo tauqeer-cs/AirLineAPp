@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../blocs/profile/profile_cubit.dart';
+import '../../../localizations/localizations_util.dart';
+import '../../../models/country.dart';
 import '../../../theme/spacer.dart';
 import '../../auth/pages/signup/signup_wrapper.dart';
 import '../../auth/pages/signup/ui/name_input.dart';
@@ -11,7 +13,7 @@ import 'additional_info.dart';
 import 'emergengy_info_view.dart';
 
 class PersonalInfoView extends StatelessWidget {
-  const PersonalInfoView({Key? key}) : super(key: key);
+  PersonalInfoView({Key? key}) : super(key: key);
 
   static final _fbKey = GlobalKey<FormBuilderState>();
 
@@ -39,6 +41,11 @@ class PersonalInfoView extends StatelessWidget {
     }
   }
 
+  String? nameTitle = null;
+  Country? selectedCountry = null;
+  Country? phoneCountry = null;
+  Country? addressCountry = null;
+
   @override
   Widget build(BuildContext context) {
     var cubit = context.watch<ProfileCubit>();
@@ -62,6 +69,9 @@ class PersonalInfoView extends StatelessWidget {
                 customGreyEdgeInsets: EdgeInsets.zero,
                 firstNameInitValue: profile?.userProfile?.firstName,
                 lastNameInitValue: profile?.userProfile?.lastName,
+                onTitleChanged: (String? newTitle) {
+                  nameTitle = newTitle;
+                },
               ),
               kVerticalSpacer,
               AdditionInfoView(
@@ -70,7 +80,13 @@ class PersonalInfoView extends StatelessWidget {
                 emailSelected: profile?.userProfile?.email,
                 dobSelected: profile?.userProfile?.dob,
                 phoneCountryCodeSelected: profile?.userProfile?.phoneCode,
-                phoneSelected: profile?.userProfile?.phoneCode,
+                phoneSelected: profile?.userProfile?.phoneNumber,
+                onCountryChange: (newCountry) {
+                  selectedCountry = newCountry;
+                },
+                phoneCountryCode: (newPhoneCountry) {
+                  phoneCountry = newPhoneCountry;
+                },
               ),
               kVerticalSpacer,
               AddressInput(
@@ -85,6 +101,9 @@ class PersonalInfoView extends StatelessWidget {
                 selectedState: profile?.userProfile?.state,
                 selectedCountry: profile?.userProfile?.country,
                 selectedPosCode: profile?.userProfile?.postCode,
+                onAddressCountryChange: (newCountry) {
+                  addressCountry = newCountry;
+                },
               ),
               kVerticalSpacer,
               EmergencyInfoView(
@@ -100,7 +119,7 @@ class PersonalInfoView extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("Cancel"),
+                child: const Text('Cancel'),
               ),
               kVerticalSpacerSmall,
               ElevatedButton(
@@ -127,15 +146,24 @@ class PersonalInfoView extends StatelessWidget {
                         value[formNameRelationshipEmergency];
                     String? ePhoneNo = value[formNamePhoneNoRelationship];
 
+                    String? countryIdSeleect, phoneCode;
+
+                    if (selectedCountry != null) {
+                      countryIdSeleect = selectedCountry!.country;
+                    }
+                    if (phoneCountry != null) {
+                      phoneCode = phoneCountry!.phoneCode;
+                    }
+
                     cubit.updateProfile(
                         icNumber: myId,
-                        newTitle: null,
+                        newTitle: nameTitle,
                         newFirstName: fName,
                         lastName: lName,
-                        newCountry: null,
+                        newCountry: countryIdSeleect,
                         newEmail: email,
                         newDob: dob,
-                        newPhoneCountryCode: null,
+                        newPhoneCountryCode: phoneCode,
                         newPhNo: phoneNo,
                         newAddress: address,
                         newAddressCountry: null,

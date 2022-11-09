@@ -76,7 +76,7 @@ class SignupAccountPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             kVerticalSpacer,
-                            const NameInput(),
+                            NameInput(),
                             kVerticalSpacer,
                             const CredentialInput(),
                             kVerticalSpacer,

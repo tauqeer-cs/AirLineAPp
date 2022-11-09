@@ -7,14 +7,13 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
+import '../../../localizations/localizations_util.dart';
 import '../../../models/country.dart';
 import '../../../theme/spacer.dart';
 import '../../../widgets/app_countries_dropdown.dart';
 import '../../auth/pages/signup/signup_wrapper.dart';
 
-
 class AdditionInfoView extends StatelessWidget {
-
   final String? countrySelected;
   final String? myKadSelected;
   final String? emailSelected;
@@ -22,15 +21,27 @@ class AdditionInfoView extends StatelessWidget {
   final String? phoneCountryCodeSelected;
   final String? phoneSelected;
 
-  const AdditionInfoView({Key? key, this.countrySelected, this.myKadSelected, this.emailSelected, this.dobSelected, this.phoneCountryCodeSelected, this.phoneSelected}) : super(key: key);
+  final Function(Country?)? onCountryChange;
+
+  final Function(Country?)? phoneCountryCode;
+
+  const AdditionInfoView(
+      {Key? key,
+      this.countrySelected,
+      this.myKadSelected,
+      this.emailSelected,
+      this.dobSelected,
+      this.phoneCountryCodeSelected,
+      this.phoneSelected,
+      this.onCountryChange, this.phoneCountryCode})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-
-      children:  [
-        const FormHeader(
+      children: [
+         const FormHeader(
           title: 'Additional Info',
         ),
         GreyCard(
@@ -40,12 +51,14 @@ class AdditionInfoView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                const AppCountriesDropdown(
-                  hintText: "Nationality",
+                AppCountriesDropdown(
+                  hintText:'Nationality',
                   isPhoneCode: false,
+                  onChanged: (Country? newCountry) {
+                    onCountryChange?.call(newCountry);
+                  },
                 ),
                 kVerticalSpacer,
-
                 AppInputText(
                   isRequired: false,
                   textInputType: TextInputType.name,
@@ -57,8 +70,6 @@ class AdditionInfoView extends StatelessWidget {
                   ],
                 ),
                 kVerticalSpacer,
-
-
                 AppInputText(
                   isRequired: false,
                   textInputType: TextInputType.emailAddress,
@@ -77,24 +88,25 @@ class AdditionInfoView extends StatelessWidget {
                   lastDate: DateTime.now(),
                   initialValue: dobSelected,
                   format: DateFormat("dd MMM yyyy"),
-                  onChanged: (newData){
-
-                  },
+                  onChanged: (newData) {},
                   initialDate: DateTime(2000),
                   initialEntryMode: DatePickerEntryMode.calendar,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Date of Birth",
                       suffixIcon: Icon(Icons.calendar_month_sharp),
-                      contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12)
-                  ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
                   inputType: InputType.date,
                 ),
                 kVerticalSpacer,
-                const AppCountriesDropdown(
+                 AppCountriesDropdown(
                   isPhoneCode: true,
-                  hintText: "Phone",
+                  hintText: "Phone Code",
                   initialValue: Country.defaultCountry,
+                  onChanged: (Country? newPhCountry){
+                    phoneCountryCode?.call(newPhCountry);
 
+                  },
                 ),
                 kVerticalSpacer,
                 AppInputText(
@@ -104,10 +116,7 @@ class AdditionInfoView extends StatelessWidget {
                   initialValue: phoneSelected,
                   validators: [FormBuilderValidators.required()],
                 ),
-
                 kVerticalSpacer,
-
-
               ],
             ),
           ),

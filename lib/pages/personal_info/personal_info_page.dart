@@ -5,7 +5,6 @@ import 'package:app/pages/auth/ui/profile_view.dart';
 import 'package:app/pages/personal_info/ui/personal_info_view.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
-import 'package:app/widgets/wrapper/auth_wrapper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +29,7 @@ class PersonalInfoPage extends StatelessWidget {
 
         if(state.blocState == BlocState.finished) {
 
-          Toast.of(context).show(message: tr.userDatedSuccessMessage);
+          Toast.of(context).show(message:'User information updated successfully');
 
           await Future.delayed(const Duration(seconds: 1), (){
             context.router.pop();
@@ -44,28 +43,28 @@ class PersonalInfoPage extends StatelessWidget {
           if(state.blocState == BlocState.loading) {
 
 
-            return Container(color: Colors.white,child: AppLoadingScreen(message: tr.loading),);
+            return Container(color: Colors.white,child: const AppLoadingScreen(message: 'Loading'),);
 
           }
 
 
           return LoaderOverlay(
             useDefaultLoading: false,
-            overlayWidget:  AppLoadingScreen(message: tr.loading),
+            overlayWidget:  const AppLoadingScreen(message: 'Loading'),
             child: Scaffold(
               appBar: AppAppBar(
                 centerTitle: true,
-                title: tr.personalInfo,
+                title: 'Personal Info',
                 height: 100.h,
                 overrideInnerHeight: true,
                 child: Column(
                   children: [
                     Text(
-                      tr.personalInfo,
+                      'Personal Info',
                       style: kHugeSemiBold.copyWith(color: Styles.kDartTeal),
                     ),
                     kVerticalSpacerSmall,
-                    Text(tr.detailnContactInfo,
+                    Text('Your details and contact info.',
                         style: kLargeRegular.copyWith(
                             color: Styles.kSubTextColor)),
                   ],
@@ -73,7 +72,7 @@ class PersonalInfoPage extends StatelessWidget {
               ),
               body: Container(
                 color: Colors.white,
-                child: const PersonalInfoView(),
+                child: PersonalInfoView(),
               ),
             ),
           );

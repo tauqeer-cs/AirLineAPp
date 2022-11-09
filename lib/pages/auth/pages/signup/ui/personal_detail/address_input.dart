@@ -7,6 +7,8 @@ import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../../models/country.dart';
+
 class AddressInput extends StatelessWidget {
   final String? title;
   final String? subText;
@@ -25,6 +27,7 @@ class AddressInput extends StatelessWidget {
   final String? selectedCity;
   final String? selectedPosCode;
 
+  final Function(Country?)? onAddressCountryChange;
 
   const AddressInput(
       {Key? key,
@@ -33,7 +36,14 @@ class AddressInput extends StatelessWidget {
           "We will update you with offers that we have based on your address.",
       this.hideSubText = false,
       this.greyMargin = 8.0,
-      this.customGreyEdgeInsets, this.withEmail = false, this.selectedAddress, this.selectedCountry, this.selectedState, this.selectedCity, this.selectedPosCode})
+      this.customGreyEdgeInsets,
+      this.withEmail = false,
+      this.selectedAddress,
+      this.selectedCountry,
+      this.selectedState,
+      this.selectedCity,
+      this.selectedPosCode,
+      this.onAddressCountryChange})
       : super(key: key);
 
   @override
@@ -53,7 +63,7 @@ class AddressInput extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                 AppInputText(
+                AppInputText(
                   isRequired: false,
                   name: formNameAddress,
                   hintText: 'Address',
@@ -62,15 +72,17 @@ class AddressInput extends StatelessWidget {
                 kVerticalSpacer,
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: AppCountriesDropdown(
                         hintText: "Country",
                         isPhoneCode: false,
-
+                        onChanged: (newCountry) {
+                          onAddressCountryChange?.call(newCountry);
+                        },
                       ),
                     ),
                     kHorizontalSpacerMini,
-                     Expanded(
+                    Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNameState,
@@ -83,7 +95,7 @@ class AddressInput extends StatelessWidget {
                 kVerticalSpacer,
                 Row(
                   children: [
-                     Expanded(
+                    Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNameCity,
@@ -92,7 +104,7 @@ class AddressInput extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                     Expanded(
+                    Expanded(
                       child: AppInputText(
                         isRequired: false,
                         name: formNamePostCode,
@@ -103,8 +115,7 @@ class AddressInput extends StatelessWidget {
                   ],
                 ),
                 kVerticalSpacer,
-
-                if(withEmail) ... [
+                if (withEmail) ...[
                   AppInputText(
                     isRequired: false,
                     textInputType: TextInputType.emailAddress,
@@ -116,17 +127,11 @@ class AddressInput extends StatelessWidget {
                     ],
                   ),
                   kVerticalSpacer,
-
-
                 ],
               ],
             ),
           ),
         ),
-        
-
-        
-
       ],
     );
   }

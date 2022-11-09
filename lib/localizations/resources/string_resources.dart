@@ -84,8 +84,8 @@ mixin StringResources {
     return Intl.message("Delete Account", name: 'deleteAccount');
   }
 
-  String get walletAddress {
-    return Intl.message("Wallet Address", name: 'walletAddress');
+  String get address {
+    return Intl.message("Address", name: 'address');
   }
 
   String get account {
@@ -778,15 +778,15 @@ mixin StringResources {
     return Intl.message("User Name", name: 'userName');
   }
 
-  String get userAccountActivation {
-    return Intl.message("User Account Activation",
-        name: 'userAccountActivation');
+  String get nationality {
+    return Intl.message("Nationality",
+        name: 'nationality');
   }
 
-  String get activationDescription {
+  String get additionalInfo {
     return Intl.message(
-        "The user activation will consume 120USDT from your available credit. Activation fee will be immediately be deducted from your available credit upon your activation. The activation is only valid for 1 year (365 days) and will expire immediately upon expiry date.",
-        name: 'activationDescription');
+        'Additional Info',
+        name: 'additionalInfo');
   }
 
   String get fullName {
@@ -1292,16 +1292,16 @@ mixin StringResources {
     return Intl.message('Quick Start Tutorials',name: 'quickStartTutorials');
   }
 
-  String get tutorials {
-    return Intl.message('Tutorials',name: 'tutorials');
+  String get cancel {
+    return Intl.message('Cancel',name: 'cancel');
   }
 
   String get faq {
     return Intl.message('FAQ',name: 'faq');
   }
 
-  String get faqQ1 {
-    return Intl.message('What is quantitative trading?',name: 'faqQ1');
+  String get idSureMessage {
+    return Intl.message('Make sure your name is the same as it appears on your driver’s license or other government-issued ID.',name: 'idSureMessage');
   }
 
   String get detailnContactInfo {

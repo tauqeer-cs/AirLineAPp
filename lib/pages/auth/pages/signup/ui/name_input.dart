@@ -14,8 +14,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import '../signup_wrapper.dart';
 
 class NameInput extends StatelessWidget {
-
-
+  Function(String? newTitle)? onTitleChanged;
 
   final String? title;
   final String? subText;
@@ -28,14 +27,17 @@ class NameInput extends StatelessWidget {
 
   final double greyMargin;
 
-  const NameInput(
+  NameInput(
       {Key? key,
       this.title,
       this.subText,
       this.smallerSubText = false,
       this.greyMargin = 8.0,
-      this.customGreyEdgeInsets, this.firstNameInitValue, this.lastNameInitValue, this.initialTitle
-      })
+      this.customGreyEdgeInsets,
+      this.firstNameInitValue,
+      this.lastNameInitValue,
+      this.initialTitle,
+      this.onTitleChanged})
       : super(key: key);
 
   @override
@@ -45,7 +47,8 @@ class NameInput extends StatelessWidget {
       children: [
         FormHeader(
           title: title ?? "What's your full name?",
-          subtitle: subText ?? "Please enter it as stated in your MyKad/Passport ",
+          subtitle:
+              subText ?? "Please enter it as stated in your MyKad/Passport ",
           graySubText: true,
           smallerHeaderText: true,
         ),
@@ -62,8 +65,11 @@ class NameInput extends StatelessWidget {
                   sheetTitle: "Title",
                   onChanged: (value) {
                     context.read<SignupCubit>().editTitle(value);
-                  },
 
+                    onTitleChanged?.call(value);
+
+
+                  },
                 ),
                 kVerticalSpacer,
                 AppInputText(
