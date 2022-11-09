@@ -51,7 +51,6 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       referralCode: json['referralCode'] as String?,
       referralBy: json['referralBy'] as String?,
       email: json['email'] as String?,
-
       emergencyContact: json['emergencyContact'] == null
           ? null
           : EmergencyContact.fromJson(
@@ -79,13 +78,12 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('city', instance.city);
   writeNotNull('state', instance.state);
   writeNotNull('postCode', instance.postCode);
+  writeNotNull('email', instance.email);
   writeNotNull('emergencyContact', instance.emergencyContact?.toJson());
   writeNotNull('country', instance.country);
   writeNotNull('memberID', instance.memberID);
   writeNotNull('referralCode', instance.referralCode);
   writeNotNull('referralBy', instance.referralBy);
-  writeNotNull('email', instance.email);
-
   return val;
 }
 
