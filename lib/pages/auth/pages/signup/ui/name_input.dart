@@ -20,25 +20,23 @@ class NameInput extends StatelessWidget {
   final String? subText;
   final bool smallerSubText;
   final EdgeInsets? customGreyEdgeInsets;
-
   final String? initialTitle;
   final String? firstNameInitValue;
   final String? lastNameInitValue;
-
   final double greyMargin;
 
-  NameInput(
-      {Key? key,
-      this.title,
-      this.subText,
-      this.smallerSubText = false,
-      this.greyMargin = 8.0,
-      this.customGreyEdgeInsets,
-      this.firstNameInitValue,
-      this.lastNameInitValue,
-      this.initialTitle,
-      this.onTitleChanged})
-      : super(key: key);
+  NameInput({
+    Key? key,
+    this.title,
+    this.subText,
+    this.smallerSubText = false,
+    this.greyMargin = 8.0,
+    this.customGreyEdgeInsets,
+    this.firstNameInitValue,
+    this.lastNameInitValue,
+    this.initialTitle,
+    this.onTitleChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +61,7 @@ class NameInput extends StatelessWidget {
                 sheetTitle: "Title",
                 onChanged: (value) {
                   context.read<SignupCubit>().editTitle(value);
-
                   onTitleChanged?.call(value);
-
-
                 },
               ),
               kVerticalSpacer,

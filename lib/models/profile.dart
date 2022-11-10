@@ -3,13 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'profile.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
 class Profile extends Equatable {
-  int? userID;
-  UserProfile? userProfile;
-  CommunicationPreferences? communicationPreferences;
+  final int? userID;
+  final UserProfile? userProfile;
+  final CommunicationPreferences? communicationPreferences;
 
-  Profile({this.userID, this.userProfile, this.communicationPreferences});
+  const Profile({this.userID, this.userProfile, this.communicationPreferences});
 
   @override
   List<Object?> get props => [userID, userProfile, communicationPreferences];
@@ -23,46 +23,45 @@ class Profile extends Equatable {
 
 @JsonSerializable(explicitToJson: true)
 class UserProfile extends Equatable {
-  String? title;
-  String? firstName;
-  String? lastName;
-  String? nationality;
-  String? icNumber;
-  DateTime? dob;
-  String? phoneCode;
-  String? phoneNumber;
-  String? address;
-  String? city;
-  String? state;
-  String? postCode;
-  String? email;
+  final String? title;
+  final String? firstName;
+  final String? lastName;
+  final String? nationality;
+  final String? icNumber;
+  final DateTime? dob;
+  final String? phoneCode;
+  final String? phoneNumber;
+  final String? address;
+  final String? city;
+  final String? state;
+  final String? postCode;
+  final String? email;
+  final EmergencyContact? emergencyContact;
+  final String? country;
+  final int? memberID;
+  final String? referralCode;
+  final String? referralBy;
 
-  EmergencyContact? emergencyContact;
-
-  String? country;
-  int? memberID;
-  String? referralCode;
-  String? referralBy;
-
-  UserProfile(
-      {this.title,
-      this.firstName,
-      this.lastName,
-      this.nationality,
-      this.icNumber,
-      this.dob,
-      this.phoneCode,
-      this.phoneNumber,
-      this.address,
-      this.city,
-      this.state,
-      this.postCode,
-      this.country,
-      this.memberID,
-      this.referralCode,
-      this.referralBy,
-      this.email,
-      this.emergencyContact});
+  UserProfile({
+    this.title,
+    this.firstName,
+    this.lastName,
+    this.nationality,
+    this.icNumber,
+    this.dob,
+    this.phoneCode,
+    this.phoneNumber,
+    this.address,
+    this.city,
+    this.state,
+    this.postCode,
+    this.country,
+    this.memberID,
+    this.referralCode,
+    this.referralBy,
+    this.email,
+    this.emergencyContact,
+  });
 
   @override
   List<Object?> get props => [

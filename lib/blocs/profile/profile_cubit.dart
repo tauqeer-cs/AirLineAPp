@@ -36,13 +36,34 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updateProfile({
+  Future<void> updateProfile(UserProfile userProfile) async {
+    emit(state.copyWith(blocState: BlocState.loading));
+    try {
+      final profile = Profile(
+        userID: state.profile?.userID,
+        userProfile: userProfile,
+        communicationPreferences: state.profile?.communicationPreferences,
+      );
+      await _repository.updateProfile(profile);
+      emit(state.copyWith(
+        blocState: BlocState.finished,
+        profile: profile,
+      ));
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed),
+      );
+    }
+  }
+
+  /*Profile setTmpObject(
     String? icNumber,
     String? newTitle,
     String? newFirstName,
     String? lastName,
     String? newCountry,
-    String? newId,
     String? newEmail,
     DateTime? newDob,
     String? newPhoneCountryCode,
@@ -57,67 +78,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     String? emergencyRelationShip,
     String? emergencyPhCode,
     String? emergencyPhNo,
-  }) async {
-    emit(state.copyWith(blocState: BlocState.loading));
-
-    var tmpResponse = setTmpObject(
-        icNumber,
-        newTitle,
-        newFirstName,
-        lastName,
-        newCountry,
-        newEmail,
-        newDob,
-        newPhoneCountryCode,
-        newPhNo,
-        newAddress,
-        newAddressCountry,
-        newAddressState,
-        newAddressCity,
-        newAddresZipCode,
-        emergencyFirstName,
-        emergencyLastName,
-        emergencyRelationShip,
-        emergencyPhCode,
-        emergencyPhNo);
-
-
-    try {
-      final routes = await _repository.updateProfile(tmpResponse);
-
-      emit(state.copyWith(
-        blocState: BlocState.finished,
-        profile: tmpResponse,
-      ));
-    } catch (e, st) {
-      emit(
-        state.copyWith(
-            message: ErrorUtils.getErrorMessage(e, st),
-            blocState: BlocState.failed),
-      );
-    }
-  }
-
-  Profile setTmpObject(
-      String? icNumber,
-      String? newTitle,
-      String? newFirstName,
-      String? lastName,
-      String? newCountry,
-      String? newEmail,
-      DateTime? newDob,
-      String? newPhoneCountryCode,
-      String? newPhNo,
-      String? newAddress,
-      String? newAddressCountry,
-      String? newAddressState,
-      String? newAddressCity,
-      String? newAddresZipCode,
-      String? emergencyFirstName,
-      String? emergencyLastName,
-      String? emergencyRelationShip,
-      String? emergencyPhCode,
-      String? emergencyPhNo) {
+  ) {
     var copyProfile = state.profile;
     if (newTitle != null) {
       copyProfile?.userProfile?.title = newTitle;
@@ -199,5 +160,5 @@ class ProfileCubit extends Cubit<ProfileState> {
       copyProfile?.userProfile?.emergencyContact?.phoneNumber = emergencyPhNo;
     }
     return copyProfile!;
-  }
+  }*/
 }

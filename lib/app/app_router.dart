@@ -1,4 +1,5 @@
 import 'package:app/data/requests/signup_request.dart';
+import 'package:app/pages/account_setting/account_setting_page.dart';
 import 'package:app/pages/add_on/baggage/baggage_page.dart';
 import 'package:app/pages/add_on/bundle/bundle_page.dart';
 import 'package:app/pages/add_on/meals/meals_page.dart';
@@ -20,6 +21,7 @@ import 'package:app/pages/checkout/pages/select_baggage/select_baggage_page.dart
 import 'package:app/pages/checkout/pages/select_bundle/select_bundle_page.dart';
 import 'package:app/pages/checkout/pages/select_meals/select_meals_page.dart';
 import 'package:app/pages/checkout/pages/select_seats/select_seats_page.dart';
+import 'package:app/pages/communication_settings/communication_settings_page.dart';
 import 'package:app/pages/deals/deals_page.dart';
 import 'package:app/pages/edit_profile/edit_profile.dart';
 import 'package:app/pages/home/home_page.dart';
@@ -80,7 +82,9 @@ part 'app_router.gr.dart';
       ],
     ),
     AutoRoute(page: EditProfilePage, path: "/edit-profile"),
-    AutoRoute(page: PersonalInfoPage, path: "/personal-info")
+    AutoRoute(page: PersonalInfoPage, path: "/personal-info"),
+    AutoRoute(page: AccountSettingPage, path: "/account-settings"),
+    AutoRoute(page: CommunicationSettingPage, path: "/communication-settings"),
 
   ],
 )

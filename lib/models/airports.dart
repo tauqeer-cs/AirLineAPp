@@ -18,10 +18,10 @@ class Airports extends Equatable{
   Map<String, dynamic> toJson() => _$AirportsToJson(this);
 
   @override
-  List<Object?> get props => [connections, code, name, contryCode, currency];
+  List<Object?> get props => [code];
 
   @override
   String toString() {
-    return name ?? "";
+    return name ?? code ?? "No name";
   }
 }

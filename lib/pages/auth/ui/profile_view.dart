@@ -22,9 +22,12 @@ class ProfileView extends StatelessWidget {
       },
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
-          if(state.blocState.index == 0) {
+          if (state.blocState.index == 0) {
             context.read<ProfileCubit>().getProfile();
-            return Container(color: Colors.white,child: const AppLoadingScreen(message: "Loading"),);
+            return Container(
+              color: Colors.white,
+              child: const AppLoadingScreen(message: "Loading"),
+            );
           }
           return Container(
             color: Colors.white,
@@ -96,8 +99,8 @@ class ProfileView extends StatelessWidget {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
-                          offset: const Offset(
-                              0, 3), // changes position of shadow
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
                         ),
                       ],
                       borderRadius: const BorderRadius.only(
@@ -123,7 +126,52 @@ class ProfileView extends StatelessWidget {
                         const SizedBox(
                           height: 24,
                         ),
-                        Row(
+                        GridView(
+                          padding: kPagePadding,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            childAspectRatio: 3.7/2.462,
+                          ),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            ProfileBoxButton(
+                              text: 'Personal Info',
+                              imageName: 'iconInfo',
+                              onTap: () {
+                                context.router.push(const PersonalInfoRoute());
+                              },
+                            ),
+                            ProfileBoxButton(
+                              text: 'Account Settings',
+                              imageName: 'iconSetting',
+                              onTap: () {},
+                            ),
+                            ProfileBoxButton(
+                              text: 'Communication\nPreferences',
+                              imageName: 'iconPref',
+                              onTap: () {},
+                            ),
+                           /* ProfileBoxButton(
+                              text: 'My Payment Cards',
+                              imageName: 'iconPayment',
+                              onTap: () {
+                                print('Not required at this time');
+                              },
+                            ),
+                            ProfileBoxButton(
+                              text: 'Family and Friends',
+                              imageName: 'iconFamily',
+                              onTap: () {
+                                print('Not required at this time');
+                              },
+                            ),*/
+                          ],
+                        ),
+                        /*Row(
                           children: [
                             Expanded(
                               child: Container(),
@@ -132,21 +180,24 @@ class ProfileView extends StatelessWidget {
                               text: 'Personal Info',
                               imageName: 'iconInfo',
                               onTap: () {
-
-                                context.router
-                                    .push(const PersonalInfoRoute());
+                                context.router.push(const PersonalInfoRoute());
                               },
                             ),
                             Expanded(
                               child: Container(),
                             ),
                             ProfileBoxButton(
+                              text: 'Account Settings',
+                              imageName: 'iconSetting',
+                              onTap: () {},
+                            ),
+                            *//*ProfileBoxButton(
                               text: 'My Payment Cards',
                               imageName: 'iconPayment',
                               onTap: () {
                                 print('Not required at this time');
                               },
-                            ),
+                            ),*//*
                             Expanded(
                               child: Container(),
                             ),
@@ -159,23 +210,28 @@ class ProfileView extends StatelessWidget {
                               child: Container(),
                             ),
                             ProfileBoxButton(
+                              text: 'Communication\nPreferences',
+                              imageName: 'iconPref',
+                              onTap: () {},
+                            ),
+                            *//*ProfileBoxButton(
                               text: 'Family and Friends',
                               imageName: 'iconFamily',
                               onTap: () {
                                 print('Not required at this time');
                               },
-                            ),
+                            ),*//*
                             Expanded(
                               child: Container(),
                             ),
-                            ProfileBoxButton(
+                            *//*ProfileBoxButton(
                               text: 'Account Settings',
                               imageName: 'iconSetting',
                               onTap: () {},
-                            ),
-                            Expanded(
+                            ),*//*
+                            *//*Expanded(
                               child: Container(),
-                            ),
+                            ),*//*
                           ],
                         ),
                         const Spacer(),
@@ -193,12 +249,8 @@ class ProfileView extends StatelessWidget {
                               child: Container(),
                             ),
                             SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width /
-                                      2.462,
-                              height:
-                                  MediaQuery.of(context).size.width /
-                                      3.7,
+                              width: MediaQuery.of(context).size.width / 2.462,
+                              height: MediaQuery.of(context).size.width / 3.7,
                             ),
                             Expanded(
                               child: Container(),
@@ -208,7 +260,7 @@ class ProfileView extends StatelessWidget {
                         const Spacer(),
                         const Spacer(),
                         const Spacer(),
-                        const Spacer(),
+                        const Spacer(),*/
                       ],
                     ),
                   ),

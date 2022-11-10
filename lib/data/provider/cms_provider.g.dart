@@ -47,7 +47,7 @@ class _CMSProvider implements CMSProvider {
   Future<HomeResponse> getHomeContent(
     key, {
     query =
-        "images,img,title,subtitle,description,image,price,link,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold",
+        "images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{

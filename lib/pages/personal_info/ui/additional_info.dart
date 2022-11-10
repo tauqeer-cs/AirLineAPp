@@ -33,7 +33,8 @@ class AdditionInfoView extends StatelessWidget {
       this.dobSelected,
       this.phoneCountryCodeSelected,
       this.phoneSelected,
-      this.onCountryChange, this.phoneCountryCode})
+      this.onCountryChange,
+      this.phoneCountryCode})
       : super(key: key);
 
   @override
@@ -41,7 +42,7 @@ class AdditionInfoView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         const FormHeader(
+        const FormHeader(
           title: 'Additional Info',
         ),
         GreyCard(
@@ -52,11 +53,10 @@ class AdditionInfoView extends StatelessWidget {
             child: Column(
               children: [
                 AppCountriesDropdown(
-                  hintText:'Nationality',
+                  hintText: 'Nationality',
                   isPhoneCode: false,
-                  onChanged: (Country? newCountry) {
-                    onCountryChange?.call(newCountry);
-                  },
+                  onChanged: onCountryChange,
+                  initialCountryCode: countrySelected,
                 ),
                 kVerticalSpacer,
                 AppInputText(
@@ -99,13 +99,13 @@ class AdditionInfoView extends StatelessWidget {
                   inputType: InputType.date,
                 ),
                 kVerticalSpacer,
-                 AppCountriesDropdown(
+                AppCountriesDropdown(
                   isPhoneCode: true,
                   hintText: "Phone Code",
                   initialValue: Country.defaultCountry,
-                  onChanged: (Country? newPhCountry){
+                  initialCountryCode: phoneCountryCodeSelected,
+                  onChanged: (Country? newPhCountry) {
                     phoneCountryCode?.call(newPhCountry);
-
                   },
                 ),
                 kVerticalSpacer,

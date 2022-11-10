@@ -1,3 +1,4 @@
+import 'package:app/models/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -12,49 +13,28 @@ import '../../auth/pages/signup/ui/personal_detail/address_input.dart';
 import 'additional_info.dart';
 import 'emergengy_info_view.dart';
 
-class PersonalInfoView extends StatelessWidget {
-  PersonalInfoView({Key? key}) : super(key: key);
-
+class PersonalInfoView extends StatefulWidget {
+  const PersonalInfoView({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
 
-  //iconLogout
-  //
-  onSave(BuildContext context) {
-    // var profileObject = context.watch<ProfileCubit>().state.profile;
-    var cubut = context.watch<ProfileCubit>().state;
+  @override
+  State<PersonalInfoView> createState() => _PersonalInfoViewState();
+}
 
-    if (_fbKey.currentState!.saveAndValidate()) {
-      final value = _fbKey.currentState!.value;
-
-      /*
-      final signupRequest = SignupRequest(
-        firstName: value[formNameFirstName],
-        lastName: value[formNameLastName],
-        email: value[formNameEmail],
-        phoneNumber: value[formNamePhone],
-        password: value[formNamePassword],
-        confirmPassword: value[formNameConfirmPassword],
-      );*/
-
-      // context.read<SignupCubit>().addAccountDetail(signupRequest);
-      //AutoRouter.of(context).push(SignupAddressRoute());
-    }
-  }
-
-  String? nameTitle = null;
-  Country? selectedCountry = null;
-  Country? phoneCountry = null;
-  Country? addressCountry = null;
+class _PersonalInfoViewState extends State<PersonalInfoView> {
+  String? nameTitle;
+  Country? selectedCountry;
+  Country? phoneCountry;
+  Country? addressCountry;
+  Country? ePhoneCountry;
 
   @override
   Widget build(BuildContext context) {
     var cubit = context.watch<ProfileCubit>();
-
-    var profile = context.watch<ProfileCubit>().state.profile;
-
+    var profile = cubit.state.profile;
     return FormBuilder(
       autoFocusOnValidationFailure: true,
-      key: _fbKey,
+      key: PersonalInfoView._fbKey,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -72,11 +52,10 @@ class PersonalInfoView extends StatelessWidget {
                 onTitleChanged: (String? newTitle) {
                   nameTitle = newTitle;
                 },
-
               ),
               kVerticalSpacer,
               AdditionInfoView(
-                countrySelected: profile?.userProfile?.country,
+                countrySelected: profile?.userProfile?.nationality,
                 myKadSelected: profile?.userProfile?.icNumber,
                 emailSelected: profile?.userProfile?.email,
                 dobSelected: profile?.userProfile?.dob,
@@ -114,6 +93,9 @@ class PersonalInfoView extends StatelessWidget {
                     profile?.userProfile?.emergencyContact?.relationship,
                 countryCode: profile?.userProfile?.emergencyContact?.phoneCode,
                 phoneNo: profile?.userProfile?.emergencyContact?.phoneCode,
+                onPhoneCodeChanged: (newCountry) {
+                  ePhoneCountry = newCountry;
+                },
               ),
               kVerticalSpacer,
               OutlinedButton(
@@ -125,18 +107,14 @@ class PersonalInfoView extends StatelessWidget {
               kVerticalSpacerSmall,
               ElevatedButton(
                 onPressed: () async {
-//                  var profile = cubut;
-
-                  if (_fbKey.currentState!.saveAndValidate()) {
-                    final value = _fbKey.currentState!.value;
-
+                  if (PersonalInfoView._fbKey.currentState!.saveAndValidate()) {
+                    final value = PersonalInfoView._fbKey.currentState!.value;
                     String? fName = value[formNameFirstName];
                     String? lName = value[formNameLastName];
                     String? myId = value[formNameMyKad];
                     String? email = value[formNameEmail];
                     DateTime? dob = value[formNameDob];
                     String? phoneNo = value[formNamePhone];
-
                     String? address = value[formNameAddress];
                     String? state = value[formNameState];
                     String? city = value[formNameCity];
@@ -147,38 +125,34 @@ class PersonalInfoView extends StatelessWidget {
                         value[formNameRelationshipEmergency];
                     String? ePhoneNo = value[formNamePhoneNoRelationship];
 
-                    String? countryIdSeleect, phoneCode;
-
-                    if (selectedCountry != null) {
-                      countryIdSeleect = selectedCountry!.country;
-                    }
-                    if (phoneCountry != null) {
-                      phoneCode = phoneCountry!.phoneCode;
-                    }
-
-                    cubit.updateProfile(
-                        icNumber: myId,
-                        newTitle: nameTitle,
-                        newFirstName: fName,
-                        lastName: lName,
-                        newCountry: countryIdSeleect,
-                        newEmail: email,
-                        newDob: dob,
-                        newPhoneCountryCode: phoneCode,
-                        newPhNo: phoneNo,
-                        newAddress: address,
-                        newAddressCountry: null,
-                        newAddressState: state,
-                        newAddressCity: city,
-                        newAddresZipCode: posCode,
-                        emergencyFirstName: eFirstName,
-                        emergencyLastName: eLastName,
-                        emergencyRelationShip: eRelationShip,
-                        emergencyPhCode: null,
-                        emergencyPhNo: ePhoneNo);
+                    final UserProfile userProfile = UserProfile(
+                      icNumber: myId,
+                      title: nameTitle ?? profile?.userProfile?.title,
+                      firstName: fName,
+                      lastName: lName,
+                      nationality: selectedCountry?.countryCode2 ??
+                          profile?.userProfile?.nationality,
+                      email: email,
+                      dob: dob,
+                      phoneCode: phoneCountry?.phoneCode ??
+                          profile?.userProfile?.phoneCode,
+                      phoneNumber: phoneNo,
+                      address: address,
+                      country: addressCountry?.phoneCode ??
+                          profile?.userProfile?.country,
+                      state: state,
+                      city: city,
+                      postCode: posCode,
+                      emergencyContact: EmergencyContact(
+                        firstName: eFirstName,
+                        lastName: eLastName,
+                        phoneNumber: ePhoneNo,
+                        phoneCode: ePhoneCountry?.phoneCode ?? profile?.userProfile?.emergencyContact?.phoneCode,
+                        relationship: eRelationShip,
+                      ),
+                    );
+                    context.read<ProfileCubit>().updateProfile(userProfile);
                   }
-
-                  print('');
                 },
                 child: const Text("Save"),
               ),

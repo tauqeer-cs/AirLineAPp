@@ -18,7 +18,7 @@ abstract class CMSProvider {
   Future<HomeResponse> getHomeContent(
     @Query("key") String key, {
     @Query("query") String? query =
-        "images,img,title,subtitle,description,image,price,link,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold",
+        "images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
   });
 
   @GET('shared/get')

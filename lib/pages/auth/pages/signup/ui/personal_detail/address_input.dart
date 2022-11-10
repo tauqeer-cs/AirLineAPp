@@ -13,15 +13,10 @@ import '../../../../../../models/country.dart';
 class AddressInput extends StatelessWidget {
   final String? title;
   final String? subText;
-
   final bool withEmail;
-
   final bool hideSubText;
-
   final EdgeInsets? customGreyEdgeInsets;
-
   final double greyMargin;
-
   final String? selectedAddress;
   final String? selectedCountry;
   final String? selectedState;

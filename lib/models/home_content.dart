@@ -56,6 +56,8 @@ class HomeContent extends Equatable {
 class HomeItems extends Equatable {
   final String? description;
   final String? image;
+  final String? from;
+  final String? to;
   final String? img;
   final String? style;
   final String? title;
@@ -66,6 +68,8 @@ class HomeItems extends Equatable {
 
   const HomeItems({
     this.description,
+    this.from,
+    this.to,
     this.image,
     this.price,
     this.img,
@@ -83,12 +87,17 @@ class HomeItems extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [description,
-    image,
-    price,
-    img,
-    style,
-    title,
-    id,
-    name,link];
+  List<Object?> get props => [
+        description,
+        image,
+        price,
+        img,
+        style,
+        title,
+        id,
+        name,
+        link,
+        from,
+        to,
+      ];
 }

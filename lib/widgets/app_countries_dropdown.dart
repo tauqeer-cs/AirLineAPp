@@ -3,6 +3,7 @@ import 'package:app/blocs/countries/countries_cubit.dart';
 import 'package:app/models/country.dart';
 import 'package:app/pages/home/ui/filter/dropdown_transformer.dart';
 import 'package:app/theme/theme.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,7 @@ import 'forms/app_dropdown.dart';
 class AppCountriesDropdown extends StatelessWidget {
   final Country? initialValue;
   final bool isPhoneCode;
-  final String? hintText;
+  final String? hintText, initialCountryCode;
   final List<String? Function(Country?)>? validators;
   final Function(Country?)? onChanged;
 
@@ -20,6 +21,7 @@ class AppCountriesDropdown extends StatelessWidget {
     this.initialValue,
     required this.isPhoneCode,
     this.hintText,
+    this.initialCountryCode,
     this.validators,
     this.onChanged,
   }) : super(key: key);
@@ -35,11 +37,12 @@ class AppCountriesDropdown extends StatelessWidget {
           newList.removeWhere((element) => element == my);
           newList.insert(0, my);
         }
+        final selectedCountry = state.countries.firstWhereOrNull((element)=>element.countryCode2 == initialCountryCode);
         return blocBuilderWrapper(
           blocState: state.blocState,
           finishedBuilder: AppDropDown<Country>(
             sheetTitle: isPhoneCode ? "Phone" : "Country",
-            defaultValue: initialValue ?? Country.defaultCountry,
+            defaultValue: selectedCountry ?? initialValue ?? Country.defaultCountry,
             onChanged: onChanged,
             valueTransformerItem: (value, selected) {
               return Row(

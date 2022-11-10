@@ -26,36 +26,30 @@ class PersonalInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) async {
-
-        if(state.blocState == BlocState.finished) {
-
-          Toast.of(context).show(message:'User information updated successfully');
-
-          await Future.delayed(const Duration(seconds: 1), (){
+        if (state.blocState == BlocState.finished) {
+          Toast.of(context)
+              .show(message: 'User information updated successfully');
+          await Future.delayed(const Duration(seconds: 1), () {
             context.router.pop();
           });
-
         }
       },
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
-
-          if(state.blocState == BlocState.loading) {
-
-
-            return Container(color: Colors.white,child: const AppLoadingScreen(message: 'Loading'),);
-
+          if (state.blocState == BlocState.loading) {
+            return Container(
+              color: Colors.white,
+              child: const AppLoadingScreen(message: 'Loading'),
+            );
           }
-
-
           return LoaderOverlay(
             useDefaultLoading: false,
-            overlayWidget:  const AppLoadingScreen(message: 'Loading'),
+            overlayWidget: const AppLoadingScreen(message: 'Loading'),
             child: Scaffold(
               appBar: AppAppBar(
                 centerTitle: true,
                 title: 'Personal Info',
-                height: 100.h,
+                height: 80.h,
                 overrideInnerHeight: true,
                 child: Column(
                   children: [

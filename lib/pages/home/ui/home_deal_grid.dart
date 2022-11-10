@@ -1,11 +1,16 @@
 
 import 'package:app/app/app_router.dart';
+import 'package:app/blocs/airports/airports_cubit.dart';
+import 'package:app/models/airports.dart';
 import 'package:app/models/home_content.dart';
+import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeDealGrid extends StatelessWidget {
   final HomeContent content;
@@ -26,11 +31,21 @@ class HomeDealGrid extends StatelessWidget {
               mainAxisSpacing: 10,
               childAspectRatio: 1),
           itemCount: content.items?.length ?? 0,
-          itemBuilder: (context, index) {
+          itemBuilder: (_, index) {
             final e = content.items![index];
             return InkWell(
               onTap: () {
-                context.router.push(WebViewRoute(url: e.link ?? ""));
+                final airports = context.read<AirportsCubit>().state.airports;
+                final from = airports.firstWhereOrNull((air)=>air.code == e.from);
+                final to = airports.firstWhereOrNull((air)=>air.code == e.to);
+                print("from is $from");
+                print("to is $to");
+
+                context.read<FilterCubit>().updateOriginAirport(from ?? Airports(code: e.from));
+                context.read<FilterCubit>().updateDestinationAirport(to ?? Airports(code: e.to));
+                final tabsRouter = AutoTabsRouter.of(context);
+                tabsRouter.setActiveIndex(0);
+                //context.router.push(WebViewRoute(url: e.link ?? ""));
               },
               child: Container(
                 decoration:

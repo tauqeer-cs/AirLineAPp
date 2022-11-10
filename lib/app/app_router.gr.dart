@@ -196,6 +196,18 @@ class _$AppRouter extends RootStackRouter {
         child: const PersonalInfoPage(),
       );
     },
+    AccountSettingRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const AccountSettingPage(),
+      );
+    },
+    CommunicationSettingRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CommunicationSettingPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -392,6 +404,14 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           PersonalInfoRoute.name,
           path: '/personal-info',
+        ),
+        RouteConfig(
+          AccountSettingRoute.name,
+          path: '/account-settings',
+        ),
+        RouteConfig(
+          CommunicationSettingRoute.name,
+          path: '/communication-settings',
         ),
       ];
 }
@@ -860,6 +880,30 @@ class PersonalInfoRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PersonalInfoRoute';
+}
+
+/// generated route for
+/// [AccountSettingPage]
+class AccountSettingRoute extends PageRouteInfo<void> {
+  const AccountSettingRoute()
+      : super(
+          AccountSettingRoute.name,
+          path: '/account-settings',
+        );
+
+  static const String name = 'AccountSettingRoute';
+}
+
+/// generated route for
+/// [CommunicationSettingPage]
+class CommunicationSettingRoute extends PageRouteInfo<void> {
+  const CommunicationSettingRoute()
+      : super(
+          CommunicationSettingRoute.name,
+          path: '/communication-settings',
+        );
+
+  static const String name = 'CommunicationSettingRoute';
 }
 
 /// generated route for

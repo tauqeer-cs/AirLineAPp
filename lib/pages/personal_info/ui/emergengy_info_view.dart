@@ -11,23 +11,29 @@ import '../../../widgets/forms/app_input_text.dart';
 import '../../auth/pages/signup/signup_wrapper.dart';
 import '../../auth/pages/signup/ui/form_header.dart';
 
-
 class EmergencyInfoView extends StatelessWidget {
-  const EmergencyInfoView({Key? key, this.firstName, this.lastName, this.relationShip, this.countryCode, this.phoneNo}) : super(key: key);
+  const EmergencyInfoView({
+    Key? key,
+    this.firstName,
+    this.lastName,
+    this.relationShip,
+    this.countryCode,
+    this.phoneNo,
+    this.onPhoneCodeChanged,
+  }) : super(key: key);
 
+  final Function(Country?)? onPhoneCodeChanged;
   final String? firstName;
   final String? lastName;
   final String? relationShip;
   final String? countryCode;
   final String? phoneNo;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children:   [
+      children: [
         const FormHeader(
           title: 'Emergency Contact Person Details',
           subtitle: 'We’ll call them when there’s an emergency.',
@@ -40,7 +46,6 @@ class EmergencyInfoView extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-
                 AppInputText(
                   isRequired: false,
                   textInputType: TextInputType.name,
@@ -51,42 +56,35 @@ class EmergencyInfoView extends StatelessWidget {
                     FormBuilderValidators.required(),
                   ],
                 ),
-
                 kVerticalSpacer,
-
                 AppInputText(
                   isRequired: false,
                   textInputType: TextInputType.name,
-                  name: formNameLastNameEmergency ,
+                  name: formNameLastNameEmergency,
                   initialValue: lastName,
                   hintText: 'Last Name / Surname',
                   validators: [
                     FormBuilderValidators.required(),
                   ],
                 ),
-
                 kVerticalSpacer,
-
-
                 AppInputText(
                   isRequired: false,
                   textInputType: TextInputType.name,
-                  name: formNameRelationshipEmergency  ,
+                  name: formNameRelationshipEmergency,
                   initialValue: relationShip,
                   hintText: 'Relationship',
                   validators: [
                     FormBuilderValidators.required(),
                   ],
                 ),
-
                 kVerticalSpacer,
-
-
-                const AppCountriesDropdown(
+                AppCountriesDropdown(
                   isPhoneCode: true,
                   hintText: "Phone",
                   initialValue: Country.defaultCountry,
-
+                  onChanged: onPhoneCodeChanged,
+                  initialCountryCode: countryCode,
                 ),
                 kVerticalSpacer,
                 AppInputText(
@@ -94,21 +92,15 @@ class EmergencyInfoView extends StatelessWidget {
                   textInputType: TextInputType.number,
                   hintText: "Phone Number",
                   initialValue: phoneNo,
-                  validators: [FormBuilderValidators.required()],
+                  validators: [
+                    FormBuilderValidators.required(),
+                  ],
                 ),
-
                 kVerticalSpacer,
-
-
-
-
-
               ],
             ),
           ),
         ),
-
-
       ],
     );
   }
