@@ -16,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SearchResultView extends StatelessWidget {
   final scrollController = ScrollController();
 
-   SearchResultView({Key? key}) : super(key: key);
+  SearchResultView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class ContinueButton extends StatelessWidget {
           ? () {
               if (booking.blocState == BlocState.loading) return;
               if (booking.isVerify) {
-                context.router.push(BundleRoute());
+                context.router.push(SeatsRoute());
               } else {
                 context.read<BookingCubit>().verifyFlight(filterState);
               }
