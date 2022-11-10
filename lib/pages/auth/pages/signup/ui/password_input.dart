@@ -31,6 +31,8 @@ class PasswordInput extends StatelessWidget {
         ]),
         kVerticalSpacer,
         GreyCard(
+          edgeInsets: EdgeInsets.all(8),
+
           child: Column(
             children: [
               AppInputPassword(

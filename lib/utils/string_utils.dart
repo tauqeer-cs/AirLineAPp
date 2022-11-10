@@ -37,9 +37,10 @@ extension StringExtension on String {
     final emails = split("@");
     if (emails.isNotEmpty) {
       var address = emails.first;
-      address = StringUtils.replaceCharAt(address, address.length - 3, "*");
-      address = StringUtils.replaceCharAt(address, address.length - 4, "*");
-      address = StringUtils.replaceCharAt(address, address.length - 5, "*");
+      address = StringUtils.replaceCharAt(address, 0, "*");
+      address = StringUtils.replaceCharAt(address, 1, "*");
+      address = StringUtils.replaceCharAt(address, 2, "*");
+      address = StringUtils.replaceCharAt(address, 3, "*");
       emails.removeAt(0);
       emails.insert(0, address);
 

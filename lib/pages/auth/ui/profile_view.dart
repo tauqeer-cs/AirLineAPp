@@ -14,20 +14,17 @@ class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext profileContact) {
-    final user = profileContact.watch<AuthBloc>().state.user;
+  Widget build(BuildContext context) {
+    final user = context.watch<AuthBloc>().state.user;
     return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) {
         print('object');
-
-
       },
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if(state.blocState.index == 0) {
             context.read<ProfileCubit>().getProfile();
             return Container(color: Colors.white,child: const AppLoadingScreen(message: "Loading"),);
-
           }
           return Container(
             color: Colors.white,
@@ -48,7 +45,7 @@ class ProfileView extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: TextButton(
                       onPressed: () {
-                        profileContact.read<LoginCubit>().logout();
+                        context.read<LoginCubit>().logout();
                       },
                       child: Column(
                         children: [
@@ -90,8 +87,8 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    width: MediaQuery.of(profileContact).size.width,
-                    height: MediaQuery.of(profileContact).size.height / 1.6,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 1.6,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
@@ -136,7 +133,7 @@ class ProfileView extends StatelessWidget {
                               imageName: 'iconInfo',
                               onTap: () {
 
-                                profileContact.router
+                                context.router
                                     .push(const PersonalInfoRoute());
                               },
                             ),
@@ -197,10 +194,10 @@ class ProfileView extends StatelessWidget {
                             ),
                             SizedBox(
                               width:
-                                  MediaQuery.of(profileContact).size.width /
+                                  MediaQuery.of(context).size.width /
                                       2.462,
                               height:
-                                  MediaQuery.of(profileContact).size.width /
+                                  MediaQuery.of(context).size.width /
                                       3.7,
                             ),
                             Expanded(

@@ -7,6 +7,7 @@ import 'package:app/data/api.dart';
 import 'package:app/data/provider/auth_provider.dart';
 import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
+import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
@@ -53,10 +54,19 @@ class AuthenticationRepository {
     //storeAccessToken(user.token);
   }
 
+  Future<void> sendEmail(ResendEmailRequest resendEmailRequest) async{
+    await _provider.sendEmail(resendEmailRequest);
+  }
+
   Future<void> loginWithEmail(LoginRequest loginRequest) async{
     final user = await _provider.emailLogin(loginRequest);
-    setCurrentUser(user);
-    storeAccessToken(user.token);
+    if(user.isAccountVerified ?? false){
+      storeAccessToken(user.token);
+      setCurrentUser(user);
+    }else{
+      sendEmail(ResendEmailRequest(email: user.email));
+      setTemporaryUser(user);
+    }
   }
 
   /// Starts the Sign In with Google Flow.
@@ -132,6 +142,10 @@ class AuthenticationRepository {
     logger.i("saved user ${user.toJson()}");
     await box.clear();
     box.add(user);
+    _controller.add(user);
+  }
+
+  void setTemporaryUser(User user) async {
     _controller.add(user);
   }
 

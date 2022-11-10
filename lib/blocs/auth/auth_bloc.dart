@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -16,7 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //on<FetchUser>(_onFetchUser);
     on<Logout>(_onLogout);
     _userSubscription = _authenticationRepository.user.listen(
-          (user) {
+      (user) {
         add(UserChanged(user));
       },
     );
@@ -26,11 +27,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   late final StreamSubscription<User> _userSubscription;
 
   void _onUserChanged(UserChanged event, Emitter<AuthState> emit) {
-    emit(
-      event.user.isNotEmpty
-          ? AuthState.authenticated(event.user)
-          : const AuthState.unauthenticated(),
-    );
+    if (event.user.isAccountVerified ?? false) {
+      emit(
+        event.user.isNotEmpty
+            ? AuthState.authenticated(event.user)
+            : const AuthState.unauthenticated(),
+      );
+    } else {
+      emit(AuthState.unverified(event.user));
+      emit(AuthState.unauthenticated());
+    }
   }
 
   void _onLogout(Logout event, Emitter<AuthState> emit) {

@@ -1,6 +1,7 @@
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
 import 'package:app/pages/auth/pages/signup/ui/form_header.dart';
 import 'package:app/theme/spacer.dart';
+import 'package:app/utils/utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
@@ -58,78 +59,84 @@ class AddressInput extends StatelessWidget {
         ),
         GreyCard(
           margin: greyMargin,
-          edgeInsets: customGreyEdgeInsets ?? const EdgeInsets.all(12),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
+          edgeInsets: EdgeInsets.all(8),
+          child: Column(
+            children: [
+              AppInputText(
+                isRequired: false,
+                name: formNameAddress,
+                hintText: 'Address',
+                initialValue: selectedAddress,
+              ),
+              kVerticalSpacer,
+              Row(
+                children: [
+                  Expanded(
+                    child: AppCountriesDropdown(
+                      hintText: "Country",
+                      isPhoneCode: false,
+                      onChanged: (newCountry) {
+                        onAddressCountryChange?.call(newCountry);
+                      },
+                    ),
+                  ),
+                  kHorizontalSpacerMini,
+                  Expanded(
+                    child: AppInputText(
+                      isRequired: false,
+                      name: formNameState,
+                      hintText: 'State',
+                      initialValue: selectedState,
+                      inputFormatters: [
+                        AppFormUtils.onlyLetter(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              kVerticalSpacer,
+              Row(
+                children: [
+                  Expanded(
+                    child: AppInputText(
+                      isRequired: false,
+                      name: formNameCity,
+                      hintText: 'City',
+                      initialValue: selectedCity,
+                      inputFormatters: [
+                        AppFormUtils.onlyLetter(),
+                      ],
+                    ),
+                  ),
+                  kHorizontalSpacerMini,
+                  Expanded(
+                    child: AppInputText(
+                      isRequired: false,
+                      name: formNamePostCode,
+                      hintText: 'Postal Code',
+                      initialValue: selectedPosCode,
+                      inputFormatters: [
+                        AppFormUtils.onlyNumber(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              kVerticalSpacer,
+              if (withEmail) ...[
                 AppInputText(
                   isRequired: false,
-                  name: formNameAddress,
-                  hintText: 'Address',
-                  initialValue: selectedAddress,
-                ),
-                kVerticalSpacer,
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppCountriesDropdown(
-                        hintText: "Country",
-                        isPhoneCode: false,
-                        onChanged: (newCountry) {
-                          onAddressCountryChange?.call(newCountry);
-                        },
-                      ),
-                    ),
-                    kHorizontalSpacerMini,
-                    Expanded(
-                      child: AppInputText(
-                        isRequired: false,
-                        name: formNameState,
-                        hintText: 'State',
-                        initialValue: selectedState,
-                      ),
-                    ),
+                  textInputType: TextInputType.emailAddress,
+                  name: formNameAddressEmail,
+                  hintText: 'Email',
+                  validators: [
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.email(),
                   ],
                 ),
                 kVerticalSpacer,
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppInputText(
-                        isRequired: false,
-                        name: formNameCity,
-                        hintText: 'City',
-                        initialValue: selectedCity,
-                      ),
-                    ),
-                    kHorizontalSpacerMini,
-                    Expanded(
-                      child: AppInputText(
-                        isRequired: false,
-                        name: formNamePostCode,
-                        hintText: 'Postal Code',
-                        initialValue: selectedPosCode,
-                      ),
-                    ),
-                  ],
-                ),
-                kVerticalSpacer,
-                if (withEmail) ...[
-                  AppInputText(
-                    isRequired: false,
-                    textInputType: TextInputType.emailAddress,
-                    name: formNameAddressEmail,
-                    hintText: 'Email',
-                    validators: [
-                      FormBuilderValidators.required(),
-                      FormBuilderValidators.email(),
-                    ],
-                  ),
-                  kVerticalSpacer,
-                ],
               ],
-            ),
+            ],
           ),
         ),
       ],

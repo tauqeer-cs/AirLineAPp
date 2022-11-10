@@ -101,7 +101,7 @@ class SignupContainer extends StatelessWidget {
                 visible: step != 3,
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
+                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
                   child: Text(
                     step == 1
                         ? "Tell us more about yourself."

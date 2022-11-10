@@ -12,7 +12,7 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if(state.user!=null && state.user != User.empty){
+        if(state.user!=null && state.user != User.empty && (state.user?.isAccountVerified ?? false)){
           return authChild;
         }
         return child;

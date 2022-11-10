@@ -72,6 +72,7 @@ class PersonalInfoView extends StatelessWidget {
                 onTitleChanged: (String? newTitle) {
                   nameTitle = newTitle;
                 },
+
               ),
               kVerticalSpacer,
               AdditionInfoView(

@@ -1,5 +1,6 @@
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -14,10 +15,12 @@ class AppInputText extends StatelessWidget {
   final bool isRequired, isHidden;
   final int? minLines;
   final int? maxLines;
-  final  Function(String?)? onChanged;
+  final Function(String?)? onChanged;
   final TextInputType? textInputType;
   final String? autofillHints;
   final TextEditingController? textEditingController;
+  final List<TextInputFormatter>? inputFormatters;
+
   const AppInputText({
     Key? key,
     required this.name,
@@ -29,11 +32,13 @@ class AppInputText extends StatelessWidget {
     this.initialValue,
     this.showShadow = false,
     this.isRequired = true,
+    this.inputFormatters,
     this.textInputType,
     this.isHidden = false,
     this.minLines,
     this.maxLines,
-    this.autofillHints, this.textEditingController,
+    this.autofillHints,
+    this.textEditingController,
   }) : super(key: key);
 
   @override
@@ -46,14 +51,15 @@ class AppInputText extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       keyboardType: textInputType,
-      style: isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
+      style:
+          isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
       decoration: InputDecoration(
         hintText: hintText ?? "",
       ),
+      inputFormatters: inputFormatters,
       onChanged: onChanged,
       initialValue: initialValue,
       autofillHints: autofillHints != null ? [autofillHints!] : null,
-
     );
   }
 }

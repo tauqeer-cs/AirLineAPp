@@ -1,10 +1,16 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/blocs/profile/profile_cubit.dart';
+import 'package:app/data/repositories/auth_repository.dart';
+import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/pages/auth/ui/auth_view.dart';
 import 'package:app/pages/auth/ui/profile_view.dart';
+import 'package:app/theme/theme.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
+import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:app/widgets/wrapper/auth_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +22,7 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => LoginCubit()),
@@ -24,18 +30,31 @@ class AuthPage extends StatelessWidget {
         child: LoaderOverlay(
           useDefaultLoading: false,
           overlayWidget: const AppLoadingScreen(message: "Loading"),
-          child: BlocListener<LoginCubit, LoginState>(
-            listener: (context, state) {
-              blocListenerWrapper(
-                blocState: state.blocState,
-                onLoading: () => context.loaderOverlay.show(),
-                onFailed: () {
-                  context.loaderOverlay.hide();
-                  Toast.of(context).show(message: state.message);
+          child: MultiBlocListener(
+            listeners: [
+              BlocListener<LoginCubit, LoginState>(
+                listener: (context, state) {
+                  blocListenerWrapper(
+                    blocState: state.blocState,
+                    onLoading: () => context.loaderOverlay.show(),
+                    onFailed: () {
+                      context.loaderOverlay.hide();
+                      Toast.of(context).show(message: state.message);
+                    },
+                    onFinished: () => context.loaderOverlay.hide(),
+                  );
                 },
-                onFinished: () => context.loaderOverlay.hide(),
-              );
-            },
+              ),
+              BlocListener<AuthBloc, AuthState>(
+                listener: (_, state) {
+                  print("auth listener ${state.user?.isAccountVerified}");
+                  if (!(state.user?.isAccountVerified ?? true)) {
+                    showNotVerifiedDialog(
+                        context: context, email: state.user?.email ?? "");
+                  }
+                },
+              ),
+            ],
             child: Stack(
               children: [
                 Image.asset(
@@ -57,5 +76,40 @@ class AuthPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  showNotVerifiedDialog({
+    required BuildContext context,
+    required String email,
+  }) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return AppConfirmationDialog(
+          title: "Your email hasn't been verified yet.",
+          subtitle:
+              "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
+          child: Column(
+            children: [
+              Text(
+                "We've sent a verification link to your email ${email.sensorEmail()}. Please check your email and click on the link.",
+                style: kMediumHeavy,
+              ),
+              kVerticalSpacer,
+              Text(
+                "Click resend if you didn’t receive the email. ",
+              ),
+              kVerticalSpacer,
+            ],
+          ),
+          confirmText: "Resend",
+          onConfirm: () {
+            AuthenticationRepository().sendEmail(ResendEmailRequest(email: email));
+          },
+        );
+      },
+    );
+    return;
   }
 }

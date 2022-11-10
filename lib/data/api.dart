@@ -52,7 +52,6 @@ class MyInterceptor extends Interceptor {
 
   final _repository = AuthenticationRepository();
 
-
   @override
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
@@ -99,7 +98,6 @@ class MyInterceptor extends Interceptor {
 
     String? accessTokenData = await _repository.getAccessToken();
 
-
     String? accessToken = options.baseUrl.contains("mya-cms.alphareds.com")
         ? _cmsRepository.cmsToken
         : accessTokenData;
@@ -118,23 +116,24 @@ class MyInterceptor extends Interceptor {
         final data = result["result"];
         final isSuccess = result["success"] ?? true;
         final isSuccessResult = data["success"] ?? true;
-        if(data is Map && data.containsKey("value")){
+        if (data is Map && data.containsKey("value")) {
           final dataValue = result["result"]["value"];
           final isSuccessValue = dataValue["success"] ?? true;
-          if(isSuccessValue is bool && !isSuccessValue){
-            if(dataValue["error"] !=null && dataValue["error"] is Map){
+          if (isSuccessValue is bool && !isSuccessValue) {
+            if (dataValue["error"] != null && dataValue["error"] is Map) {
               throw ErrorResponse.fromJson(dataValue["error"]);
             }
           }
         }
 
-        if ((isSuccess is bool && !isSuccess) || (isSuccessResult is bool && !isSuccessResult)) {
-          if(result["error"] !=null && result["error"] is Map){
+        if ((isSuccess is bool && !isSuccess) ||
+            (isSuccessResult is bool && !isSuccessResult)) {
+          if (result["error"] != null && result["error"] is Map) {
             throw ErrorResponse.fromJson(result["error"]);
-          }else if(data["error"] !=null && data["error"] is Map){
+          } else if (data["error"] != null && data["error"] is Map) {
             throw ErrorResponse.fromJson(data["error"]);
-          }else{
-            throw ErrorResponse.fromJson(data["error"]);
+          } else if (data["message"] != null) {
+            throw ErrorResponse(data["message"]);
           }
         }
         response.data = result["result"];
@@ -164,7 +163,6 @@ class MyInterceptor extends Interceptor {
       //_repository.deleteCurrentUser();
       throw ErrorResponse.fromJson(errors);
     } else if (err.response?.data is Map) {
-
       Map<String, dynamic> data = err.response!.data;
       logger.e('Error is map $data');
       if (data.containsKey("message")) {
@@ -185,8 +183,7 @@ class MyInterceptor extends Interceptor {
       throw ErrorResponse.fromJson(errors);
     } else if (error is ErrorResponse) {
       throw error;
-    }else{
-    }
+    } else {}
     super.onError(error, handler);
   }
 }

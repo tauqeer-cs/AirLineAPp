@@ -1,5 +1,6 @@
 import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
+import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/models/user.dart';
 import 'package:dio/dio.dart';
@@ -21,4 +22,7 @@ abstract class AuthProvider {
 
   @POST('user/sign-up')
   Future<User> signup(@Body() SignupRequest signupRequest);
+
+  @POST('user/resendverifyemail')
+  Future<void> sendEmail(@Body() ResendEmailRequest emailRequest);
 }

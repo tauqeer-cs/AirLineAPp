@@ -54,48 +54,45 @@ class NameInput extends StatelessWidget {
         ),
         GreyCard(
           margin: greyMargin,
-          edgeInsets: customGreyEdgeInsets ?? const EdgeInsets.all(12),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                AppDropDown<String>(
-                  items: availableTitle,
-                  defaultValue: initialTitle ?? "Mr.",
-                  sheetTitle: "Title",
-                  onChanged: (value) {
-                    context.read<SignupCubit>().editTitle(value);
+          edgeInsets: EdgeInsets.all(8),
+          child: Column(
+            children: [
+              AppDropDown<String>(
+                items: availableTitle,
+                defaultValue: initialTitle ?? "Mr.",
+                sheetTitle: "Title",
+                onChanged: (value) {
+                  context.read<SignupCubit>().editTitle(value);
 
-                    onTitleChanged?.call(value);
+                  onTitleChanged?.call(value);
 
 
-                  },
-                ),
-                kVerticalSpacer,
-                AppInputText(
-                  isRequired: false,
-                  textInputType: TextInputType.name,
-                  name: formNameFirstName,
-                  hintText: 'First Name',
-                  initialValue: firstNameInitValue,
-                  validators: [
-                    FormBuilderValidators.required(),
-                  ],
-                ),
-                kVerticalSpacer,
-                AppInputText(
-                  isRequired: false,
-                  textInputType: TextInputType.name,
-                  name: formNameLastName,
-                  initialValue: lastNameInitValue,
-                  hintText: 'Last Name',
-                  validators: [
-                    FormBuilderValidators.required(),
-                  ],
-                ),
-                kVerticalSpacer,
-              ],
-            ),
+                },
+              ),
+              kVerticalSpacer,
+              AppInputText(
+                isRequired: false,
+                textInputType: TextInputType.name,
+                name: formNameFirstName,
+                hintText: 'First Name',
+                initialValue: firstNameInitValue,
+                validators: [
+                  FormBuilderValidators.required(),
+                ],
+              ),
+              kVerticalSpacer,
+              AppInputText(
+                isRequired: false,
+                textInputType: TextInputType.name,
+                name: formNameLastName,
+                initialValue: lastNameInitValue,
+                hintText: 'Last Name',
+                validators: [
+                  FormBuilderValidators.required(),
+                ],
+              ),
+              kVerticalSpacer,
+            ],
           ),
         ),
       ],
