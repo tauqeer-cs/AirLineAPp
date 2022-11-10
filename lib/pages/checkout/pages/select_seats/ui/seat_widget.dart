@@ -31,7 +31,7 @@ class SeatWidget extends StatelessWidget {
         : focusedPerson?.returnSeats;
     final selected = seat == seats;
     final otherSelected = otherSeats?.contains(seats) ?? false;
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         if(!(seats.isSeatAvailable ?? true)) return;
         if(otherSelected) return;

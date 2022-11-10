@@ -26,7 +26,7 @@ class _MealsFeeState extends State<MealsFee> {
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
     return Column(
       children: [
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               isExpand = !isExpand;

@@ -27,7 +27,7 @@ class BaggageCard extends StatelessWidget {
     final bundle = isDeparture
         ? focusedPerson?.departureBaggage
         : focusedPerson?.returnBaggage;
-    return GestureDetector(
+    return InkWell(
       onTap: (){
         context
             .read<SearchFlightCubit>()

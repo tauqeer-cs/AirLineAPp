@@ -140,7 +140,7 @@ class ToastDialog extends StatelessWidget {
                     ),
               ),
             ),
-            GestureDetector(
+            InkWell(
               onTap: onClose,
               child: const Icon(
                 Icons.close,

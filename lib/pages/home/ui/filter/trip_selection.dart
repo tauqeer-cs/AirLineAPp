@@ -14,7 +14,7 @@ class TripSelection extends StatelessWidget {
       children: FlightType.values
           .map(
             (e) => Expanded(
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   context.read<FilterCubit>().updateTripType(e);
                 },

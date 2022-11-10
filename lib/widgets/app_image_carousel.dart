@@ -103,7 +103,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
+                  InkWell(
                     onTap: ()=>_controller.previousPage(),
                     child: const CircleAvatar(
                       radius: 20,
@@ -115,7 +115,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
                       ),
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
                     onTap: ()=>_controller.nextPage(),
                     child: const CircleAvatar(
                       radius: 20,

@@ -28,7 +28,7 @@ class HomeDealGrid extends StatelessWidget {
           itemCount: content.items?.length ?? 0,
           itemBuilder: (context, index) {
             final e = content.items![index];
-            return GestureDetector(
+            return InkWell(
               onTap: () {
                 context.router.push(WebViewRoute(url: e.link ?? ""));
               },

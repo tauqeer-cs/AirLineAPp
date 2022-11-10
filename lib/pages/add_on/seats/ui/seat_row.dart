@@ -33,7 +33,7 @@ class SeatRow extends StatelessWidget {
     final otherSelected = otherSeats?.contains(seats) ?? false;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           if (!(seats.isSeatAvailable ?? true)) return;
           if (otherSelected) return;

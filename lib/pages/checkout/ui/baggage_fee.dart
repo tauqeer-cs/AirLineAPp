@@ -27,7 +27,7 @@ class _BaggageFeeState extends State<BaggageFee> {
 
     return Column(
       children: [
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               isExpand = !isExpand;

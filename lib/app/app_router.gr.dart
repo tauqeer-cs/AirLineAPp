@@ -29,6 +29,12 @@ class _$AppRouter extends RootStackRouter {
         child: const SearchResultPage(),
       );
     },
+    ChangeSearchRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ChangeSearchPage(),
+      );
+    },
     WelcomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -285,6 +291,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/flight',
         ),
         RouteConfig(
+          ChangeSearchRoute.name,
+          path: '/change-search',
+        ),
+        RouteConfig(
           WelcomeRoute.name,
           path: '/welcome',
         ),
@@ -409,6 +419,18 @@ class SearchResultRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SearchResultRoute';
+}
+
+/// generated route for
+/// [ChangeSearchPage]
+class ChangeSearchRoute extends PageRouteInfo<void> {
+  const ChangeSearchRoute()
+      : super(
+          ChangeSearchRoute.name,
+          path: '/change-search',
+        );
+
+  static const String name = 'ChangeSearchRoute';
 }
 
 /// generated route for

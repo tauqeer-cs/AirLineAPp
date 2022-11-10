@@ -34,7 +34,7 @@ class BundleCard extends StatelessWidget {
         : focusedPerson?.returnBundle;
     final cmsBundles = context.watch<CmsSsrCubit>().state.bundleGroups;
     final image = cmsBundles.firstWhereOrNull((element) => element.code == inboundBundle?.bundle?.codeType)?.image;
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         context.read<SearchFlightCubit>().addBundleToPerson(selectedPerson, inboundBundle, isDeparture);
       },

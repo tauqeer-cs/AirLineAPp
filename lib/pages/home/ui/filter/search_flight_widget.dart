@@ -9,36 +9,35 @@ import 'package:flutter/material.dart';
 
 
 class SearchFlightWidget extends StatelessWidget {
-  const SearchFlightWidget({Key? key}) : super(key: key);
+  final bool isHome;
+  const SearchFlightWidget({Key? key, required this.isHome}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GreyCard(
-      child: Column(
-        children: [
-          kVerticalSpacerSmall,
-          const TripSelection(),
-          const AirportWidget(isOrigin: true),
-          kVerticalSpacerMini,
-          const AirportWidget(isOrigin: false),
-          kVerticalSpacerMini,
-          const PassengersWidget(),
-          kVerticalSpacerMini,
-          const CalendarWidget(),
-          kVerticalSpacer,
-          const Padding(
-            padding: kPageHorizontalPadding,
-            child: SubmitSearch(isHomePage: true),
-          ),
-          kVerticalSpacerSmall,
+    return Column(
+      children: [
+        kVerticalSpacerSmall,
+        const TripSelection(),
+        const AirportWidget(isOrigin: true),
+        kVerticalSpacerMini,
+        const AirportWidget(isOrigin: false),
+        kVerticalSpacerMini,
+        const PassengersWidget(),
+        kVerticalSpacerMini,
+        const CalendarWidget(),
+        kVerticalSpacer,
+        Padding(
+          padding: kPageHorizontalPadding,
+          child: SubmitSearch(isHomePage: isHome),
+        ),
+        kVerticalSpacerSmall,
 
-          // AppInputText(
-          //   name: "promoFlight",
-          //   onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
-          //   hintText: "Promo Code",
-          // ),
-        ],
-      ),
+        // AppInputText(
+        //   name: "promoFlight",
+        //   onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
+        //   hintText: "Promo Code",
+        // ),
+      ],
     );
   }
 }

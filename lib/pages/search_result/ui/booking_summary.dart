@@ -1,8 +1,10 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
+import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
@@ -42,18 +44,22 @@ class SummaryContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              offset: const Offset(0, -2),
-              blurRadius: 6,
-            ),
-          ]),
-      child: child,
+    final bool isExpand = context.watch<SummaryContainerCubit>().state;
+    return ExpandedSection(
+      expand: isExpand,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                offset: const Offset(0, -2),
+                blurRadius: 6,
+              ),
+            ]),
+        child: child,
+      ),
     );
   }
 }

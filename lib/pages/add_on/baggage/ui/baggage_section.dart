@@ -80,7 +80,7 @@ class NewBaggageCard extends StatelessWidget {
     final baggage = isDeparture
         ? focusedPerson?.departureBaggage
         : focusedPerson?.returnBaggage;
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         context
             .read<SearchFlightCubit>()

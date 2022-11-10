@@ -27,7 +27,7 @@ class _GenderInputState extends State<GenderInput> {
         ),
         const Text("Gender", style: kLargeSemiBold),
         kVerticalSpacer,
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               selected = "Male";
@@ -59,7 +59,7 @@ class _GenderInputState extends State<GenderInput> {
           ),
         ),
         kVerticalSpacer,
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               selected = "Female";

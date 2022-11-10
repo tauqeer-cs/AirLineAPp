@@ -32,7 +32,7 @@ class PassengersWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final numberOfPerson = context.watch<FilterCubit>().state.numberPerson;
-    return GestureDetector(
+    return InkWell(
       onTap: ()=>_onPeoplePick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<NumberPerson>(

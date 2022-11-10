@@ -1,12 +1,14 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/flight_detail.dart';
+import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +30,7 @@ class SegmentCard extends StatelessWidget {
     return Container(
       width: 500.w,
       margin: const EdgeInsets.symmetric(vertical: 12),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           if (isDeparture) {
             context.read<BookingCubit>().selectDeparture(segment);
@@ -140,6 +142,7 @@ class SegmentCard extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    context.read<SummaryContainerCubit>().changeVisibility(true);
                     if (isDeparture) {
                       context.read<BookingCubit>().selectDeparture(segment);
                     } else {
@@ -153,6 +156,8 @@ class SegmentCard extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: () {
                       context.read<BookingCubit>().changeFlight();
+                      context.read<SummaryContainerCubit>().changeVisibility(true);
+                      context.router.pop();
                     },
                     child: const Text("Change Flight"),
                   ),

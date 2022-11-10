@@ -20,7 +20,7 @@ class SeatRemove extends StatelessWidget {
     final seat = isDeparture
         ? focusedPerson?.departureSeats
         : focusedPerson?.returnSeats;
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         context
             .read<SearchFlightCubit>()

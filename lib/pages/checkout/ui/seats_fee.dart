@@ -27,7 +27,7 @@ class _SeatsFeeState extends State<SeatsFee> {
 
     return Column(
       children: [
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               isExpand = !isExpand;

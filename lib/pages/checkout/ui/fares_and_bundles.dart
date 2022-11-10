@@ -25,7 +25,7 @@ class _FaresAndBundlesState extends State<FaresAndBundles> {
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
     return Column(
       children: [
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               isExpand = !isExpand;

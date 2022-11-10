@@ -27,7 +27,7 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
+            InkWell(
               onTap: () {
                 setState(() {
                   isExpand = !isExpand;
@@ -72,6 +72,7 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                 ),
               ),
             ),
+            kVerticalSpacer,
             Padding(
               padding: kPageHorizontalPadding,
               child: Text(

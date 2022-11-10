@@ -127,7 +127,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
               padding: const EdgeInsets.all(8.0),
               child: Align(
           alignment: Alignment.topLeft,
-                child: GestureDetector(
+                child: InkWell(
                     onTap: () => context.router.pop(),
                     child: Icon(
                       Icons.chevron_left,
@@ -136,7 +136,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
               ),
-            ) : GestureDetector(
+            ) : InkWell(
           onTap: () => context.router.pop(),
           child: Icon(
             Icons.chevron_left,

@@ -15,6 +15,7 @@ import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
+import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,6 +50,7 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => CmsSsrCubit()),
         BlocProvider(create: (_) => ProfileCubit()),
+        BlocProvider(create: (_) => SummaryContainerCubit()),
         BlocProvider(
             create: (_) =>
                 AuthBloc(authenticationRepository: AuthenticationRepository())),

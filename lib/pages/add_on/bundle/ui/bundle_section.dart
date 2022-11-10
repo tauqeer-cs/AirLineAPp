@@ -82,7 +82,7 @@ class NewBundleCard extends StatelessWidget {
         .firstWhereOrNull(
             (element) => element.code == inboundBundle?.bundle?.codeType)
         ?.image;
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         context
             .read<SearchFlightCubit>()

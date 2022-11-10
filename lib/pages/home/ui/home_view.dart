@@ -4,6 +4,7 @@ import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/widgets/app_error_screen.dart';
 import 'package:app/widgets/app_logo_widget.dart';
+import 'package:app/widgets/containers/grey_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,7 +33,11 @@ class HomeView extends StatelessWidget {
           kVerticalSpacer,
           const Padding(
             padding: kPageHorizontalPadding,
-            child: SearchFlightWidget(),
+            child: GreyCard(
+              child: SearchFlightWidget(
+                isHome: true,
+              ),
+            ),
           ),
           kVerticalSpacerSmall,
           BlocBuilder<HomeCubit, HomeState>(
@@ -47,7 +52,7 @@ class HomeView extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: HomeBanner(content: e),
                         );
-                     /* case "Flight Deals":
+                      /* case "Flight Deals":
                         return Padding(
                           padding: kPageHorizontalPaddingBig,
                           child: HomeDeal(content: e),

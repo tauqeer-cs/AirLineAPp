@@ -51,7 +51,7 @@ class CalendarWidget extends StatelessWidget {
       texts.add("Please input date");
     }
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => _onCalendarPick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<String>(

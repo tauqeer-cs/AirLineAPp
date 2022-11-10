@@ -43,14 +43,14 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
         ),
         kVerticalSpacer,
         AppDividerWidget(color: Styles.kDisabledButton),
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               isExpand = !isExpand;
             });
           },
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: Row(
               children: [
                 Text(

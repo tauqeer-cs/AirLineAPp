@@ -2,6 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/models/airports.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

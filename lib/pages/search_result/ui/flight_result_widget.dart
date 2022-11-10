@@ -1,7 +1,9 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
+import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/pages/search_result/ui/choose_flight_segment.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
@@ -33,15 +35,19 @@ class FlightResultWidget extends StatelessWidget {
                       flex: 4,
                       child: Text(
                         state.filterState?.beautify ?? "",
-                        style: kHugeHeavy.copyWith(letterSpacing: 1),
+                        style: kHugeHeavy,
                         textAlign: TextAlign.left,
                       ),
                     ),
+                    kHorizontalSpacerMini,
                     Expanded(
-                      flex: 3,
+                      flex: 2,
                       child: OutlinedButton(
                         child: const FittedBox(child: Text("Change Search")),
-                        onPressed: ()=>context.router.pop(),
+                        onPressed: () {
+                          context.read<SummaryContainerCubit>().changeVisibility(true);
+                          context.router.push(ChangeSearchRoute());
+                        },
                       ),
                     ),
                   ],

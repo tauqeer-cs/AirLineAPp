@@ -24,7 +24,7 @@ class BookingListPage extends StatelessWidget {
             .map(
               (e) => Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () => context.router.push(
                       BookingConfirmationRoute(bookingId: e.bookingId ?? "")),
                   child: AppCard(

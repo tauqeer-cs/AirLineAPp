@@ -68,7 +68,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
               kVerticalSpacerSmall,
               Align(
                 alignment: Alignment.centerRight,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () => context.router.pop(),
                   child: Icon(
                     Icons.clear,
@@ -129,7 +129,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   initialDate: departDate ?? DateTime.now(),
                   onMonthLoaded: (year, month) {},
                   startWeekWithSunday: true,
-                  onDayPressed: (value) {
+                  onDayPressed: (value) async {
                     final isBefore = value.isBefore(DateTime.now());
                     if (isBefore) return;
                     if (isRoundTrip) {
@@ -138,11 +138,12 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             .read<FilterCubit>()
                             .updateDate(departDate: value, returnDate: null);
                       } else if (returnDate == null) {
-                        //if (isSameDay(value, departDate)) return;
-
                         context.read<FilterCubit>().updateDate(
                             departDate: departDate, returnDate: value);
-                        context.router.pop();
+                        await Future.delayed(const Duration(seconds: 1));
+                        if(mounted) {
+                          context.router.pop();
+                        }
                       } else {
                         context
                             .read<FilterCubit>()
@@ -152,7 +153,10 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                       context
                           .read<FilterCubit>()
                           .updateDate(departDate: value, returnDate: null);
-                      context.router.pop();
+                      await Future.delayed(const Duration(seconds: 1));
+                      if(mounted) {
+                        context.router.pop();
+                      }
                     }
                   },
                   onPaginationCompleted: (direction) {},

@@ -82,7 +82,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
               visible: !isVerify,
               child: Expanded(
                 flex: 2,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: _onOpenSheet,
                   child: Column(
                     children: [

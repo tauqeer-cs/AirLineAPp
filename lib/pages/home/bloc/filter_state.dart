@@ -28,8 +28,8 @@ class FilterState extends Equatable {
           departDate != null &&
           (returnDate != null || flightType == FlightType.oneWay);
 
-  String get beautify=>"${origin?.name} To ${destination?.name}";
-  String get beautifyReverse=>"${destination?.name} To ${origin?.name}";
+  String get beautify=>"${origin?.name?.capitalize()} To ${destination?.name?.capitalize()}";
+  String get beautifyReverse=>"${destination?.name?.capitalize()} To ${origin?.name?.capitalize()}";
   String get beautifyShort=>"${origin?.code} To ${destination?.code}";
   String get beautifyReverseShort=>"${destination?.code} To ${origin?.code}";
   @override

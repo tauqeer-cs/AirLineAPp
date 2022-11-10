@@ -62,7 +62,7 @@ class _AppInputPasswordState extends State<AppInputPassword> {
           maxHeight: 20,
           maxWidth: 40,
         ),
-        suffixIcon: GestureDetector(
+        suffixIcon: InkWell(
           onTap: () {
             setState(() {
               isObstructedText = !isObstructedText;

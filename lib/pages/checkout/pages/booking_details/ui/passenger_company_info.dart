@@ -50,7 +50,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
         kVerticalSpacer,
         const AppDividerFadeWidget(),
         kVerticalSpacer,
-        GestureDetector(
+        InkWell(
           onTap: () {
             setState(() {
               isExpand = !isExpand;

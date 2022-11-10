@@ -26,7 +26,7 @@ class HomeBanner extends StatelessWidget {
             autoPlay: (content.items ?? []).length>1,
             items: (content.items ?? [])
                 .map(
-                  (e) => GestureDetector(
+                  (e) => InkWell(
                     onTap: () {
                       context.router.push(WebViewRoute(url: e.link ?? ""));
 

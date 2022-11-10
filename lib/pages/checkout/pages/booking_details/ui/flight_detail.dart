@@ -2,6 +2,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes.dart';
+import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/utils/string_utils.dart';
@@ -44,6 +45,7 @@ class _FlightDetailState extends State<FlightDetail> {
             setState(() {
               isExpand = !isExpand;
             });
+            context.read<SummaryContainerCubit>().changeVisibility(!isExpand);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/pages/search_result/ui/search_result_view.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
@@ -15,7 +16,7 @@ class SearchResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SearchFlightCubit, SearchFlightState>(
       listener: (context, state) {
-        if(state.blocState == BlocState.failed){
+        if (state.blocState == BlocState.failed) {
           context.router.pop();
         }
       },

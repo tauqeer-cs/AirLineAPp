@@ -28,6 +28,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
     if (taxes?.isEmpty ?? true) return const SizedBox();
     return Column(
       children: [
+        kVerticalSpacerMini,
         AppDividerWidget(color: Styles.kDisabledButton),
         PriceContainer(
           child: Row(

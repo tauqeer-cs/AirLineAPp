@@ -18,10 +18,12 @@ class SubmitSearch extends StatelessWidget {
       onPressed: !isValid
           ? null
           : () {
+              context.read<SearchFlightCubit>().searchFlights(filter);
               if (isHomePage) {
                 context.router.push(const SearchResultRoute());
+              } else {
+                context.router.pop();
               }
-              context.read<SearchFlightCubit>().searchFlights(filter);
             },
       child: const Text("Search Flight"),
     );

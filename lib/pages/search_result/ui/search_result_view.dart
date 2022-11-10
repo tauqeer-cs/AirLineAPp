@@ -6,6 +6,7 @@ import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/flight_result_widget.dart';
+import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:app/widgets/app_loading_screen.dart';
@@ -24,33 +25,42 @@ class SearchResultView extends StatelessWidget {
       builder: (context, state) {
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: ListView(
-            controller: scrollController,
+          finishedBuilder: Column(
             children: [
-              kVerticalSpacer,
-              const FlightResultWidget(),
-              Stack(
-                children: [
-                  const SizedBox(height: 80),
-                  const CheckoutSummary(),
-                  Positioned(
-                    bottom: 15,
-                    right: 15,
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        scrollController.animateTo(
-                          scrollController.position.minScrollExtent,
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.fastOutSlowIn,
-                        );
-                      },
-                      backgroundColor: Styles.kPrimaryColor,
-                      child: const Icon(Icons.keyboard_arrow_up),
-                    ),
-                  )
-                ],
+              Expanded(
+                child: SummaryContainerListener(
+                  scrollController: scrollController,
+                  child: ListView(
+                    controller: scrollController,
+                    children: [
+                      kVerticalSpacer,
+                      const FlightResultWidget(),
+                      Stack(
+                        children: [
+                          const SizedBox(height: 80),
+                          const CheckoutSummary(),
+                          Positioned(
+                            bottom: 15,
+                            right: 15,
+                            child: FloatingActionButton(
+                              onPressed: () {
+                                scrollController.animateTo(
+                                  scrollController.position.minScrollExtent,
+                                  duration: const Duration(seconds: 1),
+                                  curve: Curves.fastOutSlowIn,
+                                );
+                              },
+                              backgroundColor: Styles.kPrimaryColor,
+                              child: const Icon(Icons.keyboard_arrow_up),
+                            ),
+                          )
+                        ],
+                      ),
+                      kVerticalSpacerSmall,
+                    ],
+                  ),
+                ),
               ),
-              kVerticalSpacer,
               SummaryContainer(
                 child: Padding(
                   padding: kPagePadding,
@@ -96,6 +106,7 @@ class ContinueButton extends StatelessWidget {
                 context.router.push(SeatsRoute());
               } else {
                 context.read<BookingCubit>().verifyFlight(filterState);
+                context.router.push(SearchResultRoute());
               }
             }
           : null,

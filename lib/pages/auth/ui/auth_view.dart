@@ -31,99 +31,101 @@ class AuthView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: kPagePadding,
-      children: [
-        FormBuilder(
-          autoFocusOnValidationFailure: true,
-          key: _fbKey,
-          child: Column(
-            children: [
-              kVerticalSpacer,
-              Column(
-                children: [
-                  const AppLogoWidget(useWhite: true),
-                  kVerticalSpacer,
-                  Text("Welcome Back!", style: kGiantRegular.copyWith(color: Colors.white),),
-                ],
-              ),
-              kVerticalSpacer,
-              GlassCard(
-                child: Column(
+    return SafeArea(
+      child: ListView(
+        padding: kPageHorizontalPadding,
+        children: [
+          kVerticalSpacer,
+          FormBuilder(
+            autoFocusOnValidationFailure: true,
+            key: _fbKey,
+            child: Column(
+              children: [
+                Column(
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          MyFlutterApp.icon0vector49301__1_,
-                          color: Styles.kPrimaryColor,
-                          size: 20,
-                        ),
-                        kHorizontalSpacerMini,
-                        Text("Login", style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),),
-                      ],
-                    ),
-                    AppInputText(
-                      isRequired: false,
-                      textInputType: TextInputType.emailAddress,
-                      name: formEmailLogin,
-                      hintText: 'Email Address',
-                      validators: [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.email(),
-                      ],
-                    ),
+                    const AppLogoWidget(useWhite: true),
                     kVerticalSpacer,
-                    //Text(tr.password, style: kMediumHeavy),
-                    AppInputPassword(
-                      name: formPasswordLogin,
-                      hintText: "Password",
-                      validators: [FormBuilderValidators.required()],
-                      isDarkBackground: false,
-                    ),
-                    kVerticalSpacer,
-                    ElevatedButton(
-                      onPressed: () => onLogin(context),
-                      child: const Text("Login"),
-                    ),
-                    kVerticalSpacerSmall,
-                    OutlinedButton(
-                      onPressed: () => context.router.push(const SignupWrapperRoute()),
-                      child: const Text("Create Acccount"),
-                    )
+                    Text("Welcome Back!", style: kGiantRegular.copyWith(color: Colors.white),),
                   ],
                 ),
-              ),
-            ],
+                kVerticalSpacer,
+                GlassCard(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            MyFlutterApp.icon0vector49301__1_,
+                            color: Styles.kPrimaryColor,
+                            size: 20,
+                          ),
+                          kHorizontalSpacerMini,
+                          Text("Login", style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),),
+                        ],
+                      ),
+                      AppInputText(
+                        isRequired: false,
+                        textInputType: TextInputType.emailAddress,
+                        name: formEmailLogin,
+                        hintText: 'Email Address',
+                        validators: [
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.email(),
+                        ],
+                      ),
+                      kVerticalSpacer,
+                      //Text(tr.password, style: kMediumHeavy),
+                      AppInputPassword(
+                        name: formPasswordLogin,
+                        hintText: "Password",
+                        validators: [FormBuilderValidators.required()],
+                        isDarkBackground: false,
+                      ),
+                      kVerticalSpacer,
+                      ElevatedButton(
+                        onPressed: () => onLogin(context),
+                        child: const Text("Login"),
+                      ),
+                      kVerticalSpacerSmall,
+                      OutlinedButton(
+                        onPressed: () => context.router.push(const SignupWrapperRoute()),
+                        child: const Text("Create Acccount"),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
 
-        // kVerticalSpacer,
-        // Row(
-        //   children: [
-        //     Expanded(child: AppDividerWidget(color: Colors.grey)),
-        //     kHorizontalSpacer,
-        //     Text("Or continue with"),
-        //     kHorizontalSpacer,
-        //     Expanded(child: AppDividerWidget(color: Colors.grey)),
-        //   ],
-        // ),
-        // kVerticalSpacer,
-        // SignInButton(
-        //   Buttons.Apple,
-        //   onPressed: () => context.read<LoginCubit>().loginWithApple(),
-        //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        // ),
-        // SignInButton(
-        //   Buttons.Google,
-        //   onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
-        //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        // ),
-        // kVerticalSpacer,
-        // AppDividerWidget(),
-        // kVerticalSpacer,
-        // Text("Don't have account?"),
-        //
-      ],
+          // kVerticalSpacer,
+          // Row(
+          //   children: [
+          //     Expanded(child: AppDividerWidget(color: Colors.grey)),
+          //     kHorizontalSpacer,
+          //     Text("Or continue with"),
+          //     kHorizontalSpacer,
+          //     Expanded(child: AppDividerWidget(color: Colors.grey)),
+          //   ],
+          // ),
+          // kVerticalSpacer,
+          // SignInButton(
+          //   Buttons.Apple,
+          //   onPressed: () => context.read<LoginCubit>().loginWithApple(),
+          //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          // ),
+          // SignInButton(
+          //   Buttons.Google,
+          //   onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
+          //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          // ),
+          // kVerticalSpacer,
+          // AppDividerWidget(),
+          // kVerticalSpacer,
+          // Text("Don't have account?"),
+          //
+        ],
+      ),
     );
   }
 }

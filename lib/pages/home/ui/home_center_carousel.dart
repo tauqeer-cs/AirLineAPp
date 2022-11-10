@@ -22,7 +22,7 @@ class HomeCenterCarousel extends StatelessWidget {
           .map(
             (e) => Padding(
               padding: const EdgeInsets.only(right: 12.0),
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {},
                 child: Stack(
                   fit: StackFit.expand,

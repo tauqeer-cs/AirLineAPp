@@ -30,7 +30,7 @@ class HomeDeal extends StatelessWidget {
                 .map(
                   (e) => Padding(
                     padding: const EdgeInsets.only(right: 12.0),
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {},
                       child: Stack(
                         children: [
