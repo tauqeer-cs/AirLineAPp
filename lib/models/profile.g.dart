@@ -3,6 +3,116 @@
 part of 'profile.dart';
 
 // **************************************************************************
+// CopyWithGenerator
+// **************************************************************************
+
+abstract class _$CommunicationPreferencesCWProxy {
+  CommunicationPreferences email(bool? email);
+
+  CommunicationPreferences sms(bool? sms);
+
+  CommunicationPreferences webPushNotification(bool? webPushNotification);
+
+  CommunicationPreferences whatsapp(bool? whatsapp);
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CommunicationPreferences(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// CommunicationPreferences(...).copyWith(id: 12, name: "My name")
+  /// ````
+  CommunicationPreferences call({
+    bool? email,
+    bool? sms,
+    bool? webPushNotification,
+    bool? whatsapp,
+  });
+}
+
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfCommunicationPreferences.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfCommunicationPreferences.copyWith.fieldName(...)`
+class _$CommunicationPreferencesCWProxyImpl
+    implements _$CommunicationPreferencesCWProxy {
+  final CommunicationPreferences _value;
+
+  const _$CommunicationPreferencesCWProxyImpl(this._value);
+
+  @override
+  CommunicationPreferences email(bool? email) => this(email: email);
+
+  @override
+  CommunicationPreferences sms(bool? sms) => this(sms: sms);
+
+  @override
+  CommunicationPreferences webPushNotification(bool? webPushNotification) =>
+      this(webPushNotification: webPushNotification);
+
+  @override
+  CommunicationPreferences whatsapp(bool? whatsapp) => this(whatsapp: whatsapp);
+
+  @override
+
+  /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `CommunicationPreferences(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// CommunicationPreferences(...).copyWith(id: 12, name: "My name")
+  /// ````
+  CommunicationPreferences call({
+    Object? email = const $CopyWithPlaceholder(),
+    Object? sms = const $CopyWithPlaceholder(),
+    Object? webPushNotification = const $CopyWithPlaceholder(),
+    Object? whatsapp = const $CopyWithPlaceholder(),
+  }) {
+    return CommunicationPreferences(
+      email: email == const $CopyWithPlaceholder()
+          ? _value.email
+          // ignore: cast_nullable_to_non_nullable
+          : email as bool?,
+      sms: sms == const $CopyWithPlaceholder()
+          ? _value.sms
+          // ignore: cast_nullable_to_non_nullable
+          : sms as bool?,
+      webPushNotification: webPushNotification == const $CopyWithPlaceholder()
+          ? _value.webPushNotification
+          // ignore: cast_nullable_to_non_nullable
+          : webPushNotification as bool?,
+      whatsapp: whatsapp == const $CopyWithPlaceholder()
+          ? _value.whatsapp
+          // ignore: cast_nullable_to_non_nullable
+          : whatsapp as bool?,
+    );
+  }
+}
+
+extension $CommunicationPreferencesCopyWith on CommunicationPreferences {
+  /// Returns a callable class that can be used as follows: `instanceOfCommunicationPreferences.copyWith(...)` or like so:`instanceOfCommunicationPreferences.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
+  _$CommunicationPreferencesCWProxy get copyWith =>
+      _$CommunicationPreferencesCWProxyImpl(this);
+
+  /// Copies the object with the specific fields set to `null`. If you pass `false` as a parameter, nothing will be done and it will be ignored. Don't do it. Prefer `copyWith(field: null)` or `CommunicationPreferences(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
+  ///
+  /// Usage
+  /// ```dart
+  /// CommunicationPreferences(...).copyWithNull(firstField: true, secondField: true)
+  /// ````
+  CommunicationPreferences copyWithNull({
+    bool email = false,
+    bool sms = false,
+    bool webPushNotification = false,
+    bool whatsapp = false,
+  }) {
+    return CommunicationPreferences(
+      email: email == true ? null : this.email,
+      sms: sms == true ? null : this.sms,
+      webPushNotification:
+          webPushNotification == true ? null : this.webPushNotification,
+      whatsapp: whatsapp == true ? null : this.whatsapp,
+    );
+  }
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 

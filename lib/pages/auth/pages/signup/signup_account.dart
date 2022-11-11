@@ -20,7 +20,6 @@ class SignupAccountPage extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
 
   onContinue(BuildContext context) {
-
     //context.router.replace(CompleteSignupRoute(signupRequest: SignupRequest()));
     //return;
     if (_fbKey.currentState!.saveAndValidate()) {
@@ -68,7 +67,6 @@ class SignupAccountPage extends StatelessWidget {
                     step: 1,
                     child: FormBuilder(
                       autoFocusOnValidationFailure: true,
-
                       key: _fbKey,
                       child: SingleChildScrollView(
                         padding: kPageHorizontalPaddingBig,

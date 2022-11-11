@@ -9,6 +9,7 @@ import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/data/requests/signup_request.dart';
+import 'package:app/data/requests/update_password_request.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/security_utils.dart';
@@ -56,6 +57,10 @@ class AuthenticationRepository {
 
   Future<void> sendEmail(ResendEmailRequest resendEmailRequest) async{
     await _provider.sendEmail(resendEmailRequest);
+  }
+
+  Future<void> updatePassword(UpdatePasswordRequest updatePasswordRequest) async{
+    await _provider.updatePassword(updatePasswordRequest);
   }
 
   Future<void> loginWithEmail(LoginRequest loginRequest) async{

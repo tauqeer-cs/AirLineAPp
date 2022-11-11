@@ -14,11 +14,12 @@ const formNameTitle = "_title";
 const formNameNationality = "_nationality";
 const formNameDob = "_dob";
 const formNameEmail = "contact_email";
-
 const formNamePhone = "phone";
 const formNamePhoneCode = "phone_code";
 const formNamePassword = "password";
 const formNameConfirmPassword = "confirm_password";
+const formNameNewPassword = "new_password";
+
 const formNameGender = "gender";
 const formNameAddress = "address";
 const formNameCountry = "country";

@@ -10,7 +10,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import '../signup_wrapper.dart';
 
 class PasswordInput extends StatelessWidget {
-  const PasswordInput({Key? key}) : super(key: key);
+  final String? title;
+  const   PasswordInput({Key? key, this.title}) : super(key: key);
   static final TextEditingController pass = TextEditingController();
 
   @override
@@ -18,8 +19,10 @@ class PasswordInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormHeader(
-          title: "Let's create your password.",
+        FormHeader(
+          title: title ?? "Let's create your password.",
+          graySubText: true,
+          smallerHeaderText: true,
           subtitle:
               "Your password cannot contain part of your first or last name. It must contain 8 characters minimum, with the following requirements ",
         ),

@@ -6,10 +6,8 @@ class FormHeader extends StatelessWidget {
   final String? subtitle;
   final bool graySubText;
   final bool smallerHeaderText;
-
   final bool midSizedText;
   final bool noSpaceSubText;
-
 
   const FormHeader(
       {Key? key,
@@ -33,9 +31,7 @@ class FormHeader extends StatelessWidget {
             ],
           ),
         ),
-
         if(noSpaceSubText) ... [
-
           kVerticalSpacerMini,
         ]
         else if (graySubText) ...[
@@ -44,15 +40,12 @@ class FormHeader extends StatelessWidget {
             style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
           ),
           kVerticalSpacer,
-
         ] else ...[
-
           Visibility(
             visible: subtitle != null,
             child: Text(subtitle ?? ""),
           ),
           kVerticalSpacer,
-
         ],
       ],
     );

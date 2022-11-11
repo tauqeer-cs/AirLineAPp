@@ -125,15 +125,18 @@ class MyInterceptor extends Interceptor {
             }
           }
         }
-
+        print("isSuccess $isSuccess isSuccessResult $isSuccessResult");
         if ((isSuccess is bool && !isSuccess) ||
             (isSuccessResult is bool && !isSuccessResult)) {
+          print("inside error logic");
           if (result["error"] != null && result["error"] is Map) {
             throw ErrorResponse.fromJson(result["error"]);
           } else if (data["error"] != null && data["error"] is Map) {
             throw ErrorResponse.fromJson(data["error"]);
           } else if (data["message"] != null) {
             throw ErrorResponse(data["message"]);
+          } else if (data["errorMessage"] != null) {
+            throw ErrorResponse(data["errorMessage"]);
           }
         }
         response.data = result["result"];

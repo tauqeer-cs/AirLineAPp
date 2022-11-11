@@ -28,9 +28,9 @@ class UnorderedListItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("• ", style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),),
+        Text("• ", style: kMediumSemiBold.copyWith(color: Styles.kSubTextColor),),
         Expanded(
-          child: Text(text),
+          child: Text(text, style: kMediumRegular.copyWith(color: Styles.kSubTextColor),),
         ),
       ],
     );

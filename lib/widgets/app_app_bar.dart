@@ -99,7 +99,6 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final bool overrideInnerHeight;
 
-
   const AppAppBar({
     Key? key,
     this.child,
@@ -110,7 +109,6 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.height,
     this.flexibleWidget,
     this.overrideInnerHeight = false,
-
   }) : super(key: key);
 
   @override
@@ -123,27 +121,29 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: overrideInnerHeight ? (height ?? 60.h) : 60.h,
         centerTitle: centerTitle,
         leading: canPop
-            ? overrideInnerHeight ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-          alignment: Alignment.topLeft,
-                child: InkWell(
+            ? overrideInnerHeight
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: InkWell(
+                        onTap: () => context.router.pop(),
+                        child: Icon(
+                          Icons.chevron_left,
+                          size: 35,
+                          color: Styles.kPrimaryColor,
+                        ),
+                      ),
+                    ),
+                  )
+                : InkWell(
                     onTap: () => context.router.pop(),
                     child: Icon(
                       Icons.chevron_left,
                       size: 35,
                       color: Styles.kPrimaryColor,
                     ),
-                  ),
-              ),
-            ) : InkWell(
-          onTap: () => context.router.pop(),
-          child: Icon(
-            Icons.chevron_left,
-            size: 35,
-            color: Styles.kPrimaryColor,
-          ),
-        )
+                  )
             : null,
         actions: const [
           // IconButton(

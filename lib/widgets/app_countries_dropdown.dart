@@ -31,18 +31,25 @@ class AppCountriesDropdown extends StatelessWidget {
     return BlocBuilder<CountriesCubit, CountriesState>(
       builder: (context, state) {
         List<Country> newList = [];
-        if(state.countries.isNotEmpty){
+        if (state.countries.isNotEmpty) {
           newList = List<Country>.from(state.countries);
-          final my = newList.firstWhere((element) => element == Country.defaultCountry);
+          final my = newList
+              .firstWhere((element) => element == Country.defaultCountry);
           newList.removeWhere((element) => element == my);
           newList.insert(0, my);
         }
-        final selectedCountry = state.countries.firstWhereOrNull((element)=>element.countryCode2 == initialCountryCode);
+        final selectedCountry = initialCountryCode == null
+            ? Country.defaultCountry
+            : state.countries.firstWhereOrNull(
+                (element) => element.countryCode2 == initialCountryCode);
+        print(
+            "selectedCountry ${selectedCountry} initialCountryCode $initialCountryCode");
         return blocBuilderWrapper(
           blocState: state.blocState,
           finishedBuilder: AppDropDown<Country>(
             sheetTitle: isPhoneCode ? "Phone" : "Country",
-            defaultValue: selectedCountry ?? initialValue ?? Country.defaultCountry,
+            defaultValue:
+                selectedCountry ?? initialValue ?? Country.defaultCountry,
             onChanged: onChanged,
             valueTransformerItem: (value, selected) {
               return Row(
@@ -67,9 +74,7 @@ class AppCountriesDropdown extends StatelessWidget {
                     : value?.country,
               );
             },
-            items: (newList.isNotEmpty
-                ? newList
-                : [Country.defaultCountry]),
+            items: (newList.isNotEmpty ? newList : [Country.defaultCountry]),
           ),
         );
       },

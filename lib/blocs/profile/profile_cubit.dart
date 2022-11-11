@@ -11,16 +11,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(const ProfileState());
   final _repository = ProfileRepository();
 
-  bool alreadyLoader = false;
 
   getProfile() async {
-    if (alreadyLoader) {
-      return;
-    }
-
     emit(state.copyWith(blocState: BlocState.loading));
-    alreadyLoader = true;
-
     try {
       final routes = await _repository.getProfile();
       emit(state.copyWith(
@@ -43,6 +36,28 @@ class ProfileCubit extends Cubit<ProfileState> {
         userID: state.profile?.userID,
         userProfile: userProfile,
         communicationPreferences: state.profile?.communicationPreferences,
+      );
+      await _repository.updateProfile(profile);
+      emit(state.copyWith(
+        blocState: BlocState.finished,
+        profile: profile,
+      ));
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed),
+      );
+    }
+  }
+
+  Future<void> updatePreferences(CommunicationPreferences communicationPreferences) async {
+    emit(state.copyWith(blocState: BlocState.loading));
+    try {
+      final profile = Profile(
+        userID: state.profile?.userID,
+        userProfile: state.profile?.userProfile,
+        communicationPreferences: communicationPreferences,
       );
       await _repository.updateProfile(profile);
       emit(state.copyWith(

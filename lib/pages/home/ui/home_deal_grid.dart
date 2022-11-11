@@ -38,8 +38,6 @@ class HomeDealGrid extends StatelessWidget {
                 final airports = context.read<AirportsCubit>().state.airports;
                 final from = airports.firstWhereOrNull((air)=>air.code == e.from);
                 final to = airports.firstWhereOrNull((air)=>air.code == e.to);
-                print("from is $from");
-                print("to is $to");
 
                 context.read<FilterCubit>().updateOriginAirport(from ?? Airports(code: e.from));
                 context.read<FilterCubit>().updateDestinationAirport(to ?? Airports(code: e.to));

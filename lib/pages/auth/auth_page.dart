@@ -52,6 +52,9 @@ class AuthPage extends StatelessWidget {
                     showNotVerifiedDialog(
                         context: context, email: state.user?.email ?? "");
                   }
+                  if(state.status == AppStatus.authenticated){
+                    context.read<ProfileCubit>().getProfile();
+                  }
                 },
               ),
             ],

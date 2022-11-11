@@ -2,6 +2,7 @@ import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/data/requests/signup_request.dart';
+import 'package:app/data/requests/update_password_request.dart';
 import 'package:app/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -25,4 +26,7 @@ abstract class AuthProvider {
 
   @POST('user/resendverifyemail')
   Future<void> sendEmail(@Body() ResendEmailRequest emailRequest);
+
+  @POST('user/user-passwordupdate')
+  Future<void> updatePassword(@Body() UpdatePasswordRequest updatePasswordRequest);
 }

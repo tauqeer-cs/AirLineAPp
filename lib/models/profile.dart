@@ -1,3 +1,4 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -42,7 +43,7 @@ class UserProfile extends Equatable {
   final String? referralCode;
   final String? referralBy;
 
-  UserProfile({
+  const UserProfile({
     this.title,
     this.firstName,
     this.lastName,
@@ -91,21 +92,20 @@ class UserProfile extends Equatable {
   Map<String, dynamic> toJson() => _$UserProfileToJson(this);
 }
 
-/*
-	"email": false,
-		"webPushNotification": false,
-		"sms": false,
-		"whatsapp": false
-* */
 @JsonSerializable(explicitToJson: true)
+@CopyWith(copyWithNull: true)
 class CommunicationPreferences extends Equatable {
-  bool? email;
-  bool? webPushNotification;
-  bool? whatsapp;
-  bool? sms;
+  final bool? email;
+  final bool? webPushNotification;
+  final bool? whatsapp;
+  final bool? sms;
 
-  CommunicationPreferences(
-      {this.email, this.webPushNotification, this.whatsapp, this.sms});
+  const CommunicationPreferences({
+    this.email,
+    this.webPushNotification,
+    this.whatsapp,
+    this.sms,
+  });
 
   @override
   List<Object?> get props => [email, webPushNotification, whatsapp, sms];

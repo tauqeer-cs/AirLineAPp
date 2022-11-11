@@ -53,7 +53,7 @@ class EmergencyInfoView extends StatelessWidget {
                   hintText: 'First Name / Given Name',
                   initialValue: firstName,
                   validators: [
-                    FormBuilderValidators.required(),
+                    //FormBuilderValidators.required(),
                   ],
                 ),
                 kVerticalSpacer,
@@ -64,7 +64,7 @@ class EmergencyInfoView extends StatelessWidget {
                   initialValue: lastName,
                   hintText: 'Last Name / Surname',
                   validators: [
-                    FormBuilderValidators.required(),
+                    //FormBuilderValidators.required(),
                   ],
                 ),
                 kVerticalSpacer,
@@ -75,7 +75,7 @@ class EmergencyInfoView extends StatelessWidget {
                   initialValue: relationShip,
                   hintText: 'Relationship',
                   validators: [
-                    FormBuilderValidators.required(),
+                    //FormBuilderValidators.required(),
                   ],
                 ),
                 kVerticalSpacer,
@@ -93,7 +93,7 @@ class EmergencyInfoView extends StatelessWidget {
                   hintText: "Phone Number",
                   initialValue: phoneNo,
                   validators: [
-                    FormBuilderValidators.required(),
+                    //FormBuilderValidators.required(),
                   ],
                 ),
                 kVerticalSpacer,
