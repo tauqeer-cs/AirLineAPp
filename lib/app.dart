@@ -17,6 +17,7 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,23 +85,25 @@ class _AppState extends State<App> {
             },
           ),
         ],
-        child: ScreenUtilInit(
-          designSize: const Size(375, 812),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (_, __) {
-            return MaterialApp.router(
-              routerDelegate: appRouter.delegate(),
-              localizationsDelegates: const [
-                FormBuilderLocalizations.delegate,
-              ],
-              // supportedLocales: const [],
-              routeInformationParser: appRouter.defaultRouteParser(),
-              theme: Styles.theme(true),
-              darkTheme: Styles.theme(false),
-              themeMode: ThemeMode.light,
-            );
-          },
+        child: VersionBannerWidget(
+          child: ScreenUtilInit(
+            designSize: const Size(375, 812),
+            minTextAdapt: true,
+            splitScreenMode: true,
+            builder: (_, __) {
+              return MaterialApp.router(
+                routerDelegate: appRouter.delegate(),
+                localizationsDelegates: const [
+                  FormBuilderLocalizations.delegate,
+                ],
+                // supportedLocales: const [],
+                routeInformationParser: appRouter.defaultRouteParser(),
+                theme: Styles.theme(true),
+                darkTheme: Styles.theme(false),
+                themeMode: ThemeMode.light,
+              );
+            },
+          ),
         ),
       ),
     );
