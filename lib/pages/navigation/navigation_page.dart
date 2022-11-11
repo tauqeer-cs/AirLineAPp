@@ -1,7 +1,9 @@
 import 'package:app/app/app_router.dart';
+import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({Key? key}) : super(key: key);
@@ -20,13 +22,15 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLogin =
+        context.watch<AuthBloc>().state.status == AppStatus.authenticated;
     return AutoTabsScaffold(
       navigatorObservers: () => [MyObserver()],
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
-          items: const [
+          items: [
             BottomNavigationBarItem(
               icon: Icon(MyFlutterApp.icohome),
               label: "Home",
@@ -44,8 +48,10 @@ class _NavigationPageState extends State<NavigationPage> {
               label: "Check-In",
             ),
             BottomNavigationBarItem(
-              icon: Icon(MyFlutterApp.icologinactive),
-              label: "Login",
+              icon: isLogin
+                  ? Icon(MyFlutterApp.icologinactive)
+                  : Icon(MyFlutterApp.icologinactive),
+              label: isLogin ? "Account" : "Login",
             ),
           ],
         );

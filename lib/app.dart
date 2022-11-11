@@ -66,6 +66,13 @@ class _AppState extends State<App> {
       ],
       child: MultiBlocListener(
         listeners: [
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if(state.status == AppStatus.authenticated){
+                context.read<ProfileCubit>().getProfile();
+              }
+            },
+          ),
           BlocListener<RoutesCubit, RoutesState>(
             listener: (context, state) {
               context.read<HomeCubit>().getContents(state.routes);
