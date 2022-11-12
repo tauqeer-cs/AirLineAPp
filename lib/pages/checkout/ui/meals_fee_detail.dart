@@ -29,7 +29,7 @@ class MealsFeeDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${e.toString()} :",
+                          "${e.generateText(filter?.numberPerson)} :",
                           style: kSmallRegular,
                         ),
                         kVerticalSpacerMini,

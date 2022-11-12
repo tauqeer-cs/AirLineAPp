@@ -2,7 +2,10 @@ import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
+import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
@@ -25,17 +28,15 @@ class PassengerInfo extends StatefulWidget {
 }
 
 class _PassengerInfoState extends State<PassengerInfo> {
-  late String title;
   late String nationality;
   final titleController = TextEditingController();
   final nationalityController = TextEditingController();
+  bool isUnder18 = false;
 
   @override
   void initState() {
     super.initState();
-    title = widget.person.passenger?.title ?? "Mr.";
     nationality = widget.person.passenger?.nationality ?? "MY";
-    titleController.text = title;
     nationalityController.text = nationality;
   }
 
@@ -43,6 +44,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
   Widget build(BuildContext context) {
     final passengerInfo = widget.person.passenger;
     final notice = context.watch<CmsSsrCubit>().state.notice;
+    final filter = context.watch<FilterCubit>().state;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,19 +62,6 @@ class _PassengerInfoState extends State<PassengerInfo> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ShadowInput(
-                  name: "${widget.person.toString()}$formNameTitle",
-                  textEditingController: titleController,
-                  child: AppDropDown<String>(
-                    items: availableTitle,
-                    defaultValue: "Mr.",
-                    sheetTitle: "Title",
-                    onChanged: (value) {
-                      titleController.text = value ?? "";
-                    },
-                  ),
-                ),
-                kVerticalSpacerMini,
                 AppInputText(
                   name: "${widget.person.toString()}$formNameFirstName",
                   hintText: "First Name/Given Name",
@@ -82,10 +71,24 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 kVerticalSpacerMini,
                 AppInputText(
                   name: "${widget.person.toString()}$formNameLastName",
-                  hintText: "Last Name/Family Name",
+                  hintText: "Last Name/Surname",
                   initialValue: passengerInfo?.lastName,
                   validators: [FormBuilderValidators.required()],
                 ),
+                ShadowInput(
+                  name: "${widget.person.toString()}$formNameTitle",
+                  validators: [FormBuilderValidators.required()],
+                  textEditingController: titleController,
+                  child: AppDropDown<String>(
+                    items: availableTitle,
+                    defaultValue: null,
+                    sheetTitle: "Title",
+                    onChanged: (value) {
+                      titleController.text = value ?? "";
+                    },
+                  ),
+                ),
+                kVerticalSpacerMini,
                 ShadowInput(
                   textEditingController: nationalityController,
                   name: "${widget.person.toString()}$formNameNationality",
@@ -94,7 +97,6 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     isPhoneCode: false,
                     onChanged: (value) {
                       nationalityController.text = value?.countryCode2 ?? "";
-
                     },
                   ),
                 ),
@@ -109,15 +111,26 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,
                   validator: FormBuilderValidators.required(),
+                  onChanged: (date) {
+                    if (date == null) return;
+                    if (AppDateUtils.isUnderage(date)) {
+                      setState(() {
+                        isUnder18 = true;
+                      });
+                    }
+                  },
                 ),
                 Visibility(
-                  visible: (notice?.content?.isNotEmpty ?? false) && widget.person.peopleType != PeopleType.adult,
+                  visible: (notice?.content?.isNotEmpty ?? false) &&
+                      (widget.person.peopleType == PeopleType.adult) &&
+                      isUnder18 && (filter.numberPerson.totalPerson==1),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 12),
-                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
                     width: 500.w,
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Color(0xFFECBBC0),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Row(
@@ -128,7 +141,17 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       ],
                     ),
                   ),
-                )
+                ),
+                Visibility(
+                  visible: widget.person.peopleType == PeopleType.infant,
+                  child: AppInputText(
+                    name: "${BookingDetailsView.fbKey.currentState?.value["Adult 1"]}${widget.person.toString()}$formNameLastName",
+                    hintText: "Travel With ${PeopleType.adult.name.capitalize()} ${widget.person.numberOrder}",
+                    initialValue: passengerInfo?.lastName,
+                    validators: [FormBuilderValidators.required()],
+                    readOnly: true,
+                  ),
+                ),
               ],
             ),
           ),

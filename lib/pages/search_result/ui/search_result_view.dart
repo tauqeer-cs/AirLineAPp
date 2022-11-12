@@ -4,6 +4,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
+import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/flight_result_widget.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
@@ -103,6 +104,7 @@ class ContinueButton extends StatelessWidget {
           ? () {
               if (booking.blocState == BlocState.loading) return;
               if (booking.isVerify) {
+                context.read<SummaryContainerCubit>().changeVisibility(true);
                 context.router.push(SeatsRoute());
               } else {
                 context.read<BookingCubit>().verifyFlight(filterState);

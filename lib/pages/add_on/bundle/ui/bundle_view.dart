@@ -69,7 +69,7 @@ class _BundleViewState extends State<BundleView> {
                 ],
               ),
               kVerticalSpacer,
-              if (isScrollable)
+              //if (isScrollable)
                 SummaryContainer(
                   child: Padding(
                     padding: kPagePadding,
@@ -88,7 +88,7 @@ class _BundleViewState extends State<BundleView> {
             ],
           ),
         ),
-        if (!isScrollable)
+       /* if (!isScrollable)
           SummaryContainer(
             child: Padding(
               padding: kPagePadding,
@@ -103,7 +103,7 @@ class _BundleViewState extends State<BundleView> {
                 ],
               ),
             ),
-          ),
+          ),*/
       ],
     );
   }

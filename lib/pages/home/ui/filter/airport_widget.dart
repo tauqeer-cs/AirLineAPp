@@ -16,8 +16,6 @@ class AirportWidget extends StatelessWidget {
 
   const AirportWidget({Key? key, required this.isOrigin}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     final origin = context.watch<FilterCubit>().state.origin;
@@ -26,11 +24,15 @@ class AirportWidget extends StatelessWidget {
         : context.watch<FilterCubit>().state.destination;
     return BlocBuilder<AirportsCubit, AirportsState>(
       builder: (context, state) {
+        final airports = List<Airports>.from(state.airports);
+        airports.sort((a, b) => (a.name ?? "").compareTo(b.name ?? ""));
+        final connections = List<Airports>.from(origin?.connections ?? []);
+        connections.sort((a, b) => (a.name ?? "").compareTo(b.name ?? ""));
         return blocBuilderWrapper(
           blocState: state.blocState,
           loadingBuilder: const TextFieldLoader(),
           finishedBuilder: AppDropDown<Airports>(
-            items: isOrigin ? state.airports : (origin?.connections ?? []),
+            items: isOrigin ? airports : connections,
             defaultValue: selected,
             onChanged: (val) {
               if (isOrigin) {
@@ -40,7 +42,7 @@ class AirportWidget extends StatelessWidget {
               }
             },
             prefix: Padding(
-              padding: const EdgeInsets.only(right:   8.0),
+              padding: const EdgeInsets.only(right: 8.0),
               child: Icon(
                 isOrigin ? Icons.flight_takeoff : Icons.flight_land,
                 size: 20,

@@ -90,14 +90,15 @@ class SegmentCard extends StatelessWidget {
                         children: [
                           Expanded(
                             flex: 7,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
                                   "Direct flight - ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
                                   style: kSmallMedium,
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                           kHorizontalSpacer,

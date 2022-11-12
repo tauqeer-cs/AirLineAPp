@@ -73,41 +73,40 @@ class _MealsViewState extends State<MealsView> {
                   ],
                 ),
                 kVerticalSpacer,
-                if (isScrollable)
-                  SummaryContainer(
-                    child: Padding(
-                      padding: kPagePadding,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const BookingSummary(),
-                          ContinueButton(
-                            flightType: flightType,
-                            isDeparture: widget.isDeparture,
-                          ),
-                        ],
-                      ),
+                SummaryContainer(
+                  child: Padding(
+                    padding: kPagePadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const BookingSummary(),
+                        ContinueButton(
+                          flightType: flightType,
+                          isDeparture: widget.isDeparture,
+                        ),
+                      ],
                     ),
                   ),
+                ),
               ],
             ),
           ),
-          if (!isScrollable)
-            SummaryContainer(
-              child: Padding(
-                padding: kPagePadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const BookingSummary(),
-                    ContinueButton(
-                      flightType: flightType,
-                      isDeparture: widget.isDeparture,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          // if (!isScrollable)
+          //   SummaryContainer(
+          //     child: Padding(
+          //       padding: kPagePadding,
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.end,
+          //         children: [
+          //           const BookingSummary(),
+          //           ContinueButton(
+          //             flightType: flightType,
+          //             isDeparture: widget.isDeparture,
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
         ],
       ),
     );

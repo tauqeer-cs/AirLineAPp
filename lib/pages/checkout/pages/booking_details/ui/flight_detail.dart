@@ -1,3 +1,4 @@
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
@@ -37,89 +38,103 @@ class _FlightDetailState extends State<FlightDetail> {
     final detail = widget.segment.segmentDetail;
     final filter = context.watch<SearchFlightCubit>().state.filterState;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        InkWell(
-          onTap: () {
-            setState(() {
-              isExpand = !isExpand;
-            });
-            context.read<SummaryContainerCubit>().changeVisibility(!isExpand);
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                "Details",
-                style: kSmallRegular.copyWith(
-                    color: const Color.fromRGBO(243, 110, 56, 1)),
-              ),
-              kHorizontalSpacerMini,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                color: const Color.fromRGBO(243, 110, 56, 1),
-              ),
-            ],
-          ),
-        ),
-        ExpandedSection(
-          expand: isExpand,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              kVerticalSpacer,
-              AppDividerWidget(color: Styles.kTextColor),
-              kVerticalSpacer,
-              Row(
-                children: [
-                  Expanded(
-                    child: BorderedLeftContainer(
-                      title: "Flight:",
-                      content: '${detail?.carrierCode}${detail?.flightNum}',
-                    ),
-                  ),
-                  Expanded(
-                    child: BorderedLeftContainer(
-                      title: "Aircraft:",
-                      content: '${detail?.aircraftType}',
-                    ),
-                  ),
-                ],
-              ),
-              kVerticalSpacer,
-              // BorderedLeftContainer(
-              //   title: "Cabin:", content: '${info?.cabin}',
-              // ),
-              // kVerticalSpacer,
-              BorderedLeftContainer(
-                title: "Duration:",
-                content: NumberUtils.getTimeString(detail?.flightTime),
-              ),
-              kVerticalSpacer,
-
-              BorderedLeftContainer(
-                title: "DEP:",
-                content:
-                    "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
-              ),
-              kVerticalSpacer,
-              BorderedLeftContainer(
-                title: "ARR:",
-                content:
-                    "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
-              ),
-              Visibility(
-                visible: widget.showFees,
-                child: BlocProvider(
-                  create: (context) => IsPaymentPageCubit(true),
-                  child: FeeAndTaxes(isDeparture: widget.isDeparture),
+    return BlocListener<BookingCubit, BookingState>(
+      listenWhen: (prev, curr) {
+        if (prev.selectedReturn != curr.selectedReturn) return true;
+        if (prev.selectedDeparture != curr.selectedDeparture) return true;
+        return false;
+      },
+      listener: (context, state) {
+        setState(() {
+          isExpand = false;
+        });
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                isExpand = !isExpand;
+              });
+              context.read<SummaryContainerCubit>().changeVisibility(!isExpand);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Details",
+                  style: kSmallRegular.copyWith(
+                      color: const Color.fromRGBO(243, 110, 56, 1)),
                 ),
-              )
-            ],
+                kHorizontalSpacerMini,
+                Icon(
+                  isExpand
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  color: const Color.fromRGBO(243, 110, 56, 1),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+          ExpandedSection(
+            expand: isExpand,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kVerticalSpacer,
+                AppDividerWidget(color: Styles.kTextColor),
+                kVerticalSpacer,
+                Row(
+                  children: [
+                    Expanded(
+                      child: BorderedLeftContainer(
+                        title: "Flight:",
+                        content: '${detail?.carrierCode}${detail?.flightNum}',
+                      ),
+                    ),
+                    Expanded(
+                      child: BorderedLeftContainer(
+                        title: "Aircraft:",
+                        content: '${detail?.aircraftType}',
+                      ),
+                    ),
+                  ],
+                ),
+                kVerticalSpacer,
+                // BorderedLeftContainer(
+                //   title: "Cabin:", content: '${info?.cabin}',
+                // ),
+                // kVerticalSpacer,
+                BorderedLeftContainer(
+                  title: "Duration:",
+                  content: NumberUtils.getTimeString(detail?.flightTime),
+                ),
+                kVerticalSpacer,
+
+                BorderedLeftContainer(
+                  title: "DEP:",
+                  content:
+                      "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
+                ),
+                kVerticalSpacer,
+                BorderedLeftContainer(
+                  title: "ARR:",
+                  content:
+                      "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
+                ),
+                Visibility(
+                  visible: widget.showFees,
+                  child: BlocProvider(
+                    create: (context) => IsPaymentPageCubit(true),
+                    child: FeeAndTaxes(isDeparture: widget.isDeparture),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

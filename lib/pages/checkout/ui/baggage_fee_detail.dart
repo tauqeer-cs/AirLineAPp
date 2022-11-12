@@ -30,7 +30,7 @@ class BaggageFeeDetail extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${e.toString()} : ${bundle?.description ?? 'No Bundle'}",
+                          "${e.generateText(filter?.numberPerson)} : ${bundle?.description ?? 'No Bundle'}",
                           style: kSmallRegular.copyWith(
                               color: Styles.kSubTextColor),
                         ),

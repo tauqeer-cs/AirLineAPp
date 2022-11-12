@@ -61,6 +61,9 @@ class AppDropDown<T> extends StatelessWidget {
           //       BorderSide(color: Styles.kDarkContainerColor.withOpacity(0.3)),
           //   borderRadius: BorderRadius.circular(5),
           // ),
+          hintStyle: kTinySemiBold.copyWith(
+            color: const Color.fromRGBO(43, 45, 66, 1),
+          ),
           hintText: sheetTitle,
           contentPadding: isMinimalism
               ? EdgeInsets.zero
@@ -74,7 +77,7 @@ class AppDropDown<T> extends StatelessWidget {
               prefix != null ? prefix! : const SizedBox.shrink(),
               Text(
                 sheetTitle ?? "",
-                style: kMediumMedium.copyWith(color: Styles.kTextColor),
+                style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
               ),
             ],
           );
@@ -88,7 +91,7 @@ class AppDropDown<T> extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 0.0),
                   child: Text(
                     val.toString(),
-                    style: kSmallMedium,
+                    style: kSmallSemiBold,
                     textAlign:
                         isMinimalism ? TextAlign.center : TextAlign.start,
                     maxLines: 2,

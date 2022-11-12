@@ -337,6 +337,15 @@ class Person extends Equatable {
   String toString() {
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
+
+  String generateText(NumberPerson? numberPerson){
+    if(peopleType==PeopleType.adult && ((numberPerson?.numberOfInfant ?? 0) >=
+        (numberOrder ?? 0))){
+      return "${peopleType?.name.capitalize() ?? ""} $numberOrder + ${PeopleType.infant.name.capitalize() ?? ""} $numberOrder";
+    }
+    return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
+
+  }
 }
 
 enum PeopleType {

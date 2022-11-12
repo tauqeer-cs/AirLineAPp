@@ -43,4 +43,10 @@ class AppDateUtils {
     String formattedDate = DateFormat("EEE dd MMM yyyy").format(dateTime);
     return formattedDate;
   }
+
+  static bool isUnderage(DateTime date) =>
+      (DateTime(DateTime.now().year, date.month, date.day)
+          .isAfter(DateTime.now())
+          ? DateTime.now().year - date.year - 1
+          : DateTime.now().year - date.year) < 18;
 }

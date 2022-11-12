@@ -1,6 +1,7 @@
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,22 @@ class PassengersSheetState extends State<PassengersSheet> {
   }
 
   changeNumber(PeopleType peopleType, bool isAdd) {
+    if(peopleType == PeopleType.infant && isAdd){
+      final numOfAdult = context.read<FilterCubit>().state.numberPerson.numberOfAdult;
+      final numOfInfant = context.read<FilterCubit>().state.numberPerson.numberOfInfant;
+      if(numOfAdult <= numOfInfant){
+        Toast.of(context).show(success: false, message: "Cannot add infant more than adult");
+        return;
+      }
+    }
+    if(peopleType == PeopleType.adult && !isAdd){
+      final numOfAdult = context.read<FilterCubit>().state.numberPerson.numberOfAdult;
+      final numOfInfant = context.read<FilterCubit>().state.numberPerson.numberOfInfant;
+      if(numOfAdult <= numOfInfant){
+        Toast.of(context).show(success: false, message: "Adult need have at least same with infant");
+        return;
+      }
+    }
     context
         .read<FilterCubit>()
         .updatePassengers(type: peopleType, isAdd: isAdd);

@@ -12,7 +12,7 @@ class AppInputText extends StatelessWidget {
   final String? hintText;
   final String? initialValue;
   final bool showShadow;
-  final bool isRequired, isHidden;
+  final bool isRequired, isHidden, readOnly;
   final int? minLines;
   final int? maxLines;
   final Function(String?)? onChanged;
@@ -30,6 +30,7 @@ class AppInputText extends StatelessWidget {
     this.isObstructedText = false,
     this.hintText,
     this.initialValue,
+    this.readOnly = false,
     this.showShadow = false,
     this.isRequired = true,
     this.inputFormatters,
@@ -55,9 +56,16 @@ class AppInputText extends StatelessWidget {
           isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
       decoration: InputDecoration(
         hintText: hintText ?? "",
+        border: isHidden? InputBorder.none : null,
+        errorBorder: isHidden? InputBorder.none : null,
+        enabledBorder: isHidden? InputBorder.none : null,
+        disabledBorder: isHidden? InputBorder.none : null,
+        focusedBorder: isHidden? InputBorder.none : null,
+        focusedErrorBorder: isHidden? InputBorder.none : null,
       ),
       inputFormatters: inputFormatters,
       onChanged: onChanged,
+      readOnly: readOnly,
       initialValue: initialValue,
       autofillHints: autofillHints != null ? [autofillHints!] : null,
     );

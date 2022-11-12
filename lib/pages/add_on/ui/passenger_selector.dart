@@ -2,6 +2,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/home/ui/filter/dropdown_transformer.dart';
+import 'package:app/theme/theme.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,21 @@ class PassengerSelector extends StatelessWidget {
         valueTransformer: (value) {
           return DropdownTransformerWidget<Person>(
             value: value,
+            valueCustom: value?.generateText(numberOfPerson),
             hintText: "Please Select",
+          );
+        },
+        valueTransformerItem: (value, selected) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                value?.generateText(numberOfPerson) ?? "",
+                style: kMediumMedium.copyWith(
+                  color: selected ? Styles.kPrimaryColor : null,
+                ),
+              ),
+            ],
           );
         },
       ),

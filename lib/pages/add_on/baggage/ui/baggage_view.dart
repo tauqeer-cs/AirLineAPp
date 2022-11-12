@@ -73,7 +73,7 @@ class _BaggageViewState extends State<BaggageView> {
                   ],
                 ),
                 kVerticalSpacer,
-                if (isScrollable)
+                //if (isScrollable)
                   SummaryContainer(
                     child: Padding(
                       padding: kPagePadding,
@@ -92,7 +92,7 @@ class _BaggageViewState extends State<BaggageView> {
               ],
             ),
           ),
-          if (!isScrollable)
+         /* if (!isScrollable)
             SummaryContainer(
               child: Padding(
                 padding: kPagePadding,
@@ -107,7 +107,7 @@ class _BaggageViewState extends State<BaggageView> {
                   ],
                 ),
               ),
-            ),
+            ),*/
         ],
       ),
     );

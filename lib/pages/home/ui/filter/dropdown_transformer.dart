@@ -48,13 +48,13 @@ class DropdownTransformerWidget<T> extends StatelessWidget {
                 visible: value != null,
                 replacement: Text(
                   hintText ?? "Please Select",
-                  style: kMediumMedium,
+                  style: kSmallSemiBold,
                 ),
                 child: Text(
                   valueCustom != null
                       ? valueCustom!
                       : (value?.toString() ?? ""),
-                  style: kMediumMedium,
+                  style: kSmallSemiBold,
                 ),
               ),
             ],

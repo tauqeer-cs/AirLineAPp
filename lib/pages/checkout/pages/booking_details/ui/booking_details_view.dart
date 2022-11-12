@@ -44,7 +44,7 @@ const formNameCompanyPostCode = "company_post_code";
 const formNameCompanyEmailAddress = "company_email";
 
 class BookingDetailsView extends StatefulWidget {
-  static final _fbKey = GlobalKey<FormBuilderState>();
+  static final fbKey = GlobalKey<FormBuilderState>();
 
   const BookingDetailsView({Key? key}) : super(key: key);
 
@@ -59,7 +59,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
   Widget build(BuildContext context) {
     return FormBuilder(
       autoFocusOnValidationFailure: true,
-      key: BookingDetailsView._fbKey,
+      key: BookingDetailsView.fbKey,
       child: SingleChildScrollView(
         controller: scrollController,
         child: Column(
@@ -122,7 +122,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
   }
 
   onBooking(BuildContext context) {
-    if (BookingDetailsView._fbKey.currentState!.saveAndValidate()) {
+    if (BookingDetailsView.fbKey.currentState!.saveAndValidate()) {
       final bookingState = context.read<BookingCubit>().state;
       final state = context.read<SearchFlightCubit>().state;
       final verifyToken = bookingState.verifyResponse?.token;
@@ -146,7 +146,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           ?.seatConfiguration
           ?.rows;
       final persons = state.filterState?.numberPerson;
-      final value = BookingDetailsView._fbKey.currentState!.value;
+      final value = BookingDetailsView.fbKey.currentState!.value;
       List<Passenger> passengers = [];
       for (Person person in (persons?.persons ?? [])) {
         final passenger = person.toPassenger(

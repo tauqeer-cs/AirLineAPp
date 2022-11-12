@@ -45,7 +45,7 @@ class SeatsFeeDetailPayment extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${e.toString()} : ${seats.serviceDescription ?? 'No seat selected'} - ${seats.seatColumn}${row?.rowNumber}",
+                          "${e.generateText(filter?.numberPerson)} : ${seats.seatColumn == null ? 'No seat selected' : '${seats.seatColumn}${row?.rowNumber}'}",
                           style: kSmallRegular.copyWith(
                               color: Styles.kSubTextColor),
                         ),
