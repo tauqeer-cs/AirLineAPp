@@ -28,11 +28,10 @@ class MealsSection extends StatelessWidget {
         ? state.filterState!.departDate!.difference(DateTime.now()).inHours <= 1
         : state.filterState!.returnDate!.difference(DateTime.now()).inHours <=
             1;
-    final
-    isFlightOver24Hour = isDeparture
-        ? state.filterState!.departDate!.difference(DateTime.now()).inHours >=
+    final isFlightOver24Hour = isDeparture
+        ? state.filterState!.departDate!.difference(DateTime.now()).inHours <=
             24
-        : state.filterState!.returnDate!.difference(DateTime.now()).inHours >=
+        : state.filterState!.returnDate!.difference(DateTime.now()).inHours <=
             1;
 
     return Padding(
@@ -51,20 +50,20 @@ class MealsSection extends StatelessWidget {
               ? const FlightUnderAnHour()
               : isFlightOver24Hour
                   ? const FlightWithin24Hour()
-                  : buildMealCards(meals),
+                  : buildMealCards(meals, isDeparture),
         ],
       ),
     );
   }
 
-  Column buildMealCards(List<Bundle>? bundles) {
+  Column buildMealCards(List<Bundle>? bundles, bool isDeparture) {
     return Column(
       children: [
         ...bundles?.map(
               (e) {
                 return Column(
                   children: [
-                    NewMealCard(meal: e, isDeparture: true),
+                    NewMealCard(meal: e, isDeparture: isDeparture),
                     kVerticalSpacerSmall,
                   ],
                 );
