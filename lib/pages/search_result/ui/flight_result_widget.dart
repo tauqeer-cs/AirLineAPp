@@ -17,10 +17,7 @@ class FlightResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filter = context
-        .watch<SearchFlightCubit>()
-        .state
-        .filterState;
+    final filter = context.watch<SearchFlightCubit>().state.filterState;
     return BlocBuilder<SearchFlightCubit, SearchFlightState>(
       builder: (context, state) {
         return blocBuilderWrapper(
@@ -40,15 +37,25 @@ class FlightResultWidget extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    Expanded(
-                      flex: 2,
-                      child: OutlinedButton(
-                        child: const FittedBox(child: Text("Change Search")),
-                        onPressed: () {
-                          context.read<SummaryContainerCubit>().changeVisibility(true);
-                          context.router.push(ChangeSearchRoute());
-                        },
-                      ),
+                    BlocBuilder<BookingCubit, BookingState>(
+                      builder: (context, state) {
+                        return Visibility(
+                          visible: !state.isVerify,
+                          child: Expanded(
+                            flex: 2,
+                            child: OutlinedButton(
+                              child:
+                                  const FittedBox(child: Text("Change Search")),
+                              onPressed: () {
+                                context
+                                    .read<SummaryContainerCubit>()
+                                    .changeVisibility(true);
+                                context.router.push(ChangeSearchRoute());
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -70,8 +77,7 @@ class FlightResultWidget extends StatelessWidget {
                 ),
                 kVerticalSpacer,
                 Text(
-                  "Prices are based on an ${filter?.numberPerson
-                      .toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                  "Prices are based on an ${filter?.numberPerson.toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
                   style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                 ),
               ],

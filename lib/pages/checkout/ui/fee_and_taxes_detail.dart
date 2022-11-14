@@ -16,15 +16,19 @@ class FeeAndTaxesDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bookingCubit = context.watch<BookingCubit>().state;
     final segment = isDeparture
-        ? context.watch<BookingCubit>().state.selectedDeparture
-        : context.watch<BookingCubit>().state.selectedReturn;
+        ? bookingCubit.selectedDeparture
+        : bookingCubit.selectedReturn;
     final info = segment?.fareTypeWithTaxDetails?.firstOrNull
         ?.fareInfoWithTaxDetails?.firstOrNull;
     final List<ApplicationTaxDetailBinds>? taxes =
         info?.applicationTaxDetailBinds;
     final filter = context.watch<SearchFlightCubit>().state.filterState;
-
+    final verifyResponse = bookingCubit.verifyResponse;
+    final infantInbound= verifyResponse?.flightSSR?.infantGroup?.inbound?.firstOrNull;
+    final infantOutbound= verifyResponse?.flightSSR?.infantGroup?.outbound?.firstOrNull;
+    final infant = isDeparture ? infantOutbound : infantInbound;
     if (taxes?.isEmpty ?? true) return const SizedBox();
     return Column(
       children: [
@@ -80,6 +84,31 @@ class FeeAndTaxesDetail extends StatelessWidget {
               ),
             )
             .toList(),
+        Visibility(
+          visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,
+          child: PriceContainer(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Infant",
+                  style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "${filter?.numberPerson.numberOfInfant ?? 0}x @",
+                      style:
+                          kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                    ),
+                    kHorizontalSpacerMini,
+                    MoneyWidgetSmall(amount: infant?.amount ?? segment?.infantPricePerPax, isDense: true),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
         AppDividerWidget(color: Styles.kDisabledButton),
       ],
     );
@@ -88,6 +117,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
 
 class PriceContainer extends StatelessWidget {
   final Widget child;
+
   const PriceContainer({Key? key, required this.child}) : super(key: key);
 
   @override
@@ -98,4 +128,3 @@ class PriceContainer extends StatelessWidget {
     );
   }
 }
-

@@ -104,7 +104,7 @@ class AppDropDown<T> extends StatelessWidget {
       },
       popupProps: PopupProps.modalBottomSheet(
         title: Transform.translate(
-          offset: const Offset(0, -10),
+          offset: const Offset(0, 00),
           child: AppSheetHandler(title: sheetTitle),
         ),
         showSelectedItems: true,

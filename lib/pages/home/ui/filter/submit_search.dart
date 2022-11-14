@@ -20,7 +20,7 @@ class SubmitSearch extends StatelessWidget {
           : () {
               context.read<SearchFlightCubit>().searchFlights(filter);
               if (isHomePage) {
-                context.router.push(const SearchResultRoute());
+                context.router.push(SearchResultRoute(showLoginDialog: isHomePage));
               } else {
                 context.router.pop();
               }

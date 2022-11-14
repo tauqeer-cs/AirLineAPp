@@ -171,6 +171,8 @@ class InboundOutboundSegment extends Equatable {
 
   num get getTotalPrice => totalSegmentFareAmt ?? 0;
 
+  num get getTotalPriceDisplay => totalSegmentFareAmtWithInfantSSR ?? 0;
+
   factory InboundOutboundSegment.fromJson(Map<String, dynamic> json) =>
       _$InboundOutboundSegmentFromJson(json);
 
@@ -228,29 +230,30 @@ class SegmentDetail extends Equatable {
   final String? aircraftDescription;
   final String? deiDisclosure;
 
-  const SegmentDetail(
-      {this.lfid,
-      this.origin,
-      this.destination,
-      this.departureDate,
-      this.carrierCode,
-      this.arrivalDate,
-      this.stops,
-      this.flightTime,
-      this.aircraftType,
-      this.sellingCarrier,
-      this.flightNum,
-      this.operatingCarrier,
-      this.operatingFlightNum,
-      this.flyMonday,
-      this.flyTuesday,
-      this.flyWednesday,
-      this.flyThursday,
-      this.flyFriday,
-      this.flySaturday,
-      this.flySunday,
-      this.aircraftDescription,
-      this.deiDisclosure});
+  const SegmentDetail({
+    this.lfid,
+    this.origin,
+    this.destination,
+    this.departureDate,
+    this.carrierCode,
+    this.arrivalDate,
+    this.stops,
+    this.flightTime,
+    this.aircraftType,
+    this.sellingCarrier,
+    this.flightNum,
+    this.operatingCarrier,
+    this.operatingFlightNum,
+    this.flyMonday,
+    this.flyTuesday,
+    this.flyWednesday,
+    this.flyThursday,
+    this.flyFriday,
+    this.flySaturday,
+    this.flySunday,
+    this.aircraftDescription,
+    this.deiDisclosure,
+  });
 
   factory SegmentDetail.fromJson(Map<String, dynamic> json) =>
       _$SegmentDetailFromJson(json);

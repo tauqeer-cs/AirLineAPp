@@ -1,8 +1,10 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
+import 'package:app/pages/auth/ui/login_form.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
@@ -15,19 +17,14 @@ import 'package:app/app/app_router.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class AuthView extends StatelessWidget {
-  const AuthView({Key? key}) : super(key: key);
-  static const String formEmailLogin = "email-login";
-  static const String formPasswordLogin = "password-login";
-  static final _fbKey = GlobalKey<FormBuilderState>();
+  const AuthView({
+    Key? key,
+    this.showContinueButton = false,
+  }) : super(key: key);
 
-  onLogin(BuildContext context) {
-    if (_fbKey.currentState!.saveAndValidate()) {
-      final value = _fbKey.currentState!.value;
-      final email = value[formEmailLogin];
-      final password = value[formPasswordLogin];
-      context.read<LoginCubit>().logInWithCredentials(email, password);
-    }
-  }
+  final bool showContinueButton;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,66 +33,23 @@ class AuthView extends StatelessWidget {
         padding: kPageHorizontalPadding,
         children: [
           kVerticalSpacer,
-          FormBuilder(
-            autoFocusOnValidationFailure: true,
-            key: _fbKey,
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    const AppLogoWidget(useWhite: true),
-                    kVerticalSpacer,
-                    Text("Welcome Back!", style: kGiantRegular.copyWith(color: Colors.white),),
-                  ],
-                ),
-                kVerticalSpacer,
-                GlassCard(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            MyFlutterApp.icon0vector49301__1_,
-                            color: Styles.kPrimaryColor,
-                            size: 20,
-                          ),
-                          kHorizontalSpacerMini,
-                          Text("Login", style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),),
-                        ],
-                      ),
-                      AppInputText(
-                        isRequired: false,
-                        textInputType: TextInputType.emailAddress,
-                        name: formEmailLogin,
-                        hintText: 'Email Address',
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.email(),
-                        ],
-                      ),
-                      kVerticalSpacer,
-                      //Text(tr.password, style: kMediumHeavy),
-                      AppInputPassword(
-                        name: formPasswordLogin,
-                        hintText: "Password",
-                        validators: [FormBuilderValidators.required()],
-                        isDarkBackground: false,
-                      ),
-                      kVerticalSpacer,
-                      ElevatedButton(
-                        onPressed: () => onLogin(context),
-                        child: const Text("Login"),
-                      ),
-                      kVerticalSpacerSmall,
-                      OutlinedButton(
-                        onPressed: () => context.router.push(const SignupWrapperRoute()),
-                        child: const Text("Create Acccount"),
-                      )
-                    ],
+          Column(
+            children: [
+              Column(
+                children: [
+                  const AppLogoWidget(useWhite: true),
+                  kVerticalSpacer,
+                  Text(
+                    "Welcome Back!",
+                    style: kGiantRegular.copyWith(color: Colors.white),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+              kVerticalSpacer,
+              GlassCard(
+                child:LoginForm(showContinueButton: showContinueButton),
+              ),
+            ],
           ),
 
           // kVerticalSpacer,

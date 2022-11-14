@@ -28,7 +28,7 @@ class BookingSummary extends StatelessWidget {
         ),
         MoneyWidget(
           isDense: false,
-          amount: booking.getFinalPrice +
+          amount: booking.getFinalPriceDisplay +
               (filterState?.numberPerson.getTotal() ?? 0) - discount,
         ),
         kVerticalSpacer,

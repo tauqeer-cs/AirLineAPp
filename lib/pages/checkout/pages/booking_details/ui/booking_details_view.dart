@@ -1,4 +1,3 @@
-
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/repositories/local_repositories.dart';
@@ -74,7 +73,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                   const CardSummary(showFees: false),
                   kVerticalSpacer,
                   const ListOfPassengerInfo(),
-
                 ],
               ),
             ),
@@ -127,8 +125,10 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       final state = context.read<SearchFlightCubit>().state;
       final verifyToken = bookingState.verifyResponse?.token;
       final flightSeats = bookingState.verifyResponse?.flightSeat;
+      final flightInfant = bookingState.verifyResponse?.flightSSR?.infantGroup;
       final outboundSeats = flightSeats?.outbound;
       final inboundSeats = flightSeats?.inbound;
+
       final rowsOutBound = outboundSeats
           ?.firstOrNull
           ?.retrieveFlightSeatMapResponse
@@ -148,10 +148,13 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       final persons = state.filterState?.numberPerson;
       final value = BookingDetailsView.fbKey.currentState!.value;
       List<Passenger> passengers = [];
+      print("flight infant is $flightInfant");
       for (Person person in (persons?.persons ?? [])) {
         final passenger = person.toPassenger(
           outboundRows: rowsOutBound ?? [],
           inboundRows: rowsInBound ?? [],
+          numberPerson: persons,
+          infantGroup: flightInfant,
           inboundPhysicalId: inboundSeats
               ?.firstOrNull
               ?.retrieveFlightSeatMapResponse
@@ -166,14 +169,15 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               ?.physicalFlightID,
         );
         final filledPassenger = passenger.copyWith(
-            firstName: value["${person.toString()}$formNameFirstName"],
-            lastName: value["${person.toString()}$formNameLastName"],
-            title: (value["${person.toString()}$formNameTitle"] as String?)
-                ?.toUpperCase(),
-            nationality: value["${person.toString()}$formNameNationality"],
-            dob: value["${person.toString()}$formNameDob"],
-            gender: "Male",
-            relation: "Self");
+          firstName: value["${person.toString()}$formNameFirstName"],
+          lastName: value["${person.toString()}$formNameLastName"],
+          title: (value["${person.toString()}$formNameTitle"] as String?)
+              ?.toUpperCase(),
+          nationality: value["${person.toString()}$formNameNationality"],
+          dob: value["${person.toString()}$formNameDob"],
+          gender: "Male",
+          relation: "Self",
+        );
         passengers.add(filledPassenger);
       }
 
@@ -181,12 +185,14 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         token: verifyToken ?? "",
         flightSummaryPNRRequest: FlightSummaryPnrRequest(
           contactEmail: value[formNameContactEmail],
-          contactFullName: "${value[formNameContactFirstName]} ${value[formNameContactLastName]}",
+          contactFullName:
+              "${value[formNameContactFirstName]} ${value[formNameContactLastName]}",
           contactPhoneCode: value[formNameContactPhoneCode],
           contactPhoneNumber: value[formNameContactPhoneNumber],
           displayCurrency: "MYR",
           preferredContactMethod: "Email",
-          acceptNewsAndPromotionByEmail: value[formNameContactReceiveEmail] ?? false,
+          acceptNewsAndPromotionByEmail:
+              value[formNameContactReceiveEmail] ?? false,
           comment: "No",
           promoCode: "",
           companyTaxInvoice: CompanyTaxInvoice(
@@ -199,13 +205,12 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
             postCode: value[formNameCompanyPostCode],
           ),
           emergencyContact: EmergencyContact(
-            firstName: value[formNameEmergencyFirstName],
-            lastName: value[formNameEmergencyLastName],
-            phoneCode: value[formNameEmergencyCountry],
-            phoneNumber: value[formNameEmergencyPhone],
-            relationship: value[formNameEmergencyRelation],
-            email: value[formNameEmergencyEmail]
-          ),
+              firstName: value[formNameEmergencyFirstName],
+              lastName: value[formNameEmergencyLastName],
+              phoneCode: value[formNameEmergencyCountry],
+              phoneNumber: value[formNameEmergencyPhone],
+              relationship: value[formNameEmergencyRelation],
+              email: value[formNameEmergencyEmail]),
           passengers: passengers,
         ),
       );

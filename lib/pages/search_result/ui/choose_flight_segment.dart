@@ -105,7 +105,6 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
         ),
         kVerticalSpacerBig,
         Text(widget.dateTitle, style: kGiantHeavy),
-
         Column(
           children: widget.segments
               .map((e) =>
@@ -143,7 +142,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
   List<InboundOutboundSegment> sort(List<InboundOutboundSegment> list) {
     switch (selectedSort) {
       case SortFlight.cheapest:
-        list.sort((a, b) => a.getTotalPrice.compareTo(b.getTotalPrice));
+        list.sort((a, b) => a.getTotalPriceDisplay.compareTo(b.getTotalPriceDisplay));
         break;
       case SortFlight.earliest:
         list.sort((a, b) =>

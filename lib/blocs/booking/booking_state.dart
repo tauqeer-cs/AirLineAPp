@@ -52,6 +52,10 @@ class BookingState extends Equatable {
           (selectedReturn?.getTotalPrice ?? 0))
       .toStringAsFixed(2));
 
+  num get getFinalPriceDisplay => num.parse(((selectedDeparture?.getTotalPriceDisplay ?? 0) +
+      (selectedReturn?.getTotalPriceDisplay ?? 0))
+      .toStringAsFixed(2));
+
   @override
   List<Object?> get props => [
         selectedDeparture,

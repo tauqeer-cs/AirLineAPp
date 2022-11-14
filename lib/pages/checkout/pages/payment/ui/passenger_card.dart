@@ -24,6 +24,7 @@ class PassengerCard extends StatelessWidget {
     int children = 0;
     return AppCard(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Column(
@@ -65,7 +66,6 @@ class PassengerCard extends StatelessWidget {
                         kVerticalSpacerMini,
                         Text("${e.title} ${e.firstName} ${e.lastName}"),
                         kVerticalSpacerSmall,
-
                       ],
                     );
                   },

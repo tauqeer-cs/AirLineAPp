@@ -487,9 +487,15 @@ class FlightSSR extends Equatable {
   final BundleGroupSeat? mealGroup;
   final BaggageGroup? baggageGroup;
   final BundleGroupSeat? seatGroup;
+  final BundleGroupSeat? infantGroup;
 
-  const FlightSSR(
-      {this.bundleGroup, this.mealGroup, this.baggageGroup, this.seatGroup});
+  const FlightSSR({
+    this.bundleGroup,
+    this.mealGroup,
+    this.baggageGroup,
+    this.seatGroup,
+    this.infantGroup,
+  });
 }
 
 @JsonSerializable(includeIfNull: false)

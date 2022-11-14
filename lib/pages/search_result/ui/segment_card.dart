@@ -111,7 +111,7 @@ class SegmentCard extends StatelessWidget {
                                   "from",
                                   style: kTinyHeavy,
                                 ),
-                                MoneyWidget(amount: segment.getTotalPrice),
+                                MoneyWidget(amount: segment.totalSegmentFareAmtWithInfantSSR),
                                 Visibility(
                                   visible: segment.discountPCT != null &&
                                       segment.discountPCT! > 0,

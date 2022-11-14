@@ -33,7 +33,7 @@ class DiscountSummary extends StatelessWidget {
                   const Spacer(),
                   MoneyWidgetSmall(
                     isDense: false,
-                    amount: booking.getFinalPrice +
+                    amount: booking.getFinalPriceDisplay +
                         (filterState?.numberPerson.getTotal() ?? 0),
                   ),
                 ],

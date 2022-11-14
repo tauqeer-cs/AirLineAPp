@@ -171,16 +171,40 @@ class Person extends Equatable {
     required List<Rows> inboundRows,
     num? inboundPhysicalId,
     num? outboundPhysicalId,
+    NumberPerson? numberPerson,
+    BundleGroupSeat? infantGroup,
   }) {
     List<Bound> outboundSSR = [];
     List<Bound> inboundSSR = [];
     //bundle
+    final infantIndex = peopleType == PeopleType.adult &&
+        ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))
+        ? 1
+        : 0;
+    //infant
+    if(infantIndex==1){
+      final outBoundInfant = infantGroup?.outbound?.firstOrNull;
+      final inBoundInfant = infantGroup?.inbound?.firstOrNull;
+      outboundSSR.add(Bound(
+        servicesType:"Infant",
+        logicalFlightId: outBoundInfant?.logicalFlightID,
+        quantity: 1,
+        serviceId: outBoundInfant?.serviceID,
+      ));
+      inboundSSR.add(Bound(
+        servicesType:"Infant",
+        logicalFlightId: inBoundInfant?.logicalFlightID,
+        quantity: 1,
+        serviceId: inBoundInfant?.serviceID,
+      ));
+    }
     if (departureBundle?.toBound() != null) {
       outboundSSR.add(departureBundle!.toBound());
     }
     if (returnBundle?.toBound() != null) {
       inboundSSR.add(returnBundle!.toBound());
     }
+
     //meal
     final departureMeal = groupedMeal(true);
     final returnMeal = groupedMeal(false);
@@ -223,9 +247,13 @@ class Person extends Equatable {
         outbound: outboundSSR,
       ),
       seat: Seat(
-        outbound: outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ?? const Outbound(),
-        inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ?? const Outbound(),
+        outbound:
+            outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ??
+                const Outbound(),
+        inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ??
+            const Outbound(),
       ),
+      infantAssociateIndex: infantIndex ?? numberOrder
     );
     return passenger;
   }
@@ -338,13 +366,12 @@ class Person extends Equatable {
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
 
-  String generateText(NumberPerson? numberPerson){
-    if(peopleType==PeopleType.adult && ((numberPerson?.numberOfInfant ?? 0) >=
-        (numberOrder ?? 0))){
+  String generateText(NumberPerson? numberPerson) {
+    if (peopleType == PeopleType.adult &&
+        ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))) {
       return "${peopleType?.name.capitalize() ?? ""} $numberOrder + ${PeopleType.infant.name.capitalize() ?? ""} $numberOrder";
     }
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
-
   }
 }
 
@@ -352,9 +379,7 @@ enum PeopleType {
   adult("ADT"),
   child("CHD"),
   infant("INF");
-
   const PeopleType(this.code);
-
   final String code;
 }
 

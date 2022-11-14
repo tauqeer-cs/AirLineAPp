@@ -57,8 +57,8 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
               const Spacer(),
               MoneyWidgetSmall(
                   amount: widget.isDeparture
-                      ? bookingTotal.selectedDeparture?.getTotalPrice
-                      : bookingTotal.selectedReturn?.getTotalPrice),
+                      ? bookingTotal.selectedDeparture?.getTotalPriceDisplay
+                      : bookingTotal.selectedReturn?.getTotalPriceDisplay),
             ],
           ),
         ),

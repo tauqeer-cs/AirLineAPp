@@ -108,7 +108,7 @@ class ContinueButton extends StatelessWidget {
                 context.router.push(SeatsRoute());
               } else {
                 context.read<BookingCubit>().verifyFlight(filterState);
-                context.router.push(SearchResultRoute());
+                context.router.push(SearchResultRoute(showLoginDialog: false));
               }
             }
           : null,

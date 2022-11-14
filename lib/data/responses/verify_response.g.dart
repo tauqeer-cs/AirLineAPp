@@ -466,6 +466,10 @@ FlightSSR _$FlightSSRFromJson(Map<String, dynamic> json) => FlightSSR(
       seatGroup: json['seatGroup'] == null
           ? null
           : BundleGroupSeat.fromJson(json['seatGroup'] as Map<String, dynamic>),
+      infantGroup: json['infantGroup'] == null
+          ? null
+          : BundleGroupSeat.fromJson(
+              json['infantGroup'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$FlightSSRToJson(FlightSSR instance) {
@@ -481,6 +485,7 @@ Map<String, dynamic> _$FlightSSRToJson(FlightSSR instance) {
   writeNotNull('mealGroup', instance.mealGroup);
   writeNotNull('baggageGroup', instance.baggageGroup);
   writeNotNull('seatGroup', instance.seatGroup);
+  writeNotNull('infantGroup', instance.infantGroup);
   return val;
 }
 

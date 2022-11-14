@@ -24,9 +24,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     SearchResultRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchResultRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const SearchResultPage(),
+        child: SearchResultPage(
+          key: args.key,
+          showLoginDialog: args.showLoginDialog,
+        ),
       );
     },
     ChangeSearchRoute.name: (routeData) {
@@ -431,14 +435,36 @@ class NavigationRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SearchResultPage]
-class SearchResultRoute extends PageRouteInfo<void> {
-  const SearchResultRoute()
-      : super(
+class SearchResultRoute extends PageRouteInfo<SearchResultRouteArgs> {
+  SearchResultRoute({
+    Key? key,
+    required bool showLoginDialog,
+  }) : super(
           SearchResultRoute.name,
           path: '/flight',
+          args: SearchResultRouteArgs(
+            key: key,
+            showLoginDialog: showLoginDialog,
+          ),
         );
 
   static const String name = 'SearchResultRoute';
+}
+
+class SearchResultRouteArgs {
+  const SearchResultRouteArgs({
+    this.key,
+    required this.showLoginDialog,
+  });
+
+  final Key? key;
+
+  final bool showLoginDialog;
+
+  @override
+  String toString() {
+    return 'SearchResultRouteArgs{key: $key, showLoginDialog: $showLoginDialog}';
+  }
 }
 
 /// generated route for

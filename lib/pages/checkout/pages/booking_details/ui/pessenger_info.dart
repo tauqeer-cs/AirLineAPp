@@ -1,5 +1,6 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
@@ -31,6 +32,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
   late String nationality;
   final titleController = TextEditingController();
   final nationalityController = TextEditingController();
+  final infantAdultName = TextEditingController();
+
   bool isUnder18 = false;
 
   @override
@@ -67,6 +70,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   hintText: "First Name/Given Name",
                   initialValue: passengerInfo?.firstName,
                   validators: [FormBuilderValidators.required()],
+                  onChanged: (value) {
+                    context
+                        .read<InfoCubit>()
+                        .updateMap(widget.person.toString(), value ?? "");
+                  },
                 ),
                 kVerticalSpacerMini,
                 AppInputText(
@@ -120,10 +128,12 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     }
                   },
                 ),
+                kVerticalSpacerMini,
                 Visibility(
                   visible: (notice?.content?.isNotEmpty ?? false) &&
                       (widget.person.peopleType == PeopleType.adult) &&
-                      isUnder18 && (filter.numberPerson.totalPerson==1),
+                      isUnder18 &&
+                      (filter.numberPerson.totalPerson == 1),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 12),
                     padding:
@@ -142,14 +152,30 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     ),
                   ),
                 ),
+                kVerticalSpacerMini,
                 Visibility(
                   visible: widget.person.peopleType == PeopleType.infant,
-                  child: AppInputText(
-                    name: "${BookingDetailsView.fbKey.currentState?.value["Adult 1"]}${widget.person.toString()}$formNameLastName",
-                    hintText: "Travel With ${PeopleType.adult.name.capitalize()} ${widget.person.numberOrder}",
-                    initialValue: passengerInfo?.lastName,
-                    validators: [FormBuilderValidators.required()],
-                    readOnly: true,
+                  child: BlocBuilder<InfoCubit, Map<String, String>>(
+                    builder: (context, state) {
+                      final adultName =
+                          state["Adult ${widget.person.numberOrder}"];
+                      print("adult name is $adultName");
+                      final string =
+                          adultName ?? "Adult ${widget.person.numberOrder}";
+                      return Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
+                          ),
+                        ),
+                        child: Text("Travel With $string", style: kSmallSemiBold,),
+                      );
+                    },
                   ),
                 ),
               ],
