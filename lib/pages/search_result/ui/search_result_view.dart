@@ -80,6 +80,9 @@ class SearchResultView extends StatelessWidget {
             padding: kPagePadding,
             children: const [BookingLoader()],
           ),
+          failedBuilder: Center(
+            child: Text(state.message, style: kHugeHeavy,),
+          ),
         );
       },
     );

@@ -16,7 +16,11 @@ class TripSelection extends StatelessWidget {
             (e) => Expanded(
               child: InkWell(
                 onTap: () {
+                  if (tripType == e) return;
                   context.read<FilterCubit>().updateTripType(e);
+                  if (e == FlightType.oneWay) {
+                    context.read<FilterCubit>().updateDateReturnDate(returnDate: null);
+                  }
                 },
                 child: Container(
                   margin: const EdgeInsets.all(5),

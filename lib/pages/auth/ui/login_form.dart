@@ -13,8 +13,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({Key? key, required this.showContinueButton}) : super(key: key);
-  static final _fbKey = GlobalKey<FormBuilderState>();
+  LoginForm({Key? key, required this.showContinueButton}) : super(key: key);
+  final _fbKey = GlobalKey<FormBuilderState>();
   static const String formEmailLogin = "email-login";
   static const String formPasswordLogin = "password-login";
   final bool showContinueButton;

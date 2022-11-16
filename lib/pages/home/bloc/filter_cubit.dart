@@ -16,7 +16,9 @@ class FilterCubit extends Cubit<FilterState> {
   }
 
   updateTripType(FlightType? flightType) {
-    emit(state.copyWith(flightType: flightType));
+    emit(
+      state.copyWith(flightType: flightType),
+    );
   }
 
   updatePassengers({
@@ -25,7 +27,7 @@ class FilterCubit extends Cubit<FilterState> {
   }) {
     final numberPerson = state.numberPerson;
     final persons = List<Person>.from(numberPerson.persons);
-    if(isAdd){
+    if (isAdd) {
       int adults = numberPerson.numberOfAdult;
       int children = numberPerson.numberOfChildren;
       int infants = numberPerson.numberOfInfant;
@@ -45,8 +47,9 @@ class FilterCubit extends Cubit<FilterState> {
           break;
       }
       persons.add(person);
-    }else{
-      final index= persons.lastIndexWhere((element) => element.peopleType == type);
+    } else {
+      final index =
+          persons.lastIndexWhere((element) => element.peopleType == type);
       persons.removeAt(index);
     }
     final newNumberPerson = NumberPerson(persons: persons);
@@ -77,6 +80,19 @@ class FilterCubit extends Cubit<FilterState> {
       blocState: state.blocState,
       message: state.message,
       departDate: departDate,
+      flightType: state.flightType,
+      numberPerson: state.numberPerson,
+      origin: state.origin,
+    ));
+  }
+
+  updateDateReturnDate({DateTime? returnDate}) {
+    emit(FilterState(
+      returnDate: returnDate,
+      destination: state.destination,
+      blocState: state.blocState,
+      message: state.message,
+      departDate: state.departDate,
       flightType: state.flightType,
       numberPerson: state.numberPerson,
       origin: state.origin,

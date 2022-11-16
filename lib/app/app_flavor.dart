@@ -6,7 +6,6 @@ enum Flavor {
 /// The flavor to handle different kind of environment dev, staging, production
 class AppFlavor {
   static Flavor appFlavor = Flavor.staging;
-
   static String get title {
     switch (appFlavor) {
       case Flavor.staging:
@@ -22,7 +21,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-booking.alphareds.com/booked';
       default:
-        return 'https://mya-booking.alphareds.com/booked';
+        return ' https://booking.myairline.my/booked';
     }
   }
 
@@ -31,7 +30,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
       default:
-        return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
+        return 'https://mybooking.myairline.my';
     }
   }
   static String get baseUrlCMS {
@@ -39,7 +38,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-cms.alphareds.com/';
       default:
-        return 'https://mya-cms.alphareds.com/';
+        return 'https://cms.myairline.my/';
     }
   }
 
@@ -48,7 +47,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-api.alphareds.com/api/';
       default:
-        return 'https://mya-api.alphareds.com/api/';
+        return 'https://api.myairline.my/api/';
     }
   }
 }

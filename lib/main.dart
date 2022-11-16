@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app/app/app_flavor.dart';
 import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/booking_local.dart';
@@ -16,7 +17,9 @@ import 'app/app_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'data/repositories/auth_repository.dart';
 import 'firebase_options.dart';
+
 main() {
+  AppFlavor.appFlavor = Flavor.staging;
   run();
 }
 
