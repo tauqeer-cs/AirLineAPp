@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_router.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/add_on/seats/ui/seats_view.dart';
 import 'package:app/widgets/app_app_bar.dart';
@@ -27,8 +28,14 @@ class SeatsPage extends StatelessWidget {
           appBar: AppAppBar(
             title: "Your Trip Starts Here",
             height: 100.h,
-            flexibleWidget: const AppBookingStep(
+            flexibleWidget:  AppBookingStep(
               passedSteps: [BookingStep.flights, BookingStep.addOn],
+              onTopStepTaped: (index){
+                if(index == 0){
+                  context.router.popTop(SearchResultRoute(showLoginDialog: false));
+                }
+              },
+
             ),
           ),
           body: SeatsView(isDeparture: isDeparture),

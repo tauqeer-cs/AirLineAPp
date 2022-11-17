@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/theme.dart';
+import '../../../add_on/seats/seats_page.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   const BookingDetailsPage({super.key});
@@ -184,12 +185,19 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             appBar: AppAppBar(
               title: "Your Trip Starts Here",
               height: 100.h,
-              flexibleWidget: const AppBookingStep(
+              flexibleWidget:  AppBookingStep(
                 passedSteps: [
                   BookingStep.flights,
                   BookingStep.addOn,
                   BookingStep.bookingDetails
-                ],
+                ], onTopStepTaped: (int index) {
+                if(index == 0) {
+                  context.router.popTop(SearchResultRoute(showLoginDialog: false));
+                }
+                else if(index == 1) {
+                  context.router.popTop(SeatsRoute());
+                }
+              },
               ),
             ),
             body: const BookingDetailsView(),

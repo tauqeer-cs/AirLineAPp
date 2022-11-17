@@ -27,8 +27,14 @@ class BundlePage extends StatelessWidget {
           appBar: AppAppBar(
             title: "Your Trip Starts Here",
             height: 100.h,
-            flexibleWidget: const AppBookingStep(
-              passedSteps: [BookingStep.flights, BookingStep.addOn],
+            flexibleWidget:  AppBookingStep(
+              passedSteps: const [BookingStep.flights, BookingStep.addOn], onTopStepTaped: (int index) {
+              if(index == 0){
+                context.router.pop();
+
+              }
+
+            },
             ),
           ),
           body: BundleView(isDeparture: isDeparture),

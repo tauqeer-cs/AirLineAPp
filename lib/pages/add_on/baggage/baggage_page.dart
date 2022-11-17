@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../app/app_router.dart';
 import 'ui/baggage_view.dart';
 
 class BaggagePage extends StatelessWidget {
@@ -28,8 +29,13 @@ class BaggagePage extends StatelessWidget {
           appBar: AppAppBar(
             title: "Your Trip Starts Here",
             height: 100.h,
-            flexibleWidget: const AppBookingStep(
-              passedSteps: [BookingStep.flights, BookingStep.addOn],
+            flexibleWidget:  AppBookingStep(
+              passedSteps: [BookingStep.flights, BookingStep.addOn], onTopStepTaped: (int index) {
+              if(index == 0) {
+                context.router.popTop(SearchResultRoute(showLoginDialog: false));
+              }
+
+            },
             ),
           ),
           body: BaggageView(isDeparture: isDeparture),

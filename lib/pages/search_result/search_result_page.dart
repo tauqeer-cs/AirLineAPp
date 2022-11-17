@@ -159,8 +159,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
         appBar: AppAppBar(
           title: "Your Trip Starts Here",
           height: 100.h,
-          flexibleWidget: const AppBookingStep(
-            passedSteps: [BookingStep.flights],
+          flexibleWidget:  AppBookingStep(
+            passedSteps: [BookingStep.flights], onTopStepTaped: (int index) {  },
           ),
         ),
         body: SearchResultView(),
