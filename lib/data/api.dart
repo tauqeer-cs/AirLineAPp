@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/app/app_flavor.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/repositories/cms_repository.dart';
 import 'package:dio/adapter.dart';
@@ -98,7 +99,7 @@ class MyInterceptor extends Interceptor {
 
     String? accessTokenData = await _repository.getAccessToken();
 
-    String? accessToken = options.baseUrl.contains("mya-cms.alphareds.com")
+    String? accessToken = options.baseUrl.contains(AppFlavor.paymentRedirectUrl)
         ? _cmsRepository.cmsToken
         : accessTokenData;
     if (accessToken != null) {

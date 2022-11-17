@@ -27,8 +27,10 @@ class PersonalInfoPage extends StatelessWidget {
     return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) async {
         if (state.blocState == BlocState.finished) {
-          Toast.of(context)
-              .show(message: 'User information updated successfully');
+          Toast.of(context).show(
+            success: true,
+            message: 'User information updated successfully',
+          );
           await Future.delayed(const Duration(seconds: 1), () {
             context.router.pop();
           });

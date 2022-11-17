@@ -1,3 +1,4 @@
+import 'package:app/app/app_flavor.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
@@ -25,7 +26,7 @@ class _WelcomePageState extends State<WelcomePage> {
       await Future.delayed(const Duration(milliseconds: 180));
       setState(() => progress = i);
     }
-    context.router.push(InAppWebViewRoute(url: "https://myairline-gcp-cert-ezycommerce.ezyflight.se/en"));
+    context.router.push(InAppWebViewRoute(url: AppFlavor.thirdPartyUrl));
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
+import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -11,8 +13,8 @@ import '../../../widgets/forms/app_input_text.dart';
 import '../../auth/pages/signup/signup_wrapper.dart';
 import '../../auth/pages/signup/ui/form_header.dart';
 
-class EmergencyInfoView extends StatelessWidget {
-  const EmergencyInfoView({
+class EmergencyInfoView extends StatefulWidget {
+  EmergencyInfoView({
     Key? key,
     this.firstName,
     this.lastName,
@@ -30,6 +32,18 @@ class EmergencyInfoView extends StatelessWidget {
   final String? phoneNo;
 
   @override
+  State<EmergencyInfoView> createState() => _EmergencyInfoViewState();
+}
+
+class _EmergencyInfoViewState extends State<EmergencyInfoView> {
+  final relationController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    relationController.text = widget.relationShip ?? "Father";
+  }
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +54,7 @@ class EmergencyInfoView extends StatelessWidget {
           graySubText: true,
         ),
         GreyCard(
-          margin: 0.0,
+          margin: 5.0,
           edgeInsets: EdgeInsets.zero,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -51,7 +65,7 @@ class EmergencyInfoView extends StatelessWidget {
                   textInputType: TextInputType.name,
                   name: formNameFirstNameEmergency,
                   hintText: 'First Name / Given Name',
-                  initialValue: firstName,
+                  initialValue: widget.firstName,
                   validators: [
                     //FormBuilderValidators.required(),
                   ],
@@ -61,7 +75,7 @@ class EmergencyInfoView extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.name,
                   name: formNameLastNameEmergency,
-                  initialValue: lastName,
+                  initialValue: widget.lastName,
                   hintText: 'Last Name / Surname',
                   validators: [
                     //FormBuilderValidators.required(),
@@ -72,26 +86,43 @@ class EmergencyInfoView extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.name,
                   name: formNameRelationshipEmergency,
-                  initialValue: relationShip,
+                  initialValue: widget.relationShip,
                   hintText: 'Relationship',
                   validators: [
                     //FormBuilderValidators.required(),
                   ],
                 ),
+                ShadowInput(
+                  name: formNameRelationshipEmergency,
+                  textEditingController: relationController,
+                  child: AppDropDown<String>(
+                    items: const [
+                      "Father",
+                      "Mother",
+                      "Sibling",
+                      "Friends",
+                      "Other"
+                    ],
+                    defaultValue: widget.relationShip,
+                    sheetTitle: "Relationship",
+                    onChanged: (value) {
+                      relationController.text = value ?? "";
+                    },
+                  ),
+                ),
                 kVerticalSpacer,
                 AppCountriesDropdown(
                   isPhoneCode: true,
                   hintText: "Phone",
-                  initialValue: Country.defaultCountry,
-                  onChanged: onPhoneCodeChanged,
-                  initialCountryCode: countryCode,
+                  onChanged: widget.onPhoneCodeChanged,
+                  initialCountryCode: widget.countryCode,
                 ),
                 kVerticalSpacer,
                 AppInputText(
                   name: formNamePhoneNoRelationship,
                   textInputType: TextInputType.number,
                   hintText: "Phone Number",
-                  initialValue: phoneNo,
+                  initialValue: widget.phoneNo,
                   validators: [
                     //FormBuilderValidators.required(),
                   ],

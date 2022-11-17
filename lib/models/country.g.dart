@@ -27,7 +27,7 @@ Map<String, dynamic> _$CountriesToJson(Countries instance) {
 
 Country _$CountryFromJson(Map<String, dynamic> json) => Country(
       countryCode: json['countryCode'] as String?,
-      countryCode2: json['countryCode2'] as String?,
+      countryCode2: json['countryCode_2'] as String?,
       country: json['country'] as String?,
       phoneCode: json['phoneCode'] as String?,
       phoneCodeDisplay: json['phoneCodeDisplay'] as String?,
@@ -43,7 +43,7 @@ Map<String, dynamic> _$CountryToJson(Country instance) {
   }
 
   writeNotNull('countryCode', instance.countryCode);
-  writeNotNull('countryCode2', instance.countryCode2);
+  writeNotNull('countryCode_2', instance.countryCode2);
   writeNotNull('country', instance.country);
   writeNotNull('phoneCode', instance.phoneCode);
   writeNotNull('phoneCodeDisplay', instance.phoneCodeDisplay);

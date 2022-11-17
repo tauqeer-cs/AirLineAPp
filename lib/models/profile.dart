@@ -132,13 +132,16 @@ class EmergencyContact extends Equatable {
   String? relationship;
   String? phoneCode;
   String? phoneNumber;
+  String? email;
 
-  EmergencyContact(
-      {this.firstName,
-      this.lastName,
-      this.relationship,
-      this.phoneCode,
-      this.phoneNumber});
+  EmergencyContact({
+    this.firstName,
+    this.lastName,
+    this.relationship,
+    this.phoneCode,
+    this.phoneNumber,
+    this.email,
+  });
 
   @override
   List<Object?> get props =>

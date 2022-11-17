@@ -42,6 +42,7 @@ class Country extends Equatable {
   });
 
   final String? countryCode;
+  @JsonKey(name: 'countryCode_2')
   final String? countryCode2;
   final String? country;
   final String? phoneCode;

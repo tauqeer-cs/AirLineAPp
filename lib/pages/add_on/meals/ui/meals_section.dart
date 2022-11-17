@@ -118,8 +118,8 @@ class NewMealCard extends StatelessWidget {
                 children: [
                   Center(
                     child: SizedBox(
-                      width: 100,
-                      height: 100,
+                      width: 200,
+                      height: 150,
                       child: AppImage(
                         imageUrl: cmsMeals
                             .firstWhereOrNull(
@@ -128,7 +128,6 @@ class NewMealCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  kHorizontalSpacer,
                   Padding(
                     padding: EdgeInsets.only(left: 20.w),
                     child: Column(

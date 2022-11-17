@@ -3,6 +3,39 @@
 part of 'airports_response.dart';
 
 // **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
+class AirportsResponseAdapter extends TypeAdapter<AirportsResponse> {
+  @override
+  final int typeId = 6;
+
+  @override
+  AirportsResponse read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return AirportsResponse();
+  }
+
+  @override
+  void write(BinaryWriter writer, AirportsResponse obj) {
+    writer.writeByte(0);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AirportsResponseAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
