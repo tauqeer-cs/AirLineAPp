@@ -29,7 +29,14 @@ class SeatRemove extends StatelessWidget {
       child: CheckboxListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 0),
         controlAffinity: ListTileControlAffinity.leading,
-        title: const Text("I don’t mind where I sit", style: kLargeSemiBold),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+
+            Text("Pick my seats for me", style: kLargeSemiBold),
+            Text("Let the system allocate a seat for you.", style: kLargeMedium),
+          ],
+        ),
         value: seat == null,
         onChanged: (value) {
           context

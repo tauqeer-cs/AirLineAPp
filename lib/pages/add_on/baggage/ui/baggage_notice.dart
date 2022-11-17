@@ -8,6 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BaggageNotice extends StatelessWidget {
   const BaggageNotice({Key? key}) : super(key: key);
 
+  final bool hideSportsEquipment = false;
+
+
   @override
   Widget build(BuildContext context) {
     final carryNotice = context.watch<CmsSsrCubit>().state.carryNotice;
@@ -27,22 +30,28 @@ class BaggageNotice extends StatelessWidget {
             color: Styles.kDisabledButton,
           ),
           kVerticalSpacer,
-          Text(
-            "Travelling with",
-            style: kGiantSemiBold.copyWith(color: Styles.kOrangeColor),
-          ),
-          Text(
-            "Sports",
-            style: kHeaderHeavy.copyWith(color: Styles.kOrangeColor),
-          ),
-          Text(
-            "Equipments?",
-            style: kHeaderHeavy.copyWith(color: Styles.kOrangeColor),
-          ),
-          kVerticalSpacerSmall,
-          Html(data: oversizedNotice?.content ?? ""),
-          kVerticalSpacerSmall,
-          const SportsEquipmentCard(),
+
+          if(hideSportsEquipment) ... [
+            Text(
+              "Travelling with",
+              style: kGiantSemiBold.copyWith(color: Styles.kOrangeColor),
+            ),
+            Text(
+              "Sports",
+              style: kHeaderHeavy.copyWith(color: Styles.kOrangeColor),
+            ),
+            Text(
+              "Equipments?",
+              style: kHeaderHeavy.copyWith(color: Styles.kOrangeColor),
+            ),
+            kVerticalSpacerSmall,
+            Html(data: oversizedNotice?.content ?? ""),
+            kVerticalSpacerSmall,
+            const SportsEquipmentCard(),
+
+          ],
+
+
         ],
       ),
     );
