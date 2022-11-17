@@ -1,4 +1,3 @@
-
 import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:bloc/bloc.dart';
@@ -26,6 +25,7 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
     on<UpdateEmailContact>(_onUpdateEmailContact);
     on<UpdateEmergency>(_onUpdateEmergency);
     on<UpdateCompany>(_onUpdateCompany);
+    on<UpdateData>(_onUpdateData);
   }
 
   void _onInit(
@@ -36,6 +36,15 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
     emit(storage);
   }
 
+  void _onUpdateData(
+    UpdateData event,
+    Emitter<FlightSummaryPnrRequest> emit,
+  ) {
+    if (event.data == null) return;
+    _repository.setPassengerInfo(event.data!);
+    emit(event.data!);
+
+  }
 
   void _onUpdateEmailContact(
     UpdateEmailContact event,

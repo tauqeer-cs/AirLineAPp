@@ -87,26 +87,22 @@ class _PassengerContactState extends State<PassengerContact> {
                 name: formNameContactFirstName,
                 hintText: "First Name / Given Name",
                 validators: [FormBuilderValidators.required()],
-                initialValue: profile?.firstName,
+                initialValue: profile?.firstName ?? firstName,
                 onChanged: (value) {
-                  // final request = context.read<LocalUserBloc>().state;
-                  // final newRequest = request.copyWith(contactEmail: value);
-                  // context
-                  //     .read<LocalUserBloc>()
-                  //     .add(UpdateEmailContact(newRequest.contactEmail));
+                  final request = context.read<LocalUserBloc>().state;
+                  final newRequest = request.copyWith(contactFullName: value);
+                  context.read<LocalUserBloc>().add(UpdateData(newRequest));
                 },
               ),
               AppInputText(
                 name: formNameContactLastName,
                 hintText: "Last Name / Surname",
                 validators: [FormBuilderValidators.required()],
-                initialValue: profile?.lastName ?? email,
+                initialValue: profile?.lastName ?? lastName,
                 onChanged: (value) {
-                  // final request = context.read<LocalUserBloc>().state;
-                  // final newRequest = request.copyWith(contactEmail: value);
-                  // context
-                  //     .read<LocalUserBloc>()
-                  //     .add(UpdateEmailContact(newRequest.contactEmail));
+                  final request = context.read<LocalUserBloc>().state;
+                  final newRequest = request.copyWith(comment: value);
+                  context.read<LocalUserBloc>().add(UpdateData(newRequest));
                 },
               ),
               ShadowInput(
@@ -115,25 +111,25 @@ class _PassengerContactState extends State<PassengerContact> {
                 child: AppCountriesDropdown(
                   hintText: "Phone Code",
                   isPhoneCode: true,
-                  initialCountryCode: profile?.phoneCode,
+                  initialCountryCode: profile?.phoneCode  ?? phoneCode,
                   onChanged: (value) {
                     nationalityController.text = value?.phoneCode ?? "";
+                    final request = context.read<LocalUserBloc>().state;
+                    final newRequest = request.copyWith(contactPhoneCode: value?.phoneCode);
+                    context.read<LocalUserBloc>().add(UpdateData(newRequest));
                   },
                 ),
               ),
               AppInputText(
                 name: formNameContactPhoneNumber,
-                initialValue: profile?.phoneNumber,
+                initialValue: profile?.phoneNumber ?? phoneNumber,
                 textInputType: TextInputType.number,
                 hintText: "Phone Number",
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {
-                  // final request =
-                  //     context.read<LocalUserBloc>().state.emergencyContact;
-                  // final newRequest = request?.copyWith(phoneNumber: value);
-                  // context
-                  //     .read<LocalUserBloc>()
-                  //     .add(UpdateEmergency(newRequest));
+                  final request = context.read<LocalUserBloc>().state;
+                  final newRequest = request.copyWith(contactPhoneNumber: value);
+                  context.read<LocalUserBloc>().add(UpdateData(newRequest));
                 },
               ),
               AppInputText(

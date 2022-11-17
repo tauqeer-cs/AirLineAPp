@@ -11,6 +11,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(const ProfileState());
   final _repository = ProfileRepository();
 
+  resetState(){
+    emit(ProfileState());
+  }
 
   getProfile() async {
     emit(state.copyWith(blocState: BlocState.loading));

@@ -42,6 +42,7 @@ class ProfileView extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           context.read<LoginCubit>().logout();
+                          context.read<ProfileCubit>().resetState();
                         },
                         child: Column(
                           children: [

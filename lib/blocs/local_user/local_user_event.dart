@@ -10,6 +10,13 @@ class Init extends LocalUserEvent{
   List<Object?> get props => [];
 }
 
+class UpdateData extends LocalUserEvent{
+  final FlightSummaryPnrRequest? data;
+  const UpdateData(this.data);
+  @override
+  List<Object?> get props => [data];
+}
+
 class UpdateEmailContact extends LocalUserEvent{
   final String? email;
   const UpdateEmailContact(this.email);
