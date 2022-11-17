@@ -70,6 +70,7 @@ class AddressInput extends StatelessWidget {
                     child: AppCountriesDropdown(
                       hintText: "Country",
                       isPhoneCode: false,
+                      initialCountryCode: selectedCountry,
                       onChanged: (newCountry) {
                         onAddressCountryChange?.call(newCountry);
                       },

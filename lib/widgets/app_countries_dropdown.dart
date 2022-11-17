@@ -32,16 +32,22 @@ class AppCountriesDropdown extends StatelessWidget {
       builder: (context, state) {
         List<Country> newList = [];
         if (state.countries.isNotEmpty) {
+          print("not empty ${state.countries.length}");
           newList = List<Country>.from(state.countries);
           final my = newList
-              .firstWhere((element) => element == Country.defaultCountry);
-          newList.removeWhere((element) => element == my);
-          newList.insert(0, my);
+              .firstWhereOrNull((element) => element == Country.defaultCountry);
+          if (my != null) {
+            print("remove where ${my.phoneCode}");
+            newList.removeWhere((element) => element == my);
+            newList.insert(0, my);
+            print("newList ${newList.length}not empty");
+          }
         }
         final selectedCountry = initialCountryCode == null
-            ? Country.defaultCountry
-            : state.countries.firstWhereOrNull(
-                (element) => element.countryCode2 == initialCountryCode);
+            ? null
+            : state.countries.firstWhereOrNull((element) => isPhoneCode
+                ? element.phoneCode == initialCountryCode
+                : element.countryCode2 == initialCountryCode);
         print(
             "selectedCountry ${selectedCountry} initialCountryCode $initialCountryCode");
         return blocBuilderWrapper(

@@ -22,23 +22,23 @@ class AdditionInfoView extends StatelessWidget {
   final String? phoneSelected;
 
   final Function(Country?)? onCountryChange;
-
   final Function(Country?)? phoneCountryCode;
 
-  const AdditionInfoView(
-      {Key? key,
-      this.countrySelected,
-      this.myKadSelected,
-      this.emailSelected,
-      this.dobSelected,
-      this.phoneCountryCodeSelected,
-      this.phoneSelected,
-      this.onCountryChange,
-      this.phoneCountryCode})
-      : super(key: key);
+  const AdditionInfoView({
+    Key? key,
+    this.countrySelected,
+    this.myKadSelected,
+    this.emailSelected,
+    this.dobSelected,
+    this.phoneCountryCodeSelected,
+    this.phoneSelected,
+    this.onCountryChange,
+    this.phoneCountryCode,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("aadd info country $countrySelected");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -84,7 +84,7 @@ class AdditionInfoView extends StatelessWidget {
                 kVerticalSpacer,
                 FormBuilderDateTimePicker(
                   name: formNameDob,
-                  firstDate: DateTime(1920),
+                  firstDate: DateTime(0001),
                   lastDate: DateTime.now(),
                   initialValue: dobSelected,
                   format: DateFormat("dd MMM yyyy"),

@@ -40,7 +40,7 @@ class EmergencyInfoView extends StatelessWidget {
           graySubText: true,
         ),
         GreyCard(
-          margin: 0.0,
+          margin: 5.0,
           edgeInsets: EdgeInsets.zero,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -82,7 +82,6 @@ class EmergencyInfoView extends StatelessWidget {
                 AppCountriesDropdown(
                   isPhoneCode: true,
                   hintText: "Phone",
-                  initialValue: Country.defaultCountry,
                   onChanged: onPhoneCodeChanged,
                   initialCountryCode: countryCode,
                 ),

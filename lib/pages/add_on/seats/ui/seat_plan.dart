@@ -80,17 +80,18 @@ class SeatPlan extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Expanded(flex: 1, child: SizedBox()),
-                      ...(row.seats ?? [])
-                          .map((e) => e.serviceId == 0
-                              ? Expanded(
-                                  flex: 1,
-                                  child: Center(
-                                      child: Text("${row.rowNumber ?? 0}")))
-                              : Expanded(
-                                  flex: 1,
-                                  child: SeatRow(mapColor: mapColor, seats: e),
-                                ))
-                          .toList(),
+                      ...(row.seats ?? []).map((e) {
+                        print(e.serviceId);
+                        return e.serviceId == 0
+                            ? Expanded(
+                                flex: 1,
+                                child: Center(
+                                    child: Text("${row.rowNumber ?? 0}")))
+                            : Expanded(
+                                flex: 1,
+                                child: SeatRow(mapColor: mapColor, seats: e),
+                              );
+                      }).toList(),
                       const Expanded(flex: 1, child: SizedBox()),
                     ],
                   ),
@@ -108,6 +109,7 @@ class SeatPlan extends StatelessWidget {
 class SeatPrice extends StatelessWidget {
   final num? amount;
   final String? currency;
+
   const SeatPrice({
     Key? key,
     required this.amount,

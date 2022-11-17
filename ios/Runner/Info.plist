@@ -38,10 +38,6 @@
 	<string>We are not using this</string>
 	<key>NSContactsUsageDescription</key>
 	<string>We are not using this</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>We are not using this</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>We are not using this</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We are not using this</string>
 	<key>NSLocationAlwaysUsageDescription</key>

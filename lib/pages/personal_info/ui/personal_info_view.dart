@@ -61,7 +61,10 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               phoneCountryCodeSelected: profile?.userProfile?.phoneCode,
               phoneSelected: profile?.userProfile?.phoneNumber,
               onCountryChange: (newCountry) {
+                print("country selected $newCountry");
                 selectedCountry = newCountry;
+                print("selectedCountry ${selectedCountry?.countryCode}");
+
               },
               phoneCountryCode: (newPhoneCountry) {
                 phoneCountry = newPhoneCountry;
@@ -76,7 +79,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               customGreyEdgeInsets: EdgeInsets.zero,
               withEmail: false,
               selectedAddress: profile?.userProfile?.address,
-              selectedCity: profile?.userProfile?.country,
+              selectedCity: profile?.userProfile?.city,
               selectedState: profile?.userProfile?.state,
               selectedCountry: profile?.userProfile?.country,
               selectedPosCode: profile?.userProfile?.postCode,
@@ -137,7 +140,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                         profile?.userProfile?.phoneCode,
                     phoneNumber: phoneNo,
                     address: address,
-                    country: addressCountry?.phoneCode ??
+                    country: addressCountry?.countryCode2 ??
                         profile?.userProfile?.country,
                     state: state,
                     city: city,
