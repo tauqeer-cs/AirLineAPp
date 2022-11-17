@@ -34,6 +34,7 @@ class CMSRepository {
   }
 
   Future<List<CMSRoute>> getRoutes() async {
+    await getCMSToken();
     return await _provider.getRoutes();
   }
 

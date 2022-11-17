@@ -33,7 +33,7 @@ class SeatsSection extends StatelessWidget {
           kVerticalSpacerSmall,
           const Padding(
             padding: kPageHorizontalPaddingBig,
-            child: SeatLegend(),
+            child: SeatsLegend(),
           ),
           kVerticalSpacer,
           const SeatPlan(),

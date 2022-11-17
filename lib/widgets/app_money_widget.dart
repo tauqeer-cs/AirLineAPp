@@ -55,7 +55,7 @@ class MoneyWidgetSmall extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment:
-          isDense ? MainAxisAlignment.start : MainAxisAlignment.end,
+          isDense ? MainAxisAlignment.end : MainAxisAlignment.end,
       children: [
         Text(
           "${isNegative ? "- " :""}${currency ?? 'MYR'} ",

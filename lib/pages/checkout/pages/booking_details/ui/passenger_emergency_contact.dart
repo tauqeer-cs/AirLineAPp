@@ -1,4 +1,5 @@
 import 'package:app/blocs/local_user/local_user_bloc.dart';
+import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/country.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
@@ -28,6 +29,8 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   String? firstName;
   String? lastName;
   String? phoneNumber;
+  String? email;
+
   final nationalityController = TextEditingController();
   final relationController = TextEditingController();
 
@@ -35,15 +38,33 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   void initState() {
     super.initState();
     final contact = context.read<LocalUserBloc>().state.emergencyContact;
-    firstName = contact?.firstName;
-    lastName = contact?.lastName;
-    phoneNumber = contact?.phoneNumber;
-    nationalityController.text = Country.defaultCountry.phoneCode ?? "";
-    relationController.text = "Father";
+    final emergency = context
+        .read<ProfileCubit>()
+        .state
+        .profile
+        ?.userProfile
+        ?.emergencyContact;
+
+    firstName = emergency?.firstName ?? contact?.firstName;
+    lastName = emergency?.lastName ?? contact?.lastName;
+    phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
+    nationalityController.text = emergency?.phoneCode ??
+        contact?.phoneCode ??
+        Country.defaultCountry.phoneCode ??
+        "";
+    relationController.text =
+        emergency?.relationship ?? contact?.relationship ?? "Father";
   }
 
   @override
   Widget build(BuildContext context) {
+    final emergency = context
+        .watch<ProfileCubit>()
+        .state
+        .profile
+        ?.userProfile
+        ?.emergencyContact;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,7 +86,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 name: formNameEmergencyFirstName,
                 hintText: "First Name/Given Name",
                 validators: [FormBuilderValidators.required()],
-                initialValue: firstName,
+                initialValue: emergency?.firstName ?? firstName,
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.emergencyContact ??
@@ -81,7 +102,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 name: formNameEmergencyLastName,
                 hintText: "Last Name/Surname",
                 validators: [FormBuilderValidators.required()],
-                initialValue: lastName,
+                initialValue: emergency?.lastName ??lastName,
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.emergencyContact;
@@ -96,11 +117,23 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 name: formNameEmergencyRelation,
                 textEditingController: relationController,
                 child: AppDropDown<String>(
-                  items: const ["Father", "Mother", "Sibling", "Friends", "Other"],
-                  defaultValue: "Father",
+                  items: const [
+                    "Father",
+                    "Mother",
+                    "Sibling",
+                    "Friends",
+                    "Other"
+                  ],
+                  defaultValue: emergency?.relationship,
                   sheetTitle: "Relationship",
                   onChanged: (value) {
                     relationController.text = value ?? "";
+                    final request =
+                        context.read<LocalUserBloc>().state.emergencyContact;
+                    final newRequest = request?.copyWith(relationship: value);
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateEmergency(newRequest));
                   },
                 ),
               ),
@@ -111,15 +144,22 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 child: AppCountriesDropdown(
                   isPhoneCode: true,
                   hintText: "Phone",
-                  initialValue: Country.defaultCountry,
+                  initialCountryCode: emergency?.phoneCode ??phoneNumber,
                   onChanged: (value) {
                     nationalityController.text = value?.phoneCode ?? "";
+                    final request =
+                        context.read<LocalUserBloc>().state.emergencyContact;
+                    final newRequest =
+                        request?.copyWith(phoneNumber: value?.phoneCode);
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateEmergency(newRequest));
                   },
                 ),
               ),
               AppInputText(
                 name: formNameEmergencyPhone,
-                initialValue: phoneNumber,
+                initialValue: emergency?.phoneNumber ??phoneNumber,
                 textInputType: TextInputType.number,
                 hintText: "Phone Number",
                 validators: [FormBuilderValidators.required()],
@@ -132,21 +172,23 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                       .add(UpdateEmergency(newRequest));
                 },
               ),
-              AppInputText(
+              /*AppInputText(
                 name: formNameEmergencyEmail,
                 hintText: "Email",
+
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.email(),
                 ],
-                //initialValue: lastName,
                 onChanged: (value) {
-                  // final request =
-                  //     context.read<LocalUserBloc>().state.emergencyContact;
-                  // final newRequest = request?.copyWith(lastName: value);
-                  // context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
+                  final request =
+                      context.read<LocalUserBloc>().state.emergencyContact;
+                  final newRequest = request?.copyWith(email: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateEmergency(newRequest));
                 },
-              ),
+              ),*/
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
@@ -11,14 +12,12 @@ class SeatRow extends StatelessWidget {
 
   const SeatRow({
     Key? key,
-    required this.mapColor,
     required this.seats,
   }) : super(key: key);
 
-  final Map<num?, Color>? mapColor;
-
   @override
   Widget build(BuildContext context) {
+    final bookingState = context.watch<BookingCubit>().state;
     final selectedPerson = context.watch<SelectedPersonCubit>().state;
     final state = context.watch<SearchFlightCubit>().state;
     final persons = state.filterState?.numberPerson;
@@ -31,6 +30,9 @@ class SeatRow extends StatelessWidget {
         : focusedPerson?.returnSeats;
     final selected = seat == seats;
     final otherSelected = otherSeats?.contains(seats) ?? false;
+    final mapColor = isDeparture
+        ? bookingState.departureColorMapping
+        : bookingState.returnColorMapping;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(

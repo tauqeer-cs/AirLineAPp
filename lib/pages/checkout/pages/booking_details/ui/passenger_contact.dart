@@ -1,4 +1,5 @@
 import 'package:app/blocs/local_user/local_user_bloc.dart';
+import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/country.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
@@ -23,19 +24,31 @@ class PassengerContact extends StatefulWidget {
 }
 
 class _PassengerContactState extends State<PassengerContact> {
+  String? firstName;
+  String? lastName;
+  String? phoneCode;
+  String? phoneNumber;
   String? email;
   final nationalityController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    final contact = context.read<LocalUserBloc>().state.contactEmail;
-    email = contact;
-    nationalityController.text = Country.defaultCountry.phoneCode ?? "";
+    final contact = context.read<LocalUserBloc>().state;
+    final profile = context.read<ProfileCubit>().state.profile?.userProfile;
+    email = profile?.email ?? contact.contactEmail;
+    firstName = profile?.firstName ?? contact.contactFullName;
+    phoneCode = profile?.phoneCode ?? contact.contactPhoneCode;
+    phoneNumber = profile?.phoneNumber ?? contact.contactPhoneNumber;
+    lastName = profile?.lastName ?? contact.comment;
+    nationalityController.text =
+        phoneCode ?? Country.defaultCountry.phoneCode ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
+    final profile = context.watch<ProfileCubit>().state.profile?.userProfile;
+    print("profile is $profile");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -74,7 +87,7 @@ class _PassengerContactState extends State<PassengerContact> {
                 name: formNameContactFirstName,
                 hintText: "First Name / Given Name",
                 validators: [FormBuilderValidators.required()],
-                //initialValue: email,
+                initialValue: profile?.firstName,
                 onChanged: (value) {
                   // final request = context.read<LocalUserBloc>().state;
                   // final newRequest = request.copyWith(contactEmail: value);
@@ -87,7 +100,7 @@ class _PassengerContactState extends State<PassengerContact> {
                 name: formNameContactLastName,
                 hintText: "Last Name / Surname",
                 validators: [FormBuilderValidators.required()],
-                //initialValue: email,
+                initialValue: profile?.lastName ?? email,
                 onChanged: (value) {
                   // final request = context.read<LocalUserBloc>().state;
                   // final newRequest = request.copyWith(contactEmail: value);
@@ -102,6 +115,7 @@ class _PassengerContactState extends State<PassengerContact> {
                 child: AppCountriesDropdown(
                   hintText: "Phone Code",
                   isPhoneCode: true,
+                  initialCountryCode: profile?.phoneCode,
                   onChanged: (value) {
                     nationalityController.text = value?.phoneCode ?? "";
                   },
@@ -109,7 +123,7 @@ class _PassengerContactState extends State<PassengerContact> {
               ),
               AppInputText(
                 name: formNameContactPhoneNumber,
-                //initialValue: phoneNumber,
+                initialValue: profile?.phoneNumber,
                 textInputType: TextInputType.number,
                 hintText: "Phone Number",
                 validators: [FormBuilderValidators.required()],
@@ -129,7 +143,7 @@ class _PassengerContactState extends State<PassengerContact> {
                   FormBuilderValidators.required(),
                   FormBuilderValidators.email(),
                 ],
-                initialValue: email,
+                initialValue: profile?.email ?? email,
                 onChanged: (value) {
                   final request = context.read<LocalUserBloc>().state;
                   final newRequest = request.copyWith(contactEmail: value);

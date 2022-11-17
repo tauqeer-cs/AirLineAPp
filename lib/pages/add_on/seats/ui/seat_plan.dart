@@ -81,7 +81,6 @@ class SeatPlan extends StatelessWidget {
                     children: [
                       const Expanded(flex: 1, child: SizedBox()),
                       ...(row.seats ?? []).map((e) {
-                        print(e.serviceId);
                         return e.serviceId == 0
                             ? Expanded(
                                 flex: 1,
@@ -89,7 +88,7 @@ class SeatPlan extends StatelessWidget {
                                     child: Text("${row.rowNumber ?? 0}")))
                             : Expanded(
                                 flex: 1,
-                                child: SeatRow(mapColor: mapColor, seats: e),
+                                child: SeatRow(seats: e),
                               );
                       }).toList(),
                       const Expanded(flex: 1, child: SizedBox()),

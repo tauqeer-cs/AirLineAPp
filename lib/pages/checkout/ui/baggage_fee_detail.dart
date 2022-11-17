@@ -29,12 +29,15 @@ class BaggageFeeDetail extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "${e.generateText(filter?.numberPerson)} : ${bundle?.description ?? 'No Bundle'}",
-                          style: kSmallRegular.copyWith(
-                              color: Styles.kSubTextColor),
+                        Expanded(
+                          child: Text(
+                            "${e.generateText(filter?.numberPerson)} : ${bundle?.description ?? 'No Bundle'}",
+                            style: kSmallRegular.copyWith(
+                                color: Styles.kSubTextColor),
+                          ),
                         ),
-                        MoneyWidget(
+                        kHorizontalSpacerSmall,
+                        MoneyWidgetSmall(
                             amount: bundle?.amount,
                             isDense: true,
                             currency: bundle?.currencyCode),
