@@ -6,7 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppBookingStep extends StatefulWidget {
   final List<BookingStep> passedSteps;
 
-  const AppBookingStep({Key? key, required this.passedSteps}) : super(key: key);
+  final Function(int index) onTopStepTaped;
+
+  const AppBookingStep({Key? key, required this.passedSteps, required this.onTopStepTaped}) : super(key: key);
 
   @override
   State<AppBookingStep> createState() => _AppBookingStepState();
@@ -52,10 +54,17 @@ class _AppBookingStepState extends State<AppBookingStep> {
           final step = BookingStep.values[index];
           final selected = widget.passedSteps.contains(step);
           return Center(
-            child: Text(
-              step.message,
-              style: kMediumMedium.copyWith(
-                color: selected ? Styles.kTextColor : Styles.kInactiveColor,
+            child: GestureDetector(
+              onTap: (){
+
+                widget.onTopStepTaped(index);
+
+              },
+              child: Text(
+                step.message,
+                style: kMediumMedium.copyWith(
+                  color: selected ? Styles.kTextColor : Styles.kInactiveColor,
+                ),
               ),
             ),
           );

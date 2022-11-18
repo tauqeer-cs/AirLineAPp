@@ -44,7 +44,8 @@ class _PaymentPageState extends State<PaymentPage> {
               onFailed: () {
                 context.loaderOverlay.hide();
                 if (state.message == "Error: Reach Maximum Payment Attempts") {
-                  context.router.replaceAll([const NavigationRoute(), const HomeRoute()]);
+                  context.router
+                      .replaceAll([const NavigationRoute(), const HomeRoute()]);
                 }
                 Toast.of(context).show(message: state.message);
               },
@@ -101,13 +102,24 @@ class _PaymentPageState extends State<PaymentPage> {
             appBar: AppAppBar(
               title: "Your Trip Starts Here",
               height: 100.h,
-              flexibleWidget: const AppBookingStep(
-                passedSteps: [
+              flexibleWidget: AppBookingStep(
+                passedSteps: const [
                   BookingStep.flights,
                   BookingStep.addOn,
                   BookingStep.bookingDetails,
                   BookingStep.payment
                 ],
+                onTopStepTaped: (int index) {
+                  if (index == 0) {
+                    context.router
+                        .popUntilRouteWithName(SearchResultRoute.name);
+                  } else if (index == 1) {
+                    context.router.popUntilRouteWithName(SeatsRoute.name);
+                  } else if (index == 2) {
+                    context.router
+                        .popUntilRouteWithName(BookingDetailsRoute.name);
+                  }
+                },
               ),
             ),
             body: const PaymentView(),
