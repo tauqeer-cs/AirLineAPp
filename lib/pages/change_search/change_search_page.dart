@@ -24,11 +24,11 @@ class ChangeSearchPage extends StatelessWidget {
           flexibleWidget:  AppBookingStep(
             passedSteps: [BookingStep.flights], onTopStepTaped: (int index) {
 
-              /*
+
             if (index == 0) {
-              context.router
-                  .popTop(SearchResultRoute(showLoginDialog: false));
-            }*/
+              context.router.popUntilRouteWithName(SearchResultRoute.name);
+
+            }
 
 
           },

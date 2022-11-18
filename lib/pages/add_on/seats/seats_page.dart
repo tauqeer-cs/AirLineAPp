@@ -2,6 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/add_on/seats/ui/seats_view.dart';
+import 'package:app/pages/search_result/search_result_page.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:auto_route/auto_route.dart';
@@ -32,7 +33,11 @@ class SeatsPage extends StatelessWidget {
               passedSteps: [BookingStep.flights, BookingStep.addOn],
               onTopStepTaped: (index){
                 if(index == 0){
-                  context.router.popTop(SearchResultRoute(showLoginDialog: false));
+                  context.router.popUntilRouteWithName(SearchResultRoute.name);
+                }
+                else if(index == 1) {
+                  context.router.popUntilRouteWithName(SeatsRoute.name);
+
                 }
               },
 

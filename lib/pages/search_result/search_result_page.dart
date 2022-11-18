@@ -160,7 +160,9 @@ class _SearchResultPageState extends State<SearchResultPage> {
           title: "Your Trip Starts Here",
           height: 100.h,
           flexibleWidget:  AppBookingStep(
-            passedSteps: [BookingStep.flights], onTopStepTaped: (int index) {  },
+            passedSteps: [BookingStep.flights], onTopStepTaped: (int index) {
+              print('');
+          },
           ),
         ),
         body: SearchResultView(),

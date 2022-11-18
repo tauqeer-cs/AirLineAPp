@@ -31,13 +31,13 @@ class MealsPage extends StatelessWidget {
             height: 100.h,
             flexibleWidget:  AppBookingStep(
               passedSteps: [BookingStep.flights, BookingStep.addOn], onTopStepTaped: (int index) {
-                if(index == 0) {
-                  context.router.popTop(SearchResultRoute(showLoginDialog: false));
-                }
-                else if(index == 1){
-                  context.router.popTop(SeatsRoute());
-                }
+              if(index == 0) {
+                context.router.popUntilRouteWithName(SearchResultRoute.name);
+              }
+              else {
+                context.router.popUntilRouteWithName(SeatsRoute.name);
 
+              }
 
             },
             ),

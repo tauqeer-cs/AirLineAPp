@@ -103,7 +103,7 @@ class _PaymentPageState extends State<PaymentPage> {
               title: "Your Trip Starts Here",
               height: 100.h,
               flexibleWidget: AppBookingStep(
-                passedSteps: [
+                passedSteps: const [
                   BookingStep.flights,
                   BookingStep.addOn,
                   BookingStep.bookingDetails,
@@ -112,20 +112,13 @@ class _PaymentPageState extends State<PaymentPage> {
                 onTopStepTaped: (int index) {
                   if (index == 0) {
                     context.router
-                        .popTop(SearchResultRoute(showLoginDialog: false));
+                        .popUntilRouteWithName(SearchResultRoute.name);
                   } else if (index == 1) {
-                    context.router.popTop(SeatsRoute());
+                    context.router.popUntilRouteWithName(SeatsRoute.name);
+                  } else if (index == 2) {
+                    context.router
+                        .popUntilRouteWithName(BookingDetailsRoute.name);
                   }
-                  else if (index == 1) {
-                    context.router.popTop(SeatsRoute());
-                  }
-                  else if(index == 2) {
-                    context.router.popTop(BookingDetailsRoute());
-
-                    ;
-                  }
-
-
                 },
               ),
             ),
