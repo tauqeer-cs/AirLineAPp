@@ -210,25 +210,25 @@ class Person extends Equatable {
     final returnMeal = groupedMeal(false);
 
     departureMeal.forEach((key, value) {
-      final firstValue = value.first;
+      final firstValue = value.firstOrNull;
       final outBoundMeal = Bound(
           quantity: value.length,
-          serviceId: firstValue.serviceID,
-          logicalFlightId: firstValue.logicalFlightID,
-          price: firstValue.amount,
+          serviceId: firstValue?.serviceID,
+          logicalFlightId: firstValue?.logicalFlightID,
+          price: firstValue?.amount,
           servicesType: "MEAL",
-          name: firstValue.description?.toLowerCase());
+          name: firstValue?.description?.toLowerCase());
       outboundSSR.add(outBoundMeal);
     });
     returnMeal.forEach((key, value) {
-      final firstValue = value.first;
+      final firstValue = value.firstOrNull;
       final inboundMeal = Bound(
           quantity: value.length,
-          serviceId: firstValue.serviceID,
-          logicalFlightId: firstValue.logicalFlightID,
-          price: firstValue.amount,
+          serviceId: firstValue?.serviceID,
+          logicalFlightId: firstValue?.logicalFlightID,
+          price: firstValue?.amount,
           servicesType: "MEAL",
-          name: firstValue.description?.toLowerCase());
+          name: firstValue?.description?.toLowerCase());
       inboundSSR.add(inboundMeal);
     });
     //baggage
@@ -253,7 +253,7 @@ class Person extends Equatable {
         inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ??
             const Outbound(),
       ),
-      infantAssociateIndex: infantIndex ?? numberOrder
+      infantAssociateIndex: infantIndex
     );
     return passenger;
   }
@@ -369,7 +369,7 @@ class Person extends Equatable {
   String generateText(NumberPerson? numberPerson) {
     if (peopleType == PeopleType.adult &&
         ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))) {
-      return "${peopleType?.name.capitalize() ?? ""} $numberOrder + ${PeopleType.infant.name.capitalize() ?? ""} $numberOrder";
+      return "${peopleType?.name.capitalize() ?? ""} $numberOrder + ${PeopleType.infant.name.capitalize()} $numberOrder";
     }
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
@@ -383,4 +383,5 @@ enum PeopleType {
   final String code;
 }
 
-List<String> availableTitle = ["Mr.", "Mrs.", "Miss", "Ms", "Tun", "Tun Sri"];
+List<String> availableTitle = ["Mr.", "Mrs.", "Ms", "Tun"];
+List<String> availableTitleChild = ["Mstr.", "Miss"];

@@ -95,7 +95,7 @@ class FlightResultWidget extends StatelessWidget {
           title: "DEP",
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
-          segments: bookState.isVerify
+          segments: bookState.selectedDeparture!=null
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
           isDeparture: true,
@@ -108,10 +108,8 @@ class FlightResultWidget extends StatelessWidget {
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
                 AppDateUtils.formatFullDate(state.filterState?.returnDate),
-            segments: bookState.isVerify
-                ? bookState.selectedReturn != null
-                    ? [bookState.selectedReturn!]
-                    : []
+            segments: bookState.selectedReturn != null
+                ? [bookState.selectedReturn!]
                 : state.flights?.flightResult?.inboundSegment ?? [],
             isDeparture: false,
           ),

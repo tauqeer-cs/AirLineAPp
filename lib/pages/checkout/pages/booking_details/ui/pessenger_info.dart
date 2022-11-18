@@ -88,7 +88,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   validators: [FormBuilderValidators.required()],
                   textEditingController: titleController,
                   child: AppDropDown<String>(
-                    items: availableTitle,
+                    items: widget.person.peopleType == PeopleType.adult ? availableTitle : availableTitleChild,
                     defaultValue: null,
                     sheetTitle: "Title",
                     onChanged: (value) {

@@ -7,10 +7,13 @@ import 'package:app/data/responses/verify_response.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'booking_state.dart';
+part 'booking_cubit.g.dart';
 
 class BookingCubit extends Cubit<BookingState> {
   BookingCubit() : super(const BookingState());
@@ -38,6 +41,14 @@ class BookingCubit extends Cubit<BookingState> {
 
   selectReturn(InboundOutboundSegment segment) {
     emit(state.copyWith(selectedReturn: segment));
+  }
+
+  removeDeparture() {
+    emit(state.copyWithNull(selectedDeparture: true));
+  }
+
+  removeReturn() {
+    emit(state.copyWithNull(selectedReturn: true));
   }
 
   changeFlight() {

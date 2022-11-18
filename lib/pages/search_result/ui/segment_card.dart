@@ -39,7 +39,7 @@ class SegmentCard extends StatelessWidget {
           }
         },
         child: AppCard(
-          isHighlighted: selected == segment && !isVerify,
+          isHighlighted: selected == segment && !isVerify && false,
           edgeInsets: EdgeInsets.zero,
           child: Column(
             children: [
@@ -133,7 +133,7 @@ class SegmentCard extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: isVerify,
+                visible: selected!=null,
                 replacement: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -156,9 +156,14 @@ class SegmentCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
                   child: OutlinedButton(
                     onPressed: () {
-                      context.read<BookingCubit>().changeFlight();
+                      //context.read<BookingCubit>().changeFlight();
+                      if (isDeparture) {
+                        context.read<BookingCubit>().removeDeparture();
+                      } else {
+                        context.read<BookingCubit>().removeReturn();
+                      }
                       context.read<SummaryContainerCubit>().changeVisibility(true);
-                      context.router.pop();
+                      //context.router.pop();
                     },
                     child: const Text("Change Flight"),
                   ),

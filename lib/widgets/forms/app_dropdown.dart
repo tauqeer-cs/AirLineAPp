@@ -112,6 +112,12 @@ class AppDropDown<T> extends StatelessWidget {
           thumbColor: Styles.kBorderActionColor,
           trackVisibility: true,
           thumbVisibility: true,
+          thickness: 3,
+          crossAxisMargin: 3,
+          minThumbLength: 10,
+          trackColor: Colors.transparent,
+          trackRadius: Radius.zero,
+          trackBorderColor: Colors.transparent,
         ),
         emptyBuilder: (_, __) =>
             const Center(child: Text("No items can be selected")),

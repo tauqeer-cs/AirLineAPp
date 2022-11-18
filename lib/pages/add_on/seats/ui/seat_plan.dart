@@ -68,10 +68,10 @@ class SeatPlan extends StatelessWidget {
                       children: [
                         kVerticalSpacerSmall,
                         SeatPrice(
-                          amount: row.seats?.first.seatPriceOffers?.first.amount
+                          amount: row.seats?.first.seatPriceOffers?.firstOrNull?.amount
                               ?.toDouble(),
                           currency:
-                              row.seats?.first.seatPriceOffers?.first.currency,
+                              row.seats?.first.seatPriceOffers?.firstOrNull?.currency,
                         ),
                         kVerticalSpacerSmall,
                       ],

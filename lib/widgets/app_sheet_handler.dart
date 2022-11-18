@@ -21,7 +21,7 @@ class AppSheetHandler extends StatelessWidget {
         //     ),
         //   ),
         // ),
-        kVerticalSpacer,
+        //kVerticalSpacer,
         Padding(
           padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
@@ -40,9 +40,9 @@ class AppSheetHandler extends StatelessWidget {
             ],
           ),
         ),
-        kVerticalSpacer,
+        kVerticalSpacerSmall,
         Padding(
-          padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 8.0),
           child: const AppDividerWidget(color: Colors.white),
         ),
       ],

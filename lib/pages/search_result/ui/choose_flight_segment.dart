@@ -47,8 +47,6 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
   @override
   Widget build(BuildContext context) {
     final isVerify = context.watch<BookingCubit>().state.isVerify;
-
-
     final sortedSegment = List<InboundOutboundSegment>.from(widget.segments);
     sort(sortedSegment);
     return Column(
@@ -77,7 +75,9 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                 ),
               ),
             ),
-            const Spacer(flex: 1,),
+            const Spacer(
+              flex: 1,
+            ),
             Visibility(
               visible: !isVerify,
               child: Expanded(
@@ -93,9 +93,13 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                       ),
                       Text(
                         "Sort by",
-                        style: kSmallRegular.copyWith(color: Styles.kBorderColor),
+                        style:
+                            kSmallRegular.copyWith(color: Styles.kBorderColor),
                       ),
-                      Text(selectedSort.toString(), style: kSmallHeavy,)
+                      Text(
+                        selectedSort.toString(),
+                        style: kSmallHeavy,
+                      )
                     ],
                   ),
                 ),
@@ -105,12 +109,22 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
         ),
         kVerticalSpacerBig,
         Text(widget.dateTitle, style: kGiantHeavy),
-        Column(
-          children: widget.segments
-              .map((e) =>
-              SegmentCard(segment: e, isDeparture: widget.isDeparture))
-              .toList(),
-        ),
+        widget.segments.isEmpty
+            ? Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                  child: Text(
+                    "No flight available for this date",
+                    style: kHugeSemiBold,
+                  ),
+                ),
+            )
+            : Column(
+                children: widget.segments
+                    .map((e) => SegmentCard(
+                        segment: e, isDeparture: widget.isDeparture))
+                    .toList(),
+              ),
       ],
     );
   }
@@ -120,7 +134,8 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      builder: (_) => SortSheet(defaultValue: selectedSort, onChanged: onChangeSort),
+      builder: (_) =>
+          SortSheet(defaultValue: selectedSort, onChanged: onChangeSort),
       constraints: BoxConstraints(
         maxWidth: 0.9.sw,
       ),
@@ -133,7 +148,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
     );
   }
 
-  onChangeSort(SortFlight sortFlight){
+  onChangeSort(SortFlight sortFlight) {
     setState(() {
       selectedSort = sortFlight;
     });
@@ -142,17 +157,16 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
   List<InboundOutboundSegment> sort(List<InboundOutboundSegment> list) {
     switch (selectedSort) {
       case SortFlight.cheapest:
-        list.sort((a, b) => a.getTotalPriceDisplay.compareTo(b.getTotalPriceDisplay));
+        list.sort(
+            (a, b) => a.getTotalPriceDisplay.compareTo(b.getTotalPriceDisplay));
         break;
       case SortFlight.earliest:
-        list.sort((a, b) =>
-            (a.departureDate ?? DateTime.now())
-                .compareTo(b.departureDate ?? DateTime.now()));
+        list.sort((a, b) => (a.departureDate ?? DateTime.now())
+            .compareTo(b.departureDate ?? DateTime.now()));
         break;
       case SortFlight.fastest:
-        list.sort((a, b) =>
-            (a.segmentDetail?.flightTime ?? 0)
-                .compareTo(b.segmentDetail?.flightTime ?? 0));
+        list.sort((a, b) => (a.segmentDetail?.flightTime ?? 0)
+            .compareTo(b.segmentDetail?.flightTime ?? 0));
         break;
     }
     return list;

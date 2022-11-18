@@ -230,6 +230,7 @@ EmergencyContact _$EmergencyContactFromJson(Map<String, dynamic> json) =>
       relationship: json['relationship'] as String?,
       phoneCode: json['phoneCode'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$EmergencyContactToJson(EmergencyContact instance) {
@@ -246,5 +247,6 @@ Map<String, dynamic> _$EmergencyContactToJson(EmergencyContact instance) {
   writeNotNull('relationship', instance.relationship);
   writeNotNull('phoneCode', instance.phoneCode);
   writeNotNull('phoneNumber', instance.phoneNumber);
+  writeNotNull('email', instance.email);
   return val;
 }

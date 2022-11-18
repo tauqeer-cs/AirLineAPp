@@ -1,5 +1,6 @@
 part of 'booking_cubit.dart';
 
+@CopyWith(copyWithNull: true)
 class BookingState extends Equatable {
   final BlocState blocState;
   final String message;
@@ -23,30 +24,6 @@ class BookingState extends Equatable {
     this.summaryRequest,
   });
 
-  BookingState copyWith({
-    BlocState? blocState,
-    String? message,
-    InboundOutboundSegment? selectedDeparture,
-    InboundOutboundSegment? selectedReturn,
-    bool? isVerify,
-    VerifyResponse? verifyResponse,
-    Map<num?, Color>? departureColorMapping,
-    Map<num?, Color>? returnColorMapping,
-    SummaryRequest? summaryRequest,
-  }) {
-    return BookingState(
-      blocState: blocState ?? this.blocState,
-      message: message ?? this.message,
-      selectedDeparture: selectedDeparture ?? this.selectedDeparture,
-      selectedReturn: selectedReturn ?? this.selectedReturn,
-      isVerify: isVerify ?? this.isVerify,
-      verifyResponse: verifyResponse ?? this.verifyResponse,
-      departureColorMapping:
-          departureColorMapping ?? this.departureColorMapping,
-      returnColorMapping: returnColorMapping ?? this.returnColorMapping,
-      summaryRequest: summaryRequest ?? this.summaryRequest,
-    );
-  }
 
   num get getFinalPrice => num.parse(((selectedDeparture?.getTotalPrice ?? 0) +
           (selectedReturn?.getTotalPrice ?? 0))

@@ -16,7 +16,7 @@ class CalendarWidget extends StatelessWidget {
   _onCalendarPick(BuildContext context) {
     final priceCubit = context.read<PriceRangeCubit>();
     final filter = context.read<FilterCubit>().state;
-    context.read<PriceRangeCubit>().getPrices(filter);
+    //context.read<PriceRangeCubit>().getPrices(filter);
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -28,7 +28,7 @@ class CalendarWidget extends StatelessWidget {
         ),
       ),
       builder: (_) => BlocProvider.value(
-        value: priceCubit,
+        value: priceCubit..resetState(),
         child: const CalendarSheetVertical(),
       ),
     );

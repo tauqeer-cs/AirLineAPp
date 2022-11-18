@@ -12,18 +12,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+class JosKeys {
+  static final gKeysAuth = GlobalKey<FormBuilderState>();
+  static final gKeysSearch = GlobalKey<FormBuilderState>();
+  static final gKeysBooking = GlobalKey<FormBuilderState>();
+}
+
 class LoginForm extends StatelessWidget {
-  LoginForm({Key? key, required this.showContinueButton}) : super(key: key);
-  final _fbKey = GlobalKey<FormBuilderState>();
-  static const String formEmailLogin = "email-login";
-  static const String formPasswordLogin = "password-login";
+  const LoginForm({
+    Key? key,
+    required this.showContinueButton,
+    required this.formEmailLoginName,
+    required this.formPasswordLoginName, required this.fbKey,
+  }) : super(key: key);
+  final GlobalKey<FormBuilderState> fbKey;
+  final String formEmailLoginName;
+  final String formPasswordLoginName;
   final bool showContinueButton;
 
   onLogin(BuildContext context) {
-    if (_fbKey.currentState!.saveAndValidate()) {
-      final value = _fbKey.currentState!.value;
-      final email = value[formEmailLogin];
-      final password = value[formPasswordLogin];
+    if (fbKey.currentState!.saveAndValidate()) {
+      final value = fbKey.currentState!.value;
+      final email = value[formEmailLoginName];
+      final password = value[formPasswordLoginName];
       context.read<LoginCubit>().logInWithCredentials(email, password);
     }
   }
@@ -32,7 +43,7 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormBuilder(
       autoFocusOnValidationFailure: true,
-      key: _fbKey,
+      key: fbKey,
       child: Column(
         children: [
           Row(
@@ -45,8 +56,7 @@ class LoginForm extends StatelessWidget {
               kHorizontalSpacerMini,
               Text(
                 "Login",
-                style:
-                kHugeMedium.copyWith(color: Styles.kPrimaryColor),
+                style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),
               ),
             ],
           ),
@@ -60,11 +70,17 @@ class LoginForm extends StatelessWidget {
                     child: Text("Continue As Guest")),
                 Row(
                   children: [
-                    Expanded(child: AppDividerWidget(color: Styles.kSubTextColor,)),
+                    Expanded(
+                        child: AppDividerWidget(
+                      color: Styles.kSubTextColor,
+                    )),
                     kHorizontalSpacerMini,
                     Text("or"),
                     kHorizontalSpacerMini,
-                    Expanded(child: AppDividerWidget(color: Styles.kSubTextColor,)),
+                    Expanded(
+                        child: AppDividerWidget(
+                      color: Styles.kSubTextColor,
+                    )),
                   ],
                 ),
                 kVerticalSpacerSmall,
@@ -74,7 +90,7 @@ class LoginForm extends StatelessWidget {
           AppInputText(
             isRequired: false,
             textInputType: TextInputType.emailAddress,
-            name: formEmailLogin,
+            name: formEmailLoginName,
             hintText: 'Email Address',
             validators: [
               FormBuilderValidators.required(),
@@ -84,7 +100,7 @@ class LoginForm extends StatelessWidget {
           kVerticalSpacer,
           //Text(tr.password, style: kMediumHeavy),
           AppInputPassword(
-            name: formPasswordLogin,
+            name: formPasswordLoginName,
             hintText: "Password",
             validators: [FormBuilderValidators.required()],
             isDarkBackground: false,
@@ -96,8 +112,7 @@ class LoginForm extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           OutlinedButton(
-            onPressed: () =>
-                context.router.push(const SignupWrapperRoute()),
+            onPressed: () => context.router.push(const SignupWrapperRoute()),
             child: const Text("Create Acccount"),
           )
         ],

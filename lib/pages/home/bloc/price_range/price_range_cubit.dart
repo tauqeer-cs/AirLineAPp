@@ -14,19 +14,20 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
   final _repository = FlightRepository();
 
   getPrices(FilterState filterState, {DateTime? startFilter, DateTime? endFilter}) async {
-    emit(state.copyWith(blocState: BlocState.loading));
+    emit(state.copyWith(blocState: BlocState.loading, loadingDate: startFilter));
     try {
       final start = startFilter ?? filterState.departDate ?? DateTime.now();
       final newFilter = filterState.copyWith(
         departDate: start.isBefore(DateTime.now()) ? DateTime.now() : start,
-        returnDate: DateTime(start.year, start.month+2, 0),
+        returnDate: DateTime(start.year, start.month+1, 0),
       );
       final request = SearchFlight.fromFilter(newFilter);
       final prices = await _repository.searchFlightDateRange(request);
-
+      final prevList = List<DateRangePrice>.from(state.prices);
+      prevList.addAll(prices.searchDateRangeResponse?.dateRangePrices ?? []);
       emit(state.copyWith(
         blocState: BlocState.finished,
-        prices: prices.searchDateRangeResponse?.dateRangePrices ?? [],
+        prices: prevList,
       ));
     } catch (e, st) {
       emit(
@@ -35,5 +36,9 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
             blocState: BlocState.failed),
       );
     }
+  }
+
+  resetState(){
+    emit(PriceRangeState());
   }
 }

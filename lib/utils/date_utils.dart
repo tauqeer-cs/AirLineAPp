@@ -49,4 +49,7 @@ class AppDateUtils {
           .isAfter(DateTime.now())
           ? DateTime.now().year - date.year - 1
           : DateTime.now().year - date.year) < 18;
+
+  static bool sameMonth(DateTime? date1, DateTime? date2) =>
+      date1?.year == date2?.year && date1?.month == date2?.month;
 }

@@ -24,8 +24,6 @@ class AuthView extends StatelessWidget {
 
   final bool showContinueButton;
 
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,7 +45,13 @@ class AuthView extends StatelessWidget {
               ),
               kVerticalSpacer,
               GlassCard(
-                child:LoginForm(showContinueButton: showContinueButton),
+                child: LoginForm(
+                  fbKey: JosKeys.gKeysAuth,
+
+                  showContinueButton: showContinueButton,
+                  formEmailLoginName: "emailAuth",
+                  formPasswordLoginName: "passwordAuth",
+                ),
               ),
             ],
           ),

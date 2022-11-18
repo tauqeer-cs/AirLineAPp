@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
@@ -25,7 +26,9 @@ import '../../theme/theme.dart';
 
 class SearchResultPage extends StatefulWidget {
   final bool showLoginDialog;
-  const SearchResultPage({Key? key, required this.showLoginDialog}) : super(key: key);
+
+  const SearchResultPage({Key? key, required this.showLoginDialog})
+      : super(key: key);
 
   @override
   State<SearchResultPage> createState() => _SearchResultPageState();
@@ -47,7 +50,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
     required BuildContext context,
     required String email,
   }) {
-
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -125,7 +127,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                     showNotVerifiedDialog(
                         context: context, email: state.user?.email ?? "");
                   }
-                  if(state.status == AppStatus.authenticated){
+                  if (state.status == AppStatus.authenticated) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     context.router.pop();
                   }
@@ -137,7 +139,10 @@ class _SearchResultPageState extends State<SearchResultPage> {
                   12, 12, 12, MediaQuery.of(context).viewInsets.bottom + 20),
               child: SingleChildScrollView(
                 child: LoginForm(
+                  fbKey: JosKeys.gKeysSearch,
                   showContinueButton: true,
+                  formEmailLoginName: "emailSearch",
+                  formPasswordLoginName: "passwordSearch",
                 ),
               ),
             ),
@@ -149,23 +154,49 @@ class _SearchResultPageState extends State<SearchResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SearchFlightCubit, SearchFlightState>(
-      listener: (context, state) {
-        if (state.blocState == BlocState.failed) {
-          context.router.pop();
-        }
-      },
-      child: Scaffold(
-        appBar: AppAppBar(
-          title: "Your Trip Starts Here",
-          height: 100.h,
-          flexibleWidget:  AppBookingStep(
-            passedSteps: [BookingStep.flights], onTopStepTaped: (int index) {
-              print('');
-          },
+    return LoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidget: const AppLoadingScreen(message: "Loading"),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<SearchFlightCubit, SearchFlightState>(
+            listener: (context, state) {
+              if (state.blocState == BlocState.failed) {
+                context.router.pop();
+              }
+            },
           ),
+          BlocListener<BookingCubit, BookingState>(
+            listener: (context, state) {
+              blocListenerWrapper(
+                blocState: state.blocState,
+                onLoading: () => context.loaderOverlay.show(),
+                onFailed: () {
+                  context.loaderOverlay.hide();
+                  Toast.of(context).show(message: state.message);
+                },
+                onFinished: () {
+                  context.loaderOverlay.hide();
+                  context.read<SummaryContainerCubit>().changeVisibility(true);
+                  context.router.push(SeatsRoute());
+                },
+              );
+            },
+          ),
+        ],
+        child: Scaffold(
+          appBar: AppAppBar(
+            title: "Your Trip Starts Here",
+            height: 100.h,
+            flexibleWidget: const AppBookingStep(
+              passedSteps: [BookingStep.flights],
+              onTopStepTaped: (int index) {
+              print('');
+          		},
+            ),
+          ),
+          body: SearchResultView(),
         ),
-        body: SearchResultView(),
       ),
     );
   }

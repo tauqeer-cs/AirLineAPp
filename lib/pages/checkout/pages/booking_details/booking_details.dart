@@ -136,7 +136,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   12, 12, 12, MediaQuery.of(context).viewInsets.bottom + 20),
               child: SingleChildScrollView(
                 child: LoginForm(
+                  fbKey: JosKeys.gKeysBooking,
+
                   showContinueButton: true,
+                  formEmailLoginName: "emailBooking",
+                  formPasswordLoginName: "passwordBooking",
                 ),
               ),
             ),

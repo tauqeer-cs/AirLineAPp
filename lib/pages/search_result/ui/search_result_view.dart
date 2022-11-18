@@ -106,13 +106,15 @@ class ContinueButton extends StatelessWidget {
       onPressed: isAllowedContinue
           ? () {
               if (booking.blocState == BlocState.loading) return;
-              if (booking.isVerify) {
-                context.read<SummaryContainerCubit>().changeVisibility(true);
-                context.router.push(SeatsRoute());
-              } else {
-                context.read<BookingCubit>().verifyFlight(filterState);
-                context.router.push(SearchResultRoute(showLoginDialog: false));
-              }
+              context.read<BookingCubit>().verifyFlight(filterState);
+              print("go here");
+              // if (booking.isVerify) {
+              //   context.read<SummaryContainerCubit>().changeVisibility(true);
+              //   context.router.push(SeatsRoute());
+              // } else {
+              //   context.read<BookingCubit>().verifyFlight(filterState);
+              //   context.router.push(SearchResultRoute(showLoginDialog: false));
+              // }
             }
           : null,
       child: booking.blocState == BlocState.loading

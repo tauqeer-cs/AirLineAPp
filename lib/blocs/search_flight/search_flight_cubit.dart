@@ -122,6 +122,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     try {
       final request = SearchFlight.fromFilter(filterState);
       final airports = await _repository.searchFlight(request);
+      print("result ${airports.searchFlightResponse?.flightResult?.inboundSegment?.length}");
       emit(
         state.copyWith(
           blocState: BlocState.finished,

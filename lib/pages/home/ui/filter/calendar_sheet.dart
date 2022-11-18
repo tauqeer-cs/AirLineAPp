@@ -147,9 +147,9 @@ class CalendarSheetState extends State<CalendarSheet> {
             // context
             //     .read<FilterCubit>()
             //     .updateDate(departDate: focusedDay, returnDate: null);
-            context
-                .read<PriceRangeCubit>()
-                .getPrices(filterCubit.state, startFilter: focusedDay);
+            // context
+            //     .read<PriceRangeCubit>()
+            //     .getPrices(filterCubit.state, startFilter: focusedDay);
             _focusedDay = focusedDay;
           },
           calendarStyle: CalendarStyle(

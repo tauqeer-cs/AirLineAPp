@@ -24,7 +24,6 @@ class CalendarSheetVertical extends StatefulWidget {
 }
 
 class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
-
   @override
   void initState() {
     super.initState();
@@ -77,14 +76,16 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                 ),
               ),
               kVerticalSpacerSmall,
-              AppCard(
+              AppCardCalendar(
                 child: Row(
                   children: [
                     Expanded(
                       child: Center(
                         child: Text(
                           "DEP ${AppDateUtils.formatDateWithoutLocale(departDate)}",
-                          style: kMediumHeavy,
+                          style: departDate == null
+                              ? kMediumRegular
+                              : kMediumSemiBold,
                         ),
                       ),
                     ),
@@ -96,9 +97,12 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             const Icon(Icons.chevron_right),
                             Expanded(
                               child: Center(
-                                  child: Text(
-                                      "ARR ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
-                                      style: kMediumHeavy)),
+                                child: Text(
+                                    "ARR ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
+                                    style: returnDate == null
+                                        ? kMediumRegular
+                                        : kMediumSemiBold),
+                              ),
                             ),
                           ],
                         ),
@@ -127,7 +131,13 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   minDate: DateTime.now(),
                   maxDate: DateTime.now().add(const Duration(days: 180)),
                   initialDate: departDate ?? DateTime.now(),
-                  onMonthLoaded: (year, month) {},
+                  onMonthLoaded: (year, month) {
+                    print("month loaded $year $month");
+                    context.read<PriceRangeCubit>().getPrices(
+                          filterCubit.state,
+                          startFilter: DateTime(year, month, 1),
+                        );
+                  },
                   startWeekWithSunday: true,
                   onDayPressed: (value) async {
                     final isBefore = value.isBefore(DateTime.now());
@@ -141,7 +151,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         context.read<FilterCubit>().updateDate(
                             departDate: departDate, returnDate: value);
                         await Future.delayed(const Duration(seconds: 1));
-                        if(mounted) {
+                        if (mounted) {
                           context.router.pop();
                         }
                       } else {
@@ -154,7 +164,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                           .read<FilterCubit>()
                           .updateDate(departDate: value, returnDate: null);
                       await Future.delayed(const Duration(seconds: 1));
-                      if(mounted) {
+                      if (mounted) {
                         context.router.pop();
                       }
                     }
@@ -174,6 +184,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   },
                   dayBuilder: (context, date) {
                     final inRange = isInRange(date, departDate, returnDate);
+                    final sameMonth= AppDateUtils.sameMonth(date, priceState.loadingDate);
                     final event = prices.firstWhereOrNull(
                         (event) => isSameDay(event.date, date));
                     final isBefore = date.isBefore(DateTime.now());
@@ -183,8 +194,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         color:
                             inRange ? Styles.kPrimaryColor : Colors.transparent,
                         border: Border.all(
-                          color: isBefore ? Colors.grey : Colors.white,
-                          width: 0.5,
+                          color: Colors.white,
+                          width: 0.3,
                         ),
                       ),
                       child: Column(
@@ -193,12 +204,16 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                           Text(
                             "${date.day}",
                             style: kSmallRegular.copyWith(
-                              color: inRange ? Colors.white : null,
+                              color: inRange
+                                  ? Colors.white
+                                  : isBefore
+                                      ? Styles.kBorderColor
+                                      : null,
                             ),
                           ),
                           const Spacer(),
                           Visibility(
-                            visible: priceState.blocState == BlocState.loading,
+                            visible: priceState.blocState == BlocState.loading && (sameMonth || event?.departPrice==null),
                             replacement: event == null
                                 ? const SizedBox()
                                 : Align(
