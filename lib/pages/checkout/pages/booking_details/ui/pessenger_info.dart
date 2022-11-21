@@ -129,7 +129,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 kVerticalSpacerMini,
                 Visibility(
                   visible: (notice?.content?.isNotEmpty ?? false) &&
-                      isUnder16 && (filter)
+                      isUnder16 && (widget.person.peopleType == PeopleType.adult) &&
                       (filter.numberPerson.totalPerson == 1),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 12),
