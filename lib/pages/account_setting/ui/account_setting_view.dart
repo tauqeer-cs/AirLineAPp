@@ -1,3 +1,4 @@
+import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/data/requests/update_password_request.dart';
@@ -33,8 +34,7 @@ class AccountSettingView extends StatelessWidget {
               title: "Change Password",
               graySubText: true,
               smallerHeaderText: true,
-              subtitle:
-              "To verify your identity, enter your current password.",
+              subtitle: "To verify your identity, enter your current password.",
             ),
             GreyCard(
               child: AppInputPassword(
@@ -45,7 +45,7 @@ class AccountSettingView extends StatelessWidget {
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                       errorText:
-                      'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.')
+                          'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.')
                 ],
               ),
             ),
@@ -61,10 +61,21 @@ class AccountSettingView extends StatelessWidget {
             ),
             kVerticalSpacerSmall,
             ElevatedButton(
-              onPressed: () =>onChangePassword(context),
+              onPressed: () => onChangePassword(context),
               child: const Text("Save"),
             ),
-            kVerticalSpacer,
+            kVerticalSpacerMini,
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  context.router.push(DeleteAccountRoute());
+                },
+                child: Text(
+                  "Delete Account",
+                  style: kMediumRegular.copyWith(color: Styles.kBorderColor),
+                ),
+              ),
+            ),
           ],
         ),
       ),

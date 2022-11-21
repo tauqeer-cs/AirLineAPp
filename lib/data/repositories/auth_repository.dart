@@ -75,6 +75,10 @@ class AuthenticationRepository {
     await _provider.resetPassword(updatePasswordRequest);
   }
 
+  Future<void> closeAccount(UpdatePasswordRequest updatePasswordRequest) async{
+    await _provider.closeAccount(updatePasswordRequest);
+  }
+
   Future<void> loginWithEmail(LoginRequest loginRequest) async{
     final user = await _provider.emailLogin(loginRequest);
     if(user.isAccountVerified ?? false){

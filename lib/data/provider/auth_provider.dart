@@ -28,12 +28,22 @@ abstract class AuthProvider {
   Future<void> sendEmail(@Body() ResendEmailRequest emailRequest);
 
   @POST('user/user-passwordupdate')
-  Future<void> updatePassword(@Body() UpdatePasswordRequest updatePasswordRequest);
+  Future<void> updatePassword(
+      @Body() UpdatePasswordRequest updatePasswordRequest);
 
   @POST('user/user-request-password-reset')
-  Future<void> requestReset(@Body() UpdatePasswordRequest updatePasswordRequest);
+  Future<void> requestReset(
+      @Body() UpdatePasswordRequest updatePasswordRequest);
+
   @POST('user/user-validate-password-reset')
-  Future<void> validateReset(@Body() UpdatePasswordRequest updatePasswordRequest);
+  Future<void> validateReset(
+      @Body() UpdatePasswordRequest updatePasswordRequest);
+
   @POST('user/user-reset-password')
-  Future<void> resetPassword(@Body() UpdatePasswordRequest updatePasswordRequest);
+  Future<void> resetPassword(
+      @Body() UpdatePasswordRequest updatePasswordRequest);
+
+  @POST('user/user-remove-account')
+  Future<void> closeAccount(
+      @Body() UpdatePasswordRequest updatePasswordRequest);
 }

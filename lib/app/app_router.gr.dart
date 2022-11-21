@@ -218,6 +218,12 @@ class _$AppRouter extends RootStackRouter {
         child: const ForgetPasswordPage(),
       );
     },
+    DeleteAccountRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const DeleteAccountPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -426,6 +432,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           ForgetPasswordRoute.name,
           path: '/forget-password',
+        ),
+        RouteConfig(
+          DeleteAccountRoute.name,
+          path: '/delete-account',
         ),
       ];
 }
@@ -952,6 +962,18 @@ class ForgetPasswordRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ForgetPasswordRoute';
+}
+
+/// generated route for
+/// [DeleteAccountPage]
+class DeleteAccountRoute extends PageRouteInfo<void> {
+  const DeleteAccountRoute()
+      : super(
+          DeleteAccountRoute.name,
+          path: '/delete-account',
+        );
+
+  static const String name = 'DeleteAccountRoute';
 }
 
 /// generated route for

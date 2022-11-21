@@ -23,6 +23,7 @@ import 'package:app/pages/checkout/pages/select_meals/select_meals_page.dart';
 import 'package:app/pages/checkout/pages/select_seats/select_seats_page.dart';
 import 'package:app/pages/communication_settings/communication_settings_page.dart';
 import 'package:app/pages/deals/deals_page.dart';
+import 'package:app/pages/delete_account/delete_account_page.dart';
 import 'package:app/pages/edit_profile/edit_profile.dart';
 import 'package:app/pages/forget_password/forget_password_page.dart';
 import 'package:app/pages/home/home_page.dart';
@@ -87,6 +88,8 @@ part 'app_router.gr.dart';
     AutoRoute(page: AccountSettingPage, path: "/account-settings"),
     AutoRoute(page: CommunicationSettingPage, path: "/communication-settings"),
     AutoRoute(page: ForgetPasswordPage, path: "/forget-password"),
+    AutoRoute(page: DeleteAccountPage, path: "/delete-account"),
+
   ],
 )
 class AppRouter extends _$AppRouter {}
