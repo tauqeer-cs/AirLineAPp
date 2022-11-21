@@ -21,19 +21,26 @@ class PassengersSheetState extends State<PassengersSheet> {
   }
 
   changeNumber(PeopleType peopleType, bool isAdd) {
-    if(peopleType == PeopleType.infant && isAdd){
-      final numOfAdult = context.read<FilterCubit>().state.numberPerson.numberOfAdult;
-      final numOfInfant = context.read<FilterCubit>().state.numberPerson.numberOfInfant;
-      if(numOfAdult <= numOfInfant){
-        Toast.of(context).show(success: false, message: "Cannot add infant more than adult");
+    if (peopleType == PeopleType.infant && isAdd) {
+      final numOfAdult =
+          context.read<FilterCubit>().state.numberPerson.numberOfAdult;
+      final numOfInfant =
+          context.read<FilterCubit>().state.numberPerson.numberOfInfant;
+      if (numOfAdult <= numOfInfant) {
+        Toast.of(context)
+            .show(success: false, message: "Cannot add infant more than adult");
         return;
       }
     }
-    if(peopleType == PeopleType.adult && !isAdd){
-      final numOfAdult = context.read<FilterCubit>().state.numberPerson.numberOfAdult;
-      final numOfInfant = context.read<FilterCubit>().state.numberPerson.numberOfInfant;
-      if(numOfAdult <= numOfInfant){
-        Toast.of(context).show(success: false, message: "Adult need have at least same with infant");
+    if (peopleType == PeopleType.adult && !isAdd) {
+      final numOfAdult =
+          context.read<FilterCubit>().state.numberPerson.numberOfAdult;
+      final numOfInfant =
+          context.read<FilterCubit>().state.numberPerson.numberOfInfant;
+      if (numOfAdult <= numOfInfant) {
+        Toast.of(context).show(
+            success: false,
+            message: "Adult need have at least same with infant");
         return;
       }
     }
@@ -55,6 +62,7 @@ class PassengersSheetState extends State<PassengersSheet> {
             number: passengers.numberOfAdult,
             peopleType: PeopleType.adult,
             handler: changeNumber,
+            totalNumber: passengers.totalPersonWithInfant,
           ),
           InputWithPlusMinus(
             title: "Children",
@@ -62,6 +70,8 @@ class PassengersSheetState extends State<PassengersSheet> {
             number: passengers.numberOfChildren,
             peopleType: PeopleType.child,
             handler: changeNumber,
+            totalNumber: passengers.totalPersonWithInfant,
+
           ),
           InputWithPlusMinus(
             subtitle: "Below 2 years",
@@ -69,6 +79,8 @@ class PassengersSheetState extends State<PassengersSheet> {
             number: passengers.numberOfInfant,
             peopleType: PeopleType.infant,
             handler: changeNumber,
+            totalNumber: passengers.totalPersonWithInfant,
+
           ),
           kVerticalSpacer,
           ElevatedButton(
@@ -83,7 +95,7 @@ class PassengersSheetState extends State<PassengersSheet> {
 }
 
 class InputWithPlusMinus extends StatelessWidget {
-  final int number;
+  final int number, totalNumber;
   final String title;
   final String subtitle;
 
@@ -97,6 +109,7 @@ class InputWithPlusMinus extends StatelessWidget {
     required this.handler,
     required this.subtitle,
     required this.peopleType,
+    required this.totalNumber,
   }) : super(key: key);
 
   @override
@@ -117,7 +130,10 @@ class InputWithPlusMinus extends StatelessWidget {
                         title,
                         style: kLargeSemiBold,
                       ),
-                      Text(subtitle, style: kMediumRegular,),
+                      Text(
+                        subtitle,
+                        style: kMediumRegular,
+                      ),
                     ],
                   )),
               Expanded(
@@ -152,7 +168,9 @@ class InputWithPlusMinus extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           backgroundColor: Colors.transparent,
                         ),
-                        onPressed: () => handler(peopleType, true),
+                        onPressed: totalNumber >= 9
+                            ? null
+                            : () => handler(peopleType, true),
                         child: const Icon(
                           Icons.add,
                           size: 20,

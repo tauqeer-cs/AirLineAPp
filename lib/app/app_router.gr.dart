@@ -212,6 +212,12 @@ class _$AppRouter extends RootStackRouter {
         child: const CommunicationSettingPage(),
       );
     },
+    ForgetPasswordRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ForgetPasswordPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -416,6 +422,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CommunicationSettingRoute.name,
           path: '/communication-settings',
+        ),
+        RouteConfig(
+          ForgetPasswordRoute.name,
+          path: '/forget-password',
         ),
       ];
 }
@@ -930,6 +940,18 @@ class CommunicationSettingRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CommunicationSettingRoute';
+}
+
+/// generated route for
+/// [ForgetPasswordPage]
+class ForgetPasswordRoute extends PageRouteInfo<void> {
+  const ForgetPasswordRoute()
+      : super(
+          ForgetPasswordRoute.name,
+          path: '/forget-password',
+        );
+
+  static const String name = 'ForgetPasswordRoute';
 }
 
 /// generated route for

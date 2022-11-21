@@ -23,7 +23,8 @@ class LoginForm extends StatelessWidget {
     Key? key,
     required this.showContinueButton,
     required this.formEmailLoginName,
-    required this.formPasswordLoginName, required this.fbKey,
+    required this.formPasswordLoginName,
+    required this.fbKey,
   }) : super(key: key);
   final GlobalKey<FormBuilderState> fbKey;
   final String formEmailLoginName;
@@ -105,7 +106,16 @@ class LoginForm extends StatelessWidget {
             validators: [FormBuilderValidators.required()],
             isDarkBackground: false,
           ),
-          kVerticalSpacer,
+          kVerticalSpacerMini,
+          TextButton(
+              onPressed: () {
+                context.router.push(ForgetPasswordRoute());
+              },
+              child: Text(
+                "Forgotten your password?",
+                style: kMediumRegular.copyWith(color: Styles.kBorderColor),
+              )),
+          kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
             child: const Text("Login"),

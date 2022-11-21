@@ -34,7 +34,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
   final nationalityController = TextEditingController();
   final infantAdultName = TextEditingController();
 
-  bool isUnder18 = false;
+  bool isUnder16 = false;
 
   @override
   void initState() {
@@ -121,18 +121,15 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   validator: FormBuilderValidators.required(),
                   onChanged: (date) {
                     if (date == null) return;
-                    if (AppDateUtils.isUnderage(date)) {
-                      setState(() {
-                        isUnder18 = true;
-                      });
-                    }
+                    setState(() {
+                      isUnder16 = AppDateUtils.isUnder16(date);
+                    });
                   },
                 ),
                 kVerticalSpacerMini,
                 Visibility(
                   visible: (notice?.content?.isNotEmpty ?? false) &&
-                      (widget.person.peopleType == PeopleType.adult) &&
-                      isUnder18 &&
+                      isUnder16 && (filter)
                       (filter.numberPerson.totalPerson == 1),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 12),

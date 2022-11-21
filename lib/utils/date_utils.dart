@@ -50,6 +50,12 @@ class AppDateUtils {
           ? DateTime.now().year - date.year - 1
           : DateTime.now().year - date.year) < 18;
 
+  static bool isUnder16(DateTime date) =>
+      (DateTime(DateTime.now().year, date.month, date.day)
+          .isAfter(DateTime.now())
+          ? DateTime.now().year - date.year - 1
+          : DateTime.now().year - date.year) < 16;
+
   static bool sameMonth(DateTime? date1, DateTime? date2) =>
       date1?.year == date2?.year && date1?.month == date2?.month;
 }

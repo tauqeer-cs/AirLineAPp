@@ -57,6 +57,7 @@ class NumberPerson extends Equatable {
   }
 
   int get totalPerson => numberOfAdult + numberOfChildren;
+  int get totalPersonWithInfant => numberOfAdult + numberOfChildren +numberOfInfant;
 
   num getTotal() {
     num total = 0;

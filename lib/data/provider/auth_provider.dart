@@ -29,4 +29,11 @@ abstract class AuthProvider {
 
   @POST('user/user-passwordupdate')
   Future<void> updatePassword(@Body() UpdatePasswordRequest updatePasswordRequest);
+
+  @POST('user/user-request-password-reset')
+  Future<void> requestReset(@Body() UpdatePasswordRequest updatePasswordRequest);
+  @POST('user/user-validate-password-reset')
+  Future<void> validateReset(@Body() UpdatePasswordRequest updatePasswordRequest);
+  @POST('user/user-reset-password')
+  Future<void> resetPassword(@Body() UpdatePasswordRequest updatePasswordRequest);
 }

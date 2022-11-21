@@ -12,6 +12,8 @@ UpdatePasswordRequest _$UpdatePasswordRequestFromJson(
       email: json['Email'] as String?,
       previousPassword: json['PreviousPassword'] as String?,
       newPassword: json['NewPassword'] as String?,
+      passphrase: json['Passphrase'] as String?,
+      password: json['Password'] as String?,
     );
 
 Map<String, dynamic> _$UpdatePasswordRequestToJson(
@@ -27,5 +29,7 @@ Map<String, dynamic> _$UpdatePasswordRequestToJson(
   writeNotNull('Email', instance.email);
   writeNotNull('PreviousPassword', instance.previousPassword);
   writeNotNull('NewPassword', instance.newPassword);
+  writeNotNull('Passphrase', instance.passphrase);
+  writeNotNull('Password', instance.password);
   return val;
 }

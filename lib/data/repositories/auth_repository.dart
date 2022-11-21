@@ -63,6 +63,18 @@ class AuthenticationRepository {
     await _provider.updatePassword(updatePasswordRequest);
   }
 
+  Future<void> requestReset(UpdatePasswordRequest updatePasswordRequest) async{
+    await _provider.requestReset(updatePasswordRequest);
+  }
+
+  Future<void> validateReset(UpdatePasswordRequest updatePasswordRequest) async{
+    await _provider.validateReset(updatePasswordRequest);
+  }
+
+  Future<void> resetPassword(UpdatePasswordRequest updatePasswordRequest) async{
+    await _provider.resetPassword(updatePasswordRequest);
+  }
+
   Future<void> loginWithEmail(LoginRequest loginRequest) async{
     final user = await _provider.emailLogin(loginRequest);
     if(user.isAccountVerified ?? false){
