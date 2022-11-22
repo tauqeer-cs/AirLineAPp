@@ -45,6 +45,10 @@ class FlightRepository {
     return await _provider.verifyFlight(verifyRequest);
   }
 
+  Future<VerifyResponse> reVerifyFlight(VerifyRequest verifyRequest) async {
+    return await _provider.verifyFlight(verifyRequest);
+  }
+
   Future<SummaryResponse> summaryFlight(SummaryRequest summaryRequest) async {
     return await _provider.summaryFlight(summaryRequest);
   }

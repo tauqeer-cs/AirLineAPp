@@ -1,3 +1,4 @@
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -7,18 +8,27 @@ import 'package:json_annotation/json_annotation.dart';
 part 'verify_request.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class VerifyRequest extends Equatable{
+class VerifyRequest extends Equatable {
   final CommonFlightRequest? flightVerifyRequest;
+  final FlightSummaryPnrRequest? flightSummaryPnrRequest;
 
-  const VerifyRequest({this.flightVerifyRequest});
+  const VerifyRequest({
+    this.flightVerifyRequest,
+    this.flightSummaryPnrRequest,
+  });
 
   factory VerifyRequest.fromJson(Map<String, dynamic> json) =>
       _$VerifyRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$VerifyRequestToJson(this);
 
-  factory VerifyRequest.fromBooking(FilterState filter,
-      {List<OutboundFares>? inbound, List<OutboundFares>? outbound, num? totalAmount}) {
+  factory VerifyRequest.fromBooking(
+    FilterState filter, {
+    List<OutboundFares>? inbound,
+    List<OutboundFares>? outbound,
+    num? totalAmount,
+    FlightSummaryPnrRequest? flightSummaryPnrRequest,
+  }) {
     final searchFlightRequest = CommonFlightRequest(
       returnDate: filter.returnDate?.toIso8601String(),
       departDate: filter.departDate?.toIso8601String(),
@@ -34,7 +44,10 @@ class VerifyRequest extends Equatable{
       outboundFares: outbound ?? [],
       totalAmount: totalAmount,
     );
-    return VerifyRequest(flightVerifyRequest: searchFlightRequest);
+    return VerifyRequest(
+      flightVerifyRequest: searchFlightRequest,
+      flightSummaryPnrRequest: flightSummaryPnrRequest,
+    );
   }
 
   @override

@@ -169,23 +169,23 @@ class _SearchResultPageState extends State<SearchResultPage> {
               }
             },
           ),
-          BlocListener<BookingCubit, BookingState>(
-            listener: (context, state) {
-              blocListenerWrapper(
-                blocState: state.blocState,
-                onLoading: () => context.loaderOverlay.show(),
-                onFailed: () {
-                  context.loaderOverlay.hide();
-                  Toast.of(context).show(message: state.message);
-                },
-                onFinished: () {
-                  context.loaderOverlay.hide();
-                  context.read<SummaryContainerCubit>().changeVisibility(true);
-                  context.router.push(SeatsRoute());
-                },
-              );
-            },
-          ),
+          // BlocListener<BookingCubit, BookingState>(
+          //   listener: (context, state) {
+          //     blocListenerWrapper(
+          //       blocState: state.blocState,
+          //       onLoading: () => context.loaderOverlay.show(),
+          //       onFailed: () {
+          //         context.loaderOverlay.hide();
+          //         Toast.of(context).show(message: state.message);
+          //       },
+          //       onFinished: () {
+          //         context.loaderOverlay.hide();
+          //         context.read<SummaryContainerCubit>().changeVisibility(true);
+          //         context.router.push(SeatsRoute());
+          //       },
+          //     );
+          //   },
+          // ),
         ],
         child: Scaffold(
           appBar: AppAppBar(

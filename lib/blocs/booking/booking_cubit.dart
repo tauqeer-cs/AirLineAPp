@@ -110,4 +110,44 @@ class BookingCubit extends Cubit<BookingState> {
       );
     }
   }
+
+  reVerifyFlight(FilterState? filterState) async {
+    if (filterState == null) return;
+    emit(state.copyWith(blocState: BlocState.loading));
+    try {
+      final inboundLFID =state.selectedReturn?.lfid;
+      final inboundFBCode = state.selectedReturn?.fbCode;
+      final outboundLFID = state.selectedDeparture?.lfid;
+      final outboundFBCode = state.selectedDeparture?.fbCode;
+      final inboundFares = OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
+      final outboundFares = OutboundFares(fbCode: outboundFBCode, lfid: outboundLFID);
+
+      final request = VerifyRequest.fromBooking(
+        filterState,
+        inbound: (inboundLFID==null||inboundFBCode==null) ? [] : [inboundFares],
+        outbound: (outboundLFID==null||outboundFBCode==null) ? [] : [outboundFares],
+        totalAmount: state.getFinalPrice,
+        flightSummaryPnrRequest: state.summaryRequest?.flightSummaryPNRRequest,
+      );
+      final verifyResponse = await _repository.verifyFlight(request);
+      final newToken = state.verifyResponse?.copyWith(
+        verifyExpiredDateTime: verifyResponse.verifyExpiredDateTime,
+        token: verifyResponse.token,
+      );
+      emit(
+        state.copyWith(
+          blocState: BlocState.finished,
+          verifyResponse: newToken,
+          isVerify: true,
+        ),
+      );
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+        ),
+      );
+    }
+  }
 }

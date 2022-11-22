@@ -10,6 +10,8 @@ import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/blocs/timer/ticker_repository.dart';
+import 'package:app/blocs/timer/timer_bloc.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
@@ -17,13 +19,17 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/theme/theme.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import 'widgets/dialogs/app_confirmation_dialog.dart';
+
 final appRouter = AppRouter();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -46,6 +52,11 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => FilterCubit()),
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (_) => BookingCubit()),
+        BlocProvider(
+          create: (_) => TimerBloc(
+            tickerRepository: const TickerRepository(),
+          ),
+        ),
         BlocProvider(create: (_) => SelectedPersonCubit()),
         BlocProvider(create: (context) => VoucherCubit()),
         BlocProvider(create: (_) => HomeCubit()),
@@ -68,9 +79,31 @@ class _AppState extends State<App> {
         listeners: [
           BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
-              if(state.status == AppStatus.authenticated){
+              if (state.status == AppStatus.authenticated) {
                 context.read<ProfileCubit>().getProfile();
               }
+            },
+          ),
+          BlocListener<TimerBloc, TimerState>(
+            listener: (context, state) {
+              final currentContext = appRouter.navigatorKey.currentContext;
+              if (currentContext == null) return;
+              print("duration remaining is ${state.durationRemaining}");
+              showDialog(
+                context: currentContext,
+                builder: (context) {
+                  return AppConfirmationDialog(
+                    title: "Your session will expired soon.",
+                    subtitle:
+                    "Hey, your time limit of this session will expired soon, are you want to prolong the session?",
+                    confirmText: "Continue Session",
+                    onConfirm: () {
+                      final filterState = currentContext.read<SearchFlightCubit>().state.filterState;
+                      currentContext.read<BookingCubit>().reVerifyFlight(filterState);
+                    },
+                  );
+                },
+              );
             },
           ),
           BlocListener<RoutesCubit, RoutesState>(
@@ -86,6 +119,7 @@ class _AppState extends State<App> {
             listener: (context, state) {
               context.read<BookingCubit>().resetState();
               context.read<VoucherCubit>().resetState();
+              context.read<TimerBloc>().add(const TimerReset());
               context
                   .read<SelectedPersonCubit>()
                   .selectPerson(state.filterState?.numberPerson.persons.first);
@@ -103,7 +137,6 @@ class _AppState extends State<App> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
-                // supportedLocales: const [],
                 routeInformationParser: appRouter.defaultRouteParser(),
                 theme: Styles.theme(true),
                 darkTheme: Styles.theme(false),
