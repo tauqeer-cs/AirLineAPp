@@ -1,5 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
+import 'package:app/data/responses/verify_response.dart';
 import 'package:app/pages/add_on/seats/ui/seat_row.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
@@ -17,7 +18,6 @@ class SeatPlan extends StatelessWidget {
     final isDeparture = context.watch<IsDepartureCubit>().state;
     final inboundSeats =
         isDeparture ? flightSeats?.outbound : flightSeats?.inbound;
-
     final rows = inboundSeats
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -27,7 +27,6 @@ class SeatPlan extends StatelessWidget {
         ?.seatConfiguration
         ?.rows;
     final firstRow = rows?.firstOrNull;
-    final List<int> seatSeparations = [1, 2, 6, 11, 12, 15];
 
     if (firstRow == null) return const SizedBox();
     return Container(
@@ -53,8 +52,12 @@ class SeatPlan extends StatelessWidget {
               const Expanded(flex: 1, child: SizedBox()),
             ],
           ),
-          ...(rows ?? []).map((row) {
-            bool isSeatSeparated = seatSeparations.contains(row.rowNumber);
+          ...(rows ?? []).asMap().entries.map((entry) {
+            int index = entry.key;
+            Rows row = entry.value;
+            Rows? previousRow = index == 0 ? null : rows?[index - 1];
+            bool isSeatSeparated = row.seats?.first.serviceDescription !=
+                previousRow?.seats?.first.serviceDescription;
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Column(
