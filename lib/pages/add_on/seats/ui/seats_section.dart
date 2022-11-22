@@ -22,7 +22,10 @@ class SeatsSection extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: Text(
               "Seats",
-              style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
+              style: kHugeSemiBold.copyWith(
+                color: Styles.kOrangeColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           kVerticalSpacer,

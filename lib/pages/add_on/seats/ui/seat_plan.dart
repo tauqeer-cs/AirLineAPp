@@ -28,13 +28,6 @@ class SeatPlan extends StatelessWidget {
         ?.rows;
     final firstRow = rows?.firstOrNull;
     final List<int> seatSeparations = [1, 2, 6, 11, 12, 15];
-    final mapColor = {
-      0: const Color.fromRGBO(126, 213, 245, 1),
-      621: const Color.fromRGBO(126, 213, 245, 1),
-      622: const Color.fromRGBO(126, 213, 245, 1),
-      623: const Color.fromRGBO(247, 108, 6, 1),
-      624: const Color.fromRGBO(247, 108, 6, 1),
-    };
 
     if (firstRow == null) return const SizedBox();
     return Container(
@@ -50,7 +43,10 @@ class SeatPlan extends StatelessWidget {
                   .map((e) => Expanded(
                         flex: 1,
                         child: Center(
-                          child: Text(e.seatColumn ?? ""),
+                          child: Text(
+                            e.seatColumn ?? "",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ))
                   .toList(),
@@ -68,10 +64,11 @@ class SeatPlan extends StatelessWidget {
                       children: [
                         kVerticalSpacerSmall,
                         SeatPrice(
-                          amount: row.seats?.first.seatPriceOffers?.firstOrNull?.amount
+                          amount: row
+                              .seats?.first.seatPriceOffers?.firstOrNull?.amount
                               ?.toDouble(),
-                          currency:
-                              row.seats?.first.seatPriceOffers?.firstOrNull?.currency,
+                          currency: row.seats?.first.seatPriceOffers
+                              ?.firstOrNull?.currency,
                         ),
                         kVerticalSpacerSmall,
                       ],
