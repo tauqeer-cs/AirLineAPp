@@ -282,8 +282,8 @@ class Styles {
             const IconThemeData(color: Color.fromRGBO(0, 48, 73, 1), size: 30),
         selectedIconTheme: IconThemeData(color: kPrimaryColor, size: 30),
         showUnselectedLabels: true,
-        selectedLabelStyle: const TextStyle(
-          color: Colors.red,
+        selectedLabelStyle: TextStyle(
+          color: kPrimaryColor,
         ),
         unselectedLabelStyle: TextStyle(
           color: kBorderColor,

@@ -45,19 +45,23 @@ class CompleteSignupPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            "Congrats ${signupRequest.firstName}",
+                            style: kGiantHeavy.copyWith(
+                              color: Styles.kPrimaryColor,
+                              fontSize: 26,
+                            ),
+                          ),
                           Visibility(
                             visible: step != 3,
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
-                              child: Text(
-                                step == 1
-                                    ? "Tell us more about yourself."
-                                    : "Worry not, all questions are in accordance with MYAirline guidelines",
-                                style: kMediumRegular.copyWith(
-                                    color: Styles.kSubTextColor, fontSize: 16),
-                              ),
+                            child: Text(
+                              step == 1
+                                  ? "Tell us more about yourself."
+                                  : "Worry not, all questions are in accordance with MYAirline guidelines",
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kSubTextColor, fontSize: 16),
                             ),
                           ),
                           Text(
@@ -68,7 +72,7 @@ Please sign back in after you complete the verification of your email address.''
                                 color: Styles.kSubTextColor),
                           ),
                           Spacer(),
-
+                          ElevatedButton(onPressed: ()=>context.router.pop(), child: Text("Done"))
                         ],
                       ),
                     ),

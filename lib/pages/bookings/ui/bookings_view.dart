@@ -16,55 +16,58 @@ class BookingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: FormBuilder(
-            key: _fbKey,
-            child: GreyCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  kVerticalSpacer,
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 0.0, horizontal: 0),
-                    child: Text("Manage My Booking", style: kGiantHeavy),
-                  ),
-                  kVerticalSpacerMini,
-                  Text(
-                    "Please enter your flight details to view and manage your booking.",
-                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                  ),
-                  kVerticalSpacer,
-                  AppInputText(
-                    name: "bookingNumber",
-                    hintText: "Booking Reference Number",
-                    validators: [
-                      FormBuilderValidators.required(),
-                      FormBuilderValidators.minLength(6,
-                          errorText:
-                              "Booking number has to be 6 alphanumeric characters"),
-                      FormBuilderValidators.maxLength(6,
-                          errorText:
-                          "Booking number has to be 6 alphanumeric characters"),
-                    ],
-                  ),
-                  kVerticalSpacerSmall,
-                  AppInputText(
-                    name: "lastName",
-                    hintText: "Surname / Lastname",
-                    validators: [FormBuilderValidators.required()],
-                  ),
-                  kVerticalSpacer,
-                  ElevatedButton(
-                      onPressed: () {
-                        onManageBooking(context);
-                      },
-                      child: const Text("Manage Booking"))
-                ],
+    return GestureDetector(
+      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      child: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FormBuilder(
+              key: _fbKey,
+              child: GreyCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    kVerticalSpacer,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0.0, horizontal: 0),
+                      child: Text("Manage My Booking", style: kGiantHeavy),
+                    ),
+                    kVerticalSpacerMini,
+                    Text(
+                      "Please enter your flight details to view and manage your booking.",
+                      style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                    ),
+                    kVerticalSpacer,
+                    AppInputText(
+                      name: "bookingNumber",
+                      hintText: "Booking Reference Number",
+                      validators: [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.minLength(6,
+                            errorText:
+                                "Booking number has to be 6 alphanumeric characters"),
+                        FormBuilderValidators.maxLength(6,
+                            errorText:
+                            "Booking number has to be 6 alphanumeric characters"),
+                      ],
+                    ),
+                    kVerticalSpacerSmall,
+                    AppInputText(
+                      name: "lastName",
+                      hintText: "Surname / Lastname",
+                      validators: [FormBuilderValidators.required()],
+                    ),
+                    kVerticalSpacer,
+                    ElevatedButton(
+                        onPressed: () {
+                          onManageBooking(context);
+                        },
+                        child: const Text("Manage Booking"))
+                  ],
+                ),
               ),
             ),
           ),

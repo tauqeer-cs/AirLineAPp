@@ -72,18 +72,15 @@ class SignupAccountPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SignupHeader(step: step),
                           Visibility(
                             visible: step != 3,
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
-                              child: Text(
-                                step == 1
-                                    ? "Tell us more about yourself."
-                                    : "Worry not, all questions are in accordance with MYAirline guidelines",
-                                style: kMediumRegular.copyWith(
-                                    color: Styles.kSubTextColor, fontSize: 16),
-                              ),
+                            child: Text(
+                              step == 1
+                                  ? "Tell us more about yourself."
+                                  : "Worry not, all questions are in accordance with MYAirline guidelines",
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kSubTextColor, fontSize: 16),
                             ),
                           ),
                           kVerticalSpacer,
@@ -103,6 +100,64 @@ class SignupAccountPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SignupHeader extends StatelessWidget {
+  const SignupHeader({
+    Key? key,
+    required this.step,
+  }) : super(key: key);
+
+  final int step;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            step == 1
+                ? "Sign Up"
+                : "Personal Info (Optional)",
+            style: kGiantSemiBold.copyWith(
+                color: Styles.kPrimaryColor,
+                fontSize: 26,
+                fontWeight: FontWeight.w700
+            ),
+          ),
+        ),
+        kHorizontalSpacer,
+        CircleAvatar(
+          radius: 15,
+          backgroundColor:
+          step == 1 ? Styles.kActiveColor : Colors.white,
+          child: Text(
+            "1",
+            style: kLargeHeavy.copyWith(
+              color: step == 1
+                  ? Colors.white
+                  : Styles.kDisabledButton,
+            ),
+          ),
+        ),
+        kHorizontalSpacerSmall,
+        kHorizontalSpacerMini,
+        CircleAvatar(
+          radius: 15,
+          backgroundColor:
+          step == 2 ? Styles.kActiveColor : Colors.white,
+          child: Text(
+            "2",
+            style: kLargeHeavy.copyWith(
+              color: step == 2
+                  ? Colors.white
+                  : Styles.kDisabledButton,
+            ),
           ),
         ),
       ],

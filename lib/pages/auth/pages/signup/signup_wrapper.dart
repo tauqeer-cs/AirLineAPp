@@ -43,27 +43,30 @@ class SignupWrapperPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoaderOverlay(
-      overlayWidget: const AppLoadingScreen(message: "Loading"),
-      child: BlocProvider(
-        create: (context) => SignupCubit(),
-        child: BlocListener<SignupCubit, SignupState>(
-          listener: (context, state) {
-            blocListenerWrapper(
-              blocState: state.blocState,
-              onLoading: () => context.loaderOverlay.show(),
-              onFailed: () {
-                context.loaderOverlay.hide();
-                Toast.of(context).show(message: state.message);
-              },
-              onFinished: () {
-                context.loaderOverlay.hide();
-                context.router.root.replace(CompleteSignupRoute(signupRequest: state.signupRequest));
-                Toast.of(context).show(message: "Account created", success: true);
-              },
-            );
-          },
-          child: const AutoRouter(),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: LoaderOverlay(
+        overlayWidget: const AppLoadingScreen(message: "Loading"),
+        child: BlocProvider(
+          create: (context) => SignupCubit(),
+          child: BlocListener<SignupCubit, SignupState>(
+            listener: (context, state) {
+              blocListenerWrapper(
+                blocState: state.blocState,
+                onLoading: () => context.loaderOverlay.show(),
+                onFailed: () {
+                  context.loaderOverlay.hide();
+                  Toast.of(context).show(message: state.message);
+                },
+                onFinished: () {
+                  context.loaderOverlay.hide();
+                  context.router.root.replace(CompleteSignupRoute(signupRequest: state.signupRequest));
+                  Toast.of(context).show(message: "Account created", success: true);
+                },
+              );
+            },
+            child: const AutoRouter(),
+          ),
         ),
       ),
     );

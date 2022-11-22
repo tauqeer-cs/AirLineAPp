@@ -8,9 +8,13 @@ class CheckInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CheckInCubit(),
-      child: const Scaffold(body: CheckInView()),
+    return GestureDetector(
+      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+
+      child: BlocProvider(
+        create: (context) => CheckInCubit(),
+        child: const Scaffold(body: CheckInView()),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
+import 'package:app/pages/auth/pages/signup/signup_account.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
 import 'package:app/pages/auth/pages/signup/ui/personal_detail/address_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/personal_detail/dob_input.dart';
@@ -69,18 +70,15 @@ class SignupAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SignupHeader(step: 2),
                           Visibility(
                             visible: step != 3,
-                            child: Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
-                              child: Text(
-                                step == 1
-                                    ? "Tell us more about yourself."
-                                    : "Worry not, all questions are in accordance with MYAirline guidelines",
-                                style: kMediumRegular.copyWith(
-                                    color: Styles.kSubTextColor, fontSize: 16),
-                              ),
+                            child: Text(
+                              step == 1
+                                  ? "Tell us more about yourself."
+                                  : "Worry not, all questions are in accordance with MYAirline guidelines",
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kSubTextColor, fontSize: 16),
                             ),
                           ),
                           kVerticalSpacer,

@@ -25,44 +25,47 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LoaderOverlay(
-      useDefaultLoading: false,
-      overlayWidget: const AppLoadingScreen(),
-      child: BlocProvider(
-        create: (context) => ForgetPasswordCubit(),
-        child: BlocListener<ForgetPasswordCubit, GenericState>(
-          listener: (context, state) {
-            blocListenerWrapper(
-              blocState: state.blocState,
-              onLoading: () => context.loaderOverlay.show(),
-              onFailed: () {
-                context.loaderOverlay.hide();
-                Toast.of(context).show(message: state.message);
-              },
-              onFinished: () {
-                context.loaderOverlay.hide();
-                setState(() {
-                  showSuccessScreen = true;
-                });
-              },
-            );
-          },
-          child: WaveBackground(
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                centerTitle: true,
-                leading: BackButton(
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Reset Password',
-                  style: kHugeSemiBold.copyWith(color: Colors.white),
-                ),
-                elevation: 0,
+    return GestureDetector(
+      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      child: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidget: const AppLoadingScreen(),
+        child: BlocProvider(
+          create: (context) => ForgetPasswordCubit(),
+          child: BlocListener<ForgetPasswordCubit, GenericState>(
+            listener: (context, state) {
+              blocListenerWrapper(
+                blocState: state.blocState,
+                onLoading: () => context.loaderOverlay.show(),
+                onFailed: () {
+                  context.loaderOverlay.hide();
+                  Toast.of(context).show(message: state.message);
+                },
+                onFinished: () {
+                  context.loaderOverlay.hide();
+                  setState(() {
+                    showSuccessScreen = true;
+                  });
+                },
+              );
+            },
+            child: WaveBackground(
+              child: Scaffold(
                 backgroundColor: Colors.transparent,
+                appBar: AppBar(
+                  centerTitle: true,
+                  leading: BackButton(
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'Reset Password',
+                    style: kHugeSemiBold.copyWith(color: Colors.white),
+                  ),
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                ),
+                body: showSuccessScreen ? SuccessDialog() : EnterEmailForm(),
               ),
-              body: showSuccessScreen ? SuccessDialog() : EnterEmailForm(),
             ),
           ),
         ),

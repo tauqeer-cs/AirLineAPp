@@ -36,7 +36,6 @@ class AppDropDown<T> extends StatelessWidget {
       items: items,
       onChanged: onChanged,
       selectedItem: defaultValue,
-
       dropdownDecoratorProps: dropdownDecoration ?? DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           // border: OutlineInputBorder(

@@ -177,6 +177,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 Toast.of(context).show(message: state.message);
               },
               onFinished: () {
+                print("go to summary route");
                 context.loaderOverlay.hide();
                 context
                     .read<BookingCubit>()

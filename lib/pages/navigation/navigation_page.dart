@@ -1,6 +1,7 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
+import 'package:app/theme/styles.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,17 +41,30 @@ class _NavigationPageState extends State<NavigationPage> {
               label: "Deals",
             ),
             BottomNavigationBarItem(
-              icon: Icon(MyFlutterApp.icomybooking),
+              icon: Image.asset(
+                "assets/images/design/icoMybooking.png",
+                height: 30,
+                color:
+                    tabsRouter.activeIndex == 2 ? Styles.kPrimaryColor : null,
+              ),
               label: "Bookings",
             ),
             BottomNavigationBarItem(
-              icon: Icon(MyFlutterApp.icocheckin),
+              icon: Image.asset(
+                "assets/images/design/icoCheckin.png",
+                color:
+                    tabsRouter.activeIndex == 3 ? Styles.kPrimaryColor : null,
+                height: 30,
+              ),
               label: "Check-In",
             ),
             BottomNavigationBarItem(
-              icon: isLogin
-                  ? Icon(MyFlutterApp.icologinactive)
-                  : Icon(MyFlutterApp.icologinactive),
+              icon: Image.asset(
+                "assets/images/design/icoAccount.png",
+                color:
+                    tabsRouter.activeIndex == 4 ? Styles.kPrimaryColor : null,
+                height: 30,
+              ),
               label: isLogin ? "Account" : "Login",
             ),
           ],

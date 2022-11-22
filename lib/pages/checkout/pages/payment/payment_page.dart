@@ -25,104 +25,107 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => PaymentCubit(),
-        ),
-      ],
-      child: LoaderOverlay(
-        child: BlocListener<PaymentCubit, PaymentState>(
-          listener: (context, state) {
-            blocListenerWrapper(
-              blocState: state.blocState,
-              onLoading: () {
-                context.loaderOverlay.show(
-                  widget: const AppLoadingScreen(message: "Loading"),
-                );
-              },
-              onFailed: () {
-                context.loaderOverlay.hide();
-                if (state.message == "Error: Reach Maximum Payment Attempts") {
-                  context.router
-                      .replaceAll([const NavigationRoute(), const HomeRoute()]);
-                }
-                Toast.of(context).show(message: state.message);
-              },
-              onFinished: () async {
-                context.loaderOverlay.hide();
-                final result = await context.router.push(
-                  WebViewRoute(url: "", htmlContent: state.paymentRedirect),
-                );
-                if (result != null && result is String) {
-                  final urlParsed = Uri.parse(result);
-                  var query = urlParsed.queryParametersAll;
-                  String? status = query['status']?.first;
-                  String? superPNR = query['superPNR']?.first;
-                  if (status != "FAIL") {
-                    if (mounted) {
-                      final filter =
-                          context.read<SearchFlightCubit>().state.filterState;
-                      final bookingLocal = BookingLocal(
-                        bookingId: superPNR,
-                        departureDate: filter?.departDate,
-                        returnDate: filter?.returnDate,
-                        departureString: filter?.beautify,
-                        returnString: filter?.beautifyReverse,
-                      );
-                      context
-                          .read<BookingLocalCubit>()
-                          .saveBooking(bookingLocal);
-                    }
-                    //context.router.popUntilRoot();
-                    context.router.replaceAll([
-                      const NavigationRoute(),
-                      BookingConfirmationRoute(bookingId: superPNR ?? "")
-                    ]);
-                  } else {
-                    if (mounted) {
-                      Toast.of(context).show(message: "Payment failed");
-                    }
+    return GestureDetector(
+      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => PaymentCubit(),
+          ),
+        ],
+        child: LoaderOverlay(
+          child: BlocListener<PaymentCubit, PaymentState>(
+            listener: (context, state) {
+              blocListenerWrapper(
+                blocState: state.blocState,
+                onLoading: () {
+                  context.loaderOverlay.show(
+                    widget: const AppLoadingScreen(message: "Loading"),
+                  );
+                },
+                onFailed: () {
+                  context.loaderOverlay.hide();
+                  if (state.message == "Error: Reach Maximum Payment Attempts") {
+                    context.router
+                        .replaceAll([const NavigationRoute(), const HomeRoute()]);
                   }
-                } else {
-                  // context.router.push(HomeRoute());
-                  // context.router.replaceAll(
-                  //   [
-                  //     HomeRoute(),
-                  //     BookingConfirmationRoute(bookingId: ""),
-                  //   ],
-                  // );
-                  // context.router.push(HomeRoute());
-                  // context.router.push(BookingConfirmationRoute(bookingId: ""));
-                }
-              },
-            );
-          },
-          child: Scaffold(
-            appBar: AppAppBar(
-              title: "Your Trip Starts Here",
-              height: 100.h,
-              flexibleWidget: AppBookingStep(
-                passedSteps: const [
-                  BookingStep.flights,
-                  BookingStep.addOn,
-                  BookingStep.bookingDetails,
-                  BookingStep.payment
-                ],
-                onTopStepTaped: (int index) {
-                  if (index == 0) {
-                    context.router
-                        .popUntilRouteWithName(SearchResultRoute.name);
-                  } else if (index == 1) {
-                    context.router.popUntilRouteWithName(SeatsRoute.name);
-                  } else if (index == 2) {
-                    context.router
-                        .popUntilRouteWithName(BookingDetailsRoute.name);
+                  Toast.of(context).show(message: state.message);
+                },
+                onFinished: () async {
+                  context.loaderOverlay.hide();
+                  final result = await context.router.push(
+                    WebViewRoute(url: "", htmlContent: state.paymentRedirect),
+                  );
+                  if (result != null && result is String) {
+                    final urlParsed = Uri.parse(result);
+                    var query = urlParsed.queryParametersAll;
+                    String? status = query['status']?.first;
+                    String? superPNR = query['superPNR']?.first;
+                    if (status != "FAIL") {
+                      if (mounted) {
+                        final filter =
+                            context.read<SearchFlightCubit>().state.filterState;
+                        final bookingLocal = BookingLocal(
+                          bookingId: superPNR,
+                          departureDate: filter?.departDate,
+                          returnDate: filter?.returnDate,
+                          departureString: filter?.beautify,
+                          returnString: filter?.beautifyReverse,
+                        );
+                        context
+                            .read<BookingLocalCubit>()
+                            .saveBooking(bookingLocal);
+                      }
+                      //context.router.popUntilRoot();
+                      context.router.replaceAll([
+                        const NavigationRoute(),
+                        BookingConfirmationRoute(bookingId: superPNR ?? "")
+                      ]);
+                    } else {
+                      if (mounted) {
+                        Toast.of(context).show(message: "Payment failed");
+                      }
+                    }
+                  } else {
+                    // context.router.push(HomeRoute());
+                    // context.router.replaceAll(
+                    //   [
+                    //     HomeRoute(),
+                    //     BookingConfirmationRoute(bookingId: ""),
+                    //   ],
+                    // );
+                    // context.router.push(HomeRoute());
+                    // context.router.push(BookingConfirmationRoute(bookingId: ""));
                   }
                 },
+              );
+            },
+            child: Scaffold(
+              appBar: AppAppBar(
+                title: "Your Trip Starts Here",
+                height: 100.h,
+                flexibleWidget: AppBookingStep(
+                  passedSteps: const [
+                    BookingStep.flights,
+                    BookingStep.addOn,
+                    BookingStep.bookingDetails,
+                    BookingStep.payment
+                  ],
+                  onTopStepTaped: (int index) {
+                    if (index == 0) {
+                      context.router
+                          .popUntilRouteWithName(SearchResultRoute.name);
+                    } else if (index == 1) {
+                      context.router.popUntilRouteWithName(SeatsRoute.name);
+                    } else if (index == 2) {
+                      context.router
+                          .popUntilRouteWithName(BookingDetailsRoute.name);
+                    }
+                  },
+                ),
               ),
+              body: const PaymentView(),
             ),
-            body: const PaymentView(),
           ),
         ),
       ),

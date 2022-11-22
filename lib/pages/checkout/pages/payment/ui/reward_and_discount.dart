@@ -63,14 +63,14 @@ class RewardAndDiscount extends StatelessWidget {
                     maxWidth: 40,
                   ),
                   suffixIcon: blocBuilderWrapper(
-                      blocState: state.blocState,
-                      loadingBuilder: const AppLoading(
-                        size: 20,
-                      ),
-                      failedBuilder:
-                          const Icon(Icons.clear, color: Colors.red, size: 15),
-                      finishedBuilder:
-                          Image.asset("assets/images/icons/iconVoucher.png")),
+                    blocState: state.blocState,
+                    loadingBuilder: const AppLoading(
+                      size: 20,
+                    ),
+                    failedBuilder: SizedBox(),
+                    finishedBuilder:
+                        Image.asset("assets/images/icons/iconVoucher.png"),
+                  ),
                 ),
               ),
             ),
@@ -78,7 +78,8 @@ class RewardAndDiscount extends StatelessWidget {
             Visibility(
               visible: state.blocState == BlocState.failed,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
                 child: Text(
                   state.message,
                   style: kMediumRegular.copyWith(color: Colors.red),

@@ -24,55 +24,58 @@ class PersonalInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ProfileCubit, ProfileState>(
-      listener: (context, state) async {
-        if (state.blocState == BlocState.finished) {
-          Toast.of(context).show(
-            success: true,
-            message: 'User information updated successfully',
-          );
-          await Future.delayed(const Duration(seconds: 1), () {
-            context.router.pop();
-          });
-        }
-      },
-      child: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state.blocState == BlocState.loading) {
-            return Container(
-              color: Colors.white,
-              child: const AppLoadingScreen(message: 'Loading'),
+    return GestureDetector(
+      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      child: BlocListener<ProfileCubit, ProfileState>(
+        listener: (context, state) async {
+          if (state.blocState == BlocState.finished) {
+            Toast.of(context).show(
+              success: true,
+              message: 'User information updated successfully',
             );
+            await Future.delayed(const Duration(seconds: 1), () {
+              context.router.pop();
+            });
           }
-          return LoaderOverlay(
-            useDefaultLoading: false,
-            overlayWidget: const AppLoadingScreen(message: 'Loading'),
-            child: Scaffold(
-              appBar: AppAppBar(
-                centerTitle: true,
-                title: 'Personal Info',
-                height: 80.h,
-                overrideInnerHeight: true,
-                child: Column(
-                  children: [
-                    Text(
-                      'Personal Info',
-                      style: kHugeSemiBold.copyWith(color: Styles.kDartTeal),
-                    ),
-                    kVerticalSpacerSmall,
-                    Text('Your details and contact info.',
-                        style: kLargeRegular.copyWith(
-                            color: Styles.kSubTextColor)),
-                  ],
+        },
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state.blocState == BlocState.loading) {
+              return Container(
+                color: Colors.white,
+                child: const AppLoadingScreen(message: 'Loading'),
+              );
+            }
+            return LoaderOverlay(
+              useDefaultLoading: false,
+              overlayWidget: const AppLoadingScreen(message: 'Loading'),
+              child: Scaffold(
+                appBar: AppAppBar(
+                  centerTitle: true,
+                  title: 'Personal Info',
+                  height: 80.h,
+                  overrideInnerHeight: true,
+                  child: Column(
+                    children: [
+                      Text(
+                        'Personal Info',
+                        style: kHugeSemiBold.copyWith(color: Styles.kDartTeal),
+                      ),
+                      kVerticalSpacerSmall,
+                      Text('Your details and contact info.',
+                          style: kLargeRegular.copyWith(
+                              color: Styles.kSubTextColor)),
+                    ],
+                  ),
+                ),
+                body: Container(
+                  color: Colors.white,
+                  child: PersonalInfoView(),
                 ),
               ),
-              body: Container(
-                color: Colors.white,
-                child: PersonalInfoView(),
-              ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

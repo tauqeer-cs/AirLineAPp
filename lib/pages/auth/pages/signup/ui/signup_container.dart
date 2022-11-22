@@ -40,64 +40,7 @@ class SignupContainer extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              kVerticalSpacerSmall,
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
-                child: step == 3
-                    ? Text(
-                        "Congrats $name",
-                        style: kGiantHeavy.copyWith(
-                          color: Styles.kPrimaryColor,
-                          fontSize: 26,
-                        ),
-                      )
-                    : Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              step == 1
-                                  ? "Sign Up"
-                                  : "Personal Info (Optional)",
-                              style: kGiantSemiBold.copyWith(
-                                color: Styles.kPrimaryColor,
-                                fontSize: 26,
-                                fontWeight: FontWeight.w700
-                              ),
-                            ),
-                          ),
-                          kHorizontalSpacer,
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundColor:
-                                step == 1 ? Styles.kActiveColor : Colors.white,
-                            child: Text(
-                              "1",
-                              style: kLargeHeavy.copyWith(
-                                color: step == 1
-                                    ? Colors.white
-                                    : Styles.kDisabledButton,
-                              ),
-                            ),
-                          ),
-                          kHorizontalSpacerSmall,
-                          kHorizontalSpacerMini,
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundColor:
-                                step == 2 ? Styles.kActiveColor : Colors.white,
-                            child: Text(
-                              "2",
-                              style: kLargeHeavy.copyWith(
-                                color: step == 2
-                                    ? Colors.white
-                                    : Styles.kDisabledButton,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
+              kVerticalSpacer,
               Expanded(child: child),
             ],
           ),

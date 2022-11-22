@@ -22,8 +22,9 @@ class AppSheetHandler extends StatelessWidget {
         //   ),
         // ),
         //kVerticalSpacer,
+
         Padding(
-          padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
