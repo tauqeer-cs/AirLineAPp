@@ -3,7 +3,9 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/home/ui/filter/dropdown_transformer.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,13 +22,26 @@ class PassengerSelector extends StatelessWidget {
     if (!isContact) {
       persons.removeWhere((element) => element.peopleType == PeopleType.infant);
     }
-    return Card(
+    return AppCard(
+      edgeInsets: EdgeInsets.zero,
       child: AppDropDown<Person>(
         items: persons,
         defaultValue: selectedPerson,
         onChanged: (val) {
           context.read<SelectedPersonCubit>().selectPerson(val);
         },
+        dropdownDecoration: DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+            border: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            focusedErrorBorder: InputBorder.none,
+            hintText:  "Passenger",
+            contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+          )
+        ),
         sheetTitle: "Passenger",
         isEnabled: true,
         valueTransformer: (value) {

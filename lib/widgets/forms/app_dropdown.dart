@@ -13,6 +13,7 @@ class AppDropDown<T> extends StatelessWidget {
   final String? sheetTitle;
   final Widget? prefix;
   final bool isEnabled, isMinimalism;
+  final DropDownDecoratorProps? dropdownDecoration;
 
   const AppDropDown({
     Key? key,
@@ -25,6 +26,7 @@ class AppDropDown<T> extends StatelessWidget {
     this.isEnabled = true,
     this.isMinimalism = false,
     this.prefix,
+    this.dropdownDecoration,
   }) : super(key: key);
 
   @override
@@ -34,18 +36,19 @@ class AppDropDown<T> extends StatelessWidget {
       items: items,
       onChanged: onChanged,
       selectedItem: defaultValue,
-      dropdownDecoratorProps: DropDownDecoratorProps(
+
+      dropdownDecoratorProps: dropdownDecoration ?? DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           // border: OutlineInputBorder(
-          //   borderSide: BorderSide(color: Styles.kDarkContainerColor),
+          //   borderSide: BorderSide(color: Styles.kSubTextColor),
           //   borderRadius: BorderRadius.circular(5),
           // ),
           // enabledBorder: OutlineInputBorder(
-          //   borderSide: BorderSide(color: Styles.kDarkContainerColor),
+          //   borderSide: BorderSide(color: Styles.kSubTextColor),
           //   borderRadius: BorderRadius.circular(5),
           // ),
           // focusedBorder: OutlineInputBorder(
-          //   borderSide: BorderSide(color: Styles.kDarkContainerColor),
+          //   borderSide: BorderSide(color: Styles.kSubTextColor),
           //   borderRadius: BorderRadius.circular(5),
           // ),
           // errorBorder: OutlineInputBorder(
@@ -58,12 +61,12 @@ class AppDropDown<T> extends StatelessWidget {
           // ),
           // disabledBorder: OutlineInputBorder(
           //   borderSide:
-          //       BorderSide(color: Styles.kDarkContainerColor.withOpacity(0.3)),
+          //       BorderSide(color: Styles.kSubTextColor.withOpacity(0.3)),
           //   borderRadius: BorderRadius.circular(5),
           // ),
-          hintStyle: kTinySemiBold.copyWith(
-            color: const Color.fromRGBO(43, 45, 66, 1),
-          ),
+          // hintStyle: kTinySemiBold.copyWith(
+          //   color: const Color.fromRGBO(43, 45, 66, 1),
+          // ),
           hintText: sheetTitle,
           contentPadding: isMinimalism
               ? EdgeInsets.zero

@@ -19,20 +19,23 @@ class SummaryContainerListener extends StatelessWidget {
         if (scrollController.position.atEdge) {
           bool isTop = scrollController.position.pixels == 0;
           if (isTop) {
+            context.read<SummaryContainerCubit>().changeVisibility(true);
           } else {
             context.read<SummaryContainerCubit>().changeVisibility(true);
           }
-        } else if (scrollController.position.userScrollDirection ==
+        } /*else if (scrollController.position.userScrollDirection ==
             ScrollDirection.reverse) {
           if (isOpen) {
             context.read<SummaryContainerCubit>().changeVisibility(false);
           }
-        } else {
-          if (scrollController.position.userScrollDirection ==
-              ScrollDirection.forward) {
-            if (!isOpen) {
-              context.read<SummaryContainerCubit>().changeVisibility(true);
-            }
+        } else if (scrollController.position.userScrollDirection ==
+            ScrollDirection.forward){
+          if (!isOpen) {
+            context.read<SummaryContainerCubit>().changeVisibility(true);
+          }
+        }*/else{
+          if (isOpen) {
+            context.read<SummaryContainerCubit>().changeVisibility(false);
           }
         }
 

@@ -31,6 +31,8 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     final bookingTotal = context.watch<BookingCubit>().state;
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+
       children: [
         Visibility(
           visible: !isPaymentPage,

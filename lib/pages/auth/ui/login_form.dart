@@ -65,10 +65,11 @@ class LoginForm extends StatelessWidget {
             visible: showContinueButton,
             child: Column(
               children: [
-                kVerticalSpacerSmall,
+                kVerticalSpacer,
                 ElevatedButton(
                     onPressed: () => context.router.pop(),
                     child: Text("Continue As Guest")),
+                kVerticalSpacerSmall,
                 Row(
                   children: [
                     Expanded(
@@ -120,7 +121,7 @@ class LoginForm extends StatelessWidget {
             onPressed: () => onLogin(context),
             child: const Text("Login"),
           ),
-          kVerticalSpacerSmall,
+          kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(const SignupWrapperRoute()),
             child: const Text("Create Acccount"),

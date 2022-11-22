@@ -25,23 +25,30 @@ class PersonSelector extends StatelessWidget {
         kVerticalSpacer,
         const Text("Passenger", style: kHugeSemiBold),
         kVerticalSpacer,
-        AppDropDown<Person>(
-          items: persons,
-          defaultValue: selectedPerson,
-          onChanged: (val) {
-            context.read<SelectedPersonCubit>().selectPerson(val);
-          },
-          sheetTitle: "Select person",
-          isEnabled: true,
-          valueTransformer: (value) {
-            return DropdownTransformerWidget<Person>(
-              value: value,
-              prefix: const Icon(
-                Icons.person,
-                size: 20,
-              ),
-            );
-          },
+        PhysicalModel(
+          elevation: 5.0,
+          shadowColor: Color(0xff44BD32),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+
+          child: AppDropDown<Person>(
+            items: persons,
+            defaultValue: selectedPerson,
+            onChanged: (val) {
+              context.read<SelectedPersonCubit>().selectPerson(val);
+            },
+            sheetTitle: "Select person",
+            isEnabled: true,
+            valueTransformer: (value) {
+              return DropdownTransformerWidget<Person>(
+                value: value,
+                prefix: const Icon(
+                  Icons.person,
+                  size: 20,
+                ),
+              );
+            },
+          ),
         ),
       ],
     );

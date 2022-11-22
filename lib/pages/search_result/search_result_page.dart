@@ -121,7 +121,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
               ),
               BlocListener<AuthBloc, AuthState>(
                 listener: (_, state) {
-                  print("auth listener ${state.user?.isAccountVerified}");
                   if (!(state.user?.isAccountVerified ?? true)) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     showNotVerifiedDialog(
@@ -136,7 +135,11 @@ class _SearchResultPageState extends State<SearchResultPage> {
             ],
             child: Padding(
               padding: EdgeInsets.fromLTRB(
-                  12, 12, 12, MediaQuery.of(context).viewInsets.bottom + 20),
+                20,
+                16,
+                20,
+                MediaQuery.of(context).viewInsets.bottom + 20,
+              ),
               child: SingleChildScrollView(
                 child: LoginForm(
                   fbKey: JosKeys.gKeysSearch,

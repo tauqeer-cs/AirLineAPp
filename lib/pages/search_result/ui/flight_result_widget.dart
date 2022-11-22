@@ -63,7 +63,10 @@ class FlightResultWidget extends StatelessWidget {
                 Text(
                   "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage weight and select your choice of seat. ",
                   textAlign: TextAlign.left,
-                  style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                  style: kMediumRegular.copyWith(
+                    color: Styles.kSubTextColor,
+                    height: 1.5,
+                  ),
                 ),
                 BlocBuilder<BookingCubit, BookingState>(
                   builder: (context, bookState) {
@@ -95,7 +98,7 @@ class FlightResultWidget extends StatelessWidget {
           title: "DEP",
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
-          segments: bookState.selectedDeparture!=null
+          segments: bookState.selectedDeparture != null
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
           isDeparture: true,

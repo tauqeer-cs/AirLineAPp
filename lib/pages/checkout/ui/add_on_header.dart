@@ -13,8 +13,13 @@ class AddonHeader extends StatelessWidget {
           style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
         ),
         kVerticalSpacer,
-        const Text(
-            " Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage weight and select your choice of seat. "),
+        Text(
+          " Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage weight and select your choice of seat. ",
+          style: kMediumRegular.copyWith(
+            color: Styles.kSubTextColor,
+            height: 1.5,
+          ),
+        ),
       ],
     );
   }

@@ -55,6 +55,7 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                 padding: kPageHorizontalPadding,
                 color: Styles.kDividerColor,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kVerticalSpacer,
                     BlocProvider(

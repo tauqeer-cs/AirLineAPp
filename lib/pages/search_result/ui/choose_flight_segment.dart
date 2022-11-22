@@ -56,7 +56,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
         Row(
           children: [
             Transform.translate(
-              offset: const Offset(-12, 0),
+              offset: const Offset(-16, 0),
               child: Container(
                 width: 155.w,
                 padding: const EdgeInsets.all(16),
@@ -108,7 +108,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
           ],
         ),
         kVerticalSpacerBig,
-        Text(widget.dateTitle, style: kGiantHeavy),
+        Text(widget.dateTitle, style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
         widget.segments.isEmpty
             ? Padding(
               padding: const EdgeInsets.all(20.0),

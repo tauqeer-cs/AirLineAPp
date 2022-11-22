@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 
-
 class BookingSummary extends StatelessWidget {
   const BookingSummary({Key? key}) : super(key: key);
 
@@ -18,7 +17,9 @@ class BookingSummary extends StatelessWidget {
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final booking = context.watch<BookingCubit>().state;
     final voucherState = context.watch<VoucherCubit>().state;
-    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount ?? 0;
+    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
+            ?.firstOrNull?.discountAmount ??
+        0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -29,7 +30,8 @@ class BookingSummary extends StatelessWidget {
         MoneyWidget(
           isDense: false,
           amount: booking.getFinalPriceDisplay +
-              (filterState?.numberPerson.getTotal() ?? 0) - discount,
+              (filterState?.numberPerson.getTotal() ?? 0) -
+              discount,
         ),
         kVerticalSpacer,
       ],
@@ -48,16 +50,18 @@ class SummaryContainer extends StatelessWidget {
     return ExpandedSection(
       expand: isExpand,
       child: Container(
+        margin: EdgeInsets.only(top: 8),
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                offset: const Offset(0, -2),
-                blurRadius: 6,
-              ),
-            ]),
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(0, -2),
+              blurRadius: 6,
+            ),
+          ],
+        ),
         child: child,
       ),
     );
