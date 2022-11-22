@@ -56,8 +56,8 @@ class SeatPlan extends StatelessWidget {
             int index = entry.key;
             Rows row = entry.value;
             Rows? previousRow = index == 0 ? null : rows?[index - 1];
-            bool isSeatSeparated = row.seats?.first.serviceDescription !=
-                previousRow?.seats?.first.serviceDescription;
+            bool isSeatSeparated = row.seats?.first.serviceId !=
+                previousRow?.seats?.first.serviceId;
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Column(
