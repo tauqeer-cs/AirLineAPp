@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SummaryContainerListener extends StatelessWidget {
+class SummaryContainerListener extends StatefulWidget {
   final Widget child;
 
   const SummaryContainerListener(
@@ -12,18 +12,29 @@ class SummaryContainerListener extends StatelessWidget {
   final ScrollController scrollController;
 
   @override
+  State<SummaryContainerListener> createState() =>
+      _SummaryContainerListenerState();
+}
+
+class _SummaryContainerListenerState extends State<SummaryContainerListener> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isOpen = context.watch<SummaryContainerCubit>().state;
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollNotification) {
-        final isOpen = context.read<SummaryContainerCubit>().state;
-        if (scrollController.position.atEdge) {
-          bool isTop = scrollController.position.pixels == 0;
-          if (isTop) {
-            context.read<SummaryContainerCubit>().changeVisibility(true);
-          } else {
+        if (widget.scrollController.position.pixels == 0 ||
+            widget.scrollController.position.pixels >=
+                widget.scrollController.position.maxScrollExtent - 125) {
+          if (!isOpen) {
             context.read<SummaryContainerCubit>().changeVisibility(true);
           }
-        } /*else if (scrollController.position.userScrollDirection ==
+        }
+        /*else if (scrollController.position.userScrollDirection ==
             ScrollDirection.reverse) {
           if (isOpen) {
             context.read<SummaryContainerCubit>().changeVisibility(false);
@@ -33,7 +44,8 @@ class SummaryContainerListener extends StatelessWidget {
           if (!isOpen) {
             context.read<SummaryContainerCubit>().changeVisibility(true);
           }
-        }*/else{
+        }*/
+        else {
           if (isOpen) {
             context.read<SummaryContainerCubit>().changeVisibility(false);
           }
@@ -42,7 +54,7 @@ class SummaryContainerListener extends StatelessWidget {
         //context.read<SummaryContainerCubit>().changeVisibility(true);
         return true;
       },
-      child: child,
+      child: widget.child,
     );
   }
 }

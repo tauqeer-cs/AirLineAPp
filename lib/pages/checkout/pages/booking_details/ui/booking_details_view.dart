@@ -10,6 +10,7 @@ import 'package:app/pages/checkout/pages/booking_details/ui/list_of_passenger_in
 import 'package:app/pages/checkout/ui/booking_details_header.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
+import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,66 +57,79 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilder(
-      autoFocusOnValidationFailure: true,
-      key: BookingDetailsView.fbKey,
-      child: SingleChildScrollView(
-        controller: scrollController,
-        child: Column(
-          children: [
-            kVerticalSpacerBig,
-            Padding(
-              padding: kPageHorizontalPadding,
+    return Stack(
+      children: [
+        FormBuilder(
+          autoFocusOnValidationFailure: true,
+          key: BookingDetailsView.fbKey,
+          child: SummaryContainerListener(
+            scrollController: scrollController,
+            child: SingleChildScrollView(
+              controller: scrollController,
               child: Column(
                 children: [
-                  const BookingDetailsHeader(),
+                  kVerticalSpacerBig,
+                  Padding(
+                    padding: kPageHorizontalPadding,
+                    child: Column(
+                      children: [
+                        const BookingDetailsHeader(),
+                        kVerticalSpacer,
+                        const CardSummary(showFees: false),
+                        kVerticalSpacer,
+                        const ListOfPassengerInfo(),
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    children: [
+                      const CheckoutSummary(),
+                      Positioned(
+                        bottom: 0,
+                        right: 15,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            scrollController.animateTo(
+                              scrollController.position.minScrollExtent,
+                              duration: const Duration(seconds: 1),
+                              curve: Curves.fastOutSlowIn,
+                            );
+                          },
+                          backgroundColor: Styles.kPrimaryColor,
+                          child: const Icon(Icons.keyboard_arrow_up),
+                        ),
+                      )
+                    ],
+                  ),
                   kVerticalSpacer,
-                  const CardSummary(showFees: false),
-                  kVerticalSpacer,
-                  const ListOfPassengerInfo(),
+
                 ],
               ),
             ),
-            Stack(
-              children: [
-                const CheckoutSummary(),
-                Positioned(
-                  bottom: 15,
-                  right: 15,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      scrollController.animateTo(
-                        scrollController.position.minScrollExtent,
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.fastOutSlowIn,
-                      );
-                    },
-                    backgroundColor: Styles.kPrimaryColor,
-                    child: const Icon(Icons.keyboard_arrow_up),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: SummaryContainer(
+            child: Padding(
+              padding: kPagePadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const BookingSummary(),
+                  ElevatedButton(
+                    onPressed: () => onBooking(context),
+                    child: const Text("Continue"),
                   ),
-                )
-              ],
-            ),
-            kVerticalSpacer,
-            SummaryContainer(
-              child: Padding(
-                padding: kPagePadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const BookingSummary(),
-                    ElevatedButton(
-                      onPressed: () => onBooking(context),
-                      child: const Text("Continue"),
-                    ),
-                    kVerticalSpacer,
-                  ],
-                ),
+                  kVerticalSpacer,
+                ],
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

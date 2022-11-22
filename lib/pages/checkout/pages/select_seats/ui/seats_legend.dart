@@ -2,6 +2,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/models/cms_flight.dart';
+import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,7 +71,10 @@ class ContainerNotice extends StatelessWidget {
           color: Colors.grey.withOpacity(0.5),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: Html(data: sharedNotice?.content ?? ""),
+        child: Html(
+          data: sharedNotice?.content ?? "",
+          style: HtmlStyle.htmlStyle(),
+        ),
       ),
     );
   }

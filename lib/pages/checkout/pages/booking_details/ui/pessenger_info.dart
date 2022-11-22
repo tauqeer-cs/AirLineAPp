@@ -4,6 +4,7 @@ import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.da
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
+import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/string_utils.dart';
@@ -88,7 +89,9 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   validators: [FormBuilderValidators.required()],
                   textEditingController: titleController,
                   child: AppDropDown<String>(
-                    items: widget.person.peopleType == PeopleType.adult ? availableTitle : availableTitleChild,
+                    items: widget.person.peopleType == PeopleType.adult
+                        ? availableTitle
+                        : availableTitleChild,
                     defaultValue: null,
                     sheetTitle: "Title",
                     onChanged: (value) {
@@ -129,7 +132,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 kVerticalSpacerMini,
                 Visibility(
                   visible: (notice?.content?.isNotEmpty ?? false) &&
-                      isUnder16 && (widget.person.peopleType == PeopleType.adult) &&
+                      isUnder16 &&
+                      (widget.person.peopleType == PeopleType.adult) &&
                       (filter.numberPerson.totalPerson == 1),
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 12),
@@ -144,7 +148,12 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Checkbox(value: true, onChanged: (_) {}),
-                        Expanded(child: Html(data: notice?.content ?? "")),
+                        Expanded(
+                          child: Html(
+                            data: notice?.content ?? "",
+                            style: HtmlStyle.htmlStyle(),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -167,10 +176,14 @@ class _PassengerInfoState extends State<PassengerInfo> {
                         ),
                         decoration: BoxDecoration(
                           border: Border(
-                            bottom: BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
+                            bottom: BorderSide(
+                                color: Styles.kBorderColor.withOpacity(0.3)),
                           ),
                         ),
-                        child: Text("Travel With $string", style: kSmallSemiBold,),
+                        child: Text(
+                          "Travel With $string",
+                          style: kSmallSemiBold,
+                        ),
                       );
                     },
                   ),

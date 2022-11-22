@@ -8,6 +8,7 @@ import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
+import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -105,73 +106,70 @@ class NewMealCard extends StatelessWidget {
     final length = meals?.where((element) => element == meal).length;
     final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
     //const mealSoldOut = false;
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Card(
-        elevation: 2,
-        child: IntrinsicHeight(
-          child: Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: SizedBox(
-                      width: 200,
-                      height: 150,
-                      child: AppImage(
-                        imageUrl: cmsMeals
-                            .firstWhereOrNull(
-                                (element) => element.code == meal.codeType)
-                            ?.image,
+    return AppCard(
+      edgeInsets: EdgeInsets.zero,
+      child: IntrinsicHeight(
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: 200,
+                    height: 150,
+                    child: AppImage(
+                      imageUrl: cmsMeals
+                          .firstWhereOrNull(
+                              (element) => element.code == meal.codeType)
+                          ?.image,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        meal.description ?? "",
+                        style: kLargeHeavy,
                       ),
-                    ),
+                      Text(
+                        "${meal.currencyCode ?? "MYR"} ${NumberUtils.formatNumber(meal.amount?.toDouble())}",
+                        style:
+                            kLargeHeavy.copyWith(color: Styles.kPrimaryColor),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 20.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          meal.description ?? "",
-                          style: kLargeHeavy,
-                        ),
-                        Text(
-                          "${meal.currencyCode ?? "MYR"} ${NumberUtils.formatNumber(meal.amount?.toDouble())}",
-                          style:
-                              kLargeHeavy.copyWith(color: Styles.kPrimaryColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                  kVerticalSpacer,
-                  InputWithPlusMinus(
-                    number: length ?? 0,
-                    handler: changeNumber,
-                    person: focusedPerson,
-                  ),
-                  kVerticalSpacer,
-                ],
-              ),
-              // if (mealSoldOut)
-              //   ClipRect(
-              //     child: BackdropFilter(
-              //       filter: ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
-              //       child: Container(
-              //         color: Colors.grey.shade200.withOpacity(0.1),
-              //         child: Center(
-              //           child: Text(
-              //             "Sold Out",
-              //             style:
-              //                 kGiantHeavy.copyWith(color: Styles.kPrimaryColor),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-            ],
-          ),
+                ),
+                kVerticalSpacer,
+                InputWithPlusMinus(
+                  number: length ?? 0,
+                  handler: changeNumber,
+                  person: focusedPerson,
+                ),
+                kVerticalSpacer,
+              ],
+            ),
+            // if (mealSoldOut)
+            //   ClipRect(
+            //     child: BackdropFilter(
+            //       filter: ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
+            //       child: Container(
+            //         color: Colors.grey.shade200.withOpacity(0.1),
+            //         child: Center(
+            //           child: Text(
+            //             "Sold Out",
+            //             style:
+            //                 kGiantHeavy.copyWith(color: Styles.kPrimaryColor),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+          ],
         ),
       ),
     );

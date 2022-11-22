@@ -1,4 +1,5 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,12 +11,11 @@ class BaggageNotice extends StatelessWidget {
 
   final bool hideSportsEquipment = false;
 
-
   @override
   Widget build(BuildContext context) {
     final carryNotice = context.watch<CmsSsrCubit>().state.carryNotice;
     final oversizedNotice = context.watch<CmsSsrCubit>().state.oversizedNotice;
-
+    print(carryNotice?.content);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
@@ -23,15 +23,17 @@ class BaggageNotice extends StatelessWidget {
         children: [
           const Text("Carry-on Baggage", style: kGiantSemiBold),
           kVerticalSpacer,
-          Html(data: carryNotice?.content ?? ""),
+          Html(
+            data: carryNotice?.content ?? "",
+            style: HtmlStyle.htmlStyle(),
+          ),
           kVerticalSpacer,
           Divider(
             height: 1,
             color: Styles.kDisabledButton,
           ),
           kVerticalSpacer,
-
-          if(hideSportsEquipment) ... [
+          if (hideSportsEquipment) ...[
             Text(
               "Travelling with",
               style: kGiantSemiBold.copyWith(color: Styles.kOrangeColor),
@@ -45,13 +47,13 @@ class BaggageNotice extends StatelessWidget {
               style: kHeaderHeavy.copyWith(color: Styles.kOrangeColor),
             ),
             kVerticalSpacerSmall,
-            Html(data: oversizedNotice?.content ?? ""),
+            Html(
+              data: oversizedNotice?.content ?? "",
+              style: HtmlStyle.htmlStyle(),
+            ),
             kVerticalSpacerSmall,
             const SportsEquipmentCard(),
-
           ],
-
-
         ],
       ),
     );
@@ -67,6 +69,7 @@ class SportsEquipmentCard extends StatefulWidget {
 
 class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
   int number = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(

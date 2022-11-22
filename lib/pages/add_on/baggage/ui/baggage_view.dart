@@ -2,10 +2,12 @@ import 'package:app/app/app_router.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_section.dart';
+import 'package:app/pages/add_on/baggage/ui/baggage_subtotal.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
+import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:auto_route/auto_route.dart';
@@ -40,9 +42,10 @@ class _BaggageViewState extends State<BaggageView> {
     return BlocProvider(
       create: (context) =>
           IsDepartureCubit()..changeDeparture(widget.isDeparture),
-      child: Column(
+      child: Stack(
         children: [
-          Expanded(
+          SummaryContainerListener(
+            scrollController: scrollController,
             child: ListView(
               controller: scrollController,
               shrinkWrap: true,
@@ -56,7 +59,7 @@ class _BaggageViewState extends State<BaggageView> {
                   children: [
                     const CheckoutSummary(),
                     Positioned(
-                      bottom: 15,
+                      bottom: 0,
                       right: 15,
                       child: FloatingActionButton(
                         onPressed: () {
@@ -72,42 +75,35 @@ class _BaggageViewState extends State<BaggageView> {
                     )
                   ],
                 ),
-                kVerticalSpacer,
-                //if (isScrollable)
-                  SummaryContainer(
-                    child: Padding(
-                      padding: kPagePadding,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const BookingSummary(),
-                          ContinueButton(
-                            flightType: flightType,
-                            isDeparture: widget.isDeparture,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                kSummaryContainerSpacing,
+                kSummaryContainerSpacing,
+
               ],
             ),
           ),
-         /* if (!isScrollable)
-            SummaryContainer(
-              child: Padding(
-                padding: kPagePadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const BookingSummary(),
-                    ContinueButton(
-                      flightType: flightType,
-                      isDeparture: widget.isDeparture,
-                    ),
-                  ],
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BaggageSubtotal(
+              isDeparture: widget.isDeparture,
+              child: SummaryContainer(
+                child: Padding(
+                  padding: kPagePadding,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const BookingSummary(),
+                      ContinueButton(
+                        flightType: flightType,
+                        isDeparture: widget.isDeparture,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),*/
+            ),
+          ),
         ],
       ),
     );

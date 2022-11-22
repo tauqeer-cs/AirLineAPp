@@ -52,7 +52,7 @@ class _BundleViewState extends State<BundleView> {
                 children: [
                   const CheckoutSummary(),
                   Positioned(
-                    bottom: 15,
+                    bottom: 0,
                     right: 15,
                     child: FloatingActionButton(
                       onPressed: () {

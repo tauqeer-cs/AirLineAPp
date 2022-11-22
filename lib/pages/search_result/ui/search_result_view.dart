@@ -26,51 +26,55 @@ class SearchResultView extends StatelessWidget {
       builder: (context, state) {
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: Column(
+          finishedBuilder: Stack(
             children: [
-              Expanded(
-                child: SummaryContainerListener(
-                  scrollController: scrollController,
-                  child: ListView(
-                    controller: scrollController,
-                    children: [
-                      kVerticalSpacer,
-                      const FlightResultWidget(),
-                      Stack(
-                        children: [
-                          const SizedBox(height: 80),
-                          const CheckoutSummary(),
-                          Positioned(
-                            bottom: 15,
-                            right: 15,
-                            child: FloatingActionButton(
-                              onPressed: () {
-                                scrollController.animateTo(
-                                  scrollController.position.minScrollExtent,
-                                  duration: const Duration(seconds: 1),
-                                  curve: Curves.fastOutSlowIn,
-                                );
-                              },
-                              backgroundColor: Styles.kPrimaryColor,
-                              child: const Icon(Icons.keyboard_arrow_up),
-                            ),
-                          )
-                        ],
-                      ),
-                      kVerticalSpacerSmall,
-                    ],
-                  ),
+              SummaryContainerListener(
+                scrollController: scrollController,
+                child: ListView(
+                  controller: scrollController,
+                  children: [
+                    kVerticalSpacer,
+                    const FlightResultWidget(),
+                    Stack(
+                      children: [
+                        const SizedBox(height: 80),
+                        const CheckoutSummary(),
+                        Positioned(
+                          bottom: 0,
+                          right: 15,
+                          child: FloatingActionButton(
+                            onPressed: () {
+                              scrollController.animateTo(
+                                scrollController.position.minScrollExtent,
+                                duration: const Duration(seconds: 1),
+                                curve: Curves.fastOutSlowIn,
+                              );
+                            },
+                            backgroundColor: Styles.kPrimaryColor,
+                            child: const Icon(Icons.keyboard_arrow_up),
+                          ),
+                        )
+                      ],
+                    ),
+                    kVerticalSpacerSmall,
+                    kSummaryContainerSpacing,
+                  ],
                 ),
               ),
-              SummaryContainer(
-                child: Padding(
-                  padding: kPagePadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      BookingSummary(),
-                      ContinueButton(),
-                    ],
+              Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                child: SummaryContainer(
+                  child: Padding(
+                    padding: kPagePadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: const [
+                        BookingSummary(),
+                        ContinueButton(),
+                      ],
+                    ),
                   ),
                 ),
               )

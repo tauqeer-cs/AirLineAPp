@@ -1,4 +1,5 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +10,8 @@ class BaggageNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final  carryNotice= context.watch<CmsSsrCubit>().state.carryNotice;
-    final  oversizedNotice= context.watch<CmsSsrCubit>().state.oversizedNotice;
+    final carryNotice = context.watch<CmsSsrCubit>().state.carryNotice;
+    final oversizedNotice = context.watch<CmsSsrCubit>().state.oversizedNotice;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -19,7 +20,10 @@ class BaggageNotice extends StatelessWidget {
         children: [
           const Text("Carry-on Baggage", style: kGiantSemiBold),
           kVerticalSpacer,
-          Html(data: carryNotice?.content ?? ""),
+          Html(
+            data: carryNotice?.content ?? "",
+            style: HtmlStyle.htmlStyle(),
+          ),
           kVerticalSpacerBig,
           kVerticalSpacer,
           const Text("Travel with Oversized items? ", style: kGiantSemiBold),

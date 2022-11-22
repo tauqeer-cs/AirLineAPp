@@ -6,6 +6,7 @@ import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
+import 'package:app/widgets/app_card.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:app/utils/string_utils.dart';
 
 class BaggageSection extends StatelessWidget {
   final bool isDeparture;
+
   const BaggageSection({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
@@ -86,34 +88,43 @@ class NewBaggageCard extends StatelessWidget {
             .read<SearchFlightCubit>()
             .addBaggageToPerson(selectedPerson, selectedBaggage, isDeparture);
       },
-      child: Card(
-        elevation: 2,
+      child: AppCard(
+        edgeInsets: EdgeInsets.zero,
         child: Stack(
           children: [
             ListTile(
-              contentPadding:
-                  const EdgeInsets.only(top: 15, right: 50, left: 15),
-              leading: Radio<Bundle?>(
-                value: selectedBaggage,
-                groupValue: baggage,
-                onChanged: (value) {
-                  context
-                      .read<SearchFlightCubit>()
-                      .addBaggageToPerson(selectedPerson, value, isDeparture);
-                },
+              contentPadding: const EdgeInsets.only(
+                top: 15,
+                right: 50,
+                left: 15,
+                bottom: 15,
+              ),
+              leading: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Radio<Bundle?>(
+                    value: selectedBaggage,
+                    groupValue: baggage,
+                    onChanged: (value) {
+                      context.read<SearchFlightCubit>().addBaggageToPerson(
+                          selectedPerson, value, isDeparture);
+                    },
+                  ),
+                ],
               ),
               title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     selectedBaggage.description?.capitalize() ?? "No Baggage",
-                    style: kHugeHeavy,
+                    style: kLargeHeavy,
                   ),
-                  kVerticalSpacer,
                 ],
               ),
               trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     selectedBaggage.currencyCode ?? "MYR",
@@ -128,9 +139,18 @@ class NewBaggageCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              right: -11,
-              child: Image.asset("assets/images/design/baggageSmall.png",
-                  height: 50),
+              right: -20,
+              top: 0,
+              bottom: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: Center(
+                  child: Image.asset(
+                    "assets/images/design/baggageSmall.png",
+                    color: Styles.kSubTextColor,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

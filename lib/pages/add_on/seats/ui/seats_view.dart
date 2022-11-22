@@ -6,6 +6,7 @@ import 'package:app/pages/add_on/seats/ui/seats_section.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
+import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:auto_route/auto_route.dart';
@@ -27,50 +28,63 @@ class _SeatsViewState extends State<SeatsView> {
   Widget build(BuildContext context) {
     final flightType =
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
-    return ListView(
-      controller: scrollController,
-      shrinkWrap: true,
+    return Stack(
       children: [
-        kVerticalSpacer,
-        FlightDetailWidget(isDeparture: widget.isDeparture),
-        kVerticalSpacer,
-        SeatsSection(isDeparture: widget.isDeparture),
-        kVerticalSpacer,
-        Stack(
-          children: [
-            const CheckoutSummary(),
-            Positioned(
-              bottom: 15,
-              right: 15,
-              child: FloatingActionButton(
-                onPressed: () {
-                  scrollController.animateTo(
-                    scrollController.position.minScrollExtent,
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.fastOutSlowIn,
-                  );
-                },
-                backgroundColor: Styles.kPrimaryColor,
-                child: const Icon(Icons.keyboard_arrow_up),
-              ),
-            )
-          ],
-        ),
-        kVerticalSpacer,
-        SeatSubtotal(
-          isDeparture: widget.isDeparture,
-          child: SummaryContainer(
-            child: Padding(
-              padding: kPagePadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+        SummaryContainerListener(
+          scrollController: scrollController,
+          child: ListView(
+            controller: scrollController,
+            shrinkWrap: true,
+            children: [
+              kVerticalSpacer,
+              FlightDetailWidget(isDeparture: widget.isDeparture),
+              kVerticalSpacer,
+              SeatsSection(isDeparture: widget.isDeparture),
+              kVerticalSpacer,
+              Stack(
                 children: [
-                  const BookingSummary(),
-                  ContinueButton(
-                    flightType: flightType,
-                    isDeparture: widget.isDeparture,
-                  ),
+                  const CheckoutSummary(),
+                  Positioned(
+                    bottom: 0,
+                    right: 15,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        scrollController.animateTo(
+                          scrollController.position.minScrollExtent,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastOutSlowIn,
+                        );
+                      },
+                      backgroundColor: Styles.kPrimaryColor,
+                      child: const Icon(Icons.keyboard_arrow_up),
+                    ),
+                  )
                 ],
+              ),
+              kSummaryContainerSpacing,
+              kSummaryContainerSpacing,
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: SeatSubtotal(
+            isDeparture: widget.isDeparture,
+            child: SummaryContainer(
+              child: Padding(
+                padding: kPagePadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const BookingSummary(),
+                    ContinueButton(
+                      flightType: flightType,
+                      isDeparture: widget.isDeparture,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

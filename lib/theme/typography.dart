@@ -1,6 +1,15 @@
+import 'package:app/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/style.dart';
 
 const double modifier = 0;
+
+final kHtmlDescription = Style(
+  fontSize: FontSize(14),
+  color: Styles.kSubTextColor,
+  fontWeight: FontWeight.w400,
+  height: Height(1.5),
+);
 
 const kExtraSmallBook = TextStyle(
   fontSize: 8+modifier+modifier,

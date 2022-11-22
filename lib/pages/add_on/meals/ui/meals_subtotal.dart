@@ -6,10 +6,10 @@ import 'package:app/utils/number_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SeatSubtotal extends StatelessWidget {
+class MealsSubtotal extends StatelessWidget {
   final Widget child;
   final bool isDeparture;
-  const SeatSubtotal({
+  const MealsSubtotal({
     Key? key,
     required this.child,
     required this.isDeparture,
@@ -41,11 +41,11 @@ class SeatSubtotal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Seats Subtotal",
+                    "Meals Subtotal",
                     style: kLargeRegular.copyWith(color: Colors.white),
                   ),
                   Text(
-                    "MYR ${NumberUtils.formatNum(filter?.numberPerson.getTotalSeatsPartial(isDeparture))}",
+                    "MYR ${NumberUtils.formatNum(filter?.numberPerson.getTotalMealPartial(isDeparture))}",
                     style: kLargeHeavy.copyWith(color: Colors.white),
                   ),
                 ],

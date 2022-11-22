@@ -55,6 +55,7 @@ class Styles {
   static ThemeData theme(bool isLight) {
     return ThemeData(
       fontFamily: "EncodeSans",
+      unselectedWidgetColor: kSubTextColor,
       colorSchemeSeed: kPrimaryColor,
       canvasColor: isLight ? Colors.white : kTextLightThemeColor,
       cardColor: isLight ? Colors.white : kTextLightThemeColor,
@@ -322,7 +323,9 @@ class Styles {
             if (states.contains(MaterialState.selected)) {
               return kPrimaryColor;
             }
-            return kPrimaryColor;
+            if (states.contains(MaterialState.selected)) {
+              return kPrimaryColor;
+            }
           },
         ),
       ),
