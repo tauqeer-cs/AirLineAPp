@@ -16,6 +16,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class SignupAddressPage extends StatelessWidget {
   const SignupAddressPage({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
+  final step =2;
 
   onSignup(BuildContext context) {
     if (_fbKey.currentState!.saveAndValidate()) {
@@ -42,7 +43,7 @@ class SignupAddressPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           body: Column(
             children: [
-              kVerticalSpacer,
+              kVerticalSpacerHuge,
               Row(
                 children: [
                   BackButton(
@@ -58,7 +59,7 @@ class SignupAddressPage extends StatelessWidget {
               kVerticalSpacer,
               Expanded(
                 child: SignupContainer(
-                  step: 2,
+                  step: step,
                   child: FormBuilder(
                     autoFocusOnValidationFailure: true,
 
@@ -68,6 +69,20 @@ class SignupAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Visibility(
+                            visible: step != 3,
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
+                              child: Text(
+                                step == 1
+                                    ? "Tell us more about yourself."
+                                    : "Worry not, all questions are in accordance with MYAirline guidelines",
+                                style: kMediumRegular.copyWith(
+                                    color: Styles.kSubTextColor, fontSize: 16),
+                              ),
+                            ),
+                          ),
                           kVerticalSpacer,
                           GenderInput(
                             onChanged: (value)=>context.read<SignupCubit>().editGender(value ?? "Male"),

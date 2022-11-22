@@ -18,7 +18,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class SignupAccountPage extends StatelessWidget {
   const SignupAccountPage({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
-
+  final step =1;
   onContinue(BuildContext context) {
     //context.router.replace(CompleteSignupRoute(signupRequest: SignupRequest()));
     //return;
@@ -46,51 +46,63 @@ class SignupAccountPage extends StatelessWidget {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Column(
-              children: [
-                kVerticalSpacer,
-                Row(
-                  children: [
-                    BackButton(
-                      onPressed: ()=>AutoRouter.of(context).pop(),
-                      color: Colors.white,
-                    ),
-                    const Expanded(
-                        child: Center(child: AppLogoWidget(useWhite: true))),
-                    const BackButton(color: Colors.transparent),
-                  ],
-                ),
-                kVerticalSpacer,
-                Expanded(
-                  child: SignupContainer(
-                    step: 1,
-                    child: FormBuilder(
-                      autoFocusOnValidationFailure: true,
-                      key: _fbKey,
-                      child: SingleChildScrollView(
-                        padding: kPageHorizontalPaddingBig,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            kVerticalSpacer,
-                            NameInput(),
-                            kVerticalSpacer,
-                            const CredentialInput(),
-                            kVerticalSpacer,
-                            const PasswordInput(),
-                            kVerticalSpacer,
-                            ElevatedButton(
-                                onPressed: () => onContinue(context),
-                                child: const Text("Continue"))
-                          ],
-                        ),
+          body: Column(
+            children: [
+              kVerticalSpacerHuge,
+              Row(
+                children: [
+                  BackButton(
+                    onPressed: ()=>AutoRouter.of(context).pop(),
+                    color: Colors.white,
+                  ),
+                  const Expanded(
+                      child: Center(child: AppLogoWidget(useWhite: true))),
+                  const BackButton(color: Colors.transparent),
+                ],
+              ),
+              kVerticalSpacer,
+              Expanded(
+                child: SignupContainer(
+                  step: step,
+                  child: FormBuilder(
+                    autoFocusOnValidationFailure: true,
+                    key: _fbKey,
+                    child: SingleChildScrollView(
+                      padding: kPageHorizontalPaddingBig,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Visibility(
+                            visible: step != 3,
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
+                              child: Text(
+                                step == 1
+                                    ? "Tell us more about yourself."
+                                    : "Worry not, all questions are in accordance with MYAirline guidelines",
+                                style: kMediumRegular.copyWith(
+                                    color: Styles.kSubTextColor, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          kVerticalSpacer,
+                          NameInput(),
+                          kVerticalSpacer,
+                          const CredentialInput(),
+                          kVerticalSpacer,
+                          const PasswordInput(),
+                          kVerticalSpacer,
+                          ElevatedButton(
+                              onPressed: () => onContinue(context),
+                              child: const Text("Continue"))
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],

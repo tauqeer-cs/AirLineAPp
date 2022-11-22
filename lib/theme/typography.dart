@@ -28,7 +28,7 @@ const kExtraSmallSemiBold = TextStyle(
   fontWeight: FontWeight.w600,
 );
 const kExtraSmallHeavy =
-TextStyle(fontSize: 8+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 8+modifier, fontWeight: FontWeight.w700, letterSpacing: 1);
 
 // tiny
 const kTinyBook = TextStyle(
@@ -48,7 +48,7 @@ const kTinySemiBold = TextStyle(
   fontWeight: FontWeight.w600,
 );
 const kTinyHeavy =
-TextStyle(fontSize: 10+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 10+modifier, fontWeight: FontWeight.w700, letterSpacing: 1);
 
 // small
 const kSmallBook = TextStyle(
@@ -69,7 +69,7 @@ const kSmallSemiBold = TextStyle(
 );
 const kSmallHeavy = TextStyle(
   fontSize: 12+modifier,
-  fontWeight: FontWeight.w800,
+  fontWeight: FontWeight.w700,
   letterSpacing: 1,
 );
 
@@ -91,7 +91,7 @@ const kMediumSemiBold = TextStyle(
   fontWeight: FontWeight.w600,
 );
 const kMediumHeavy =
-TextStyle(fontSize: 14+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 14+modifier, fontWeight: FontWeight.w700, letterSpacing: 1);
 
 // large
 const kLargeBook = TextStyle(
@@ -111,7 +111,7 @@ const kLargeSemiBold = TextStyle(
   fontWeight: FontWeight.w600,
 );
 const kLargeHeavy =
-TextStyle(fontSize: 16+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 16+modifier, fontWeight: FontWeight.w700, letterSpacing: 1);
 // 18
 const k18Book = TextStyle(
   fontSize: 18+modifier,
@@ -130,7 +130,7 @@ const k18SemiBold = TextStyle(
   fontWeight: FontWeight.w600,
 );
 const k18Heavy =
-TextStyle(fontSize: 18+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 18+modifier, fontWeight: FontWeight.w700, letterSpacing: 1);
 
 // huge
 const kHugeBook = TextStyle(
@@ -150,7 +150,7 @@ const kHugeSemiBold = TextStyle(
   fontWeight: FontWeight.w600,
 );
 const kHugeHeavy =
-TextStyle(fontSize: 20+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 20+modifier, fontWeight: FontWeight.w700, letterSpacing: 1);
 
 // giant
 const kGiantBook = TextStyle(
@@ -170,7 +170,7 @@ const kGiantSemiBold = TextStyle(
   fontWeight: FontWeight.w600,
 );
 const kGiantHeavy =
-TextStyle(fontSize: 24+modifier, fontWeight: FontWeight.w800, letterSpacing: 1);
+TextStyle(fontSize: 24+modifier, fontWeight: FontWeight.w700, letterSpacing: 1);
 
 // header
 const kHeaderBook = TextStyle(
@@ -191,6 +191,6 @@ const kHeaderSemiBold = TextStyle(
 );
 const kHeaderHeavy = TextStyle(
   fontSize: 28+modifier,
-  fontWeight: FontWeight.w800,
+  fontWeight: FontWeight.w700,
   letterSpacing: 1,
 );

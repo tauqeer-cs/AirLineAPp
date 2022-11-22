@@ -15,7 +15,12 @@ import '../models/error_response.dart';
 /// A class to handle DIO API request
 class Api {
   static final Api _instance = Api._internal();
-  final Dio _dio = Dio();
+
+  final Dio _dio = Dio(BaseOptions(
+      connectTimeout: 10 * 1000, // 10 seconds
+      receiveTimeout: 10 * 1000 // 10 seconds
+
+      ));
 
   Api._internal() {
     logger.i("Initializing API client...");
@@ -159,6 +164,13 @@ class MyInterceptor extends Interceptor {
   onError(DioError err, ErrorInterceptorHandler handler) {
     var error = err.error;
     logger.e(err);
+    if (err.type == DioErrorType.connectTimeout || err.type == DioErrorType.receiveTimeout) {
+      Map<String, dynamic> errors = {
+        'message': "Connection timed out"
+      };
+      //_repository.deleteCurrentUser();
+      throw ErrorResponse.fromJson(errors);
+    }
     if (err.response?.statusCode == 401) {
       logger.e('Error is Unauthorized');
       Map<String, dynamic> errors = {

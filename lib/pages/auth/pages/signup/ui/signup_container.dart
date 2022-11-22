@@ -59,9 +59,10 @@ class SignupContainer extends StatelessWidget {
                               step == 1
                                   ? "Sign Up"
                                   : "Personal Info (Optional)",
-                              style: kGiantHeavy.copyWith(
+                              style: kGiantSemiBold.copyWith(
                                 color: Styles.kPrimaryColor,
                                 fontSize: 26,
+                                fontWeight: FontWeight.w700
                               ),
                             ),
                           ),
@@ -96,20 +97,6 @@ class SignupContainer extends StatelessWidget {
                           ),
                         ],
                       ),
-              ),
-              Visibility(
-                visible: step != 3,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24.0, vertical: 5),
-                  child: Text(
-                    step == 1
-                        ? "Tell us more about yourself."
-                        : "Worry not, all questions are in accordance with MYAirline guidelines",
-                    style: kMediumHeavy.copyWith(
-                        color: Styles.kSubTextColor, fontSize: 16),
-                  ),
-                ),
               ),
               Expanded(child: child),
             ],
