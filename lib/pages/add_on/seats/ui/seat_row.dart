@@ -2,6 +2,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,18 @@ class SeatRow extends StatelessWidget {
     Key? key,
     required this.seats,
   }) : super(key: key);
+
+  bool isBlockChild(Person? person) {
+    if (person?.peopleType == PeopleType.child ||
+        person?.peopleType == PeopleType.infant) {
+      if ((seats.blockChild ?? false) ||
+          (seats.blockInfant ?? false) ||
+          (seats.isEmergencyRow ?? false)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +51,7 @@ class SeatRow extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (!(seats.isSeatAvailable ?? true)) return;
+          if (isBlockChild(focusedPerson)) return;
           if (otherSelected) return;
           context
               .read<SearchFlightCubit>()
