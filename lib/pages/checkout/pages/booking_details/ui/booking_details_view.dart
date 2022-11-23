@@ -101,8 +101,8 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                       )
                     ],
                   ),
-                  kVerticalSpacer,
-
+                  kSummaryContainerSpacing,
+                  kSummaryContainerSpacing,
                 ],
               ),
             ),
@@ -164,6 +164,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       List<Passenger> passengers = [];
       print("flight infant is $flightInfant");
       for (Person person in (persons?.persons ?? [])) {
+        print("dob is ${value["${person.toString()}$formNameDob"]}");
         final passenger = person.toPassenger(
           outboundRows: rowsOutBound ?? [],
           inboundRows: rowsInBound ?? [],

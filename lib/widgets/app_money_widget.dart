@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class MoneyWidget extends StatelessWidget {
   final num? amount;
-  final bool isDense;
+  final bool isDense, isNormalMYR;
   final String? currency;
   final bool isNegative;
 
@@ -12,25 +12,39 @@ class MoneyWidget extends StatelessWidget {
     Key? key,
     this.amount,
     this.isDense = true,
-    this.currency,  this.isNegative = false,
+    this.currency,
+    this.isNegative = false,
+    this.isNormalMYR = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment:
           isDense ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Text(
-          "${isNegative ? "- " :""}${currency ?? 'MYR'} ",
-          style:
-              kMediumHeavy.copyWith(height: 1.5, fontSize: isDense ? 10 : 14),
+          "${isNegative ? "- " : ""}${currency ?? 'MYR'} ",
+          style: kMediumHeavy.copyWith(
+            height: isNormalMYR ? null : 1.5,
+            fontSize: isDense
+                ? isNormalMYR
+                    ? 20
+                    : 10
+                : isNormalMYR
+                    ? 28
+                    : 14,
+          ),
         ),
-        kHorizontalSpacerMini,
-        Text(
-          NumberUtils.formatNumber(amount?.toDouble()),
-          style: kHeaderHeavy.copyWith(fontSize: isDense ? 20 : 28),
+        SizedBox(width: isNormalMYR ? 0 : 5),
+        Flexible(
+          child: Text(
+            NumberUtils.formatNumber(amount?.toDouble()),
+            style: kHeaderHeavy.copyWith(fontSize: isDense ? 20 : 28),
+            textAlign: TextAlign.end,
+          ),
         ),
       ],
     );
@@ -47,7 +61,8 @@ class MoneyWidgetSmall extends StatelessWidget {
     Key? key,
     this.amount,
     this.isDense = true,
-    this.currency,  this.isNegative = false,
+    this.currency,
+    this.isNegative = false,
   }) : super(key: key);
 
   @override
@@ -58,10 +73,9 @@ class MoneyWidgetSmall extends StatelessWidget {
           isDense ? MainAxisAlignment.end : MainAxisAlignment.end,
       children: [
         Text(
-          "${isNegative ? "- " :""}${currency ?? 'MYR'} ",
+          "${isNegative ? "- " : ""}${currency ?? 'MYR'} ",
           style: kMediumRegular.copyWith(
             fontSize: isDense ? 12 : 14,
-            color: Styles.kSubTextColor,
           ),
         ),
         kHorizontalSpacerMini,
@@ -69,7 +83,6 @@ class MoneyWidgetSmall extends StatelessWidget {
           NumberUtils.formatNumber(amount?.toDouble()),
           style: kMediumRegular.copyWith(
             fontSize: isDense ? 12 : 14,
-            color: Styles.kSubTextColor,
           ),
         ),
       ],

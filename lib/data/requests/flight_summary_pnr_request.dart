@@ -75,6 +75,8 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
       _$FlightSummaryPnrRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightSummaryPnrRequestToJson(this);
+
+
 }
 
 @HiveType(typeId: 1)

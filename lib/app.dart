@@ -94,7 +94,7 @@ class _AppState extends State<App> {
               if (expiredInUTC == null) return;
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
-              print("durations is $diff");
+               print("durations is $diff");
               context
                   .read<TimerBloc>()
                   .add(TimerStarted(duration: diff.inSeconds));
@@ -187,3 +187,6 @@ class _AppState extends State<App> {
     );
   }
 }
+
+
+

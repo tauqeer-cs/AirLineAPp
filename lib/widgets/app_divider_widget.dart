@@ -8,7 +8,7 @@ class AppDividerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Divider(
-      color: color ?? Styles.kDividerColor,
+      color: color ?? Styles.kDisabledButton,
       thickness: 1,
       height: 1,
     );

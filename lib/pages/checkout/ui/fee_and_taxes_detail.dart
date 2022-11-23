@@ -109,7 +109,6 @@ class FeeAndTaxesDetail extends StatelessWidget {
             ),
           ),
         ),
-        AppDividerWidget(color: Styles.kDisabledButton),
       ],
     );
   }
