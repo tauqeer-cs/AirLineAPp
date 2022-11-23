@@ -57,7 +57,8 @@ class NumberPerson extends Equatable {
   }
 
   int get totalPerson => numberOfAdult + numberOfChildren;
-  int get totalPersonWithInfant => numberOfAdult + numberOfChildren +numberOfInfant;
+  int get totalPersonWithInfant =>
+      numberOfAdult + numberOfChildren + numberOfInfant;
 
   num getTotal() {
     num total = 0;
@@ -179,21 +180,21 @@ class Person extends Equatable {
     List<Bound> inboundSSR = [];
     //bundle
     final infantIndex = peopleType == PeopleType.adult &&
-        ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))
+            ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))
         ? 1
         : 0;
     //infant
-    if(infantIndex==1){
+    if (infantIndex == 1) {
       final outBoundInfant = infantGroup?.outbound?.firstOrNull;
       final inBoundInfant = infantGroup?.inbound?.firstOrNull;
       outboundSSR.add(Bound(
-        servicesType:"Infant",
+        servicesType: "Infant",
         logicalFlightId: outBoundInfant?.logicalFlightID,
         quantity: 1,
         serviceId: outBoundInfant?.serviceID,
       ));
       inboundSSR.add(Bound(
-        servicesType:"Infant",
+        servicesType: "Infant",
         logicalFlightId: inBoundInfant?.logicalFlightID,
         quantity: 1,
         serviceId: inBoundInfant?.serviceID,
@@ -242,20 +243,19 @@ class Person extends Equatable {
     final outboundSeat = departureSeats?.toOutbound(outboundRows);
     final inboundSeat = returnSeats?.toOutbound(inboundRows);
     final passenger = Passenger(
-      paxType: peopleType?.code ?? "",
-      ssr: Ssr(
-        inbound: inboundSSR,
-        outbound: outboundSSR,
-      ),
-      seat: Seat(
-        outbound:
-            outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ??
-                const Outbound(),
-        inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ??
-            const Outbound(),
-      ),
-      infantAssociateIndex: infantIndex
-    );
+        paxType: peopleType?.code ?? "",
+        ssr: Ssr(
+          inbound: inboundSSR,
+          outbound: outboundSSR,
+        ),
+        seat: Seat(
+          outbound:
+              outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ??
+                  const Outbound(),
+          inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ??
+              const Outbound(),
+        ),
+        infantAssociateIndex: infantIndex);
     return passenger;
   }
 
@@ -328,6 +328,14 @@ class Person extends Equatable {
     return totalPrice;
   }
 
+  bool isWithInfant(NumberPerson? numberPerson) {
+    if (peopleType == PeopleType.adult &&
+        ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))) {
+      return true;
+    }
+    return false;
+  }
+
   Person copyWith({
     PeopleType? peopleType,
     InboundBundle? Function()? departureBundle,
@@ -380,6 +388,7 @@ enum PeopleType {
   adult("ADT"),
   child("CHD"),
   infant("INF");
+
   const PeopleType(this.code);
   final String code;
 }

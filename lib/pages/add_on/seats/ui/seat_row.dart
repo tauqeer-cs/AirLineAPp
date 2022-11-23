@@ -16,9 +16,9 @@ class SeatRow extends StatelessWidget {
     required this.seats,
   }) : super(key: key);
 
-  bool isBlockChild(Person? person) {
+  bool isBlockChild(Person? person, NumberPerson? numberPerson) {
     if (person?.peopleType == PeopleType.child ||
-        person?.peopleType == PeopleType.infant) {
+        (person?.isWithInfant(numberPerson) ?? false)) {
       if ((seats.blockChild ?? false) ||
           (seats.blockInfant ?? false) ||
           (seats.isEmergencyRow ?? false)) {
@@ -51,7 +51,7 @@ class SeatRow extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (!(seats.isSeatAvailable ?? true)) return;
-          if (isBlockChild(focusedPerson)) return;
+          if (isBlockChild(focusedPerson, persons)) return;
           if (otherSelected) return;
           context
               .read<SearchFlightCubit>()
@@ -65,7 +65,8 @@ class SeatRow extends StatelessWidget {
                   ? Colors.red
                   : otherSelected
                       ? Colors.grey
-                      : (seats.isSeatAvailable ?? false)
+                      : (seats.isSeatAvailable ?? false) &&
+                              !isBlockChild(focusedPerson, persons)
                           ? (mapColor ?? {})[seats.serviceId]
                           : Colors.grey,
               borderRadius: BorderRadius.circular(8),
