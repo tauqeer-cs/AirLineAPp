@@ -131,8 +131,8 @@ class _AppState extends State<App> {
                   context: currentContext,
                   builder: (context) {
                     return AppConfirmationDialog(
-                      title: "Your session has expired",
-                      subtitle: "You need to restart your booking process",
+                      title: "Your session is expired, please retry your search!",
+                      subtitle: "",
                       onConfirm: () {
                         appRouter.replaceAll(
                             [const NavigationRoute(), const HomeRoute()]);
