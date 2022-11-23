@@ -382,6 +382,33 @@ class Person extends Equatable {
     }
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
+  
+  DateTime dateLimitEnd(){
+    final now = DateTime.now();
+    switch(peopleType){
+      case PeopleType.adult:
+        return DateTime(now.year-12, now.month, now.day);
+      case PeopleType.child:
+        return DateTime(now.year-2, now.month, now.day);
+      case PeopleType.infant:
+        return now;
+      default:
+        return now;
+    }
+  }
+  DateTime dateLimitStart(){
+    final now = DateTime.now();
+    switch(peopleType){
+      case PeopleType.adult:
+        return DateTime(now.year-210, now.month, now.day);
+      case PeopleType.child:
+        return DateTime(now.year-12, now.month, now.day);
+      case PeopleType.infant:
+        return DateTime(now.year-2, now.month, now.day);
+      default:
+        return now;
+    }
+  }
 }
 
 enum PeopleType {

@@ -26,6 +26,7 @@ class _MealsFeePaymentState extends State<MealsFeePayment> {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     return Column(
       children: [
+        kVerticalSpacer,
         PriceRow(
           child1: Text("Meals", style: k18Heavy),
           child2: MoneyWidgetSummary(

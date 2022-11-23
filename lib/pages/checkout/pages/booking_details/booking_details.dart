@@ -152,64 +152,67 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return LoaderOverlay(
-      useDefaultLoading: false,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => SummaryCubit()),
-          BlocProvider(create: (context) => InfoCubit()),
-        ],
-        child: BlocListener<SummaryCubit, SummaryState>(
-          listener: (context, state) {
-            blocListenerWrapper(
-              blocState: state.blocState,
-              onLoading: () {
-                context.loaderOverlay.show(
-                  widget: const AppLoadingScreen(message: "Loading"),
-                );
-              },
-              onFailed: () {
-                context.loaderOverlay.hide();
-                if (state.message.contains("please request a new GUID")) {
-                  context.router
-                      .replaceAll([const NavigationRoute(), const HomeRoute()]);
-                }
-                Toast.of(context).show(message: state.message);
-              },
-              onFinished: () {
-                print("go to summary route");
-                context.loaderOverlay.hide();
-                context
-                    .read<BookingCubit>()
-                    .summaryFlight(state.summaryRequest);
-                context.router.push(const PaymentRoute());
-              },
-            );
-          },
-          child: Scaffold(
-            appBar: AppAppBar(
-              title: "Your Trip Starts Here",
-              height: 100.h,
-              flexibleWidget: AppBookingStep(
-                passedSteps: const [
-                  BookingStep.flights,
-                  BookingStep.addOn,
-                  BookingStep.bookingDetails
-                ],
-                onTopStepTaped: (int index) {
-                  if (index == 0) {
-                    context.router
-                        .popUntilRouteWithName(SearchResultRoute.name);
-                  } else if (index == 1) {
-                    context.router.popUntilRouteWithName(SeatsRoute.name);
-                  } else if (index == 2) {
-                    context.router
-                        .popUntilRouteWithName(BookingDetailsRoute.name);
-                  }
+    return GestureDetector(
+      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      child: LoaderOverlay(
+        useDefaultLoading: false,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => SummaryCubit()),
+            BlocProvider(create: (context) => InfoCubit()),
+          ],
+          child: BlocListener<SummaryCubit, SummaryState>(
+            listener: (context, state) {
+              blocListenerWrapper(
+                blocState: state.blocState,
+                onLoading: () {
+                  context.loaderOverlay.show(
+                    widget: const AppLoadingScreen(message: "Loading"),
+                  );
                 },
+                onFailed: () {
+                  context.loaderOverlay.hide();
+                  if (state.message.contains("please request a new GUID")) {
+                    context.router
+                        .replaceAll([const NavigationRoute(), const HomeRoute()]);
+                  }
+                  Toast.of(context).show(message: state.message);
+                },
+                onFinished: () {
+                  print("go to summary route");
+                  context.loaderOverlay.hide();
+                  context
+                      .read<BookingCubit>()
+                      .summaryFlight(state.summaryRequest);
+                  context.router.push(const PaymentRoute());
+                },
+              );
+            },
+            child: Scaffold(
+              appBar: AppAppBar(
+                title: "Your Trip Starts Here",
+                height: 100.h,
+                flexibleWidget: AppBookingStep(
+                  passedSteps: const [
+                    BookingStep.flights,
+                    BookingStep.addOn,
+                    BookingStep.bookingDetails
+                  ],
+                  onTopStepTaped: (int index) {
+                    if (index == 0) {
+                      context.router
+                          .popUntilRouteWithName(SearchResultRoute.name);
+                    } else if (index == 1) {
+                      context.router.popUntilRouteWithName(SeatsRoute.name);
+                    } else if (index == 2) {
+                      context.router
+                          .popUntilRouteWithName(BookingDetailsRoute.name);
+                    }
+                  },
+                ),
               ),
+              body: const BookingDetailsView(),
             ),
-            body: const BookingDetailsView(),
           ),
         ),
       ),

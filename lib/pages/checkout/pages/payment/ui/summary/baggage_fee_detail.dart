@@ -1,4 +1,7 @@
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
@@ -16,30 +19,41 @@ class BaggageFeeDetailPayment extends StatelessWidget {
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final persons = filter?.numberPerson.persons ?? [];
+    final bookingState = context.watch<BookingCubit>().state;
+    final pnrRequest = bookingState.summaryRequest?.flightSummaryPNRRequest;
+    final passengers = pnrRequest?.passengers ?? [];
     return Column(
       children: [
         kVerticalSpacerSmall,
-        AppDividerWidget(color: Styles.kDisabledButton),
         ...persons.map(
           (e) {
+            final passengersTypes = passengers
+                .where((element) => element.paxType == e.peopleType?.code)
+                .toList();
+            if (passengersTypes.isEmpty || e.numberOrder == null) {
+              return SizedBox();
+            }
+            final passenger = passengersTypes.length > (e.numberOrder!.toInt())
+                ? passengersTypes[e.numberOrder!.toInt()]
+                : passengersTypes[0];
             final bundle = isDeparture ? e.departureBaggage : e.returnBaggage;
             return bundle?.amount == null
                 ? const SizedBox.shrink()
-                : PriceContainer(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${e.generateText(filter?.numberPerson)} : ${bundle?.description ?? 'No Bundle'}",
-                          style: kSmallRegular.copyWith(
+                : Column(
+                    children: [
+                      PriceRow(
+                        child1: Text(
+                          "${passenger.title} ${passenger.firstName}\n${e.generateText(filter?.numberPerson)} : ${bundle?.description ?? 'No Bundle'}",
+                          style: kMediumRegular.copyWith(
                               color: Styles.kSubTextColor),
                         ),
-                        MoneyWidget(
+                        child2: MoneyWidgetSummary(
                             amount: bundle?.amount,
                             isDense: true,
                             currency: bundle?.currencyCode),
-                      ],
-                    ),
+                      ),
+                      kVerticalSpacerSmall,
+                    ],
                   );
           },
         ).toList(),

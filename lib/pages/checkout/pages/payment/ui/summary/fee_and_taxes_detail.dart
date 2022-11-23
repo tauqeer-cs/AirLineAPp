@@ -41,7 +41,7 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
         ...(pnrRequest?.passengers ?? []).map((e) {
           final price = selectedFlight?.getPrice(e.paxType ?? "");
           return Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
+            padding: const EdgeInsets.only(bottom: 10.0),
             child: PriceRow(
               child1: Text(
                 "${e.title} ${e.firstName}",
@@ -54,7 +54,9 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
             ),
           );
         }).toList(),
+        kVerticalSpacerSmall,
       ],
+
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/theme/theme.dart';
@@ -48,38 +49,21 @@ class MealsFeeDetailPayment extends StatelessWidget {
                       kVerticalSpacerMini,
                       ...meals
                           .map(
-                            (meal) => true
-                                ? PriceRow(
-                                    child1: Text(
-                                      meal.description ?? "",
-                                      style: kMediumRegular,
-                                    ),
-                                    child2: MoneyWidgetSmall(
-                                      amount: meal.amount,
-                                      isDense: true,
-                                      currency: meal.currencyCode,
-                                    ),
-                                  )
-                                : Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          meal.description ?? "",
-                                          style: kSmallRegular.copyWith(
-                                              color: Styles.kSubTextColor),
-                                        ),
-                                      ),
-                                      kHorizontalSpacerMini,
-                                      MoneyWidgetSmall(
-                                          amount: meal.amount,
-                                          isDense: true,
-                                          currency: meal.currencyCode),
-                                    ],
-                                  ),
+                            (meal) => PriceRow(
+                              child1: Text(
+                                meal.description ?? "",
+                                style: kMediumRegular,
+                              ),
+                              child2: MoneyWidgetSummary(
+                                amount: meal.amount,
+                                isDense: true,
+                                currency: meal.currencyCode,
+                              ),
+                            ),
                           )
                           .toList(),
+                      kVerticalSpacerSmall,
+
                     ],
                   );
           },

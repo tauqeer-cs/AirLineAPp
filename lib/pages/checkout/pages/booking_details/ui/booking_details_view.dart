@@ -20,6 +20,8 @@ import '../../../../../theme/theme.dart';
 
 const formNameFirstName = "_first_name";
 const formNameLastName = "_last_name";
+const formNameWheelChair = "_wheel_chair";
+const formNameOkIdNumber = "_okIdNumber";
 const formNameTitle = "_title";
 const formNameNationality = "_nationality";
 const formNameDob = "_dob";
@@ -165,6 +167,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       print("flight infant is $flightInfant");
       for (Person person in (persons?.persons ?? [])) {
         print("dob is ${value["${person.toString()}$formNameDob"]}");
+        print("whhelchair ${value["${person.toString()}$formNameWheelChair"]}");
         final passenger = person.toPassenger(
           outboundRows: rowsOutBound ?? [],
           inboundRows: rowsInBound ?? [],
@@ -192,6 +195,8 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           dob: value["${person.toString()}$formNameDob"],
           gender: "Male",
           relation: "Self",
+          wheelChairNeeded: value["${person.toString()}$formNameWheelChair"],
+          oKUIDNumber: value["${person.toString()}$formNameOkIdNumber"],
         );
         passengers.add(filledPassenger);
       }

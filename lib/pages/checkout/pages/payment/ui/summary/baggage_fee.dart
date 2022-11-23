@@ -1,5 +1,7 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/baggage_fee_detail.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -17,38 +19,21 @@ class BaggageFeePayment extends StatefulWidget {
 }
 
 class _BaggageFeePaymentState extends State<BaggageFeePayment> {
-  bool isExpand = false;
 
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     return Column(
       children: [
-        ListTile(
-          onTap: () {
-            setState(() {
-              isExpand = !isExpand;
-            });
-          },
-          title: Row(
-            children: [
-              const Text(
-                "- Baggage",
-                style: kMediumRegular,
-              ),
-              kHorizontalSpacerSmall,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
-              const Spacer(),
-              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBaggagePartial(widget.isDeparture)),
-            ],
+        kVerticalSpacer,
+        PriceRow(
+          child1: Text("Baggage", style: k18Heavy),
+          child2: MoneyWidgetSummary(
+            isDense: false,
+            amount:filter?.numberPerson.getTotalBaggagePartial(widget.isDeparture),
           ),
         ),
-        ExpandedSection(
-          expand: isExpand,
-          child: BaggageFeeDetailPayment(isDeparture: widget.isDeparture),
-        ),
+        BaggageFeeDetailPayment(isDeparture: widget.isDeparture),
       ],
     );
   }
