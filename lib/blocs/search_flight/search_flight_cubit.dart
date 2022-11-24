@@ -37,25 +37,31 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
-  addSeatToPerson(Person? person, Seats? seat, bool isDeparture) {
-    final persons =
-        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
-    final selected = persons.indexWhere((element) => element == person);
-    if (selected >= 0) {
-      final person = persons[selected];
-      final newPerson = isDeparture
-          ? person.copyWith(departureSeats: () => seat)
-          : person.copyWith(returnSeats: () => seat);
-      persons.removeAt(selected);
-      persons.insert(selected, newPerson);
-      final newNumberPerson = NumberPerson(persons: persons);
-      final filterState =
-          state.filterState?.copyWith(numberPerson: newNumberPerson);
-      emit(
-        state.copyWith(
-            filterState: filterState,
-            message: "${DateTime.now().millisecondsSinceEpoch}"),
-      );
+  bool addSeatToPerson(Person? person, Seats? seat, bool isDeparture) {
+    try {
+      final persons =
+          List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+      final selected = persons.indexWhere((element) => element == person);
+      if (selected >= 0) {
+        final person = persons[selected];
+        final newPerson = isDeparture
+            ? person.copyWith(departureSeats: () => seat)
+            : person.copyWith(returnSeats: () => seat);
+        persons.removeAt(selected);
+        persons.insert(selected, newPerson);
+        final newNumberPerson = NumberPerson(persons: persons);
+        final filterState =
+            state.filterState?.copyWith(numberPerson: newNumberPerson);
+        emit(
+          state.copyWith(
+              filterState: filterState,
+              message: "${DateTime.now().millisecondsSinceEpoch}"),
+        );
+      }
+
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
@@ -73,9 +79,9 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
       final meals = isDeparture
           ? List<Bundle>.from(person.departureMeal)
           : List<Bundle>.from(person.returnMeal);
-      if(isAdd){
+      if (isAdd) {
         meals.add(meal);
-      }else{
+      } else {
         meals.remove(meal);
       }
 
@@ -97,7 +103,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
 
   addBaggageToPerson(Person? person, Bundle? baggage, bool isDeparture) {
     final persons =
-    List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
     final selected = persons.indexWhere((element) => element == person);
     if (selected >= 0) {
       final person = persons[selected];
@@ -108,7 +114,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
       persons.insert(selected, newPerson);
       final newNumberPerson = NumberPerson(persons: persons);
       final filterState =
-      state.filterState?.copyWith(numberPerson: newNumberPerson);
+          state.filterState?.copyWith(numberPerson: newNumberPerson);
       emit(
         state.copyWith(
             filterState: filterState,
@@ -122,7 +128,8 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     try {
       final request = SearchFlight.fromFilter(filterState);
       final airports = await _repository.searchFlight(request);
-      print("result ${airports.searchFlightResponse?.flightResult?.inboundSegment?.length}");
+      print(
+          "result ${airports.searchFlightResponse?.flightResult?.inboundSegment?.length}");
       emit(
         state.copyWith(
           blocState: BlocState.finished,

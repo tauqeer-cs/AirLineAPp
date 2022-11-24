@@ -11,9 +11,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SeatRow extends StatelessWidget {
   final Seats seats;
 
-  const SeatRow({
+  VoidCallback? moveToTop;
+  VoidCallback? moveToBottom;
+
+   SeatRow({
     Key? key,
     required this.seats,
+    this.moveToTop,
+     this.moveToBottom,
   }) : super(key: key);
 
   bool isBlockChild(Person? person, NumberPerson? numberPerson) {
@@ -49,13 +54,40 @@ class SeatRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           if (!(seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
           if (otherSelected) return;
-          context
+          var responseCheck = context
               .read<SearchFlightCubit>()
               .addSeatToPerson(selectedPerson, seats, isDeparture);
+
+          if(responseCheck) {
+            print('object');
+            var nextPerson = persons?.persons.indexOf(selectedPerson!);
+
+
+
+            if( (nextPerson! + 1) <  persons!.persons.length ) {
+
+              await Future.delayed(const Duration(seconds: 2));
+
+              context.read<SelectedPersonCubit>().selectPerson(persons.persons[nextPerson + 1]);
+
+              moveToTop!();
+
+
+            }
+            else if( (nextPerson + 1) ==  persons.persons.length ) {
+              await Future.delayed(const Duration(milliseconds: 500));
+
+              moveToBottom!.call();
+
+            }
+
+            print('');
+
+          }
         },
         child: SizedBox(
           height: 40,

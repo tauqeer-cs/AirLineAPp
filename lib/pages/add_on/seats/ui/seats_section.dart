@@ -9,7 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SeatsSection extends StatelessWidget {
   final bool isDeparture;
-  const SeatsSection({Key? key, this.isDeparture = true}) : super(key: key);
+  VoidCallback? moveToTop;
+  VoidCallback? moveToBottom;
+
+   SeatsSection({Key? key, this.isDeparture = true,this.moveToTop,this.moveToBottom}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,13 @@ class SeatsSection extends StatelessWidget {
             child: SeatsLegend(),
           ),
           kVerticalSpacer,
-          const SeatPlan(),
+           SeatPlan(moveToTop: (){
+             moveToTop!.call();
+           },moveToBottom: (){
+
+             moveToBottom!.call();
+
+           },),
           kVerticalSpacer,
           const SeatRemove(),
         ],
