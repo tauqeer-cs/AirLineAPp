@@ -622,7 +622,6 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
           return Container(
             margin: EdgeInsets.only(
               bottom: viewInsetsBottom,
-              top: viewPaddingTop,
             ),
             child: _popupWidgetInstance(),
           );
