@@ -58,6 +58,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "123907775175-t891ac9dsqh04gbr8lupmbc6ukigcebj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myairline.mobileapp.dev",
+            "certificate_hash": "b08fee94bd8469bf4a2edb140006eecc136949d9"
+          }
+        },
+        {
           "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
           "client_type": 3
         }
