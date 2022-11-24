@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBVWJe57vSQHkQUG9i4ekERvu-hOussPfE',
-    appId: '1:123907775175:android:5910b78872cec0990d7ce2',
+    appId: '1:123907775175:android:42f7ac5c99a0b5f90d7ce2',
     messagingSenderId: '123907775175',
     projectId: 'myairline-4ef5b',
     storageBucket: 'myairline-4ef5b.appspot.com',
@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAboqPrX6-j9UAHD3_wF7lEo2JYll6N1RY',
-    appId: '1:123907775175:ios:4ef6b02f82eeee9b0d7ce2',
+    appId: '1:123907775175:ios:25b3f0a63aa40b970d7ce2',
     messagingSenderId: '123907775175',
     projectId: 'myairline-4ef5b',
     storageBucket: 'myairline-4ef5b.appspot.com',
     androidClientId: '123907775175-sblo9tqlicud2dodfvj5q03ffd21kfad.apps.googleusercontent.com',
-    iosClientId: '123907775175-gr6cg40jdgiqta5rs9vcmsl8cvlfr77k.apps.googleusercontent.com',
-    iosBundleId: 'com.myairline.mobileapp',
+    iosClientId: '123907775175-bivo2dhhblqctua0t4id894je4o7kf0k.apps.googleusercontent.com',
+    iosBundleId: 'com.myairline.mobileapp.dev',
   );
 }
