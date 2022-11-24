@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/fee_and_taxes.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
@@ -83,8 +84,6 @@ class _FlightDetailState extends State<FlightDetail> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kVerticalSpacer,
-                AppDividerWidget(color: Styles.kTextColor),
-                kVerticalSpacer,
                 Row(
                   children: [
                     Expanded(
@@ -127,7 +126,7 @@ class _FlightDetailState extends State<FlightDetail> {
                   visible: widget.showFees,
                   child: BlocProvider(
                     create: (context) => IsPaymentPageCubit(true),
-                    child: FeeAndTaxes(isDeparture: widget.isDeparture),
+                    child: FeeAndTaxesPayment(isDeparture: widget.isDeparture),
                   ),
                 )
               ],

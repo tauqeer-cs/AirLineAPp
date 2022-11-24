@@ -1,6 +1,6 @@
+import 'package:app/custom_packages/dropdown_search/dropdown_search.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_sheet_handler.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -105,10 +105,7 @@ class AppDropDown<T> extends StatelessWidget {
         return val1 == val2;
       },
       popupProps: PopupProps.modalBottomSheet(
-        title: Transform.translate(
-          offset: const Offset(0, 00),
-          child: AppSheetHandler(title: sheetTitle),
-        ),
+        title: AppSheetHandler(title: sheetTitle),
         showSelectedItems: true,
         scrollbarProps: ScrollbarProps(
           thumbColor: Styles.kBorderActionColor,
@@ -146,11 +143,7 @@ class AppDropDown<T> extends StatelessWidget {
         listViewProps: const ListViewProps(
           padding: EdgeInsets.zero,
         ),
-        /*dialogProps: DialogProps(
-          barrierDismissible: true,
-          contentPadding: EdgeInsets.zero,
-          actionsPadding: EdgeInsets.zero,
-        ),*/
+
         modalBottomSheetProps: ModalBottomSheetProps(
           backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
           shape: const RoundedRectangleBorder(

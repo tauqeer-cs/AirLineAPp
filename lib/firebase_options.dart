@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '123907775175',
     projectId: 'myairline-4ef5b',
     storageBucket: 'myairline-4ef5b.appspot.com',
+    androidClientId: '123907775175-sblo9tqlicud2dodfvj5q03ffd21kfad.apps.googleusercontent.com',
     iosClientId: '123907775175-gr6cg40jdgiqta5rs9vcmsl8cvlfr77k.apps.googleusercontent.com',
     iosBundleId: 'com.myairline.mobileapp',
   );

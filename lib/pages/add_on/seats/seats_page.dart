@@ -1,7 +1,9 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/add_on/seats/ui/seats_view.dart';
+import 'package:app/pages/bookings/bloc/bookings_cubit.dart';
 import 'package:app/pages/search_result/search_result_page.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
@@ -13,6 +15,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 class SeatsPage extends StatelessWidget {
   final bool isDeparture;
+
   const SeatsPage({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
@@ -29,21 +32,26 @@ class SeatsPage extends StatelessWidget {
           appBar: AppAppBar(
             title: "Your Trip Starts Here",
             height: 100.h,
-            flexibleWidget:  AppBookingStep(
+            flexibleWidget: AppBookingStep(
               passedSteps: [BookingStep.flights, BookingStep.addOn],
-              onTopStepTaped: (index){
-                if(index == 0){
+              onTopStepTaped: (index) {
+                if (index == 0) {
                   context.router.popUntilRouteWithName(SearchResultRoute.name);
-                }
-                else if(index == 1) {
+                } else if (index == 1) {
                   context.router.popUntilRouteWithName(SeatsRoute.name);
-
                 }
               },
-
             ),
           ),
-          body: SeatsView(isDeparture: isDeparture),
+          body: BlocBuilder<BookingCubit, BookingState>(
+            builder: (context, state) {
+              return blocBuilderWrapper(
+                blocState: state.blocState,
+                finishedBuilder: SeatsView(isDeparture: isDeparture),
+              );
+              return SeatsView(isDeparture: isDeparture);
+            },
+          ),
         ),
       ),
     );

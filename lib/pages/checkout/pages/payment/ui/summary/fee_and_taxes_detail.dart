@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -21,72 +25,45 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
         : context.watch<BookingCubit>().state.selectedReturn;
     final info = segment?.fareTypeWithTaxDetails?.firstOrNull
         ?.fareInfoWithTaxDetails?.firstOrNull;
+    final bookingState = context.read<BookingCubit>().state;
     final List<ApplicationTaxDetailBinds>? taxes =
         info?.applicationTaxDetailBinds;
     final filter = context.watch<SearchFlightCubit>().state.filterState;
-
+    final pnrRequest = bookingState.summaryRequest?.flightSummaryPNRRequest;
+    final selectedFlight = isDeparture
+        ? bookingState.selectedDeparture
+        : bookingState.selectedReturn;
     if (taxes?.isEmpty ?? true) return const SizedBox();
+    log(pnrRequest?.toJson().toString() ?? "");
     return Column(
       children: [
-        AppDividerWidget(color: Styles.kDisabledButton),
-        PriceContainer(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Ticket",
-                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+        kVerticalSpacerSmall,
+        ...(pnrRequest?.passengers ?? []).map((e) {
+          final price = selectedFlight?.getPrice(e.paxType ?? "");
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: PriceRow(
+              child1: Text(
+                "${e.title} ${e.firstName}",
+                style: kMediumRegular,
               ),
-              Row(
-                children: [
-                  Text(
-                    "${filter?.numberPerson.totalPerson}x @",
-                    style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
-                  ),
-                  kHorizontalSpacerMini,
-                  MoneyWidgetSmall(amount: info?.baseFareAmt, isDense: true),
-                ],
+              child2: MoneyWidgetSummary(
+                amount: price,
+                isDense: true,
               ),
-            ],
-          ),
-        ),
-        ...taxes!
-            .map(
-              (e) => PriceContainer(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        e.taxDetail?.taxDesc ?? "",
-                        style:
-                            kSmallRegular.copyWith(color: Styles.kSubTextColor),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "${filter?.numberPerson.totalPerson}x @",
-                          style: kSmallRegular.copyWith(
-                              color: Styles.kSubTextColor),
-                        ),
-                        kHorizontalSpacerMini,
-                        MoneyWidgetSmall(amount: e.amt, isDense: true),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
-            .toList(),
-        AppDividerWidget(color: Styles.kDisabledButton),
+            ),
+          );
+        }).toList(),
+        kVerticalSpacerSmall,
       ],
+
     );
   }
 }
 
 class PriceContainer extends StatelessWidget {
   final Widget child;
+
   const PriceContainer({Key? key, required this.child}) : super(key: key);
 
   @override
@@ -97,4 +74,3 @@ class PriceContainer extends StatelessWidget {
     );
   }
 }
-

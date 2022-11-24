@@ -36,6 +36,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
   final infantAdultName = TextEditingController();
 
   bool isUnder16 = false;
+  bool isWheelChairChecked = false;
 
   @override
   void initState() {
@@ -113,11 +114,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 ),
                 FormBuilderDateTimePicker(
                   name: "${widget.person.toString()}$formNameDob",
-                  firstDate: DateTime(1920),
-                  lastDate: DateTime.now(),
+                  firstDate: widget.person.dateLimitStart(),
+                  lastDate: widget.person.dateLimitEnd(),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
-                  initialDate: passengerInfo?.dob ?? DateTime(2000),
+                  initialDate: widget.person.dateLimitEnd(),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,
@@ -134,9 +135,9 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   visible: (notice?.content?.isNotEmpty ?? false) &&
                       isUnder16 &&
                       (widget.person.peopleType == PeopleType.adult) &&
-                      (filter.numberPerson.totalPerson == 1),
+                      (filter.numberPerson.numberOfAdult == 1),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    margin: const EdgeInsets.only(top: 12),
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
                     width: 500.w,
@@ -147,7 +148,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Checkbox(value: true, onChanged: (_) {}),
+                        Checkbox(
+                          value: true,
+                          onChanged: (_) {},
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
                         Expanded(
                           child: Html(
                             data: notice?.content ?? "",
@@ -158,7 +163,35 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     ),
                   ),
                 ),
-                kVerticalSpacerMini,
+                Visibility(
+                  visible: widget.person.peopleType != PeopleType.infant,
+                  child: FormBuilderCheckbox(
+                    name: "${widget.person.toString()}$formNameWheelChair",
+                    contentPadding: EdgeInsets.zero,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.zero,
+                      border: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      focusedErrorBorder: InputBorder.none,
+                    ),
+                    title: Text("I need wheelchair assistance."),
+                    onChanged: (value) {
+                      setState(() {
+                        isWheelChairChecked = value ?? false;
+                      });
+                    },
+                  ),
+                ),
+                Visibility(
+                  visible: isWheelChairChecked,
+                  child: AppInputText(
+                    name: "${widget.person.toString()}$formNameOkIdNumber",
+                    hintText: "Disabled ID Card No (Optional)",
+                  ),
+                ),
                 Visibility(
                   visible: widget.person.peopleType == PeopleType.infant,
                   child: BlocBuilder<InfoCubit, Map<String, String>>(

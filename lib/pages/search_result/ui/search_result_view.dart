@@ -56,7 +56,7 @@ class SearchResultView extends StatelessWidget {
                         )
                       ],
                     ),
-                    kVerticalSpacerSmall,
+                    kSummaryContainerSpacing,
                     kSummaryContainerSpacing,
                   ],
                 ),

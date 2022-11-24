@@ -1,5 +1,7 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/meals_fee_detail.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -9,45 +11,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MealsFeePayment extends StatefulWidget {
   final bool isDeparture;
-  const MealsFeePayment({Key? key, required this.isDeparture}) : super(key: key);
+
+  const MealsFeePayment({Key? key, required this.isDeparture})
+      : super(key: key);
 
   @override
   State<MealsFeePayment> createState() => _MealsFeePaymentState();
 }
 
 class _MealsFeePaymentState extends State<MealsFeePayment> {
-  bool isExpand = false;
 
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     return Column(
       children: [
-        ListTile(
-          onTap: () {
-            setState(() {
-              isExpand = !isExpand;
-            });
-          },
-          title: Row(
-            children: [
-              const Text(
-                "- Meals",
-                style: kMediumRegular,
-              ),
-              kHorizontalSpacerSmall,
-              Icon(
-                isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              ),
-              const Spacer(),
-              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalMealPartial(widget.isDeparture)),
-            ],
+        kVerticalSpacer,
+        PriceRow(
+          child1: Text("Meals", style: k18Heavy),
+          child2: MoneyWidgetSummary(
+            isDense: false,
+            amount:
+                filter?.numberPerson.getTotalMealPartial(widget.isDeparture),
           ),
         ),
-        ExpandedSection(
-          expand: isExpand,
-          child: MealsFeeDetailPayment(isDeparture: widget.isDeparture),
-        ),
+        MealsFeeDetailPayment(isDeparture: widget.isDeparture),
       ],
     );
   }

@@ -18,7 +18,7 @@ class MealsFeeDetail extends StatelessWidget {
     return Column(
       children: [
         kVerticalSpacerSmall,
-        AppDividerWidget(color: Styles.kTextColor),
+        AppDividerWidget(),
         ...persons.map(
           (e) {
             final meals = isDeparture ? e.departureMeal : e.returnMeal;

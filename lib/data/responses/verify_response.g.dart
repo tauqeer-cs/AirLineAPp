@@ -1009,6 +1009,9 @@ Map<String, dynamic> _$RowsToJson(Rows instance) {
 }
 
 Seats _$SeatsFromJson(Map<String, dynamic> json) => Seats(
+      blockChild: json['blockChild'] as bool?,
+      blockInfant: json['blockInfant'] as bool?,
+      isEmergencyRow: json['isEmergencyRow'] as bool?,
       cabinClassId: json['cabinClassId'] as num?,
       isSeatAvailable: json['isSeatAvailable'] as bool?,
       restrictions: (json['restrictions'] as List<dynamic>?)
@@ -1041,6 +1044,9 @@ Map<String, dynamic> _$SeatsToJson(Seats instance) {
     }
   }
 
+  writeNotNull('blockChild', instance.blockChild);
+  writeNotNull('blockInfant', instance.blockInfant);
+  writeNotNull('isEmergencyRow', instance.isEmergencyRow);
   writeNotNull('cabinClassId', instance.cabinClassId);
   writeNotNull('isSeatAvailable', instance.isSeatAvailable);
   writeNotNull('restrictions', instance.restrictions);

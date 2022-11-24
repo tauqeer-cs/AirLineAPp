@@ -12,7 +12,7 @@ final kHorizontalSpacer = SizedBox(width: 20.w);
 final kHorizontalSpacerBig = SizedBox(width: 30.w);
 final kHorizontalSpacerHuge = SizedBox(width: 40.w);
 final kSliverVerticalSpacer = EdgeInsets.only(bottom: 20.h);
-final kSummaryContainerSpacing = SizedBox(height: 145);
+final kSummaryContainerSpacing = SizedBox(height: 110);
 final kSummaryContainerSpacingBig = SizedBox(height: 350);
 
 const kPagePadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);

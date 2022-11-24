@@ -998,6 +998,9 @@ class Rows extends Equatable {
 class Seats extends Equatable {
   @override
   List<Object?> get props => [
+        blockChild,
+        blockInfant,
+        isEmergencyRow,
         cabinClassId,
         isSeatAvailable,
         restrictions,
@@ -1018,6 +1021,9 @@ class Seats extends Equatable {
   factory Seats.fromJson(Map<String, dynamic> json) => _$SeatsFromJson(json);
 
   Map<String, dynamic> toJson() => _$SeatsToJson(this);
+  final bool? blockChild;
+  final bool? blockInfant;
+  final bool? isEmergencyRow;
   final num? cabinClassId;
   final bool? isSeatAvailable;
   final List<Restrictions>? restrictions;
@@ -1035,7 +1041,10 @@ class Seats extends Equatable {
   final num? weightIndex;
 
   const Seats(
-      {this.cabinClassId,
+      {this.blockChild,
+      this.blockInfant,
+      this.isEmergencyRow,
+      this.cabinClassId,
       this.isSeatAvailable,
       this.restrictions,
       this.rowId,

@@ -253,7 +253,7 @@ abstract class _$PassengerCWProxy {
 
   Passenger nationalityLanguageId(num? nationalityLanguageId);
 
-  Passenger oKUIDNumber(bool? oKUIDNumber);
+  Passenger oKUIDNumber(String? oKUIDNumber);
 
   Passenger passport(String? passport);
 
@@ -294,7 +294,7 @@ abstract class _$PassengerCWProxy {
     String? middleName,
     String? nationality,
     num? nationalityLanguageId,
-    bool? oKUIDNumber,
+    String? oKUIDNumber,
     String? passport,
     String? paxType,
     num? personOrgId,
@@ -350,7 +350,7 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
       this(nationalityLanguageId: nationalityLanguageId);
 
   @override
-  Passenger oKUIDNumber(bool? oKUIDNumber) => this(oKUIDNumber: oKUIDNumber);
+  Passenger oKUIDNumber(String? oKUIDNumber) => this(oKUIDNumber: oKUIDNumber);
 
   @override
   Passenger passport(String? passport) => this(passport: passport);
@@ -464,7 +464,7 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
       oKUIDNumber: oKUIDNumber == const $CopyWithPlaceholder()
           ? _value.oKUIDNumber
           // ignore: cast_nullable_to_non_nullable
-          : oKUIDNumber as bool?,
+          : oKUIDNumber as String?,
       passport: passport == const $CopyWithPlaceholder()
           ? _value.passport
           // ignore: cast_nullable_to_non_nullable
@@ -895,7 +895,7 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       title: json['Title'] as String? ?? "",
       gender: json['Gender'] as String? ?? "",
       wheelChairNeeded: json['WheelChairNeeded'] as bool?,
-      oKUIDNumber: json['OKUIDNumber'] as bool?,
+      oKUIDNumber: json['OKUIDNumber'] as String?,
       infantAssociateIndex: json['InfantAssociateIndex'] as num? ?? 0,
       isPrimaryPassenger: json['IsPrimaryPassenger'] as bool? ?? true,
       knownTravelerNumber: json['KnownTravelerNumber'] as String? ?? "",

@@ -61,7 +61,7 @@ class BookingCubit extends Cubit<BookingState> {
 
   verifyFlight(FilterState? filterState) async {
     if (filterState == null) return;
-    emit(state.copyWith(blocState: BlocState.loading));
+    emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
     try {
       final inboundLFID =state.selectedReturn?.lfid;
       final inboundFBCode = state.selectedReturn?.fbCode;
@@ -80,6 +80,7 @@ class BookingCubit extends Cubit<BookingState> {
       final seatsDeparture =
           verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
       final seatsReturn = verifyResponse.flightSSR?.seatGroup?.inbound ?? [];
+
       final Map<num?, Color> departureColorMapping = {};
       final Map<num?, Color> returnColorMapping = {};
       for (int i = 0; i < seatsDeparture.length; i++) {
@@ -113,7 +114,7 @@ class BookingCubit extends Cubit<BookingState> {
 
   reVerifyFlight(FilterState? filterState) async {
     if (filterState == null) return;
-    emit(state.copyWith(blocState: BlocState.loading));
+    emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
     try {
       final inboundLFID =state.selectedReturn?.lfid;
       final inboundFBCode = state.selectedReturn?.fbCode;

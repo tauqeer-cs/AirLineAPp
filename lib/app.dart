@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
@@ -84,26 +86,62 @@ class _AppState extends State<App> {
               }
             },
           ),
+          BlocListener<BookingCubit, BookingState>(
+            listenWhen: (prev, curr) => !prev.isVerify && curr.isVerify,
+            listener: (context, state) {
+              log("current bloc state is ${state.verifyResponse}");
+              final expiredInUTC = state.verifyResponse?.verifyExpiredDateTime;
+              if (expiredInUTC == null) return;
+              final nowUTC = DateTime.now().toUtc();
+              final diff = expiredInUTC.difference(nowUTC);
+               print("durations is $diff");
+              context
+                  .read<TimerBloc>()
+                  .add(TimerStarted(duration: diff.inSeconds));
+            },
+          ),
           BlocListener<TimerBloc, TimerState>(
             listener: (context, state) {
               final currentContext = appRouter.navigatorKey.currentContext;
               if (currentContext == null) return;
-              print("duration remaining is ${state.durationRemaining}");
-              showDialog(
-                context: currentContext,
-                builder: (context) {
-                  return AppConfirmationDialog(
-                    title: "Your session will expired soon.",
-                    subtitle:
-                    "Hey, your time limit of this session will expired soon, are you want to prolong the session?",
-                    confirmText: "Continue Session",
-                    onConfirm: () {
-                      final filterState = currentContext.read<SearchFlightCubit>().state.filterState;
-                      currentContext.read<BookingCubit>().reVerifyFlight(filterState);
-                    },
-                  );
-                },
-              );
+              if (state.durationRemaining == 600) {
+                showDialog(
+                  context: currentContext,
+                  builder: (context) {
+                    return AppConfirmationDialog(
+                      title:
+                          "Hi, Need more time? In 10 minutes, this page will expire.",
+                      subtitle:
+                          "Click here if you need more time to fill up your details",
+                      confirmText: "Stay and Continue",
+                      onConfirm: () {
+                        final filterState = currentContext
+                            .read<SearchFlightCubit>()
+                            .state
+                            .filterState;
+                        currentContext
+                            .read<BookingCubit>()
+                            .reVerifyFlight(filterState);
+                      },
+                    );
+                  },
+                );
+              } else if (state.durationRemaining == 1) {
+                showDialog(
+                  context: currentContext,
+                  builder: (context) {
+                    return AppConfirmationDialog(
+                      title: "Your session is expired, please retry your search!",
+                      subtitle: "",
+                      onConfirm: () {
+                        appRouter.replaceAll(
+                            [const NavigationRoute(), const HomeRoute()]);
+                      },
+                      confirmText: "Okay",
+                    );
+                  },
+                );
+              }
             },
           ),
           BlocListener<RoutesCubit, RoutesState>(
@@ -149,3 +187,6 @@ class _AppState extends State<App> {
     );
   }
 }
+
+
+

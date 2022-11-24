@@ -1,4 +1,5 @@
 import 'package:app/data/requests/search_flight_request.dart';
+import 'package:app/models/number_person.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -177,6 +178,19 @@ class InboundOutboundSegment extends Equatable {
       _$InboundOutboundSegmentFromJson(json);
 
   Map<String, dynamic> toJson() => _$InboundOutboundSegmentToJson(this);
+
+  getPrice(String pax){
+    switch (pax.toUpperCase()){
+      case "ADT":
+        return adultPricePerPax;
+      case "CHD":
+        return childPricePerPax;
+      case "INF":
+        return infantPricePerPax;
+      default:
+        return 0;
+    }
+  }
 }
 
 @JsonSerializable()

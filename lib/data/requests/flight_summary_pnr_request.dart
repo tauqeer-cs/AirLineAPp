@@ -75,6 +75,8 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
       _$FlightSummaryPnrRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightSummaryPnrRequestToJson(this);
+
+
 }
 
 @HiveType(typeId: 1)
@@ -294,7 +296,7 @@ class Passenger extends HiveObject with EquatableMixin {
   @JsonKey(name: 'WheelChairNeeded')
   final bool? wheelChairNeeded;
   @JsonKey(name: 'OKUIDNumber')
-  final bool? oKUIDNumber;
+  final String? oKUIDNumber;
   @JsonKey(name: 'KnownTravelerNumber')
   final String? knownTravelerNumber;
   @JsonKey(name: 'Nationality')
