@@ -33,7 +33,7 @@ class BaggageSection extends StatelessWidget {
             style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
           ),
           kVerticalSpacer,
-          const PassengerSelector(),
+           PassengerSelector(isDeparture: isDeparture,),
           kVerticalSpacer,
           buildBaggageCards(baggages, isDeparture),
           kVerticalSpacer,

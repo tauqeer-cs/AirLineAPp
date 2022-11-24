@@ -29,9 +29,9 @@ class SeatsSection extends StatelessWidget {
             ),
           ),
           kVerticalSpacer,
-          const Padding(
+           Padding(
             padding: kPageHorizontalPadding,
-            child: PassengerSelector(),
+            child: PassengerSelector(isDeparture: isDeparture,isSeatSelection: true,),
           ),
           kVerticalSpacerSmall,
           const Padding(

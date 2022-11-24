@@ -11,10 +11,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PassengerSelector extends StatelessWidget {
   final bool isContact;
-  const PassengerSelector({Key? key, this.isContact = false}) : super(key: key);
+  final bool isDeparture;
+
+  final bool isSeatSelection;
+
+  const PassengerSelector({Key? key, this.isContact = false, required this.isDeparture, this.isSeatSelection = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final st =
+        context.watch<SearchFlightCubit>().state;
+
     final numberOfPerson =
         context.watch<SearchFlightCubit>().state.filterState?.numberPerson;
     final selectedPerson = context.watch<SelectedPersonCubit>().state;
@@ -30,7 +38,7 @@ class PassengerSelector extends StatelessWidget {
         onChanged: (val) {
           context.read<SelectedPersonCubit>().selectPerson(val);
         },
-        dropdownDecoration: DropDownDecoratorProps(
+        dropdownDecoration: const DropDownDecoratorProps(
           dropdownSearchDecoration: InputDecoration(
             border: InputBorder.none,
             disabledBorder: InputBorder.none,
@@ -39,7 +47,7 @@ class PassengerSelector extends StatelessWidget {
             focusedBorder: InputBorder.none,
             focusedErrorBorder: InputBorder.none,
             hintText:  "Passenger",
-            contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
           )
         ),
         sheetTitle: "Passenger",
