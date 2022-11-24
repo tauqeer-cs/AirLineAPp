@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "123907775175-sblo9tqlicud2dodfvj5q03ffd21kfad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myairline.mobileapp",
+            "certificate_hash": "b08fee94bd8469bf4a2edb140006eecc136949d9"
+          }
+        },
+        {
           "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -31,10 +39,46 @@
               "client_type": 3
             },
             {
-              "client_id": "123907775175-gr6cg40jdgiqta5rs9vcmsl8cvlfr77k.apps.googleusercontent.com",
+              "client_id": "123907775175-bivo2dhhblqctua0t4id894je4o7kf0k.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.myairline.mobileapp"
+                "bundle_id": "com.myairline.mobileapp.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123907775175:android:42f7ac5c99a0b5f90d7ce2",
+        "android_client_info": {
+          "package_name": "com.myairline.mobileapp.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWJe57vSQHkQUG9i4ekERvu-hOussPfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "123907775175-bivo2dhhblqctua0t4id894je4o7kf0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myairline.mobileapp.dev"
               }
             }
           ]
