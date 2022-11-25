@@ -11,6 +11,11 @@ class HtmlStyle{
         fontWeight: FontWeight.w400,
         height: Height(1.5),
       ),
+      "p": Style(
+        fontSize: FontSize(14),
+        color: Styles.kSubTextColor,
+        fontWeight: FontWeight.w400,
+      ),
     };
   }
 }

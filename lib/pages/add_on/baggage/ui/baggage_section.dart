@@ -171,12 +171,13 @@ class NewBaggageCard extends StatelessWidget {
                 ],
               ),
               title: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     selectedBaggage.description?.capitalize() ?? "No Baggage",
                     style: kLargeHeavy,
+
                   ),
                 ],
               ),
