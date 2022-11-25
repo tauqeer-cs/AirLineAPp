@@ -21,8 +21,14 @@ class SeatsView extends StatefulWidget {
   State<SeatsView> createState() => _SeatsViewState();
 }
 
-class _SeatsViewState extends State<SeatsView> {
+class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
   final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose(); // dispose the controller
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,23 @@ class _SeatsViewState extends State<SeatsView> {
               kVerticalSpacer,
               FlightDetailWidget(isDeparture: widget.isDeparture),
               kVerticalSpacer,
-              SeatsSection(isDeparture: widget.isDeparture),
+              SeatsSection(isDeparture: widget.isDeparture,moveToTop: (){
+
+                if (scrollController.hasClients) {
+                  scrollController.animateTo(0,
+                      duration: const Duration(seconds: 1), curve: Curves.linear);
+                }
+
+
+              },
+              moveToBottom: (){
+                //;
+                if (scrollController.hasClients) {
+                  scrollController.animateTo(scrollController.position.maxScrollExtent,
+                      duration: const Duration(seconds: 3), curve: Curves.linear);
+                }
+
+              },),
               kVerticalSpacer,
               Stack(
                 children: [

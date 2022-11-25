@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SeatPlan extends StatelessWidget {
-  const SeatPlan({Key? key}) : super(key: key);
+   SeatPlan({Key? key,this.moveToTop,this.moveToBottom}) : super(key: key);
+  VoidCallback? moveToTop;
+   VoidCallback? moveToBottom;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,13 @@ class SeatPlan extends StatelessWidget {
                                     child: Text("${row.rowNumber ?? 0}")))
                             : Expanded(
                                 flex: 1,
-                                child: SeatRow(seats: e),
+                                child: SeatRow(seats: e, moveToTop: (){
+                                  moveToTop?.call();
+
+                                },moveToBottom:(){
+                                  moveToBottom?.call();
+
+                                },),
                               );
                       }).toList(),
                       const Expanded(flex: 1, child: SizedBox()),

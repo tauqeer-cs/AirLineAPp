@@ -21,10 +21,21 @@ class SeatRemove extends StatelessWidget {
         ? focusedPerson?.departureSeats
         : focusedPerson?.returnSeats;
     return InkWell(
-      onTap: () {
-        context
+      onTap: () async {
+
+        var check = context
             .read<SearchFlightCubit>()
             .addSeatToPerson(selectedPerson, null, isDeparture);
+
+        if(check) {
+
+          var nextPerson = persons?.persons.indexOf(selectedPerson!);
+
+
+          print('');
+
+          //          context.read<SelectedPersonCubit>().selectPerson(val);
+        }
       },
       child: CheckboxListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 0),
@@ -42,6 +53,8 @@ class SeatRemove extends StatelessWidget {
           context
               .read<SearchFlightCubit>()
               .addSeatToPerson(selectedPerson, null, isDeparture);
+
+
         },
       ),
     );

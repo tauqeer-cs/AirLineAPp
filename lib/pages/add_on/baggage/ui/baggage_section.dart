@@ -15,7 +15,12 @@ import 'package:app/utils/string_utils.dart';
 class BaggageSection extends StatelessWidget {
   final bool isDeparture;
 
-  const BaggageSection({Key? key, this.isDeparture = true}) : super(key: key);
+  VoidCallback? moveToTop;
+  VoidCallback? moveToBottom;
+
+  BaggageSection(
+      {Key? key, this.isDeparture = true, this.moveToTop, this.moveToBottom})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,9 @@ class BaggageSection extends StatelessWidget {
             style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
           ),
           kVerticalSpacer,
-          const PassengerSelector(),
+          PassengerSelector(
+            isDeparture: isDeparture,
+          ),
           kVerticalSpacer,
           buildBaggageCards(baggages, isDeparture),
           kVerticalSpacer,
@@ -52,7 +59,15 @@ class BaggageSection extends StatelessWidget {
                 return Column(
                   children: [
                     NewBaggageCard(
-                        selectedBaggage: e, isDeparture: isDeparture),
+                      selectedBaggage: e,
+                      isDeparture: isDeparture,
+                      moveToBottom: () {
+                        moveToBottom?.call();
+                      },
+                      moveToTop: () {
+                        moveToTop?.call();
+                      },
+                    ),
                     kVerticalSpacerSmall,
                   ],
                 );
@@ -68,8 +83,15 @@ class NewBaggageCard extends StatelessWidget {
   final Bundle selectedBaggage;
   final bool isDeparture;
 
-  const NewBaggageCard(
-      {Key? key, required this.selectedBaggage, required this.isDeparture})
+  VoidCallback? moveToTop;
+  VoidCallback? moveToBottom;
+
+  NewBaggageCard(
+      {Key? key,
+      required this.selectedBaggage,
+      required this.isDeparture,
+      this.moveToBottom,
+      this.moveToTop})
       : super(key: key);
 
   @override
@@ -105,20 +127,57 @@ class NewBaggageCard extends StatelessWidget {
                   Radio<Bundle?>(
                     value: selectedBaggage,
                     groupValue: baggage,
-                    onChanged: (value) {
-                      context.read<SearchFlightCubit>().addBaggageToPerson(
-                          selectedPerson, value, isDeparture);
+                    onChanged: (value) async {
+                      var responseFlag = context
+                          .read<SearchFlightCubit>()
+                          .addBaggageToPerson(
+                              selectedPerson, value, isDeparture);
+
+                      if (responseFlag) {
+                        var nextIndex =
+                            persons?.persons.indexOf(selectedPerson!);
+
+                        if ((nextIndex! + 1) < persons!.persons.length) {
+
+                          var nextItem = (persons.persons[nextIndex + 1]);
+                          if(nextItem.peopleType?.code == 'INF') {
+                            context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
+                            await Future.delayed(const Duration(milliseconds: 500));
+                            moveToBottom?.call();
+                            return;
+                          }
+                          await Future.delayed(const Duration(seconds: 1));
+                          context
+                              .read<SelectedPersonCubit>()
+                              .selectPerson(persons.persons[nextIndex + 1]);
+                          moveToTop?.call();
+                        }
+                        else if( (nextIndex + 1) ==  persons.persons.length ) {
+
+
+
+                          await Future.delayed(const Duration(milliseconds: 500));
+
+                          moveToBottom!.call();
+                          await Future.delayed(const Duration(seconds: 1));
+
+                          context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
+
+
+                        }
+                      }
                     },
                   ),
                 ],
               ),
               title: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     selectedBaggage.description?.capitalize() ?? "No Baggage",
                     style: kLargeHeavy,
+
                   ),
                 ],
               ),

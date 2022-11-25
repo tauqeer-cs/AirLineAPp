@@ -31,7 +31,7 @@ class BundleSection extends StatelessWidget {
             style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
           ),
           kVerticalSpacer,
-          const PassengerSelector(),
+           PassengerSelector(isDeparture: isDeparture,),
           kVerticalSpacer,
           buildBundleCards(bundles, isDeparture),
         ],
