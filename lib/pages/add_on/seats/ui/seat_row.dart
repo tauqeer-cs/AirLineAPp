@@ -71,22 +71,13 @@ class SeatRow extends StatelessWidget {
             if( (nextPerson! + 1) <  persons!.persons.length ) {
 
               await Future.delayed(const Duration(seconds: 2));
-
               context.read<SelectedPersonCubit>().selectPerson(persons.persons[nextPerson + 1]);
-
               moveToTop?.call();
-
-
             }
             else if( (nextPerson + 1) ==  persons.persons.length ) {
-
               context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
-
-
               await Future.delayed(const Duration(milliseconds: 500));
-
               moveToBottom?.call();
-
             }
 
             print('');

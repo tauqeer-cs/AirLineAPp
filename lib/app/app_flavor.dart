@@ -56,7 +56,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-api.alphareds.com/api/';
       case Flavor.uat:
-        return 'https://uat-api.myairline.my/';
+        return 'https://uat-api.myairline.my/api/';
       default:
         return 'https://api.myairline.my/api/';
     }
