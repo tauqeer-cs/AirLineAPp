@@ -91,10 +91,10 @@ class SeatPlan extends StatelessWidget {
                             : Expanded(
                                 flex: 1,
                                 child: SeatRow(seats: e, moveToTop: (){
-                                  this.moveToTop!.call();
+                                  moveToTop?.call();
 
                                 },moveToBottom:(){
-                                  moveToBottom!.call();
+                                  moveToBottom?.call();
 
                                 },),
                               );

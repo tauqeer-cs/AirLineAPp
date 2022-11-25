@@ -101,26 +101,39 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
-  addBaggageToPerson(Person? person, Bundle? baggage, bool isDeparture) {
-    final persons =
-        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
-    final selected = persons.indexWhere((element) => element == person);
-    if (selected >= 0) {
-      final person = persons[selected];
-      final newPerson = isDeparture
-          ? person.copyWith(departureBaggage: () => baggage)
-          : person.copyWith(returnBaggage: () => baggage);
-      persons.removeAt(selected);
-      persons.insert(selected, newPerson);
-      final newNumberPerson = NumberPerson(persons: persons);
-      final filterState =
-          state.filterState?.copyWith(numberPerson: newNumberPerson);
-      emit(
-        state.copyWith(
-            filterState: filterState,
-            message: "${DateTime.now().millisecondsSinceEpoch}"),
-      );
+  bool addBaggageToPerson(Person? person, Bundle? baggage, bool isDeparture) {
+
+    try {
+
+      final persons =
+      List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+      final selected = persons.indexWhere((element) => element == person);
+      if (selected >= 0) {
+        final person = persons[selected];
+        final newPerson = isDeparture
+            ? person.copyWith(departureBaggage: () => baggage)
+            : person.copyWith(returnBaggage: () => baggage);
+        persons.removeAt(selected);
+        persons.insert(selected, newPerson);
+        final newNumberPerson = NumberPerson(persons: persons);
+        final filterState =
+        state.filterState?.copyWith(numberPerson: newNumberPerson);
+        emit(
+          state.copyWith(
+              filterState: filterState,
+              message: "${DateTime.now().millisecondsSinceEpoch}"),
+        );
+      }
+
+
+      return true;
+
     }
+    catch(e) {
+      return false;
+
+    }
+
   }
 
   searchFlights(FilterState filterState) async {

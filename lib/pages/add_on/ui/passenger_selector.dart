@@ -15,6 +15,7 @@ class PassengerSelector extends StatelessWidget {
 
   final bool isSeatSelection;
 
+
   const PassengerSelector({Key? key, this.isContact = false, required this.isDeparture, this.isSeatSelection = false}) : super(key: key);
 
   @override

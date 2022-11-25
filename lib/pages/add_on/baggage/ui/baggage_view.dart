@@ -16,15 +16,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BaggageView extends StatefulWidget {
   final bool isDeparture;
+
   const BaggageView({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
   State<BaggageView> createState() => _BaggageViewState();
 }
 
-class _BaggageViewState extends State<BaggageView> {
+class _BaggageViewState extends State<BaggageView>
+    with TickerProviderStateMixin {
   final scrollController = ScrollController();
   bool isScrollable = false;
+
+  @override
+  void dispose() {
+    scrollController.dispose(); // dispose the controller
+    super.dispose();
+  }
 
   void afterBuild() {
     if (scrollController.hasClients) {
@@ -53,7 +61,24 @@ class _BaggageViewState extends State<BaggageView> {
                 kVerticalSpacer,
                 FlightDetailWidget(isDeparture: widget.isDeparture),
                 kVerticalSpacer,
-                BaggageSection(isDeparture: widget.isDeparture),
+                BaggageSection(
+                  isDeparture: widget.isDeparture,
+                  moveToTop: () {
+                    if (scrollController.hasClients) {
+                      scrollController.animateTo(0,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.linear);
+                    }
+                  },
+                  moveToBottom: () {
+                    if (scrollController.hasClients) {
+                      scrollController.animateTo(
+                          scrollController.position.maxScrollExtent,
+                          duration: const Duration(seconds: 3),
+                          curve: Curves.linear);
+                    }
+                  },
+                ),
                 kVerticalSpacer,
                 Stack(
                   children: [
@@ -77,7 +102,6 @@ class _BaggageViewState extends State<BaggageView> {
                 ),
                 kSummaryContainerSpacing,
                 kSummaryContainerSpacing,
-
               ],
             ),
           ),
@@ -113,6 +137,7 @@ class _BaggageViewState extends State<BaggageView> {
 class ContinueButton extends StatelessWidget {
   final FlightType? flightType;
   final bool isDeparture;
+
   const ContinueButton({
     Key? key,
     required this.flightType,

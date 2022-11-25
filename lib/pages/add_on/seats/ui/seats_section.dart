@@ -43,10 +43,10 @@ class SeatsSection extends StatelessWidget {
           ),
           kVerticalSpacer,
            SeatPlan(moveToTop: (){
-             moveToTop!.call();
+             moveToTop?.call();
            },moveToBottom: (){
 
-             moveToBottom!.call();
+             moveToBottom?.call();
 
            },),
           kVerticalSpacer,
