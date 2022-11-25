@@ -6,7 +6,7 @@ from skpy import Skype
 skype_obj = Skype("dariusbot.dev@hotmail.com","Airlines1234!")
 testgroup = "19:52782e090a7847bf9d6f17e5c4e0119c@thread.skype"
 airlinesgrup = "19:d1ccf677216e405e8b9a2d31d938b23c@thread.skype"
-channel = skype_obj.chats.chat(testgroup)
+channel = skype_obj.chats.chat(airlinesgrup)
 f = open('../releases_notes.txt', 'r')
 flutter_version = f.readline().strip()
 lines = f.readlines()
@@ -35,4 +35,4 @@ for opt, arg in opts:
     if opt in ("-n", "--name"):
         env = arg
 print(env)
-channel.sendMsg("New release version: "+flutter_version+"\nEnv: "+env+"\nRelease Notes:"+result)
+channel.sendMsg("New release version: "+flutter_version+"\nEnv: IOS and Android "+env+"\nRelease Notes:"+result)

@@ -1,14 +1,17 @@
 1.0.26+26
 
 ### Added
-- None
+- Add session with expired time
+- Add wheelchair
 
 ### Changed
-- Haha
+- Do not allow pax+infant to select seats at emergency rows
+- SSR / Add-on selection behaviour - Seat map & baggage
 
 ### Fixed
-- Hihi
-- Huhu
+- Meals always said under 24 hours before departure
+- iOS Seat map is missing
+- Fixing UI updated 21Nov
 
 ### Removed
-- None
+- Sports equip - hide this section
