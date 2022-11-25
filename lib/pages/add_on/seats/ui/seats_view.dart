@@ -48,7 +48,7 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
               SeatsSection(isDeparture: widget.isDeparture,moveToTop: (){
 
                 if (scrollController.hasClients) {
-                  scrollController.animateTo(0,
+                  scrollController.animateTo(50,
                       duration: const Duration(seconds: 1), curve: Curves.linear);
                 }
 
