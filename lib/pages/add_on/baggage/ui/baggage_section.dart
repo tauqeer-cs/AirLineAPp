@@ -139,16 +139,17 @@ class NewBaggageCard extends StatelessWidget {
 
                         if ((nextIndex! + 1) < persons!.persons.length) {
 
-
-
-                          await Future.delayed(const Duration(seconds: 2));
-
+                          var nextItem = (persons.persons[nextIndex + 1]);
+                          if(nextItem.peopleType?.code == 'INF') {
+                            context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
+                            await Future.delayed(const Duration(milliseconds: 500));
+                            moveToBottom?.call();
+                            return;
+                          }
+                          await Future.delayed(const Duration(seconds: 1));
                           context
                               .read<SelectedPersonCubit>()
                               .selectPerson(persons.persons[nextIndex + 1]);
-
-
-
                           moveToTop?.call();
                         }
                         else if( (nextIndex + 1) ==  persons.persons.length ) {

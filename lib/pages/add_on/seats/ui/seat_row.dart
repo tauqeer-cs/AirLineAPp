@@ -70,7 +70,14 @@ class SeatRow extends StatelessWidget {
 
             if( (nextPerson! + 1) <  persons!.persons.length ) {
 
-              await Future.delayed(const Duration(seconds: 2));
+              var nextItem = (persons.persons[nextPerson + 1]);
+              if(nextItem.peopleType?.code == 'INF') {
+                context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
+                await Future.delayed(const Duration(milliseconds: 500));
+                moveToBottom?.call();
+                return;
+              }
+              await Future.delayed(const Duration(seconds: 1));
               context.read<SelectedPersonCubit>().selectPerson(persons.persons[nextPerson + 1]);
               moveToTop?.call();
             }
