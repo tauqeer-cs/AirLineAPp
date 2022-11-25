@@ -88,14 +88,6 @@ dev_dependencies:
   intl_generator: ^0.3.0
   retrofit_generator: ^4.0.3
 
-flutter_icons:
-  image_path_android: "assets/images/native/logo_android.png"
-  image_path_ios: "assets/images/native/logo_ios.jpg"
-  android: true
-  ios: true
-  remove_alpha_ios: true
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/images/native/logo_android.png"
 
 flutter_native_splash:
   image: "assets/images/native/logo.png"

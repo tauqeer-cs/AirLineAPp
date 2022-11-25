@@ -92,6 +92,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123907775175:android:314bd14c2cad5f250d7ce2",
+        "android_client_info": {
+          "package_name": "com.myairline.mobileapp.uat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVWJe57vSQHkQUG9i4ekERvu-hOussPfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "123907775175-bivo2dhhblqctua0t4id894je4o7kf0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myairline.mobileapp.dev"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
