@@ -76,4 +76,4 @@ for opt, arg in opts:
     if opt in ("-n", "--name"):
         env = arg
 print(env)
-channel.sendMsg("New release version: "+flutter_version+"\nEnv: IOS and Android "+env+"\nRelease Notes:\n\n"+result)
+channel.sendMsg("New release version: "+flutter_version+"\nEnv: IOS and Android "+env+"\nDeployed Task:\n\n"+result)
