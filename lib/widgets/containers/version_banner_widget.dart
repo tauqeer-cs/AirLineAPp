@@ -1,3 +1,4 @@
+import 'package:app/app/app_flavor.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -9,7 +10,7 @@ class VersionBannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return true
+    return AppFlavor.appFlavor != Flavor.production
         ? FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {

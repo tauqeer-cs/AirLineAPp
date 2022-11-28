@@ -175,6 +175,7 @@ class _AppState extends State<App> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
+                debugShowCheckedModeBanner: false,
                 routeInformationParser: appRouter.defaultRouteParser(),
                 theme: Styles.theme(true),
                 darkTheme: Styles.theme(false),
