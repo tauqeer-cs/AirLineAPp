@@ -23,8 +23,10 @@ import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -94,7 +96,7 @@ class _AppState extends State<App> {
               if (expiredInUTC == null) return;
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
-               print("durations is $diff");
+              print("durations is $diff");
               context
                   .read<TimerBloc>()
                   .add(TimerStarted(duration: diff.inSeconds));
@@ -107,6 +109,7 @@ class _AppState extends State<App> {
               if (state.durationRemaining == 600) {
                 showDialog(
                   context: currentContext,
+                  barrierDismissible: false,
                   builder: (context) {
                     return AppConfirmationDialog(
                       title:
@@ -129,15 +132,24 @@ class _AppState extends State<App> {
               } else if (state.durationRemaining == 1) {
                 showDialog(
                   context: currentContext,
+                  barrierDismissible: false,
                   builder: (context) {
-                    return AppConfirmationDialog(
-                      title: "Your session is expired, please retry your search!",
-                      subtitle: "",
-                      onConfirm: () {
-                        appRouter.replaceAll(
-                            [const NavigationRoute(), const HomeRoute()]);
-                      },
-                      confirmText: "Okay",
+                    return WillPopScope(
+                      onWillPop: () async => false,
+                      child: AppConfirmationDialog(
+                        showCloseButton: false,
+                        title:
+                            "Your session is expired, please retry your search!",
+                        subtitle: "",
+                        onConfirm: () {
+                          currentContext.router.pop();
+                          appRouter.replaceAll([const NavigationRoute()]);
+                          currentContext
+                              .read<TimerBloc>()
+                              .add(TimerReset());
+                        },
+                        confirmText: "Okay",
+                      ),
                     );
                   },
                 );
@@ -188,6 +200,3 @@ class _AppState extends State<App> {
     );
   }
 }
-
-
-

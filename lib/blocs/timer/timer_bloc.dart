@@ -30,6 +30,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   }
 
   void _onTicked(TimerTicked event, Emitter<TimerState> emit) {
+    print("timer duration is ${state.durationRemaining}");
     emit(TimerState(durationRemaining: event.duration));
   }
 
