@@ -21,22 +21,20 @@ class ChangeSearchPage extends StatelessWidget {
         appBar: AppAppBar(
           title: "Your Trip Starts Here",
           height: 100.h,
-          flexibleWidget:  AppBookingStep(
-            passedSteps: [BookingStep.flights], onTopStepTaped: (int index) {
-
-
-            if (index == 0) {
-              context.router.popUntilRouteWithName(SearchResultRoute.name);
-
-            }
-
-
-          },
+          flexibleWidget: AppBookingStep(
+            passedSteps: [BookingStep.flights],
+            onTopStepTaped: (int index) {
+              if (index == 0) {
+                context.router.popUntilRouteWithName(SearchResultRoute.name);
+              }
+            },
           ),
         ),
         body: Padding(
           padding: kPagePadding,
-          child: SearchFlightWidget(isHome: false,),
+          child: SearchFlightWidget(
+            isHome: false,
+          ),
         ),
       ),
     );

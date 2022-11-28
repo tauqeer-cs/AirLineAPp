@@ -4,6 +4,7 @@ part of 'price_range_cubit.dart';
 
 class PriceRangeState extends Equatable {
   final List<DateRangePrice> prices;
+  final List<DateTime> loadedDate;
   final BlocState blocState;
   final String message;
   final DateTime? loadingDate;
@@ -13,6 +14,7 @@ class PriceRangeState extends Equatable {
     this.prices =const [],
     this.blocState = BlocState.initial,
     this.message = '',
+    this.loadedDate = const []
   });
 
   PriceRangeState copyWith({
@@ -20,13 +22,15 @@ class PriceRangeState extends Equatable {
     String? message,
     List<DateRangePrice>? prices,
     DateTime? loadingDate,
+    List<DateTime>? loadedDate,
+
   }) {
     return PriceRangeState(
+      loadedDate: loadedDate ?? this.loadedDate,
       blocState: blocState ?? this.blocState,
       message: message ?? this.message,
       prices: prices ?? this.prices,
       loadingDate: loadingDate ?? this.loadingDate,
-
     );
   }
 
