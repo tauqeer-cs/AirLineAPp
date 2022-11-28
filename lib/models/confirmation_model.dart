@@ -1,4 +1,5 @@
 import 'package:app/models/number_person.dart';
+import 'package:app/utils/date_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -161,6 +162,7 @@ class BookingContact extends Equatable {
   final String? email;
   final String? phone1;
   final String? phone1LocationCode;
+  @JsonKey(toJson: AppDateUtils.toDateWithoutTimeToJson)
   final DateTime? dob;
   final String? nationality;
   final DateTime? passportExpiryDate;

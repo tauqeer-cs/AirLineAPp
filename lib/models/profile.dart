@@ -1,3 +1,4 @@
+import 'package:app/utils/date_utils.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -29,6 +30,7 @@ class UserProfile extends Equatable {
   final String? lastName;
   final String? nationality;
   final String? icNumber;
+  @JsonKey(toJson: AppDateUtils.toDateWithoutTimeToJson)
   final DateTime? dob;
   final String? phoneCode;
   final String? phoneNumber;

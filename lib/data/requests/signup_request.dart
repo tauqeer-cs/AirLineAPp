@@ -1,3 +1,4 @@
+import 'package:app/utils/date_utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -40,7 +41,7 @@ class SignupRequest extends Equatable {
   final String? password;
   @JsonKey(name: "Gender")
   final String? gender;
-  @JsonKey(name: "DOB")
+  @JsonKey(name: "DOB", toJson: AppDateUtils.toDateWithoutTimeToJson)
   final DateTime? dob;
   @JsonKey(name: "Address")
   final String? address;

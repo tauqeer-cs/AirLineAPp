@@ -148,7 +148,7 @@ Map<String, dynamic> _$BookingContactToJson(BookingContact instance) {
   writeNotNull('email', instance.email);
   writeNotNull('phone1', instance.phone1);
   writeNotNull('phone1LocationCode', instance.phone1LocationCode);
-  writeNotNull('dob', instance.dob?.toIso8601String());
+  writeNotNull('dob', AppDateUtils.toDateWithoutTimeToJson(instance.dob));
   writeNotNull('nationality', instance.nationality);
   writeNotNull(
       'passportExpiryDate', instance.passportExpiryDate?.toIso8601String());

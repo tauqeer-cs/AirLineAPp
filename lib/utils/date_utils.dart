@@ -58,4 +58,9 @@ class AppDateUtils {
 
   static bool sameMonth(DateTime? date1, DateTime? date2) =>
       date1?.year == date2?.year && date1?.month == date2?.month;
+
+  static String? toDateWithoutTimeToJson(DateTime? dateTime) {
+    if (dateTime == null) return null;
+    return DateFormat("yyyy-MM-dd").format(dateTime);
+  }
 }

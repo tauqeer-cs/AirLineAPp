@@ -181,7 +181,7 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('lastName', instance.lastName);
   writeNotNull('nationality', instance.nationality);
   writeNotNull('icNumber', instance.icNumber);
-  writeNotNull('dob', instance.dob?.toIso8601String());
+  writeNotNull('dob', AppDateUtils.toDateWithoutTimeToJson(instance.dob));
   writeNotNull('phoneCode', instance.phoneCode);
   writeNotNull('phoneNumber', instance.phoneNumber);
   writeNotNull('address', instance.address);

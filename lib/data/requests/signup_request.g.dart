@@ -43,7 +43,7 @@ Map<String, dynamic> _$SignupRequestToJson(SignupRequest instance) {
   writeNotNull('PhoneNumber', instance.phoneNumber);
   writeNotNull('Password', instance.password);
   writeNotNull('Gender', instance.gender);
-  writeNotNull('DOB', instance.dob?.toIso8601String());
+  writeNotNull('DOB', AppDateUtils.toDateWithoutTimeToJson(instance.dob));
   writeNotNull('Address', instance.address);
   writeNotNull('Country', instance.country);
   writeNotNull('State', instance.state);

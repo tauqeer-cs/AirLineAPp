@@ -1,4 +1,5 @@
 import 'package:app/models/number_person.dart';
+import 'package:app/utils/date_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -274,7 +275,7 @@ class Passenger extends HiveObject with EquatableMixin {
   });
 
   @HiveField(0)
-  @JsonKey(name: 'DOB')
+  @JsonKey(name: 'DOB', toJson: AppDateUtils.toDateWithoutTimeToJson)
   final DateTime? dob;
   @HiveField(1)
   @JsonKey(name: 'FirstName')

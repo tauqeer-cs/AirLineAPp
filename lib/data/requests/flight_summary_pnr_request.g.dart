@@ -925,7 +925,7 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
     }
   }
 
-  writeNotNull('DOB', instance.dob?.toIso8601String());
+  writeNotNull('DOB', AppDateUtils.toDateWithoutTimeToJson(instance.dob));
   writeNotNull('FirstName', instance.firstName);
   writeNotNull('LastName', instance.lastName);
   writeNotNull('MiddleName', instance.middleName);
