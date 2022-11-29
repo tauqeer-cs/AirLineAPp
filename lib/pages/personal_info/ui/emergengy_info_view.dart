@@ -82,16 +82,6 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   ],
                 ),
                 kVerticalSpacer,
-                AppInputText(
-                  isRequired: false,
-                  textInputType: TextInputType.name,
-                  name: formNameRelationshipEmergency,
-                  initialValue: widget.relationShip,
-                  hintText: 'Relationship',
-                  validators: [
-                    //FormBuilderValidators.required(),
-                  ],
-                ),
                 ShadowInput(
                   name: formNameRelationshipEmergency,
                   textEditingController: relationController,
