@@ -187,6 +187,14 @@ class _AppState extends State<App> {
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
+                builder: (context, child) {
+                  final mediaQueryData = MediaQuery.of(context);
+                  final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.1);
+                  return MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+                    child: child!,
+                  );
+                },
                 debugShowCheckedModeBanner: false,
                 routeInformationParser: appRouter.defaultRouteParser(),
                 theme: Styles.theme(true),

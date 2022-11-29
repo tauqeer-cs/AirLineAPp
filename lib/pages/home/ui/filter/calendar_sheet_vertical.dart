@@ -184,7 +184,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   },
                   dayBuilder: (context, date) {
                     final inRange = isInRange(date, departDate, returnDate);
-                    final sameMonth= AppDateUtils.sameMonth(date, priceState.loadingDate);
+                    final sameMonth =
+                        AppDateUtils.sameMonth(date, priceState.loadingDate);
                     final event = prices.firstWhereOrNull(
                         (event) => isSameDay(event.date, date));
                     final isBefore = date.isBefore(DateTime.now());
@@ -211,43 +212,55 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                       : null,
                             ),
                           ),
-                          const Spacer(),
-                          Visibility(
-                            visible: priceState.blocState == BlocState.loading && (sameMonth || event?.departPrice==null),
-                            replacement: event == null
-                                ? const SizedBox()
-                                : Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          "MYR",
-                                          style: kExtraSmallHeavy.copyWith(
-                                            color:
-                                                inRange ? Colors.white : null,
+                          Expanded(
+                            child: Visibility(
+                              visible:
+                                  priceState.blocState == BlocState.loading &&
+                                      (sameMonth || event?.departPrice == null),
+                              replacement: event == null
+                                  ? const SizedBox()
+                                  : Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "MYR",
+                                              style: kExtraSmallHeavy.copyWith(
+                                                color: inRange
+                                                    ? Colors.white
+                                                    : null,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          NumberUtils.formatNum(
-                                            departDate == null
-                                                ? event.departPrice
-                                                : returnDate == null
-                                                    ? event.returnPrice
-                                                    : event.departPrice,
+                                          Flexible(
+                                            child: Text(
+                                              NumberUtils.formatNum(
+                                                departDate == null
+                                                    ? event.departPrice
+                                                    : returnDate == null
+                                                        ? event.returnPrice
+                                                        : event.departPrice,
+                                              ),
+                                              style: kSmallSemiBold.copyWith(
+                                                color: inRange
+                                                    ? Colors.white
+                                                    : null,
+                                              ),
+                                            ),
                                           ),
-                                          style: kSmallSemiBold.copyWith(
-                                            color:
-                                                inRange ? Colors.white : null,
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                            child: const ShimmerRectangle(
-                              height: 10,
-                              width: 30,
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: const ShimmerRectangle(
+                                  height: 10,
+                                  width: 30,
+                                ),
+                              ),
                             ),
                           ),
                         ],
