@@ -28,7 +28,7 @@ class PassengersSheetState extends State<PassengersSheet> {
           context.read<FilterCubit>().state.numberPerson.numberOfInfant;
       if (numOfAdult <= numOfInfant) {
         Toast.of(context)
-            .show(success: false, message: "Cannot add infant more than adult");
+            .show(success: false, message: "Each infant must be accompanied by one adult.");
         return;
       }
     }

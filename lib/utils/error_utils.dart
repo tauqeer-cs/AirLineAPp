@@ -29,4 +29,22 @@ class ErrorUtils {
         fontSize: 16.0);
     return message;
   }
+
+  static String generateErrorText(String errorText){
+    switch (errorText.toLowerCase()){
+      case "no flight available":
+        return "No flight is found!";
+      default:
+        return "";
+    }
+  }
+
+  static String generateSubError(String errorText){
+    switch (errorText.toLowerCase()){
+      case "no flight available":
+        return "Please change your criteria and search once more.";
+      default:
+        return "";
+    }
+  }
 }

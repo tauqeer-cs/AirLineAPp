@@ -29,6 +29,8 @@ class _NavigationPageState extends State<NavigationPage> {
       navigatorObservers: () => [MyObserver()],
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: [

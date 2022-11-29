@@ -46,7 +46,7 @@ class NameInput extends StatelessWidget {
         FormHeader(
           title: title ?? "What's your full name?",
           subtitle:
-              subText ?? "Please enter it as stated in your MyKad/Passport ",
+              subText ?? "Please ensure your full name is the same as it appears on your passport or government-issued ID. ",
           graySubText: true,
           smallerHeaderText: true,
         ),

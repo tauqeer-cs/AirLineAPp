@@ -34,7 +34,7 @@ class AccountSettingPage extends StatelessWidget {
               onFinished: () {
                 context.loaderOverlay.hide();
                 context.router.pop();
-                Toast.of(context).show(message: "Password Updated", success: true);
+                Toast.of(context).show(message: "Your password is successfully updated", success: true);
               },
             );
           },

@@ -90,7 +90,7 @@ dev_dependencies:
 
 
 flutter_native_splash:
-  image: "assets/images/native/logo.png"
+  image: "assets/images/native/logo_new.png"
   fullscreen: true
   color: "#FFFFFF"
 

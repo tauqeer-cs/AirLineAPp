@@ -420,5 +420,5 @@ enum PeopleType {
   final String code;
 }
 
-List<String> availableTitle = ["Mr.", "Mrs.", "Ms", "Tun"];
+List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];

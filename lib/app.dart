@@ -112,10 +112,8 @@ class _AppState extends State<App> {
                   barrierDismissible: false,
                   builder: (context) {
                     return AppConfirmationDialog(
-                      title:
-                          "Hi, Need more time? In 10 minutes, this page will expire.",
-                      subtitle:
-                          "Click here if you need more time to fill up your details",
+                      title: "Your session is about to expire in 10 minutes.",
+                      subtitle: "",
                       confirmText: "Stay and Continue",
                       onConfirm: () {
                         final filterState = currentContext
@@ -144,9 +142,7 @@ class _AppState extends State<App> {
                         onConfirm: () {
                           currentContext.router.pop();
                           appRouter.replaceAll([const NavigationRoute()]);
-                          currentContext
-                              .read<TimerBloc>()
-                              .add(TimerReset());
+                          currentContext.read<TimerBloc>().add(TimerReset());
                         },
                         confirmText: "Okay",
                       ),
@@ -191,7 +187,8 @@ class _AppState extends State<App> {
                   final mediaQueryData = MediaQuery.of(context);
                   final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.1);
                   return MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+                    data:
+                        MediaQuery.of(context).copyWith(textScaleFactor: scale),
                     child: child!,
                   );
                 },

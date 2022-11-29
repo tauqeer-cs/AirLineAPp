@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/theme/html_style.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:app/widgets/app_logo_widget.dart';
@@ -189,21 +190,26 @@ class NotificationsWidget extends StatelessWidget {
         final notifications = state.notifications;
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: notifications?.isEmpty ?? true
-              ? const SizedBox()
+          finishedBuilder: notifications?.isEmpty ?? true || true
+              ? SafeArea(
+                  bottom: false,
+                  child: SizedBox(),
+                )
               : Container(
-                  padding: const EdgeInsets.all(12.0),
-                  width: 500.w,
-                  height: 85.h,
-                  child: GlassCard(
-                    color: Colors.yellowAccent,
+                  padding: EdgeInsets.fromLTRB(8, 8, 8, 15),
+                  color: Styles.kPrimaryColor,
+                  child: SafeArea(
+                    bottom: false,
                     child: AppImageCarousel(
                       aspectRatio: 500.w / 40.h,
-                      items: notifications!
-                          .map((e) => Html(
-                                data: e.content ?? "",
-                              ))
-                          .toList(),
+                      items: notifications!.map((e) {
+                        print("e is $e");
+                        return Html(
+                          data: e.content ?? "",
+                          style: HtmlStyle.htmlStyle(
+                              overrideColor: Colors.white, overrideSize: 12),
+                        );
+                      }).toList(),
                       showIndicator: false,
                       autoPlay: notifications.length > 1,
                       infiniteScroll: true,

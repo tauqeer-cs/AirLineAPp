@@ -15,6 +15,6 @@ class ErrorResponse implements Exception {
 
   @override
   String toString() {
-    return "Error: $message";
+    return "$message";
   }
 }

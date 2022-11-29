@@ -10,7 +10,9 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/flight_result_widget.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/error_utils.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
+import 'package:app/widgets/app_error_widget.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +87,10 @@ class SearchResultView extends StatelessWidget {
             padding: kPagePadding,
             children: const [BookingLoader()],
           ),
-          failedBuilder: Center(
-            child: Text(state.message, style: kHugeHeavy,),
+          failedBuilder: AppErrorWidget(
+            title: ErrorUtils.generateErrorText(state.message),
+            subtitle: ErrorUtils.generateSubError(state.message),
+
           ),
         );
       },

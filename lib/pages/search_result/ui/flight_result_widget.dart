@@ -61,7 +61,7 @@ class FlightResultWidget extends StatelessWidget {
                 ),
                 kVerticalSpacerSmall,
                 Text(
-                  "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage weight and select your choice of seat. ",
+                  "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage, select your seat of choice and meal.",
                   textAlign: TextAlign.left,
                   style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor,
@@ -79,9 +79,16 @@ class FlightResultWidget extends StatelessWidget {
                   },
                 ),
                 kVerticalSpacer,
-                Text(
-                  "Prices are based on an ${filter?.numberPerson.toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
-                  style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                Visibility(
+                  visible: false,
+                  replacement: Text(
+                    "All fares are calculated based on a one-way flight for a single adult passenger. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                  ),
+                  child: Text(
+                    "Prices are based on an ${filter?.numberPerson.toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                  ),
                 ),
               ],
             ),

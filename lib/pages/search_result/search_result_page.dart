@@ -164,9 +164,9 @@ class _SearchResultPageState extends State<SearchResultPage> {
         listeners: [
           BlocListener<SearchFlightCubit, SearchFlightState>(
             listener: (context, state) {
-              if (state.blocState == BlocState.failed) {
-                context.router.pop();
-              }
+              // if (state.blocState == BlocState.failed) {
+              //   context.router.pop();
+              // }
             },
           ),
           // BlocListener<BookingCubit, BookingState>(

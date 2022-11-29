@@ -1,14 +1,17 @@
-
+import 'package:app/data/repositories/auth_repository.dart';
+import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/pages/auth/pages/signup/ui/signup_container.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_logo_widget.dart';
+import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class CompleteSignupPage extends StatelessWidget {
   final SignupRequest signupRequest;
-  final step =3;
+  final step = 3;
 
   const CompleteSignupPage({Key? key, required this.signupRequest})
       : super(key: key);
@@ -43,7 +46,8 @@ class CompleteSignupPage extends StatelessWidget {
                     name: signupRequest.firstName,
                     step: 3,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -54,6 +58,7 @@ class CompleteSignupPage extends StatelessWidget {
                               fontSize: 26,
                             ),
                           ),
+                          kVerticalSpacerSmall,
                           Visibility(
                             visible: step != 3,
                             child: Text(
@@ -65,14 +70,35 @@ class CompleteSignupPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '''Please check your email for a link to verify your registration.
-
-Please sign back in after you complete the verification of your email address.''',
+                            "Hi, your MYReward registration is complete!",
                             style: kLargeRegular.copyWith(
-                                color: Styles.kSubTextColor),
+                              color: Styles.kSubTextColor,
+                            ),
+                          ),
+                          kVerticalSpacerSmall,
+                          Text(
+                            "Check your email ${(signupRequest.email ?? "").sensorEmailFront()} for a verification link to verify your email. If you didn't receive anything",
+                            style: kLargeHeavy.copyWith(
+                              color: Styles.kSubTextColor,
+                            ),
+                          ),
+                          kVerticalSpacerSmall,
+                          Text(
+                            "Click the 'Resend Link' button to resend the email.",
+                            style: kLargeRegular.copyWith(
+                              color: Styles.kSubTextColor,
+                            ),
                           ),
                           Spacer(),
-                          ElevatedButton(onPressed: ()=>context.router.pop(), child: Text("Done"))
+                          ElevatedButton(
+                            onPressed: () {
+                              AuthenticationRepository().sendEmail(
+                                ResendEmailRequest(email: signupRequest.email),
+                              );
+                              Toast.of(context).show(success: true, message: "Email sent.");
+                            },
+                            child: Text("Resend Link"),
+                          )
                         ],
                       ),
                     ),

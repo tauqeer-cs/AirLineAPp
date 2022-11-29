@@ -56,4 +56,12 @@ extension StringExtension on String {
     }
     return name;
   }
+
+  String sensorEmailFront() {
+    var name = this;
+    for (int i = 0; i < 5 || length < i; i++) {
+      name = StringUtils.replaceCharAt(name, i, "*");
+    }
+    return name;
+  }
 }

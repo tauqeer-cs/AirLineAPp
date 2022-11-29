@@ -14,7 +14,7 @@ class AddonHeader extends StatelessWidget {
         ),
         kVerticalSpacer,
         Text(
-          " Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage weight and select your choice of seat. ",
+          " Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage, select your seat of choice and meal.",
           style: kMediumRegular.copyWith(
             color: Styles.kSubTextColor,
             height: 1.5,
