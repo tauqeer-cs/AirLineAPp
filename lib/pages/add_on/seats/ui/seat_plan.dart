@@ -7,11 +7,13 @@ import 'package:app/utils/number_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SeatPlan extends StatelessWidget {
-   SeatPlan({Key? key,this.moveToTop,this.moveToBottom}) : super(key: key);
-  VoidCallback? moveToTop;
-   VoidCallback? moveToBottom;
+  const SeatPlan({Key? key, this.moveToTop, this.moveToBottom})
+      : super(key: key);
+  final VoidCallback? moveToTop;
+  final VoidCallback? moveToBottom;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,9 @@ class SeatPlan extends StatelessWidget {
         ?.seatConfiguration
         ?.rows;
     final firstRow = rows?.firstOrNull;
+    final mapColor = isDeparture
+        ? bookingState.departureColorMapping
+        : bookingState.returnColorMapping;
 
     if (firstRow == null) return const SizedBox();
     return Container(
@@ -68,12 +73,33 @@ class SeatPlan extends StatelessWidget {
                     Column(
                       children: [
                         kVerticalSpacerSmall,
-                        SeatPrice(
-                          amount: row
-                              .seats?.first.seatPriceOffers?.firstOrNull?.amount
-                              ?.toDouble(),
-                          currency: row.seats?.first.seatPriceOffers
-                              ?.firstOrNull?.currency,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Expanded(flex: 1, child: SizedBox()),
+                            ArrowSVG(
+                              assetName:
+                                  'assets/images/svg/seats_arrow_left.svg',
+                              color: mapColor?[row.seats?.first.serviceId],
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 35),
+                              child: SeatPrice(
+                                amount: row.seats?.first.seatPriceOffers
+                                    ?.firstOrNull?.amount
+                                    ?.toDouble(),
+                                currency: row.seats?.first.seatPriceOffers
+                                    ?.firstOrNull?.currency,
+                              ),
+                            ),
+                            ArrowSVG(
+                              assetName:
+                                  'assets/images/svg/seats_arrow_right.svg',
+                              color: mapColor?[row.seats?.first.serviceId],
+                            ),
+                            const Expanded(flex: 1, child: SizedBox()),
+                          ],
                         ),
                         kVerticalSpacerSmall,
                       ],
@@ -90,13 +116,15 @@ class SeatPlan extends StatelessWidget {
                                     child: Text("${row.rowNumber ?? 0}")))
                             : Expanded(
                                 flex: 1,
-                                child: SeatRow(seats: e, moveToTop: (){
-                                  moveToTop?.call();
-
-                                },moveToBottom:(){
-                                  moveToBottom?.call();
-
-                                },),
+                                child: SeatRow(
+                                  seats: e,
+                                  moveToTop: () {
+                                    moveToTop?.call();
+                                  },
+                                  moveToBottom: () {
+                                    moveToBottom?.call();
+                                  },
+                                ),
                               );
                       }).toList(),
                       const Expanded(flex: 1, child: SizedBox()),
@@ -139,6 +167,21 @@ class SeatPrice extends StatelessWidget {
           style: kHeaderHeavy.copyWith(fontSize: 20),
         ),
       ],
+    );
+  }
+}
+
+class ArrowSVG extends StatelessWidget {
+  final String assetName;
+  final Color? color;
+  const ArrowSVG({Key? key, required this.assetName, this.color})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: SvgPicture.asset(assetName, color: color),
     );
   }
 }
