@@ -21,6 +21,7 @@ class SeatsLegend extends StatelessWidget {
       children: [
         kVerticalSpacerMini,
         const Text("Seating options", style: kMediumMedium),
+        kVerticalSpacerMini,
         Wrap(
           spacing: 20,
           runSpacing: 10,
@@ -29,8 +30,8 @@ class SeatsLegend extends StatelessWidget {
               (e) {
                 return SizedBox(
                   width: 150,
-                  height: 40,
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 20,
@@ -51,8 +52,8 @@ class SeatsLegend extends StatelessWidget {
             ).toList(),
             SizedBox(
               width: 150,
-              height: 40,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 20,
