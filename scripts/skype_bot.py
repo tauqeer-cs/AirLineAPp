@@ -39,8 +39,10 @@ f.close()
 value = []
 for x in linesPubSpec:
     if 'version:' in x.split():
+        print("contains version")
         split_message = x.split(' ')
         flutter_version=split_message[1]
+        break
 
 print("version is "+flutter_version)
 query  = "SELECT [System.Id] FROM workitems WHERE [System.Tags] Contains '{}'".format(flutter_version)
