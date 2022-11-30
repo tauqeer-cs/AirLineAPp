@@ -61,4 +61,26 @@ class AppFlavor {
         return 'https://api.myairline.my/api/';
     }
   }
+
+  static String get minimumVersion {
+    switch (appFlavor) {
+      case Flavor.staging:
+        return 'minimumVersionUat';
+      case Flavor.uat:
+        return 'minimumVersionUat';
+      default:
+        return 'minimumVersion';
+    }
+  }
+
+  static String get recommendedVersion {
+    switch (appFlavor) {
+      case Flavor.staging:
+        return 'recommendedVersionUat';
+      case Flavor.uat:
+        return 'recommendedVersionUat';
+      default:
+        return 'recommendedVersion';
+    }
+  }
 }

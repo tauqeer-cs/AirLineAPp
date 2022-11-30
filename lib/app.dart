@@ -107,6 +107,7 @@ class _AppState extends State<App> {
               final currentContext = appRouter.navigatorKey.currentContext;
               if (currentContext == null) return;
               if (state.durationRemaining == 600) {
+                print("duration remaining ${state.durationRemaining}");
                 showDialog(
                   context: currentContext,
                   barrierDismissible: false,

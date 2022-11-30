@@ -84,7 +84,7 @@ class SignupAccountPage extends StatelessWidget {
                             ),
                           ),
                           kVerticalSpacer,
-                          NameInput(),
+                          NameInput(isSignUp: true),
                           kVerticalSpacer,
                           const CredentialInput(),
                           kVerticalSpacer,

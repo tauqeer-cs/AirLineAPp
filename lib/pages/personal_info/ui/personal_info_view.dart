@@ -48,9 +48,11 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               customGreyEdgeInsets: EdgeInsets.zero,
               firstNameInitValue: profile?.userProfile?.firstName,
               lastNameInitValue: profile?.userProfile?.lastName,
+              initialTitle: profile?.userProfile?.title,
               onTitleChanged: (String? newTitle) {
                 nameTitle = newTitle;
               },
+              isSignUp: false,
             ),
             kVerticalSpacer,
             AdditionInfoView(

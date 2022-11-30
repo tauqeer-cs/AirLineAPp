@@ -59,6 +59,7 @@ class BookingCubit extends Cubit<BookingState> {
     emit(state.copyWith(summaryRequest: summaryRequest));
   }
 
+
   verifyFlight(FilterState? filterState) async {
     if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading, isVerify: false));

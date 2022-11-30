@@ -18,7 +18,7 @@ class NameInput extends StatelessWidget {
 
   final String? title;
   final String? subText;
-  final bool smallerSubText;
+  final bool smallerSubText, isSignUp;
   final EdgeInsets? customGreyEdgeInsets;
   final String? initialTitle;
   final String? firstNameInitValue;
@@ -30,6 +30,7 @@ class NameInput extends StatelessWidget {
     this.title,
     this.subText,
     this.smallerSubText = false,
+    required this.isSignUp,
     this.greyMargin = 8.0,
     this.customGreyEdgeInsets,
     this.firstNameInitValue,
@@ -60,7 +61,9 @@ class NameInput extends StatelessWidget {
                 defaultValue: initialTitle ?? "Mr.",
                 sheetTitle: "Title",
                 onChanged: (value) {
-                  context.read<SignupCubit>().editTitle(value);
+                  if(isSignUp){
+                    context.read<SignupCubit>().editTitle(value);
+                  }
                   onTitleChanged?.call(value);
                 },
               ),

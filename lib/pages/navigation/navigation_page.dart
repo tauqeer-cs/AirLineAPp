@@ -1,7 +1,10 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
+import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/utils/error_utils.dart';
+import 'package:app/utils/widget_utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +20,19 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   void initState() {
     super.initState();
+    initDialogSystem();
+  }
+
+  initDialogSystem() async{
+    try{
+      await RemoteConfigRepository.versionChecking();
+      if(mounted) {
+        WidgetUtils.appUpdateDialog(context);
+      }
+    }catch(e,st){
+      ErrorUtils.getErrorMessage(e, st);
+    }
+
   }
 
   initDynamicLink(BuildContext context) async {}

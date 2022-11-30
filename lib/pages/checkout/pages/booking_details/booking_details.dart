@@ -2,8 +2,12 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/resend_email_request.dart';
+import 'package:app/data/requests/summary_request.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/pages/auth/ui/login_form.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
@@ -16,6 +20,7 @@ import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +39,71 @@ class BookingDetailsPage extends StatefulWidget {
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
   @override
   void initState() {
+    super.initState();
     final isLoggedIn =
         context.read<AuthBloc>().state.status == AppStatus.authenticated;
-
     if (!isLoggedIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
     }
-    super.initState();
+    temporarySummaryRequest();
+  }
+
+  temporarySummaryRequest() {
+    final bookingState = context.read<BookingCubit>().state;
+    final state = context.read<SearchFlightCubit>().state;
+    final verifyToken = bookingState.verifyResponse?.token;
+    final flightSeats = bookingState.verifyResponse?.flightSeat;
+    final flightInfant = bookingState.verifyResponse?.flightSSR?.infantGroup;
+    final outboundSeats = flightSeats?.outbound;
+    final inboundSeats = flightSeats?.inbound;
+
+    final rowsOutBound = outboundSeats
+        ?.firstOrNull
+        ?.retrieveFlightSeatMapResponse
+        ?.physicalFlights
+        ?.firstOrNull
+        ?.physicalFlightSeatMap
+        ?.seatConfiguration
+        ?.rows;
+    final rowsInBound = inboundSeats
+        ?.firstOrNull
+        ?.retrieveFlightSeatMapResponse
+        ?.physicalFlights
+        ?.firstOrNull
+        ?.physicalFlightSeatMap
+        ?.seatConfiguration
+        ?.rows;
+    final persons = state.filterState?.numberPerson;
+    List<Passenger> passengers = [];
+    for (Person person in (persons?.persons ?? [])) {
+      final passenger = person.toPassenger(
+        outboundRows: rowsOutBound ?? [],
+        inboundRows: rowsInBound ?? [],
+        numberPerson: persons,
+        infantGroup: flightInfant,
+        inboundPhysicalId: inboundSeats
+            ?.firstOrNull
+            ?.retrieveFlightSeatMapResponse
+            ?.physicalFlights
+            ?.firstOrNull
+            ?.physicalFlightID,
+        outboundPhysicalId: outboundSeats
+            ?.firstOrNull
+            ?.retrieveFlightSeatMapResponse
+            ?.physicalFlights
+            ?.firstOrNull
+            ?.physicalFlightID,
+      );
+      passengers.add(passenger);
+
+      final summaryRequest = SummaryRequest(
+        token: verifyToken ?? "",
+        flightSummaryPNRRequest: FlightSummaryPnrRequest(
+          passengers: passengers,
+        ),
+      );
+      context.read<BookingCubit>().summaryFlight(summaryRequest);
+    }
   }
 
   showNotVerifiedDialog({
@@ -137,7 +200,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               child: SingleChildScrollView(
                 child: LoginForm(
                   fbKey: JosKeys.gKeysBooking,
-
                   showContinueButton: true,
                   formEmailLoginName: "emailBooking",
                   formPasswordLoginName: "passwordBooking",
@@ -153,7 +215,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
         child: MultiBlocProvider(
@@ -173,8 +235,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 onFailed: () {
                   context.loaderOverlay.hide();
                   if (state.message.contains("please request a new GUID")) {
-                    context.router
-                        .replaceAll([const NavigationRoute(), const HomeRoute()]);
+                    context.router.replaceAll(
+                        [const NavigationRoute(), const HomeRoute()]);
                   }
                   Toast.of(context).show(message: state.message);
                 },
