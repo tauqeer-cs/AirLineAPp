@@ -10,7 +10,7 @@ part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
   final TickerRepository _tickerRepository;
-  static const int _duration = 0;
+  static const int _duration = 999999;
   StreamSubscription<int>? _tickerSubscription;
 
   TimerBloc({required TickerRepository tickerRepository})
@@ -30,7 +30,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   }
 
   void _onTicked(TimerTicked event, Emitter<TimerState> emit) {
-    print("timer duration is ${state.durationRemaining}");
     emit(TimerState(durationRemaining: event.duration));
   }
 

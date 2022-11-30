@@ -7,6 +7,7 @@ class RemoteConfigRepository {
   static String? recommendedVersion;
   static String? title;
   static String? subtitle;
+  static bool showTimer = false;
 
   static init() async {
     _remoteConfig = FirebaseRemoteConfig.instance;
@@ -26,6 +27,7 @@ class RemoteConfigRepository {
     recommendedVersion =  _remoteConfig?.getString(AppFlavor.recommendedVersion) ?? "1.0.0";
     title =  _remoteConfig?.getString("updateTitle") ?? "New Update Available";
     subtitle =  _remoteConfig?.getString("updateDescription") ?? "";
+    showTimer = _remoteConfig?.getBool("showTimer") ?? false;
     print("minimumVersion $minimumVersion recommendedVersion $recommendedVersion");
   }
 }

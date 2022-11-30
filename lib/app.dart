@@ -24,6 +24,8 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -42,10 +44,85 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('state = $state');
+    if(state == AppLifecycleState.resumed){
+      final timerRemaining = context.read<TimerBloc>().state.durationRemaining;
+      showExpiredSession(timerRemaining);
+    }
+  }
+
+  showExpiredSession(int durationRemaining){
+    print("duration remaining ${durationRemaining}");
+    final currentContext = appRouter.navigatorKey.currentContext;
+    if (currentContext == null) {
+      FirebaseCrashlytics.instance.recordError(
+        "Current context for timer is null",
+        StackTrace.current,
+      );
+      return;
+    }
+    if (durationRemaining == 600) {
+      FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
+      print("duration remaining ${durationRemaining}");
+      showDialog(
+        context: currentContext,
+        barrierDismissible: false,
+        builder: (context) {
+          return AppConfirmationDialog(
+            title: "Your session is about to expire in 10 minutes.",
+            subtitle: "",
+            confirmText: "Stay and Continue",
+            onConfirm: () {
+              final filterState = currentContext
+                  .read<SearchFlightCubit>()
+                  .state
+                  .filterState;
+              currentContext
+                  .read<BookingCubit>()
+                  .reVerifyFlight(filterState);
+            },
+          );
+        },
+      );
+    } else if (durationRemaining == 0) {
+      FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
+      showDialog(
+        context: currentContext,
+        barrierDismissible: false,
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AppConfirmationDialog(
+              showCloseButton: false,
+              title:
+              "Your session is expired, please retry your search!",
+              subtitle: "",
+              onConfirm: () {
+                currentContext.router.pop();
+                appRouter.replaceAll([const NavigationRoute()]);
+                currentContext.read<TimerBloc>().add(TimerReset());
+              },
+              confirmText: "Okay",
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -104,53 +181,7 @@ class _AppState extends State<App> {
           ),
           BlocListener<TimerBloc, TimerState>(
             listener: (context, state) {
-              final currentContext = appRouter.navigatorKey.currentContext;
-              if (currentContext == null) return;
-              if (state.durationRemaining == 600) {
-                print("duration remaining ${state.durationRemaining}");
-                showDialog(
-                  context: currentContext,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return AppConfirmationDialog(
-                      title: "Your session is about to expire in 10 minutes.",
-                      subtitle: "",
-                      confirmText: "Stay and Continue",
-                      onConfirm: () {
-                        final filterState = currentContext
-                            .read<SearchFlightCubit>()
-                            .state
-                            .filterState;
-                        currentContext
-                            .read<BookingCubit>()
-                            .reVerifyFlight(filterState);
-                      },
-                    );
-                  },
-                );
-              } else if (state.durationRemaining == 1) {
-                showDialog(
-                  context: currentContext,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return WillPopScope(
-                      onWillPop: () async => false,
-                      child: AppConfirmationDialog(
-                        showCloseButton: false,
-                        title:
-                            "Your session is expired, please retry your search!",
-                        subtitle: "",
-                        onConfirm: () {
-                          currentContext.router.pop();
-                          appRouter.replaceAll([const NavigationRoute()]);
-                          currentContext.read<TimerBloc>().add(TimerReset());
-                        },
-                        confirmText: "Okay",
-                      ),
-                    );
-                  },
-                );
-              }
+              showExpiredSession(state.durationRemaining);
             },
           ),
           BlocListener<RoutesCubit, RoutesState>(

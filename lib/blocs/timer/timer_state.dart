@@ -4,7 +4,7 @@ class TimerState extends Equatable {
   final int durationRemaining;
 
   const TimerState({
-    this.durationRemaining = 0,
+    this.durationRemaining = 999999,
   });
 
   @override

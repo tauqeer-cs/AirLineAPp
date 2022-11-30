@@ -1,3 +1,4 @@
+import 'package:app/utils/form_utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app/pages/auth/pages/signup/ui/form_header.dart';
@@ -61,12 +62,15 @@ class AdditionInfoView extends StatelessWidget {
                 kVerticalSpacer,
                 AppInputText(
                   isRequired: false,
-                  textInputType: TextInputType.name,
+                  textInputType: TextInputType.number,
                   name: formNameMyKad,
                   hintText: 'MyKad Number',
                   initialValue: myKadSelected,
                   validators: [
                     FormBuilderValidators.required(),
+                  ],
+                  inputFormatters: [
+                    AppFormUtils.onlyNumber(),
                   ],
                 ),
                 kVerticalSpacer,
