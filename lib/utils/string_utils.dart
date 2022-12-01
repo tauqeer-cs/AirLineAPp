@@ -23,7 +23,12 @@ extension StringExtension on String {
   }
 
   String camelCase() {
-    return split(' ').map((e) => e.capitalize()).join(' ');
+    return split(' ').map((e) {
+      if(e.contains("(")){
+        return e.split('(').map((e) => e.capitalize()).join('(');
+      }
+      return e.capitalize();
+    }).join(' ');
   }
 
   String formatCategory() {
