@@ -31,19 +31,32 @@ class HomeView extends StatelessWidget {
         // ),
         // kVerticalSpacer,
         // NotificationsWidget(),
-        kVerticalSpacer,
-        const Padding(
-          padding: kPageHorizontalPadding,
-          child: GreyCard(
-            child: SearchFlightWidget(
-              isHome: true,
-            ),
+        Container(
+          padding: EdgeInsets.all(24),
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Color.fromRGBO(235, 235, 235, 0.75),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.21),
+                offset: const Offset(0, 2),
+                blurRadius: 6,
+                spreadRadius: 0
+              ),
+            ],
+          ),
+          child: SearchFlightWidget(
+            isHome: true,
           ),
         ),
         kVerticalSpacer,
         Padding(
           padding: kPageHorizontalPaddingBig,
-          child: Text("Ongoing Promotions", style: kLargeRegular.copyWith(color: Styles.kTextColor),),
+          child: Text(
+            "Ongoing Promotions",
+            style: kLargeRegular.copyWith(color: Styles.kTextColor),
+          ),
         ),
         kVerticalSpacerSmall,
         BlocBuilder<HomeCubit, HomeState>(

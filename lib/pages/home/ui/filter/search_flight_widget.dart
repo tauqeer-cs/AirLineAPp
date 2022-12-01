@@ -16,21 +16,20 @@ class SearchFlightWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        kVerticalSpacerSmall,
         const TripSelection(),
         const AirportWidget(isOrigin: true),
-        kVerticalSpacerMini,
+        kVerticalSpacerSmall,
         const AirportWidget(isOrigin: false),
-        kVerticalSpacerMini,
+        kVerticalSpacerSmall,
         const PassengersWidget(),
-        kVerticalSpacerMini,
+        kVerticalSpacerSmall,
         const CalendarWidget(),
         kVerticalSpacer,
+        kVerticalSpacer,
         Padding(
-          padding: kPageHorizontalPadding,
+          padding: EdgeInsets.symmetric(horizontal: 5),
           child: SubmitSearch(isHomePage: isHome),
         ),
-        kVerticalSpacerSmall,
 
         // AppInputText(
         //   name: "promoFlight",

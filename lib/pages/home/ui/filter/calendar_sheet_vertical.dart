@@ -98,7 +98,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             Expanded(
                               child: Center(
                                 child: Text(
-                                    "ARR ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
+                                    "RET ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
                                     style: returnDate == null
                                         ? kMediumRegular
                                         : kMediumSemiBold),
