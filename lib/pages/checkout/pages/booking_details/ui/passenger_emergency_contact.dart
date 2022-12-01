@@ -2,6 +2,7 @@ import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/country.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
@@ -52,8 +53,9 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         contact?.phoneCode ??
         Country.defaultCountry.phoneCode ??
         "";
-    relationController.text =
-        emergency?.relationship ?? contact?.relationship ?? "Father";
+    if(emergency?.relationship !=null){
+      relationController.text = emergency!.relationship!;
+    }
   }
 
   @override
@@ -102,7 +104,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 name: formNameEmergencyLastName,
                 hintText: "Last Name/Surname",
                 validators: [FormBuilderValidators.required()],
-                initialValue: emergency?.lastName ??lastName,
+                initialValue: emergency?.lastName ?? lastName,
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.emergencyContact;
@@ -124,7 +126,10 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                     "Friends",
                     "Other"
                   ],
-                  defaultValue: emergency?.relationship,
+                  defaultValue:
+                      availableRelations.contains(relationController.text)
+                          ? relationController.text
+                          : null,
                   sheetTitle: "Relationship",
                   onChanged: (value) {
                     relationController.text = value ?? "";
@@ -144,7 +149,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 child: AppCountriesDropdown(
                   isPhoneCode: true,
                   hintText: "Phone",
-                  initialCountryCode: emergency?.phoneCode ??phoneNumber,
+                  initialCountryCode: emergency?.phoneCode ?? phoneNumber,
                   onChanged: (value) {
                     nationalityController.text = value?.phoneCode ?? "";
                     final request =
@@ -159,7 +164,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               ),
               AppInputText(
                 name: formNameEmergencyPhone,
-                initialValue: emergency?.phoneNumber ??phoneNumber,
+                initialValue: emergency?.phoneNumber ?? phoneNumber,
                 textInputType: TextInputType.number,
                 hintText: "Phone Number",
                 validators: [FormBuilderValidators.required()],

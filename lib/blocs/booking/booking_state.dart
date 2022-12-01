@@ -4,6 +4,8 @@ part of 'booking_cubit.dart';
 class BookingState extends Equatable {
   final BlocState blocState;
   final String message;
+  final String? superPnrNo;
+
   final InboundOutboundSegment? selectedDeparture;
   final InboundOutboundSegment? selectedReturn;
   final bool isVerify;
@@ -16,6 +18,7 @@ class BookingState extends Equatable {
     this.blocState = BlocState.initial,
     this.message = '',
     this.selectedDeparture,
+    this.superPnrNo,
     this.selectedReturn,
     this.isVerify = false,
     this.verifyResponse,
@@ -24,14 +27,14 @@ class BookingState extends Equatable {
     this.summaryRequest,
   });
 
-
   num get getFinalPrice => num.parse(((selectedDeparture?.getTotalPrice ?? 0) +
           (selectedReturn?.getTotalPrice ?? 0))
       .toStringAsFixed(2));
 
-  num get getFinalPriceDisplay => num.parse(((selectedDeparture?.getTotalPriceDisplay ?? 0) +
-      (selectedReturn?.getTotalPriceDisplay ?? 0))
-      .toStringAsFixed(2));
+  num get getFinalPriceDisplay =>
+      num.parse(((selectedDeparture?.getTotalPriceDisplay ?? 0) +
+              (selectedReturn?.getTotalPriceDisplay ?? 0))
+          .toStringAsFixed(2));
 
   @override
   List<Object?> get props => [
@@ -44,5 +47,6 @@ class BookingState extends Equatable {
         departureColorMapping,
         returnColorMapping,
         summaryRequest,
+        superPnrNo,
       ];
 }

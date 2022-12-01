@@ -57,6 +57,7 @@ class NumberPerson extends Equatable {
   }
 
   int get totalPerson => numberOfAdult + numberOfChildren;
+
   int get totalPersonWithInfant =>
       numberOfAdult + numberOfChildren + numberOfInfant;
 
@@ -382,29 +383,30 @@ class Person extends Equatable {
     }
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
-  
-  DateTime dateLimitEnd(){
+
+  DateTime dateLimitEnd() {
     final now = DateTime.now();
-    switch(peopleType){
+    switch (peopleType) {
       case PeopleType.adult:
-        return DateTime(now.year-12, now.month, now.day);
+        return DateTime(now.year - 12, now.month, now.day);
       case PeopleType.child:
-        return DateTime(now.year-2, now.month, now.day);
+        return DateTime(now.year - 2, now.month, now.day);
       case PeopleType.infant:
         return now;
       default:
         return now;
     }
   }
-  DateTime dateLimitStart(){
+
+  DateTime dateLimitStart() {
     final now = DateTime.now();
-    switch(peopleType){
+    switch (peopleType) {
       case PeopleType.adult:
-        return DateTime(now.year-210, now.month, now.day);
+        return DateTime(now.year - 210, now.month, now.day);
       case PeopleType.child:
-        return DateTime(now.year-12, now.month, now.day);
+        return DateTime(now.year - 12, now.month, now.day);
       case PeopleType.infant:
-        return DateTime(now.year-2, now.month, now.day);
+        return DateTime(now.year - 2, now.month, now.day);
       default:
         return now;
     }
@@ -417,8 +419,16 @@ enum PeopleType {
   infant("INF");
 
   const PeopleType(this.code);
+
   final String code;
 }
 
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
+List<String> availableRelations = [
+  "Father",
+  "Mother",
+  "Sibling",
+  "Friends",
+  "Other"
+];

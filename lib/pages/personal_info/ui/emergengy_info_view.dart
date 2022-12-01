@@ -1,3 +1,4 @@
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
     super.initState();
     relationController.text = widget.relationShip ?? "Father";
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -86,14 +88,11 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   name: formNameRelationshipEmergency,
                   textEditingController: relationController,
                   child: AppDropDown<String>(
-                    items: const [
-                      "Father",
-                      "Mother",
-                      "Sibling",
-                      "Friends",
-                      "Other"
-                    ],
-                    defaultValue: widget.relationShip,
+                    items: availableRelations,
+                    defaultValue:
+                        availableRelations.contains(widget.relationShip)
+                            ? widget.relationShip
+                            : null,
                     sheetTitle: "Relationship",
                     onChanged: (value) {
                       relationController.text = value ?? "";

@@ -90,7 +90,6 @@ class SearchResultView extends StatelessWidget {
           failedBuilder: AppErrorWidget(
             title: ErrorUtils.generateErrorText(state.message),
             subtitle: ErrorUtils.generateSubError(state.message),
-
           ),
         );
       },

@@ -35,7 +35,7 @@ class ErrorUtils {
       case "no flight available":
         return "No flight is found!";
       default:
-        return "";
+        return errorText;
     }
   }
 

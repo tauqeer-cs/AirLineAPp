@@ -60,68 +60,88 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print('state = $state');
-    if(state == AppLifecycleState.resumed){
+    if (state == AppLifecycleState.resumed) {
       final timerRemaining = context.read<TimerBloc>().state.durationRemaining;
       showExpiredSession(timerRemaining);
     }
   }
 
-  showExpiredSession(int durationRemaining){
-    print("duration remaining ${durationRemaining}");
+  showExpiredSession(int durationRemaining) {
     final currentContext = appRouter.navigatorKey.currentContext;
-    if (currentContext == null) {
-      FirebaseCrashlytics.instance.recordError(
-        "Current context for timer is null",
-        StackTrace.current,
-      );
-      return;
-    }
-    if (durationRemaining == 600) {
-      FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
-      print("duration remaining ${durationRemaining}");
-      showDialog(
-        context: currentContext,
-        barrierDismissible: false,
-        builder: (context) {
-          return AppConfirmationDialog(
-            title: "Your session is about to expire in 10 minutes.",
-            subtitle: "",
-            confirmText: "Stay and Continue",
-            onConfirm: () {
-              final filterState = currentContext
-                  .read<SearchFlightCubit>()
-                  .state
-                  .filterState;
-              currentContext
-                  .read<BookingCubit>()
-                  .reVerifyFlight(filterState);
-            },
-          );
-        },
-      );
-    } else if (durationRemaining == 0) {
-      FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
-      showDialog(
-        context: currentContext,
-        barrierDismissible: false,
-        builder: (context) {
-          return WillPopScope(
-            onWillPop: () async => false,
-            child: AppConfirmationDialog(
-              showCloseButton: false,
-              title:
-              "Your session is expired, please retry your search!",
+    final currentPath = appRouter.currentPath;
+    final superPnr = currentContext?.read<BookingCubit>().state.superPnrNo;
+    if (currentPath == "/payment" &&
+        superPnr != null &&
+        currentContext != null) {
+      FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
+      if(durationRemaining==0){
+        showDialog(
+          context: currentContext,
+          barrierDismissible: false,
+          builder: (context) {
+            return AppConfirmationDialog(
+              showCloseButton: true,
+              title: "Your session is about to expire.",
               subtitle: "",
               onConfirm: () {
-                currentContext.router.pop();
-                appRouter.replaceAll([const NavigationRoute()]);
-                currentContext.read<TimerBloc>().add(TimerReset());
+                currentContext.read<BookingCubit>().reVerifyPNR();
               },
-              confirmText: "Okay",
-            ),
-          );
-        },
-      );
+              confirmText: "Stay and Continue",
+            );
+          },
+        );
+      }
+
+    } else {
+      if (currentContext == null) {
+        FirebaseCrashlytics.instance.recordError(
+          "Current context for timer is null",
+          StackTrace.current,
+        );
+        return;
+      }
+      if (durationRemaining == 600) {
+        FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
+        print("duration remaining ${durationRemaining}");
+        showDialog(
+          context: currentContext,
+          barrierDismissible: false,
+          builder: (context) {
+            return AppConfirmationDialog(
+              title: "Your session is about to expire in 10 minutes.",
+              subtitle: "",
+              confirmText: "Stay and Continue",
+              onConfirm: () {
+                final filterState =
+                    currentContext.read<SearchFlightCubit>().state.filterState;
+                currentContext.read<BookingCubit>().reVerifyFlight(filterState);
+              },
+            );
+          },
+        );
+      } else if (durationRemaining == 0) {
+        FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
+        showDialog(
+          context: currentContext,
+          barrierDismissible: false,
+          builder: (context) {
+            return WillPopScope(
+              onWillPop: () async => false,
+              child: AppConfirmationDialog(
+                showCloseButton: false,
+                title: "Your session is expired, please retry your search!",
+                subtitle: "",
+                onConfirm: () {
+                  currentContext.router.pop();
+                  appRouter.replaceAll([const NavigationRoute()]);
+                  currentContext.read<TimerBloc>().add(TimerReset());
+                },
+                confirmText: "Okay",
+              ),
+            );
+          },
+        );
+      }
     }
   }
 
@@ -174,9 +194,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
               print("durations is $diff");
-              context
-                  .read<TimerBloc>()
-                  .add(TimerStarted(duration: diff.inSeconds));
+              context.read<TimerBloc>().add(
+                    TimerStarted(
+                        duration:
+                            state.superPnrNo != null ? 900 : diff.inSeconds),
+                  );
             },
           ),
           BlocListener<TimerBloc, TimerState>(

@@ -14,7 +14,6 @@ class SignupCubit extends Cubit<SignupState> {
 
   signup(SignupRequest signupRequest) async {
     final newRequest = state.signupRequest.copyWith(
-      gender: signupRequest.gender,
       dob: signupRequest.dob,
       address: signupRequest.address,
       city: signupRequest.city,
@@ -46,6 +45,8 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   editPhoneCode(String phoneCode) {
+    print("phoneCode edited ${phoneCode}");
+
     final newData = state.signupRequest.copyWith(phoneCode: phoneCode);
     emit(
       state.copyWith(signupRequest: newData),
@@ -67,9 +68,13 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   addAccountDetail(SignupRequest signupRequest) {
+    final newData = signupRequest.copyWith(
+      title: state.signupRequest.title,
+      phoneCode: state.signupRequest.phoneCode,
+    );
+
     emit(
-      state.copyWith(
-          signupRequest: signupRequest, blocState: BlocState.initial),
+      state.copyWith(signupRequest: newData, blocState: BlocState.initial),
     );
   }
 }

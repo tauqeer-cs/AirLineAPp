@@ -234,7 +234,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 },
                 onFailed: () {
                   context.loaderOverlay.hide();
-                  if (state.message.contains("please request a new GUID")) {
+                  if (state.message.contains("please request a new GUID") ||
+                      state.message == "Invalid Token") {
                     context.router.replaceAll(
                         [const NavigationRoute(), const HomeRoute()]);
                   }

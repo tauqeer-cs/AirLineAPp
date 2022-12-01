@@ -40,6 +40,11 @@ class HomeView extends StatelessWidget {
             ),
           ),
         ),
+        kVerticalSpacer,
+        Padding(
+          padding: kPageHorizontalPaddingBig,
+          child: Text("Ongoing Promotions", style: kLargeRegular.copyWith(color: Styles.kTextColor),),
+        ),
         kVerticalSpacerSmall,
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {

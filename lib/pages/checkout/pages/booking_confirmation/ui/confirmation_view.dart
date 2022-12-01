@@ -12,6 +12,7 @@ import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -65,7 +66,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               ),
               kVerticalSpacerSmall,
               Text(
-                "Booking reference:  ${confirmationDetail.confirmationModel?.value?.superPNR?.superPNRNo}",
+                "Booking reference:  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
                 style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
                 textAlign: TextAlign.center,
               ),

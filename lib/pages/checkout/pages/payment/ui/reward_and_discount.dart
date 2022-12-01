@@ -44,6 +44,7 @@ class RewardAndDiscount extends StatelessWidget {
                 name: "voucherCode",
                 validator: FormBuilderValidators.required(),
                 style: const TextStyle(fontSize: 14),
+                readOnly: bookingState.superPnrNo != null,
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   hintText: "Voucher Code",
@@ -87,7 +88,8 @@ class RewardAndDiscount extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: state.blocState == BlocState.loading
+              onPressed: state.blocState == BlocState.loading ||
+                      bookingState.superPnrNo != null
                   ? null
                   : () {
                       if (_fbKey.currentState!.saveAndValidate()) {

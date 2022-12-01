@@ -23,6 +23,8 @@ abstract class _$BookingStateCWProxy {
 
   BookingState summaryRequest(SummaryRequest? summaryRequest);
 
+  BookingState superPnrNo(String? superPnrNo);
+
   BookingState verifyResponse(VerifyResponse? verifyResponse);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `BookingState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
@@ -40,6 +42,7 @@ abstract class _$BookingStateCWProxy {
     InboundOutboundSegment? selectedDeparture,
     InboundOutboundSegment? selectedReturn,
     SummaryRequest? summaryRequest,
+    String? superPnrNo,
     VerifyResponse? verifyResponse,
   });
 }
@@ -80,6 +83,9 @@ class _$BookingStateCWProxyImpl implements _$BookingStateCWProxy {
       this(summaryRequest: summaryRequest);
 
   @override
+  BookingState superPnrNo(String? superPnrNo) => this(superPnrNo: superPnrNo);
+
+  @override
   BookingState verifyResponse(VerifyResponse? verifyResponse) =>
       this(verifyResponse: verifyResponse);
 
@@ -100,6 +106,7 @@ class _$BookingStateCWProxyImpl implements _$BookingStateCWProxy {
     Object? selectedDeparture = const $CopyWithPlaceholder(),
     Object? selectedReturn = const $CopyWithPlaceholder(),
     Object? summaryRequest = const $CopyWithPlaceholder(),
+    Object? superPnrNo = const $CopyWithPlaceholder(),
     Object? verifyResponse = const $CopyWithPlaceholder(),
   }) {
     return BookingState(
@@ -136,6 +143,10 @@ class _$BookingStateCWProxyImpl implements _$BookingStateCWProxy {
           ? _value.summaryRequest
           // ignore: cast_nullable_to_non_nullable
           : summaryRequest as SummaryRequest?,
+      superPnrNo: superPnrNo == const $CopyWithPlaceholder()
+          ? _value.superPnrNo
+          // ignore: cast_nullable_to_non_nullable
+          : superPnrNo as String?,
       verifyResponse: verifyResponse == const $CopyWithPlaceholder()
           ? _value.verifyResponse
           // ignore: cast_nullable_to_non_nullable
@@ -161,6 +172,7 @@ extension $BookingStateCopyWith on BookingState {
     bool selectedDeparture = false,
     bool selectedReturn = false,
     bool summaryRequest = false,
+    bool superPnrNo = false,
     bool verifyResponse = false,
   }) {
     return BookingState(
@@ -175,6 +187,7 @@ extension $BookingStateCopyWith on BookingState {
           selectedDeparture == true ? null : this.selectedDeparture,
       selectedReturn: selectedReturn == true ? null : this.selectedReturn,
       summaryRequest: summaryRequest == true ? null : this.summaryRequest,
+      superPnrNo: superPnrNo == true ? null : this.superPnrNo,
       verifyResponse: verifyResponse == true ? null : this.verifyResponse,
     );
   }

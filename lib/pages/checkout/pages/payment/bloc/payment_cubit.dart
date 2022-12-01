@@ -15,6 +15,15 @@ class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit() : super(const PaymentState());
   final _repository = FlightRepository();
 
+
+  updateSuperPnr(String newSuperPnr){
+    if(state.paymentResponse!=null){
+      final newPaymentResponse = state.paymentResponse!.copyWith(superPnrNo: newSuperPnr);
+      print("new pnr is $newPaymentResponse");
+      emit(state.copyWith(paymentResponse: newPaymentResponse));
+    }
+  }
+
   pay({
     String? voucherCode,
     String? promoCode,

@@ -95,7 +95,7 @@ class _FlightDetailState extends State<FlightDetail> {
                     Expanded(
                       child: BorderedLeftContainer(
                         title: "Aircraft:",
-                        content: '${detail?.aircraftType}',
+                        content: '${detail?.aircraftDescription}',
                       ),
                     ),
                   ],

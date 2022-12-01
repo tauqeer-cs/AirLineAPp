@@ -2,12 +2,14 @@ import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/flight_provider.dart';
 import 'package:app/data/requests/book_request.dart';
+import 'package:app/data/requests/reverify_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/verify_request.dart';
 import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/data/responses/airports_response.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/data/responses/reverify_pnr_response.dart';
 import 'package:app/data/responses/summary_response.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/data/responses/voucher_response.dart';
@@ -46,7 +48,11 @@ class FlightRepository {
   }
 
   Future<VerifyResponse> reVerifyFlight(VerifyRequest verifyRequest) async {
-    return await _provider.verifyFlight(verifyRequest);
+    return await _provider.reVerifyFlight(verifyRequest);
+  }
+
+  Future<ReverifyPnrResponse> reverifyPnr(ReverifyPnrRequest verifyRequest) async {
+    return await _provider.reverifyPnr(verifyRequest);
   }
 
   Future<SummaryResponse> summaryFlight(SummaryRequest summaryRequest) async {

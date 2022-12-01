@@ -58,6 +58,7 @@ class MealsSection extends StatelessWidget {
   }
 
   Column buildMealCards(List<Bundle>? bundles, bool isDeparture) {
+    bundles?.removeWhere((element) => element.serviceID == 0);
     return Column(
       children: [
         ...bundles?.map(

@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/flight_repository.dart';
+import 'package:app/data/requests/reverify_pnr_request.dart';
 import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/verify_request.dart';
 import 'package:app/data/responses/flight_response.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'booking_state.dart';
+
 part 'booking_cubit.g.dart';
 
 class BookingCubit extends Cubit<BookingState> {
@@ -59,22 +61,32 @@ class BookingCubit extends Cubit<BookingState> {
     emit(state.copyWith(summaryRequest: summaryRequest));
   }
 
+  updateSuperPnrNo(String? superPnrNo) {
+    print("update super pnr $superPnrNo");
+    emit(state.copyWith(superPnrNo: superPnrNo));
+  }
 
   verifyFlight(FilterState? filterState) async {
     if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
     try {
-      final inboundLFID =state.selectedReturn?.lfid;
+      final inboundLFID = state.selectedReturn?.lfid;
       final inboundFBCode = state.selectedReturn?.fbCode;
       final outboundLFID = state.selectedDeparture?.lfid;
       final outboundFBCode = state.selectedDeparture?.fbCode;
-      final inboundFares = OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
-      final outboundFares = OutboundFares(fbCode: outboundFBCode, lfid: outboundLFID);
+      final inboundFares =
+          OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
+      final outboundFares =
+          OutboundFares(fbCode: outboundFBCode, lfid: outboundLFID);
 
       final request = VerifyRequest.fromBooking(
         filterState,
-        inbound: (inboundLFID==null||inboundFBCode==null) ? [] : [inboundFares],
-        outbound: (outboundLFID==null||outboundFBCode==null) ? [] : [outboundFares],
+        inbound: (inboundLFID == null || inboundFBCode == null)
+            ? []
+            : [inboundFares],
+        outbound: (outboundLFID == null || outboundFBCode == null)
+            ? []
+            : [outboundFares],
         totalAmount: state.getFinalPrice,
       );
       final verifyResponse = await _repository.verifyFlight(request);
@@ -117,21 +129,27 @@ class BookingCubit extends Cubit<BookingState> {
     if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
     try {
-      final inboundLFID =state.selectedReturn?.lfid;
+      final inboundLFID = state.selectedReturn?.lfid;
       final inboundFBCode = state.selectedReturn?.fbCode;
       final outboundLFID = state.selectedDeparture?.lfid;
       final outboundFBCode = state.selectedDeparture?.fbCode;
-      final inboundFares = OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
-      final outboundFares = OutboundFares(fbCode: outboundFBCode, lfid: outboundLFID);
+      final inboundFares =
+          OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
+      final outboundFares =
+          OutboundFares(fbCode: outboundFBCode, lfid: outboundLFID);
 
       final request = VerifyRequest.fromBooking(
         filterState,
-        inbound: (inboundLFID==null||inboundFBCode==null) ? [] : [inboundFares],
-        outbound: (outboundLFID==null||outboundFBCode==null) ? [] : [outboundFares],
+        inbound: (inboundLFID == null || inboundFBCode == null)
+            ? []
+            : [inboundFares],
+        outbound: (outboundLFID == null || outboundFBCode == null)
+            ? []
+            : [outboundFares],
         totalAmount: state.getFinalPrice,
         flightSummaryPnrRequest: state.summaryRequest?.flightSummaryPNRRequest,
       );
-      final verifyResponse = await _repository.verifyFlight(request);
+      final verifyResponse = await _repository.reVerifyFlight(request);
       final newToken = state.verifyResponse?.copyWith(
         verifyExpiredDateTime: verifyResponse.verifyExpiredDateTime,
         token: verifyResponse.token,
@@ -140,6 +158,30 @@ class BookingCubit extends Cubit<BookingState> {
         state.copyWith(
           blocState: BlocState.finished,
           verifyResponse: newToken,
+          isVerify: true,
+        ),
+      );
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+        ),
+      );
+    }
+  }
+
+  reVerifyPNR() async {
+    if (state.superPnrNo == null) return;
+    emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
+    try {
+      final verifyResponse = await _repository.reverifyPnr(
+        ReverifyPnrRequest(superPNRNo: state.superPnrNo),
+      );
+      emit(
+        state.copyWith(
+          blocState: BlocState.finished,
+          superPnrNo: verifyResponse.result?.value?.superPnrNo,
           isVerify: true,
         ),
       );
