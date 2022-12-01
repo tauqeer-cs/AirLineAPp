@@ -13,7 +13,7 @@ class RemoteConfigRepository {
     _remoteConfig = FirebaseRemoteConfig.instance;
     await _remoteConfig!.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 15),
-      minimumFetchInterval: const Duration(hours: 0),
+      minimumFetchInterval: const Duration(hours: 12),
     ));
     await _remoteConfig!.fetchAndActivate();
   }
