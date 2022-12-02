@@ -41,14 +41,14 @@ class BookingSummary extends StatelessWidget {
 
 class SummaryContainer extends StatelessWidget {
   final Widget child;
-
-  const SummaryContainer({Key? key, required this.child}) : super(key: key);
+  final bool? overrideExpand;
+  const SummaryContainer({Key? key, required this.child, this.overrideExpand}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bool isExpand = context.watch<SummaryContainerCubit>().state;
     return ExpandedSection(
-      expand: isExpand,
+      expand: overrideExpand ?? isExpand,
       child: Container(
         margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
