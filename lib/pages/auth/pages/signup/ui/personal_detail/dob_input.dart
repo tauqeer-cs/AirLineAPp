@@ -21,7 +21,7 @@ class DobInput extends StatelessWidget {
         // Text("Birthday", style: kLargeSemiBold),
         // kVerticalSpacer,
         GreyCard(
-          edgeInsets: EdgeInsets.all(8),
+          edgeInsets: const EdgeInsets.all(8),
           child: FormBuilderDateTimePicker(
             name: formNameDob,
             firstDate: DateTime(1920),

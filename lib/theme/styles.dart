@@ -41,7 +41,7 @@ class Styles {
   static Color get kDartTeal => const Color.fromRGBO(0, 48, 73, 1);
 
 
-  static LinearGradient get gradient => LinearGradient(colors: const <Color>[
+  static LinearGradient get gradient => const LinearGradient(colors: <Color>[
         Color(0xFF02C2F3),
         Color(0xFF10C7E9),
         Color(0xFF2AD0D8),
@@ -326,6 +326,7 @@ class Styles {
             if (states.contains(MaterialState.selected)) {
               return kPrimaryColor;
             }
+            return kPrimaryColor;
           },
         ),
       ),

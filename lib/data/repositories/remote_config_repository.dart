@@ -22,12 +22,10 @@ class RemoteConfigRepository {
     if (_remoteConfig == null) {
       await init();
     }
-    print("flavor ${AppFlavor.minimumVersion}");
     minimumVersion =  _remoteConfig?.getString(AppFlavor.minimumVersion) ?? "1.0.0";
     recommendedVersion =  _remoteConfig?.getString(AppFlavor.recommendedVersion) ?? "1.0.0";
     title =  _remoteConfig?.getString("updateTitle") ?? "New Update Available";
     subtitle =  _remoteConfig?.getString("updateDescription") ?? "";
     showTimer = _remoteConfig?.getBool("showTimer") ?? false;
-    print("minimumVersion $minimumVersion recommendedVersion $recommendedVersion");
   }
 }

@@ -5,17 +5,14 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
-import 'package:app/widgets/forms/form_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../signup_wrapper.dart';
 
 class NameInput extends StatelessWidget {
-  Function(String? newTitle)? onTitleChanged;
-
+  final Function(String? newTitle)? onTitleChanged;
   final String? title;
   final String? subText;
   final bool smallerSubText, isSignUp;
@@ -25,7 +22,7 @@ class NameInput extends StatelessWidget {
   final String? lastNameInitValue;
   final double greyMargin;
 
-  NameInput({
+  const NameInput({
     Key? key,
     this.title,
     this.subText,
@@ -53,7 +50,7 @@ class NameInput extends StatelessWidget {
         ),
         GreyCard(
           margin: greyMargin,
-          edgeInsets: EdgeInsets.all(8),
+          edgeInsets: const EdgeInsets.all(8),
           child: Column(
             children: [
               AppDropDown<String>(

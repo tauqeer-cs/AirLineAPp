@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
@@ -22,19 +24,11 @@ class SeatRemove extends StatelessWidget {
         : focusedPerson?.returnSeats;
     return InkWell(
       onTap: () async {
-
         var check = context
             .read<SearchFlightCubit>()
             .addSeatToPerson(selectedPerson, null, isDeparture);
-
-        if(check) {
-
+        if (check) {
           var nextPerson = persons?.persons.indexOf(selectedPerson!);
-
-
-          print('');
-
-          //          context.read<SelectedPersonCubit>().selectPerson(val);
         }
       },
       child: CheckboxListTile(
@@ -43,9 +37,9 @@ class SeatRemove extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-
             Text("Pick my seats for me", style: kLargeSemiBold),
-            Text("Let the system allocate a seat for you.", style: kLargeMedium),
+            Text("Let the system allocate a seat for you.",
+                style: kLargeMedium),
           ],
         ),
         value: seat == null,
@@ -53,8 +47,6 @@ class SeatRemove extends StatelessWidget {
           context
               .read<SearchFlightCubit>()
               .addSeatToPerson(selectedPerson, null, isDeparture);
-
-
         },
       ),
     );

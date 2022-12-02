@@ -5,7 +5,6 @@ import 'package:app/theme/html_style.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:app/widgets/app_logo_widget.dart';
-import 'package:app/widgets/containers/glass_card.dart';
 import 'package:app/widgets/wrapper/auth_wrapper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -190,20 +189,19 @@ class NotificationsWidget extends StatelessWidget {
         final notifications = state.notifications;
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: notifications?.isEmpty ?? true || true
-              ? SafeArea(
+          finishedBuilder: notifications?.isEmpty ?? true
+              ? const SafeArea(
                   bottom: false,
                   child: SizedBox(),
                 )
               : Container(
-                  padding: EdgeInsets.fromLTRB(8, 8, 8, 15),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 15),
                   color: Styles.kPrimaryColor,
                   child: SafeArea(
                     bottom: false,
                     child: AppImageCarousel(
                       aspectRatio: 500.w / 40.h,
                       items: notifications!.map((e) {
-                        print("e is $e");
                         return Html(
                           data: e.content ?? "",
                           style: HtmlStyle.htmlStyle(

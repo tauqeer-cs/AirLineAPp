@@ -50,11 +50,11 @@ class _NavigationPageState extends State<NavigationPage> {
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: [
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(MyFlutterApp.icohome),
               label: "Home",
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(MyFlutterApp.ico_deals),
               label: "Deals",
             ),

@@ -4,8 +4,6 @@ import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
-import 'package:app/widgets/app_money_widget.dart';
-import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +26,7 @@ class _MealsFeePaymentState extends State<MealsFeePayment> {
       children: [
         kVerticalSpacer,
         PriceRow(
-          child1: Text("Meals", style: k18Heavy),
+          child1: const Text("Meals", style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
             amount:

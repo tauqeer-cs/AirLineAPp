@@ -1,9 +1,7 @@
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/pages/delete_account/bloc/delete_account_cubit.dart';
-import 'package:app/pages/forget_password/bloc/forget_password_cubit.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
-import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -22,7 +20,7 @@ class DeleteAccountForm extends StatelessWidget {
     if (_fbKey.currentState!.saveAndValidate()) {
       final value = _fbKey.currentState!.value;
       final email = context.read<AuthBloc>().state.user?.email ?? "";
-      final password= value[formPassword];
+      final password = value[formPassword];
       context.read<DeleteAccountCubit>().deleteAccount(email, password);
     }
   }
@@ -40,8 +38,7 @@ class DeleteAccountForm extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 0),
+                  padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
                   child: Text("Delete Your Account?", style: kGiantHeavy),
                 ),
                 kVerticalSpacerMini,
@@ -58,9 +55,7 @@ class DeleteAccountForm extends StatelessWidget {
                     FormBuilderValidators.match(
                         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                         errorText:
-                        'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.'),
-                        (value) {
-                    },
+                            'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.'),
                   ],
                 ),
                 kVerticalSpacerSmall,

@@ -11,7 +11,6 @@ import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'booking_state.dart';
 
@@ -62,7 +61,6 @@ class BookingCubit extends Cubit<BookingState> {
   }
 
   updateSuperPnrNo(String? superPnrNo) {
-    print("update super pnr $superPnrNo");
     emit(state.copyWith(superPnrNo: superPnrNo));
   }
 

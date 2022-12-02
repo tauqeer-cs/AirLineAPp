@@ -8,25 +8,29 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SeatRow extends StatelessWidget {
+class SeatRow extends StatefulWidget {
   final Seats seats;
+  final VoidCallback? moveToTop;
+  final VoidCallback? moveToBottom;
 
-  VoidCallback? moveToTop;
-  VoidCallback? moveToBottom;
-
-   SeatRow({
+  const SeatRow({
     Key? key,
     required this.seats,
     this.moveToTop,
-     this.moveToBottom,
+    this.moveToBottom,
   }) : super(key: key);
 
+  @override
+  State<SeatRow> createState() => _SeatRowState();
+}
+
+class _SeatRowState extends State<SeatRow> {
   bool isBlockChild(Person? person, NumberPerson? numberPerson) {
     if (person?.peopleType == PeopleType.child ||
         (person?.isWithInfant(numberPerson) ?? false)) {
-      if ((seats.blockChild ?? false) ||
-          (seats.blockInfant ?? false) ||
-          (seats.isEmergencyRow ?? false)) {
+      if ((widget.seats.blockChild ?? false) ||
+          (widget.seats.blockInfant ?? false) ||
+          (widget.seats.isEmergencyRow ?? false)) {
         return true;
       }
     }
@@ -46,8 +50,8 @@ class SeatRow extends StatelessWidget {
     final seat = isDeparture
         ? focusedPerson?.departureSeats
         : focusedPerson?.returnSeats;
-    final selected = seat == seats;
-    final otherSelected = otherSeats?.contains(seats) ?? false;
+    final selected = seat == widget.seats;
+    final otherSelected = otherSeats?.contains(widget.seats) ?? false;
     final mapColor = isDeparture
         ? bookingState.departureColorMapping
         : bookingState.returnColorMapping;
@@ -55,39 +59,39 @@ class SeatRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
-          if (!(seats.isSeatAvailable ?? true)) return;
+          if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
           if (otherSelected) return;
           var responseCheck = context
               .read<SearchFlightCubit>()
-              .addSeatToPerson(selectedPerson, seats, isDeparture);
+              .addSeatToPerson(selectedPerson, widget.seats, isDeparture);
 
-          if(responseCheck) {
-            print('object');
+          if (responseCheck) {
             var nextPerson = persons?.persons.indexOf(selectedPerson!);
-
-
-
-            if( (nextPerson! + 1) <  persons!.persons.length ) {
-
+            if ((nextPerson! + 1) < persons!.persons.length) {
               var nextItem = (persons.persons[nextPerson + 1]);
-              if(nextItem.peopleType?.code == 'INF') {
-                context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
+              if (nextItem.peopleType?.code == 'INF') {
+                context
+                    .read<SelectedPersonCubit>()
+                    .selectPerson(persons.persons[0]);
                 await Future.delayed(const Duration(milliseconds: 500));
-                moveToBottom?.call();
+                widget.moveToBottom?.call();
                 return;
               }
               await Future.delayed(const Duration(seconds: 1));
-              context.read<SelectedPersonCubit>().selectPerson(persons.persons[nextPerson + 1]);
-              moveToTop?.call();
-            }
-            else if( (nextPerson + 1) ==  persons.persons.length ) {
-              context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
-              await Future.delayed(const Duration(milliseconds: 500));
-              moveToBottom?.call();
-            }
 
-            print('');
+              if(!mounted) return;
+              context
+                  .read<SelectedPersonCubit>()
+                  .selectPerson(persons.persons[nextPerson + 1]);
+              widget.moveToTop?.call();
+            } else if ((nextPerson + 1) == persons.persons.length) {
+              context
+                  .read<SelectedPersonCubit>()
+                  .selectPerson(persons.persons[0]);
+              await Future.delayed(const Duration(milliseconds: 500));
+              widget.moveToBottom?.call();
+            }
 
           }
         },
@@ -99,9 +103,9 @@ class SeatRow extends StatelessWidget {
                   ? Colors.red
                   : otherSelected
                       ? Colors.grey
-                      : (seats.isSeatAvailable ?? false) &&
+                      : (widget.seats.isSeatAvailable ?? false) &&
                               !isBlockChild(focusedPerson, persons)
-                          ? (mapColor ?? {})[seats.serviceId]
+                          ? (mapColor ?? {})[widget.seats.serviceId]
                           : Colors.grey,
               borderRadius: BorderRadius.circular(8),
             ),

@@ -110,8 +110,8 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
         kVerticalSpacerBig,
         Text(widget.dateTitle, style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
         widget.segments.isEmpty
-            ? Padding(
-              padding: const EdgeInsets.all(20.0),
+            ? const Padding(
+              padding: EdgeInsets.all(20.0),
               child: Center(
                   child: Text(
                     "No flight available for this date",

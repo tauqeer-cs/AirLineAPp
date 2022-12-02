@@ -1,6 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
-import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
@@ -47,7 +46,6 @@ class AuthPage extends StatelessWidget {
               ),
               BlocListener<AuthBloc, AuthState>(
                 listener: (_, state) {
-                  print("auth listener ${state.user?.isAccountVerified}");
                   if (!(state.user?.isAccountVerified ?? true)) {
                     showNotVerifiedDialog(
                         context: context, email: state.user?.email ?? "");
@@ -90,6 +88,10 @@ class AuthPage extends StatelessWidget {
           title: "Your email hasn't been verified yet.",
           subtitle:
               "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
+          confirmText: "Resend",
+          onConfirm: () {
+            AuthenticationRepository().sendEmail(ResendEmailRequest(email: email));
+          },
           child: Column(
             children: [
               Text(
@@ -97,16 +99,12 @@ class AuthPage extends StatelessWidget {
                 style: kMediumHeavy,
               ),
               kVerticalSpacer,
-              Text(
+              const Text(
                 "Click resend if you didn’t receive the email. ",
               ),
               kVerticalSpacer,
             ],
           ),
-          confirmText: "Resend",
-          onConfirm: () {
-            AuthenticationRepository().sendEmail(ResendEmailRequest(email: email));
-          },
         );
       },
     );

@@ -14,13 +14,15 @@ import 'package:app/utils/string_utils.dart';
 
 class BaggageSection extends StatelessWidget {
   final bool isDeparture;
+  final VoidCallback? moveToTop;
+  final VoidCallback? moveToBottom;
 
-  VoidCallback? moveToTop;
-  VoidCallback? moveToBottom;
-
-  BaggageSection(
-      {Key? key, this.isDeparture = true, this.moveToTop, this.moveToBottom})
-      : super(key: key);
+  const BaggageSection({
+    Key? key,
+    this.isDeparture = true,
+    this.moveToTop,
+    this.moveToBottom,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,21 +81,25 @@ class BaggageSection extends StatelessWidget {
   }
 }
 
-class NewBaggageCard extends StatelessWidget {
+class NewBaggageCard extends StatefulWidget {
   final Bundle selectedBaggage;
   final bool isDeparture;
+  final VoidCallback? moveToTop;
+  final VoidCallback? moveToBottom;
 
-  VoidCallback? moveToTop;
-  VoidCallback? moveToBottom;
+  const NewBaggageCard({
+    Key? key,
+    required this.selectedBaggage,
+    required this.isDeparture,
+    this.moveToBottom,
+    this.moveToTop,
+  }) : super(key: key);
 
-  NewBaggageCard(
-      {Key? key,
-      required this.selectedBaggage,
-      required this.isDeparture,
-      this.moveToBottom,
-      this.moveToTop})
-      : super(key: key);
+  @override
+  State<NewBaggageCard> createState() => _NewBaggageCardState();
+}
 
+class _NewBaggageCardState extends State<NewBaggageCard> {
   @override
   Widget build(BuildContext context) {
     final selectedPerson = context.watch<SelectedPersonCubit>().state;
@@ -101,14 +107,51 @@ class NewBaggageCard extends StatelessWidget {
     final persons = state.filterState?.numberPerson;
     final focusedPerson = persons?.persons
         .firstWhereOrNull((element) => element == selectedPerson);
-    final baggage = isDeparture
+    final baggage = widget.isDeparture
         ? focusedPerson?.departureBaggage
         : focusedPerson?.returnBaggage;
     return InkWell(
-      onTap: () {
-        context
-            .read<SearchFlightCubit>()
-            .addBaggageToPerson(selectedPerson, selectedBaggage, isDeparture);
+      onTap: () async {
+        context.read<SearchFlightCubit>().addBaggageToPerson(
+            selectedPerson, widget.selectedBaggage, widget.isDeparture);
+        var responseFlag = context.read<SearchFlightCubit>().addBaggageToPerson(
+            selectedPerson,
+            (widget.selectedBaggage.serviceID ?? 0) == 0
+                ? null
+                : widget.selectedBaggage,
+            widget.isDeparture);
+
+        if (responseFlag) {
+          var nextIndex = persons?.persons.indexOf(selectedPerson!);
+
+          if ((nextIndex! + 1) < persons!.persons.length) {
+            var nextItem = (persons.persons[nextIndex + 1]);
+            if (nextItem.peopleType?.code == 'INF') {
+              context
+                  .read<SelectedPersonCubit>()
+                  .selectPerson(persons.persons[0]);
+              await Future.delayed(const Duration(milliseconds: 500));
+              widget.moveToBottom?.call();
+              return;
+            }
+            await Future.delayed(const Duration(seconds: 1));
+            if (!mounted) return;
+            context
+                .read<SelectedPersonCubit>()
+                .selectPerson(persons.persons[nextIndex + 1]);
+            widget.moveToTop?.call();
+          } else if ((nextIndex + 1) == persons.persons.length) {
+            await Future.delayed(const Duration(milliseconds: 500));
+
+            widget.moveToBottom!.call();
+            await Future.delayed(const Duration(seconds: 1));
+            if (!mounted) return;
+
+            context
+                .read<SelectedPersonCubit>()
+                .selectPerson(persons.persons[0]);
+          }
+        }
       },
       child: AppCard(
         edgeInsets: EdgeInsets.zero,
@@ -125,48 +168,11 @@ class NewBaggageCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Radio<Bundle?>(
-                    value: selectedBaggage,
+                    value: widget.selectedBaggage.serviceID == 0
+                        ? null
+                        : widget.selectedBaggage,
                     groupValue: baggage,
-                    onChanged: (value) async {
-                      var responseFlag = context
-                          .read<SearchFlightCubit>()
-                          .addBaggageToPerson(
-                              selectedPerson, value, isDeparture);
-
-                      if (responseFlag) {
-                        var nextIndex =
-                            persons?.persons.indexOf(selectedPerson!);
-
-                        if ((nextIndex! + 1) < persons!.persons.length) {
-
-                          var nextItem = (persons.persons[nextIndex + 1]);
-                          if(nextItem.peopleType?.code == 'INF') {
-                            context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
-                            await Future.delayed(const Duration(milliseconds: 500));
-                            moveToBottom?.call();
-                            return;
-                          }
-                          await Future.delayed(const Duration(seconds: 1));
-                          context
-                              .read<SelectedPersonCubit>()
-                              .selectPerson(persons.persons[nextIndex + 1]);
-                          moveToTop?.call();
-                        }
-                        else if( (nextIndex + 1) ==  persons.persons.length ) {
-
-
-
-                          await Future.delayed(const Duration(milliseconds: 500));
-
-                          moveToBottom!.call();
-                          await Future.delayed(const Duration(seconds: 1));
-
-                          context.read<SelectedPersonCubit>().selectPerson(persons.persons[0]);
-
-
-                        }
-                      }
-                    },
+                    onChanged: (value) async {},
                   ),
                 ],
               ),
@@ -175,9 +181,9 @@ class NewBaggageCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    selectedBaggage.description?.capitalize() ?? "No Baggage",
+                    widget.selectedBaggage.description?.capitalize() ??
+                        "No Baggage",
                     style: kLargeHeavy,
-
                   ),
                 ],
               ),
@@ -186,12 +192,12 @@ class NewBaggageCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    selectedBaggage.currencyCode ?? "MYR",
+                    widget.selectedBaggage.currencyCode ?? "MYR",
                     style: kMediumHeavy,
                   ),
                   Text(
                     NumberUtils.formatNumber(
-                        selectedBaggage.amount?.toDouble()),
+                        widget.selectedBaggage.amount?.toDouble()),
                     style: kHugeHeavy,
                   ),
                 ],

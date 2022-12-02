@@ -129,14 +129,14 @@ class CommunicationPreferences extends Equatable {
 * */
 @JsonSerializable(explicitToJson: true)
 class EmergencyContact extends Equatable {
-  String? firstName;
-  String? lastName;
-  String? relationship;
-  String? phoneCode;
-  String? phoneNumber;
-  String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? relationship;
+  final String? phoneCode;
+  final String? phoneNumber;
+  final String? email;
 
-  EmergencyContact({
+  const EmergencyContact({
     this.firstName,
     this.lastName,
     this.relationship,

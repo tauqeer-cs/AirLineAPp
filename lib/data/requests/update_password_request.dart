@@ -1,6 +1,3 @@
-import 'package:app/data/requests/search_flight_request.dart';
-import 'package:app/pages/home/bloc/filter_cubit.dart';
-import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -34,11 +31,11 @@ class UpdatePasswordRequest extends Equatable {
 
   @override
   List<Object?> get props => [
-        this.email,
-        this.previousPassword,
-        this.newPassword,
-    this.newPassword,
-    this.passphrase,
-    this.password,
+        email,
+        previousPassword,
+        newPassword,
+    newPassword,
+    passphrase,
+    password,
       ];
 }

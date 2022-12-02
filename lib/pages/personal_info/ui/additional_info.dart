@@ -8,7 +8,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
-import '../../../localizations/localizations_util.dart';
 import '../../../models/country.dart';
 import '../../../theme/spacer.dart';
 import '../../../widgets/app_countries_dropdown.dart';
@@ -39,7 +38,6 @@ class AdditionInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("aadd info country $countrySelected");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

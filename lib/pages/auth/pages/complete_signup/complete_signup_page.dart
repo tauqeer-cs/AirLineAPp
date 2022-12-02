@@ -89,7 +89,7 @@ class CompleteSignupPage extends StatelessWidget {
                               color: Styles.kSubTextColor,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           ElevatedButton(
                             onPressed: () {
                               AuthenticationRepository().sendEmail(
@@ -97,7 +97,7 @@ class CompleteSignupPage extends StatelessWidget {
                               );
                               Toast.of(context).show(success: true, message: "Email sent.");
                             },
-                            child: Text("Resend Link"),
+                            child: const Text("Resend Link"),
                           )
                         ],
                       ),

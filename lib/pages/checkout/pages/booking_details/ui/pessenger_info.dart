@@ -7,7 +7,6 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
-import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
@@ -142,7 +141,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
                     width: 500.w,
                     decoration: BoxDecoration(
-                      color: Color(0xFFECBBC0),
+                      color: const Color(0xFFECBBC0),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Row(
@@ -168,7 +167,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   child: FormBuilderCheckbox(
                     name: "${widget.person.toString()}$formNameWheelChair",
                     contentPadding: EdgeInsets.zero,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.zero,
                       border: InputBorder.none,
                       disabledBorder: InputBorder.none,
@@ -177,7 +176,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       focusedBorder: InputBorder.none,
                       focusedErrorBorder: InputBorder.none,
                     ),
-                    title: Text("I need wheelchair assistance."),
+                    title: const Text("I need wheelchair assistance."),
                     onChanged: (value) {
                       setState(() {
                         isWheelChairChecked = value ?? false;
@@ -198,7 +197,6 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     builder: (context, state) {
                       final adultName =
                           state["Adult ${widget.person.numberOrder}"];
-                      print("adult name is $adultName");
                       final string =
                           adultName ?? "Adult ${widget.person.numberOrder}";
                       return Container(

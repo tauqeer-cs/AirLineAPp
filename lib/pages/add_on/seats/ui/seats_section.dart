@@ -9,10 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SeatsSection extends StatelessWidget {
   final bool isDeparture;
-  VoidCallback? moveToTop;
-  VoidCallback? moveToBottom;
+  final VoidCallback? moveToTop;
+  final VoidCallback? moveToBottom;
 
-   SeatsSection({Key? key, this.isDeparture = true,this.moveToTop,this.moveToBottom}) : super(key: key);
+   const SeatsSection({Key? key, this.isDeparture = true,this.moveToTop,this.moveToBottom}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

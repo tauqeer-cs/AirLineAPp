@@ -5,7 +5,6 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/flight_result_widget.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
@@ -119,7 +118,6 @@ class ContinueButton extends StatelessWidget {
               context.read<BookingCubit>().verifyFlight(filterState);
               context.read<SearchFlightCubit>().resetFilterState(filter);
               context.router.push(SeatsRoute());
-              print("go here");
               // if (booking.isVerify) {
               //   context.read<SummaryContainerCubit>().changeVisibility(true);
               //   context.router.push(SeatsRoute());

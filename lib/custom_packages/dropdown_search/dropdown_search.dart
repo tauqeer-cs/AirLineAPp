@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 library dropdown_search;
 
 import 'dart:async';
@@ -24,56 +26,56 @@ export 'src/properties/popup_props.dart';
 export 'src/properties/scrollbar_props.dart';
 export 'src/properties/text_field_props.dart';
 
-typedef Future<List<T>> DropdownSearchOnFind<T>(String text);
-typedef String DropdownSearchItemAsString<T>(T item);
-typedef bool DropdownSearchFilterFn<T>(T item, String filter);
-typedef bool DropdownSearchCompareFn<T>(T item1, T item2);
-typedef Widget DropdownSearchBuilder<T>(BuildContext context, T? selectedItem);
-typedef Widget DropdownSearchBuilderMultiSelection<T>(
+typedef DropdownSearchOnFind<T> = Future<List<T>> Function(String text);
+typedef DropdownSearchItemAsString<T> = String Function(T item);
+typedef DropdownSearchFilterFn<T> = bool Function(T item, String filter);
+typedef DropdownSearchCompareFn<T> = bool Function(T item1, T item2);
+typedef DropdownSearchBuilder<T> = Widget Function(BuildContext context, T? selectedItem);
+typedef DropdownSearchBuilderMultiSelection<T> = Widget Function(
   BuildContext context,
   List<T> selectedItems,
 );
-typedef Widget DropdownSearchPopupItemBuilder<T>(
+typedef DropdownSearchPopupItemBuilder<T> = Widget Function(
   BuildContext context,
   T item,
   bool isSelected,
 );
-typedef bool DropdownSearchPopupItemEnabled<T>(T item);
-typedef Widget ErrorBuilder<T>(
+typedef DropdownSearchPopupItemEnabled<T> = bool Function(T item);
+typedef ErrorBuilder<T> = Widget Function(
   BuildContext context,
   String searchEntry,
   dynamic exception,
 );
-typedef Widget EmptyBuilder<T>(BuildContext context, String searchEntry);
-typedef Widget LoadingBuilder<T>(BuildContext context, String searchEntry);
-typedef Future<bool?> BeforeChange<T>(T? prevItem, T? nextItem);
-typedef Future<bool?> BeforePopupOpening<T>(T? selectedItem);
-typedef Future<bool?> BeforePopupOpeningMultiSelection<T>(List<T> selItems);
-typedef Future<bool?> BeforeChangeMultiSelection<T>(
+typedef EmptyBuilder<T> = Widget Function(BuildContext context, String searchEntry);
+typedef LoadingBuilder<T> = Widget Function(BuildContext context, String searchEntry);
+typedef BeforeChange<T> = Future<bool?> Function(T? prevItem, T? nextItem);
+typedef BeforePopupOpening<T> = Future<bool?> Function(T? selectedItem);
+typedef BeforePopupOpeningMultiSelection<T> = Future<bool?> Function(List<T> selItems);
+typedef BeforeChangeMultiSelection<T> = Future<bool?> Function(
   List<T> prevItems,
   List<T> nextItems,
 );
-typedef Widget FavoriteItemsBuilder<T>(
+typedef FavoriteItemsBuilder<T> = Widget Function(
   BuildContext context,
   T item,
   bool isSelected,
 );
-typedef Widget ValidationMultiSelectionBuilder<T>(
+typedef ValidationMultiSelectionBuilder<T> = Widget Function(
   BuildContext context,
   List<T> item,
 );
 
-typedef RelativeRect PositionCallback(
+typedef PositionCallback = RelativeRect Function(
   RenderBox popupButtonObject,
   RenderBox overlay,
 );
 
-typedef void OnItemAdded<T>(List<T> selectedItems, T addedItem);
-typedef void OnItemRemoved<T>(List<T> selectedItems, T removedItem);
-typedef Widget PopupBuilder(BuildContext context, Widget popupWidget);
+typedef OnItemAdded<T> = void Function(List<T> selectedItems, T addedItem);
+typedef OnItemRemoved<T> = void Function(List<T> selectedItems, T removedItem);
+typedef PopupBuilder = Widget Function(BuildContext context, Widget popupWidget);
 
 ///[items] are the original item from [items] or/and [asyncItems]
-typedef List<T> FavoriteItems<T>(List<T> items);
+typedef FavoriteItems<T> = List<T> Function(List<T> items);
 
 enum Mode { DIALOG, MODAL_BOTTOM_SHEET, MENU, BOTTOM_SHEET }
 
@@ -183,15 +185,15 @@ class DropdownSearch<T> extends StatefulWidget {
   })  : assert(
           !popupProps.showSelectedItems || T == String || compareFn != null,
         ),
-        this.popupProps = PopupPropsMultiSelection.from(popupProps),
-        this.isMultiSelectionMode = false,
-        this.dropdownBuilderMultiSelection = null,
-        this.validatorMultiSelection = null,
-        this.onBeforeChangeMultiSelection = null,
-        this.selectedItems = const [],
-        this.onSavedMultiSelection = null,
-        this.onChangedMultiSelection = null,
-        this.onBeforePopupOpeningMultiSelection = null,
+        popupProps = PopupPropsMultiSelection.from(popupProps),
+        isMultiSelectionMode = false,
+        dropdownBuilderMultiSelection = null,
+        validatorMultiSelection = null,
+        onBeforeChangeMultiSelection = null,
+        selectedItems = const [],
+        onSavedMultiSelection = null,
+        onChangedMultiSelection = null,
+        onBeforePopupOpeningMultiSelection = null,
         super(key: key);
 
   DropdownSearch.multiSelection({
@@ -217,20 +219,20 @@ class DropdownSearch<T> extends StatefulWidget {
   })  : assert(
           !popupProps.showSelectedItems || T == String || compareFn != null,
         ),
-        this.onChangedMultiSelection = onChanged,
-        this.onBeforePopupOpeningMultiSelection = onBeforePopupOpening,
-        this.onSavedMultiSelection = onSaved,
-        this.onBeforeChangeMultiSelection = onBeforeChange,
-        this.validatorMultiSelection = validator,
-        this.dropdownBuilderMultiSelection = dropdownBuilder,
-        this.isMultiSelectionMode = true,
-        this.dropdownBuilder = null,
-        this.validator = null,
-        this.onBeforeChange = null,
-        this.selectedItem = null,
-        this.onSaved = null,
-        this.onChanged = null,
-        this.onBeforePopupOpening = null,
+        onChangedMultiSelection = onChanged,
+        onBeforePopupOpeningMultiSelection = onBeforePopupOpening,
+        onSavedMultiSelection = onSaved,
+        onBeforeChangeMultiSelection = onBeforeChange,
+        validatorMultiSelection = validator,
+        dropdownBuilderMultiSelection = dropdownBuilder,
+        isMultiSelectionMode = true,
+        dropdownBuilder = null,
+        validator = null,
+        onBeforeChange = null,
+        selectedItem = null,
+        onSaved = null,
+        onChanged = null,
+        onBeforePopupOpening = null,
         super(key: key);
 
   @override
@@ -301,8 +303,8 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
     Widget defaultItemMultiSelectionMode(T item) {
       return Container(
         height: 32,
-        padding: EdgeInsets.only(left: 8, right: 1),
-        margin: EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+        padding: const EdgeInsets.only(left: 8, right: 1),
+        margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Theme.of(context).primaryColorLight,
@@ -326,7 +328,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
               onPressed: () {
                 removeItem(item);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.close_outlined,
                 size: 20,
               ),
@@ -342,12 +344,12 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
           context,
           getSelectedItem,
         );
-      } else if (widget.dropdownBuilderMultiSelection != null)
+      } else if (widget.dropdownBuilderMultiSelection != null) {
         return widget.dropdownBuilderMultiSelection!(
           context,
           getSelectedItems,
         );
-      else if (isMultiSelectionMode) {
+      } else if (isMultiSelectionMode) {
         return Wrap(
           children: getSelectedItems
               .map((e) => defaultItemMultiSelectionMode(e))
@@ -459,8 +461,8 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
 
   ///function that manage Trailing icons(close, dropDown)
   Widget _manageSuffixIcons() {
-    final clearButtonPressed = () => clear();
-    final dropdownButtonPressed = () => _selectSearchMode();
+    clearButtonPressed() => clear();
+    dropdownButtonPressed() => _selectSearchMode();
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -613,12 +615,6 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
             WidgetsBinding.instance.window.viewInsets,
             WidgetsBinding.instance.window.devicePixelRatio,
           ).bottom;
-
-          final viewPaddingTop = EdgeInsets.fromWindowPadding(
-            WidgetsBinding.instance.window.padding,
-            WidgetsBinding.instance.window.devicePixelRatio,
-          ).top;
-
           return Container(
             margin: EdgeInsets.only(
               bottom: viewInsetsBottom,
@@ -668,18 +664,21 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
     if (isFocused && !_isFocused.value) {
       FocusScope.of(context).unfocus();
       _isFocused.value = true;
-    } else if (!isFocused && _isFocused.value) _isFocused.value = false;
+    } else if (!isFocused && _isFocused.value) {
+      _isFocused.value = false;
+    }
   }
 
   ///handle on change value , if the validation is active , we validate the new selected item
   void _handleOnChangeSelectedItems(List<T> selectedItems) {
-    final changeItem = () {
+    changeItem() {
       _selectedItemsNotifier.value = List.from(selectedItems);
-      if (widget.onChanged != null)
+      if (widget.onChanged != null) {
         widget.onChanged!(getSelectedItem);
-      else if (widget.onChangedMultiSelection != null)
+      } else if (widget.onChangedMultiSelection != null) {
         widget.onChangedMultiSelection!(selectedItems);
-    };
+      }
+    }
 
     if (widget.onBeforeChange != null) {
       widget.onBeforeChange!(getSelectedItem,
@@ -705,10 +704,11 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
 
   ///compared two items base on user params
   bool _isEqual(T i1, T i2) {
-    if (widget.compareFn != null)
+    if (widget.compareFn != null) {
       return widget.compareFn!(i1, i2);
-    else
+    } else {
       return i1 == i2;
+    }
   }
 
   ///Function that return then UI based on searchMode

@@ -16,6 +16,7 @@ import 'package:app/blocs/timer/ticker_repository.dart';
 import 'package:app/blocs/timer/timer_bloc.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
+import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
@@ -28,7 +29,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -45,6 +45,20 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
+  List<String> pathWithExpiredSession = [
+    BundleRoute().path,
+    SeatsRoute().path,
+    MealsRoute().path,
+    BaggageRoute().path,
+    const SelectBundleRoute().path,
+    const SelectMealsRoute().path,
+    const SelectSeatsRoute().path,
+    const SelectBaggageRoute().path,
+    const BookingDetailsRoute().path,
+    const CheckoutRoute().path,
+    const PaymentRoute().path,
+  ];
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -59,10 +73,20 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('state = $state');
     if (state == AppLifecycleState.resumed) {
-      final timerRemaining = context.read<TimerBloc>().state.durationRemaining;
-      showExpiredSession(timerRemaining);
+      final currentContext = appRouter.navigatorKey.currentContext;
+
+      final expiredInUTC = LocalRepository().getExpiredTime();
+      if (expiredInUTC == null) return;
+      final expiredDate = DateTime.parse(expiredInUTC);
+      final nowUTC = DateTime.now().toUtc();
+      final diff = expiredDate.difference(nowUTC);
+      currentContext?.read<TimerBloc>().add(
+        TimerStarted(
+          duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
+          expiredTime: expiredDate,
+        ),
+      );
     }
   }
 
@@ -70,11 +94,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     final currentContext = appRouter.navigatorKey.currentContext;
     final currentPath = appRouter.currentPath;
     final superPnr = currentContext?.read<BookingCubit>().state.superPnrNo;
+    if (!pathWithExpiredSession.contains(currentPath)) {
+      return;
+    }
     if (currentPath == "/payment" &&
         superPnr != null &&
         currentContext != null) {
       FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
-      if(durationRemaining==0){
+      if (durationRemaining == 0) {
         showDialog(
           context: currentContext,
           barrierDismissible: false,
@@ -91,7 +118,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           },
         );
       }
-
     } else {
       if (currentContext == null) {
         FirebaseCrashlytics.instance.recordError(
@@ -102,7 +128,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       }
       if (durationRemaining == 600) {
         FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
-        print("duration remaining ${durationRemaining}");
         showDialog(
           context: currentContext,
           barrierDismissible: false,
@@ -134,7 +159,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 onConfirm: () {
                   currentContext.router.pop();
                   appRouter.replaceAll([const NavigationRoute()]);
-                  currentContext.read<TimerBloc>().add(TimerReset());
+                  currentContext.read<TimerBloc>().add(const TimerReset());
                 },
                 confirmText: "Okay",
               ),
@@ -193,11 +218,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               if (expiredInUTC == null) return;
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
-              print("durations is $diff");
               context.read<TimerBloc>().add(
                     TimerStarted(
-                        duration:
-                            state.superPnrNo != null ? 900 : diff.inSeconds),
+                      duration: state.superPnrNo != null ? 900 : diff.inSeconds,
+                      expiredTime: expiredInUTC,
+                    ),
                   );
             },
           ),

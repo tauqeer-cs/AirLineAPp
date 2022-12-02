@@ -1,22 +1,15 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
-import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/pages/delete_account/bloc/delete_account_cubit.dart';
 import 'package:app/pages/delete_account/ui/delete_account_form.dart';
-import 'package:app/pages/forget_password/bloc/forget_password_cubit.dart';
-import 'package:app/pages/forget_password/ui/enter_email_form.dart';
-import 'package:app/pages/forget_password/ui/success_dialog.dart';
-import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
-import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/wave_background.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class DeleteAccountPage extends StatelessWidget {
@@ -53,7 +46,7 @@ class DeleteAccountPage extends StatelessWidget {
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 centerTitle: true,
-                leading: BackButton(
+                leading: const BackButton(
                   color: Colors.white,
                 ),
                 title: Text(
@@ -63,7 +56,7 @@ class DeleteAccountPage extends StatelessWidget {
                 elevation: 0,
                 backgroundColor: Colors.transparent,
               ),
-              body: DeleteAccountForm(),
+              body: const DeleteAccountForm(),
             ),
           ),
         ),

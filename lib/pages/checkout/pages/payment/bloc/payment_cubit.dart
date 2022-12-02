@@ -19,7 +19,6 @@ class PaymentCubit extends Cubit<PaymentState> {
   updateSuperPnr(String newSuperPnr){
     if(state.paymentResponse!=null){
       final newPaymentResponse = state.paymentResponse!.copyWith(superPnrNo: newSuperPnr);
-      print("new pnr is $newPaymentResponse");
       emit(state.copyWith(paymentResponse: newPaymentResponse));
     }
   }

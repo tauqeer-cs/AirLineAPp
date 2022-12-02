@@ -2,10 +2,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/seats_fee_detail.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
-import 'package:app/widgets/app_money_widget.dart';
-import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +23,7 @@ class _SeatsFeePaymentState extends State<SeatsFeePayment> {
     return Column(
       children: [
         PriceRow(
-          child1: Text("Seats", style: k18Heavy),
+          child1: const Text("Seats", style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
             amount:

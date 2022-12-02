@@ -1,5 +1,4 @@
 import 'package:app/data/responses/common_response.dart';
-import 'package:app/models/country.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 

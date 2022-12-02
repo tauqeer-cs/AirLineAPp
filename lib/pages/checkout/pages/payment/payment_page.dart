@@ -42,7 +42,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 subtitle: "",
                 onConfirm: () {
                   context.router.replaceAll([const NavigationRoute()]);
-                  context.read<TimerBloc>().add(TimerReset());
+                  context.read<TimerBloc>().add(const TimerReset());
                 },
                 confirmText: "Restart",
                 cancelText: "Stay",
@@ -86,7 +86,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         context.read<BookingCubit>().updateSuperPnrNo(
                             state.paymentResponse?.superPnrNo);
                         context.read<TimerBloc>().add(
-                              TimerStarted(duration: 900),
+                              TimerStarted(
+                                duration: 900,
+                                expiredTime: DateTime.now().toUtc().add(const Duration(seconds: 900)),
+                              ),
                             );
                         final result = await context.router.push(
                           WebViewRoute(

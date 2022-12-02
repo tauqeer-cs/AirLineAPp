@@ -1,3 +1,4 @@
+import 'package:app/app/app_logger.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/airports_response.dart';
 import 'package:app/models/booking_local.dart';
@@ -6,6 +7,7 @@ import 'package:hive/hive.dart';
 const String passengerInfoBox = "passengerInfoBox";
 const String airportsBox = "airportsBox";
 const String bookingBox = "bookingBox";
+const String timerBox = "timerBox";
 
 class LocalRepository {
   static final LocalRepository _instance = LocalRepository._internal();
@@ -47,5 +49,24 @@ class LocalRepository {
     var box = Hive.box<List>(bookingBox);
     final list = box.get("data", defaultValue: []) ?? <BookingLocal>[];
     return list.map((e) => e as BookingLocal).toList();
+  }
+
+  Future<void> storeExpiredTime(String? value) async {
+    var box = Hive.box<String>(timerBox);
+    logger.i("saved time $value");
+    await box.clear();
+    box.add(value ?? "");
+  }
+
+  String? getExpiredTime() {
+    var box = Hive.box<String>(timerBox);
+    var token = box.isNotEmpty ? box.getAt(0) : "";
+    logger.i("loaded time $token");
+    return token;
+  }
+
+  Future<void> deleteExpiredTime() async {
+    var box = Hive.box<String>(timerBox);
+    box.clear();
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../blocs/profile/profile_cubit.dart';
-import '../../../localizations/localizations_util.dart';
 import '../../../models/country.dart';
 import '../../../theme/spacer.dart';
 import '../../auth/pages/signup/signup_wrapper.dart';
@@ -63,9 +62,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               phoneCountryCodeSelected: profile?.userProfile?.phoneCode,
               phoneSelected: profile?.userProfile?.phoneNumber,
               onCountryChange: (newCountry) {
-                print("country selected $newCountry");
                 selectedCountry = newCountry;
-                print("selectedCountry ${selectedCountry?.countryCode}");
 
               },
               phoneCountryCode: (newPhoneCountry) {

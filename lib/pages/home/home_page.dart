@@ -1,7 +1,6 @@
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/home_view.dart';
 import 'package:app/utils/fcm_notifications.dart';
-import 'package:app/widgets/app_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

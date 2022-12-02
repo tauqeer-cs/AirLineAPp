@@ -1,7 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/pages/account_setting/bloc/update_password_cubit.dart';
-import 'package:app/pages/account_setting/ui/account_setting_view.dart';
 import 'package:app/pages/communication_settings/ui/settings_view.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
@@ -61,7 +60,7 @@ class CommunicationSettingPage extends StatelessWidget {
             ),
             body: Container(
               color: Colors.white,
-              child: SettingsView(),
+              child: const SettingsView(),
             ),
           ),
         ),

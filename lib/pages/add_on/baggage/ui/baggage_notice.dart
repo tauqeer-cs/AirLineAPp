@@ -15,7 +15,6 @@ class BaggageNotice extends StatelessWidget {
   Widget build(BuildContext context) {
     final carryNotice = context.watch<CmsSsrCubit>().state.carryNotice;
     final oversizedNotice = context.watch<CmsSsrCubit>().state.oversizedNotice;
-    print(carryNotice?.content);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(

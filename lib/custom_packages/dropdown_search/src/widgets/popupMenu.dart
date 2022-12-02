@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../properties/menu_props.dart';
@@ -37,11 +39,9 @@ class _PopupMenuRouteLayout extends SingleChildLayoutDelegate {
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
     final parentRenderBox = context.findRenderObject() as RenderBox;
-    //keyBoardHeight is height of keyboard if showing
     double keyBoardHeight = MediaQuery.of(context).viewInsets.bottom;
-    double safeAreaTop = MediaQuery.of(context).padding.top;
     double safeAreaBottom = MediaQuery.of(context).padding.bottom;
-    double totalSafeArea = /*safeAreaTop + */safeAreaBottom;
+    double totalSafeArea = safeAreaBottom;
     double maxHeight = constraints.minHeight - keyBoardHeight - totalSafeArea;
     return BoxConstraints.loose(
       Size(

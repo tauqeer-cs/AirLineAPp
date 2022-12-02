@@ -82,7 +82,7 @@ class _AppBookingStepState extends State<AppBookingStep> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -121,7 +121,7 @@ class _AppBookingStepState extends State<AppBookingStep> {
               ),
             ),
             Flexible(child: Text("expired remaining $remaining")),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),

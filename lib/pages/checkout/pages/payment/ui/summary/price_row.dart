@@ -15,7 +15,7 @@ class PriceRow extends StatelessWidget {
           flex: 4,
           child: child1,
         ),
-        Expanded(
+        const Expanded(
           flex: 1,
           child: SizedBox(
             width: 10,

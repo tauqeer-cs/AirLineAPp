@@ -1,7 +1,6 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
@@ -68,7 +67,7 @@ class LoginForm extends StatelessWidget {
                 kVerticalSpacer,
                 ElevatedButton(
                     onPressed: () => context.router.pop(),
-                    child: Text("Continue As Guest")),
+                    child: const Text("Continue As Guest")),
                 kVerticalSpacerSmall,
                 Row(
                   children: [
@@ -77,7 +76,7 @@ class LoginForm extends StatelessWidget {
                       color: Styles.kSubTextColor,
                     )),
                     kHorizontalSpacerMini,
-                    Text("or"),
+                    const Text("or"),
                     kHorizontalSpacerMini,
                     Expanded(
                         child: AppDividerWidget(
@@ -110,7 +109,7 @@ class LoginForm extends StatelessWidget {
           kVerticalSpacerMini,
           TextButton(
               onPressed: () {
-                context.router.push(ForgetPasswordRoute());
+                context.router.push(const ForgetPasswordRoute());
               },
               child: Text(
                 "Forgotten your password?",
@@ -124,7 +123,7 @@ class LoginForm extends StatelessWidget {
           kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(const SignupWrapperRoute()),
-            child: const Text("Create Acccount"),
+            child: const Text("Create Account"),
           )
         ],
       ),

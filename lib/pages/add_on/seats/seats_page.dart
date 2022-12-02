@@ -3,8 +3,6 @@ import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/add_on/seats/ui/seats_view.dart';
-import 'package:app/pages/bookings/bloc/bookings_cubit.dart';
-import 'package:app/pages/search_result/search_result_page.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:auto_route/auto_route.dart';
@@ -33,7 +31,7 @@ class SeatsPage extends StatelessWidget {
             title: "Your Trip Starts Here",
             height: 100.h,
             flexibleWidget: AppBookingStep(
-              passedSteps: [BookingStep.flights, BookingStep.addOn],
+              passedSteps: const [BookingStep.flights, BookingStep.addOn],
               onTopStepTaped: (index) {
                 if (index == 0) {
                   context.router.popUntilRouteWithName(SearchResultRoute.name);
@@ -49,7 +47,6 @@ class SeatsPage extends StatelessWidget {
                 blocState: state.blocState,
                 finishedBuilder: SeatsView(isDeparture: isDeparture),
               );
-              return SeatsView(isDeparture: isDeparture);
             },
           ),
         ),

@@ -1,9 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
-import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +40,7 @@ class SeatsFeeDetailPayment extends StatelessWidget {
                 .where((element) => element.paxType == e.peopleType?.code)
                 .toList();
             if (passengersTypes.isEmpty || e.numberOrder == null) {
-              return SizedBox();
+              return const SizedBox();
             }
             final passenger = passengersTypes.length > (e.numberOrder!.toInt())
                 ? passengersTypes[e.numberOrder!.toInt()]

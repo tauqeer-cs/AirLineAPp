@@ -39,6 +39,7 @@ void run() async {
   Hive.registerAdapter(BookingLocalAdapter());
   Hive.registerAdapter(UserAdapter());
   await Hive.openBox<FlightSummaryPnrRequest>(passengerInfoBox);
+  await Hive.openBox<String>(timerBox);
   await Hive.openBox<List>(bookingBox);
   await Hive.openBox<User>(userBoxName);
   await Hive.openBox<String>(tokenBoxName);

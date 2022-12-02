@@ -7,7 +7,6 @@ import 'package:app/pages/auth/pages/signup/ui/credential_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/name_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/password_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/signup_container.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -84,7 +83,7 @@ class SignupAccountPage extends StatelessWidget {
                             ),
                           ),
                           kVerticalSpacer,
-                          NameInput(isSignUp: true),
+                          const NameInput(isSignUp: true),
                           kVerticalSpacer,
                           const CredentialInput(),
                           kVerticalSpacer,

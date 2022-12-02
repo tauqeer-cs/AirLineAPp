@@ -6,6 +6,7 @@ abstract class TimerEvent extends Equatable {
 
 class TimerTicked extends TimerEvent {
   const TimerTicked({required this.duration});
+
   final int duration;
 
   @override
@@ -20,8 +21,13 @@ class TimerReset extends TimerEvent {
 }
 
 class TimerStarted extends TimerEvent {
-  const TimerStarted({required this.duration});
+  const TimerStarted({
+    required this.duration,
+    required this.expiredTime,
+  });
+
   final int duration;
+  final DateTime expiredTime;
 
   @override
   // TODO: implement props

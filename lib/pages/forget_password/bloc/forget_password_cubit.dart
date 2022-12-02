@@ -11,7 +11,7 @@ class ForgetPasswordCubit extends Cubit<GenericState> {
   final AuthenticationRepository _authenticationRepository =
       AuthenticationRepository();
 
-  ForgetPasswordCubit() : super(GenericState());
+  ForgetPasswordCubit() : super(const GenericState());
 
   sendEmailRequest(String email) async {
     emit(state.copyWith(blocState: BlocState.loading));

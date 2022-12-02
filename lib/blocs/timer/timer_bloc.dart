@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/blocs/timer/ticker_repository.dart';
+import 'package:app/data/repositories/local_repositories.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -10,6 +11,8 @@ part 'timer_state.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
   final TickerRepository _tickerRepository;
+  final LocalRepository _localRepository = LocalRepository();
+
   static const int _duration = 999999;
   StreamSubscription<int>? _tickerSubscription;
 
@@ -23,6 +26,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
   void _onStarted(TimerStarted event, Emitter<TimerState> emit) {
     emit(TimerState(durationRemaining: event.duration));
+    _localRepository.storeExpiredTime(event.expiredTime.toIso8601String());
     _tickerSubscription?.cancel();
     _tickerSubscription = _tickerRepository
         .tick(ticks: event.duration)
@@ -30,7 +34,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   }
 
   void _onTicked(TimerTicked event, Emitter<TimerState> emit) {
-    emit(TimerState(durationRemaining: event.duration));
+    emit(TimerState(durationRemaining: event.duration < 0 ? 0 :event.duration));
   }
 
   void _onReset(TimerReset event, Emitter<TimerState> emit) {

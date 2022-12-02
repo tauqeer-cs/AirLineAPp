@@ -35,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } else {
       emit(AuthState.unverified(event.user));
-      emit(AuthState.unauthenticated());
+      emit(const AuthState.unauthenticated());
     }
   }
 

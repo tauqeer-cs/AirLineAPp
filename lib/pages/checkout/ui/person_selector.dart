@@ -27,7 +27,7 @@ class PersonSelector extends StatelessWidget {
         kVerticalSpacer,
         PhysicalModel(
           elevation: 5.0,
-          shadowColor: Color(0xff44BD32),
+          shadowColor: const Color(0xff44BD32),
           color: Colors.white,
           borderRadius: BorderRadius.circular(25),
 

@@ -7,7 +7,7 @@ part 'reverify_pnr_response.g.dart';
 @CopyWith(copyWithNull: true)
 @JsonSerializable(includeIfNull: false)
 class ReverifyPnrResponse extends Equatable {
-  ReverifyPnrResponse({
+  const ReverifyPnrResponse({
     this.result,
     this.success,
     this.message,
@@ -25,16 +25,16 @@ class ReverifyPnrResponse extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.result,
-        this.success,
-        this.message,
+        result,
+        success,
+        message,
       ];
 }
 
 @CopyWith(copyWithNull: true)
 @JsonSerializable(includeIfNull: false)
 class Result extends Equatable {
-  Result({
+  const Result({
     this.value,
     this.formatters,
     this.contentTypes,
@@ -54,17 +54,17 @@ class Result extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.value,
-        this.formatters,
-        this.contentTypes,
-        this.statusCode,
+        value,
+        formatters,
+        contentTypes,
+        statusCode,
       ];
 }
 
 @CopyWith(copyWithNull: true)
 @JsonSerializable(includeIfNull: false)
 class Value extends Equatable {
-  Value({
+  const Value({
     this.superPnrNo,
     this.orderId,
     this.verifyExpiredDateTime,
@@ -88,11 +88,11 @@ class Value extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-        this.superPnrNo,
-        this.orderId,
-        this.verifyExpiredDateTime,
-        this.success,
-        this.isInvalidMemberId,
-        this.fromCache,
+        superPnrNo,
+        orderId,
+        verifyExpiredDateTime,
+        success,
+        isInvalidMemberId,
+        fromCache,
       ];
 }

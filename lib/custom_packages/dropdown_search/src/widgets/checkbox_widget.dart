@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef Widget WidgetCheckBox(BuildContext context, bool isChecked);
+typedef WidgetCheckBox = Widget Function(BuildContext context, bool isChecked);
 
 class CheckBoxWidget extends StatefulWidget {
   final WidgetCheckBox? layout;
@@ -10,7 +10,7 @@ class CheckBoxWidget extends StatefulWidget {
   final ValueChanged<bool?>? onChanged;
   final bool interceptCallBacks;
 
-  CheckBoxWidget({
+  const CheckBoxWidget({
     Key? key,
     this.isChecked = false,
     this.isDisabled = false,
@@ -21,10 +21,10 @@ class CheckBoxWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CheckBoxWidgetState createState() => _CheckBoxWidgetState();
+  CheckBoxWidgetState createState() => CheckBoxWidgetState();
 }
 
-class _CheckBoxWidgetState extends State<CheckBoxWidget> {
+class CheckBoxWidgetState extends State<CheckBoxWidget> {
   final ValueNotifier<bool> isCheckedNotifier = ValueNotifier(false);
 
   @override
@@ -36,8 +36,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
   @override
   void didUpdateWidget(covariant CheckBoxWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isChecked != oldWidget.isChecked)
+    if (widget.isChecked != oldWidget.isChecked) {
       isCheckedNotifier.value = widget.isChecked;
+    }
   }
 
   @override
@@ -58,9 +59,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ],
         );
 
-        if (widget.interceptCallBacks)
+        if (widget.interceptCallBacks) {
           return w;
-        else
+        } else {
           return InkWell(
             onTap: widget.isDisabled
                 ? null
@@ -70,6 +71,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   },
             child: IgnorePointer(child: w),
           );
+        }
       },
     );
   }

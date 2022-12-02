@@ -12,7 +12,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final _repository = ProfileRepository();
 
   resetState(){
-    emit(ProfileState());
+    emit(const ProfileState());
   }
 
   getProfile() async {

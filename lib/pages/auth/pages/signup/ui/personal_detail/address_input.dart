@@ -55,7 +55,7 @@ class AddressInput extends StatelessWidget {
         ),
         GreyCard(
           margin: greyMargin,
-          edgeInsets: EdgeInsets.all(8),
+          edgeInsets: const EdgeInsets.all(8),
           child: Column(
             children: [
               AppInputText(

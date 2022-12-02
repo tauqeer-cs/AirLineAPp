@@ -22,7 +22,7 @@ class ChangeSearchPage extends StatelessWidget {
           title: "Your Trip Starts Here",
           height: 100.h,
           flexibleWidget: AppBookingStep(
-            passedSteps: [BookingStep.flights],
+            passedSteps: const [BookingStep.flights],
             onTopStepTaped: (int index) {
               if (index == 0) {
                 context.router.popUntilRouteWithName(SearchResultRoute.name);
@@ -30,7 +30,7 @@ class ChangeSearchPage extends StatelessWidget {
             },
           ),
         ),
-        body: Padding(
+        body: const Padding(
           padding: kPagePadding,
           child: SearchFlightWidget(
             isHome: false,

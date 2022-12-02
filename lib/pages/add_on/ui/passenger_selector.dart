@@ -20,10 +20,6 @@ class PassengerSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final st =
-        context.watch<SearchFlightCubit>().state;
-
     final numberOfPerson =
         context.watch<SearchFlightCubit>().state.filterState?.numberPerson;
     final selectedPerson = context.watch<SelectedPersonCubit>().state;

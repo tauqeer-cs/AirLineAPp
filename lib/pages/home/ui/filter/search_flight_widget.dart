@@ -4,7 +4,6 @@ import 'package:app/pages/home/ui/filter/passengers_widget.dart';
 import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/filter/trip_selection.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/containers/grey_card.dart';
 import 'package:flutter/material.dart';
 
 
@@ -27,7 +26,7 @@ class SearchFlightWidget extends StatelessWidget {
         kVerticalSpacer,
         kVerticalSpacer,
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: SubmitSearch(isHomePage: isHome),
         ),
 

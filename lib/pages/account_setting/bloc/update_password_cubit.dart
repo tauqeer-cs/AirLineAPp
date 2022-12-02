@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 part 'update_password_state.dart';
 
 class UpdatePasswordCubit extends Cubit<GenericState> {
-  UpdatePasswordCubit() : super(GenericState());
+  UpdatePasswordCubit() : super(const GenericState());
   final AuthenticationRepository _authenticationRepository =
       AuthenticationRepository();
 

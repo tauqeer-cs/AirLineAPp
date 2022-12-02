@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';

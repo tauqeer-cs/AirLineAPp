@@ -49,13 +49,14 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
     firstName = emergency?.firstName ?? contact?.firstName;
     lastName = emergency?.lastName ?? contact?.lastName;
     phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
-    nationalityController.text = emergency?.phoneCode ??
-        contact?.phoneCode ??
-        Country.defaultCountry.phoneCode ??
-        "";
-    if(emergency?.relationship !=null){
-      relationController.text = emergency!.relationship!;
+    if(emergency?.phoneCode?.isNotEmpty ?? false){
+      nationalityController.text = emergency!.phoneCode!;
+    }else if(emergency?.phoneCode?.isNotEmpty ?? false){
+      nationalityController.text = contact!.phoneCode!;
+    }else{
+      nationalityController.text = "60";
     }
+    print("emergency phone ${emergency?.phoneCode} ${nationalityController.text} ${contact?.phoneCode}");
   }
 
   @override
@@ -66,7 +67,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         .profile
         ?.userProfile
         ?.emergencyContact;
-
+    print("emergency phone ${nationalityController.text}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -149,7 +150,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 child: AppCountriesDropdown(
                   isPhoneCode: true,
                   hintText: "Phone",
-                  initialCountryCode: emergency?.phoneCode ?? phoneNumber,
+                  initialCountryCode: nationalityController.text,
                   onChanged: (value) {
                     nationalityController.text = value?.phoneCode ?? "";
                     final request =

@@ -23,7 +23,7 @@ class CredentialInput extends StatelessWidget {
           title: "Let's create your credentials.",
         ),
         GreyCard(
-          edgeInsets: EdgeInsets.all(8),
+          edgeInsets: const EdgeInsets.all(8),
           child: Column(
             children: [
               AppInputText(

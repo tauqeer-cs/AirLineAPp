@@ -27,7 +27,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/theme.dart';
-import '../../../add_on/seats/seats_page.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   const BookingDetailsPage({super.key});
@@ -118,6 +117,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           title: "Your email hasn't been verified yet.",
           subtitle:
               "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
+          confirmText: "Resend",
+          onConfirm: () {
+            AuthenticationRepository()
+                .sendEmail(ResendEmailRequest(email: email));
+          },
           child: Column(
             children: [
               Text(
@@ -125,17 +129,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 style: kMediumHeavy,
               ),
               kVerticalSpacer,
-              Text(
+              const Text(
                 "Click resend if you didn’t receive the email. ",
               ),
               kVerticalSpacer,
             ],
           ),
-          confirmText: "Resend",
-          onConfirm: () {
-            AuthenticationRepository()
-                .sendEmail(ResendEmailRequest(email: email));
-          },
         );
       },
     );
@@ -181,7 +180,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               ),
               BlocListener<AuthBloc, AuthState>(
                 listener: (_, state) {
-                  print("auth listener ${state.user?.isAccountVerified}");
                   if (!(state.user?.isAccountVerified ?? true)) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     showNotVerifiedDialog(
@@ -242,7 +240,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   Toast.of(context).show(message: state.message);
                 },
                 onFinished: () {
-                  print("go to summary route");
                   context.loaderOverlay.hide();
                   context
                       .read<BookingCubit>()

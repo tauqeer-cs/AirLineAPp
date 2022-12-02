@@ -30,7 +30,7 @@ class MealsPage extends StatelessWidget {
             title: "Your Trip Starts Here",
             height: 100.h,
             flexibleWidget:  AppBookingStep(
-              passedSteps: [BookingStep.flights, BookingStep.addOn], onTopStepTaped: (int index) {
+              passedSteps: const [BookingStep.flights, BookingStep.addOn], onTopStepTaped: (int index) {
               if(index == 0) {
                 context.router.popUntilRouteWithName(SearchResultRoute.name);
               }

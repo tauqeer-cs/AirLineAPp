@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/repositories/cms_repository.dart';
@@ -8,8 +7,6 @@ import 'package:dio/dio.dart';
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import '../app/app_logger.dart';
 import '../models/error_response.dart';
@@ -134,10 +131,8 @@ class MyInterceptor extends Interceptor {
             }
           }
         }
-        print("isSuccess $isSuccess isSuccessResult $isSuccessResult");
         if ((isSuccess is bool && !isSuccess) ||
             (isSuccessResult is bool && !isSuccessResult)) {
-          print("inside error logic");
           if (result["error"] != null && result["error"] is Map) {
             throw ErrorResponse.fromJson(result["error"]);
           } else if (data["error"] != null && data["error"] is Map) {
@@ -149,10 +144,10 @@ class MyInterceptor extends Interceptor {
           }
         }
         response.data = result["result"];
-        _log(
-          "<= ${response.requestOptions.method} ${response.requestOptions.baseUrl} ${response.realUri.toString()}",
-          response.data,
-        );
+        // _log(
+        //   "<= ${response.requestOptions.method} ${response.requestOptions.baseUrl} ${response.realUri.toString()}",
+        //   response.data,
+        // );
         Map resultData = response.data;
         if (resultData.containsKey("data")) {
           response.data = resultData["data"];

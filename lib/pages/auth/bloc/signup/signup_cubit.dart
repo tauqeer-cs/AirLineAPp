@@ -45,7 +45,6 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   editPhoneCode(String phoneCode) {
-    print("phoneCode edited ${phoneCode}");
 
     final newData = state.signupRequest.copyWith(phoneCode: phoneCode);
     emit(

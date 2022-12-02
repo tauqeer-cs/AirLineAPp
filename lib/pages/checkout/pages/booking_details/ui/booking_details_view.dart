@@ -164,10 +164,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       final persons = state.filterState?.numberPerson;
       final value = BookingDetailsView.fbKey.currentState!.value;
       List<Passenger> passengers = [];
-      print("flight infant is $flightInfant");
       for (Person person in (persons?.persons ?? [])) {
-        print("dob is ${value["${person.toString()}$formNameDob"]}");
-        print("whhelchair ${value["${person.toString()}$formNameWheelChair"]}");
         final passenger = person.toPassenger(
           outboundRows: rowsOutBound ?? [],
           inboundRows: rowsInBound ?? [],

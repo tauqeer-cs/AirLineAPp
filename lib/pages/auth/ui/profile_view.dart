@@ -1,5 +1,4 @@
 import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:auto_route/auto_route.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../app/app_router.dart';
 import '../../../blocs/profile/profile_cubit.dart';
-import '../../../widgets/app_loading_screen.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);

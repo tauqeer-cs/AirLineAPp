@@ -5,7 +5,6 @@ import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_error_screen.dart';
 import 'package:app/widgets/app_logo_widget.dart';
-import 'package:app/widgets/containers/grey_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +18,7 @@ class HomeView extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.zero,
       children: [
-        NotificationsWidget(),
+        const NotificationsWidget(),
         kVerticalSpacer,
         const AppLogoWidget(),
         // Padding(
@@ -32,11 +31,11 @@ class HomeView extends StatelessWidget {
         // kVerticalSpacer,
         // NotificationsWidget(),
         Container(
-          padding: EdgeInsets.all(24),
-          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+          padding: const EdgeInsets.all(24),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Color.fromRGBO(235, 235, 235, 0.75),
+            color: const Color.fromRGBO(235, 235, 235, 0.75),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.21),
@@ -46,7 +45,7 @@ class HomeView extends StatelessWidget {
               ),
             ],
           ),
-          child: SearchFlightWidget(
+          child: const SearchFlightWidget(
             isHome: true,
           ),
         ),

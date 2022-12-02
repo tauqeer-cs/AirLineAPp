@@ -50,7 +50,7 @@ class FlightResultWidget extends StatelessWidget {
                                 context
                                     .read<SummaryContainerCubit>()
                                     .changeVisibility(true);
-                                context.router.push(ChangeSearchRoute());
+                                context.router.push(const ChangeSearchRoute());
                               },
                             ),
                           ),
@@ -114,7 +114,7 @@ class FlightResultWidget extends StatelessWidget {
         Visibility(
           visible: state.filterState?.flightType == FlightType.round,
           child: ChooseFlightSegment(
-            title: "ARR",
+            title: "RET",
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
                 AppDateUtils.formatFullDate(state.filterState?.returnDate),

@@ -8,9 +8,6 @@ import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/seats_fee.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/widgets/app_divider_widget.dart';
-import 'package:app/widgets/app_money_widget.dart';
-import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,7 +32,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
       children: [
         kVerticalSpacer,
         PriceRow(
-          child1: Text(
+          child1: const Text(
             "Fares And Bundles",
             style: k18Heavy,
           ),

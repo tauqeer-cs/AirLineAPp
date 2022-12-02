@@ -49,8 +49,8 @@ class AppInputText extends StatelessWidget {
       name: name,
       validator: FormBuilderValidators.compose(validators ?? []),
       obscureText: isObstructedText,
-      minLines: minLines,
-      maxLines: maxLines,
+      minLines: minLines ?? 1,
+      maxLines: maxLines ?? 1,
       keyboardType: textInputType,
       style:
           isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,

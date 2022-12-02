@@ -55,7 +55,7 @@ class AccountSettingPage extends StatelessWidget {
             ),
             body: Container(
               color: Colors.white,
-              child: AccountSettingView(),
+              child: const AccountSettingView(),
             ),
           ),
         ),

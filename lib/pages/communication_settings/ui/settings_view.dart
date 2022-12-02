@@ -21,7 +21,7 @@ class _SettingsViewState extends State<SettingsView> {
     super.initState();
     communicationPreferences =
         context.read<ProfileCubit>().state.profile?.communicationPreferences ??
-            CommunicationPreferences();
+            const CommunicationPreferences();
   }
 
   @override
@@ -32,7 +32,7 @@ class _SettingsViewState extends State<SettingsView> {
         children: [
           SwitchListTile(
             value: communicationPreferences.email ?? false,
-            title: Text("Email"),
+            title: const Text("Email"),
             onChanged: (value) {
               setState(() {
                 communicationPreferences =
@@ -42,7 +42,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
           SwitchListTile(
             value: communicationPreferences.webPushNotification ?? false,
-            title: Text("Web Push Notification"),
+            title: const Text("Web Push Notification"),
             onChanged: (value) {
               setState(() {
                 communicationPreferences =
@@ -52,7 +52,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
           SwitchListTile(
             value: communicationPreferences.sms ?? false,
-            title: Text("SMS"),
+            title: const Text("SMS"),
             onChanged: (value) {
               setState(() {
                 communicationPreferences =
@@ -62,7 +62,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
           SwitchListTile(
             value: communicationPreferences.whatsapp ?? false,
-            title: Text("Whatsapp"),
+            title: const Text("Whatsapp"),
             onChanged: (value) {
               setState(() {
                 communicationPreferences =
@@ -70,7 +70,7 @@ class _SettingsViewState extends State<SettingsView> {
               });
             },
           ),
-          Spacer(),
+          const Spacer(),
           OutlinedButton(
             onPressed: () {
               Navigator.pop(context);

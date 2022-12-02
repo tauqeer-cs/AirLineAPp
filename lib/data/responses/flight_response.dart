@@ -1,5 +1,4 @@
 import 'package:app/data/requests/search_flight_request.dart';
-import 'package:app/models/number_person.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';

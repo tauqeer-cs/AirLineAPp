@@ -1,6 +1,5 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
-import 'package:app/data/requests/signup_request.dart';
 import 'package:app/data/requests/update_password_request.dart';
 import 'package:app/pages/account_setting/bloc/update_password_cubit.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
@@ -30,7 +29,7 @@ class AccountSettingView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FormHeader(
+            const FormHeader(
               title: "Change Password",
               graySubText: true,
               smallerHeaderText: true,
@@ -51,7 +50,7 @@ class AccountSettingView extends StatelessWidget {
             ),
             kVerticalSpacer,
             kVerticalSpacerSmall,
-            PasswordInput(title: "Set New Password"),
+            const PasswordInput(title: "Set New Password"),
             kVerticalSpacerSmall,
             OutlinedButton(
               onPressed: () {
@@ -68,7 +67,7 @@ class AccountSettingView extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () {
-                  context.router.push(DeleteAccountRoute());
+                  context.router.push(const DeleteAccountRoute());
                 },
                 child: Text(
                   "Delete Account",

@@ -35,7 +35,7 @@ class _GenderInputState extends State<GenderInput> {
             widget.onChanged("Male");
           },
           child: GreyCard(
-            edgeInsets: EdgeInsets.all(8),
+            edgeInsets: const EdgeInsets.all(8),
 
             child: Row(
               children: [
@@ -68,7 +68,7 @@ class _GenderInputState extends State<GenderInput> {
             widget.onChanged("Female");
           },
           child: GreyCard(
-            edgeInsets: EdgeInsets.all(8),
+            edgeInsets: const EdgeInsets.all(8),
             child: Row(
               children: [
                 Radio<String?>(

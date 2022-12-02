@@ -70,7 +70,7 @@ class SignupAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SignupHeader(step: 2),
+                          const SignupHeader(step: 2),
                           Visibility(
                             visible: step != 3,
                             child: Text(

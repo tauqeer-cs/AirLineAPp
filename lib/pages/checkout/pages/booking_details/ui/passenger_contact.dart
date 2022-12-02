@@ -48,7 +48,6 @@ class _PassengerContactState extends State<PassengerContact> {
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<ProfileCubit>().state.profile?.userProfile;
-    print("profile is $profile");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

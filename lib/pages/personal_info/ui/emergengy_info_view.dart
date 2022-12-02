@@ -2,9 +2,6 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/intl.dart';
 
 import '../../../models/country.dart';
 import '../../../theme/spacer.dart';
@@ -15,7 +12,7 @@ import '../../auth/pages/signup/signup_wrapper.dart';
 import '../../auth/pages/signup/ui/form_header.dart';
 
 class EmergencyInfoView extends StatefulWidget {
-  EmergencyInfoView({
+  const EmergencyInfoView({
     Key? key,
     this.firstName,
     this.lastName,
@@ -68,7 +65,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   name: formNameFirstNameEmergency,
                   hintText: 'First Name / Given Name',
                   initialValue: widget.firstName,
-                  validators: [
+                  validators: const [
                     //FormBuilderValidators.required(),
                   ],
                 ),
@@ -79,7 +76,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   name: formNameLastNameEmergency,
                   initialValue: widget.lastName,
                   hintText: 'Last Name / Surname',
-                  validators: [
+                  validators: const [
                     //FormBuilderValidators.required(),
                   ],
                 ),
@@ -112,7 +109,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   textInputType: TextInputType.number,
                   hintText: "Phone Number",
                   initialValue: widget.phoneNo,
-                  validators: [
+                  validators: const [
                     //FormBuilderValidators.required(),
                   ],
                 ),

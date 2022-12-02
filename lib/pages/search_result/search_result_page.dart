@@ -1,14 +1,10 @@
 import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
-import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
-import 'package:app/pages/auth/ui/auth_view.dart';
 import 'package:app/pages/auth/ui/login_form.dart';
-import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/pages/search_result/ui/search_result_view.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_app_bar.dart';
@@ -58,6 +54,11 @@ class _SearchResultPageState extends State<SearchResultPage> {
           title: "Your email hasn't been verified yet.",
           subtitle:
               "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
+          confirmText: "Resend",
+          onConfirm: () {
+            AuthenticationRepository()
+                .sendEmail(ResendEmailRequest(email: email));
+          },
           child: Column(
             children: [
               Text(
@@ -65,17 +66,12 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 style: kMediumHeavy,
               ),
               kVerticalSpacer,
-              Text(
+              const Text(
                 "Click resend if you didn’t receive the email. ",
               ),
               kVerticalSpacer,
             ],
           ),
-          confirmText: "Resend",
-          onConfirm: () {
-            AuthenticationRepository()
-                .sendEmail(ResendEmailRequest(email: email));
-          },
         );
       },
     );
@@ -110,12 +106,19 @@ class _SearchResultPageState extends State<SearchResultPage> {
                 listener: (context, state) {
                   blocListenerWrapper(
                     blocState: state.blocState,
-                    onLoading: () => context.loaderOverlay.show(),
+                    onLoading: () {
+                      context.loaderOverlay.show();
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     onFailed: () {
                       context.loaderOverlay.hide();
                       Toast.of(context).show(message: state.message);
                     },
-                    onFinished: () => context.loaderOverlay.hide(),
+                    onFinished: () {
+                      context.loaderOverlay.hide();
+                      context.router.pop();
+                      Toast.of(context).show(message: "Welcome back", success: true);
+                    },
                   );
                 },
               ),
@@ -192,9 +195,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
             title: "Your Trip Starts Here",
             height: 100.h,
             flexibleWidget: AppBookingStep(
-              passedSteps: [BookingStep.flights],
+              passedSteps: const [BookingStep.flights],
               onTopStepTaped: (int index) {
-                print('');
               },
             ),
           ),

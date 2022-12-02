@@ -127,10 +127,10 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 350),
     this.interceptCallBacks = false,
-  })  : this.mode = Mode.MENU,
-        this.bottomSheetProps = const BottomSheetProps(),
-        this.dialogProps = const DialogProps(),
-        this.modalBottomSheetProps = const ModalBottomSheetProps();
+  })  : mode = Mode.MENU,
+        bottomSheetProps = const BottomSheetProps(),
+        dialogProps = const DialogProps(),
+        modalBottomSheetProps = const ModalBottomSheetProps();
 
   const PopupProps.dialog({
     this.fit = FlexFit.tight,
@@ -157,10 +157,10 @@ class PopupProps<T> {
       maxHeight: 600,
     ),
     this.interceptCallBacks = false,
-  })  : this.mode = Mode.DIALOG,
-        this.menuProps = const MenuProps(),
-        this.bottomSheetProps = const BottomSheetProps(),
-        this.modalBottomSheetProps = const ModalBottomSheetProps();
+  })  : mode = Mode.DIALOG,
+        menuProps = const MenuProps(),
+        bottomSheetProps = const BottomSheetProps(),
+        modalBottomSheetProps = const ModalBottomSheetProps();
 
   const PopupProps.bottomSheet({
     this.fit = FlexFit.tight,
@@ -183,10 +183,10 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 500),
     this.interceptCallBacks = false,
-  })  : this.mode = Mode.BOTTOM_SHEET,
-        this.menuProps = const MenuProps(),
-        this.dialogProps = const DialogProps(),
-        this.modalBottomSheetProps = const ModalBottomSheetProps();
+  })  : mode = Mode.BOTTOM_SHEET,
+        menuProps = const MenuProps(),
+        dialogProps = const DialogProps(),
+        modalBottomSheetProps = const ModalBottomSheetProps();
 
   const PopupProps.modalBottomSheet({
     this.title,
@@ -209,10 +209,10 @@ class PopupProps<T> {
     this.containerBuilder,
     this.constraints = const BoxConstraints(maxHeight: 500),
     this.interceptCallBacks = false,
-  })  : this.mode = Mode.MODAL_BOTTOM_SHEET,
-        this.menuProps = const MenuProps(),
-        this.dialogProps = const DialogProps(),
-        this.bottomSheetProps = const BottomSheetProps();
+  })  : mode = Mode.MODAL_BOTTOM_SHEET,
+        menuProps = const MenuProps(),
+        dialogProps = const DialogProps(),
+        bottomSheetProps = const BottomSheetProps();
 }
 
 class PopupPropsMultiSelection<T> extends PopupProps<T> {

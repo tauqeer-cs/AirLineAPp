@@ -50,7 +50,7 @@ class SummaryContainer extends StatelessWidget {
     return ExpandedSection(
       expand: isExpand,
       child: Container(
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),

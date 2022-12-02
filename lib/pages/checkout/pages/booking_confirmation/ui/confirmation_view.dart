@@ -1,3 +1,4 @@
+import 'package:app/app/app_router.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_baggage.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_meals.dart';
@@ -12,6 +13,7 @@ import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,11 +118,19 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               kVerticalSpacer,
               OutlinedButton(
                 onPressed: isLoading ? null : onShare,
-                child: isLoading ? AppLoading(size: 20,) : const Text("Share"),
+                child: isLoading
+                    ? const AppLoading(
+                        size: 20,
+                      )
+                    : const Text("Share"),
               ),
               kVerticalSpacerSmall,
               ElevatedButton(
-                  onPressed: () {}, child: const Text("Back to Home")),
+                onPressed: () {
+                  context.router.replaceAll([const NavigationRoute()]);
+                },
+                child: const Text("Back to Home"),
+              ),
             ],
           ),
         ),

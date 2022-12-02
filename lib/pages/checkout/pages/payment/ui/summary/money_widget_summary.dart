@@ -25,7 +25,7 @@ class MoneyWidgetSummary extends StatelessWidget {
           "${isNegative ? "- " : ""}${currency ?? 'MYR'} ",
           style: isDense ? kMediumRegular : k18Heavy,
         ),
-        SizedBox(width: 2),
+        const SizedBox(width: 2),
         Flexible(
           child: Text(
             NumberUtils.formatNumber(amount?.toDouble()),

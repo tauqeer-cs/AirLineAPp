@@ -68,7 +68,7 @@ class RewardAndDiscount extends StatelessWidget {
                     loadingBuilder: const AppLoading(
                       size: 20,
                     ),
-                    failedBuilder: SizedBox(),
+                    failedBuilder: const SizedBox(),
                     finishedBuilder:
                         Image.asset("assets/images/icons/iconVoucher.png"),
                   ),

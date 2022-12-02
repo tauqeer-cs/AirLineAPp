@@ -1,8 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
-import 'package:app/pages/auth/ui/auth_view.dart';
-import 'package:app/pages/auth/ui/profile_view.dart';
 import 'package:app/pages/personal_info/ui/personal_info_view.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
@@ -13,12 +10,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 import '../../blocs/profile/profile_cubit.dart';
-import '../../localizations/localizations_util.dart';
 import '../../theme/spacer.dart';
 import '../../theme/styles.dart';
 import '../../theme/typography.dart';
 import '../../widgets/app_app_bar.dart';
-import '../../widgets/app_booking_step.dart';
 
 class PersonalInfoPage extends StatelessWidget {
   const PersonalInfoPage({Key? key}) : super(key: key);
@@ -74,7 +69,7 @@ class PersonalInfoPage extends StatelessWidget {
                   ),
                   body: Container(
                     color: Colors.white,
-                    child: PersonalInfoView(),
+                    child: const PersonalInfoView(),
                   ),
                 ),
               );
