@@ -75,7 +75,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       final currentContext = appRouter.navigatorKey.currentContext;
-
       final expiredInUTC = LocalRepository().getExpiredTime();
       if (expiredInUTC == null) return;
       final expiredDate = DateTime.parse(expiredInUTC);

@@ -92,7 +92,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
           top: Radius.circular(16),
         ),
       ),
-      builder: (_) => LoaderOverlay(
+      builder: (dialogContext) => LoaderOverlay(
         useDefaultLoading: false,
         overlayWidget: SizedBox(
           height: 0.5.sh,
@@ -103,7 +103,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
           child: MultiBlocListener(
             listeners: [
               BlocListener<LoginCubit, LoginState>(
-                listener: (context, state) {
+                listener: (_, state) {
+                  print("login cubit listener $state");
                   blocListenerWrapper(
                     blocState: state.blocState,
                     onLoading: () {
@@ -115,8 +116,9 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       Toast.of(context).show(message: state.message);
                     },
                     onFinished: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
-                      context.router.pop();
+                      Navigator.of(dialogContext).pop();
                       Toast.of(context).show(message: "Welcome back", success: true);
                     },
                   );
@@ -124,14 +126,18 @@ class _SearchResultPageState extends State<SearchResultPage> {
               ),
               BlocListener<AuthBloc, AuthState>(
                 listener: (_, state) {
+                  print("auth cubit listener $state");
                   if (!(state.user?.isAccountVerified ?? true)) {
+                    print("auth need verify in");
+
                     FocusManager.instance.primaryFocus?.unfocus();
                     showNotVerifiedDialog(
                         context: context, email: state.user?.email ?? "");
                   }
                   if (state.status == AppStatus.authenticated) {
+                    /*print("auth logged in");
                     FocusManager.instance.primaryFocus?.unfocus();
-                    context.router.pop();
+                    context.router.pop();*/
                   }
                 },
               ),
