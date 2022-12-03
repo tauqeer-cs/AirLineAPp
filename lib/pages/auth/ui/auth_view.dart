@@ -2,6 +2,7 @@ import 'package:app/pages/auth/ui/login_form.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
+import 'package:app/widgets/containers/version_widget.dart';
 import 'package:flutter/material.dart';
 
 class AuthView extends StatelessWidget {
@@ -35,12 +36,14 @@ class AuthView extends StatelessWidget {
               GlassCard(
                 child: LoginForm(
                   fbKey: JosKeys.gKeysAuth,
-
                   showContinueButton: showContinueButton,
                   formEmailLoginName: "emailAuth",
                   formPasswordLoginName: "passwordAuth",
                 ),
               ),
+              kVerticalSpacerHuge,
+              kVerticalSpacerHuge,
+              VersionWidget(textColor: Colors.white,),
             ],
           ),
 

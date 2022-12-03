@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/widgets/containers/version_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,9 +27,9 @@ class ProfileView extends StatelessWidget {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/design/gridBackground.png'),
-                      fit: BoxFit.fill,
-                    )),
+                  image: AssetImage('assets/images/design/gridBackground.png'),
+                  fit: BoxFit.fill,
+                )),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -58,9 +59,7 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: Container(),
-                    ),
+                    Spacer(),
                     Padding(
                       padding: const EdgeInsets.all(24.0),
                       child: Align(
@@ -91,8 +90,8 @@ class ProfileView extends StatelessWidget {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset:
-                            const Offset(0, 3), // changes position of shadow
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
                           ),
                         ],
                         borderRadius: const BorderRadius.only(
@@ -118,57 +117,64 @@ class ProfileView extends StatelessWidget {
                           const SizedBox(
                             height: 24,
                           ),
-                          GridView(
-                            padding: kPagePadding,
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 20,
-                              mainAxisSpacing: 20,
-                              childAspectRatio: 3.7 / 2.462,
+                          Expanded(
+                            child: GridView(
+                              padding: kPagePadding,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 20,
+                                childAspectRatio: 3.7 / 2.462,
+                              ),
+                              children: [
+                                ProfileBoxButton(
+                                  text: 'Personal Info',
+                                  imageName: 'iconInfo',
+                                  onTap: () {
+                                    context.router
+                                        .push(const PersonalInfoRoute());
+                                  },
+                                ),
+                                ProfileBoxButton(
+                                  text: 'Account Settings',
+                                  imageName: 'iconSetting',
+                                  onTap: () {
+                                    context.router
+                                        .push(const AccountSettingRoute());
+                                  },
+                                ),
+                                ProfileBoxButton(
+                                  text: 'Communication\nPreferences',
+                                  imageName: 'iconPref',
+                                  onTap: () {
+                                    context.router.push(
+                                        const CommunicationSettingRoute());
+                                  },
+                                ),
+                                /* ProfileBoxButton(
+                                text: 'My Payment Cards',
+                                imageName: 'iconPayment',
+                                onTap: () {
+                                  print('Not required at this time');
+                                },
+                              ),
+                              ProfileBoxButton(
+                                text: 'Family and Friends',
+                                imageName: 'iconFamily',
+                                onTap: () {
+                                  print('Not required at this time');
+                                },
+                              ),*/
+                              ],
                             ),
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              ProfileBoxButton(
-                                text: 'Personal Info',
-                                imageName: 'iconInfo',
-                                onTap: () {
-                                  context.router.push(const PersonalInfoRoute());
-                                },
-                              ),
-                              ProfileBoxButton(
-                                text: 'Account Settings',
-                                imageName: 'iconSetting',
-                                onTap: () {
-                                  context.router
-                                      .push(const AccountSettingRoute());
-                                },
-                              ),
-                              ProfileBoxButton(
-                                text: 'Communication\nPreferences',
-                                imageName: 'iconPref',
-                                onTap: () {
-                                  context.router
-                                      .push(const CommunicationSettingRoute());
-                                },
-                              ),
-                              /* ProfileBoxButton(
-                              text: 'My Payment Cards',
-                              imageName: 'iconPayment',
-                              onTap: () {
-                                print('Not required at this time');
-                              },
-                            ),
-                            ProfileBoxButton(
-                              text: 'Family and Friends',
-                              imageName: 'iconFamily',
-                              onTap: () {
-                                print('Not required at this time');
-                              },
-                            ),*/
-                            ],
                           ),
+                          kVerticalSpacer,
+                          VersionWidget(
+                            textColor: Styles.kSubTextColor,
+                          ),
+                          kVerticalSpacer,
                           /*Row(
                           children: [
                             Expanded(
