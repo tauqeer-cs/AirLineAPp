@@ -1,7 +1,6 @@
 import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
-import 'package:app/models/country.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
@@ -13,7 +12,6 @@ import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
 import '../../../../../theme/theme.dart';
 
 class PassengerEmergencyContact extends StatefulWidget {
@@ -56,7 +54,6 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
     }else{
       nationalityController.text = "60";
     }
-    print("emergency phone ${emergency?.phoneCode} ${nationalityController.text} ${contact?.phoneCode}");
   }
 
   @override
@@ -67,7 +64,6 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         .profile
         ?.userProfile
         ?.emergencyContact;
-    print("emergency phone ${nationalityController.text}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

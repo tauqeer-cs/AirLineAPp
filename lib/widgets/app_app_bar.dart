@@ -189,6 +189,10 @@ class NotificationsWidget extends StatelessWidget {
         final notifications = state.notifications;
         return blocBuilderWrapper(
           blocState: state.blocState,
+          initialBuilder: const SafeArea(
+            bottom: false,
+            child: SizedBox(),
+          ),
           finishedBuilder: notifications?.isEmpty ?? true
               ? const SafeArea(
                   bottom: false,
@@ -214,7 +218,10 @@ class NotificationsWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-          loadingBuilder: const SizedBox(),
+          loadingBuilder: const SafeArea(
+            bottom: false,
+            child: SizedBox(),
+          ),
           failedBuilder: const SizedBox(),
         );
       },

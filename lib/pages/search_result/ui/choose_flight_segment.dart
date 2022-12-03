@@ -109,7 +109,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
         ),
         kVerticalSpacerBig,
         Text(widget.dateTitle, style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
-        widget.segments.isEmpty
+        sortedSegment.isEmpty
             ? const Padding(
               padding: EdgeInsets.all(20.0),
               child: Center(
@@ -120,7 +120,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                 ),
             )
             : Column(
-                children: widget.segments
+                children: sortedSegment
                     .map((e) => SegmentCard(
                         segment: e, isDeparture: widget.isDeparture))
                     .toList(),
@@ -151,6 +151,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
   onChangeSort(SortFlight sortFlight) {
     setState(() {
       selectedSort = sortFlight;
+      //sort(List<InboundOutboundSegment>.from(widget.segments));
     });
   }
 

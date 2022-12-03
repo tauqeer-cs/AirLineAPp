@@ -197,7 +197,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     },
                   ),
                 ),
-                body: PaymentView(),
+                body: const PaymentView(),
               ),
             ),
           ),

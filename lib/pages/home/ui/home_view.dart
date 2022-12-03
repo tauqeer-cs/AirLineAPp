@@ -7,7 +7,6 @@ import 'package:app/widgets/app_error_screen.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../theme/theme.dart';
 
 class HomeView extends StatelessWidget {
@@ -35,7 +34,7 @@ class HomeView extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: const Color.fromRGBO(235, 235, 235, 0.75),
+            color: const Color(0xFFF0F0F0),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.21),

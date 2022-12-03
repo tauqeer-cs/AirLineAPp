@@ -27,7 +27,7 @@ class SummaryWidget extends StatelessWidget {
                         (f) => AppCard(
                           child: FlightDetailConfirmation(
                             bound: f,
-                            title: "Departing flight",
+                            title: "Departing Flight",
                             subtitle:
                                 "${f.departureAirportLocationName} to ${f.arrivalAirportLocationName}",
                             dateTitle:
@@ -48,7 +48,7 @@ class SummaryWidget extends StatelessWidget {
                                 .map(
                                   (f) => FlightDetailConfirmation(
                                     bound: f,
-                                    title: "Returning Flight flight",
+                                    title: "Returning Flight",
                                     subtitle:
                                         "${f.departureAirportLocationName} - ${f.arrivalAirportLocationName}",
                                     dateTitle: AppDateUtils.formatFullDate(

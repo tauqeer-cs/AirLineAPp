@@ -7,15 +7,13 @@ import 'package:app/pages/checkout/pages/payment/ui/discount_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/passenger_card.dart';
 import 'package:app/pages/checkout/pages/payment/ui/reward_and_discount.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
-import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../../theme/theme.dart';
 
 class PaymentView extends StatefulWidget {
 
-  PaymentView({Key? key}) : super(key: key);
+  const PaymentView({Key? key}) : super(key: key);
 
   @override
   State<PaymentView> createState() => _PaymentViewState();

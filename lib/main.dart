@@ -43,9 +43,7 @@ void run() async {
   await Hive.openBox<List>(bookingBox);
   await Hive.openBox<User>(userBoxName);
   await Hive.openBox<String>(tokenBoxName);
-
   AuthenticationRepository().init();
-
   //await box.clear();
   Bloc.observer = AppBlocObserver();
   runZonedGuarded(

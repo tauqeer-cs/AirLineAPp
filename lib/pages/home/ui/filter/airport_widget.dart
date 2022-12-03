@@ -54,7 +54,7 @@ class AirportWidget extends StatelessWidget {
             valueTransformer: (value) {
               return DropdownTransformerWidget<Airports>(
                 value: value,
-                label: isOrigin ? "From" : "To",
+                //label: isOrigin ? "From" : "To",
                 prefix: Icon(
                   isOrigin ? MyFlutterApp.icoflyfrom : MyFlutterApp.icoflyto,
                   size: 20,
