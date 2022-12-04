@@ -7,6 +7,7 @@ import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
@@ -145,7 +146,11 @@ class BookingCubit extends Cubit<BookingState> {
             ? []
             : [outboundFares],
         totalAmount: state.getFinalPrice,
-        flightSummaryPnrRequest: state.summaryRequest?.flightSummaryPNRRequest,
+        flightSummaryPnrRequest: state.summaryRequest?.flightSummaryPNRRequest
+                    .contactEmail.isEmptyOrNull ??
+                true
+            ? null
+            : state.summaryRequest?.flightSummaryPNRRequest,
       );
       final verifyResponse = await _repository.reVerifyFlight(request);
       final newToken = state.verifyResponse?.copyWith(
@@ -160,7 +165,6 @@ class BookingCubit extends Cubit<BookingState> {
         ),
       );
     } catch (e, st) {
-      print("error reverify");
       emit(
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st),

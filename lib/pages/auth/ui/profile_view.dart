@@ -59,7 +59,7 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.all(24.0),
                       child: Align(
@@ -120,7 +120,7 @@ class ProfileView extends StatelessWidget {
                           Expanded(
                             child: GridView(
                               padding: kPagePadding,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,

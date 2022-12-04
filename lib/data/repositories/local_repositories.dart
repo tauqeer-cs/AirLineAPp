@@ -4,7 +4,7 @@ import 'package:app/data/responses/airports_response.dart';
 import 'package:app/models/booking_local.dart';
 import 'package:hive/hive.dart';
 
-const String passengerInfoBox = "passengerInfoBox";
+const String passengerInfoBox = "passengerInfoBoxV2";
 const String airportsBox = "airportsBox";
 const String bookingBox = "bookingBox";
 const String timerBox = "timerBox";
@@ -25,7 +25,10 @@ class LocalRepository {
 
   FlightSummaryPnrRequest getPassengerInfo() {
     var box = Hive.box<FlightSummaryPnrRequest>(passengerInfoBox);
-    return box.get("info") ?? FlightSummaryPnrRequest();
+    return box.get("info") ??
+        FlightSummaryPnrRequest(
+          emergencyContact: EmergencyContact(),
+        );
   }
 
   void saveAirports(AirportsResponse airportsResponse) {
@@ -45,7 +48,7 @@ class LocalRepository {
     box.put("data", bookings);
   }
 
-  List<BookingLocal> getBooking(){
+  List<BookingLocal> getBooking() {
     var box = Hive.box<List>(bookingBox);
     final list = box.get("data", defaultValue: []) ?? <BookingLocal>[];
     return list.map((e) => e as BookingLocal).toList();

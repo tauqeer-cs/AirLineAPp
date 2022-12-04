@@ -5,10 +5,14 @@ import 'package:app/models/country.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/error_utils.dart';
+import 'package:app/utils/security_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
+import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -40,7 +44,7 @@ class _PassengerContactState extends State<PassengerContact> {
     firstName = profile?.firstName ?? contact.contactFullName;
     phoneCode = profile?.phoneCode ?? contact.contactPhoneCode;
     phoneNumber = profile?.phoneNumber ?? contact.contactPhoneNumber;
-    lastName = profile?.lastName;
+    lastName = profile?.lastName ?? contact.comment;
     nationalityController.text =
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
   }
@@ -70,6 +74,15 @@ class _PassengerContactState extends State<PassengerContact> {
                     color: Styles.kSubTextColor, height: 1.5),
               ),
               TextSpan(
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () async {
+                    try{
+                      SecurityUtils.tryLaunch("https://myacontents.blob.core.windows.net/myacontents/odxgmbdo/myairline_privacy-policy.pdf");
+                    }catch(e, st){
+                      Toast.of(context).show(message: "Cannot Launch url");
+                      ErrorUtils.getErrorMessage(e, st);
+                    }
+                  },
                 text: "\nPrivacy Policy.",
                 style: kMediumHeavy.copyWith(
                     color: Styles.kPrimaryColor, height: 1.5),

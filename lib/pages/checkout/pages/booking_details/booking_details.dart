@@ -167,7 +167,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             listeners: [
               BlocListener<LoginCubit, LoginState>(
                 listener: (_, state) {
-                  print("login cubit listener $state");
                   blocListenerWrapper(
                     blocState: state.blocState,
                     onLoading: () {

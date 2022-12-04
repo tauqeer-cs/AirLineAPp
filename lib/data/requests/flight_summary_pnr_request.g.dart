@@ -596,23 +596,35 @@ class FlightSummaryPnrRequestAdapter
     };
     return FlightSummaryPnrRequest(
       contactEmail: fields[0] as String,
-      companyTaxInvoice: fields[1] as CompanyTaxInvoice?,
-      emergencyContact: fields[2] as EmergencyContact?,
-      passengers: (fields[3] as List).cast<Passenger>(),
+      comment: fields[4] as String,
+      companyTaxInvoice: fields[5] as CompanyTaxInvoice?,
+      emergencyContact: fields[6] as EmergencyContact?,
+      passengers: (fields[7] as List).cast<Passenger>(),
+      contactPhoneCode: fields[1] as String,
+      contactPhoneNumber: fields[2] as String,
+      contactFullName: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, FlightSummaryPnrRequest obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.contactEmail)
       ..writeByte(1)
-      ..write(obj.companyTaxInvoice)
+      ..write(obj.contactPhoneCode)
       ..writeByte(2)
-      ..write(obj.emergencyContact)
+      ..write(obj.contactPhoneNumber)
       ..writeByte(3)
+      ..write(obj.contactFullName)
+      ..writeByte(4)
+      ..write(obj.comment)
+      ..writeByte(5)
+      ..write(obj.companyTaxInvoice)
+      ..writeByte(6)
+      ..write(obj.emergencyContact)
+      ..writeByte(7)
       ..write(obj.passengers);
   }
 
@@ -782,7 +794,7 @@ FlightSummaryPnrRequest _$FlightSummaryPnrRequestFromJson(
       displayCurrency: json['DisplayCurrency'] as String? ?? "MYR",
       preferredContactMethod:
           json['PreferredContactMethod'] as String? ?? "email",
-      comment: json['Comment'] as String? ?? "No",
+      comment: json['Comment'] as String? ?? "",
       promoCode: json['PromoCode'] as String? ?? "",
       companyTaxInvoice: json['CompanyTaxInvoice'] == null
           ? null

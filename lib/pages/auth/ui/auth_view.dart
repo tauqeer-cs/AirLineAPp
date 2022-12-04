@@ -43,7 +43,7 @@ class AuthView extends StatelessWidget {
               ),
               kVerticalSpacerHuge,
               kVerticalSpacerHuge,
-              VersionWidget(textColor: Colors.white,),
+              const VersionWidget(textColor: Colors.white,),
             ],
           ),
 

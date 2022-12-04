@@ -24,7 +24,7 @@ extension StringExtension on String {
 
   String camelCase() {
     return split(' ').map((e) {
-      if(e.contains("(")){
+      if (e.contains("(")) {
         return e.split('(').map((e) => e.capitalize()).join('(');
       }
       return e.capitalize();
@@ -69,4 +69,8 @@ extension StringExtension on String {
     }
     return name;
   }
+}
+
+extension StringNullExtension on String? {
+  bool get isEmptyOrNull => this?.isEmpty ?? true;
 }

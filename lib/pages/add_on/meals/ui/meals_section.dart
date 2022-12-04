@@ -17,6 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MealsSection extends StatelessWidget {
   final bool isDeparture;
+
   const MealsSection({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
@@ -45,7 +46,9 @@ class MealsSection extends StatelessWidget {
             style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
           ),
           kVerticalSpacer,
-           PassengerSelector(isDeparture: isDeparture,),
+          PassengerSelector(
+            isDeparture: isDeparture,
+          ),
           kVerticalSpacer,
           isFlightUnderAnHour
               ? const FlightUnderAnHour()
@@ -138,7 +141,7 @@ class NewMealCard extends StatelessWidget {
                         style: kLargeHeavy,
                       ),
                       Text(
-                        "${meal.currencyCode ?? "MYR"} ${NumberUtils.formatNumber(meal.amount?.toDouble())}",
+                        "${meal.currencyCode ?? "MYR"} ${NumberUtils.formatNumber(meal.finalAmount.toDouble())}",
                         style:
                             kLargeHeavy.copyWith(color: Styles.kPrimaryColor),
                       ),

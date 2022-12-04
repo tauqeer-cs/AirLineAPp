@@ -32,7 +32,7 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
     this.contactEmail = "",
     this.displayCurrency = "MYR",
     this.preferredContactMethod = "email",
-    this.comment = "No",
+    this.comment = "",
     this.promoCode = "",
     this.companyTaxInvoice,
     this.emergencyContact,
@@ -46,10 +46,13 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
   @HiveField(0)
   @JsonKey(name: 'ContactEmail')
   final String contactEmail;
+  @HiveField(1)
   @JsonKey(name: 'ContactPhoneCode')
   final String contactPhoneCode;
+  @HiveField(2)
   @JsonKey(name: 'ContactPhoneNumber')
   final String contactPhoneNumber;
+  @HiveField(3)
   @JsonKey(name: 'ContactFullName')
   final String contactFullName;
   @JsonKey(name: 'AcceptNewsAndPromotionByEmail')
@@ -58,17 +61,18 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
   final String displayCurrency;
   @JsonKey(name: 'PreferredContactMethod')
   final String preferredContactMethod;
+  @HiveField(4)
   @JsonKey(name: 'Comment')
   final String comment;
   @JsonKey(name: 'PromoCode')
   final String promoCode;
-  @HiveField(1)
+  @HiveField(5)
   @JsonKey(name: 'CompanyTaxInvoice')
   final CompanyTaxInvoice? companyTaxInvoice;
-  @HiveField(2)
+  @HiveField(6)
   @JsonKey(name: 'EmergencyContact')
   final EmergencyContact? emergencyContact;
-  @HiveField(3)
+  @HiveField(7)
   @JsonKey(name: 'Passengers')
   final List<Passenger> passengers;
 

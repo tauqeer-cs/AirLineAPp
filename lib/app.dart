@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
@@ -81,11 +79,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       final nowUTC = DateTime.now().toUtc();
       final diff = expiredDate.difference(nowUTC);
       currentContext?.read<TimerBloc>().add(
-        TimerStarted(
-          duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
-          expiredTime: expiredDate,
-        ),
-      );
+            TimerStarted(
+              duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
+              expiredTime: expiredDate,
+            ),
+          );
     }
   }
 
@@ -125,7 +123,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
         return;
       }
-      if (durationRemaining == 290) {
+      if (durationRemaining == 600) {
         FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
         showDialog(
           context: currentContext,
@@ -143,7 +141,25 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             );
           },
         );
-      } else if (durationRemaining == 0) {
+      }/* else if (durationRemaining == 85) {
+        FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog_five");
+        showDialog(
+          context: currentContext,
+          barrierDismissible: false,
+          builder: (context) {
+            return AppConfirmationDialog(
+              title: "Your session is about to expire in 5 minutes.",
+              subtitle: "",
+              confirmText: "Stay and Continue",
+              onConfirm: () {
+                final filterState =
+                    currentContext.read<SearchFlightCubit>().state.filterState;
+                currentContext.read<BookingCubit>().reVerifyFlight(filterState);
+              },
+            );
+          },
+        );
+      } */else if (durationRemaining == 0) {
         FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
         showDialog(
           context: currentContext,
@@ -212,8 +228,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           BlocListener<BookingCubit, BookingState>(
             listenWhen: (prev, curr) => !prev.isVerify && curr.isVerify,
             listener: (context, state) {
-              log("current bloc state is ${state.verifyResponse}");
               final expiredInUTC = state.verifyResponse?.verifyExpiredDateTime;
+              final currentContext = appRouter.navigatorKey.currentContext;
+
               if (expiredInUTC == null) return;
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
@@ -223,10 +240,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                       expiredTime: expiredInUTC,
                     ),
                   );
-              print("state bloc state ${state.blocState}");
-              if(state.blocState == BlocState.failed){
-                if(state.message == "The outbound seat chosen is not available anymore"){
-                  context.router.replaceAll([const NavigationRoute()]);
+              if (state.blocState == BlocState.failed) {
+                if (state.message ==
+                    "The outbound seat chosen is not available anymore") {
+                  currentContext?.router.replaceAll([const NavigationRoute()]);
                 }
               }
             },

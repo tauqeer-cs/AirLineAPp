@@ -1,5 +1,6 @@
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
+import 'package:app/data/responses/aplicable_taxes.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
@@ -546,7 +547,7 @@ class InboundBundle extends Equatable {
     return Bound(
       name: bundle?.description?.toLowerCase(),
       servicesType: "BUNDLE",
-      price: bundle?.amount,
+      price: bundle?.finalAmount,
       logicalFlightId: bundle?.logicalFlightID,
       quantity: 1,
       serviceId: bundle?.serviceID,
@@ -560,7 +561,7 @@ class Bundle extends Equatable {
     return Bound(
       name: description?.toLowerCase(),
       servicesType: "BAGGAGE",
-      price: amount,
+      price: finalAmount,
       logicalFlightId: logicalFlightID,
       quantity: 1,
       serviceId: serviceID,
@@ -627,40 +628,53 @@ class Bundle extends Equatable {
   final num? maxCountFlightLevel;
   final num? quantityAvailable;
   final num? startSalesDays;
-  final List<dynamic>? applicableTaxes;
+  final List<ApplicableTaxes>? applicableTaxes;
   final num? boardingPassSsrOrder;
   final num? serviceType;
 
-  const Bundle(
-      {this.logicalFlightID,
-      this.serviceID,
-      this.departureDate,
-      this.operatingCarrier,
-      this.marketingCarrier,
-      this.codeType,
-      this.description,
-      this.currencyCode,
-      this.amount,
-      this.amountActive,
-      this.categoryID,
-      this.ssrCode,
-      this.display,
-      this.maxCountServiceLevel,
-      this.refundable,
-      this.pnlActive,
-      this.cutoffHours,
-      this.commissionable,
-      this.displayOrder,
-      this.revenueCategoryID,
-      this.iataStandardCodeType,
-      this.serviceActive,
-      this.maxCountFlightLevel,
-      this.quantityAvailable,
-      this.startSalesDays,
-      this.applicableTaxes,
-      this.boardingPassSsrOrder,
-      this.serviceType});
+  const Bundle({
+    this.logicalFlightID,
+    this.serviceID,
+    this.departureDate,
+    this.operatingCarrier,
+    this.marketingCarrier,
+    this.codeType,
+    this.description,
+    this.currencyCode,
+    this.amount,
+    this.amountActive,
+    this.categoryID,
+    this.ssrCode,
+    this.display,
+    this.maxCountServiceLevel,
+    this.refundable,
+    this.pnlActive,
+    this.cutoffHours,
+    this.commissionable,
+    this.displayOrder,
+    this.revenueCategoryID,
+    this.iataStandardCodeType,
+    this.serviceActive,
+    this.maxCountFlightLevel,
+    this.quantityAvailable,
+    this.startSalesDays,
+    this.applicableTaxes,
+    this.boardingPassSsrOrder,
+    this.serviceType,
+  });
+
+  num get getTotalTaxes{
+    if(applicableTaxes?.isEmpty ?? true) return 0;
+    num totalTax = 0;
+    for (var element in applicableTaxes!) {
+      totalTax = totalTax +  (element.amountToApply ?? 0);
+    }
+    return totalTax;
+  }
+
+  num get finalAmount => (amount ?? 0) + getTotalTaxes;
 }
+
 
 @JsonSerializable(includeIfNull: false)
 class Detail extends Equatable {
@@ -1343,10 +1357,11 @@ class Seataj extends Equatable {
   final String? reasonCode;
   final String? ruleCode;
 
-  const Seataj(
-      {this.dependents,
-      this.linkedPtcs,
-      this.description,
-      this.reasonCode,
-      this.ruleCode});
+  const Seataj({
+    this.dependents,
+    this.linkedPtcs,
+    this.description,
+    this.reasonCode,
+    this.ruleCode,
+  });
 }

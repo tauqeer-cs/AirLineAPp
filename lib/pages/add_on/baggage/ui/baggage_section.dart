@@ -167,12 +167,14 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
               leading: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Radio<Bundle?>(
-                    value: widget.selectedBaggage.serviceID == 0
-                        ? null
-                        : widget.selectedBaggage,
-                    groupValue: baggage,
-                    onChanged: (value) async {},
+                  IgnorePointer(
+                    child: Radio<Bundle?>(
+                      value: widget.selectedBaggage.serviceID == 0
+                          ? null
+                          : widget.selectedBaggage,
+                      groupValue: baggage,
+                      onChanged: (value) async {},
+                    ),
                   ),
                 ],
               ),
@@ -197,7 +199,8 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                   ),
                   Text(
                     NumberUtils.formatNumber(
-                        widget.selectedBaggage.amount?.toDouble()),
+                      widget.selectedBaggage.finalAmount.toDouble(),
+                    ),
                     style: kHugeHeavy,
                   ),
                 ],

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SecurityUtils {
   /// Generates a cryptographically secure random nonce, to be included in a
@@ -20,7 +21,10 @@ class SecurityUtils {
     return digest.toString();
   }
 
-  static launchUrl(String url) async {
-    if (!await launchUrl(url)) throw 'Could not launch $url';
+  static tryLaunch(String url) async {
+    launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
   }
 }

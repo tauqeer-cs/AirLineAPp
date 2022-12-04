@@ -52,7 +52,7 @@ class MealsFeeDetailPayment extends StatelessWidget {
                                 style: kMediumRegular,
                               ),
                               child2: MoneyWidgetSummary(
-                                amount: meal.amount,
+                                amount: meal.finalAmount,
                                 isDense: true,
                                 currency: meal.currencyCode,
                               ),

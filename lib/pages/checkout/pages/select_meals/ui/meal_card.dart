@@ -62,7 +62,7 @@ class MealCard extends StatelessWidget {
                     handler: changeNumber,
                     person: focusedPerson,
                   ),
-                  MoneyWidget(currency: meal.currencyCode, amount: meal.amount),
+                  MoneyWidget(currency: meal.currencyCode, amount: meal.finalAmount),
                 ],
               ),
             ),

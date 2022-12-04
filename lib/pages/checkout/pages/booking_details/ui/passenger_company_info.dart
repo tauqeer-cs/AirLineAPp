@@ -50,7 +50,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
         kVerticalSpacer,
         const AppDividerFadeWidget(),
         kVerticalSpacer,
-        InkWell(
+        /*InkWell(
           onTap: () {
             setState(() {
               isExpand = !isExpand;
@@ -84,7 +84,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
             ],
           ),
         ),
-        kVerticalSpacer,
+        kVerticalSpacer,*/
         ExpandedSection(
           expand: isExpand,
           child: GreyCard(

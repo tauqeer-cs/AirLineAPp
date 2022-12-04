@@ -38,7 +38,7 @@ class BaggageFeeDetail extends StatelessWidget {
                         ),
                         kHorizontalSpacerSmall,
                         MoneyWidgetSmall(
-                            amount: bundle?.amount,
+                            amount: bundle?.finalAmount,
                             isDense: true,
                             currency: bundle?.currencyCode),
                       ],

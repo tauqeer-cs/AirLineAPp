@@ -586,7 +586,9 @@ Bundle _$BundleFromJson(Map<String, dynamic> json) => Bundle(
       maxCountFlightLevel: json['maxCountFlightLevel'] as num?,
       quantityAvailable: json['quantityAvailable'] as num?,
       startSalesDays: json['startSalesDays'] as num?,
-      applicableTaxes: json['applicableTaxes'] as List<dynamic>?,
+      applicableTaxes: (json['applicableTaxes'] as List<dynamic>?)
+          ?.map((e) => ApplicableTaxes.fromJson(e as Map<String, dynamic>))
+          .toList(),
       boardingPassSsrOrder: json['boardingPassSsrOrder'] as num?,
       serviceType: json['serviceType'] as num?,
     );

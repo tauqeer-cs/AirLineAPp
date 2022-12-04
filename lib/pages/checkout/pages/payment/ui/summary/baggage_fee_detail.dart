@@ -45,7 +45,7 @@ class BaggageFeeDetailPayment extends StatelessWidget {
                               color: Styles.kSubTextColor),
                         ),
                         child2: MoneyWidgetSummary(
-                            amount: bundle?.amount,
+                            amount: bundle?.finalAmount,
                             isDense: true,
                             currency: bundle?.currencyCode),
                       ),

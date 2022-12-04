@@ -62,7 +62,7 @@ class BundleCard extends StatelessWidget {
                     [],
               ),
               kVerticalSpacer,
-              MoneyWidget(amount: inboundBundle?.bundle?.amount, currency: inboundBundle?.bundle?.currencyCode),
+              MoneyWidget(amount: inboundBundle?.bundle?.finalAmount, currency: inboundBundle?.bundle?.currencyCode),
               kVerticalSpacer,
               Radio<InboundBundle?>(
                 value: inboundBundle,

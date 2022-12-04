@@ -47,12 +47,16 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
     firstName = emergency?.firstName ?? contact?.firstName;
     lastName = emergency?.lastName ?? contact?.lastName;
     phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
+
     if(emergency?.phoneCode?.isNotEmpty ?? false){
       nationalityController.text = emergency!.phoneCode!;
-    }else if(emergency?.phoneCode?.isNotEmpty ?? false){
+    }else if(contact?.phoneCode?.isNotEmpty ?? false){
       nationalityController.text = contact!.phoneCode!;
-    }else{
-      nationalityController.text = "60";
+    }
+    if(emergency?.phoneCode?.isNotEmpty ?? false){
+      relationController.text = emergency!.relationship!;
+    }else if(contact?.phoneCode?.isNotEmpty ?? false){
+      relationController.text = contact!.relationship!;
     }
   }
 

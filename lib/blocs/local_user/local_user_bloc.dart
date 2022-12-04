@@ -43,7 +43,6 @@ class LocalUserBloc extends Bloc<LocalUserEvent, FlightSummaryPnrRequest> {
     if (event.data == null) return;
     _repository.setPassengerInfo(event.data!);
     emit(event.data!);
-
   }
 
   void _onUpdateEmailContact(

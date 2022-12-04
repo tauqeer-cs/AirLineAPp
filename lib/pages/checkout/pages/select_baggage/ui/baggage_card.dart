@@ -46,7 +46,7 @@ class BaggageCard extends StatelessWidget {
               Text(selectedBundle.description?.capitalize() ?? "No Baggage"),
               kVerticalSpacer,
               MoneyWidget(
-                  amount: selectedBundle.amount,
+                  amount: selectedBundle.finalAmount,
                   currency: selectedBundle.currencyCode),
               kVerticalSpacer,
               Radio<Bundle?>(

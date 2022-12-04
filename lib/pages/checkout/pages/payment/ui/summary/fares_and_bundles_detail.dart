@@ -35,7 +35,7 @@ class FaresAndBundlesDetailPayment extends StatelessWidget {
                               color: Styles.kSubTextColor),
                         ),
                         MoneyWidgetSmall(
-                            amount: bundle?.bundle?.amount,
+                            amount: bundle?.bundle?.finalAmount,
                             isDense: true,
                             currency: bundle?.bundle?.currencyCode),
                       ],

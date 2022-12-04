@@ -51,7 +51,7 @@ class MealsFeeDetail extends StatelessWidget {
                                     ),
                                     kHorizontalSpacerMini,
                                     MoneyWidgetSmall(
-                                        amount: meal.amount,
+                                        amount: meal.finalAmount,
                                         isDense: true,
                                         currency: meal.currencyCode),
                                   ],

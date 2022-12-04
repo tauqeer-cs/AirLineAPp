@@ -218,7 +218,7 @@ class Person extends Equatable {
           quantity: value.length,
           serviceId: firstValue?.serviceID,
           logicalFlightId: firstValue?.logicalFlightID,
-          price: firstValue?.amount,
+          price: firstValue?.finalAmount,
           servicesType: "MEAL",
           name: firstValue?.description?.toLowerCase());
       outboundSSR.add(outBoundMeal);
@@ -229,7 +229,7 @@ class Person extends Equatable {
           quantity: value.length,
           serviceId: firstValue?.serviceID,
           logicalFlightId: firstValue?.logicalFlightID,
-          price: firstValue?.amount,
+          price: firstValue?.finalAmount,
           servicesType: "MEAL",
           name: firstValue?.description?.toLowerCase());
       inboundSSR.add(inboundMeal);
@@ -277,8 +277,8 @@ class Person extends Equatable {
 
   num getPartialPriceBundle(bool isDeparture) {
     num totalPrice = isDeparture
-        ? (departureBundle?.bundle?.amount ?? 0)
-        : (returnBundle?.bundle?.amount ?? 0);
+        ? (departureBundle?.bundle?.finalAmount ?? 0)
+        : (returnBundle?.bundle?.finalAmount ?? 0);
     return totalPrice;
   }
 
@@ -306,11 +306,12 @@ class Person extends Equatable {
     num totalPrice = 0;
     if (isDeparture) {
       for (var element in departureMeal) {
-        totalPrice = totalPrice + (element.amount ?? 0);
+        totalPrice =
+            totalPrice + element.finalAmount;
       }
     } else {
       for (var element in returnMeal) {
-        totalPrice = totalPrice + (element.amount ?? 0);
+        totalPrice = totalPrice + element.finalAmount;
       }
     }
     return totalPrice;
@@ -324,8 +325,8 @@ class Person extends Equatable {
 
   num getPartialPriceBaggage(bool isDeparture) {
     num totalPrice = isDeparture
-        ? (departureBaggage?.amount ?? 0)
-        : (returnBaggage?.amount ?? 0);
+        ? departureBaggage?.finalAmount ?? 0
+        : returnBaggage?.finalAmount ?? 0;
     return totalPrice;
   }
 

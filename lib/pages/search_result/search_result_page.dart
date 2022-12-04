@@ -12,7 +12,6 @@ import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -104,7 +103,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
             listeners: [
               BlocListener<LoginCubit, LoginState>(
                 listener: (_, state) {
-                  print("login cubit listener $state");
                   blocListenerWrapper(
                     blocState: state.blocState,
                     onLoading: () {
@@ -126,9 +124,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
               ),
               BlocListener<AuthBloc, AuthState>(
                 listener: (_, state) {
-                  print("auth cubit listener $state");
                   if (!(state.user?.isAccountVerified ?? true)) {
-                    print("auth need verify in");
 
                     FocusManager.instance.primaryFocus?.unfocus();
                     showNotVerifiedDialog(
