@@ -125,7 +125,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
         return;
       }
-      if (durationRemaining == 600) {
+      if (durationRemaining == 290) {
         FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
         showDialog(
           context: currentContext,
@@ -223,6 +223,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                       expiredTime: expiredInUTC,
                     ),
                   );
+              print("state bloc state ${state.blocState}");
+              if(state.blocState == BlocState.failed){
+                if(state.message == "The outbound seat chosen is not available anymore"){
+                  context.router.replaceAll([const NavigationRoute()]);
+                }
+              }
             },
           ),
           BlocListener<TimerBloc, TimerState>(

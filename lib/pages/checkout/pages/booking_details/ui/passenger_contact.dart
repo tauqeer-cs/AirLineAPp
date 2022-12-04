@@ -40,7 +40,7 @@ class _PassengerContactState extends State<PassengerContact> {
     firstName = profile?.firstName ?? contact.contactFullName;
     phoneCode = profile?.phoneCode ?? contact.contactPhoneCode;
     phoneNumber = profile?.phoneNumber ?? contact.contactPhoneNumber;
-    lastName = profile?.lastName ?? contact.comment;
+    lastName = profile?.lastName;
     nationalityController.text =
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
   }

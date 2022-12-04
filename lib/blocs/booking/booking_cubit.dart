@@ -160,10 +160,12 @@ class BookingCubit extends Cubit<BookingState> {
         ),
       );
     } catch (e, st) {
+      print("error reverify");
       emit(
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
+          isVerify: true,
         ),
       );
     }
