@@ -45,7 +45,7 @@ class AdditionInfoView extends StatelessWidget {
           title: 'Additional Info',
         ),
         GreyCard(
-          margin: 0.0,
+          margin: 6.0,
           edgeInsets: EdgeInsets.zero,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),

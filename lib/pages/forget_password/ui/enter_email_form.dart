@@ -33,6 +33,7 @@ class EnterEmailForm extends StatelessWidget {
         child: FormBuilder(
           key: _fbKey,
           child: GreyCard(
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

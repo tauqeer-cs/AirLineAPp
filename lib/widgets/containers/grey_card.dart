@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 class GreyCard extends StatelessWidget {
   final Widget child;
   final BorderRadius? borderRadius;
+  final Color? color;
+
   final EdgeInsets? edgeInsets;
   final double margin;
   const GreyCard({
     Key? key,
     required this.child,
     this.edgeInsets,
+    this.color,
     this.borderRadius, this.margin = 8,
   }) : super(key: key);
 
@@ -24,7 +27,7 @@ class GreyCard extends StatelessWidget {
           margin: EdgeInsets.all(margin),
           padding: edgeInsets ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
           decoration: BoxDecoration(
-              color: const Color.fromRGBO(235, 235, 235, 0.75),
+              color: color ?? const Color(0xFFF0F0F0),
               borderRadius: borderRadius ?? BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(

@@ -49,7 +49,7 @@ class NameInput extends StatelessWidget {
           smallerHeaderText: true,
         ),
         GreyCard(
-          margin: greyMargin,
+          margin: 6,
           edgeInsets: const EdgeInsets.all(8),
           child: Column(
             children: [

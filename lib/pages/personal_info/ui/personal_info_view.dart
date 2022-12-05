@@ -43,7 +43,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               subText:
                   'Make sure your name is the same as it appears on your driver’s license or other government-issued ID.',
               smallerSubText: true,
-              greyMargin: 0,
+              greyMargin: 6,
               customGreyEdgeInsets: EdgeInsets.zero,
               firstNameInitValue: profile?.userProfile?.firstName,
               lastNameInitValue: profile?.userProfile?.lastName,

@@ -1,4 +1,3 @@
-
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/models/airports.dart';
 import 'package:app/models/home_content.dart';
@@ -35,11 +34,16 @@ class HomeDealGrid extends StatelessWidget {
             return InkWell(
               onTap: () {
                 final airports = context.read<AirportsCubit>().state.airports;
-                final from = airports.firstWhereOrNull((air)=>air.code == e.from);
-                final to = airports.firstWhereOrNull((air)=>air.code == e.to);
+                final from =
+                    airports.firstWhereOrNull((air) => air.code == e.from);
+                final to = airports.firstWhereOrNull((air) => air.code == e.to);
 
-                context.read<FilterCubit>().updateOriginAirport(from ?? Airports(code: e.from));
-                context.read<FilterCubit>().updateDestinationAirport(to ?? Airports(code: e.to));
+                context
+                    .read<FilterCubit>()
+                    .updateOriginAirport(from ?? Airports(code: e.from));
+                context
+                    .read<FilterCubit>()
+                    .updateDestinationAirport(to ?? Airports(code: e.to));
                 final tabsRouter = AutoTabsRouter.of(context);
                 tabsRouter.setActiveIndex(0);
                 //context.router.push(WebViewRoute(url: e.link ?? ""));
@@ -98,9 +102,11 @@ class HomeDealGrid extends StatelessWidget {
                         ),
                         GreyCard(
                           margin: 0,
+                          color: Color.fromRGBO(255, 255, 255, 0.5),
                           edgeInsets: const EdgeInsets.all(8),
                           borderRadius: const BorderRadius.vertical(
-                              bottom: Radius.circular(12)),
+                            bottom: Radius.circular(12),
+                          ),
                           child: Row(
                             children: [
                               Expanded(

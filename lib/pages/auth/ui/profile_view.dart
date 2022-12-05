@@ -64,15 +64,29 @@ class ProfileView extends StatelessWidget {
                       padding: const EdgeInsets.all(24.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Welcome back, ",
-                              style: kHugeRegular.copyWith(
-                                  color: Styles.kPrimaryColor),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Welcome back, ',
+                                    style: kHugeRegular.copyWith(
+                                        color: Styles.kPrimaryColor),
+                                  ),
+                                  TextSpan(
+                                    text: '${state.profile?.userProfile?.firstName}',
+                                    style: kHugeHeavy.copyWith(
+                                        color: Styles.kPrimaryColor),
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.left,
                             ),
+
                             Text(
-                              "${state.profile?.userProfile?.firstName}",
+                              "MYReward Membership #${state.profile?.userProfile?.memberID}",
                               style: kHugeHeavy.copyWith(
                                   color: Styles.kPrimaryColor),
                             ),
