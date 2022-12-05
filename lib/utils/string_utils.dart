@@ -73,4 +73,6 @@ extension StringExtension on String {
 
 extension StringNullExtension on String? {
   bool get isEmptyOrNull => this?.isEmpty ?? true;
+
+  String? get returnNullIfEmpty => (this?.isEmpty ?? true) ? null : this;
 }

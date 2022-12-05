@@ -210,7 +210,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           preferredContactMethod: "Email",
           acceptNewsAndPromotionByEmail:
               value[formNameContactReceiveEmail] ?? false,
-          comment: "No",
+          comment: "",
           promoCode: "",
           companyTaxInvoice: CompanyTaxInvoice(
             companyName: value[formNameCompanyName],
