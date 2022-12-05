@@ -197,43 +197,44 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         );
         passengers.add(filledPassenger);
       }
-
-      final summaryRequest = SummaryRequest(
-        token: verifyToken ?? "",
-        flightSummaryPNRRequest: FlightSummaryPnrRequest(
-          contactEmail: value[formNameContactEmail],
-          contactFullName:
-              "${value[formNameContactFirstName]} ${value[formNameContactLastName]}",
-          contactPhoneCode: value[formNameContactPhoneCode],
-          contactPhoneNumber: value[formNameContactPhoneNumber],
-          displayCurrency: "MYR",
-          preferredContactMethod: "Email",
-          acceptNewsAndPromotionByEmail:
-              value[formNameContactReceiveEmail] ?? false,
-          comment: "",
-          promoCode: "",
-          companyTaxInvoice: CompanyTaxInvoice(
-            companyName: value[formNameCompanyName],
-            companyAddress: value[formNameCompanyAddress],
-            country: value[formNameCompanyCountry],
-            state: value[formNameCompanyState],
-            city: value[formNameCompanyCity],
-            emailAddress: value[formNameCompanyEmailAddress],
-            postCode: value[formNameCompanyPostCode],
-          ),
-          emergencyContact: EmergencyContact(
-            firstName: value[formNameEmergencyFirstName],
-            lastName: value[formNameEmergencyLastName],
-            phoneCode: value[formNameEmergencyCountry],
-            phoneNumber: value[formNameEmergencyPhone],
-            relationship: value[formNameEmergencyRelation],
-            email: value[formNameEmergencyEmail],
-          ),
-          passengers: passengers,
+      final pnrRequest = FlightSummaryPnrRequest(
+        contactEmail: value[formNameContactEmail],
+        contactFullName:
+            "${value[formNameContactFirstName]} ${value[formNameContactLastName]}",
+        contactPhoneCode: value[formNameContactPhoneCode],
+        contactPhoneNumber: value[formNameContactPhoneNumber],
+        displayCurrency: "MYR",
+        preferredContactMethod: "Email",
+        acceptNewsAndPromotionByEmail:
+            value[formNameContactReceiveEmail] ?? false,
+        comment: "",
+        promoCode: "",
+        companyTaxInvoice: CompanyTaxInvoice(
+          companyName: value[formNameCompanyName],
+          companyAddress: value[formNameCompanyAddress],
+          country: value[formNameCompanyCountry],
+          state: value[formNameCompanyState],
+          city: value[formNameCompanyCity],
+          emailAddress: value[formNameCompanyEmailAddress],
+          postCode: value[formNameCompanyPostCode],
         ),
+        emergencyContact: EmergencyContact(
+          firstName: value[formNameEmergencyFirstName],
+          lastName: value[formNameEmergencyLastName],
+          phoneCode: value[formNameEmergencyCountry],
+          phoneNumber: value[formNameEmergencyPhone],
+          relationship: value[formNameEmergencyRelation],
+          email: value[formNameEmergencyEmail],
+        ),
+        passengers: passengers,
+      );
+      final summaryRequest = SummaryRequest(
+          token: verifyToken ?? "", flightSummaryPNRRequest: pnrRequest);
+      final savedPnr = pnrRequest.copyWith(
+        comment: value[formNameContactLastName],
       );
       LocalRepository()
-          .setPassengerInfo(summaryRequest.flightSummaryPNRRequest);
+          .setPassengerInfo(savedPnr);
       context.read<SummaryCubit>().submitSummary(summaryRequest);
     }
   }

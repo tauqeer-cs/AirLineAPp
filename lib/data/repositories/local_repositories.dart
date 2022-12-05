@@ -4,7 +4,7 @@ import 'package:app/data/responses/airports_response.dart';
 import 'package:app/models/booking_local.dart';
 import 'package:hive/hive.dart';
 
-const String passengerInfoBox = "passengerInfoBoxV2";
+const String passengerInfoBox = "passengerInfoBoxV3";
 const String airportsBox = "airportsBox";
 const String bookingBox = "bookingBox";
 const String timerBox = "timerBox";
