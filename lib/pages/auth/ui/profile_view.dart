@@ -72,12 +72,12 @@ class ProfileView extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: 'Welcome back, ',
-                                    style: kHugeRegular.copyWith(
+                                    style: kGiantRegular.copyWith(
                                         color: Styles.kPrimaryColor),
                                   ),
                                   TextSpan(
                                     text: '${state.profile?.userProfile?.firstName}',
-                                    style: kHugeHeavy.copyWith(
+                                    style: kGiantHeavy.copyWith(
                                         color: Styles.kPrimaryColor),
                                   ),
                                 ],
@@ -87,8 +87,7 @@ class ProfileView extends StatelessWidget {
 
                             Text(
                               "MYReward Membership #${state.profile?.userProfile?.memberID}",
-                              style: kHugeHeavy.copyWith(
-                                  color: Styles.kPrimaryColor),
+                              style: kMediumSemiBold,
                             ),
                           ],
                         ),
