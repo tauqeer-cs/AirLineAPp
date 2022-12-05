@@ -22,7 +22,7 @@ class CommunicationSettingPage extends StatelessWidget {
       create: (context) => UpdatePasswordCubit(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: 'Updating Preferences'),
+        overlayWidget: const AppLoadingScreen(message: 'Updating'),
         child: BlocListener<ProfileCubit, ProfileState>(
           listener: (context, state) {
             blocListenerWrapper(

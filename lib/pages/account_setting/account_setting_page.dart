@@ -21,7 +21,7 @@ class AccountSettingPage extends StatelessWidget {
       create: (context) => UpdatePasswordCubit(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: 'Updating Password'),
+        overlayWidget: const AppLoadingScreen(message: 'Updating..'),
         child: BlocListener<UpdatePasswordCubit, GenericState>(
           listener: (context, state) {
             blocListenerWrapper(
