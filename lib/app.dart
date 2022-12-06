@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_logger.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
@@ -21,11 +22,13 @@ import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/error_utils.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -141,7 +144,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             );
           },
         );
-      }/* else if (durationRemaining == 85) {
+      }
+      /* else if (durationRemaining == 85) {
         FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog_five");
         showDialog(
           context: currentContext,
@@ -159,7 +163,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             );
           },
         );
-      } */else if (durationRemaining == 0) {
+      } */
+      else if (durationRemaining == 0) {
         FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
         showDialog(
           context: currentContext,
@@ -280,7 +285,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             splitScreenMode: true,
             builder: (_, __) {
               return MaterialApp.router(
-                routerDelegate: appRouter.delegate(),
+                routerDelegate: appRouter.delegate(
+                  navigatorObservers: () => [MyObserver()],
+                ),
                 localizationsDelegates: const [
                   FormBuilderLocalizations.delegate,
                 ],
@@ -304,5 +311,64 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         ),
       ),
     );
+  }
+}
+
+class MyObserver extends AutoRouterObserver {
+// only override to observer tab routes
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    logger.d("init tab ${route.path}");
+    FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    logger.d("change tab ${route.path}");
+    FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
+  }
+
+  @override
+  void didPush(Route? route, Route? previousRoute) {
+    logger.d("push page ${route?.settings.name}");
+    if (route != null) {
+      _sendScreenView(route);
+    }
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    logger.d("replace page ${newRoute?.settings.name}");
+    if (newRoute != null) {
+      _sendScreenView(newRoute);
+    }
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    logger.d("pop page ${route.settings.name}");
+    if (previousRoute != null) {
+      _sendScreenView(previousRoute);
+    }
+  }
+
+  void _sendScreenView(Route<dynamic> route) {
+    String? screenName;
+    if (route.settings is AutoRoutePage) {
+      screenName = (route.settings as AutoRoutePage).routeData.path;
+    } else {
+      screenName = route.settings.name;
+    }
+    print("saved route is $screenName");
+    if (screenName != null) {
+      FirebaseAnalytics.instance
+          .setCurrentScreen(screenName: screenName)
+          .catchError(
+            (Object error) {},
+            test: (Object error) => error is PlatformException,
+          );
+    }
   }
 }

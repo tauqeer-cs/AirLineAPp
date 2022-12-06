@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app/app.dart';
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/repositories/cms_repository.dart';
@@ -237,6 +238,7 @@ class DioFirebasePerformanceInterceptor extends Interceptor {
       final requestKey = options.extra.hashCode;
       _map[requestKey] = metric;
       final requestContentLength = requestContentLengthMethod(options);
+      metric.putAttribute("screen name", appRouter.currentPath);
       await metric.start();
       if (requestContentLength != null) {
         metric.requestPayloadSize = requestContentLength;

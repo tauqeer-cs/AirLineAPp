@@ -130,7 +130,7 @@ class NewBundleCard extends StatelessWidget {
                   ),
                   Text(
                     NumberUtils.formatNumber(
-                        inboundBundle?.bundle?.finalAmount?.toDouble()),
+                        inboundBundle?.bundle?.finalAmount.toDouble()),
                     style: kHugeHeavy,
                   ),
                 ],
