@@ -73,10 +73,12 @@ class AdditionInfoView extends StatelessWidget {
                 ),
                 kVerticalSpacer,
                 AppInputText(
+                  readOnly: true,
                   isRequired: false,
                   textInputType: TextInputType.emailAddress,
                   name: formNameEmail,
                   initialValue: emailSelected,
+
                   hintText: 'Email',
                   validators: [
                     FormBuilderValidators.required(),
