@@ -1,5 +1,6 @@
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MoneyWidget extends StatelessWidget {
@@ -40,10 +41,11 @@ class MoneyWidget extends StatelessWidget {
         ),
         SizedBox(width: isNormalMYR ? 0 : 5),
         Flexible(
-          child: Text(
+          child: AutoSizeText(
             NumberUtils.formatNumber(amount?.toDouble()),
             style: kHeaderHeavy.copyWith(fontSize: isDense ? 20 : 28),
             textAlign: TextAlign.end,
+            maxLines: 1,
           ),
         ),
       ],
@@ -79,11 +81,12 @@ class MoneyWidgetSmall extends StatelessWidget {
           ),
         ),
         kHorizontalSpacerMini,
-        Text(
+        AutoSizeText(
           NumberUtils.formatNumber(amount?.toDouble()),
           style: kMediumRegular.copyWith(
             fontSize: isDense ? 12 : 14,
           ),
+          maxLines: 1,
         ),
       ],
     );

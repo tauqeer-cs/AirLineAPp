@@ -53,10 +53,7 @@ class CompleteSignupPage extends StatelessWidget {
                         children: [
                           Text(
                             "Congrats ${signupRequest.firstName}",
-                            style: kGiantHeavy.copyWith(
-                              color: Styles.kPrimaryColor,
-                              fontSize: 26,
-                            ),
+                            style: kGiantHeavy.copyWith(fontSize: 26),
                           ),
                           kVerticalSpacerSmall,
                           Visibility(
@@ -95,7 +92,8 @@ class CompleteSignupPage extends StatelessWidget {
                               AuthenticationRepository().sendEmail(
                                 ResendEmailRequest(email: signupRequest.email),
                               );
-                              Toast.of(context).show(success: true, message: "Email sent.");
+                              Toast.of(context)
+                                  .show(success: true, message: "Email sent.");
                             },
                             child: const Text("Resend Link"),
                           )

@@ -336,19 +336,19 @@ class _$AppRouter extends RootStackRouter {
         ),
         RouteConfig(
           BundleRoute.name,
-          path: '/flight/addon/new-bundle',
+          path: '/flight/addon/selection-bundle',
         ),
         RouteConfig(
           SeatsRoute.name,
-          path: '/flight/addon/new-seats',
+          path: '/flight/addon/selection-seats',
         ),
         RouteConfig(
           MealsRoute.name,
-          path: '/flight/addon/new-meals',
+          path: '/flight/addon/selection-meals',
         ),
         RouteConfig(
           BaggageRoute.name,
-          path: '/flight/addon/new-baggage',
+          path: '/flight/addon/selection-baggage',
         ),
         RouteConfig(
           SelectBundleRoute.name,
@@ -398,17 +398,17 @@ class _$AppRouter extends RootStackRouter {
               '#redirect',
               path: '',
               parent: SignupWrapperRoute.name,
-              redirectTo: '1',
+              redirectTo: 'signup/account',
               fullMatch: true,
             ),
             RouteConfig(
               SignupAccountRoute.name,
-              path: '1',
+              path: 'signup/account',
               parent: SignupWrapperRoute.name,
             ),
             RouteConfig(
               SignupAddressRoute.name,
-              path: '2',
+              path: 'signup/detail',
               parent: SignupWrapperRoute.name,
             ),
           ],
@@ -597,7 +597,7 @@ class BundleRoute extends PageRouteInfo<BundleRouteArgs> {
     bool isDeparture = true,
   }) : super(
           BundleRoute.name,
-          path: '/flight/addon/new-bundle',
+          path: '/flight/addon/selection-bundle',
           args: BundleRouteArgs(
             key: key,
             isDeparture: isDeparture,
@@ -631,7 +631,7 @@ class SeatsRoute extends PageRouteInfo<SeatsRouteArgs> {
     bool isDeparture = true,
   }) : super(
           SeatsRoute.name,
-          path: '/flight/addon/new-seats',
+          path: '/flight/addon/selection-seats',
           args: SeatsRouteArgs(
             key: key,
             isDeparture: isDeparture,
@@ -665,7 +665,7 @@ class MealsRoute extends PageRouteInfo<MealsRouteArgs> {
     bool isDeparture = true,
   }) : super(
           MealsRoute.name,
-          path: '/flight/addon/new-meals',
+          path: '/flight/addon/selection-meals',
           args: MealsRouteArgs(
             key: key,
             isDeparture: isDeparture,
@@ -699,7 +699,7 @@ class BaggageRoute extends PageRouteInfo<BaggageRouteArgs> {
     bool isDeparture = true,
   }) : super(
           BaggageRoute.name,
-          path: '/flight/addon/new-baggage',
+          path: '/flight/addon/selection-baggage',
           args: BaggageRouteArgs(
             key: key,
             isDeparture: isDeparture,
@@ -1042,7 +1042,7 @@ class SignupAccountRoute extends PageRouteInfo<void> {
   const SignupAccountRoute()
       : super(
           SignupAccountRoute.name,
-          path: '1',
+          path: 'signup/account',
         );
 
   static const String name = 'SignupAccountRoute';
@@ -1054,7 +1054,7 @@ class SignupAddressRoute extends PageRouteInfo<void> {
   const SignupAddressRoute()
       : super(
           SignupAddressRoute.name,
-          path: '2',
+          path: 'signup/detail',
         );
 
   static const String name = 'SignupAddressRoute';

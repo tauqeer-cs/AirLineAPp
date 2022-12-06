@@ -102,7 +102,7 @@ class HomeDealGrid extends StatelessWidget {
                         ),
                         GreyCard(
                           margin: 0,
-                          color: Color.fromRGBO(255, 255, 255, 0.5),
+                          color: const Color.fromRGBO(255, 255, 255, 0.5),
                           edgeInsets: const EdgeInsets.all(8),
                           borderRadius: const BorderRadius.vertical(
                             bottom: Radius.circular(12),

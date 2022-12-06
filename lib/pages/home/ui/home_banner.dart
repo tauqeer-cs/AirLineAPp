@@ -29,7 +29,6 @@ class HomeBanner extends StatelessWidget {
                   (e) => InkWell(
                     onTap: () {
                       context.router.push(WebViewRoute(url: e.link ?? ""));
-
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),

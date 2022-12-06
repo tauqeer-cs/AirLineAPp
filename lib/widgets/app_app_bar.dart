@@ -165,9 +165,12 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                       height: 50.h,
                       width: 120.w,
                     )
-                  : Text(title!,
+                  : Text(
+                      title!,
                       style: kGiantMedium.copyWith(
-                          color: centerTitle ? Styles.kPrimaryColor : null))),
+                          color: centerTitle ? Styles.kPrimaryColor : null),
+                      textScaleFactor: 1,
+                    )),
         ),
       ),
     );

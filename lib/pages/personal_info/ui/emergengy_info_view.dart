@@ -39,7 +39,9 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
   @override
   void initState() {
     super.initState();
-    relationController.text = widget.relationShip ?? "Father";
+    if(widget.relationShip!=null){
+      relationController.text = widget.relationShip!;
+    }
   }
 
   @override

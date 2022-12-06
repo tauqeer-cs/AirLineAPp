@@ -306,8 +306,7 @@ class Person extends Equatable {
     num totalPrice = 0;
     if (isDeparture) {
       for (var element in departureMeal) {
-        totalPrice =
-            totalPrice + element.finalAmount;
+        totalPrice = totalPrice + element.finalAmount;
       }
     } else {
       for (var element in returnMeal) {
@@ -426,10 +425,4 @@ enum PeopleType {
 
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
-List<String> availableRelations = [
-  "Father",
-  "Mother",
-  "Sibling",
-  "Friends",
-  "Other"
-];
+List<String> availableRelations = ["Family", "Friends", "Spouse", "Guardian"];

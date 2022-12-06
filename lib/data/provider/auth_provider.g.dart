@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: avoid_returning_null_for_void
-
 part of 'auth_provider.dart';
 
 // **************************************************************************
@@ -111,7 +109,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
+    return;
   }
 
   @override
@@ -133,7 +131,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
+    return;
   }
 
   @override
@@ -155,7 +153,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
+    return;
   }
 
   @override
@@ -177,7 +175,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
+    return;
   }
 
   @override
@@ -199,7 +197,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
+    return;
   }
 
   @override
@@ -221,7 +219,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return null;
+    return;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

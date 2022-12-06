@@ -120,13 +120,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 name: formNameEmergencyRelation,
                 textEditingController: relationController,
                 child: AppDropDown<String>(
-                  items: const [
-                    "Father",
-                    "Mother",
-                    "Sibling",
-                    "Friends",
-                    "Other"
-                  ],
+                  items: availableRelations,
                   defaultValue:
                       availableRelations.contains(relationController.text)
                           ? relationController.text
