@@ -45,16 +45,16 @@ class CalendarWidget extends StatelessWidget {
       final dateText = AppDateUtils.formatDateWithoutLocale(returnDate);
       texts.add(dateText);
     }
-    if (texts.isEmpty) {
+    /*if (texts.isEmpty) {
       texts.add("Please input date");
-    }
+    }*/
 
     return InkWell(
       onTap: () => _onCalendarPick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<String>(
-          value: texts.join(" to "),
-          label: null,
+          value: texts.isEmpty ? null : texts.join(" to "),
+          hintText: "Please input date",
           prefix: Icon(
             MyFlutterApp.icodate,
             size: 20,
