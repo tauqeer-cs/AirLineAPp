@@ -91,7 +91,8 @@ class SignupAccountPage extends StatelessWidget {
                           kVerticalSpacer,
                           ElevatedButton(
                               onPressed: () => onContinue(context),
-                              child: const Text("Continue"))
+                              child: const Text("Continue")),
+                          kVerticalSpacer,
                         ],
                       ),
                     ),
