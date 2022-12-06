@@ -21,7 +21,7 @@ class BottomSheetHeader extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: kMediumHeavy.copyWith(letterSpacing: 1.5),
+                style: kMediumHeavy,
               ),
               IconButton(
                 icon: const Icon(Icons.close),

@@ -70,7 +70,6 @@ const kSmallSemiBold = TextStyle(
 const kSmallHeavy = TextStyle(
   fontSize: 12 + modifier,
   fontWeight: FontWeight.w700,
-  letterSpacing: 1,
 );
 
 // medium
@@ -194,5 +193,4 @@ const kHeaderSemiBold = TextStyle(
 const kHeaderHeavy = TextStyle(
   fontSize: 28 + modifier,
   fontWeight: FontWeight.w700,
-  letterSpacing: 1,
 );
