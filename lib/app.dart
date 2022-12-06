@@ -361,7 +361,6 @@ class MyObserver extends AutoRouterObserver {
     } else {
       screenName = route.settings.name;
     }
-    print("saved route is $screenName");
     if (screenName != null) {
       FirebaseAnalytics.instance
           .setCurrentScreen(screenName: screenName)

@@ -13,7 +13,7 @@ class SuccessDialog extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GreyCard(
-          color: Color.fromRGBO(235, 235, 235, 0.75),
+          color: const Color.fromRGBO(235, 235, 235, 0.75),
 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
