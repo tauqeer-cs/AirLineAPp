@@ -65,10 +65,12 @@ class AirportWidget extends StatelessWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    value.toString(),
-                    style: kMediumMedium.copyWith(
-                      color: selected ? Styles.kPrimaryColor : null,
+                  Flexible(
+                    child: Text(
+                      value.toString(),
+                      style: kMediumMedium.copyWith(
+                        color: selected ? Styles.kPrimaryColor : null,
+                      ),
                     ),
                   ),
                   Text(

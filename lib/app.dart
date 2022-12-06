@@ -75,18 +75,23 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      final currentContext = appRouter.navigatorKey.currentContext;
-      final expiredInUTC = LocalRepository().getExpiredTime();
-      if (expiredInUTC == null) return;
-      final expiredDate = DateTime.parse(expiredInUTC);
-      final nowUTC = DateTime.now().toUtc();
-      final diff = expiredDate.difference(nowUTC);
-      currentContext?.read<TimerBloc>().add(
-            TimerStarted(
-              duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
-              expiredTime: expiredDate,
-            ),
-          );
+      try{
+        final currentContext = appRouter.navigatorKey.currentContext;
+        final expiredInUTC = LocalRepository().getExpiredTime();
+        if (expiredInUTC == null) return;
+        final expiredDate = DateTime.parse(expiredInUTC);
+        final nowUTC = DateTime.now().toUtc();
+        final diff = expiredDate.difference(nowUTC);
+        currentContext?.read<TimerBloc>().add(
+          TimerStarted(
+            duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
+            expiredTime: expiredDate,
+          ),
+        );
+      }catch(e){
+        logger.e("Cannot start timer from resume");
+      }
+
     }
   }
 
@@ -281,8 +286,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         child: VersionBannerWidget(
           child: ScreenUtilInit(
             designSize: const Size(375, 812),
-            minTextAdapt: true,
-            splitScreenMode: true,
             builder: (_, __) {
               return MaterialApp.router(
                 routerDelegate: appRouter.delegate(
@@ -293,10 +296,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 ],
                 builder: (context, child) {
                   final mediaQueryData = MediaQuery.of(context);
-                  final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.1);
+                  final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
                   return MediaQuery(
-                    data:
-                        MediaQuery.of(context).copyWith(textScaleFactor: scale),
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
                     child: child!,
                   );
                 },
