@@ -93,7 +93,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               relationShip:
                   profile?.userProfile?.emergencyContact?.relationship,
               countryCode: profile?.userProfile?.emergencyContact?.phoneCode,
-              phoneNo: profile?.userProfile?.emergencyContact?.phoneCode,
+              phoneNo: profile?.userProfile?.emergencyContact?.phoneNumber ?? '',
               onPhoneCodeChanged: (newCountry) {
                 ePhoneCountry = newCountry;
               },
