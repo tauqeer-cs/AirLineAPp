@@ -238,7 +238,7 @@ class DioFirebasePerformanceInterceptor extends Interceptor {
       final requestKey = options.extra.hashCode;
       _map[requestKey] = metric;
       final requestContentLength = requestContentLengthMethod(options);
-      metric.putAttribute("screen name", appRouter.currentPath);
+      metric.putAttribute("screen", appRouter.currentPath);
       await metric.start();
       if (requestContentLength != null) {
         metric.requestPayloadSize = requestContentLength;
