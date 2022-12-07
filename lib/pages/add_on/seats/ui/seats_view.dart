@@ -24,6 +24,8 @@ class SeatsView extends StatefulWidget {
 class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
   final scrollController = ScrollController();
 
+  final bool autoScrollToBottom = false;
+
   @override
   void dispose() {
     scrollController.dispose(); // dispose the controller
@@ -55,11 +57,13 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
 
               },
               moveToBottom: (){
-                //;
-                if (scrollController.hasClients) {
-                  scrollController.animateTo(scrollController.position.maxScrollExtent,
-                      duration: const Duration(seconds: 3), curve: Curves.linear);
+                if(autoScrollToBottom) {
+                  if (scrollController.hasClients) {
+                    scrollController.animateTo(scrollController.position.maxScrollExtent,
+                        duration: const Duration(seconds: 3), curve: Curves.linear);
+                  }
                 }
+
 
               },),
               kVerticalSpacer,
