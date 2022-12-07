@@ -111,7 +111,11 @@ class SegmentCard extends StatelessWidget {
                                   "from",
                                   style: kTinyHeavy,
                                 ),
-                                MoneyWidget(amount: segment.totalSegmentFareAmtWithInfantSSR),
+                                MoneyWidget(
+                                  amount:
+                                      segment.totalSegmentFareAmtWithInfantSSR,
+                                  isDense: true,
+                                ),
                                 Visibility(
                                   visible: segment.discountPCT != null &&
                                       segment.discountPCT! > 0,
@@ -133,7 +137,7 @@ class SegmentCard extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: selected!=null,
+                visible: selected != null,
                 replacement: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -143,7 +147,9 @@ class SegmentCard extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    context.read<SummaryContainerCubit>().changeVisibility(true);
+                    context
+                        .read<SummaryContainerCubit>()
+                        .changeVisibility(true);
                     if (isDeparture) {
                       context.read<BookingCubit>().selectDeparture(segment);
                     } else {
@@ -162,7 +168,9 @@ class SegmentCard extends StatelessWidget {
                       } else {
                         context.read<BookingCubit>().removeReturn();
                       }
-                      context.read<SummaryContainerCubit>().changeVisibility(true);
+                      context
+                          .read<SummaryContainerCubit>()
+                          .changeVisibility(true);
                       //context.router.pop();
                     },
                     child: const Text("Change Flight"),
