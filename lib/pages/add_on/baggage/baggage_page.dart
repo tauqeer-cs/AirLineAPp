@@ -29,6 +29,7 @@ class BaggagePage extends StatelessWidget {
           appBar: AppAppBar(
             title: "Your Trip Starts Here",
             height: 100.h,
+            centerTitle: true,
             flexibleWidget:  AppBookingStep(
               passedSteps: const [BookingStep.flights, BookingStep.addOn], onTopStepTaped: (int index) {
               if(index == 0) {

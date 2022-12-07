@@ -37,7 +37,10 @@ class BaggageSection extends StatelessWidget {
         children: [
           Text(
             "Baggage",
-            style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
+            style: kGiantHeavy.copyWith(
+              color: Styles.kOrangeColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           kVerticalSpacer,
           PassengerSelector(
@@ -159,10 +162,10 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
           children: [
             ListTile(
               contentPadding: const EdgeInsets.only(
-                top: 15,
+                top: 20,
                 right: 50,
                 left: 15,
-                bottom: 15,
+                bottom: 20,
               ),
               leading: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -207,14 +210,14 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
               ),
             ),
             Positioned(
-              right: -20,
+              right: 0,
               top: 0,
               bottom: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
                 child: Center(
                   child: Image.asset(
-                    "assets/images/design/baggageSmall.png",
+                    "assets/images/design/icoLuggage.png",
                     color: Styles.kSubTextColor,
                   ),
                 ),

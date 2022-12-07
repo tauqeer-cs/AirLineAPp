@@ -21,8 +21,8 @@ class SeatsLegend extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacerMini,
-        const Text("Seating options", style: kMediumMedium),
-        kVerticalSpacerMini,
+        const Text("Seating options", style: kLargeHeavy),
+        kVerticalSpacerSmall,
         Wrap(
           spacing: 10,
           runSpacing: 10,
@@ -45,7 +45,7 @@ class SeatsLegend extends StatelessWidget {
                         ),
                       ),
                       kHorizontalSpacerMini,
-                      Flexible(child: Text(e.description ?? ""))
+                      Flexible(child: Text(e.description ?? "", style: kSmallRegular,))
                     ],
                   ),
                 );
