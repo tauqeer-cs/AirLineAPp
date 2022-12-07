@@ -8,6 +8,7 @@ import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/animations/shimmer_rectangle.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,30 +84,29 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                       children: [
                         Expanded(
                           child: Center(
-                            child: Text(
+                            child: AutoSizeText(
                               "DEP ${AppDateUtils.formatDateWithoutLocale(departDate)}",
                               style: departDate == null
                                   ? kMediumRegular
                                   : kMediumSemiBold,
+                              maxLines: 1,
                             ),
                           ),
                         ),
                         Visibility(
                           visible: isRoundTrip,
+                          child: Icon(Icons.chevron_right),
+                        ),
+                        Visibility(
+                          visible: isRoundTrip,
                           child: Expanded(
-                            child: Row(
-                              children: [
-                                const Icon(Icons.chevron_right),
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                        "RET ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
-                                        style: returnDate == null
-                                            ? kMediumRegular
-                                            : kMediumSemiBold),
-                                  ),
-                                ),
-                              ],
+                            child: Center(
+                              child: AutoSizeText(
+                                  maxLines: 1,
+                                  "RET ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
+                                  style: returnDate == null
+                                      ? kMediumRegular
+                                      : kMediumSemiBold),
                             ),
                           ),
                         ),
@@ -148,8 +148,13 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             context.read<FilterCubit>().updateDate(
                                 departDate: value, returnDate: null);
                           } else if (returnDate == null) {
-                            context.read<FilterCubit>().updateDate(
-                                departDate: departDate, returnDate: value);
+                            if (value.isBefore(departDate)) {
+                              context.read<FilterCubit>().updateDate(
+                                  departDate: value, returnDate: departDate);
+                            } else {
+                              context.read<FilterCubit>().updateDate(
+                                  departDate: departDate, returnDate: value);
+                            }
                             // await Future.delayed(const Duration(seconds: 1));
                             // if (mounted) {
                             //   context.router.pop();
@@ -279,9 +284,11 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
               right: 0,
               left: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 25),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 25),
                 decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(24)),
                     color: Colors.white.withOpacity(0.75),
                     boxShadow: [
                       BoxShadow(
@@ -296,8 +303,9 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () {
-                          context.read<FilterCubit>().updateDate(
-                              departDate: null, returnDate: null);
+                          context
+                              .read<FilterCubit>()
+                              .updateDate(departDate: null, returnDate: null);
                         },
                         child: const Text("Reset"),
                       ),

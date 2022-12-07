@@ -17,6 +17,8 @@ class NumberPerson extends Equatable {
 
   static const empty = NumberPerson(persons: []);
 
+  static const adult = NumberPerson(persons: [Person.adult]);
+
   List<Seats?> selectedSeats(bool isDeparture) {
     if (isDeparture) {
       return persons.map((e) => e.departureSeats).toList()
@@ -158,6 +160,11 @@ class Person extends Equatable {
     this.numberOrder,
     this.passenger,
   });
+
+  static const adult = Person(
+    peopleType: PeopleType.adult,
+    numberOrder: 1,
+  );
 
   @override
   // TODO: implement props
