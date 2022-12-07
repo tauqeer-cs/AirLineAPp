@@ -34,6 +34,9 @@ class SeatPlan extends StatelessWidget {
     final mapColor = isDeparture
         ? bookingState.departureColorMapping
         : bookingState.returnColorMapping;
+    final legends = isDeparture
+        ? bookingState.verifyResponse?.flightSSR?.seatGroup?.outbound ?? []
+        : bookingState.verifyResponse?.flightSSR?.seatGroup?.inbound ?? [];
 
     if (firstRow == null) return const SizedBox();
     return Container(
@@ -65,6 +68,8 @@ class SeatPlan extends StatelessWidget {
             Rows? previousRow = index == 0 ? null : rows?[index - 1];
             bool isSeatSeparated = row.seats?.first.serviceId !=
                 previousRow?.seats?.first.serviceId;
+            final bundle = legends.firstWhereOrNull(
+                (element) => element.serviceID == row.seats?.first.serviceId);
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Column(
@@ -80,23 +85,27 @@ class SeatPlan extends StatelessWidget {
                             ArrowSVG(
                               assetName:
                                   'assets/images/svg/seats_arrow_left.svg',
-                              color: mapColor?[row.seats?.first.serviceId],
+                              color: mapColor?[row.seats?.first.serviceId] ??
+                                  (mapColor ?? {})[0] ??
+                                  Colors.purpleAccent,
                             ),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 35),
-                              child: SeatPrice(
-                                amount: row.seats?.first.seatPriceOffers
-                                    ?.firstOrNull?.amount
-                                    ?.toDouble(),
-                                currency: row.seats?.first.seatPriceOffers
-                                    ?.firstOrNull?.currency,
-                              ),
+                              child: bundle?.finalAmount == null
+                                  ? Text("No Data")
+                                  : SeatPrice(
+                                      amount: bundle?.finalAmount ?? 0,
+                                      currency: row.seats?.first.seatPriceOffers
+                                          ?.firstOrNull?.currency,
+                                    ),
                             ),
                             ArrowSVG(
                               assetName:
                                   'assets/images/svg/seats_arrow_right.svg',
-                              color: mapColor?[row.seats?.first.serviceId],
+                              color: mapColor?[row.seats?.first.serviceId] ??
+                                  (mapColor ?? {})[0] ??
+                                  Colors.purpleAccent,
                             ),
                             const Expanded(flex: 1, child: SizedBox()),
                           ],
@@ -113,7 +122,9 @@ class SeatPlan extends StatelessWidget {
                             ? Expanded(
                                 flex: 1,
                                 child: Center(
-                                    child: Text("${row.rowNumber ?? 0}")))
+                                  child: Text("${row.rowNumber ?? 0}"),
+                                ),
+                              )
                             : Expanded(
                                 flex: 1,
                                 child: SeatRow(
@@ -174,6 +185,7 @@ class SeatPrice extends StatelessWidget {
 class ArrowSVG extends StatelessWidget {
   final String assetName;
   final Color? color;
+
   const ArrowSVG({Key? key, required this.assetName, this.color})
       : super(key: key);
 

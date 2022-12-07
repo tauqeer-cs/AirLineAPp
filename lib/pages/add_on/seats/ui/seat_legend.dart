@@ -3,6 +3,7 @@ import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SeatsLegend extends StatelessWidget {
   const SeatsLegend({Key? key}) : super(key: key);
@@ -23,13 +24,13 @@ class SeatsLegend extends StatelessWidget {
         const Text("Seating options", style: kMediumMedium),
         kVerticalSpacerMini,
         Wrap(
-          spacing: 20,
+          spacing: 10,
           runSpacing: 10,
           children: [
             ...(availableType ?? []).map(
               (e) {
                 return SizedBox(
-                  width: 150,
+                  width: 0.4.sw,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -51,7 +52,7 @@ class SeatsLegend extends StatelessWidget {
               },
             ).toList(),
             SizedBox(
-              width: 150,
+              width: 0.4.sw,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
