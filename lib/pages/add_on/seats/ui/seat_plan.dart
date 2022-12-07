@@ -86,7 +86,6 @@ class SeatPlan extends StatelessWidget {
                               assetName:
                                   'assets/images/svg/seats_arrow_left.svg',
                               color: mapColor?[row.seats?.first.serviceId] ??
-                                  (mapColor ?? {})[0] ??
                                   Colors.purpleAccent,
                             ),
                             Padding(
@@ -104,7 +103,6 @@ class SeatPlan extends StatelessWidget {
                               assetName:
                                   'assets/images/svg/seats_arrow_right.svg',
                               color: mapColor?[row.seats?.first.serviceId] ??
-                                  (mapColor ?? {})[0] ??
                                   Colors.purpleAccent,
                             ),
                             const Expanded(flex: 1, child: SizedBox()),

@@ -104,7 +104,6 @@ class _SeatRowState extends State<SeatRow> {
                       : (widget.seats.isSeatAvailable ?? false) &&
                               !isBlockChild(focusedPerson, persons)
                           ? (mapColor ?? {})[widget.seats.serviceId] ??
-                  (mapColor ?? {})[0] ??
                               Colors.purpleAccent
                           : Colors.grey,
               borderRadius: BorderRadius.circular(8),

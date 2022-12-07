@@ -30,7 +30,6 @@ class BookingCubit extends Cubit<BookingState> {
     Colors.orangeAccent,
     Colors.orange,
     Colors.purple,
-    Colors.purpleAccent,
   ];
 
   resetState() {
