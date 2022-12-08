@@ -88,7 +88,7 @@ class AdditionInfoView extends StatelessWidget {
                 kVerticalSpacer,
                 FormBuilderDateTimePicker(
                   name: formNameDob,
-                  firstDate: DateTime(0001),
+                  firstDate: DateTime(1920),
                   lastDate: DateTime.now(),
                   initialValue: dobSelected,
                   format: DateFormat("dd MMM yyyy"),

@@ -391,8 +391,8 @@ class Person extends Equatable {
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
 
-  DateTime dateLimitEnd() {
-    final now = DateTime.now();
+  DateTime dateLimitEnd(DateTime? departDate) {
+    final now = departDate ?? DateTime.now();
     switch (peopleType) {
       case PeopleType.adult:
         return DateTime(now.year - 12, now.month, now.day);
@@ -405,8 +405,8 @@ class Person extends Equatable {
     }
   }
 
-  DateTime dateLimitStart() {
-    final now = DateTime.now();
+  DateTime dateLimitStart(DateTime? departDate) {
+    final now = departDate ?? DateTime.now();
     switch (peopleType) {
       case PeopleType.adult:
         return DateTime(now.year - 210, now.month, now.day);

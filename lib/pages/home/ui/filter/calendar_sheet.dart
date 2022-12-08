@@ -98,7 +98,7 @@ class CalendarSheetState extends State<CalendarSheet> {
           },
           headerStyle: const HeaderStyle(formatButtonVisible: false),
           firstDay: DateTime.now(),
-          lastDay: DateTime.now().add(const Duration(days: 90)),
+          lastDay: DateTime.now().add(const Duration(days: 365)),
           focusedDay: _focusedDay,
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           rangeStartDay: departDate,

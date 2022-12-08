@@ -33,7 +33,7 @@ class CardSummary extends StatelessWidget {
     return Column(
       children: [
         FlightSegment(
-          title: "DEP",
+          title: "Departure",
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
           segments: bookState.isVerify
@@ -45,7 +45,7 @@ class CardSummary extends StatelessWidget {
         Visibility(
           visible: state.filterState?.flightType == FlightType.round,
           child: FlightSegment(
-            title: "RET",
+            title: "Return",
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
                 AppDateUtils.formatFullDate(state.filterState?.returnDate),

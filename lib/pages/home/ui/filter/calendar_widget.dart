@@ -54,7 +54,7 @@ class CalendarWidget extends StatelessWidget {
       child: BorderedContainer(
         child: DropdownTransformerWidget<String>(
           value: texts.isEmpty ? null : texts.join(" to "),
-          hintText: "Please input date",
+          hintText: "Choose Date",
           prefix: Icon(
             MyFlutterApp.icodate,
             size: 20,

@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -131,13 +132,15 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   Expanded(
                     child: PagedVerticalCalendar(
                       minDate: DateTime.now(),
-                      maxDate: DateTime.now().add(const Duration(days: 180)),
+                      maxDate: DateTime.now().add(const Duration(days: 365)),
                       initialDate: departDate ?? DateTime.now(),
                       onMonthLoaded: (year, month) {
-                        context.read<PriceRangeCubit>().getPrices(
-                              filterCubit.state,
-                              startFilter: DateTime(year, month, 1),
-                            );
+                        if(RemoteConfigRepository.fetchPriceRange){
+                          context.read<PriceRangeCubit>().getPrices(
+                            filterCubit.state,
+                            startFilter: DateTime(year, month, 1),
+                          );
+                        }
                       },
                       startWeekWithSunday: true,
                       onDayPressed: (value) async {
