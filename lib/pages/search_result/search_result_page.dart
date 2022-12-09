@@ -30,12 +30,13 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
+
   @override
   void initState() {
     final isLoggedIn =
         context.read<AuthBloc>().state.status == AppStatus.authenticated;
 
-    if (!isLoggedIn && widget.showLoginDialog) {
+    if (!isLoggedIn && widget.showLoginDialog && false) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
     }
     super.initState();

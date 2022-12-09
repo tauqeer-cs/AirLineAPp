@@ -48,7 +48,7 @@ class DropdownTransformerWidget<T> extends StatelessWidget {
                 visible: value != null,
                 replacement: Text(
                   hintText ?? "Please Select",
-                  style: kSmallSemiBold,
+                  style: kSmallSemiBold.copyWith(color: Styles.kSubTextColor.withOpacity(0.5)),
                 ),
                 child: Text(
                   valueCustom != null

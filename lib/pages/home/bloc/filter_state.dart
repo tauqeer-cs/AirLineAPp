@@ -15,7 +15,7 @@ class FilterState extends Equatable {
     this.blocState = BlocState.initial,
     this.message = "",
     this.flightType = FlightType.round,
-    this.numberPerson = NumberPerson.empty,
+    this.numberPerson = NumberPerson.adult,
     this.destination,
     this.origin,
     this.departDate,

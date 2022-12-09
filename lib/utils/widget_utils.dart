@@ -1,8 +1,8 @@
-
 import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:version/version.dart';
 
 class WidgetUtils {
@@ -13,7 +13,8 @@ class WidgetUtils {
         Version.parse(RemoteConfigRepository.minimumVersion ?? "1.0.0");
     Version recommendedVersion =
         Version.parse(RemoteConfigRepository.recommendedVersion ?? "1.0.0");
-    if(appVersion >= recommendedVersion && appVersion >= minimumVersion) return;
+    if (appVersion >= recommendedVersion && appVersion >= minimumVersion)
+      return;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -27,6 +28,12 @@ class WidgetUtils {
             title: RemoteConfigRepository.title ?? "",
             subtitle: RemoteConfigRepository.subtitle ?? "",
             confirmText: "Okay",
+            onConfirm: () {
+              StoreRedirect.redirect(
+                androidAppId: "com.myairline.mobileapp",
+                iOSAppId: "6443551963",
+              );
+            },
           ),
         );
       },

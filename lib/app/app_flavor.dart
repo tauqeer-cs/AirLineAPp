@@ -54,11 +54,11 @@ class AppFlavor {
   static String get baseUrlApi {
     switch (appFlavor) {
       case Flavor.staging:
-        return 'https://mya-api.alphareds.com/api/';
+        return 'https://mya-api.alphareds.com/api/mobile/';
       case Flavor.uat:
-        return 'https://uat-api.myairline.my/api/';
+        return 'https://uat-api.myairline.my/api/mobile/';
       default:
-        return 'https://api.myairline.my/api/';
+        return 'https://api.myairline.my/api/mobile/';
     }
   }
 

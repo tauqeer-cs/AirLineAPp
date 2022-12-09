@@ -99,7 +99,8 @@ class SignupAddressPage extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () => onSignup(context),
                             child: const Text("Continue"),
-                          )
+                          ),
+                          kVerticalSpacer,
                         ],
                       ),
                     ),

@@ -113,11 +113,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 ),
                 FormBuilderDateTimePicker(
                   name: "${widget.person.toString()}$formNameDob",
-                  firstDate: widget.person.dateLimitStart(),
-                  lastDate: widget.person.dateLimitEnd(),
+                  firstDate: widget.person.dateLimitStart(filter.departDate),
+                  lastDate: widget.person.dateLimitEnd(filter.departDate),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
-                  initialDate: widget.person.dateLimitEnd(),
+                  initialDate: widget.person.dateLimitEnd(filter.departDate),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,
@@ -125,7 +125,10 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   onChanged: (date) {
                     if (date == null) return;
                     setState(() {
-                      isUnder16 = AppDateUtils.isUnder16(date);
+                      isUnder16 = AppDateUtils.isUnder16(
+                        date,
+                        filter.departDate ?? DateTime.now(),
+                      );
                     });
                   },
                 ),
@@ -150,7 +153,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                         Checkbox(
                           value: true,
                           onChanged: (_) {},
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                         ),
                         Expanded(
                           child: Html(

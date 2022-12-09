@@ -15,7 +15,7 @@ class AppLoadingScreen extends StatelessWidget {
       color: Colors.transparent,
       child: Center(
         child: Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           height: 150,
           width: 150,
           decoration: BoxDecoration(

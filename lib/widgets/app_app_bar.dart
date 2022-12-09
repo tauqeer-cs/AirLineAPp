@@ -104,7 +104,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.child,
     this.title,
     this.onAction,
-    this.centerTitle = false,
+    this.centerTitle = true,
     this.canBack = true,
     this.height,
     this.flexibleWidget,
@@ -165,9 +165,11 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                       height: 50.h,
                       width: 120.w,
                     )
-                  : Text(title!,
-                      style: kGiantMedium.copyWith(
-                          color: centerTitle ? Styles.kPrimaryColor : null))),
+                  : Text(
+                      title!,
+                      style: kHugeHeavy,
+                      textScaleFactor: 1,
+                    )),
         ),
       ),
     );

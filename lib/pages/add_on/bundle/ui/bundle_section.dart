@@ -28,7 +28,10 @@ class BundleSection extends StatelessWidget {
         children: [
           Text(
             "Bundle",
-            style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
+            style: kGiantHeavy.copyWith(
+              color: Styles.kOrangeColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           kVerticalSpacer,
            PassengerSelector(isDeparture: isDeparture,),
@@ -130,7 +133,7 @@ class NewBundleCard extends StatelessWidget {
                   ),
                   Text(
                     NumberUtils.formatNumber(
-                        inboundBundle?.bundle?.finalAmount?.toDouble()),
+                        inboundBundle?.bundle?.finalAmount.toDouble()),
                     style: kHugeHeavy,
                   ),
                 ],

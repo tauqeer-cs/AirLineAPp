@@ -58,7 +58,6 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
             Transform.translate(
               offset: const Offset(-16, 0),
               child: Container(
-                width: 155.w,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Styles.kDividerColor,
@@ -69,7 +68,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.title, style: kHugeHeavy),
+                    Text(widget.title, style: k18Heavy),
                     Text(widget.subtitle, style: kLargeRegular),
                   ],
                 ),
@@ -78,30 +77,27 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
             const Spacer(
               flex: 1,
             ),
-            Visibility(
-              visible: !isVerify,
-              child: Expanded(
-                flex: 2,
-                child: InkWell(
-                  onTap: _onOpenSheet,
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.filter_alt_rounded,
-                        color: Styles.kBorderColor,
-                        size: 25,
-                      ),
-                      Text(
-                        "Sort by",
-                        style:
-                            kSmallRegular.copyWith(color: Styles.kBorderColor),
-                      ),
-                      Text(
-                        selectedSort.toString(),
-                        style: kSmallHeavy,
-                      )
-                    ],
-                  ),
+            Expanded(
+              flex: 2,
+              child: InkWell(
+                onTap: _onOpenSheet,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.filter_alt_rounded,
+                      color: Styles.kBorderColor,
+                      size: 25,
+                    ),
+                    Text(
+                      "Sort by",
+                      style:
+                          kSmallRegular.copyWith(color: Styles.kBorderColor),
+                    ),
+                    Text(
+                      selectedSort.toString(),
+                      style: kSmallHeavy,
+                    )
+                  ],
                 ),
               ),
             ),

@@ -233,7 +233,7 @@ class Styles {
         ),
         hintStyle: kSmallSemiBold.copyWith(
           color: isLight
-              ? const Color.fromRGBO(43, 45, 66, 1)
+              ? kSubTextColor.withOpacity(0.5)
               : kLightBgColor.withOpacity(0.5),
         ),
       ),

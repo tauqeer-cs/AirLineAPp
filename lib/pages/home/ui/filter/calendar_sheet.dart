@@ -51,14 +51,11 @@ class CalendarSheetState extends State<CalendarSheet> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    DateFormat.MMMM().format(dateTime).toUpperCase(),
-                    style: kMediumHeavy.copyWith(letterSpacing: 1.5),
-                  ),
+                  Text(DateFormat.MMMM().format(dateTime).toUpperCase(),
+                      style: kMediumHeavy),
                   Text(
                     " / ${DateFormat.y().format(dateTime)}",
-                    style: kMediumHeavy.copyWith(
-                        color: Styles.kDisabledButton, letterSpacing: 1.5),
+                    style: kMediumHeavy.copyWith(color: Styles.kDisabledButton),
                   ),
                 ],
               );
@@ -83,7 +80,9 @@ class CalendarSheetState extends State<CalendarSheet> {
                     style: kTinyHeavy,
                   ),
                   Text(
-                    NumberUtils.formatNum(departDate==null? events.returnPrice : events.departPrice),
+                    NumberUtils.formatNum(departDate == null
+                        ? events.returnPrice
+                        : events.departPrice),
                     style: kSmallSemiBold.copyWith(color: Styles.kPrimaryColor),
                   ),
                 ],
@@ -99,7 +98,7 @@ class CalendarSheetState extends State<CalendarSheet> {
           },
           headerStyle: const HeaderStyle(formatButtonVisible: false),
           firstDay: DateTime.now(),
-          lastDay: DateTime.now().add(const Duration(days: 90)),
+          lastDay: DateTime.now().add(const Duration(days: 365)),
           focusedDay: _focusedDay,
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           rangeStartDay: departDate,
@@ -139,7 +138,7 @@ class CalendarSheetState extends State<CalendarSheet> {
               _focusedDay = focusedDay;
               _rangeSelectionMode = RangeSelectionMode.toggledOn;
             });
-            if(start!=null && end!=null){
+            if (start != null && end != null) {
               context.router.pop();
             }
           },

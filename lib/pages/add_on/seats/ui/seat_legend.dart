@@ -1,8 +1,10 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SeatsLegend extends StatelessWidget {
   const SeatsLegend({Key? key}) : super(key: key);
@@ -20,16 +22,16 @@ class SeatsLegend extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacerMini,
-        const Text("Seating options", style: kMediumMedium),
-        kVerticalSpacerMini,
+        const Text("Seat Types", style: kLargeHeavy),
+        kVerticalSpacerSmall,
         Wrap(
-          spacing: 20,
-          runSpacing: 10,
+          spacing: 8,
+          runSpacing: 8,
           children: [
             ...(availableType ?? []).map(
               (e) {
                 return SizedBox(
-                  width: 150,
+                  width: 0.4.sw,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -44,14 +46,14 @@ class SeatsLegend extends StatelessWidget {
                         ),
                       ),
                       kHorizontalSpacerMini,
-                      Flexible(child: Text(e.description ?? ""))
+                      Flexible(child: Text(e.description?.camelCase() ?? "", style: kSmallRegular,))
                     ],
                   ),
                 );
               },
             ).toList(),
             SizedBox(
-              width: 150,
+              width: 0.4.sw,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -66,7 +68,7 @@ class SeatsLegend extends StatelessWidget {
                     ),
                   ),
                   kHorizontalSpacerMini,
-                  const Flexible(child: Text("Unavailable"))
+                  const Flexible(child: Text("Unavailable", style: kSmallRegular,))
                 ],
               ),
             )

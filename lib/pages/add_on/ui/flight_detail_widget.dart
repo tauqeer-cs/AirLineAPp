@@ -55,7 +55,7 @@ class FlightDetailWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(isDeparture ? "DEP" : "RET", style: kHugeHeavy),
+            Text(isDeparture ? "Departure" : "Return", style: k18Heavy),
             Text(
                 isDeparture
                     ? state.filterState?.beautifyShort ?? ""
@@ -72,7 +72,7 @@ class FlightDetailWidget extends StatelessWidget {
       AppDateUtils.formatHalfDateHalfMonth(isDeparture
           ? state.filterState?.departDate
           : state.filterState?.returnDate),
-      style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
+      style: kLargeHeavy.copyWith(color: Styles.kSubTextColor),
     );
   }
 }

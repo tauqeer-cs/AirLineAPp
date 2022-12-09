@@ -130,6 +130,7 @@ class AppDropDown<T> extends StatelessWidget {
                     style: selected
                         ? kMediumSemiBold.copyWith(color: Styles.kActiveColor)
                         : kMediumMedium,
+
                   ),
             trailing: Visibility(
               visible: selected,

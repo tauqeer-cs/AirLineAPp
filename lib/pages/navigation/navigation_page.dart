@@ -1,3 +1,4 @@
+import 'package:app/app.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/data/repositories/remote_config_repository.dart';
@@ -42,7 +43,6 @@ class _NavigationPageState extends State<NavigationPage> {
     final isLogin =
         context.watch<AuthBloc>().state.status == AppStatus.authenticated;
     return AutoTabsScaffold(
-      navigatorObservers: () => [MyObserver()],
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -99,18 +99,3 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 }
 
-class MyObserver extends AutoRouterObserver {
-  @override
-  void didPush(Route route, Route? previousRoute) {}
-
-  // only override to observer tab routes
-  @override
-  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    //Analytics.firebaseAnalytics.setCurrentScreen(screenName: route.name);
-  }
-
-  @override
-  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
-    //Analytics.firebaseAnalytics.setCurrentScreen(screenName: route.name);
-  }
-}

@@ -110,13 +110,13 @@ class _FlightDetailState extends State<FlightDetail> {
                 kVerticalSpacer,
 
                 BorderedLeftContainer(
-                  title: "DEP:",
+                  title: "Departure:",
                   content:
                       "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
                 ),
                 kVerticalSpacer,
                 BorderedLeftContainer(
-                  title: "ARR:",
+                  title: "Arrival:",
                   content:
                       "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
                 ),

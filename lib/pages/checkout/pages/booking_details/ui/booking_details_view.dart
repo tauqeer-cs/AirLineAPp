@@ -57,12 +57,28 @@ class BookingDetailsView extends StatefulWidget {
 class _BookingDetailsViewState extends State<BookingDetailsView> {
   final scrollController = ScrollController();
 
+  var isValid = false;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         FormBuilder(
-          autoFocusOnValidationFailure: true,
+          //autoFocusOnValidationFailure: true,
+          onChanged: (){
+
+            if(BookingDetailsView.fbKey.currentState!.validate()){
+
+              setState(() {
+                isValid = true;
+              });
+            }
+            else {
+              setState(() {
+                isValid = false;
+              });
+            }
+          },
           key: BookingDetailsView.fbKey,
           child: SummaryContainerListener(
             scrollController: scrollController,
@@ -122,9 +138,11 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                 children: [
                   const BookingSummary(),
                   ElevatedButton(
-                    onPressed: () => onBooking(context),
+                    onPressed: isValid ? () =>  onBooking(context) : null,
                     child: const Text("Continue"),
                   ),
+
+
                   kVerticalSpacer,
                 ],
               ),

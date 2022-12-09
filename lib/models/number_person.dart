@@ -17,6 +17,8 @@ class NumberPerson extends Equatable {
 
   static const empty = NumberPerson(persons: []);
 
+  static const adult = NumberPerson(persons: [Person.adult]);
+
   List<Seats?> selectedSeats(bool isDeparture) {
     if (isDeparture) {
       return persons.map((e) => e.departureSeats).toList()
@@ -158,6 +160,11 @@ class Person extends Equatable {
     this.numberOrder,
     this.passenger,
   });
+
+  static const adult = Person(
+    peopleType: PeopleType.adult,
+    numberOrder: 1,
+  );
 
   @override
   // TODO: implement props
@@ -306,8 +313,7 @@ class Person extends Equatable {
     num totalPrice = 0;
     if (isDeparture) {
       for (var element in departureMeal) {
-        totalPrice =
-            totalPrice + element.finalAmount;
+        totalPrice = totalPrice + element.finalAmount;
       }
     } else {
       for (var element in returnMeal) {
@@ -385,8 +391,8 @@ class Person extends Equatable {
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
 
-  DateTime dateLimitEnd() {
-    final now = DateTime.now();
+  DateTime dateLimitEnd(DateTime? departDate) {
+    final now = departDate ?? DateTime.now();
     switch (peopleType) {
       case PeopleType.adult:
         return DateTime(now.year - 12, now.month, now.day);
@@ -399,8 +405,8 @@ class Person extends Equatable {
     }
   }
 
-  DateTime dateLimitStart() {
-    final now = DateTime.now();
+  DateTime dateLimitStart(DateTime? departDate) {
+    final now = departDate ?? DateTime.now();
     switch (peopleType) {
       case PeopleType.adult:
         return DateTime(now.year - 210, now.month, now.day);
@@ -426,10 +432,4 @@ enum PeopleType {
 
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
-List<String> availableRelations = [
-  "Father",
-  "Mother",
-  "Sibling",
-  "Friends",
-  "Other"
-];
+List<String> availableRelations = ["Family", "Friends", "Spouse", "Guardian"];

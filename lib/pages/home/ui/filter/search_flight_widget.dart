@@ -41,7 +41,7 @@ class SearchFlightWidget extends StatelessWidget {
 }
 
 enum FlightType {
-  round('Round', true),
+  round('Round Trip', true),
   oneWay('One Way', false);
 
   const FlightType(this.message, this.value);
