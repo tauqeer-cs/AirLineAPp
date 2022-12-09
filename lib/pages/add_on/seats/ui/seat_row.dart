@@ -65,7 +65,6 @@ class _SeatRowState extends State<SeatRow> {
           var responseCheck = context
               .read<SearchFlightCubit>()
               .addSeatToPerson(selectedPerson, widget.seats, isDeparture);
-
           if (responseCheck) {
             var nextPerson = persons?.persons.indexOf(selectedPerson!);
             if ((nextPerson! + 1) < persons!.persons.length) {
@@ -80,7 +79,7 @@ class _SeatRowState extends State<SeatRow> {
               }
               await Future.delayed(const Duration(seconds: 1));
 
-              if(!mounted) return;
+              if (!mounted) return;
               context
                   .read<SelectedPersonCubit>()
                   .selectPerson(persons.persons[nextPerson + 1]);
@@ -92,7 +91,6 @@ class _SeatRowState extends State<SeatRow> {
               await Future.delayed(const Duration(milliseconds: 500));
               widget.moveToBottom?.call();
             }
-
           }
         },
         child: SizedBox(
@@ -105,7 +103,8 @@ class _SeatRowState extends State<SeatRow> {
                       ? Colors.grey
                       : (widget.seats.isSeatAvailable ?? false) &&
                               !isBlockChild(focusedPerson, persons)
-                          ? (mapColor ?? {})[widget.seats.serviceId]
+                          ? (mapColor ?? {})[widget.seats.serviceId] ??
+                              Colors.purpleAccent
                           : Colors.grey,
               borderRadius: BorderRadius.circular(8),
             ),

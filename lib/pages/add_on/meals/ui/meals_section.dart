@@ -43,7 +43,10 @@ class MealsSection extends StatelessWidget {
         children: [
           Text(
             "Meals",
-            style: kHugeSemiBold.copyWith(color: Styles.kOrangeColor),
+            style: kGiantHeavy.copyWith(
+              color: Styles.kOrangeColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           kVerticalSpacer,
           PassengerSelector(

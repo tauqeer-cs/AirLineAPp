@@ -73,10 +73,12 @@ class AdditionInfoView extends StatelessWidget {
                 ),
                 kVerticalSpacer,
                 AppInputText(
+                  readOnly: true,
                   isRequired: false,
                   textInputType: TextInputType.emailAddress,
                   name: formNameEmail,
                   initialValue: emailSelected,
+
                   hintText: 'Email',
                   validators: [
                     FormBuilderValidators.required(),
@@ -86,7 +88,7 @@ class AdditionInfoView extends StatelessWidget {
                 kVerticalSpacer,
                 FormBuilderDateTimePicker(
                   name: formNameDob,
-                  firstDate: DateTime(0001),
+                  firstDate: DateTime(1920),
                   lastDate: DateTime.now(),
                   initialValue: dobSelected,
                   format: DateFormat("dd MMM yyyy"),

@@ -44,17 +44,18 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static bool isUnderage(DateTime date) =>
+  static bool isUnderage(DateTime date, DateTime flightDate) =>
       (DateTime(DateTime.now().year, date.month, date.day)
-          .isAfter(DateTime.now())
+              .isAfter(DateTime.now())
           ? DateTime.now().year - date.year - 1
-          : DateTime.now().year - date.year) < 18;
+          : DateTime.now().year - date.year) <
+      18;
 
-  static bool isUnder16(DateTime date) =>
-      (DateTime(DateTime.now().year, date.month, date.day)
-          .isAfter(DateTime.now())
-          ? DateTime.now().year - date.year - 1
-          : DateTime.now().year - date.year) < 16;
+  static bool isUnder16(DateTime date, DateTime flightDate) =>
+      (DateTime(flightDate.year, date.month, date.day).isAfter(flightDate)
+          ? flightDate.year - date.year - 1
+          : flightDate.year - date.year) <
+      16;
 
   static bool sameMonth(DateTime? date1, DateTime? date2) =>
       date1?.year == date2?.year && date1?.month == date2?.month;

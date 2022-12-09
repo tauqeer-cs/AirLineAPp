@@ -6,6 +6,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,17 +69,20 @@ class HomeDealGrid extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  e.title ?? "",
-                                  style: kLargeSemiBold.copyWith(
-                                    color: Colors.white,
-                                    shadows: [
-                                      const Shadow(
-                                        offset: Offset(0.0, 2.0),
-                                        blurRadius: 4.0,
-                                        color: Color.fromRGBO(0, 0, 0, 0.5),
-                                      ),
-                                    ],
+                                Flexible(
+                                  child: AutoSizeText(
+                                    e.title ?? "",
+                                    style: kLargeSemiBold.copyWith(
+                                      color: Colors.white,
+                                      shadows: [
+                                        const Shadow(
+                                          offset: Offset(0.0, 2.0),
+                                          blurRadius: 4.0,
+                                          color: Color.fromRGBO(0, 0, 0, 0.5),
+                                        ),
+                                      ],
+                                    ),
+                                    maxLines: 1,
                                   ),
                                 ),
                                 kVerticalSpacerSmall,
@@ -113,15 +117,19 @@ class HomeDealGrid extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    AutoSizeText(
                                       "Start from",
                                       style: kSmallMedium.copyWith(
-                                          color: Colors.black),
+                                        color: Colors.black,
+                                      ),
+                                      maxLines: 1,
                                     ),
-                                    Text(
+                                    AutoSizeText(
                                       "RM ${e.price}",
                                       style: kMediumMedium.copyWith(
                                           color: Colors.black),
+                                      maxLines: 1,
+
                                     ),
                                   ],
                                 ),

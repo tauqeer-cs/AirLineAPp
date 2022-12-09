@@ -25,7 +25,7 @@ class SeatsSection extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: Text(
               "Seats",
-              style: kHugeSemiBold.copyWith(
+              style: kGiantHeavy.copyWith(
                 color: Styles.kOrangeColor,
                 fontWeight: FontWeight.bold,
               ),

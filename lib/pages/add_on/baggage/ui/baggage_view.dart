@@ -27,6 +27,7 @@ class _BaggageViewState extends State<BaggageView>
     with TickerProviderStateMixin {
   final scrollController = ScrollController();
   bool isScrollable = false;
+  final bool autoScrollToBottom = false;
 
   @override
   void dispose() {
@@ -71,12 +72,15 @@ class _BaggageViewState extends State<BaggageView>
                     }
                   },
                   moveToBottom: () {
-                    if (scrollController.hasClients) {
-                      scrollController.animateTo(
-                          scrollController.position.maxScrollExtent,
-                          duration: const Duration(seconds: 3),
-                          curve: Curves.linear);
+                    if(autoScrollToBottom) {
+                      if (scrollController.hasClients) {
+                        scrollController.animateTo(
+                            scrollController.position.maxScrollExtent,
+                            duration: const Duration(seconds: 3),
+                            curve: Curves.linear);
+                      }
                     }
+
                   },
                 ),
                 kVerticalSpacer,

@@ -11,7 +11,9 @@ class AppBookingStep extends StatefulWidget {
 
   final Function(int index) onTopStepTaped;
 
-  const AppBookingStep({Key? key, required this.passedSteps, required this.onTopStepTaped}) : super(key: key);
+  const AppBookingStep(
+      {Key? key, required this.passedSteps, required this.onTopStepTaped})
+      : super(key: key);
 
   @override
   State<AppBookingStep> createState() => _AppBookingStepState();
@@ -37,7 +39,7 @@ class _AppBookingStepState extends State<AppBookingStep> {
     final remaining = context.watch<TimerBloc>().state.durationRemaining;
     return Visibility(
       visible: RemoteConfigRepository.showTimer,
-      replacement:  SizedBox(
+      replacement: SizedBox(
         height: 60,
         child: ListView.separated(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -51,8 +53,7 @@ class _AppBookingStepState extends State<AppBookingStep> {
               width: 20,
               margin: const EdgeInsets.symmetric(horizontal: 5),
               child: AppDividerWidget(
-                color:
-                selected ? Styles.kPrimaryColor : Styles.kInactiveColor,
+                color: selected ? Styles.kPrimaryColor : Styles.kInactiveColor,
               ),
             );
           },
@@ -61,16 +62,18 @@ class _AppBookingStepState extends State<AppBookingStep> {
             final selected = widget.passedSteps.contains(step);
             return Center(
               child: GestureDetector(
-                onTap: (){
-
+                onTap: () {
                   widget.onTopStepTaped(index);
-
                 },
                 child: Text(
                   step.message,
-                  style: kMediumMedium.copyWith(
-                    color: selected ? Styles.kTextColor : Styles.kInactiveColor,
-                  ),
+                  style: selected
+                      ? kMediumHeavy.copyWith(fontWeight: FontWeight.w900)
+                      : kMediumMedium.copyWith(
+                          color: selected
+                              ? Styles.kTextColor
+                              : Styles.kInactiveColor,
+                        ),
                 ),
               ),
             );
@@ -96,8 +99,9 @@ class _AppBookingStepState extends State<AppBookingStep> {
                     width: 20,
                     margin: const EdgeInsets.symmetric(horizontal: 5),
                     child: AppDividerWidget(
-                      color:
-                          selected ? Styles.kPrimaryColor : Styles.kInactiveColor,
+                      color: selected
+                          ? Styles.kPrimaryColor
+                          : Styles.kInactiveColor,
                     ),
                   );
                 },
@@ -106,13 +110,15 @@ class _AppBookingStepState extends State<AppBookingStep> {
                   final selected = widget.passedSteps.contains(step);
                   return Center(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         widget.onTopStepTaped(index);
                       },
                       child: Text(
                         step.message,
                         style: kMediumMedium.copyWith(
-                          color: selected ? Styles.kTextColor : Styles.kInactiveColor,
+                          color: selected
+                              ? Styles.kTextColor
+                              : Styles.kInactiveColor,
                         ),
                       ),
                     ),
