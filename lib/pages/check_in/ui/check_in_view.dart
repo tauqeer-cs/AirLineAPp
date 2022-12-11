@@ -81,8 +81,8 @@ class CheckInView extends StatelessWidget {
       final lastName = value["lastNameCheckIn"];
       final url =
           "${AppFlavor.thirdPartyUrl}/en/checkin?confirmationNumber=$code&bookingLastName=$lastName";
-      context.router.push(InAppWebViewRoute(url: url));
-      //SecurityUtils.tryLaunch(url);
+      //context.router.push(InAppWebViewRoute(url: url));
+      SecurityUtils.tryLaunch(url);
     }
   }
 }
