@@ -17,16 +17,18 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
-      crossPlatform: InAppWebViewOptions(
-        useShouldOverrideUrlLoading: true,
-        mediaPlaybackRequiresUserGesture: false,
-      ),
-      android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-      ),
-      ios: IOSInAppWebViewOptions(
-        allowsInlineMediaPlayback: true,
-      ));
+    crossPlatform: InAppWebViewOptions(
+      useShouldOverrideUrlLoading: true,
+      mediaPlaybackRequiresUserGesture: false,
+      useOnDownloadStart: true
+    ),
+    android: AndroidInAppWebViewOptions(
+      useHybridComposition: true,
+    ),
+    ios: IOSInAppWebViewOptions(
+      allowsInlineMediaPlayback: true,
+    ),
+  );
 
   late PullToRefreshController pullToRefreshController;
   String url = "";
@@ -63,9 +65,9 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
             child: Stack(
               children: [
                 InAppWebView(
+                  onDownloadStartRequest: (controller, request) {},
                   key: webViewKey,
-                  initialUrlRequest:
-                      URLRequest(url: Uri.parse(widget.url)),
+                  initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
                   initialOptions: options,
                   pullToRefreshController: pullToRefreshController,
                   onWebViewCreated: (controller) {
@@ -84,8 +86,8 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
                   },
                   shouldOverrideUrlLoading:
                       (controller, navigationAction) async {
-                        return null;
-                      },
+                    return null;
+                  },
                   onLoadStop: (controller, url) async {
                     pullToRefreshController.endRefreshing();
                     setState(() {
@@ -108,10 +110,13 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
                       this.url = url.toString();
                     });
                   },
-                  onConsoleMessage: (controller, consoleMessage) {
-                  },
-                  onReceivedHttpAuthRequest: (InAppWebViewController controller, URLAuthenticationChallenge challenge) async {
-                    return HttpAuthResponse(username: "myairline", password: "BwH.gCrBhbh3xggH443pJdH", action: HttpAuthResponseAction.PROCEED);
+                  onConsoleMessage: (controller, consoleMessage) {},
+                  onReceivedHttpAuthRequest: (InAppWebViewController controller,
+                      URLAuthenticationChallenge challenge) async {
+                    return HttpAuthResponse(
+                        username: "myairline",
+                        password: "BwH.gCrBhbh3xggH443pJdH",
+                        action: HttpAuthResponseAction.PROCEED);
                   },
                 ),
                 progress < 1.0
