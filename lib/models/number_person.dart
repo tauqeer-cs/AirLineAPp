@@ -432,4 +432,4 @@ enum PeopleType {
 
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
-List<String> availableRelations = ["Family", "Friends", "Spouse", "Guardian"];
+List<String> availableRelations = ["Family", "Friends", "Spouse", "Guardian", "Others"];
