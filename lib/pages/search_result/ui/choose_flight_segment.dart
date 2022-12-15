@@ -58,7 +58,6 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
             Transform.translate(
               offset: const Offset(-16, 0),
               child: Container(
-                width: 155.w,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Styles.kDividerColor,

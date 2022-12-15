@@ -109,7 +109,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return;
+    return null;
   }
 
   @override
@@ -131,7 +131,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return;
+    return null;
   }
 
   @override
@@ -153,7 +153,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return;
+    return null;
   }
 
   @override
@@ -175,7 +175,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return;
+    return null;
   }
 
   @override
@@ -197,7 +197,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return;
+    return null;
   }
 
   @override
@@ -219,7 +219,7 @@ class _AuthProvider implements AuthProvider {
           data: _data,
         )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    return;
+    return null;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

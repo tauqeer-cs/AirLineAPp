@@ -1,5 +1,6 @@
 
 import 'package:app/blocs/local_user/local_user_bloc.dart';
+import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
@@ -50,41 +51,44 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
         kVerticalSpacer,
         const AppDividerFadeWidget(),
         kVerticalSpacer,
-        /*InkWell(
-          onTap: () {
-            setState(() {
-              isExpand = !isExpand;
-            });
-          },
-          child: Row(
-            children: [
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text:
-                        "Company Tax Invoice ",
-                        style: k18Heavy.copyWith(color: Styles.kTextColor),
-                      ),
-                      TextSpan(
-                        text: "(Optional)",
-                        style: kMediumRegular.copyWith(color: Styles.kTextColor),
-                      ),
-                    ],
+        Visibility(
+          visible: RemoteConfigRepository.showCompanyInvoiceForm,
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                isExpand = !isExpand;
+              });
+            },
+            child: Row(
+              children: [
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                          "Company Tax Invoice ",
+                          style: k18Heavy.copyWith(color: Styles.kTextColor),
+                        ),
+                        TextSpan(
+                          text: "(Optional)",
+                          style: kMediumRegular.copyWith(color: Styles.kTextColor),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
                 ),
-              ),
-              Icon(
-                isExpand
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-              ),
-            ],
+                Icon(
+                  isExpand
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                ),
+              ],
+            ),
           ),
         ),
-        kVerticalSpacer,*/
+        kVerticalSpacer,
         ExpandedSection(
           expand: isExpand,
           child: GreyCard(

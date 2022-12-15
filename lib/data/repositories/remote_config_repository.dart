@@ -8,6 +8,8 @@ class RemoteConfigRepository {
   static String? title;
   static String? subtitle;
   static bool showTimer = false;
+  static bool fetchPriceRange = false;
+  static bool showCompanyInvoiceForm = false;
 
   static init() async {
     _remoteConfig = FirebaseRemoteConfig.instance;
@@ -27,5 +29,8 @@ class RemoteConfigRepository {
     title =  _remoteConfig?.getString("updateTitle") ?? "New Update Available";
     subtitle =  _remoteConfig?.getString("updateDescription") ?? "";
     showTimer = _remoteConfig?.getBool("showTimer") ?? false;
+    showCompanyInvoiceForm = _remoteConfig?.getBool("showCompanyInvoiceForm") ?? false;
+    fetchPriceRange = _remoteConfig?.getBool("priceRange") ?? false;
+
   }
 }

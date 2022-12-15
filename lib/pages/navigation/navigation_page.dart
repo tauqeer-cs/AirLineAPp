@@ -26,7 +26,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   initDialogSystem() async{
     try{
-      await RemoteConfigRepository.versionChecking();
+      //await RemoteConfigRepository.versionChecking();
       if(mounted) {
         WidgetUtils.appUpdateDialog(context);
       }

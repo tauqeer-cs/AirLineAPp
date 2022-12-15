@@ -101,6 +101,33 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
+  bool addSportEquipmentToPerson(Person? person, Bundle? bundle, bool isDeparture){
+    try {
+      final persons =
+      List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+      final selected = persons.indexWhere((element) => element == person);
+      if (selected >= 0) {
+        final person = persons[selected];
+        final newPerson = isDeparture
+            ? person.copyWith(departureSports: () => bundle)
+            : person.copyWith(returnSports: () => bundle);
+        persons.removeAt(selected);
+        persons.insert(selected, newPerson);
+        final newNumberPerson = NumberPerson(persons: persons);
+        final filterState =
+        state.filterState?.copyWith(numberPerson: newNumberPerson);
+        emit(
+          state.copyWith(
+              filterState: filterState,
+              message: "${DateTime.now().millisecondsSinceEpoch}"),
+        );
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+
+  }
   bool addBaggageToPerson(Person? person, Bundle? baggage, bool isDeparture) {
     try {
       final persons =
