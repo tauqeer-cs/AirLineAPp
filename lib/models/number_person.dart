@@ -188,10 +188,6 @@ class Person extends Equatable {
     numberOrder: 1,
   );
 
-  static const adult = Person(
-    peopleType: PeopleType.adult,
-    numberOrder: 1,
-  );
 
   @override
   // TODO: implement props
