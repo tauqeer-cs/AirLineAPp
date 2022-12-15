@@ -98,7 +98,6 @@ class NumberPerson extends Equatable {
   num getTotalBaggagePartial(bool isDeparture) {
     num total = 0;
     for (var element in persons) {
-      //here
       total = total + element.getPartialPriceBaggage(isDeparture);
     }
     return total;
@@ -189,6 +188,11 @@ class Person extends Equatable {
     numberOrder: 1,
   );
 
+  static const adult = Person(
+    peopleType: PeopleType.adult,
+    numberOrder: 1,
+  );
+
   @override
   // TODO: implement props
   List<Object?> get props => [peopleType, numberOrder];
@@ -234,14 +238,9 @@ class Person extends Equatable {
     if (departureBundle?.toBound() != null) {
       outboundSSR.add(departureBundle!.toBound());
     }
-
-
-
-
     if (returnBundle?.toBound() != null) {
       inboundSSR.add(returnBundle!.toBound());
     }
-
 
     //meal
     final departureMeal = groupedMeal(true);
@@ -270,8 +269,6 @@ class Person extends Equatable {
       inboundSSR.add(inboundMeal);
     });
     //baggage
-    //here
-
     if (departureBaggage?.toBound() != null) {
       outboundSSR.add(departureBaggage!.toBound());
     }
@@ -367,8 +364,6 @@ class Person extends Equatable {
 
   num getTotalPriceBaggage() {
     num totalPrice = 0;
-    //here
-
     totalPrice = getPartialPriceBaggage(false) + getPartialPriceBaggage(true);
     return totalPrice;
   }
