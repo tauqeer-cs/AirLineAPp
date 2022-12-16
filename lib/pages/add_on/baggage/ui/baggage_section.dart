@@ -49,7 +49,7 @@ class BaggageSection extends StatelessWidget {
           kVerticalSpacer,
           buildBaggageCards(baggages, isDeparture),
           kVerticalSpacer,
-          const BaggageNotice(),
+           BaggageNotice(),
           kVerticalSpacer,
         ],
       ),

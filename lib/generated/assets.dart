@@ -11,7 +11,9 @@ class Assets {
   static const String designIcoCheckin = 'assets/images/design/icoCheckin.png';
   static const String designIcoLuggage = 'assets/images/design/icoLuggage.png';
   static const String designIcoMybooking = 'assets/images/design/icoMybooking.png';
+  static const String designIcoSport2 = 'assets/images/design/icoSport2.png';
   static const String designIcoSports = 'assets/images/design/icoSports.png';
+  static const String designIcoSports2 = 'assets/images/design/icoSports2.png';
   static const String designPackage = 'assets/images/design/package.png';
   static const String designPlane = 'assets/images/design/plane.png';
   static const String designSignupBg = 'assets/images/design/signup_bg.png';

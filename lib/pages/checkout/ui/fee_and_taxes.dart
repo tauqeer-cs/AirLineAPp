@@ -116,6 +116,17 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             isDeparture: widget.isDeparture,
           ),
         ),
+
+        Visibility(
+          visible: (filter?.numberPerson
+              .getTotalSportsPartial(widget.isDeparture) ??
+              0) >
+              0,
+          child: BaggageFee(
+            isDeparture: widget.isDeparture,
+            isSports: true,
+          ),
+        ),
         kVerticalSpacerBig,
       ],
     );
