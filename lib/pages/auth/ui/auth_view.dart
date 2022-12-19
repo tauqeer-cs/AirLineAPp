@@ -48,29 +48,38 @@ class AuthView extends StatelessWidget {
                 ),
               ),
               kVerticalSpacer,
-              Row(
-                children: [
-                  Expanded(child: AppDividerWidget(color: Colors.white)),
-                  kHorizontalSpacer,
-                  Text("Or continue with", style: kMediumSemiBold.copyWith(color: Colors.white),),
-                  kHorizontalSpacer,
-                  Expanded(child: AppDividerWidget(color: Colors.white)),
-                ],
-              ),
-              kVerticalSpacer,
-              Visibility(
-                visible: Platform.isIOS,
-                child: SignInButton(
-                  Buttons.Apple,
-                  onPressed: () => context.read<LoginCubit>().loginWithApple(),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                ),
-              ),
-              SignInButton(
-                Buttons.Google,
-                onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-              ),
+              // Row(
+              //   children: [
+              //     Expanded(child: AppDividerWidget(color: Colors.white)),
+              //     kHorizontalSpacer,
+              //     Text("Or continue with", style: kMediumSemiBold.copyWith(color: Colors.white),),
+              //     kHorizontalSpacer,
+              //     Expanded(child: AppDividerWidget(color: Colors.white)),
+              //   ],
+              // ),
+              // kVerticalSpacer,
+              // Visibility(
+              //   visible: Platform.isIOS,
+              //   child: SizedBox(
+              //     width: double.infinity,
+              //     height: 45,
+              //     child: SignInButton(
+              //       Buttons.Apple,
+              //       onPressed: () => context.read<LoginCubit>().loginWithApple(),
+              //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              //     ),
+              //   ),
+              // ),
+              // kVerticalSpacerSmall,
+              // SizedBox(
+              //   width: double.infinity,
+              //   height: 45,
+              //   child: SignInButton(
+              //     Buttons.GoogleDark,
+              //     onPressed: () => context.read<LoginCubit>().logInWithGoogle(),
+              //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+              //   ),
+              // ),
               kVerticalSpacerHuge,
               kVerticalSpacerHuge,
               const VersionWidget(textColor: Colors.white,),
