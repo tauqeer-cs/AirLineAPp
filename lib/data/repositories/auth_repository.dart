@@ -94,7 +94,9 @@ class AuthenticationRepository {
   ///
   /// Throws a [LogInWithGoogleFailure] if an exception occurs.
   Future<void> logInWithGoogle() async {
-    final googleAppUser = await _googleSignIn.signIn();
+    final googleAppUser = await _googleSignIn.signIn(
+
+    );
     if(googleAppUser==null) return;
     final googleAuth = await googleAppUser.authentication;
     final requests = OauthRequest(
@@ -178,12 +180,19 @@ class AuthenticationRepository {
   }
 
   void logout() async {
-    if(Platform.isAndroid){
-      final isLogin = await _googleSignIn.isSignedIn();
-      if(isLogin) await _googleSignIn.signOut();
-    }
+    disconnectGoogleAccount();
     deleteAccessToken();
     deleteCurrentUser();
+  }
+
+  Future<void> disconnectGoogleAccount() async {
+    if(Platform.isAndroid){
+      final isLogin = await _googleSignIn.isSignedIn();
+      if(isLogin){
+        await _googleSignIn.disconnect();
+        await _googleSignIn.signOut();
+      }
+    }
   }
 
   void dispose() => _controller.close();
