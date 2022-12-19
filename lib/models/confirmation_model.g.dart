@@ -63,6 +63,10 @@ Value _$ValueFromJson(Map<String, dynamic> json) => Value(
           ? null
           : BaggageDetail.fromJson(
               json['baggageDetail'] as Map<String, dynamic>),
+      sportEquipmentDetail: json['sportEquipmentDetail'] == null
+          ? null
+          : SportsEquipmentDetail.fromJson(
+              json['sportEquipmentDetail'] as Map<String, dynamic>),
       flightSegments: (json['flightSegments'] as List<dynamic>?)
           ?.map((e) => FlightSegment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -91,6 +95,7 @@ Map<String, dynamic> _$ValueToJson(Value instance) {
   writeNotNull('mealDetail', instance.mealDetail);
   writeNotNull('bookingContact', instance.bookingContact);
   writeNotNull('baggageDetail', instance.baggageDetail);
+  writeNotNull('sportEquipmentDetail', instance.sportEquipmentDetail);
   writeNotNull('flightSegments', instance.flightSegments);
   return val;
 }
@@ -198,6 +203,7 @@ Baggage _$BaggageFromJson(Map<String, dynamic> json) => Baggage(
       currency: json['currency'] as String?,
       departReturn: json['departReturn'] as String?,
       seatPosition: json['seatPosition'] as String?,
+      sportEquipmentName: json['sportEquipmentName'] as String?,
     );
 
 Map<String, dynamic> _$BaggageToJson(Baggage instance) {
@@ -218,6 +224,7 @@ Map<String, dynamic> _$BaggageToJson(Baggage instance) {
   writeNotNull('currency', instance.currency);
   writeNotNull('departReturn', instance.departReturn);
   writeNotNull('seatPosition', instance.seatPosition);
+  writeNotNull('sportEquipmentName', instance.sportEquipmentName);
   return val;
 }
 
@@ -920,5 +927,29 @@ Map<String, dynamic> _$SuperPNROrderToJson(SuperPNROrder instance) {
   writeNotNull('modifiedById', instance.modifiedById);
   writeNotNull('modifiedDate', instance.modifiedDate?.toIso8601String());
   writeNotNull('modifiedDateUTC', instance.modifiedDateUTC?.toIso8601String());
+  return val;
+}
+
+SportsEquipmentDetail _$SportsEquipmentDetailFromJson(
+        Map<String, dynamic> json) =>
+    SportsEquipmentDetail(
+      totalAmount: json['totalAmount'] as num?,
+      sportEquipments: (json['sportEquipments'] as List<dynamic>?)
+          ?.map((e) => Baggage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$SportsEquipmentDetailToJson(
+    SportsEquipmentDetail instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('totalAmount', instance.totalAmount);
+  writeNotNull('sportEquipments', instance.sportEquipments);
   return val;
 }
