@@ -4,8 +4,14 @@ import 'package:app/widgets/app_money_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../models/confirmation_model.dart';
+
 class ConfirmationBaggage extends StatelessWidget {
-  const ConfirmationBaggage({Key? key}) : super(key: key);
+
+  final bool boolIsSports;
+
+   ConfirmationBaggage({Key? key,this.boolIsSports = false}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,33 +21,61 @@ class ConfirmationBaggage extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.baggageDetail;
+
+    SportsEquipmentDetail ? sportsEquipmentDetail;
+
+    if(boolIsSports) {
+      sportsEquipmentDetail = context
+          .watch<ConfirmationCubit>()
+          .state
+          .confirmationModel
+          ?.value
+          ?.sportEquipmentDetail;
+
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            const Text(
-              "Baggage",
+             Text(
+               boolIsSports ? 'Sport Equipment' : "Baggage",
               style: kHugeSemiBold,
             ),
             const Spacer(),
             MoneyWidget(
-              amount: baggage?.totalAmount,
+              amount: boolIsSports ? sportsEquipmentDetail?.totalAmount : baggage?.totalAmount,
               isDense: true,
             ),
           ],
         ),
-        kVerticalSpacerSmall,
-        ...(baggage?.baggages ?? [])
-            .map((e) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("${e.title} ${e.givenName} ${e.surName}"),
-                    Text("${e.baggageName}"),
-                    kVerticalSpacerSmall,
-                  ],
-                ))
-            .toList(),
+        if(this.boolIsSports) ... [
+          kVerticalSpacerSmall,
+          ...(sportsEquipmentDetail?.sportEquipments ?? [])
+              .map((e) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${e.title} ${e.givenName} ${e.surName}"),
+              Text("${e.sportEquipmentName}"),
+              kVerticalSpacerSmall,
+            ],
+          ))
+              .toList(),
+
+        ] else  ... [
+          kVerticalSpacerSmall,
+          ...(baggage?.baggages ?? [])
+              .map((e) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${e.title} ${e.givenName} ${e.surName}"),
+              Text("${e.baggageName}"),
+              kVerticalSpacerSmall,
+            ],
+          ))
+              .toList(),
+
+        ],
         kVerticalSpacerSmall,
       ],
     );
