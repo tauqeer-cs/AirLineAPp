@@ -104,8 +104,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     if (currentPath == "/payment" &&
         superPnr != null &&
         currentContext != null) {
-      FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
       if (durationRemaining == 0) {
+        FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
         showDialog(
           context: currentContext,
           barrierDismissible: false,
