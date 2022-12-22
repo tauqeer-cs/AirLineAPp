@@ -13,17 +13,19 @@ const formEmail = "email_reset";
 class EnterEmailForm extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
 
-  const EnterEmailForm({Key? key}) : super(key: key);
+   EnterEmailForm({Key? key}) : super(key: key);
 
   onRequest(BuildContext context) {
-    //context.router.replace(CompleteSignupRoute(signupRequest: SignupRequest()));
-    //return;
+
+
     if (_fbKey.currentState!.saveAndValidate()) {
       final value = _fbKey.currentState!.value;
       final email = value[formEmail];
       context.read<ForgetPasswordCubit>().sendEmailRequest(email);
     }
   }
+
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class EnterEmailForm extends StatelessWidget {
                 ),
                 kVerticalSpacer,
                 AppInputText(
+                  textEditingController: _controller,
                   name: formEmail,
                   hintText: "Email",
                   validators: [
@@ -61,6 +64,13 @@ class EnterEmailForm extends StatelessWidget {
 
                 ElevatedButton(
                     onPressed: () {
+
+                      if(_controller.text.isNotEmpty) {
+
+                        _controller.text = _controller.text.trim();
+                        _controller.selection = TextSelection.fromPosition(TextPosition(offset: _controller.text.length));
+
+                      }
                       onRequest(context);
                     },
                     child: const Text("Submit"))

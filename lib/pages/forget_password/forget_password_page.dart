@@ -61,7 +61,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   elevation: 0,
                   backgroundColor: Colors.transparent,
                 ),
-                body: showSuccessScreen ? const SuccessDialog() : const EnterEmailForm(),
+                body: showSuccessScreen ? const SuccessDialog() :  EnterEmailForm(),
               ),
             ),
           ),

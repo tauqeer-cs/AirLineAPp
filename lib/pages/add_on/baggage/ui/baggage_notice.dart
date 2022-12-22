@@ -108,7 +108,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               SecurityUtils.tryLaunch(
-                                  'https://uat.myairline.my/faq/1920');
+                                  'https://www.myairline.my/fares-fees');
                             },
                         ),
                       ],
