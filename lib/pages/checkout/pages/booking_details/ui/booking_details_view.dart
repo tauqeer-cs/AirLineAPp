@@ -58,22 +58,20 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
   final scrollController = ScrollController();
 
   var isValid = false;
-
+  SearchFlightState? currentState;
   @override
   Widget build(BuildContext context) {
+    currentState = context.watch<SearchFlightCubit>().state;
     return Stack(
       children: [
         FormBuilder(
           //autoFocusOnValidationFailure: true,
-          onChanged: (){
-
-            if(BookingDetailsView.fbKey.currentState!.validate()){
-
+          onChanged: () {
+            if (BookingDetailsView.fbKey.currentState!.validate()) {
               setState(() {
                 isValid = true;
               });
-            }
-            else {
+            } else {
               setState(() {
                 isValid = false;
               });
@@ -138,11 +136,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                 children: [
                   const BookingSummary(),
                   ElevatedButton(
-                    onPressed: isValid ? () =>  onBooking(context) : null,
+                    onPressed: isValid ? () => onBooking(context) : null,
                     child: const Text("Continue"),
                   ),
-
-
                   kVerticalSpacer,
                 ],
               ),
@@ -155,6 +151,65 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
 
   onBooking(BuildContext context) {
     if (BookingDetailsView.fbKey.currentState!.saveAndValidate()) {
+      var values = BookingDetailsView.fbKey.currentState!.value;
+
+      if (values != null) {
+
+        var contactName = makeLowerCaseName(values,formNameContactFirstName,formNameContactLastName);
+        var emergencyName = (values[formNameEmergencyFirstName].toString() +
+                values[formNameEmergencyLastName].toString())
+            .toLowerCase();
+        print('');
+        if (contactName == emergencyName) {
+          showSameNameError();
+
+          return;
+        }
+        else {
+
+
+          var emergencyName = (values[formNameEmergencyFirstName].toString() +
+              values[formNameEmergencyLastName].toString())
+              .toLowerCase();
+
+
+          int adults = currentState?.filterState?.numberPerson.numberOfAdult ?? 0;
+          int childs = currentState?.filterState?.numberPerson.numberOfChildren ?? 0;
+          int infant = currentState?.filterState?.numberPerson.numberOfInfant ?? 0;
+
+          for(int i = 0 ; i < adults ; i++) {
+            var keyName = 'Adult ${i+1}_first_name';
+            var keyLname = 'Adult ${i+1}_last_name';
+            var contactName = makeLowerCaseName(values,keyName,keyLname);
+            if (contactName == emergencyName) {
+              showSameNameError();
+              return;
+            }
+          }
+
+          for(int i = 0 ; i < childs ; i++) {
+            var keyName = 'Child ${i+1}_first_name';
+            var keyLname = 'Child ${i+1}_last_name';
+            var contactName = makeLowerCaseName(values,keyName,keyLname);
+            if (contactName == emergencyName) {
+              showSameNameError();
+              return;
+            }
+          }
+
+          for(int i = 0 ; i < infant ; i++) {
+            var keyName = 'Infant ${i+1}_first_name';
+            var keyLname = 'Infant ${i+1}_last_name';
+            var contactName = makeLowerCaseName(values,keyName,keyLname);
+            if (contactName == emergencyName) {
+              showSameNameError();
+              return;
+            }
+          }
+        }
+      }
+      print('');
+
       final bookingState = context.read<BookingCubit>().state;
       final state = context.read<SearchFlightCubit>().state;
       final verifyToken = bookingState.verifyResponse?.token;
@@ -251,9 +306,25 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       final savedPnr = pnrRequest.copyWith(
         comment: value[formNameContactLastName],
       );
-      LocalRepository()
-          .setPassengerInfo(savedPnr);
+      LocalRepository().setPassengerInfo(savedPnr);
       context.read<SummaryCubit>().submitSummary(summaryRequest);
     }
+  }
+
+  String makeLowerCaseName(Map<String, dynamic> values,String firstKey,String lastKey) {
+    return (values[firstKey].toString() +
+              values[lastKey].toString())
+          .toLowerCase();
+  }
+
+  void showSameNameError() {
+       BookingDetailsView.fbKey.currentState!.invalidateField(
+        name: formNameEmergencyFirstName,
+        errorText:
+            'Emergency contact name should be different from contact name');
+    BookingDetailsView.fbKey.currentState!.invalidateField(
+        name: formNameEmergencyLastName,
+        errorText:
+            'Emergency contact name should be different from contact name');
   }
 }
