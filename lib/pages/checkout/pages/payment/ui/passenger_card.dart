@@ -19,6 +19,8 @@ class PassengerCard extends StatelessWidget {
         .summaryRequest
         ?.flightSummaryPNRRequest
         .passengers;
+    final superPnr = context.watch<BookingCubit>().state.superPnrNo;
+
     int adult = 0;
     int infant = 0;
     int children = 0;
@@ -62,7 +64,10 @@ class PassengerCard extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${e.getType?.name.capitalize()} $number", style: kLargeHeavy,),
+                        Text(
+                          "${e.getType?.name.capitalize()} $number",
+                          style: kLargeHeavy,
+                        ),
                         kVerticalSpacerMini,
                         Text("${e.title} ${e.firstName} ${e.lastName}"),
                         kVerticalSpacerSmall,
@@ -73,7 +78,13 @@ class PassengerCard extends StatelessWidget {
               ],
             ),
           ),
-          TextButton(onPressed: () => context.router.pop(), child: const Text("Edit"))
+          Visibility(
+            visible: superPnr==null,
+            child: TextButton(
+              onPressed: () => context.router.pop(),
+              child: const Text("Edit"),
+            ),
+          )
         ],
       ),
     );
