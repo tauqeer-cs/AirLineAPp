@@ -306,7 +306,6 @@ class Person extends Equatable {
         getTotalPriceSeat() +
         getTotalPriceMeal() +
         getTotalPriceBaggage() +
-        getTotalPriceMeal() +
         getTotalPriceSports();
     return totalPrice;
   }
