@@ -6,8 +6,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:screenshot/screenshot.dart';
-
 import '../../../app/app_router.dart';
 import '../../../blocs/profile/profile_cubit.dart';
 
@@ -76,7 +74,9 @@ class ProfileView extends StatelessWidget {
                                         color: Styles.kPrimaryColor),
                                   ),
                                   TextSpan(
-                                    text: state.profile?.userProfile?.firstName ?? "",
+                                    text:
+                                        state.profile?.userProfile?.firstName ??
+                                            "",
                                     style: kGiantHeavy.copyWith(
                                         color: Styles.kPrimaryColor),
                                   ),
@@ -84,7 +84,6 @@ class ProfileView extends StatelessWidget {
                               ),
                               textAlign: TextAlign.left,
                             ),
-
                             Text(
                               "MYReward Membership #${state.profile?.userProfile?.memberID ?? ''}",
                               style: kMediumSemiBold,
@@ -116,7 +115,8 @@ class ProfileView extends StatelessWidget {
                               height: 24,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
@@ -130,63 +130,79 @@ class ProfileView extends StatelessWidget {
                               height: 24,
                             ),
                             Expanded(
-                              child: GridView(
-                                padding: kPagePadding,
-                                physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 20,
-                                  mainAxisSpacing: 20,
-                                  childAspectRatio: 3.7 / 2.462,
-                                ),
+                              child: Column(
                                 children: [
-                                  ProfileBoxButton(
-                                    text: 'Personal Info',
-                                    imageName: 'iconInfo',
-                                    onTap: () {
-                                      context.router
-                                          .push(const PersonalInfoRoute());
-                                    },
+                                  Expanded(
+                                    child: GridView(
+                                      padding: kPagePadding,
+                                      scrollDirection: Axis.vertical,
+                                      physics: const ScrollPhysics(),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 20,
+                                        mainAxisSpacing: 20,
+                                        childAspectRatio: 3.7 / 2.462,
+                                      ),
+                                      children: [
+                                        ProfileBoxButton(
+                                          text: 'Personal Info',
+                                          imageName: 'iconInfo',
+                                          onTap: () {
+                                            context.router.push(
+                                                const PersonalInfoRoute());
+                                          },
+                                        ),
+                                        ProfileBoxButton(
+                                          text: 'Account Settings',
+                                          imageName: 'iconSetting',
+                                          onTap: () {
+                                            context.router.push(
+                                                const AccountSettingRoute());
+                                          },
+                                        ),
+                                        ProfileBoxButton(
+                                          text: 'Communication\nPreferences',
+                                          imageName: 'iconPref',
+                                          onTap: () {
+                                            context.router.push(
+                                              const CommunicationSettingRoute(),
+                                            );
+                                          },
+                                        ),
+                                        ProfileBoxButton(
+                                          text: 'Family and Friends',
+                                          imageName: 'iconFamily',
+                                          onTap: () {
+                                            //Page
+
+                                            context.router.push(
+                                              const FriendsFamilyRoute(),
+                                            );
+
+                                          },
+                                        ),
+
+                                        /* ProfileBoxButton(
+                                        text: 'My Payment Cards',
+                                        imageName: 'iconPayment',
+                                        onTap: () {
+                                          print('Not required at this time');
+                                        },
+                                      ),
+                                      */
+                                      ],
+                                    ),
                                   ),
-                                  ProfileBoxButton(
-                                    text: 'Account Settings',
-                                    imageName: 'iconSetting',
-                                    onTap: () {
-                                      context.router
-                                          .push(const AccountSettingRoute());
-                                    },
+                                  kVerticalSpacer,
+                                  VersionWidget(
+                                    textColor: Styles.kSubTextColor,
                                   ),
-                                  ProfileBoxButton(
-                                    text: 'Communication\nPreferences',
-                                    imageName: 'iconPref',
-                                    onTap: () {
-                                      context.router.push(
-                                          const CommunicationSettingRoute());
-                                    },
-                                  ),
-                                  /* ProfileBoxButton(
-                                  text: 'My Payment Cards',
-                                  imageName: 'iconPayment',
-                                  onTap: () {
-                                    print('Not required at this time');
-                                  },
-                                ),
-                                ProfileBoxButton(
-                                  text: 'Family and Friends',
-                                  imageName: 'iconFamily',
-                                  onTap: () {
-                                    print('Not required at this time');
-                                  },
-                                ),*/
+                                  kVerticalSpacer,
                                 ],
                               ),
                             ),
-                            kVerticalSpacer,
-                            VersionWidget(
-                              textColor: Styles.kSubTextColor,
-                            ),
-                            kVerticalSpacer,
+
                             /*Row(
                             children: [
                               Expanded(

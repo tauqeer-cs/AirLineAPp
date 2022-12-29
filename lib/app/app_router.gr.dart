@@ -224,6 +224,12 @@ class _$AppRouter extends RootStackRouter {
         child: const DeleteAccountPage(),
       );
     },
+    FriendsFamilyRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const FriendsFamilyPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -436,6 +442,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           DeleteAccountRoute.name,
           path: '/delete-account',
+        ),
+        RouteConfig(
+          FriendsFamilyRoute.name,
+          path: '/friends-family',
         ),
       ];
 }
@@ -974,6 +984,18 @@ class DeleteAccountRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DeleteAccountRoute';
+}
+
+/// generated route for
+/// [FriendsFamilyPage]
+class FriendsFamilyRoute extends PageRouteInfo<void> {
+  const FriendsFamilyRoute()
+      : super(
+          FriendsFamilyRoute.name,
+          path: '/friends-family',
+        );
+
+  static const String name = 'FriendsFamilyRoute';
 }
 
 /// generated route for
