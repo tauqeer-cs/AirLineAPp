@@ -103,7 +103,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               kVerticalSpacerMini,
               AppInputText(
                 name: formNameEmergencyLastName,
-                hintText: "Last Name/Surname",
+                hintText: "Last Name / Surname",
                 validators: [FormBuilderValidators.required()],
                 initialValue: emergency?.lastName ?? lastName,
                 onChanged: (value) {

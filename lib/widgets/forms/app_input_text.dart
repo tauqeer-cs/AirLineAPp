@@ -20,6 +20,8 @@ class AppInputText extends StatelessWidget {
   final String? autofillHints;
   final TextEditingController? textEditingController;
   final List<TextInputFormatter>? inputFormatters;
+  final FocusNode? focusNode;
+  final Widget? suffix, prefix;
 
   const AppInputText({
     Key? key,
@@ -40,6 +42,9 @@ class AppInputText extends StatelessWidget {
     this.maxLines,
     this.autofillHints,
     this.textEditingController,
+    this.focusNode,
+    this.suffix,
+    this.prefix,
   }) : super(key: key);
 
   @override
@@ -47,6 +52,7 @@ class AppInputText extends StatelessWidget {
     return FormBuilderTextField(
       controller: textEditingController,
       name: name,
+      focusNode: focusNode,
       validator: FormBuilderValidators.compose(validators ?? []),
       obscureText: isObstructedText,
       minLines: minLines ?? 1,
@@ -56,12 +62,14 @@ class AppInputText extends StatelessWidget {
           isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
       decoration: InputDecoration(
         hintText: hintText ?? "",
-        border: isHidden? InputBorder.none : null,
-        errorBorder: isHidden? InputBorder.none : null,
-        enabledBorder: isHidden? InputBorder.none : null,
-        disabledBorder: isHidden? InputBorder.none : null,
-        focusedBorder: isHidden? InputBorder.none : null,
-        focusedErrorBorder: isHidden? InputBorder.none : null,
+        border: isHidden ? InputBorder.none : null,
+        errorBorder: isHidden ? InputBorder.none : null,
+        enabledBorder: isHidden ? InputBorder.none : null,
+        disabledBorder: isHidden ? InputBorder.none : null,
+        focusedBorder: isHidden ? InputBorder.none : null,
+        focusedErrorBorder: isHidden ? InputBorder.none : null,
+        prefix: prefix,
+        suffix: suffix,
       ),
       inputFormatters: inputFormatters,
       onChanged: onChanged,

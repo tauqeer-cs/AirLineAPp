@@ -80,7 +80,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 kVerticalSpacerMini,
                 AppInputText(
                   name: "${widget.person.toString()}$formNameLastName",
-                  hintText: "Last Name/Surname",
+                  hintText: "Last Name / Surname",
                   initialValue: passengerInfo?.lastName,
                   validators: [FormBuilderValidators.required()],
                 ),

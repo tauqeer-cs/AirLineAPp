@@ -3,6 +3,7 @@ import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/data/requests/update_password_request.dart';
+import 'package:app/data/responses/common_response.dart';
 import 'package:app/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -37,6 +38,10 @@ abstract class AuthProvider {
 
   @POST('user/user-validate-password-reset')
   Future<void> validateReset(
+      @Body() UpdatePasswordRequest updatePasswordRequest);
+
+  @POST('user/emailvalidation')
+  Future<CommonResponse> validateEmail(
       @Body() UpdatePasswordRequest updatePasswordRequest);
 
   @POST('user/user-reset-password')

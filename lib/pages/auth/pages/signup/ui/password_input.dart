@@ -68,6 +68,7 @@ class PasswordInput extends StatelessWidget {
                   },
                 ],
               ),
+              kVerticalSpacer,
             ],
           ),
         ),
