@@ -1,3 +1,4 @@
+import 'package:app/pages/friends_family/ui/friend_family_view.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,7 +69,7 @@ class FriendsFamilyPage extends StatelessWidget {
                   ),
                   body: Container(
                     color: Colors.white,
-                    child:  Container(),
+                    child:  const FriendsFamilyView(),
                   ),
                 ),
               );
