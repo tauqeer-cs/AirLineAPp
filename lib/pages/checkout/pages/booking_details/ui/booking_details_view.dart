@@ -321,10 +321,10 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
        BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyFirstName,
         errorText:
-            'Emergency contact name should be different from contact name');
+            'Emergency contact name should be different from contact name and passenger name.');
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyLastName,
         errorText:
-            'Emergency contact name should be different from contact name');
+        'Emergency contact name should be different from contact name and passenger name.');
   }
 }
