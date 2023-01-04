@@ -241,6 +241,8 @@ abstract class _$PassengerCWProxy {
 
   Passenger infantAssociateIndex(num? infantAssociateIndex);
 
+  Passenger insuranceSelected(bool? insuranceSelected);
+
   Passenger isPrimaryPassenger(bool? isPrimaryPassenger);
 
   Passenger knownTravelerNumber(String? knownTravelerNumber);
@@ -288,6 +290,7 @@ abstract class _$PassengerCWProxy {
     String? firstName,
     String? gender,
     num? infantAssociateIndex,
+    bool? insuranceSelected,
     bool? isPrimaryPassenger,
     String? knownTravelerNumber,
     String? lastName,
@@ -327,6 +330,10 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
   @override
   Passenger infantAssociateIndex(num? infantAssociateIndex) =>
       this(infantAssociateIndex: infantAssociateIndex);
+
+  @override
+  Passenger insuranceSelected(bool? insuranceSelected) =>
+      this(insuranceSelected: insuranceSelected);
 
   @override
   Passenger isPrimaryPassenger(bool? isPrimaryPassenger) =>
@@ -400,6 +407,7 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
     Object? firstName = const $CopyWithPlaceholder(),
     Object? gender = const $CopyWithPlaceholder(),
     Object? infantAssociateIndex = const $CopyWithPlaceholder(),
+    Object? insuranceSelected = const $CopyWithPlaceholder(),
     Object? isPrimaryPassenger = const $CopyWithPlaceholder(),
     Object? knownTravelerNumber = const $CopyWithPlaceholder(),
     Object? lastName = const $CopyWithPlaceholder(),
@@ -436,6 +444,10 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
           ? _value.infantAssociateIndex
           // ignore: cast_nullable_to_non_nullable
           : infantAssociateIndex as num?,
+      insuranceSelected: insuranceSelected == const $CopyWithPlaceholder()
+          ? _value.insuranceSelected
+          // ignore: cast_nullable_to_non_nullable
+          : insuranceSelected as bool?,
       isPrimaryPassenger: isPrimaryPassenger == const $CopyWithPlaceholder()
           ? _value.isPrimaryPassenger
           // ignore: cast_nullable_to_non_nullable
@@ -529,6 +541,7 @@ extension $PassengerCopyWith on Passenger {
     bool firstName = false,
     bool gender = false,
     bool infantAssociateIndex = false,
+    bool insuranceSelected = false,
     bool isPrimaryPassenger = false,
     bool knownTravelerNumber = false,
     bool lastName = false,
@@ -554,6 +567,8 @@ extension $PassengerCopyWith on Passenger {
       gender: gender == true ? null : this.gender,
       infantAssociateIndex:
           infantAssociateIndex == true ? null : this.infantAssociateIndex,
+      insuranceSelected:
+          insuranceSelected == true ? null : this.insuranceSelected,
       isPrimaryPassenger:
           isPrimaryPassenger == true ? null : this.isPrimaryPassenger,
       knownTravelerNumber:
@@ -926,6 +941,7 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       seat: json['Seat'] == null
           ? null
           : Seat.fromJson(json['Seat'] as Map<String, dynamic>),
+      insuranceSelected: json['insurance'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$PassengerToJson(Passenger instance) {
@@ -946,6 +962,7 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
   writeNotNull('InfantAssociateIndex', instance.infantAssociateIndex);
   writeNotNull('IsPrimaryPassenger', instance.isPrimaryPassenger);
   writeNotNull('WheelChairNeeded', instance.wheelChairNeeded);
+  writeNotNull('insurance', instance.insuranceSelected);
   writeNotNull('OKUIDNumber', instance.oKUIDNumber);
   writeNotNull('KnownTravelerNumber', instance.knownTravelerNumber);
   writeNotNull('Nationality', instance.nationality);

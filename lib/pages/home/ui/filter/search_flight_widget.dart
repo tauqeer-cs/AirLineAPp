@@ -5,6 +5,10 @@ import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/filter/trip_selection.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../widgets/forms/app_input_text.dart';
+import '../../bloc/filter_cubit.dart';
 
 
 class SearchFlightWidget extends StatelessWidget {
@@ -23,6 +27,13 @@ class SearchFlightWidget extends StatelessWidget {
         const PassengersWidget(),
         kVerticalSpacerSmall,
         const CalendarWidget(),
+        kVerticalSpacerSmall,
+
+         AppInputText(
+           name: "promoFlight",
+           onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
+          hintText: "Promo Code",
+         ),
         kVerticalSpacer,
         kVerticalSpacer,
         Padding(
@@ -30,11 +41,7 @@ class SearchFlightWidget extends StatelessWidget {
           child: SubmitSearch(isHomePage: isHome),
         ),
 
-        // AppInputText(
-        //   name: "promoFlight",
-        //   onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
-        //   hintText: "Promo Code",
-        // ),
+
       ],
     );
   }

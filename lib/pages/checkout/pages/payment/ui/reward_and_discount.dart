@@ -12,6 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../booking_details/bloc/summary_cubit.dart';
+
 class RewardAndDiscount extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
 
@@ -21,6 +23,12 @@ class RewardAndDiscount extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<VoucherCubit>().state;
     final bookingState = context.read<BookingCubit>().state;
+    bool showReward = context.read<SummaryCubit>().state.promoLoaded;
+    var promotionsList = context
+        .read<SummaryCubit>()
+        .state
+        .lmsRedemptionOption
+        ?.availableOptions;
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -33,6 +41,96 @@ class RewardAndDiscount extends StatelessWidget {
               "Rewards & Discount",
               style: kGiantSemiBold.copyWith(color: Styles.kPrimaryColor),
             ),
+
+            //
+            if (showReward && promotionsList != null) ...[
+              kVerticalSpacer,
+              Text(
+                "MYReward",
+                style: kGiantHeavy.copyWith(
+                  color: Styles.kOrangeColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              kVerticalSpacerSmall,
+              Text(
+                'Redeem your MYReward Points from options below!',
+                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+              ),
+              kVerticalSpacer,
+
+              for(var currenteItem in promotionsList) ... [
+                InkWell(
+                  onTap: () {},
+                  child: AppCard(
+                    customColor: Styles.klightBackgroundColor,
+                    edgeInsets: EdgeInsets.zero,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Text(
+                            currenteItem.redemptionName.toString(),
+                            style: kLargeHeavy,
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Text(
+
+                            '${currenteItem.redemptionPoint} points',
+                            style: kLargeHeavy,
+                          ),
+
+                          IgnorePointer(
+                            child: Radio<bool?>(
+                              activeColor: Styles.kBorderColor,
+                              value: false,
+                              groupValue: true,
+                              onChanged: (value) async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                kVerticalSpacerSmall,
+              ],
+
+              kVerticalSpacerSmall,
+
+
+              ElevatedButton(
+                onPressed: state.blocState == BlocState.loading ||
+                    bookingState.superPnrNo != null
+                    ? null
+                    : () {
+                  /*
+                  if (_fbKey.currentState!.saveAndValidate()) {
+                    final value = _fbKey.currentState!.value;
+                    final voucher = value["voucherCode"];
+                    final token = bookingState.verifyResponse?.token;
+                    final voucherRequest = VoucherRequest(
+                      insertVoucher: voucher,
+                      token: token,
+                    );
+                    context.read<VoucherCubit>().addVoucher(voucherRequest);
+                  }
+                  */
+
+
+                },
+                child: state.blocState == BlocState.loading
+                    ? const AppLoading(
+                  size: 25,
+                  color: Colors.white,
+                )
+                    : const Text("Redeem"),
+              ),
+
+
+            ],
             kVerticalSpacerSmall,
             const Text(
               "Voucher Code",

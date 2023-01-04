@@ -19,6 +19,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../blocs/booking/booking_cubit.dart';
+
 class PassengerInfo extends StatefulWidget {
   final Person person;
 
@@ -37,6 +39,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
   bool isUnder16 = false;
   bool isWheelChairChecked = false;
 
+  bool insuranceSelected = false;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +53,12 @@ class _PassengerInfoState extends State<PassengerInfo> {
     final passengerInfo = widget.person.passenger;
     final notice = context.watch<CmsSsrCubit>().state.notice;
     final filter = context.watch<FilterCubit>().state;
+    final bookingState = context
+        .watch<BookingCubit>()
+        .state
+        .verifyResponse
+        ?.flightSSR
+        ?.insuranceGroup;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,10 +124,14 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 FormBuilderDateTimePicker(
                   name: "${widget.person.toString()}$formNameDob",
                   firstDate: widget.person.dateLimitStart(filter.departDate),
-                  lastDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
+                  lastDate: widget.person.peopleType == PeopleType.infant
+                      ? DateTime.now().add(const Duration(days: -8))
+                      : widget.person.dateLimitEnd(filter.departDate),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
-                  initialDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
+                  initialDate: widget.person.peopleType == PeopleType.infant
+                      ? DateTime.now().add(const Duration(days: -8))
+                      : widget.person.dateLimitEnd(filter.departDate),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,
@@ -223,6 +237,34 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     },
                   ),
                 ),
+                if (bookingState != null) ...[
+                  if (bookingState.inbound!.isNotEmpty ||
+                      bookingState.outbound!.isNotEmpty) ...[
+                    Visibility(
+                      visible: widget.person.peopleType != PeopleType.infant,
+                      child: FormBuilderCheckbox(
+                        name: "${widget.person.toString()}$formNameInsurance",
+                        contentPadding: EdgeInsets.zero,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.zero,
+                          border: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                        ),
+                        title: Text(
+                            "I want travel protection : MYR${travelProtectionRate()}"),
+                        onChanged: (value) {
+                          setState(() {
+                            insuranceSelected = value ?? false;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ],
               ],
             ),
           ),
@@ -230,4 +272,6 @@ class _PassengerInfoState extends State<PassengerInfo> {
       ],
     );
   }
+
+  int travelProtectionRate() => 10;
 }

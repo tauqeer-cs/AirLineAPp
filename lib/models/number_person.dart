@@ -161,6 +161,7 @@ class Person extends Equatable {
   final Bundle? returnBaggage;
   final Bundle? departureSports;
   final Bundle? returnSports;
+  final Bundle? insuranceGroup;
 
   final int? numberOrder;
   final Passenger? passenger;
@@ -181,6 +182,8 @@ class Person extends Equatable {
     this.passenger,
     this.departureSports,
     this.returnSports,
+    this.insuranceGroup,
+
   });
 
   static const adult = Person(
@@ -238,6 +241,8 @@ class Person extends Equatable {
       inboundSSR.add(returnBundle!.toBound());
     }
 
+    //    this.insuranceGroup,
+
     //meal
     final departureMeal = groupedMeal(true);
     final returnMeal = groupedMeal(false);
@@ -280,6 +285,11 @@ class Person extends Equatable {
     if (returnSports?.toBound(sports: true) != null) {
       inboundSSR.add(returnSports!.toBound(sports: true));
     }
+
+    //if(this.)
+
+
+
 
     final outboundSeat = departureSeats?.toOutbound(outboundRows);
     final inboundSeat = returnSeats?.toOutbound(inboundRows);

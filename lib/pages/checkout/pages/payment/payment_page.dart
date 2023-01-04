@@ -18,6 +18,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../booking_details/bloc/summary_cubit.dart';
+
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
@@ -26,8 +28,19 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    context.read<SummaryCubit>().getAvailablePromotions();
+
     return WillPopScope(
       onWillPop: () async {
         final superPnr = context.read<BookingCubit>().state.superPnrNo;
@@ -167,6 +180,14 @@ class _PaymentPageState extends State<PaymentPage> {
                             .updateSuperPnr(state.superPnrNo ?? "");
                       },
                     );
+                  },
+                ),
+                BlocListener<SummaryCubit,SummaryState>(
+                  listener: (context, state){
+
+                    if(state.promoLoaded) {
+
+                    }
                   },
                 ),
               ],

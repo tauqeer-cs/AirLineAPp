@@ -491,6 +491,9 @@ class FlightSSR extends Equatable {
   final BundleGroupSeat? infantGroup;
   final BundleGroupSeat? wheelChairGroup;
   final BundleGroupSeat? sportGroup;
+  final BundleGroupSeat? insuranceGroup;
+
+
 
   //
   //
@@ -502,7 +505,9 @@ class FlightSSR extends Equatable {
     this.seatGroup,
     this.infantGroup,
     this.wheelChairGroup,
-    this.sportGroup
+    this.sportGroup,
+    this.insuranceGroup,
+
   });
 }
 
@@ -575,8 +580,17 @@ class InboundBundle extends Equatable {
 
 @JsonSerializable(includeIfNull: false)
 class Bundle extends Equatable {
-  Bound toBound({bool sports = false}) {
-    if(sports) {
+  Bound toBound({bool sports = false,bool isInsurance = false}) {
+    if(isInsurance) {
+      return Bound(
+        name: description?.toLowerCase(),
+        servicesType: "Insurance",
+        logicalFlightId: logicalFlightID,
+        quantity: 1,
+        serviceId: serviceID,
+      );
+    }
+    else if(sports) {
       return Bound(
         name: description?.toLowerCase(),
         servicesType: "Sport",

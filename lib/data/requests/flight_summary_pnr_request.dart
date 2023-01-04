@@ -1,3 +1,4 @@
+import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:collection/collection.dart';
@@ -245,6 +246,7 @@ class Passenger extends HiveObject with EquatableMixin {
         ssr,
         seat,
         wheelChairNeeded,
+    insuranceSelected,
         oKUIDNumber,
       ];
 
@@ -276,6 +278,7 @@ class Passenger extends HiveObject with EquatableMixin {
     this.suffix = "",
     this.ssr,
     this.seat,
+    this.insuranceSelected = false,
   });
 
   @HiveField(0)
@@ -300,6 +303,10 @@ class Passenger extends HiveObject with EquatableMixin {
   final bool? isPrimaryPassenger;
   @JsonKey(name: 'WheelChairNeeded')
   final bool? wheelChairNeeded;
+
+  @JsonKey(name: 'insurance')
+  final bool? insuranceSelected;
+
   @JsonKey(name: 'OKUIDNumber')
   final String? oKUIDNumber;
   @JsonKey(name: 'KnownTravelerNumber')
@@ -331,6 +338,14 @@ class Passenger extends HiveObject with EquatableMixin {
 
   PeopleType? get getType =>
       PeopleType.values.firstWhereOrNull((element) => element.code == paxType);
+
+  void setInsuranceWith(Bundle first) {
+
+    this.ssr!.outbound!.add(first.toBound(isInsurance: true));
+
+    print('object');
+
+  }
 }
 
 @JsonSerializable()

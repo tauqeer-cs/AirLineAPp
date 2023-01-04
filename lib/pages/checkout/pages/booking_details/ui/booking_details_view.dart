@@ -21,6 +21,7 @@ import '../../../../../theme/theme.dart';
 const formNameFirstName = "_first_name";
 const formNameLastName = "_last_name";
 const formNameWheelChair = "_wheel_chair";
+const formNameInsurance = '_insurance';
 const formNameOkIdNumber = "_okIdNumber";
 const formNameTitle = "_title";
 const formNameNationality = "_nationality";
@@ -59,6 +60,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
 
   var isValid = false;
   SearchFlightState? currentState;
+
   @override
   Widget build(BuildContext context) {
     currentState = context.watch<SearchFlightCubit>().state;
@@ -94,29 +96,38 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         const CardSummary(showFees: false),
                         kVerticalSpacer,
                         const ListOfPassengerInfo(),
+                        kVerticalSpacer,
+
+                        const Padding(
+                          padding: EdgeInsets.only(left: 32),
+                          child: Text(
+                              '''I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable. I confirm that I have read, understood and agree to the Terms and Conditions of MY Travel Shield and agree to the processing of my Personal Data in accordance with the Data Privacy Notice.'''),
+                        ),
                       ],
                     ),
                   ),
-                  Stack(
-                    children: [
-                      const CheckoutSummary(),
-                      Positioned(
-                        bottom: 0,
-                        right: 15,
-                        child: FloatingActionButton(
-                          onPressed: () {
-                            scrollController.animateTo(
-                              scrollController.position.minScrollExtent,
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.fastOutSlowIn,
-                            );
-                          },
-                          backgroundColor: Styles.kPrimaryColor,
-                          child: const Icon(Icons.keyboard_arrow_up),
+                  1 == 2
+                      ? Container()
+                      : Stack(
+                          children: [
+                            const CheckoutSummary(),
+                            Positioned(
+                              bottom: 0,
+                              right: 15,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  scrollController.animateTo(
+                                    scrollController.position.minScrollExtent,
+                                    duration: const Duration(seconds: 1),
+                                    curve: Curves.fastOutSlowIn,
+                                  );
+                                },
+                                backgroundColor: Styles.kPrimaryColor,
+                                child: const Icon(Icons.keyboard_arrow_up),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
                   kSummaryContainerSpacing,
                   kSummaryContainerSpacing,
                 ],
@@ -154,8 +165,8 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       var values = BookingDetailsView.fbKey.currentState!.value;
 
       if (values != null) {
-
-        var contactName = makeLowerCaseName(values,formNameContactFirstName,formNameContactLastName);
+        var contactName = makeLowerCaseName(
+            values, formNameContactFirstName, formNameContactLastName);
         var emergencyName = (values[formNameEmergencyFirstName].toString() +
                 values[formNameEmergencyLastName].toString())
             .toLowerCase();
@@ -164,43 +175,42 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           showSameNameError();
 
           return;
-        }
-        else {
-
-
+        } else {
           var emergencyName = (values[formNameEmergencyFirstName].toString() +
-              values[formNameEmergencyLastName].toString())
+                  values[formNameEmergencyLastName].toString())
               .toLowerCase();
 
+          int adults =
+              currentState?.filterState?.numberPerson.numberOfAdult ?? 0;
+          int childs =
+              currentState?.filterState?.numberPerson.numberOfChildren ?? 0;
+          int infant =
+              currentState?.filterState?.numberPerson.numberOfInfant ?? 0;
 
-          int adults = currentState?.filterState?.numberPerson.numberOfAdult ?? 0;
-          int childs = currentState?.filterState?.numberPerson.numberOfChildren ?? 0;
-          int infant = currentState?.filterState?.numberPerson.numberOfInfant ?? 0;
-
-          for(int i = 0 ; i < adults ; i++) {
-            var keyName = 'Adult ${i+1}_first_name';
-            var keyLname = 'Adult ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < adults; i++) {
+            var keyName = 'Adult ${i + 1}_first_name';
+            var keyLname = 'Adult ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
             }
           }
 
-          for(int i = 0 ; i < childs ; i++) {
-            var keyName = 'Child ${i+1}_first_name';
-            var keyLname = 'Child ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < childs; i++) {
+            var keyName = 'Child ${i + 1}_first_name';
+            var keyLname = 'Child ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
             }
           }
 
-          for(int i = 0 ; i < infant ; i++) {
-            var keyName = 'Infant ${i+1}_first_name';
-            var keyLname = 'Infant ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < infant; i++) {
+            var keyName = 'Infant ${i + 1}_first_name';
+            var keyLname = 'Infant ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
@@ -266,8 +276,13 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           gender: "Male",
           relation: "Self",
           wheelChairNeeded: value["${person.toString()}$formNameWheelChair"],
+          insuranceSelected: value["${person.toString()}$formNameInsurance"],
           oKUIDNumber: value["${person.toString()}$formNameOkIdNumber"],
         );
+        if(filledPassenger.insuranceSelected ?? false) {
+          filledPassenger.setInsuranceWith(bookingState.verifyResponse!.flightSSR!.insuranceGroup!.outbound!.first);
+
+        }
         passengers.add(filledPassenger);
       }
       final pnrRequest = FlightSummaryPnrRequest(
@@ -311,20 +326,20 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
     }
   }
 
-  String makeLowerCaseName(Map<String, dynamic> values,String firstKey,String lastKey) {
-    return (values[firstKey].toString() +
-              values[lastKey].toString())
-          .toLowerCase();
+  String makeLowerCaseName(
+      Map<String, dynamic> values, String firstKey, String lastKey) {
+    return (values[firstKey].toString() + values[lastKey].toString())
+        .toLowerCase();
   }
 
   void showSameNameError() {
-       BookingDetailsView.fbKey.currentState!.invalidateField(
+    BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyFirstName,
         errorText:
             'Emergency contact name should be different from contact name and passenger name.');
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyLastName,
         errorText:
-        'Emergency contact name should be different from contact name and passenger name.');
+            'Emergency contact name should be different from contact name and passenger name.');
   }
 }

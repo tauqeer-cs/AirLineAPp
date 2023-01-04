@@ -224,10 +224,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: AppLoadingScreen(message: "Loading"),
+        overlayWidget: const AppLoadingScreen(message: "Loading"),
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => SummaryCubit()),
+
             BlocProvider(create: (context) => InfoCubit()),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
