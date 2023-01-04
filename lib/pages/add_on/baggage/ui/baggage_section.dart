@@ -49,7 +49,7 @@ class BaggageSection extends StatelessWidget {
           kVerticalSpacer,
           buildBaggageCards(baggages, isDeparture),
           kVerticalSpacer,
-          const BaggageNotice(),
+           BaggageNotice(),
           kVerticalSpacer,
         ],
       ),
@@ -115,14 +115,20 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
         : focusedPerson?.returnBaggage;
     return InkWell(
       onTap: () async {
+
+        /*
         context.read<SearchFlightCubit>().addBaggageToPerson(
             selectedPerson, widget.selectedBaggage, widget.isDeparture);
+        */
+
         var responseFlag = context.read<SearchFlightCubit>().addBaggageToPerson(
             selectedPerson,
             (widget.selectedBaggage.serviceID ?? 0) == 0
                 ? null
                 : widget.selectedBaggage,
             widget.isDeparture);
+
+
 
         if (responseFlag) {
           var nextIndex = persons?.persons.indexOf(selectedPerson!);

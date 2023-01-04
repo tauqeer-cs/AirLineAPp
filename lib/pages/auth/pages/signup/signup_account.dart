@@ -1,5 +1,6 @@
-
+import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
+import 'package:app/blocs/validate_email/validate_email_cubit.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
@@ -14,15 +15,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class SignupAccountPage extends StatelessWidget {
+class SignupAccountPage extends StatefulWidget {
   const SignupAccountPage({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
-  final step =1;
+
+  @override
+  State<SignupAccountPage> createState() => _SignupAccountPageState();
+}
+
+class _SignupAccountPageState extends State<SignupAccountPage> {
+  late FocusNode focusNodeEmail;
+
+  final step = 1;
+
   onContinue(BuildContext context) {
     //context.router.replace(CompleteSignupRoute(signupRequest: SignupRequest()));
     //return;
-    if (_fbKey.currentState!.saveAndValidate()) {
-      final value = _fbKey.currentState!.value;
+    if (SignupAccountPage._fbKey.currentState!.saveAndValidate()) {
+      final value = SignupAccountPage._fbKey.currentState!.value;
       final signupRequest = SignupRequest(
         firstName: value[formNameFirstName],
         lastName: value[formNameLastName],
@@ -34,6 +44,27 @@ class SignupAccountPage extends StatelessWidget {
       context.read<SignupCubit>().addAccountDetail(signupRequest);
       AutoRouter.of(context).push(const SignupAddressRoute());
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    focusNodeEmail = FocusNode();
+    focusNodeEmail.addListener(() {
+      if (!focusNodeEmail.hasFocus) {
+        SignupAccountPage._fbKey.currentState!.save();
+        final value = SignupAccountPage._fbKey.currentState!.value;
+        final email = value[formNameEmail];
+        print("email is $email");
+        context.read<ValidateEmailCubit>().validateEmail(email);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    focusNodeEmail.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,7 +82,7 @@ class SignupAccountPage extends StatelessWidget {
               Row(
                 children: [
                   BackButton(
-                    onPressed: ()=>AutoRouter.of(context).pop(),
+                    onPressed: () => AutoRouter.of(context).pop(),
                     color: Colors.white,
                   ),
                   const Expanded(
@@ -65,7 +96,7 @@ class SignupAccountPage extends StatelessWidget {
                   step: step,
                   child: FormBuilder(
                     autoFocusOnValidationFailure: true,
-                    key: _fbKey,
+                    key: SignupAccountPage._fbKey,
                     child: SingleChildScrollView(
                       padding: kPageHorizontalPaddingBig,
                       child: Column(
@@ -85,13 +116,20 @@ class SignupAccountPage extends StatelessWidget {
                           kVerticalSpacer,
                           const NameInput(isSignUp: true),
                           kVerticalSpacer,
-                          const CredentialInput(),
+                          CredentialInput(focusNode: focusNodeEmail),
                           kVerticalSpacer,
                           const PasswordInput(),
                           kVerticalSpacer,
-                          ElevatedButton(
-                              onPressed: () => onContinue(context),
-                              child: const Text("Continue")),
+                          BlocBuilder<ValidateEmailCubit, GenericState>(
+                            builder: (context, state) {
+                              return ElevatedButton(
+                                onPressed: state.blocState == BlocState.finished
+                                    ? () => onContinue(context)
+                                    : null,
+                                child: const Text("Continue"),
+                              );
+                            },
+                          ),
                           kVerticalSpacer,
                         ],
                       ),
@@ -121,27 +159,21 @@ class SignupHeader extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            step == 1
-                ? "Sign Up"
-                : "Personal Info (Optional)",
+            step == 1 ? "Sign Up" : "Personal Info (Optional)",
             style: kGiantSemiBold.copyWith(
                 color: Styles.kPrimaryColor,
                 fontSize: 26,
-                fontWeight: FontWeight.w700
-            ),
+                fontWeight: FontWeight.w700),
           ),
         ),
         kHorizontalSpacer,
         CircleAvatar(
           radius: 15,
-          backgroundColor:
-          step == 1 ? Styles.kActiveColor : Colors.white,
+          backgroundColor: step == 1 ? Styles.kActiveColor : Colors.white,
           child: Text(
             "1",
             style: kLargeHeavy.copyWith(
-              color: step == 1
-                  ? Colors.white
-                  : Styles.kDisabledButton,
+              color: step == 1 ? Colors.white : Styles.kDisabledButton,
             ),
           ),
         ),
@@ -149,14 +181,11 @@ class SignupHeader extends StatelessWidget {
         kHorizontalSpacerMini,
         CircleAvatar(
           radius: 15,
-          backgroundColor:
-          step == 2 ? Styles.kActiveColor : Colors.white,
+          backgroundColor: step == 2 ? Styles.kActiveColor : Colors.white,
           child: Text(
             "2",
             style: kLargeHeavy.copyWith(
-              color: step == 2
-                  ? Colors.white
-                  : Styles.kDisabledButton,
+              color: step == 2 ? Colors.white : Styles.kDisabledButton,
             ),
           ),
         ),

@@ -63,6 +63,9 @@ class AddressInput extends StatelessWidget {
                 name: formNameAddress,
                 hintText: 'Address',
                 initialValue: selectedAddress,
+                inputFormatters: [
+                  AppFormUtils.denyQuestionMark(),
+                ],
               ),
               kVerticalSpacer,
               Row(
@@ -87,9 +90,7 @@ class AddressInput extends StatelessWidget {
                       name: formNameState,
                       hintText: 'State',
                       initialValue: selectedState,
-                      inputFormatters: [
-                        AppFormUtils.onlyLetter(),
-                      ],
+
                     ),
                   ),
                 ],

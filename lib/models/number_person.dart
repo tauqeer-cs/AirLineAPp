@@ -103,6 +103,21 @@ class NumberPerson extends Equatable {
     return total;
   }
 
+  num? getTotalSportsPartial(bool isDeparture) {
+    num total = 0;
+    for (var element in persons) {
+      //here
+      total = total + element.getPartialPriceSports(isDeparture);
+    }
+    if(total == 0.0) {
+
+      return null;
+
+    }
+    return total;
+  }
+
+
   String toBeautify() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
@@ -144,8 +159,13 @@ class Person extends Equatable {
   final Seats? returnSeats;
   final Bundle? departureBaggage;
   final Bundle? returnBaggage;
+  final Bundle? departureSports;
+  final Bundle? returnSports;
+
   final int? numberOrder;
   final Passenger? passenger;
+
+  //here
 
   const Person({
     this.peopleType,
@@ -159,12 +179,15 @@ class Person extends Equatable {
     this.returnBaggage,
     this.numberOrder,
     this.passenger,
+    this.departureSports,
+    this.returnSports,
   });
 
   static const adult = Person(
     peopleType: PeopleType.adult,
     numberOrder: 1,
   );
+
 
   @override
   // TODO: implement props
@@ -248,6 +271,16 @@ class Person extends Equatable {
     if (returnBaggage?.toBound() != null) {
       inboundSSR.add(returnBaggage!.toBound());
     }
+
+
+    if (departureSports?.toBound(sports: true) != null) {
+      outboundSSR.add(departureSports!.toBound(sports: true));
+    }
+
+    if (returnSports?.toBound(sports: true) != null) {
+      inboundSSR.add(returnSports!.toBound(sports: true));
+    }
+
     final outboundSeat = departureSeats?.toOutbound(outboundRows);
     final inboundSeat = returnSeats?.toOutbound(inboundRows);
     final passenger = Passenger(
@@ -272,7 +305,8 @@ class Person extends Equatable {
     totalPrice = getTotalPriceBundle() +
         getTotalPriceSeat() +
         getTotalPriceMeal() +
-        getTotalPriceBaggage();
+        getTotalPriceBaggage() +
+        getTotalPriceSports();
     return totalPrice;
   }
 
@@ -329,10 +363,28 @@ class Person extends Equatable {
     return totalPrice;
   }
 
+  num getTotalPriceSports() {
+    num totalPrice = 0;
+    //here
+
+    totalPrice = getPartialPriceSports(false) + getPartialPriceSports(true);
+    return totalPrice;
+  }
+
+  //here
+
   num getPartialPriceBaggage(bool isDeparture) {
     num totalPrice = isDeparture
         ? departureBaggage?.finalAmount ?? 0
         : returnBaggage?.finalAmount ?? 0;
+    return totalPrice;
+  }
+
+  num getPartialPriceSports(bool isDeparture) {
+    num totalPrice = isDeparture
+        ? departureSports?.finalAmount ?? 0
+        : returnSports?.finalAmount ?? 0;
+
     return totalPrice;
   }
 
@@ -354,6 +406,8 @@ class Person extends Equatable {
     Seats? Function()? returnSeats,
     Bundle? Function()? departureBaggage,
     Bundle? Function()? returnBaggage,
+    Bundle? Function()? departureSports,
+    Bundle? Function()? returnSports,
     int? numberOrder,
   }) {
     return Person(
@@ -370,6 +424,9 @@ class Person extends Equatable {
           departureBaggage != null ? departureBaggage() : this.departureBaggage,
       returnBaggage:
           returnBaggage != null ? returnBaggage() : this.returnBaggage,
+      departureSports:
+          departureSports != null ? departureSports() : this.departureSports,
+      returnSports: returnSports != null ? returnSports() : this.returnSports,
       numberOrder: numberOrder ?? this.numberOrder,
     );
   }
@@ -399,7 +456,7 @@ class Person extends Equatable {
       case PeopleType.child:
         return DateTime(now.year - 2, now.month, now.day);
       case PeopleType.infant:
-        return now;
+        return now.add(Duration(days: -8));
       default:
         return now;
     }
@@ -413,7 +470,7 @@ class Person extends Equatable {
       case PeopleType.child:
         return DateTime(now.year - 12, now.month, now.day);
       case PeopleType.infant:
-        return DateTime(now.year - 2, now.month, now.day);
+        return DateTime(now.year - 2, now.month, now.day).add(const Duration(days: 1));
       default:
         return now;
     }
@@ -432,4 +489,10 @@ enum PeopleType {
 
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
-List<String> availableRelations = ["Family", "Friends", "Spouse", "Guardian"];
+List<String> availableRelations = [
+  "Family",
+  "Friends",
+  "Spouse",
+  "Guardian",
+  "Others"
+];

@@ -10,6 +10,7 @@ import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/data/requests/signup_request.dart';
 import 'package:app/data/requests/update_password_request.dart';
+import 'package:app/data/responses/common_response.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/security_utils.dart';
@@ -71,6 +72,10 @@ class AuthenticationRepository {
     await _provider.validateReset(updatePasswordRequest);
   }
 
+  Future<CommonResponse> validateEmail(UpdatePasswordRequest updatePasswordRequest) async{
+    return await _provider.validateEmail(updatePasswordRequest);
+  }
+
   Future<void> resetPassword(UpdatePasswordRequest updatePasswordRequest) async{
     await _provider.resetPassword(updatePasswordRequest);
   }
@@ -94,7 +99,9 @@ class AuthenticationRepository {
   ///
   /// Throws a [LogInWithGoogleFailure] if an exception occurs.
   Future<void> logInWithGoogle() async {
-    final googleAppUser = await _googleSignIn.signIn();
+    final googleAppUser = await _googleSignIn.signIn(
+
+    );
     if(googleAppUser==null) return;
     final googleAuth = await googleAppUser.authentication;
     final requests = OauthRequest(
@@ -178,12 +185,19 @@ class AuthenticationRepository {
   }
 
   void logout() async {
-    if(Platform.isAndroid){
-      final isLogin = await _googleSignIn.isSignedIn();
-      if(isLogin) await _googleSignIn.signOut();
-    }
+    disconnectGoogleAccount();
     deleteAccessToken();
     deleteCurrentUser();
+  }
+
+  Future<void> disconnectGoogleAccount() async {
+    if(Platform.isAndroid){
+      final isLogin = await _googleSignIn.isSignedIn();
+      if(isLogin){
+        await _googleSignIn.disconnect();
+        await _googleSignIn.signOut();
+      }
+    }
   }
 
   void dispose() => _controller.close();

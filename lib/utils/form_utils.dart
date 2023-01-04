@@ -20,4 +20,10 @@ class AppFormUtils{
   static TextInputFormatter onlyNumber(){
     return FilteringTextInputFormatter.allow(RegExp("[0-9]"));
   }
+
+  static TextInputFormatter denyQuestionMark(){
+    return FilteringTextInputFormatter.deny(RegExp("\\?"));
+  }
+
+
 }

@@ -51,6 +51,30 @@ class BaggageSubtotal extends StatelessWidget {
                 ],
               ),
             ),
+
+            if(filter?.numberPerson.getTotalSportsPartial(isDeparture) != null) ... [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Sports Equipment Subtotal",
+                      style: kLargeRegular.copyWith(color: Colors.white),
+                    ),
+                    Text(
+                      "MYR ${NumberUtils.formatNum(filter?.numberPerson.getTotalSportsPartial(isDeparture))}",
+                      style: kLargeHeavy.copyWith(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+
+
+            ],
+
+
+
             child,
           ],
         ),

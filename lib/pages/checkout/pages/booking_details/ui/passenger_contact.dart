@@ -36,18 +36,42 @@ class _PassengerContactState extends State<PassengerContact> {
   String? email;
   final nationalityController = TextEditingController();
 
+  final emailController = TextEditingController();
+
+  bool alreadySpaceRemoved = false;
+
+  void removeEmptyFromEmail(String value) async {
+    if(emailController.text.isNotEmpty) {
+      value = value.trim();
+      alreadySpaceRemoved = true;
+
+      await Future.delayed(Duration(seconds: 1));
+
+
+      emailController.text = value;
+      emailController.selection = TextSelection.fromPosition(TextPosition(offset: emailController.text.length));
+      alreadySpaceRemoved = false;
+
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     final contact = context.read<LocalUserBloc>().state;
     final profile = context.read<ProfileCubit>().state.profile?.userProfile;
-    email = profile?.email ?? contact.contactEmail;
+    email = profile?.email ?? contact.contactEmail.trim();
     firstName = profile?.firstName ?? contact.contactFullName;
     phoneCode = profile?.phoneCode ?? contact.contactPhoneCode;
     phoneNumber = profile?.phoneNumber ?? contact.contactPhoneNumber;
     lastName = profile?.lastName ?? contact.comment;
     nationalityController.text =
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+    emailController.text = email ?? '';
+    emailController.addListener(() {
+
+    });
+
   }
 
   @override
@@ -148,14 +172,33 @@ class _PassengerContactState extends State<PassengerContact> {
               AppInputText(
                 name: formNameContactEmail,
                 hintText: "Email Address",
+                textInputType: TextInputType.emailAddress,
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.email(),
                 ],
-                initialValue: profile?.email ?? email,
+                //initialValue: profile?.email ?? email,
+                textEditingController: emailController,
                 onChanged: (value) {
+                  if(value != null) {
+                    if(!alreadySpaceRemoved) {
+                      if(value.contains(' ')){
+                        if(alreadySpaceRemoved){
+
+                          return;
+
+                        }
+                        else {
+                          removeEmptyFromEmail(value);
+
+                        }
+
+                      }
+                    }
+
+                  }
                   final request = context.read<LocalUserBloc>().state;
-                  final newRequest = request.copyWith(contactEmail: value);
+                  final newRequest = request.copyWith(contactEmail: value?.trim());
                   context
                       .read<LocalUserBloc>()
                       .add(UpdateEmailContact(newRequest.contactEmail));

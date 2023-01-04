@@ -39,6 +39,7 @@ class LoginCubit extends Cubit<LoginState> {
       await _authenticationRepository.logInWithGoogle();
       emit(state.copyWith(blocState: BlocState.finished));
     } catch (e, st) {
+      _authenticationRepository.disconnectGoogleAccount();
       emit(
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st),

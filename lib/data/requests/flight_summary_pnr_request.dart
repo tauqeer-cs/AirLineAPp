@@ -327,6 +327,8 @@ class Passenger extends HiveObject with EquatableMixin {
   @JsonKey(name: 'Seat')
   final Seat? seat;
 
+
+
   PeopleType? get getType =>
       PeopleType.values.firstWhereOrNull((element) => element.code == paxType);
 }

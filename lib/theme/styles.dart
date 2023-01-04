@@ -40,6 +40,9 @@ class Styles {
 
   static Color get kDartTeal => const Color.fromRGBO(0, 48, 73, 1);
 
+  static Color get kDartBlack => const Color.fromRGBO(26, 24, 24, 1);
+
+
 
   static LinearGradient get gradient => const LinearGradient(colors: <Color>[
         Color(0xFF02C2F3),

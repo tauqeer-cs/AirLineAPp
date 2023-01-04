@@ -80,7 +80,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 kVerticalSpacerMini,
                 AppInputText(
                   name: "${widget.person.toString()}$formNameLastName",
-                  hintText: "Last Name/Surname",
+                  hintText: "Last Name / Surname",
                   initialValue: passengerInfo?.lastName,
                   validators: [FormBuilderValidators.required()],
                 ),
@@ -114,10 +114,10 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 FormBuilderDateTimePicker(
                   name: "${widget.person.toString()}$formNameDob",
                   firstDate: widget.person.dateLimitStart(filter.departDate),
-                  lastDate: widget.person.dateLimitEnd(filter.departDate),
+                  lastDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
-                  initialDate: widget.person.dateLimitEnd(filter.departDate),
+                  initialDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,

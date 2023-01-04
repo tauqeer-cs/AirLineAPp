@@ -408,6 +408,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-gr6cg40jdgiqta5rs9vcmsl8cvlfr77k";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -488,6 +489,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp.uat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-8m64vbprtb12sgb3frsto0ecrg40bbmn";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -566,6 +568,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp.uat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-8m64vbprtb12sgb3frsto0ecrg40bbmn";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -649,6 +652,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp.uat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-8m64vbprtb12sgb3frsto0ecrg40bbmn";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -732,6 +736,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-bivo2dhhblqctua0t4id894je4o7kf0k";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -812,6 +817,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-bivo2dhhblqctua0t4id894je4o7kf0k";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -889,6 +895,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-bivo2dhhblqctua0t4id894je4o7kf0k";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1024,6 +1031,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-gr6cg40jdgiqta5rs9vcmsl8cvlfr77k";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1051,6 +1059,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.myairline.mobileapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.123907775175-gr6cg40jdgiqta5rs9vcmsl8cvlfr77k";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

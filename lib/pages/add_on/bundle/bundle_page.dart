@@ -3,6 +3,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/add_on/bundle/ui/bundle_view.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
+import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ class BundlePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       useDefaultLoading: false,
+      overlayWidget: AppLoadingScreen(message: "Loading"),
       child: BlocListener<SearchFlightCubit, SearchFlightState>(
         listener: (context, state) {
           if (state.blocState == BlocState.failed) {
