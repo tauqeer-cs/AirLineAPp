@@ -62,7 +62,7 @@ class PassengersSheetState extends State<PassengersSheet> {
             number: passengers.numberOfAdult,
             peopleType: PeopleType.adult,
             handler: changeNumber,
-            totalNumber: passengers.totalPersonWithInfant,
+            totalNumber: passengers.totalPerson,
           ),
           InputWithPlusMinus(
             title: "Children",
@@ -70,7 +70,7 @@ class PassengersSheetState extends State<PassengersSheet> {
             number: passengers.numberOfChildren,
             peopleType: PeopleType.child,
             handler: changeNumber,
-            totalNumber: passengers.totalPersonWithInfant,
+            totalNumber: passengers.totalPerson,
 
           ),
           InputWithPlusMinus(
@@ -79,7 +79,7 @@ class PassengersSheetState extends State<PassengersSheet> {
             number: passengers.numberOfInfant,
             peopleType: PeopleType.infant,
             handler: changeNumber,
-            totalNumber: passengers.totalPersonWithInfant,
+            totalNumber: passengers.numberOfAdult,
 
           ),
           kVerticalSpacer,
@@ -159,24 +159,47 @@ class InputWithPlusMinus extends StatelessWidget {
                       ),
                     ),
                     Text(number.toString()),
-                    SizedBox(
-                      width: 30.h,
-                      height: 30.h,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          padding: EdgeInsets.zero,
-                          backgroundColor: Colors.transparent,
-                        ),
-                        onPressed: totalNumber >= 9
-                            ? null
-                            : () => handler(peopleType, true),
-                        child: const Icon(
-                          Icons.add,
-                          size: 20,
+                    if(peopleType == PeopleType.infant) ... [
+                      SizedBox(
+                        width: 30.h,
+                        height: 30.h,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: EdgeInsets.zero,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          onPressed: number >=  totalNumber
+                              ? null
+                              : () => handler(peopleType, true),
+                          child: const Icon(
+                            Icons.add,
+                            size: 20,
+                          ),
                         ),
                       ),
-                    ),
+
+                    ] else ... [
+                      SizedBox(
+                        width: 30.h,
+                        height: 30.h,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: EdgeInsets.zero,
+                            backgroundColor: Colors.transparent,
+                          ),
+                          onPressed: totalNumber >=  9
+                              ? null
+                              : () => handler(peopleType, true),
+                          child: const Icon(
+                            Icons.add,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+
                   ],
                 ),
               ),

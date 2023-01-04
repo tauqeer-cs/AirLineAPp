@@ -75,7 +75,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      try{
+      try {
         final currentContext = appRouter.navigatorKey.currentContext;
         final expiredInUTC = LocalRepository().getExpiredTime();
         if (expiredInUTC == null) return;
@@ -83,15 +83,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         final nowUTC = DateTime.now().toUtc();
         final diff = expiredDate.difference(nowUTC);
         currentContext?.read<TimerBloc>().add(
-          TimerStarted(
-            duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
-            expiredTime: expiredDate,
-          ),
-        );
-      }catch(e){
+              TimerStarted(
+                duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
+                expiredTime: expiredDate,
+              ),
+            );
+      } catch (e) {
         logger.e("Cannot start timer from resume");
       }
-
     }
   }
 
@@ -105,8 +104,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     if (currentPath == "/payment" &&
         superPnr != null &&
         currentContext != null) {
-      FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
       if (durationRemaining == 0) {
+        FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
         showDialog(
           context: currentContext,
           barrierDismissible: false,
@@ -240,14 +239,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             listener: (context, state) {
               final expiredInUTC = state.verifyResponse?.verifyExpiredDateTime;
               final currentContext = appRouter.navigatorKey.currentContext;
-
               if (expiredInUTC == null) return;
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
               context.read<TimerBloc>().add(
                     TimerStarted(
                       duration: state.superPnrNo != null ? 900 : diff.inSeconds,
-                      expiredTime: expiredInUTC,
+                      expiredTime: state.superPnrNo != null
+                          ? nowUTC.add(Duration(seconds: 900))
+                          : expiredInUTC,
                     ),
                   );
               if (state.blocState == BlocState.failed) {
@@ -298,7 +298,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   final mediaQueryData = MediaQuery.of(context);
                   final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
                   return MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+                    data:
+                        MediaQuery.of(context).copyWith(textScaleFactor: scale),
                     child: child!,
                   );
                 },

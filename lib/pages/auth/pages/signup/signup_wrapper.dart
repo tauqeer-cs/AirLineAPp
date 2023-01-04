@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
+import 'package:app/blocs/validate_email/validate_email_cubit.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
@@ -37,7 +38,6 @@ const formNamePhoneCodeRelationship = "emergency_phone_code";
 const formNamePhoneNoRelationship = "emergency_phone_no";
 
 
-
 class SignupWrapperPage extends StatelessWidget {
   const SignupWrapperPage({Key? key}) : super(key: key);
 
@@ -47,8 +47,15 @@ class SignupWrapperPage extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         overlayWidget: const AppLoadingScreen(message: "Loading"),
-        child: BlocProvider(
-          create: (context) => SignupCubit(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => SignupCubit(),
+            ),
+            BlocProvider(
+              create: (context) => ValidateEmailCubit(),
+            ),
+          ],
           child: BlocListener<SignupCubit, SignupState>(
             listener: (context, state) {
               blocListenerWrapper(
@@ -60,8 +67,10 @@ class SignupWrapperPage extends StatelessWidget {
                 },
                 onFinished: () {
                   context.loaderOverlay.hide();
-                  context.router.root.replace(CompleteSignupRoute(signupRequest: state.signupRequest));
-                  Toast.of(context).show(message: "Account created", success: true);
+                  context.router.root.replace(
+                      CompleteSignupRoute(signupRequest: state.signupRequest));
+                  Toast.of(context).show(
+                      message: "Account created", success: true);
                 },
               );
             },

@@ -64,6 +64,9 @@ android {
     }
 
     defaultConfig {
+        /*ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }*/
         applicationId "com.myairline.mobileapp"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion

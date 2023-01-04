@@ -629,6 +629,7 @@ mixin StringResources {
   }
 
   String get forgotPassword {
+
     return Intl.message("Forgot password?", name: 'forgotPassword');
   }
 

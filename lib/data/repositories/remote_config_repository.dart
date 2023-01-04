@@ -30,6 +30,7 @@ class RemoteConfigRepository {
     subtitle =  _remoteConfig?.getString("updateDescription") ?? "";
     showTimer = _remoteConfig?.getBool("showTimer") ?? false;
     showCompanyInvoiceForm = _remoteConfig?.getBool("showCompanyInvoiceForm") ?? false;
+    fetchPriceRange = _remoteConfig?.getBool("priceRange") ?? false;
 
   }
 }

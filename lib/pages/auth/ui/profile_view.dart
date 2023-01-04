@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
 import '../../../blocs/profile/profile_cubit.dart';
@@ -59,7 +60,6 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.all(24.0),
                       child: Align(
@@ -76,7 +76,7 @@ class ProfileView extends StatelessWidget {
                                         color: Styles.kPrimaryColor),
                                   ),
                                   TextSpan(
-                                    text: '${state.profile?.userProfile?.firstName}',
+                                    text: state.profile?.userProfile?.firstName ?? "",
                                     style: kGiantHeavy.copyWith(
                                         color: Styles.kPrimaryColor),
                                   ),
@@ -86,199 +86,199 @@ class ProfileView extends StatelessWidget {
                             ),
 
                             Text(
-                              "MYReward Membership #${state.profile?.userProfile?.memberID}",
+                              "MYReward Membership #${state.profile?.userProfile?.memberID ?? ''}",
                               style: kMediumSemiBold,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.6,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(40),
-                            topLeft: Radius.circular(40)),
-                      ),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Let’s manage your account",
-                                style: kLargeRegular.copyWith(
-                                    color: Styles.kSubTextColor),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ],
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(40),
+                              topLeft: Radius.circular(40)),
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Let’s manage your account",
+                                  style: kLargeRegular.copyWith(
+                                      color: Styles.kSubTextColor),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Expanded(
-                            child: GridView(
-                              padding: kPagePadding,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 20,
-                                childAspectRatio: 3.7 / 2.462,
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            Expanded(
+                              child: GridView(
+                                padding: kPagePadding,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 20,
+                                  childAspectRatio: 3.7 / 2.462,
+                                ),
+                                children: [
+                                  ProfileBoxButton(
+                                    text: 'Personal Info',
+                                    imageName: 'iconInfo',
+                                    onTap: () {
+                                      context.router
+                                          .push(const PersonalInfoRoute());
+                                    },
+                                  ),
+                                  ProfileBoxButton(
+                                    text: 'Account Settings',
+                                    imageName: 'iconSetting',
+                                    onTap: () {
+                                      context.router
+                                          .push(const AccountSettingRoute());
+                                    },
+                                  ),
+                                  ProfileBoxButton(
+                                    text: 'Communication\nPreferences',
+                                    imageName: 'iconPref',
+                                    onTap: () {
+                                      context.router.push(
+                                          const CommunicationSettingRoute());
+                                    },
+                                  ),
+                                  /* ProfileBoxButton(
+                                  text: 'My Payment Cards',
+                                  imageName: 'iconPayment',
+                                  onTap: () {
+                                    print('Not required at this time');
+                                  },
+                                ),
+                                ProfileBoxButton(
+                                  text: 'Family and Friends',
+                                  imageName: 'iconFamily',
+                                  onTap: () {
+                                    print('Not required at this time');
+                                  },
+                                ),*/
+                                ],
                               ),
-                              children: [
-                                ProfileBoxButton(
-                                  text: 'Personal Info',
-                                  imageName: 'iconInfo',
-                                  onTap: () {
-                                    context.router
-                                        .push(const PersonalInfoRoute());
-                                  },
-                                ),
-                                ProfileBoxButton(
-                                  text: 'Account Settings',
-                                  imageName: 'iconSetting',
-                                  onTap: () {
-                                    context.router
-                                        .push(const AccountSettingRoute());
-                                  },
-                                ),
-                                ProfileBoxButton(
-                                  text: 'Communication\nPreferences',
-                                  imageName: 'iconPref',
-                                  onTap: () {
-                                    context.router.push(
-                                        const CommunicationSettingRoute());
-                                  },
-                                ),
-                                /* ProfileBoxButton(
+                            ),
+                            kVerticalSpacer,
+                            VersionWidget(
+                              textColor: Styles.kSubTextColor,
+                            ),
+                            kVerticalSpacer,
+                            /*Row(
+                            children: [
+                              Expanded(
+                                child: Container(),
+                              ),
+                              ProfileBoxButton(
+                                text: 'Personal Info',
+                                imageName: 'iconInfo',
+                                onTap: () {
+                                  context.router.push(const PersonalInfoRoute());
+                                },
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                              ProfileBoxButton(
+                                text: 'Account Settings',
+                                imageName: 'iconSetting',
+                                onTap: () {},
+                              ),
+                              */ /*ProfileBoxButton(
                                 text: 'My Payment Cards',
                                 imageName: 'iconPayment',
                                 onTap: () {
                                   print('Not required at this time');
                                 },
+                              ),*/ /*
+                              Expanded(
+                                child: Container(),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(),
                               ),
                               ProfileBoxButton(
+                                text: 'Communication\nPreferences',
+                                imageName: 'iconPref',
+                                onTap: () {},
+                              ),
+                              */ /*ProfileBoxButton(
                                 text: 'Family and Friends',
                                 imageName: 'iconFamily',
                                 onTap: () {
                                   print('Not required at this time');
                                 },
-                              ),*/
-                              ],
-                            ),
+                              ),*/ /*
+                              Expanded(
+                                child: Container(),
+                              ),
+                              */ /*ProfileBoxButton(
+                                text: 'Account Settings',
+                                imageName: 'iconSetting',
+                                onTap: () {},
+                              ),*/ /*
+                              */ /*Expanded(
+                                child: Container(),
+                              ),*/ /*
+                            ],
                           ),
-                          kVerticalSpacer,
-                          VersionWidget(
-                            textColor: Styles.kSubTextColor,
+                          const Spacer(),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(),
+                              ),
+                              ProfileBoxButton(
+                                text: 'Communication\nPreferences',
+                                imageName: 'iconPref',
+                                onTap: () {},
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 2.462,
+                                height: MediaQuery.of(context).size.width / 3.7,
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                            ],
                           ),
-                          kVerticalSpacer,
-                          /*Row(
-                          children: [
-                            Expanded(
-                              child: Container(),
-                            ),
-                            ProfileBoxButton(
-                              text: 'Personal Info',
-                              imageName: 'iconInfo',
-                              onTap: () {
-                                context.router.push(const PersonalInfoRoute());
-                              },
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            ProfileBoxButton(
-                              text: 'Account Settings',
-                              imageName: 'iconSetting',
-                              onTap: () {},
-                            ),
-                            */ /*ProfileBoxButton(
-                              text: 'My Payment Cards',
-                              imageName: 'iconPayment',
-                              onTap: () {
-                                print('Not required at this time');
-                              },
-                            ),*/ /*
-                            Expanded(
-                              child: Container(),
-                            ),
+                          const Spacer(),
+                          const Spacer(),
+                          const Spacer(),
+                          const Spacer(),*/
                           ],
                         ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(),
-                            ),
-                            ProfileBoxButton(
-                              text: 'Communication\nPreferences',
-                              imageName: 'iconPref',
-                              onTap: () {},
-                            ),
-                            */ /*ProfileBoxButton(
-                              text: 'Family and Friends',
-                              imageName: 'iconFamily',
-                              onTap: () {
-                                print('Not required at this time');
-                              },
-                            ),*/ /*
-                            Expanded(
-                              child: Container(),
-                            ),
-                            */ /*ProfileBoxButton(
-                              text: 'Account Settings',
-                              imageName: 'iconSetting',
-                              onTap: () {},
-                            ),*/ /*
-                            */ /*Expanded(
-                              child: Container(),
-                            ),*/ /*
-                          ],
-                        ),
-                        const Spacer(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(),
-                            ),
-                            ProfileBoxButton(
-                              text: 'Communication\nPreferences',
-                              imageName: 'iconPref',
-                              onTap: () {},
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 2.462,
-                              height: MediaQuery.of(context).size.width / 3.7,
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        const Spacer(),
-                        const Spacer(),
-                        const Spacer(),*/
-                        ],
                       ),
                     ),
                   ],

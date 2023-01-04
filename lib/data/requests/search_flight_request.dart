@@ -71,22 +71,29 @@ class CommonFlightRequest extends Equatable {
   @JsonKey(name: 'PromoCode')
   final String? promoCode;
 
-  const CommonFlightRequest({
-    this.originAirport,
-    this.destinationAirport,
-    this.departDate,
-    this.returnDate,
-    this.adults,
-    this.childrens,
-    this.infants,
-    this.isReturn,
-    this.tripType,
-    this.currency,
-    this.outboundFares = const [],
-    this.inboundFares = const [],
-    this.totalAmount,
-    this.promoCode,
-  });
+  @JsonKey(name: 'OutboundLFID')
+  final List<int>? outboundLFID;
+
+  @JsonKey(name: 'InboundLFID')
+  final List<int>? inboundLFID;
+
+  const CommonFlightRequest(
+      {this.originAirport,
+      this.destinationAirport,
+      this.departDate,
+      this.returnDate,
+      this.adults,
+      this.childrens,
+      this.infants,
+      this.isReturn,
+      this.tripType,
+      this.currency,
+      this.outboundFares = const [],
+      this.inboundFares = const [],
+      this.totalAmount,
+      this.promoCode,
+      this.outboundLFID,
+      this.inboundLFID});
 
   factory CommonFlightRequest.fromJson(Map<String, dynamic> json) =>
       _$CommonFlightRequestFromJson(json);
@@ -110,5 +117,7 @@ class CommonFlightRequest extends Equatable {
         inboundFares,
         totalAmount,
         promoCode,
+        outboundLFID,
+        inboundLFID
       ];
 }

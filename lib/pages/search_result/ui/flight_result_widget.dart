@@ -102,7 +102,7 @@ class FlightResultWidget extends StatelessWidget {
     return Column(
       children: [
         ChooseFlightSegment(
-          title: "Departure",
+          title: "Depart",
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
           segments: bookState.selectedDeparture != null

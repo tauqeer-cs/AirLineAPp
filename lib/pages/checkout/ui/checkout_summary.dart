@@ -38,7 +38,7 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                 padding: kPageHorizontalPadding,
                 child: Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         "Flights and bundles summary",
                         style: k18Heavy,

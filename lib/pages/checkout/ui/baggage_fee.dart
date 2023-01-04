@@ -11,7 +11,10 @@ import '../../../theme/theme.dart';
 class BaggageFee extends StatefulWidget {
   final bool isDeparture;
 
-  const BaggageFee({Key? key, required this.isDeparture}) : super(key: key);
+  final bool isSports;
+
+  const BaggageFee({Key? key, required this.isDeparture, this.isSports = false})
+      : super(key: key);
 
   @override
   State<BaggageFee> createState() => _BaggageFeeState();
@@ -38,24 +41,33 @@ class _BaggageFeeState extends State<BaggageFee> {
             child: Row(
               children: [
                 Text(
-                  isPaymentPage ? "Baggage" : "- Baggage",
+                  widget.isSports ? (isPaymentPage ? "Sports Equipment" : "- Sports Equipment") : (isPaymentPage ? "Baggage" : "- Baggage"),
                   style: kMediumRegular,
                 ),
                 kHorizontalSpacerSmall,
                 Icon(
-                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                  isExpand
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
                 ),
                 const Spacer(),
-                MoneyWidgetSmall(
-                    amount: filter?.numberPerson
-                        .getTotalBaggagePartial(widget.isDeparture)),
+                if(widget.isSports) ... [
+                  MoneyWidgetSmall(
+                      amount: filter?.numberPerson
+                          .getTotalSportsPartial(widget.isDeparture)),
+                ] else ... [
+                  MoneyWidgetSmall(
+                      amount: filter?.numberPerson
+                          .getTotalBaggagePartial(widget.isDeparture)),
+                ],
+
               ],
             ),
           ),
         ),
         ExpandedSection(
           expand: isExpand,
-          child: BaggageFeeDetail(isDeparture: widget.isDeparture),
+          child: BaggageFeeDetail(isDeparture: widget.isDeparture , isSports: widget.isSports,),
         ),
       ],
     );
