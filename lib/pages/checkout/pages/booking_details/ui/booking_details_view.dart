@@ -159,7 +159,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         var emergencyName = (values[formNameEmergencyFirstName].toString() +
                 values[formNameEmergencyLastName].toString())
             .toLowerCase();
-        print('');
         if (contactName == emergencyName) {
           showSameNameError();
 
@@ -208,7 +207,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           }
         }
       }
-      print('');
 
       final bookingState = context.read<BookingCubit>().state;
       final state = context.read<SearchFlightCubit>().state;

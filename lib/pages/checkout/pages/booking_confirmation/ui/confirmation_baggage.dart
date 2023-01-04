@@ -49,7 +49,7 @@ class ConfirmationBaggage extends StatelessWidget {
             ),
           ],
         ),
-        if(this.boolIsSports) ... [
+        if(boolIsSports) ... [
           kVerticalSpacerSmall,
           ...(sportsEquipmentDetail?.sportEquipments ?? [])
               .map((e) => Column(

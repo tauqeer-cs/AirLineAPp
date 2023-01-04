@@ -26,7 +26,7 @@ class BaggageFeeDetail extends StatelessWidget {
             var bundle = isDeparture ? e.departureBaggage : e.returnBaggage;
 
 
-            if(this.isSports){
+            if(isSports){
 
                bundle = isDeparture ? e.departureSports : e.returnSports;
 

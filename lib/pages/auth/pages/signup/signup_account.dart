@@ -55,7 +55,6 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
         SignupAccountPage._fbKey.currentState!.save();
         final value = SignupAccountPage._fbKey.currentState!.value;
         final email = value[formNameEmail];
-        print("email is $email");
         context.read<ValidateEmailCubit>().validateEmail(email);
       }
     });

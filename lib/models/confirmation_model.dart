@@ -1659,6 +1659,6 @@ class SportsEquipmentDetail extends Equatable {
   }) =>
       BaggageDetail(
         totalAmount: totalAmount ?? this.totalAmount,
-        baggages: baggages ?? this.sportEquipments,
+        baggages: baggages ?? sportEquipments,
       );
 }

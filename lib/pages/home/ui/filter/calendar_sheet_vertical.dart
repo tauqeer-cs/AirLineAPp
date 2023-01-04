@@ -96,7 +96,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         ),
                         Visibility(
                           visible: isRoundTrip,
-                          child: Icon(Icons.chevron_right),
+                          child: const Icon(Icons.chevron_right),
                         ),
                         Visibility(
                           visible: isRoundTrip,
