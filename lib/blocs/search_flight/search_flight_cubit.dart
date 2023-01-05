@@ -187,4 +187,28 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
         filterState: newFilterState,
         message: DateTime.now().millisecondsSinceEpoch.toString()));
   }
+
+  void addInsuranceToPerson(int i, Bundle insurance) {
+
+    state.filterState!.numberPerson.persons[i] = state.filterState!.numberPerson.persons[i].copyWith(insurance: insurance);
+
+    print('object');
+
+
+  }
+
+
+  void removeInsuranceAll() {
+
+    for(int i = 0 ; i < state.filterState!.numberPerson.persons.length ; i++) {
+      removeInsuranceFromPerson(i);
+
+    }
+
+
+  }
+  void removeInsuranceFromPerson(int i) {
+    state.filterState!.numberPerson.persons[i] = state.filterState!.numberPerson.persons[i].copyWith(insuranceEmpty:true);
+
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
@@ -20,11 +21,14 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../blocs/booking/booking_cubit.dart';
+import '../../../../../blocs/search_flight/search_flight_cubit.dart';
 
 class PassengerInfo extends StatefulWidget {
   final Person person;
 
-  const PassengerInfo({Key? key, required this.person}) : super(key: key);
+  final Function(bool e,Bundle currentInsuranceBundlde)insuranceSelected;
+
+   const PassengerInfo({Key? key, required this.person, required this.insuranceSelected}) : super(key: key);
 
   @override
   State<PassengerInfo> createState() => _PassengerInfoState();
@@ -41,11 +45,18 @@ class _PassengerInfoState extends State<PassengerInfo> {
 
   bool insuranceSelected = false;
 
+  Bundle? currentInsuranceBundlde;
+
   @override
   void initState() {
     super.initState();
     nationality = widget.person.passenger?.nationality ?? "MY";
     nationalityController.text = nationality;
+
+    if(widget.person.insuranceGroup != null) {
+      insuranceSelected = true;
+
+    }
   }
 
   @override
@@ -238,13 +249,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   ),
                 ),
                 if (bookingState != null) ...[
-                  if (bookingState.inbound!.isNotEmpty ||
-                      bookingState.outbound!.isNotEmpty) ...[
+                  if (bookingState.outbound!.isNotEmpty) ...[
                     Visibility(
                       visible: widget.person.peopleType != PeopleType.infant,
                       child: FormBuilderCheckbox(
                         name: "${widget.person.toString()}$formNameInsurance",
                         contentPadding: EdgeInsets.zero,
+                        initialValue: insuranceSelected,
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.zero,
                           border: InputBorder.none,
@@ -255,11 +266,29 @@ class _PassengerInfoState extends State<PassengerInfo> {
                           focusedErrorBorder: InputBorder.none,
                         ),
                         title: Text(
-                            "I want travel protection : MYR${travelProtectionRate()}"),
+                            "I want travel protection : MYR${travelProtectionRate(bookingState.outbound!)}"),
                         onChanged: (value) {
                           setState(() {
                             insuranceSelected = value ?? false;
                           });
+
+                          if (value == true) {
+                           // widget.person.insuranceGroup =
+                             //   currentInsuranceBundlde;
+
+                            //widget.person = widget.person.copyWith(insurance: );
+
+                            widget.insuranceSelected(true,currentInsuranceBundlde!);
+
+
+                          } else {
+
+                            widget.insuranceSelected(false,currentInsuranceBundlde!);
+
+                            // widget.person = widget.person.copyWith(insuranceEmpty: true);
+
+                            //widget.person.insuranceGroup = null;
+                          }
                         },
                       ),
                     ),
@@ -273,5 +302,9 @@ class _PassengerInfoState extends State<PassengerInfo> {
     );
   }
 
-  int travelProtectionRate() => 10;
+  int travelProtectionRate(List<Bundle> outbound) {
+    currentInsuranceBundlde = outbound.first;
+
+    return outbound.first.amount!.toInt();
+  }
 }

@@ -95,6 +95,15 @@ class NumberPerson extends Equatable {
     return total;
   }
 
+  num getTotalInsurance() {
+    num total = 0;
+    for (var element in persons) {
+      total = total + element.getInsurancePrice();
+    }
+    return total;
+  }
+
+
   num getTotalBaggagePartial(bool isDeparture) {
     num total = 0;
     for (var element in persons) {
@@ -161,7 +170,7 @@ class Person extends Equatable {
   final Bundle? returnBaggage;
   final Bundle? departureSports;
   final Bundle? returnSports;
-  final Bundle? insuranceGroup;
+   final Bundle? insuranceGroup;
 
   final int? numberOrder;
   final Passenger? passenger;
@@ -316,7 +325,8 @@ class Person extends Equatable {
         getTotalPriceSeat() +
         getTotalPriceMeal() +
         getTotalPriceBaggage() +
-        getTotalPriceSports();
+        getTotalPriceSports() +
+        getInsurancePrice();
     return totalPrice;
   }
 
@@ -381,7 +391,14 @@ class Person extends Equatable {
     return totalPrice;
   }
 
-  //here
+  num getInsurancePrice() {
+    num totalPrice = 0;
+
+    totalPrice = getInsuranceTotalPrice();
+
+    return totalPrice;
+
+  }
 
   num getPartialPriceBaggage(bool isDeparture) {
     num totalPrice = isDeparture
@@ -397,6 +414,15 @@ class Person extends Equatable {
 
     return totalPrice;
   }
+
+  num getInsuranceTotalPrice() {
+
+    num totalPrice = insuranceGroup?.finalAmount ?? 0;
+
+    return totalPrice;
+  }
+
+
 
   bool isWithInfant(NumberPerson? numberPerson) {
     if (peopleType == PeopleType.adult &&
@@ -419,6 +445,8 @@ class Person extends Equatable {
     Bundle? Function()? departureSports,
     Bundle? Function()? returnSports,
     int? numberOrder,
+    Bundle? insurance,
+    bool insuranceEmpty = false,
   }) {
     return Person(
       peopleType: peopleType ?? this.peopleType,
@@ -438,6 +466,7 @@ class Person extends Equatable {
           departureSports != null ? departureSports() : this.departureSports,
       returnSports: returnSports != null ? returnSports() : this.returnSports,
       numberOrder: numberOrder ?? this.numberOrder,
+    insuranceGroup: insuranceEmpty ? (null) : insurance ?? insuranceGroup,
     );
   }
 

@@ -27,7 +27,7 @@ class BookingSummary extends StatelessWidget {
           "Your total booking",
           style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
         ),
-        MoneyWidget(
+         MoneyWidget(
           isDense: false,
           amount: booking.getFinalPriceDisplay +
               (filterState?.numberPerson.getTotal() ?? 0) -

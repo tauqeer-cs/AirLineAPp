@@ -57,6 +57,23 @@ class BookingDetailsView extends StatefulWidget {
 
 class _BookingDetailsViewState extends State<BookingDetailsView> {
   final scrollController = ScrollController();
+  final keySummary = GlobalKey();
+  final bookingSummary = GlobalKey();
+
+  void rebuild() {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (keySummary.currentContext as Element).visitChildren(rebuild);
+  }
+  void rebuildSummary() {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (bookingSummary.currentContext as Element).visitChildren(rebuild);
+  }
 
   var isValid = false;
   SearchFlightState? currentState;
@@ -95,7 +112,11 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         kVerticalSpacer,
                         const CardSummary(showFees: false),
                         kVerticalSpacer,
-                        const ListOfPassengerInfo(),
+                         ListOfPassengerInfo(onInsuranceChanged: (){
+
+                           rebuild();
+                           rebuildSummary();
+                         },),
                         kVerticalSpacer,
 
                         const Padding(
@@ -106,11 +127,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                       ],
                     ),
                   ),
-                  1 == 2
-                      ? Container()
-                      : Stack(
+                  Stack(
                           children: [
-                            const CheckoutSummary(),
+                             CheckoutSummary(key: bookingSummary,),
                             Positioned(
                               bottom: 0,
                               right: 15,
@@ -145,7 +164,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const BookingSummary(),
+                   BookingSummary(key: keySummary,),
                   ElevatedButton(
                     onPressed: isValid ? () => onBooking(context) : null,
                     child: const Text("Continue"),
