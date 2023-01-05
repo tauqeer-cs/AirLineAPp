@@ -46,6 +46,11 @@ class ConfirmationBaggage extends StatelessWidget {
 
     }
     else if(isInsurance){
+
+      if(insuranceDetails!.totalAmount!.toInt() == 0){
+        hideView = true;
+      }
+
       insuranceDetails = context
           .watch<ConfirmationCubit>()
           .state
@@ -64,7 +69,7 @@ class ConfirmationBaggage extends StatelessWidget {
             ),
             const Spacer(),
             MoneyWidget(
-              amount: boolIsSports ? sportsEquipmentDetail?.totalAmount : baggage?.totalAmount,
+              amount: amount(sportsEquipmentDetail, baggage,insuranceDetails),
               isDense: true,
             ),
           ],
@@ -112,6 +117,19 @@ class ConfirmationBaggage extends StatelessWidget {
         kVerticalSpacerSmall,
       ],
     );
+  }
+
+  num? amount(SportsEquipmentDetail? sportsEquipmentDetail, BaggageDetail? baggage,InsuranceDetails? insuranceDetails) {
+
+    if(boolIsSports){
+
+      return sportsEquipmentDetail?.totalAmount;
+
+    }else if(isInsurance){
+      return insuranceDetails?.totalAmount;
+    }
+
+    return baggage?.totalAmount;
   }
 
   String titleText()  {
