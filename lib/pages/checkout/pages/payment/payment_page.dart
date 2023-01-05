@@ -39,7 +39,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
 
-    context.read<SummaryCubit>().getAvailablePromotions();
+    //context.read<SummaryCubit>().getAvailablePromotions();
 
     return WillPopScope(
       onWillPop: () async {

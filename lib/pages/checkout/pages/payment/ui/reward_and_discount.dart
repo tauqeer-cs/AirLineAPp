@@ -24,11 +24,16 @@ class RewardAndDiscount extends StatelessWidget {
     final state = context.watch<VoucherCubit>().state;
     final bookingState = context.read<BookingCubit>().state;
     bool showReward = context.read<SummaryCubit>().state.promoLoaded;
-    var promotionsList = context
-        .read<SummaryCubit>()
-        .state
-        .lmsRedemptionOption
-        ?.availableOptions;
+
+
+    if(false) {
+      var promotionsList = context
+          .read<SummaryCubit>()
+          .state
+          .lmsRedemptionOption
+          ?.availableOptions;
+
+    }
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -43,7 +48,8 @@ class RewardAndDiscount extends StatelessWidget {
             ),
 
             //
-            if (showReward && promotionsList != null) ...[
+            if (false) ...[
+             //showReward && promotionsList != null
               kVerticalSpacer,
               Text(
                 "MYReward",
@@ -59,6 +65,7 @@ class RewardAndDiscount extends StatelessWidget {
               ),
               kVerticalSpacer,
 
+              /*
               for(var currenteItem in promotionsList) ... [
                 InkWell(
                   onTap: () {},
@@ -97,7 +104,7 @@ class RewardAndDiscount extends StatelessWidget {
                 ),
                 kVerticalSpacerSmall,
               ],
-
+*/
               kVerticalSpacerSmall,
 
 

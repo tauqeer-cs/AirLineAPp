@@ -17,6 +17,7 @@ import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/repositories/local_repositories.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
@@ -201,6 +202,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (_) => CountriesCubit()..getCountries()),
         BlocProvider(create: (_) => FilterCubit()),
         BlocProvider(create: (_) => SearchFlightCubit()),
+        BlocProvider(create: (context) => SummaryCubit()),
         BlocProvider(create: (_) => BookingCubit()),
         BlocProvider(
           create: (_) => TimerBloc(

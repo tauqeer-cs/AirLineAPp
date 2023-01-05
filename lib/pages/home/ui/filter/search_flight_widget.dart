@@ -7,6 +7,7 @@ import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/constant_utils.dart';
 import '../../../../widgets/forms/app_input_text.dart';
 import '../../bloc/filter_cubit.dart';
 
@@ -29,12 +30,15 @@ class SearchFlightWidget extends StatelessWidget {
         const CalendarWidget(),
         kVerticalSpacerSmall,
 
-         AppInputText(
-           name: "promoFlight",
-           onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
-          hintText: "Promo Code",
-         ),
-        kVerticalSpacer,
+        if(ConstantUtils.showPromoTextField) ... [
+          AppInputText(
+            name: "promoFlight",
+            onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
+            hintText: "Promo Code",
+          ),
+          kVerticalSpacer,
+
+        ],
         kVerticalSpacer,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),

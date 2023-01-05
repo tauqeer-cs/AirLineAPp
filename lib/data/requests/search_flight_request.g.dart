@@ -47,7 +47,7 @@ CommonFlightRequest _$CommonFlightRequestFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       totalAmount: json['TotalAmount'] as num?,
-      promoCode: json['PromoCode'] as String?,
+      promoCode: json['promoCode'] as String? ?? '',
       outboundLFID: (json['OutboundLFID'] as List<dynamic>?)
           ?.map((e) => e as int)
           .toList(),
@@ -78,7 +78,7 @@ Map<String, dynamic> _$CommonFlightRequestToJson(CommonFlightRequest instance) {
   val['OutboundFares'] = instance.outboundFares;
   val['InboundFares'] = instance.inboundFares;
   writeNotNull('TotalAmount', instance.totalAmount);
-  writeNotNull('PromoCode', instance.promoCode);
+  val['promoCode'] = instance.promoCode;
   writeNotNull('OutboundLFID', instance.outboundLFID);
   writeNotNull('InboundLFID', instance.inboundLFID);
   return val;
