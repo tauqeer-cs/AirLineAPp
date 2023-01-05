@@ -1,5 +1,6 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
@@ -26,9 +27,11 @@ import '../../../../../blocs/search_flight/search_flight_cubit.dart';
 class PassengerInfo extends StatefulWidget {
   final Person person;
 
-  final Function(bool e,Bundle currentInsuranceBundlde)insuranceSelected;
+  final Function(bool e, Bundle currentInsuranceBundlde) insuranceSelected;
 
-   const PassengerInfo({Key? key, required this.person, required this.insuranceSelected}) : super(key: key);
+  const PassengerInfo(
+      {Key? key, required this.person, required this.insuranceSelected})
+      : super(key: key);
 
   @override
   State<PassengerInfo> createState() => _PassengerInfoState();
@@ -53,11 +56,15 @@ class _PassengerInfoState extends State<PassengerInfo> {
     nationality = widget.person.passenger?.nationality ?? "MY";
     nationalityController.text = nationality;
 
-    if(widget.person.insuranceGroup != null) {
+    if (widget.person.insuranceGroup != null) {
       insuranceSelected = true;
-
+    }
+    if (widget.person.passenger?.firstName == 'EXTRA') {
+      isNameExtra = true;
     }
   }
+
+  bool isNameExtra = false;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +103,25 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     context
                         .read<InfoCubit>()
                         .updateMap(widget.person.toString(), value ?? "");
+
+                    if (insuranceSelected && value == 'EXTRA') {
+                      widget.insuranceSelected(false, currentInsuranceBundlde!);
+                      insuranceSelected = false;
+                      setState(() {
+                        isNameExtra = true;
+                      });
+                    }
+                    else if(value == 'EXTRA') {
+                      setState(() {
+                        isNameExtra = true;
+                      });
+
+                    }
+                    else {
+                      setState(() {
+                        isNameExtra = false;
+                      });
+                    }
                   },
                 ),
                 kVerticalSpacerMini,
@@ -192,7 +218,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.person.peopleType != PeopleType.infant,
+                  visible: visible(),
                   child: FormBuilderCheckbox(
                     name: "${widget.person.toString()}$formNameWheelChair",
                     contentPadding: EdgeInsets.zero,
@@ -248,58 +274,69 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     },
                   ),
                 ),
-                if (bookingState != null) ...[
-                  if (bookingState.outbound!.isNotEmpty) ...[
-                    Visibility(
-                      visible: widget.person.peopleType != PeopleType.infant,
-                      child: FormBuilderCheckbox(
-                        name: "${widget.person.toString()}$formNameInsurance",
-                        contentPadding: EdgeInsets.zero,
-                        initialValue: insuranceSelected,
-                        decoration: const InputDecoration(
+
+                if(!isNameExtra) ... [
+                  if (bookingState != null) ...[
+                    if (bookingState.outbound!.isNotEmpty) ...[
+                      Visibility(
+                        visible: visible(),
+                        child: FormBuilderCheckbox(
+                          name: "${widget.person.toString()}$formNameInsurance",
                           contentPadding: EdgeInsets.zero,
-                          border: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          focusedErrorBorder: InputBorder.none,
+                          initialValue: insuranceSelected,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
+                          ),
+                          title: Text(
+                              "I want travel protection : MYR${travelProtectionRate(bookingState.outbound!)}"),
+                          onChanged: (value) {
+                            setState(() {
+                              insuranceSelected = value ?? false;
+                            });
+
+                            if (value == true) {
+                              // widget.person.insuranceGroup =
+                              //   currentInsuranceBundlde;
+
+                              //widget.person = widget.person.copyWith(insurance: );
+
+                              widget.insuranceSelected(
+                                  true, currentInsuranceBundlde!);
+                            } else {
+                              widget.insuranceSelected(
+                                  false, currentInsuranceBundlde!);
+
+                              // widget.person = widget.person.copyWith(insuranceEmpty: true);
+
+                              //widget.person.insuranceGroup = null;
+                            }
+                          },
                         ),
-                        title: Text(
-                            "I want travel protection : MYR${travelProtectionRate(bookingState.outbound!)}"),
-                        onChanged: (value) {
-                          setState(() {
-                            insuranceSelected = value ?? false;
-                          });
-
-                          if (value == true) {
-                           // widget.person.insuranceGroup =
-                             //   currentInsuranceBundlde;
-
-                            //widget.person = widget.person.copyWith(insurance: );
-
-                            widget.insuranceSelected(true,currentInsuranceBundlde!);
-
-
-                          } else {
-
-                            widget.insuranceSelected(false,currentInsuranceBundlde!);
-
-                            // widget.person = widget.person.copyWith(insuranceEmpty: true);
-
-                            //widget.person.insuranceGroup = null;
-                          }
-                        },
                       ),
-                    ),
+                    ],
                   ],
-                ],
+                ]
+
               ],
             ),
           ),
         ),
       ],
     );
+  }
+
+  bool visible() {
+    if(widget.person.peopleType == PeopleType.infant){
+      return true;
+
+    }
+    return true;
   }
 
   int travelProtectionRate(List<Bundle> outbound) {

@@ -76,11 +76,21 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
   }
 
   var isValid = false;
+  var insuranceChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
   SearchFlightState? currentState;
 
   @override
   Widget build(BuildContext context) {
-    currentState = context.watch<SearchFlightCubit>().state;
+    final bloc = context.watch<SearchFlightCubit>();
+    currentState = bloc.state;
+
+    bool showInsuranceTerms = context.watch<SearchFlightCubit>().showInsuranceCheck();
     return Stack(
       children: [
         FormBuilder(
@@ -119,11 +129,28 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                          },),
                         kVerticalSpacer,
 
-                        const Padding(
-                          padding: EdgeInsets.only(left: 32),
-                          child: Text(
-                              '''I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable. I confirm that I have read, understood and agree to the Terms and Conditions of MY Travel Shield and agree to the processing of my Personal Data in accordance with the Data Privacy Notice.'''),
-                        ),
+
+                        if(showInsuranceTerms) ... [
+                          Row(
+                            children: [
+                              Checkbox(value: insuranceChecked, onChanged:(newValue){
+                                setState(() {
+                                  insuranceChecked = newValue ?? false;
+                                });
+                              }),
+                              const Text("Here's the text to be used for the green box:"),
+                            ],
+                          ),
+
+                          const Padding(
+
+                            padding: EdgeInsets.only(left: 32),
+                            child: Text(
+                                '''I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable. I confirm that I have read, understood and agree to the Terms and Conditions of MY Travel Shield and agree to the processing of my Personal Data in accordance with the Data Privacy Notice.'''),
+                          ),
+                        ],
+
+
                       ],
                     ),
                   ),
@@ -166,7 +193,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                 children: [
                    BookingSummary(key: keySummary,),
                   ElevatedButton(
-                    onPressed: isValid ? () => onBooking(context) : null,
+                    onPressed: showInsuranceTerms ? ((showInsuranceTerms && insuranceChecked) ? (isValid ? () => onBooking(context) : null) : null) : (isValid ? () => onBooking(context) : null),
                     child: const Text("Continue"),
                   ),
                   kVerticalSpacer,
