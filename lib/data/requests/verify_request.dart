@@ -43,6 +43,7 @@ class VerifyRequest extends Equatable {
       inboundFares: inbound ?? [],
       outboundFares: outbound ?? [],
       totalAmount: totalAmount,
+      promoCode: filter.promoCode ?? ''
     );
     return VerifyRequest(
       flightVerifyRequest: searchFlightRequest,

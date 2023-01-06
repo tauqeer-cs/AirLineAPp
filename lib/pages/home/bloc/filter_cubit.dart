@@ -53,7 +53,7 @@ class FilterCubit extends Cubit<FilterState> {
       persons.removeAt(index);
     }
     final newNumberPerson = NumberPerson(persons: persons);
-    emit(state.copyWith(numberPerson: newNumberPerson));
+    emit(state.copyWith(numberPerson: newNumberPerson ,promoCode: state.promoCode));
   }
 
   updateOriginAirport(Airports? destination) {
@@ -66,11 +66,13 @@ class FilterCubit extends Cubit<FilterState> {
       flightType: state.flightType,
       numberPerson: state.numberPerson,
       origin: destination,
-    ));
+    promoCode: state.promoCode
+    ),);
   }
 
   updateDestinationAirport(Airports? destination) {
-    emit(state.copyWith(destination: destination));
+
+    emit(state.copyWith(destination: destination,promoCode: state.promoCode));
   }
 
   updateDate({DateTime? departDate, DateTime? returnDate}) {
@@ -83,6 +85,7 @@ class FilterCubit extends Cubit<FilterState> {
       flightType: state.flightType,
       numberPerson: state.numberPerson,
       origin: state.origin,
+        promoCode: state.promoCode
     ));
   }
 
@@ -96,6 +99,7 @@ class FilterCubit extends Cubit<FilterState> {
       flightType: state.flightType,
       numberPerson: state.numberPerson,
       origin: state.origin,
+        promoCode: state.promoCode
     ));
   }
 }

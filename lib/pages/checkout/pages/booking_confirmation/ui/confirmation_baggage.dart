@@ -46,6 +46,9 @@ class ConfirmationBaggage extends StatelessWidget {
 
     }
     else if(isInsurance){
+
+
+
       insuranceDetails = context
           .watch<ConfirmationCubit>()
           .state

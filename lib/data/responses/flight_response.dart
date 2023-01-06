@@ -59,7 +59,9 @@ class FlightResult extends Equatable {
         requestedGroupMethod,
         requestedIataNumber,
         requestedInventoryFilterMethod,
-        taxDetails
+        taxDetails,
+
+    requestedPromotionalCode
       ];
 
   final List<InboundOutboundSegment>? inboundSegment;
@@ -72,22 +74,25 @@ class FlightResult extends Equatable {
   final num? requestedFareFilterMethod;
   final num? requestedGroupMethod;
   final String? requestedIataNumber;
+  final String? requestedPromotionalCode;
   final num? requestedInventoryFilterMethod;
   final List<TaxDetail>? taxDetails;
 
-  const FlightResult(
-      {this.inboundSegment,
-      this.outboundSegment,
-      this.commissionIncluded,
-      this.legDetails,
-      this.requestReservationChannel,
-      this.requestedCorporationID,
-      this.requestedCurrencyOfFareQuote,
-      this.requestedFareFilterMethod,
-      this.requestedGroupMethod,
-      this.requestedIataNumber,
-      this.requestedInventoryFilterMethod,
-      this.taxDetails});
+  const FlightResult({
+    this.inboundSegment,
+    this.outboundSegment,
+    this.commissionIncluded,
+    this.legDetails,
+    this.requestReservationChannel,
+    this.requestedCorporationID,
+    this.requestedCurrencyOfFareQuote,
+    this.requestedFareFilterMethod,
+    this.requestedGroupMethod,
+    this.requestedIataNumber,
+    this.requestedInventoryFilterMethod,
+    this.taxDetails,
+    this.requestedPromotionalCode,
+  });
 
   factory FlightResult.fromJson(Map<String, dynamic> json) =>
       _$FlightResultFromJson(json);
@@ -178,8 +183,8 @@ class InboundOutboundSegment extends Equatable {
 
   Map<String, dynamic> toJson() => _$InboundOutboundSegmentToJson(this);
 
-  getPrice(String pax){
-    switch (pax.toUpperCase()){
+  getPrice(String pax) {
+    switch (pax.toUpperCase()) {
       case "ADT":
         return adultPricePerPax;
       case "CHD":

@@ -18,7 +18,7 @@ class PromotionsResponse {
       data['value'] = value!.toJson();
     }
 
-    data['statusCode'] = this.statusCode;
+    data['statusCode'] = statusCode;
     return data;
   }
 }
@@ -37,7 +37,7 @@ class Value {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['success'] = success;
     if (lmsRedemptionOption != null) {
       data['lmsRedemptionOption'] = lmsRedemptionOption!.toJson();
@@ -48,16 +48,16 @@ class Value {
 
 class RedemptionOption {
   String? pid;
-  List<AvailableOptions>? availableOptions;
+  List<AvailableRedeemOptions>? availableOptions;
 
   RedemptionOption({this.pid, this.availableOptions});
 
   RedemptionOption.fromJson(Map<String, dynamic> json) {
     pid = json['pid'];
     if (json['availableOptions'] != null) {
-      availableOptions = <AvailableOptions>[];
+      availableOptions = <AvailableRedeemOptions>[];
       json['availableOptions'].forEach((v) {
-        availableOptions!.add(new AvailableOptions.fromJson(v));
+        availableOptions!.add( AvailableRedeemOptions.fromJson(v));
       });
     }
   }
@@ -65,27 +65,27 @@ class RedemptionOption {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['pid'] = this.pid;
-    if (this.availableOptions != null) {
+    if (availableOptions != null) {
       data['availableOptions'] =
-          this.availableOptions!.map((v) => v.toJson()).toList();
+          availableOptions!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class AvailableOptions {
+class AvailableRedeemOptions {
   String? redemptionName;
   int? redemptionPoint;
   int? redemptionAmount;
   String? redemptionCode;
 
-  AvailableOptions(
+  AvailableRedeemOptions(
       {this.redemptionName,
         this.redemptionPoint,
         this.redemptionAmount,
         this.redemptionCode});
 
-  AvailableOptions.fromJson(Map<String, dynamic> json) {
+  AvailableRedeemOptions.fromJson(Map<String, dynamic> json) {
     redemptionName = json['redemptionName'];
     redemptionPoint = json['redemptionPoint'];
     redemptionAmount = json['redemptionAmount'];
