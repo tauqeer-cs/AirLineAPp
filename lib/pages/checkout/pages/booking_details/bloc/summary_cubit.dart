@@ -13,44 +13,52 @@ import '../../../../../data/responses/promotions_response.dart';
 part 'summary_state.dart';
 
 class SummaryCubit extends Cubit<SummaryState> {
-  SummaryCubit() : super( SummaryState());
+  SummaryCubit() : super(SummaryState());
   final _repository = FlightRepository();
 
+  selectedItem(AvailableRedeemOptions option) {
+
+    emit(
+      state.copyWith(
+        selectedRedeemOption: option
+      )
+    );
+  }
+
+
+  AvailableRedeemOptions? get getSelectedItem {
+    return state.selectedRedeemOption;
+  }
 
   getAvailablePromotions() async {
-
-    if(state.promoLoaded){
+    if (state.promoLoaded) {
       return;
-
     }
-    final response = await _repository.getPromoInfo(Token(token: state.summaryRequest!.token));
+    final response = await _repository
+        .getPromoInfo(Token(token: state.summaryRequest!.token));
     print('object');
-    if(response.statusCode == 200) {
-
-
+    if (response.statusCode == 200) {
       emit(state.copyWith(
         blocState: BlocState.finished,
         redemptionOption: response.value!.lmsRedemptionOption,
-          promoReady: true,
+        promoReady: true,
       ));
-
-    }
-    else {
+    } else {
       emit(state.copyWith(
         blocState: BlocState.finished,
         redemptionOption: response.value!.lmsRedemptionOption,
         promoReady: false,
       ));
     }
-
   }
+
   submitSummary(SummaryRequest summaryRequest) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final response = await _repository.summaryFlight(summaryRequest);
       emit(state.copyWith(
         blocState: BlocState.finished,
-        summaryResponse:response,
+        summaryResponse: response,
         summaryRequest: summaryRequest,
       ));
     } catch (e, st) {

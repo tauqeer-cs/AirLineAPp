@@ -18,6 +18,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/constant_utils.dart';
 import '../booking_details/bloc/summary_cubit.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -30,16 +31,19 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
 
 
+
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    //context.read<SummaryCubit>().getAvailablePromotions();
+    if(ConstantUtils.showRedeemPoints) {
+      context.read<SummaryCubit>().getAvailablePromotions();
+    }
 
     return WillPopScope(
       onWillPop: () async {

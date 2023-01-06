@@ -12,28 +12,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../data/responses/promotions_response.dart';
+import '../../../../../utils/constant_utils.dart';
 import '../../booking_details/bloc/summary_cubit.dart';
 
 class RewardAndDiscount extends StatelessWidget {
-  static final _fbKey = GlobalKey<FormBuilderState>();
+   final _fbKey = GlobalKey<FormBuilderState>();
 
-  const RewardAndDiscount({Key? key}) : super(key: key);
+
+   RewardAndDiscount({Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<VoucherCubit>().state;
     final bookingState = context.read<BookingCubit>().state;
-    bool showReward = context.read<SummaryCubit>().state.promoLoaded;
+    var bloc = context.read<SummaryCubit>();
+    bool showReward = false;
 
 
-    if(false) {
-      var promotionsList = context
-          .read<SummaryCubit>()
+    List<AvailableRedeemOptions>? promotionsList;
+
+    if(ConstantUtils.showRedeemPoints) {
+      showReward = bloc.state.promoLoaded;
+
+      promotionsList = bloc
           .state
           .lmsRedemptionOption
           ?.availableOptions;
-
     }
+
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -48,8 +55,8 @@ class RewardAndDiscount extends StatelessWidget {
             ),
 
             //
-            if (false) ...[
-             //showReward && promotionsList != null
+            if (ConstantUtils.showRedeemPoints && promotionsList != null) ...[
+             //showReward
               kVerticalSpacer,
               Text(
                 "MYReward",
@@ -65,46 +72,46 @@ class RewardAndDiscount extends StatelessWidget {
               ),
               kVerticalSpacer,
 
-              /*
-              for(var currenteItem in promotionsList) ... [
-                InkWell(
-                  onTap: () {},
-                  child: AppCard(
-                    customColor: Styles.klightBackgroundColor,
-                    edgeInsets: EdgeInsets.zero,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: [
-                          Text(
-                            currenteItem.redemptionName.toString(),
-                            style: kLargeHeavy,
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          Text(
 
-                            '${currenteItem.redemptionPoint} points',
-                            style: kLargeHeavy,
-                          ),
+              for(var currenteItem in promotionsList ?? []) ... [
+                AppCard(
+                  customColor: Styles.klightBackgroundColor,
+                  edgeInsets: EdgeInsets.zero,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Text(
+                          currenteItem.redemptionName.toString(),
+                          style: kLargeHeavy,
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Text(
 
-                          IgnorePointer(
-                            child: Radio<bool?>(
-                              activeColor: Styles.kBorderColor,
-                              value: false,
-                              groupValue: true,
-                              onChanged: (value) async {},
-                            ),
-                          ),
-                        ],
-                      ),
+                          '${currenteItem.redemptionPoint} points',
+                          style: kLargeHeavy,
+                        ),
+
+                        Radio(value: bloc.getSelectedItem, groupValue: currenteItem,
+                            onChanged: (
+                                value){
+
+
+                          bloc.selectedItem(currenteItem);
+
+
+
+                        }),
+
+                      ],
                     ),
                   ),
                 ),
                 kVerticalSpacerSmall,
               ],
-*/
+
               kVerticalSpacerSmall,
 
 
@@ -215,30 +222,6 @@ class RewardAndDiscount extends StatelessWidget {
                     )
                   : const Text("Apply"),
             ),
-            // AppCard(
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       Text(
-            //         "Promo Code",
-            //         style: kHugeSemiBold,
-            //       ),
-            //       kVerticalSpacer,
-            //       AppInputText(name: "promoCode"),
-            //       kVerticalSpacer,
-            //       ElevatedButton(onPressed: () {}, child: Text("Apply")),
-            //       kVerticalSpacerBig,
-            //       Text(
-            //         "Voucher Code",
-            //         style: kHugeSemiBold,
-            //       ),
-            //       kVerticalSpacer,
-            //       AppInputText(name: "voucherCode"),
-            //       kVerticalSpacer,
-            //       ElevatedButton(onPressed: () {}, child: Text("Apply")),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ),
