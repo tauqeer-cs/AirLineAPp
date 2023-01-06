@@ -16,7 +16,6 @@ import 'package:app/models/search_date_range.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../requests/promotion_request.dart';
 import '../requests/token_request.dart';
 import '../responses/promotions_response.dart';
 

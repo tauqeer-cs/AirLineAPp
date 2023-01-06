@@ -1,5 +1,5 @@
 class ConstantUtils{
   static bool isFirstStart = false;
-  static bool showPromoTextField = false;
+  static bool showPromoTextField = true;
 
 }
