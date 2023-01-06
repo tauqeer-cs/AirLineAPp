@@ -3,7 +3,7 @@ description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 #prodlist: 1.0.49+49
-version: 1.0.53+53
+version: 1.0.54+54
 
 environment:
   sdk: '>=2.18.1 <3.0.0'
