@@ -7,6 +7,7 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/form_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
@@ -114,10 +115,14 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 FormBuilderDateTimePicker(
                   name: "${widget.person.toString()}$formNameDob",
                   firstDate: widget.person.dateLimitStart(filter.departDate),
-                  lastDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
+                  lastDate: widget.person.peopleType == PeopleType.infant
+                      ? DateTime.now().add(const Duration(days: -8))
+                      : widget.person.dateLimitEnd(filter.departDate),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
-                  initialDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
+                  initialDate: widget.person.peopleType == PeopleType.infant
+                      ? DateTime.now().add(const Duration(days: -8))
+                      : widget.person.dateLimitEnd(filter.departDate),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,
@@ -131,6 +136,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       );
                     });
                   },
+                ),
+                kVerticalSpacerMini,
+                AppInputText(
+                  name: "${widget.person.toString()}$formNameMYRewardId",
+                  hintText: "MYReward Member ID (Optional)",
+                  inputFormatters: [AppFormUtils.onlyNumber()],
+                  textInputType: TextInputType.number,
                 ),
                 kVerticalSpacerMini,
                 Visibility(
