@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../app/app_router.dart';
 import '../../../blocs/profile/profile_cubit.dart';
+import '../../../utils/constant_utils.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -170,18 +171,21 @@ class ProfileView extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                        ProfileBoxButton(
-                                          text: 'Family and Friends',
-                                          imageName: 'iconFamily',
-                                          onTap: () {
-                                            //Page
+                                        if(ConstantUtils.showFamily) ... [
+                                          ProfileBoxButton(
+                                            text: 'Family and Friends',
+                                            imageName: 'iconFamily',
+                                            onTap: () {
+                                              //Page
 
-                                            context.router.push(
-                                              const FriendsFamilyRoute(),
-                                            );
+                                              context.router.push(
+                                                const FriendsFamilyRoute(),
+                                              );
 
-                                          },
-                                        ),
+                                            },
+                                          ),
+                                        ],
+
 
                                         /* ProfileBoxButton(
                                         text: 'My Payment Cards',

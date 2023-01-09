@@ -4,6 +4,8 @@ import 'package:app/data/provider/profile_provider.dart';
 import 'package:app/data/responses/common_response.dart';
 
 import '../../models/profile.dart';
+import '../requests/friend_family_add.dart';
+import '../requests/update_friends_family.dart';
 
 class ProfileRepository {
   static final ProfileRepository _instance = ProfileRepository._internal();
@@ -30,5 +32,14 @@ class ProfileRepository {
     return await _provider.updateUserProfile(profile);
   }
 
+  Future<CommonResponse> addFriendsAndFamily(FriendsFamilyAdd familyMember) async {
+    return await _provider.addFriendsFamily(familyMember);
+  }
+  Future<CommonResponse> updateFriendsAndFamily(UpdateFriendsFamily familyMember) async {
+    return await _provider.updateFriendsFamily(familyMember);
+  }
+  //
+
+  //
 
 }
