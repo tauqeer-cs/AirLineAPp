@@ -5,19 +5,12 @@ class SummaryState extends Equatable {
   final SummaryRequest? summaryRequest;
   final BlocState blocState;
   final String message;
-  final bool promoLoaded;
-  late AvailableRedeemOptions? selectedRedeemOption;
-
-  RedemptionOption? lmsRedemptionOption;
 
   SummaryState({
     this.summaryResponse,
     this.summaryRequest,
     this.blocState = BlocState.initial,
     this.message = '',
-    this.lmsRedemptionOption,
-    this.promoLoaded = false,
-    this.selectedRedeemOption,
   });
 
   SummaryState copyWith(
@@ -33,9 +26,6 @@ class SummaryState extends Equatable {
       message: message ?? this.message,
       summaryResponse: summaryResponse ?? this.summaryResponse,
       summaryRequest: summaryRequest ?? this.summaryRequest,
-      lmsRedemptionOption: redemptionOption ?? lmsRedemptionOption,
-      promoLoaded: promoReady ?? promoLoaded,
-      selectedRedeemOption: selectedRedeemOption ?? this.selectedRedeemOption,
     );
   }
 
@@ -45,7 +35,5 @@ class SummaryState extends Equatable {
         blocState,
         message,
         summaryRequest,
-        lmsRedemptionOption,
-        selectedRedeemOption
       ];
 }

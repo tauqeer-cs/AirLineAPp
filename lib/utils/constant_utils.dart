@@ -3,7 +3,6 @@ class ConstantUtils{
   static bool showPromoTextField = true;
 
   static bool showRedeemPoints = false;
-
 }
 
 

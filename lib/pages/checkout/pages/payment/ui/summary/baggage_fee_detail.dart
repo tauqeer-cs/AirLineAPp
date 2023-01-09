@@ -9,7 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class BaggageFeeDetailPayment extends StatelessWidget {
   final bool isDeparture;
 
-  const BaggageFeeDetailPayment({Key? key, required this.isDeparture})
+  final bool isSports;
+
+  const BaggageFeeDetailPayment({Key? key, required this.isDeparture,  this.isSports = false})
       : super(key: key);
 
   @override
@@ -33,7 +35,10 @@ class BaggageFeeDetailPayment extends StatelessWidget {
             final passenger = passengersTypes.length > (e.numberOrder!.toInt())
                 ? passengersTypes[e.numberOrder!.toInt()]
                 : passengersTypes[0];
-            final bundle = isDeparture ? e.departureBaggage : e.returnBaggage;
+            var bundle = isDeparture ? e.departureBaggage : e.returnBaggage;
+            if(isSports){
+              bundle = isDeparture ? e.departureSports : e.returnSports;
+            }
             return bundle?.amount == null
                 ? const SizedBox.shrink()
                 : Column(

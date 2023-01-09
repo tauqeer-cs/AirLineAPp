@@ -6,13 +6,14 @@ class MoneyWidgetSummary extends StatelessWidget {
   final num? amount;
   final String? currency;
   final bool isNegative, isDense;
+  final bool isSports;
 
   const MoneyWidgetSummary({
     Key? key,
     this.amount,
     this.currency,
     this.isNegative = false,
-    this.isDense = false,
+    this.isDense = false,  this.isSports = false,
   }) : super(key: key);
 
   @override

@@ -42,7 +42,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
 
     if(ConstantUtils.showRedeemPoints) {
-      context.read<SummaryCubit>().getAvailablePromotions();
+      //context.read<PaymentRoute>().getAvailablePromotions();
     }
 
     return WillPopScope(
@@ -186,14 +186,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     );
                   },
                 ),
-                BlocListener<SummaryCubit,SummaryState>(
-                  listener: (context, state){
 
-                    if(state.promoLoaded) {
-
-                    }
-                  },
-                ),
               ],
               child: Scaffold(
                 appBar: AppAppBar(

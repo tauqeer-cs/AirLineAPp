@@ -83,7 +83,7 @@ class ConfirmationBaggage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("${e.title} ${e.givenName} ${e.surName}"),
-              Text("${e.insuranceSSRName}"),
+              const Text('Travel Protection'),
               kVerticalSpacerSmall,
             ],
           ))

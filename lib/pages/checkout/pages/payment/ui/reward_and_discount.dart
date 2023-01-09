@@ -17,10 +17,11 @@ import '../../../../../utils/constant_utils.dart';
 import '../../booking_details/bloc/summary_cubit.dart';
 
 class RewardAndDiscount extends StatelessWidget {
-   final _fbKey = GlobalKey<FormBuilderState>();
+  final _fbKey = GlobalKey<FormBuilderState>();
 
-
-   RewardAndDiscount({Key? key,}) : super(key: key);
+  RewardAndDiscount({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +30,21 @@ class RewardAndDiscount extends StatelessWidget {
     var bloc = context.read<SummaryCubit>();
     bool showReward = false;
 
+    var cc = context.read<VoucherCubit>();
 
     List<AvailableRedeemOptions>? promotionsList;
 
-    if(ConstantUtils.showRedeemPoints) {
-      showReward = bloc.state.promoLoaded;
+    if (ConstantUtils.showRedeemPoints) {
+      //      showReward = bloc.state.promoLoaded;
 
+      /*
       promotionsList = bloc
           .state
           .lmsRedemptionOption
           ?.availableOptions;
-    }
+  */
 
+    }
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -56,7 +60,7 @@ class RewardAndDiscount extends StatelessWidget {
 
             //
             if (ConstantUtils.showRedeemPoints && promotionsList != null) ...[
-             //showReward
+              //showReward
               kVerticalSpacer,
               Text(
                 "MYReward",
@@ -72,8 +76,7 @@ class RewardAndDiscount extends StatelessWidget {
               ),
               kVerticalSpacer,
 
-
-              for(var currenteItem in promotionsList ?? []) ... [
+              for (var currenteItem in promotionsList ?? []) ...[
                 AppCard(
                   customColor: Styles.klightBackgroundColor,
                   edgeInsets: EdgeInsets.zero,
@@ -89,11 +92,11 @@ class RewardAndDiscount extends StatelessWidget {
                           child: Container(),
                         ),
                         Text(
-
                           '${currenteItem.redemptionPoint} points',
                           style: kLargeHeavy,
                         ),
 
+                        /*
                         Radio(value: bloc.getSelectedItem, groupValue: currenteItem,
                             onChanged: (
                                 value){
@@ -104,7 +107,7 @@ class RewardAndDiscount extends StatelessWidget {
 
 
                         }),
-
+*/
                       ],
                     ),
                   ),
@@ -114,13 +117,12 @@ class RewardAndDiscount extends StatelessWidget {
 
               kVerticalSpacerSmall,
 
-
               ElevatedButton(
                 onPressed: state.blocState == BlocState.loading ||
-                    bookingState.superPnrNo != null
+                        bookingState.superPnrNo != null
                     ? null
                     : () {
-                  /*
+                        /*
                   if (_fbKey.currentState!.saveAndValidate()) {
                     final value = _fbKey.currentState!.value;
                     final voucher = value["voucherCode"];
@@ -132,18 +134,14 @@ class RewardAndDiscount extends StatelessWidget {
                     context.read<VoucherCubit>().addVoucher(voucherRequest);
                   }
                   */
-
-
-                },
+                      },
                 child: state.blocState == BlocState.loading
                     ? const AppLoading(
-                  size: 25,
-                  color: Colors.white,
-                )
+                        size: 25,
+                        color: Colors.white,
+                      )
                     : const Text("Redeem"),
               ),
-
-
             ],
             kVerticalSpacerSmall,
             const Text(

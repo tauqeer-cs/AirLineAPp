@@ -1,4 +1,5 @@
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:collection/collection.dart';
@@ -334,6 +335,26 @@ class Passenger extends HiveObject with EquatableMixin {
   @JsonKey(name: 'Seat')
   final Seat? seat;
 
+
+
+
+  String? get ifPassengerHasInsurance {
+
+    if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+
+        if(object.isNotEmpty){
+         return object.first.price!.toDouble().toStringAsFixed(2);
+        }
+
+        return null;
+      }
+    }
+    return null;
+
+  }
 
 
   PeopleType? get getType =>

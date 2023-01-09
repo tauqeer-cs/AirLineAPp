@@ -56,7 +56,7 @@ class _PaymentViewState extends State<PaymentView> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               kVerticalSpacer,
-              const BookingSummary(),
+             const BookingSummary(),
               kVerticalSpacer,
               ElevatedButton(
                 onPressed: () => onBook(context),

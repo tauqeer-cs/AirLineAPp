@@ -587,6 +587,7 @@ class Bundle extends Equatable {
         servicesType: "Insurance",
         logicalFlightId: logicalFlightID,
         quantity: 1,
+        price: amount,
         serviceId: serviceID,
       );
     }
