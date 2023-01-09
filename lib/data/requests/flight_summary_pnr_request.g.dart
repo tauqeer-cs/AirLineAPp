@@ -249,6 +249,8 @@ abstract class _$PassengerCWProxy {
 
   Passenger lastName(String? lastName);
 
+  Passenger mYRewardMemberID(String? mYRewardMemberID);
+
   Passenger middleName(String? middleName);
 
   Passenger nationality(String? nationality);
@@ -294,6 +296,7 @@ abstract class _$PassengerCWProxy {
     bool? isPrimaryPassenger,
     String? knownTravelerNumber,
     String? lastName,
+    String? mYRewardMemberID,
     String? middleName,
     String? nationality,
     num? nationalityLanguageId,
@@ -345,6 +348,10 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
 
   @override
   Passenger lastName(String? lastName) => this(lastName: lastName);
+
+  @override
+  Passenger mYRewardMemberID(String? mYRewardMemberID) =>
+      this(mYRewardMemberID: mYRewardMemberID);
 
   @override
   Passenger middleName(String? middleName) => this(middleName: middleName);
@@ -411,6 +418,7 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
     Object? isPrimaryPassenger = const $CopyWithPlaceholder(),
     Object? knownTravelerNumber = const $CopyWithPlaceholder(),
     Object? lastName = const $CopyWithPlaceholder(),
+    Object? mYRewardMemberID = const $CopyWithPlaceholder(),
     Object? middleName = const $CopyWithPlaceholder(),
     Object? nationality = const $CopyWithPlaceholder(),
     Object? nationalityLanguageId = const $CopyWithPlaceholder(),
@@ -460,6 +468,10 @@ class _$PassengerCWProxyImpl implements _$PassengerCWProxy {
           ? _value.lastName
           // ignore: cast_nullable_to_non_nullable
           : lastName as String?,
+      mYRewardMemberID: mYRewardMemberID == const $CopyWithPlaceholder()
+          ? _value.mYRewardMemberID
+          // ignore: cast_nullable_to_non_nullable
+          : mYRewardMemberID as String?,
       middleName: middleName == const $CopyWithPlaceholder()
           ? _value.middleName
           // ignore: cast_nullable_to_non_nullable
@@ -545,6 +557,7 @@ extension $PassengerCopyWith on Passenger {
     bool isPrimaryPassenger = false,
     bool knownTravelerNumber = false,
     bool lastName = false,
+    bool mYRewardMemberID = false,
     bool middleName = false,
     bool nationality = false,
     bool nationalityLanguageId = false,
@@ -574,6 +587,7 @@ extension $PassengerCopyWith on Passenger {
       knownTravelerNumber:
           knownTravelerNumber == true ? null : this.knownTravelerNumber,
       lastName: lastName == true ? null : this.lastName,
+      mYRewardMemberID: mYRewardMemberID == true ? null : this.mYRewardMemberID,
       middleName: middleName == true ? null : this.middleName,
       nationality: nationality == true ? null : this.nationality,
       nationalityLanguageId:
@@ -935,6 +949,7 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       redressNumber: json['RedressNumber'] as String? ?? "",
       relation: json['Relation'] as String? ?? "",
       suffix: json['Suffix'] as String? ?? "",
+      mYRewardMemberID: json['MYRewardMemberID'] as String?,
       ssr: json['SSR'] == null
           ? null
           : Ssr.fromJson(json['SSR'] as Map<String, dynamic>),
@@ -974,6 +989,7 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
   writeNotNull('RedressNumber', instance.redressNumber);
   writeNotNull('Relation', instance.relation);
   writeNotNull('Suffix', instance.suffix);
+  writeNotNull('MYRewardMemberID', instance.mYRewardMemberID);
   writeNotNull('SSR', instance.ssr);
   writeNotNull('Seat', instance.seat);
   return val;
