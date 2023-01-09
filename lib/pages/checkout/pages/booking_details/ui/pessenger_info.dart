@@ -347,9 +347,16 @@ class _PassengerInfoState extends State<PassengerInfo> {
     return true;
   }
 
-  int travelProtectionRate(List<Bundle> outbound) {
+  String travelProtectionRate(List<Bundle> outbound) {
     currentInsuranceBundlde = outbound.first;
 
-    return outbound.first.amount!.toInt();
+    var taxAmount = 0.0;
+
+    if(currentInsuranceBundlde!.applicableTaxes != null) {
+
+     taxAmount =  currentInsuranceBundlde!.applicableTaxes!.first.taxAmount!.toDouble();
+
+    }
+    return (taxAmount + outbound.first.amount!.toDouble()).toStringAsFixed(2);
   }
 }

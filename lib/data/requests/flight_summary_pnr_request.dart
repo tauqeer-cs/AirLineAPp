@@ -339,7 +339,23 @@ class Passenger extends HiveObject with EquatableMixin {
 
 
 
+  String? get ifPassengerHasInsuranceName {
 
+    if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+
+        if(object.isNotEmpty){
+          return object.first.name;
+        }
+
+        return null;
+      }
+    }
+    return null;
+
+  }
   String? get ifPassengerHasInsurance {
 
     if(ssr != null) {

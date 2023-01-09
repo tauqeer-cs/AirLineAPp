@@ -77,7 +77,7 @@ class PassengerCard extends StatelessWidget {
                             if (e.ifPassengerHasInsurance != null) ...[
                               Row(
                                 children: [
-                                  const Text('Travel protection'),
+                                   Text(e.ifPassengerHasInsuranceName ?? 'Insurance'),
                                   Expanded(
                                     child: Container(),
                                   ),
