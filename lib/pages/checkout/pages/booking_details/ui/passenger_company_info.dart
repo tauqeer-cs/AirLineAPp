@@ -52,7 +52,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
         const AppDividerFadeWidget(),
         kVerticalSpacer,
         Visibility(
-          visible: RemoteConfigRepository.showCompanyInvoiceForm,
+          visible: true,
           child: InkWell(
             onTap: () {
               setState(() {
