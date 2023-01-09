@@ -25,6 +25,8 @@ class _AuthProvider implements AuthProvider {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(loginRequest.toJson());
+
+
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
       method: 'POST',
@@ -38,6 +40,7 @@ class _AuthProvider implements AuthProvider {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+
     final value = User.fromJson(_result.data!);
     return value;
   }

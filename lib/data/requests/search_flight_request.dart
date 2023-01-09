@@ -30,7 +30,7 @@ class SearchFlight extends Equatable {
       isReturn: filter.flightType == FlightType.round,
       originAirport: filter.origin?.code,
       tripType: filter.flightType.message,
-      promoCode: filter.promoCode,
+      promoCode: filter.promoCode ?? '',
     );
     return SearchFlight(searchFlightRequest: searchFlightRequest);
   }
@@ -68,8 +68,8 @@ class CommonFlightRequest extends Equatable {
   final List<OutboundFares> inboundFares;
   @JsonKey(name: 'TotalAmount')
   final num? totalAmount;
-  @JsonKey(name: 'PromoCode')
-  final String? promoCode;
+  @JsonKey(name: 'promoCode')
+  final String promoCode;
 
   @JsonKey(name: 'OutboundLFID')
   final List<int>? outboundLFID;
@@ -91,7 +91,7 @@ class CommonFlightRequest extends Equatable {
       this.outboundFares = const [],
       this.inboundFares = const [],
       this.totalAmount,
-      this.promoCode,
+      this.promoCode = '',
       this.outboundLFID,
       this.inboundLFID});
 

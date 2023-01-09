@@ -13,7 +13,9 @@ class BaggageFee extends StatefulWidget {
 
   final bool isSports;
 
-  const BaggageFee({Key? key, required this.isDeparture, this.isSports = false})
+  final bool isInsurance;
+
+  const BaggageFee({Key? key, required this.isDeparture, this.isSports = false,  this.isInsurance = false})
       : super(key: key);
 
   @override
@@ -41,7 +43,7 @@ class _BaggageFeeState extends State<BaggageFee> {
             child: Row(
               children: [
                 Text(
-                  widget.isSports ? (isPaymentPage ? "Sports Equipment" : "- Sports Equipment") : (isPaymentPage ? "Baggage" : "- Baggage"),
+                  setText(isPaymentPage),
                   style: kMediumRegular,
                 ),
                 kHorizontalSpacerSmall,
@@ -55,7 +57,13 @@ class _BaggageFeeState extends State<BaggageFee> {
                   MoneyWidgetSmall(
                       amount: filter?.numberPerson
                           .getTotalSportsPartial(widget.isDeparture)),
-                ] else ... [
+                ]
+                else if(widget.isInsurance) ... [
+                  MoneyWidgetSmall(
+                      amount: filter?.numberPerson
+                          .getTotalInsurance(),),
+                ]
+                else ... [
                   MoneyWidgetSmall(
                       amount: filter?.numberPerson
                           .getTotalBaggagePartial(widget.isDeparture)),
@@ -67,9 +75,21 @@ class _BaggageFeeState extends State<BaggageFee> {
         ),
         ExpandedSection(
           expand: isExpand,
-          child: BaggageFeeDetail(isDeparture: widget.isDeparture , isSports: widget.isSports,),
+          child: BaggageFeeDetail(isDeparture: widget.isDeparture , isSports: widget.isSports,isInsurance: widget.isInsurance,),
         ),
       ],
     );
+  }
+
+  String setText(bool isPaymentPage){
+    if(widget.isSports) {
+     return 'Sports Equipment';
+    }
+    else if(widget.isInsurance) {
+      return 'Insurance';
+    }
+   // return widget.isSports ? (isPaymentPage ? "Sports Equipment" : "- Sports Equipment") : (isPaymentPage ? "Baggage" : "- Baggage");
+    return "Baggage";
+
   }
 }

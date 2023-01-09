@@ -17,6 +17,10 @@ import 'package:app/models/confirmation_model.dart';
 import 'package:app/models/pay_redirection.dart';
 import 'package:app/models/search_date_range.dart';
 
+import '../requests/promotion_request.dart';
+import '../requests/token_request.dart';
+import '../responses/promotions_response.dart';
+
 class FlightRepository {
   static final FlightRepository _instance = FlightRepository._internal();
 
@@ -33,6 +37,12 @@ class FlightRepository {
 
   Future<AirportsResponse> getAirports() async {
     return await _provider.getAirports();
+  }
+
+
+  Future<PromotionsResponse> getPromoInfo(Token token) async {
+    return await _provider.getPromotionsData(token);
+
   }
 
   Future<FlightResponse> searchFlight(SearchFlight searchFlight) async {

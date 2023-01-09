@@ -20,7 +20,10 @@ import '../../../../../theme/theme.dart';
 
 const formNameFirstName = "_first_name";
 const formNameLastName = "_last_name";
+const formNameMYRewardId = "_reward_id";
+
 const formNameWheelChair = "_wheel_chair";
+const formNameInsurance = '_insurance';
 const formNameOkIdNumber = "_okIdNumber";
 const formNameTitle = "_title";
 const formNameNationality = "_nationality";
@@ -56,12 +59,40 @@ class BookingDetailsView extends StatefulWidget {
 
 class _BookingDetailsViewState extends State<BookingDetailsView> {
   final scrollController = ScrollController();
+  final keySummary = GlobalKey();
+  final bookingSummary = GlobalKey();
+
+  void rebuild() {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (keySummary.currentContext as Element).visitChildren(rebuild);
+  }
+  void rebuildSummary() {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (bookingSummary.currentContext as Element).visitChildren(rebuild);
+  }
 
   var isValid = false;
+  var insuranceChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
   SearchFlightState? currentState;
+
   @override
   Widget build(BuildContext context) {
-    currentState = context.watch<SearchFlightCubit>().state;
+    final bloc = context.watch<SearchFlightCubit>();
+    currentState = bloc.state;
+
+    bool showInsuranceTerms = context.watch<SearchFlightCubit>().showInsuranceCheck();
     return Stack(
       children: [
         FormBuilder(
@@ -93,30 +124,58 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         kVerticalSpacer,
                         const CardSummary(showFees: false),
                         kVerticalSpacer,
-                        const ListOfPassengerInfo(),
+                         ListOfPassengerInfo(onInsuranceChanged: (){
+
+                           rebuild();
+                           rebuildSummary();
+                         },),
+                        kVerticalSpacer,
+
+
+                        if(showInsuranceTerms) ... [
+                          Row(
+                            children: [
+                              Checkbox(value: insuranceChecked, onChanged:(newValue){
+                                setState(() {
+                                  insuranceChecked = newValue ?? false;
+                                });
+                              }),
+                              const Text("Here's the text to be used for the green box:"),
+                            ],
+                          ),
+
+                          const Padding(
+
+                            padding: EdgeInsets.only(left: 32),
+                            child: Text(
+                                '''I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable. I confirm that I have read, understood and agree to the Terms and Conditions of MY Travel Shield and agree to the processing of my Personal Data in accordance with the Data Privacy Notice.'''),
+                          ),
+                        ],
+
+
                       ],
                     ),
                   ),
                   Stack(
-                    children: [
-                      const CheckoutSummary(),
-                      Positioned(
-                        bottom: 0,
-                        right: 15,
-                        child: FloatingActionButton(
-                          onPressed: () {
-                            scrollController.animateTo(
-                              scrollController.position.minScrollExtent,
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.fastOutSlowIn,
-                            );
-                          },
-                          backgroundColor: Styles.kPrimaryColor,
-                          child: const Icon(Icons.keyboard_arrow_up),
+                          children: [
+                             CheckoutSummary(key: bookingSummary,),
+                            Positioned(
+                              bottom: 0,
+                              right: 15,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  scrollController.animateTo(
+                                    scrollController.position.minScrollExtent,
+                                    duration: const Duration(seconds: 1),
+                                    curve: Curves.fastOutSlowIn,
+                                  );
+                                },
+                                backgroundColor: Styles.kPrimaryColor,
+                                child: const Icon(Icons.keyboard_arrow_up),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
                   kSummaryContainerSpacing,
                   kSummaryContainerSpacing,
                 ],
@@ -134,9 +193,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const BookingSummary(),
+                   BookingSummary(key: keySummary,),
                   ElevatedButton(
-                    onPressed: isValid ? () => onBooking(context) : null,
+                    onPressed: showInsuranceTerms ? ((showInsuranceTerms && insuranceChecked) ? (isValid ? () => onBooking(context) : null) : null) : (isValid ? () => onBooking(context) : null),
                     child: const Text("Continue"),
                   ),
                   kVerticalSpacer,
@@ -154,53 +213,51 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       var values = BookingDetailsView.fbKey.currentState!.value;
 
       if (values != null) {
-
-        var contactName = makeLowerCaseName(values,formNameContactFirstName,formNameContactLastName);
+        var contactName = makeLowerCaseName(
+            values, formNameContactFirstName, formNameContactLastName);
         var emergencyName = (values[formNameEmergencyFirstName].toString() +
                 values[formNameEmergencyLastName].toString())
             .toLowerCase();
-        print('');
         if (contactName == emergencyName) {
           showSameNameError();
 
           return;
-        }
-        else {
-
-
+        } else {
           var emergencyName = (values[formNameEmergencyFirstName].toString() +
-              values[formNameEmergencyLastName].toString())
+                  values[formNameEmergencyLastName].toString())
               .toLowerCase();
 
+          int adults =
+              currentState?.filterState?.numberPerson.numberOfAdult ?? 0;
+          int childs =
+              currentState?.filterState?.numberPerson.numberOfChildren ?? 0;
+          int infant =
+              currentState?.filterState?.numberPerson.numberOfInfant ?? 0;
 
-          int adults = currentState?.filterState?.numberPerson.numberOfAdult ?? 0;
-          int childs = currentState?.filterState?.numberPerson.numberOfChildren ?? 0;
-          int infant = currentState?.filterState?.numberPerson.numberOfInfant ?? 0;
-
-          for(int i = 0 ; i < adults ; i++) {
-            var keyName = 'Adult ${i+1}_first_name';
-            var keyLname = 'Adult ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < adults; i++) {
+            var keyName = 'Adult ${i + 1}_first_name';
+            var keyLname = 'Adult ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
             }
           }
 
-          for(int i = 0 ; i < childs ; i++) {
-            var keyName = 'Child ${i+1}_first_name';
-            var keyLname = 'Child ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < childs; i++) {
+            var keyName = 'Child ${i + 1}_first_name';
+            var keyLname = 'Child ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
             }
           }
 
-          for(int i = 0 ; i < infant ; i++) {
-            var keyName = 'Infant ${i+1}_first_name';
-            var keyLname = 'Infant ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < infant; i++) {
+            var keyName = 'Infant ${i + 1}_first_name';
+            var keyLname = 'Infant ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
@@ -208,7 +265,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           }
         }
       }
-      print('');
 
       final bookingState = context.read<BookingCubit>().state;
       final state = context.read<SearchFlightCubit>().state;
@@ -259,6 +315,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         final filledPassenger = passenger.copyWith(
           firstName: value["${person.toString()}$formNameFirstName"],
           lastName: value["${person.toString()}$formNameLastName"],
+          mYRewardMemberID: value["${person.toString()}$formNameMYRewardId"],
           title: (value["${person.toString()}$formNameTitle"] as String?)
               ?.toUpperCase(),
           nationality: value["${person.toString()}$formNameNationality"],
@@ -266,8 +323,13 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           gender: "Male",
           relation: "Self",
           wheelChairNeeded: value["${person.toString()}$formNameWheelChair"],
+          insuranceSelected: value["${person.toString()}$formNameInsurance"],
           oKUIDNumber: value["${person.toString()}$formNameOkIdNumber"],
         );
+        if(filledPassenger.insuranceSelected ?? false) {
+          filledPassenger.setInsuranceWith(bookingState.verifyResponse!.flightSSR!.insuranceGroup!.outbound!.first);
+
+        }
         passengers.add(filledPassenger);
       }
       final pnrRequest = FlightSummaryPnrRequest(
@@ -311,20 +373,20 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
     }
   }
 
-  String makeLowerCaseName(Map<String, dynamic> values,String firstKey,String lastKey) {
-    return (values[firstKey].toString() +
-              values[lastKey].toString())
-          .toLowerCase();
+  String makeLowerCaseName(
+      Map<String, dynamic> values, String firstKey, String lastKey) {
+    return (values[firstKey].toString() + values[lastKey].toString())
+        .toLowerCase();
   }
 
   void showSameNameError() {
-       BookingDetailsView.fbKey.currentState!.invalidateField(
+    BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyFirstName,
         errorText:
             'Emergency contact name should be different from contact name and passenger name.');
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyLastName,
         errorText:
-        'Emergency contact name should be different from contact name and passenger name.');
+            'Emergency contact name should be different from contact name and passenger name.');
   }
 }

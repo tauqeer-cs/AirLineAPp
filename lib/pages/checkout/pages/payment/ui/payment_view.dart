@@ -12,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../theme/theme.dart';
 
 class PaymentView extends StatefulWidget {
-
   const PaymentView({Key? key}) : super(key: key);
 
   @override
@@ -23,7 +22,14 @@ class _PaymentViewState extends State<PaymentView> {
 
 
   @override
+  void initState() {
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     final widgets = <Widget>[
       Padding(
         padding: kPageHorizontalPadding,
@@ -37,7 +43,9 @@ class _PaymentViewState extends State<PaymentView> {
         ),
       ),
       kVerticalSpacer,
-      const RewardAndDiscount(),
+      RewardAndDiscount(
+
+      ),
       kVerticalSpacer,
       const DiscountSummary(),
       SummaryContainer(
@@ -48,7 +56,7 @@ class _PaymentViewState extends State<PaymentView> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               kVerticalSpacer,
-              const BookingSummary(),
+             const BookingSummary(),
               kVerticalSpacer,
               ElevatedButton(
                 onPressed: () => onBook(context),
@@ -61,6 +69,7 @@ class _PaymentViewState extends State<PaymentView> {
       ),
     ];
     return ListView.builder(
+      key: const PageStorageKey<String>('controllerA'),
       itemBuilder: (context, index) => widgets[index],
       itemCount: widgets.length,
     );
