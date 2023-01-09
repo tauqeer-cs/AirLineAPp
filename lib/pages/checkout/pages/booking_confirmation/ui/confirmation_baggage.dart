@@ -73,7 +73,7 @@ class ConfirmationBaggage extends StatelessWidget {
             const Spacer(),
             MoneyWidget(
               amount: amount(sportsEquipmentDetail, baggage,insuranceDetails),
-              isDense: true,
+              isDense: true, isNormalMYR: true,
             ),
           ],
         ),

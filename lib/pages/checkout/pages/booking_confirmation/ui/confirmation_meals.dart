@@ -28,6 +28,7 @@ class ConfirmationMeals extends StatelessWidget {
             MoneyWidget(
               amount: meals?.totalAmount,
               isDense: true,
+              isNormalMYR: true,
             ),
           ],
         ),

@@ -25,7 +25,11 @@ class FaresAndBundles extends StatelessWidget {
               style: kHugeSemiBold,
             ),
             const Spacer(),
-            MoneyWidget(amount: fares?.totalAmount, isDense: true,),
+            MoneyWidget(
+              amount: fares?.totalAmount,
+              isDense: true,
+              isNormalMYR: true,
+            ),
           ],
         ),
         kVerticalSpacerSmall,

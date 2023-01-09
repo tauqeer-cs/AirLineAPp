@@ -28,6 +28,8 @@ class ConfirmationSeats extends StatelessWidget {
             MoneyWidget(
               amount: seats?.totalAmount,
               isDense: true,
+              isNormalMYR: true,
+
             ),
           ],
         ),

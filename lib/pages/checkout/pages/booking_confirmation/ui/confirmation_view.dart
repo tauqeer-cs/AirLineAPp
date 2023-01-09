@@ -89,9 +89,13 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     const FaresAndBundles(),
                     const ConfirmationSeats(),
                     const ConfirmationMeals(),
-                     const ConfirmationBaggage(),
-                     const ConfirmationBaggage(boolIsSports: true,),
-                    const ConfirmationBaggage(isInsurance: true,),
+                    const ConfirmationBaggage(),
+                    const ConfirmationBaggage(
+                      boolIsSports: true,
+                    ),
+                    const ConfirmationBaggage(
+                      isInsurance: true,
+                    ),
                     //1 == 1 ? Container() :
                     const ConfirmationPromo(),
                     kVerticalSpacerSmall,
@@ -109,6 +113,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                                       ?.superPNROrder?.voucherDiscountAmt ??
                                   0),
                           isDense: false,
+                          isNormalMYR: true,
                         ),
                       ],
                     ),
