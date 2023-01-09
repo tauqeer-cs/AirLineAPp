@@ -82,8 +82,6 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
       _$FlightSummaryPnrRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightSummaryPnrRequestToJson(this);
-
-
 }
 
 @HiveType(typeId: 1)
@@ -249,6 +247,7 @@ class Passenger extends HiveObject with EquatableMixin {
         wheelChairNeeded,
     insuranceSelected,
         oKUIDNumber,
+        mYRewardMemberID,
       ];
 
   factory Passenger.fromJson(Map<String, dynamic> json) =>
@@ -277,6 +276,7 @@ class Passenger extends HiveObject with EquatableMixin {
     this.redressNumber = "",
     this.relation = "",
     this.suffix = "",
+    this.mYRewardMemberID,
     this.ssr,
     this.seat,
     this.insuranceSelected = false,
@@ -330,6 +330,8 @@ class Passenger extends HiveObject with EquatableMixin {
   final String? relation;
   @JsonKey(name: 'Suffix')
   final String? suffix;
+  @JsonKey(name: 'MYRewardMemberID')
+  final String? mYRewardMemberID;
   @JsonKey(name: 'SSR')
   final Ssr? ssr;
   @JsonKey(name: 'Seat')

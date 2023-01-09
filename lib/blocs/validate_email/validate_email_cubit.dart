@@ -17,7 +17,6 @@ class ValidateEmailCubit extends Cubit<GenericState> {
       final UpdatePasswordRequest updatePasswordRequest =
           UpdatePasswordRequest(email: email);
       final commonResponse = await _authenticationRepository.validateEmail(updatePasswordRequest);
-      print("common response $commonResponse");
       if(commonResponse.success ?? false){
         emit(state.copyWith(blocState: BlocState.finished));
       }else{

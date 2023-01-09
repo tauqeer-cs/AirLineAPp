@@ -20,6 +20,8 @@ import '../../../../../theme/theme.dart';
 
 const formNameFirstName = "_first_name";
 const formNameLastName = "_last_name";
+const formNameMYRewardId = "_reward_id";
+
 const formNameWheelChair = "_wheel_chair";
 const formNameInsurance = '_insurance';
 const formNameOkIdNumber = "_okIdNumber";
@@ -216,7 +218,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         var emergencyName = (values[formNameEmergencyFirstName].toString() +
                 values[formNameEmergencyLastName].toString())
             .toLowerCase();
-        print('');
         if (contactName == emergencyName) {
           showSameNameError();
 
@@ -264,7 +265,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           }
         }
       }
-      print('');
 
       final bookingState = context.read<BookingCubit>().state;
       final state = context.read<SearchFlightCubit>().state;
@@ -315,6 +315,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         final filledPassenger = passenger.copyWith(
           firstName: value["${person.toString()}$formNameFirstName"],
           lastName: value["${person.toString()}$formNameLastName"],
+          mYRewardMemberID: value["${person.toString()}$formNameMYRewardId"],
           title: (value["${person.toString()}$formNameTitle"] as String?)
               ?.toUpperCase(),
           nationality: value["${person.toString()}$formNameNationality"],

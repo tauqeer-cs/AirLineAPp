@@ -13,8 +13,9 @@ class WidgetUtils {
         Version.parse(RemoteConfigRepository.minimumVersion ?? "1.0.0");
     Version recommendedVersion =
         Version.parse(RemoteConfigRepository.recommendedVersion ?? "1.0.0");
-    if (appVersion >= recommendedVersion && appVersion >= minimumVersion)
+    if (appVersion >= recommendedVersion && appVersion >= minimumVersion) {
       return;
+    }
     showDialog(
       context: context,
       barrierDismissible: false,

@@ -55,10 +55,11 @@ class ConfirmationBaggage extends StatelessWidget {
           .confirmationModel
           ?.value
           ?.insuranceSSRDetail;
-
       if(insuranceDetails!.totalAmount!.toInt() == 0){
         hideView = true;
       }
+
+
     }
     return hideView ? Container() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
