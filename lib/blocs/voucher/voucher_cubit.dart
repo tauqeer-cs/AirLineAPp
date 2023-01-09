@@ -19,10 +19,19 @@ class VoucherCubit extends Cubit<VoucherState> {
     emit( VoucherState());
   }
 
+  redeemPoints() async {
+
+    final response = await _repository.getRedeemPoints(Token(token: state.flightToken,redemptionName: state.selectedRedeemOption!.redemptionName));
+    print('object');
+
+  }
   getAvailablePromotions(String token) async {
     if (state.promoLoaded) {
       return;
     }
+     state.flightToken = token;
+
+
     final response = await _repository
         .getPromoInfo(Token(token: token));
     print('object');
@@ -38,7 +47,7 @@ class VoucherCubit extends Cubit<VoucherState> {
       emit(state.copyWith(
         blocState: BlocState.finished,
       //  redemptionOption: response.value!.redemptionOption,
-        promoReady: false,
+        promoReady: true,
       ));
       return;
 

@@ -183,7 +183,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
                       Navigator.of(dialogContext).pop();
-                      Toast.of(context).show(message: "Welcome back", success: true);
+                      Toast.of(context)
+                          .show(message: "Welcome back", success: true);
                     },
                   );
                 },
@@ -229,7 +230,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
         overlayWidget: const AppLoadingScreen(message: "Loading"),
         child: MultiBlocProvider(
           providers: [
-
             BlocProvider(create: (context) => InfoCubit()),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
@@ -256,29 +256,30 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
                   print(context.router.currentUrl);
-                  if(context.router.currentUrl == '/booking-details'){
-
-                    if(ConstantUtils.showRedeemPoints)  {
-                      var token = context.read<SummaryCubit>().state.summaryRequest!.token;
+                  if (context.router.currentUrl == '/booking-details') {
+                    if (ConstantUtils.showRedeemPoints) {
+                      var token = context
+                          .read<SummaryCubit>()
+                          .state
+                          .summaryRequest!
+                          .token;
 
                       context.read<VoucherCubit>().state.copyWith(
-                          flightToken: context.read<SummaryCubit>().state.summaryRequest!.token
-                      );
+                          flightToken: context
+                              .read<SummaryCubit>()
+                              .state
+                              .summaryRequest!
+                              .token);
 
-                       await context.read<VoucherCubit>().getAvailablePromotions(token);
-
+                      context
+                          .read<VoucherCubit>()
+                          .getAvailablePromotions(token);
                     }
 
-
-
-
                     context.router.push(const PaymentRoute());
-
-
                   }
 
                   //VoucherCubit
-
                 },
               );
             },

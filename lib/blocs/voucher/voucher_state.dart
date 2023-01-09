@@ -6,7 +6,7 @@ class VoucherState extends Equatable {
   final String message;
   final String? appliedVoucher;
   final bool promoLoaded;
-  final String? flightToken;
+  late String? flightToken;
 
   final AvailableRedeemOptions? selectedRedeemOption;
 

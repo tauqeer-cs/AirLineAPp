@@ -18,32 +18,28 @@ import '../../booking_details/bloc/summary_cubit.dart';
 
 class RewardAndDiscount extends StatelessWidget {
   final _fbKey = GlobalKey<FormBuilderState>();
+  final bool promoReady;
 
   RewardAndDiscount({
     Key? key,
+    required this.promoReady,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<VoucherCubit>().state;
-    final bookingState = context.read<BookingCubit>().state;
-    var bloc = context.read<SummaryCubit>();
-    bool showReward = false;
+    var bloc = context.watch<VoucherCubit>();
 
-    var cc = context.read<VoucherCubit>();
+    final state = bloc.state;
+    final bookingState = context.read<BookingCubit>().state;
 
     List<AvailableRedeemOptions>? promotionsList;
 
     if (ConstantUtils.showRedeemPoints) {
-      //      showReward = bloc.state.promoLoaded;
+      if (promoReady) {
+        promotionsList = bloc.state.redemptionOption?.availableOptions;
 
-      /*
-      promotionsList = bloc
-          .state
-          .lmsRedemptionOption
-          ?.availableOptions;
-  */
-
+        print('');
+      }
     }
 
     return Padding(
@@ -59,7 +55,11 @@ class RewardAndDiscount extends StatelessWidget {
             ),
 
             //
-            if (ConstantUtils.showRedeemPoints && promotionsList != null) ...[
+
+            if (ConstantUtils.showRedeemPoints && !promoReady) ...[
+              const CircularProgressIndicator(),
+            ] else if (ConstantUtils.showRedeemPoints &&
+                promotionsList != null) ...[
               //showReward
               kVerticalSpacer,
               Text(
@@ -95,19 +95,12 @@ class RewardAndDiscount extends StatelessWidget {
                           '${currenteItem.redemptionPoint} points',
                           style: kLargeHeavy,
                         ),
-
-                        /*
-                        Radio(value: bloc.getSelectedItem, groupValue: currenteItem,
-                            onChanged: (
-                                value){
-
-
-                          bloc.selectedItem(currenteItem);
-
-
-
-                        }),
-*/
+                        Radio(
+                            value: bloc.getSelectedItem,
+                            groupValue: currenteItem,
+                            onChanged: (value) {
+                              bloc.selectedItem(currenteItem);
+                            }),
                       ],
                     ),
                   ),
@@ -118,22 +111,10 @@ class RewardAndDiscount extends StatelessWidget {
               kVerticalSpacerSmall,
 
               ElevatedButton(
-                onPressed: state.blocState == BlocState.loading ||
-                        bookingState.superPnrNo != null
+                onPressed: bloc.getSelectedItem == null
                     ? null
                     : () {
-                        /*
-                  if (_fbKey.currentState!.saveAndValidate()) {
-                    final value = _fbKey.currentState!.value;
-                    final voucher = value["voucherCode"];
-                    final token = bookingState.verifyResponse?.token;
-                    final voucherRequest = VoucherRequest(
-                      insertVoucher: voucher,
-                      token: token,
-                    );
-                    context.read<VoucherCubit>().addVoucher(voucherRequest);
-                  }
-                  */
+                        bloc.redeemPoints();
                       },
                 child: state.blocState == BlocState.loading
                     ? const AppLoading(

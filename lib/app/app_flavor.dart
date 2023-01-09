@@ -24,6 +24,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-booking.alphareds.com/booked';
       case Flavor.uat:
+        return 'https://mya-booking.alphareds.com/booked';
         return 'https://uat-booking.myairline.my/booked';
       default:
         return 'https://booking.myairline.my/booked';
@@ -36,6 +37,7 @@ class AppFlavor {
         return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
       case Flavor.uat:
         return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
+        return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
       default:
         return 'https://mybooking.myairline.my';
     }
@@ -45,6 +47,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-cms.alphareds.com/';
       case Flavor.uat:
+        return 'https://mya-cms.alphareds.com/';
         return 'https://uat-cms.myairline.my/';
       default:
         return 'https://cms.myairline.my/';
@@ -56,6 +59,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-api.alphareds.com/api/mobile/';
       case Flavor.uat:
+        return 'https://mya-api.alphareds.com/api/mobile/';
         return 'https://uat-api.myairline.my/api/mobile/';
       default:
         return 'https://api.myairline.my/api/mobile/';
