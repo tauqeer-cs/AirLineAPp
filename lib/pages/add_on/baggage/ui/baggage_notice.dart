@@ -213,7 +213,6 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                   : currentItem,
                               isDeparture);
 
-                      print('');
                     },
                     child: squareDesign
                         ? AppCard(

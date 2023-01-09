@@ -12,15 +12,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-class RewardAndDiscount extends StatelessWidget {
-  static final _fbKey = GlobalKey<FormBuilderState>();
+import '../../../../../data/responses/promotions_response.dart';
+import '../../../../../utils/constant_utils.dart';
+import '../../booking_details/bloc/summary_cubit.dart';
 
-  const RewardAndDiscount({Key? key}) : super(key: key);
+class RewardAndDiscount extends StatelessWidget {
+  final _fbKey = GlobalKey<FormBuilderState>();
+
+  RewardAndDiscount({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<VoucherCubit>().state;
     final bookingState = context.read<BookingCubit>().state;
+    var bloc = context.read<SummaryCubit>();
+    bool showReward = false;
+
+    var cc = context.read<VoucherCubit>();
+
+    List<AvailableRedeemOptions>? promotionsList;
+
+    if (ConstantUtils.showRedeemPoints) {
+      //      showReward = bloc.state.promoLoaded;
+
+      /*
+      promotionsList = bloc
+          .state
+          .lmsRedemptionOption
+          ?.availableOptions;
+  */
+
+    }
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -33,6 +57,92 @@ class RewardAndDiscount extends StatelessWidget {
               "Rewards & Discount",
               style: kGiantSemiBold.copyWith(color: Styles.kPrimaryColor),
             ),
+
+            //
+            if (ConstantUtils.showRedeemPoints && promotionsList != null) ...[
+              //showReward
+              kVerticalSpacer,
+              Text(
+                "MYReward",
+                style: kGiantHeavy.copyWith(
+                  color: Styles.kOrangeColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              kVerticalSpacerSmall,
+              Text(
+                'Redeem your MYReward Points from options below!',
+                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+              ),
+              kVerticalSpacer,
+
+              for (var currenteItem in promotionsList ?? []) ...[
+                AppCard(
+                  customColor: Styles.klightBackgroundColor,
+                  edgeInsets: EdgeInsets.zero,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Text(
+                          currenteItem.redemptionName.toString(),
+                          style: kLargeHeavy,
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Text(
+                          '${currenteItem.redemptionPoint} points',
+                          style: kLargeHeavy,
+                        ),
+
+                        /*
+                        Radio(value: bloc.getSelectedItem, groupValue: currenteItem,
+                            onChanged: (
+                                value){
+
+
+                          bloc.selectedItem(currenteItem);
+
+
+
+                        }),
+*/
+                      ],
+                    ),
+                  ),
+                ),
+                kVerticalSpacerSmall,
+              ],
+
+              kVerticalSpacerSmall,
+
+              ElevatedButton(
+                onPressed: state.blocState == BlocState.loading ||
+                        bookingState.superPnrNo != null
+                    ? null
+                    : () {
+                        /*
+                  if (_fbKey.currentState!.saveAndValidate()) {
+                    final value = _fbKey.currentState!.value;
+                    final voucher = value["voucherCode"];
+                    final token = bookingState.verifyResponse?.token;
+                    final voucherRequest = VoucherRequest(
+                      insertVoucher: voucher,
+                      token: token,
+                    );
+                    context.read<VoucherCubit>().addVoucher(voucherRequest);
+                  }
+                  */
+                      },
+                child: state.blocState == BlocState.loading
+                    ? const AppLoading(
+                        size: 25,
+                        color: Colors.white,
+                      )
+                    : const Text("Redeem"),
+              ),
+            ],
             kVerticalSpacerSmall,
             const Text(
               "Voucher Code",
@@ -110,30 +220,6 @@ class RewardAndDiscount extends StatelessWidget {
                     )
                   : const Text("Apply"),
             ),
-            // AppCard(
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       Text(
-            //         "Promo Code",
-            //         style: kHugeSemiBold,
-            //       ),
-            //       kVerticalSpacer,
-            //       AppInputText(name: "promoCode"),
-            //       kVerticalSpacer,
-            //       ElevatedButton(onPressed: () {}, child: Text("Apply")),
-            //       kVerticalSpacerBig,
-            //       Text(
-            //         "Voucher Code",
-            //         style: kHugeSemiBold,
-            //       ),
-            //       kVerticalSpacer,
-            //       AppInputText(name: "voucherCode"),
-            //       kVerticalSpacer,
-            //       ElevatedButton(onPressed: () {}, child: Text("Apply")),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ),

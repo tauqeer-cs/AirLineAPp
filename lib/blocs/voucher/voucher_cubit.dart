@@ -6,15 +6,61 @@ import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../data/requests/token_request.dart';
+import '../../data/responses/promotions_response.dart';
+
 part 'voucher_state.dart';
 
 class VoucherCubit extends Cubit<VoucherState> {
-  VoucherCubit() : super(const VoucherState());
+  VoucherCubit() : super( VoucherState());
   final _repository = FlightRepository();
 
   resetState() {
-    emit(const VoucherState());
+    emit( VoucherState());
   }
+
+  getAvailablePromotions(String token) async {
+    if (state.promoLoaded) {
+      return;
+    }
+    final response = await _repository
+        .getPromoInfo(Token(token: token));
+    print('object');
+    if (response.statusCode == 200) {
+      emit(state.copyWith(
+        blocState: BlocState.finished,
+        redemptionOption: response.value!.lmsRedemptionOption,
+        promoReady: true,
+      ));
+
+      return;
+    } else {
+      emit(state.copyWith(
+        blocState: BlocState.finished,
+      //  redemptionOption: response.value!.redemptionOption,
+        promoReady: false,
+      ));
+      return;
+
+    }
+  }
+
+  AvailableRedeemOptions? get getSelectedItem {
+    return state.selectedRedeemOption;
+  }
+
+  selectedItem(AvailableRedeemOptions option) {
+
+    emit(
+        state.copyWith(
+            selectedRedeemOption: option
+        )
+    );
+  }
+
+
+
+
 
   addVoucher(VoucherRequest voucherRequest) async {
     emit(state.copyWith(blocState: BlocState.loading));

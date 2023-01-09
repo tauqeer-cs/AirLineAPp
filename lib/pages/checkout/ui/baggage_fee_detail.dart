@@ -10,7 +10,9 @@ class BaggageFeeDetail extends StatelessWidget {
   final bool isDeparture;
   final bool isSports;
 
-  const BaggageFeeDetail({Key? key, required this.isDeparture,this.isSports = false})
+  final bool isInsurance;
+
+  const BaggageFeeDetail({Key? key, required this.isDeparture,this.isSports = false, this.isInsurance = false})
       : super(key: key);
 
   @override
@@ -26,10 +28,12 @@ class BaggageFeeDetail extends StatelessWidget {
             var bundle = isDeparture ? e.departureBaggage : e.returnBaggage;
 
 
-            if(this.isSports){
+            if(isSports){
 
                bundle = isDeparture ? e.departureSports : e.returnSports;
 
+            } else if(isInsurance){
+              bundle = e.insuranceGroup;
             }
             return bundle?.amount == null
                 ? const SizedBox.shrink()

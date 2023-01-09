@@ -66,6 +66,7 @@ class Value extends Equatable {
     this.sportEquipmentDetail,
     this.flightSegments,
     this.bookingContact,
+    this.insuranceSSRDetail,
   });
 
   @override
@@ -80,6 +81,7 @@ class Value extends Equatable {
         mealDetail,
         baggageDetail,
     sportEquipmentDetail,
+    insuranceSSRDetail,
         flightSegments,
         bookingContact,
       ];
@@ -95,6 +97,8 @@ class Value extends Equatable {
   final BookingContact? bookingContact;
   final BaggageDetail? baggageDetail;
   final SportsEquipmentDetail? sportEquipmentDetail;
+
+  final InsuranceDetails? insuranceSSRDetail;
   final List<FlightSegment>? flightSegments;
 
   Value copyWith({
@@ -110,6 +114,7 @@ class Value extends Equatable {
     BaggageDetail? baggageDetail,
     List<FlightSegment>? flightSegments,
     SportsEquipmentDetail? sportEquipmentDetail,
+    InsuranceDetails? insuranceSSRDetail,
   }) =>
       Value(
         bookingContact: bookingContact ?? this.bookingContact,
@@ -123,6 +128,7 @@ class Value extends Equatable {
         mealDetail: mealDetail ?? this.mealDetail,
         baggageDetail: baggageDetail ?? this.baggageDetail,
         flightSegments: flightSegments ?? this.flightSegments,
+        insuranceSSRDetail: insuranceSSRDetail ?? this.insuranceSSRDetail,
       );
 }
 
@@ -308,6 +314,7 @@ class Baggage extends Equatable {
     this.departReturn,
     this.seatPosition,
     this.sportEquipmentName,
+    this.insuranceSSRName,
   });
 
   @override
@@ -333,6 +340,8 @@ class Baggage extends Equatable {
   final String? departReturn;
   final String? seatPosition;
   final String? sportEquipmentName;
+  final String? insuranceSSRName;
+
 
   Baggage copyWith({
     String? surName,
@@ -345,6 +354,7 @@ class Baggage extends Equatable {
     String? departReturn,
     String? seatPosition,
     String? sportEquipmentName,
+    String? insuranceName,
   }) =>
       Baggage(
         surName: surName ?? this.surName,
@@ -357,6 +367,7 @@ class Baggage extends Equatable {
         departReturn: departReturn ?? this.departReturn,
         seatPosition: seatPosition ?? this.seatPosition,
         sportEquipmentName: sportEquipmentName ?? this.sportEquipmentName,
+        insuranceSSRName : insuranceName ?? insuranceSSRName,
       );
 }
 
@@ -1653,12 +1664,44 @@ class SportsEquipmentDetail extends Equatable {
   final num? totalAmount;
   final List<Baggage>? sportEquipments;
 
-  BaggageDetail copyWith({
+  SportsEquipmentDetail copyWith({
     num? totalAmount,
-    List<Baggage>? baggages,
+    List<Baggage>? sportEquipments,
   }) =>
-      BaggageDetail(
+      SportsEquipmentDetail(
         totalAmount: totalAmount ?? this.totalAmount,
-        baggages: baggages ?? this.sportEquipments,
+        sportEquipments: sportEquipments ?? this.sportEquipments,
       );
 }
+
+@JsonSerializable()
+class InsuranceDetails extends Equatable {
+  factory InsuranceDetails.fromJson(Map<String, dynamic> json) =>
+      _$InsuranceDetailsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InsuranceDetailsToJson(this);
+
+  const InsuranceDetails({
+    this.totalAmount,
+    this.insuranceSSRs,
+  });
+
+  @override
+  List<Object?> get props => [
+    totalAmount,
+    insuranceSSRs,
+  ];
+
+  final num? totalAmount;
+  final List<Baggage>? insuranceSSRs;
+
+  InsuranceDetails copyWith({
+    num? totalAmount,
+    List<Baggage>? insuranceSSRs,
+  }) =>
+      InsuranceDetails(
+        totalAmount: totalAmount ?? this.totalAmount,
+        insuranceSSRs: insuranceSSRs ?? this.insuranceSSRs,
+      );
+}
+

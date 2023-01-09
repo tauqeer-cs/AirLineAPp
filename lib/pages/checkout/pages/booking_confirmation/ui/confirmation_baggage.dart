@@ -10,8 +10,9 @@ class ConfirmationBaggage extends StatelessWidget {
 
   final bool boolIsSports;
 
-   ConfirmationBaggage({Key? key,this.boolIsSports = false}) : super(key: key);
+  final bool isInsurance;
 
+   const ConfirmationBaggage({Key? key,this.boolIsSports = false, this.isInsurance = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,10 @@ class ConfirmationBaggage extends StatelessWidget {
 
     SportsEquipmentDetail ? sportsEquipmentDetail;
 
+    InsuranceDetails ? insuranceDetails;
+
+    bool hideView = false;
+
     if(boolIsSports) {
       sportsEquipmentDetail = context
           .watch<ConfirmationCubit>()
@@ -32,24 +37,60 @@ class ConfirmationBaggage extends StatelessWidget {
           ?.value
           ?.sportEquipmentDetail;
 
+
+      if(sportsEquipmentDetail!.totalAmount!.toInt() == 0){
+        hideView = true;
+      }
+
+      print('');
+
     }
-    return Column(
+    else if(isInsurance){
+
+
+
+      insuranceDetails = context
+          .watch<ConfirmationCubit>()
+          .state
+          .confirmationModel
+          ?.value
+          ?.insuranceSSRDetail;
+      if(insuranceDetails!.totalAmount!.toInt() == 0){
+        hideView = true;
+      }
+
+
+    }
+    return hideView ? Container() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
              Text(
-               boolIsSports ? 'Sport Equipment' : "Baggage",
+               titleText(),
               style: kHugeSemiBold,
             ),
             const Spacer(),
             MoneyWidget(
-              amount: boolIsSports ? sportsEquipmentDetail?.totalAmount : baggage?.totalAmount,
-              isDense: true,
+              amount: amount(sportsEquipmentDetail, baggage,insuranceDetails),
+              isDense: true, isNormalMYR: true,
             ),
           ],
         ),
-        if(this.boolIsSports) ... [
+        if(isInsurance) ... [
+          kVerticalSpacerSmall,
+          ...(insuranceDetails?.insuranceSSRs ?? [])
+              .map((e) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${e.title} ${e.givenName} ${e.surName}"),
+               Text(e.insuranceSSRName ?? 'Insurance'),
+              kVerticalSpacerSmall,
+            ],
+          ))
+              .toList(),
+        ]
+        else if(boolIsSports) ... [
           kVerticalSpacerSmall,
           ...(sportsEquipmentDetail?.sportEquipments ?? [])
               .map((e) => Column(
@@ -79,5 +120,29 @@ class ConfirmationBaggage extends StatelessWidget {
         kVerticalSpacerSmall,
       ],
     );
+  }
+
+  num? amount(SportsEquipmentDetail? sportsEquipmentDetail, BaggageDetail? baggage,InsuranceDetails? insuranceDetails) {
+
+    if(boolIsSports){
+
+      return sportsEquipmentDetail?.totalAmount;
+
+    }else if(isInsurance){
+      return insuranceDetails?.totalAmount;
+    }
+
+    return baggage?.totalAmount;
+  }
+
+  String titleText()  {
+    if(boolIsSports) {
+      return 'Sport Equipment';
+    }
+    else if(isInsurance) {
+
+      return 'Insurance';
+    }
+    return "Baggage";
   }
 }

@@ -1,4 +1,6 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/data/responses/verify_response.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
@@ -7,6 +9,7 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/form_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
@@ -19,10 +22,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../blocs/booking/booking_cubit.dart';
+import '../../../../../blocs/search_flight/search_flight_cubit.dart';
+
 class PassengerInfo extends StatefulWidget {
   final Person person;
 
-  const PassengerInfo({Key? key, required this.person}) : super(key: key);
+  final Function(bool e, Bundle currentInsuranceBundlde) insuranceSelected;
+
+  const PassengerInfo(
+      {Key? key, required this.person, required this.insuranceSelected})
+      : super(key: key);
 
   @override
   State<PassengerInfo> createState() => _PassengerInfoState();
@@ -37,18 +47,37 @@ class _PassengerInfoState extends State<PassengerInfo> {
   bool isUnder16 = false;
   bool isWheelChairChecked = false;
 
+  bool insuranceSelected = false;
+
+  Bundle? currentInsuranceBundlde;
+
   @override
   void initState() {
     super.initState();
     nationality = widget.person.passenger?.nationality ?? "MY";
     nationalityController.text = nationality;
+
+    if (widget.person.insuranceGroup != null) {
+      insuranceSelected = true;
+    }
+    if (widget.person.passenger?.firstName == 'EXTRA') {
+      isNameExtra = true;
+    }
   }
+
+  bool isNameExtra = false;
 
   @override
   Widget build(BuildContext context) {
     final passengerInfo = widget.person.passenger;
     final notice = context.watch<CmsSsrCubit>().state.notice;
     final filter = context.watch<FilterCubit>().state;
+    final bookingState = context
+        .watch<BookingCubit>()
+        .state
+        .verifyResponse
+        ?.flightSSR
+        ?.insuranceGroup;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,6 +104,25 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     context
                         .read<InfoCubit>()
                         .updateMap(widget.person.toString(), value ?? "");
+
+                    if (insuranceSelected && value == 'EXTRA') {
+                      widget.insuranceSelected(false, currentInsuranceBundlde!);
+                      insuranceSelected = false;
+                      setState(() {
+                        isNameExtra = true;
+                      });
+                    }
+                    else if(value == 'EXTRA') {
+                      setState(() {
+                        isNameExtra = true;
+                      });
+
+                    }
+                    else {
+                      setState(() {
+                        isNameExtra = false;
+                      });
+                    }
                   },
                 ),
                 kVerticalSpacerMini,
@@ -114,10 +162,14 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 FormBuilderDateTimePicker(
                   name: "${widget.person.toString()}$formNameDob",
                   firstDate: widget.person.dateLimitStart(filter.departDate),
-                  lastDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
+                  lastDate: widget.person.peopleType == PeopleType.infant
+                      ? DateTime.now().add(const Duration(days: -8))
+                      : widget.person.dateLimitEnd(filter.departDate),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
-                  initialDate: widget.person.peopleType == PeopleType.infant ? DateTime.now().add(const Duration(days: -8)) : widget.person.dateLimitEnd(filter.departDate),
+                  initialDate: widget.person.peopleType == PeopleType.infant
+                      ? DateTime.now().add(const Duration(days: -8))
+                      : widget.person.dateLimitEnd(filter.departDate),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),
                   inputType: InputType.date,
@@ -131,6 +183,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       );
                     });
                   },
+                ),
+                kVerticalSpacerMini,
+                AppInputText(
+                  name: "${widget.person.toString()}$formNameMYRewardId",
+                  hintText: "MYReward Member ID (Optional)",
+                  inputFormatters: [AppFormUtils.onlyNumber()],
+                  textInputType: TextInputType.number,
                 ),
                 kVerticalSpacerMini,
                 Visibility(
@@ -167,7 +226,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.person.peopleType != PeopleType.infant,
+                  visible: visible(),
                   child: FormBuilderCheckbox(
                     name: "${widget.person.toString()}$formNameWheelChair",
                     contentPadding: EdgeInsets.zero,
@@ -223,11 +282,81 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     },
                   ),
                 ),
+
+                if(!isNameExtra) ... [
+                  if (bookingState != null) ...[
+                    if (bookingState.outbound!.isNotEmpty) ...[
+                      Visibility(
+                        visible: visible(),
+                        child: FormBuilderCheckbox(
+                          name: "${widget.person.toString()}$formNameInsurance",
+                          contentPadding: EdgeInsets.zero,
+                          initialValue: insuranceSelected,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
+                          ),
+                          title: Text(
+                              "I want travel protection : MYR${travelProtectionRate(bookingState.outbound!)}"),
+                          onChanged: (value) {
+                            setState(() {
+                              insuranceSelected = value ?? false;
+                            });
+
+                            if (value == true) {
+                              // widget.person.insuranceGroup =
+                              //   currentInsuranceBundlde;
+
+                              //widget.person = widget.person.copyWith(insurance: );
+
+                              widget.insuranceSelected(
+                                  true, currentInsuranceBundlde!);
+                            } else {
+                              widget.insuranceSelected(
+                                  false, currentInsuranceBundlde!);
+
+                              // widget.person = widget.person.copyWith(insuranceEmpty: true);
+
+                              //widget.person.insuranceGroup = null;
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
+                ]
+
               ],
             ),
           ),
         ),
       ],
     );
+  }
+
+  bool visible() {
+    if(widget.person.peopleType == PeopleType.infant){
+      return true;
+
+    }
+    return true;
+  }
+
+  String travelProtectionRate(List<Bundle> outbound) {
+    currentInsuranceBundlde = outbound.first;
+
+    var taxAmount = 0.0;
+
+    if(currentInsuranceBundlde!.applicableTaxes != null) {
+
+     taxAmount =  currentInsuranceBundlde!.applicableTaxes!.first.taxAmount!.toDouble();
+
+    }
+    return (taxAmount + outbound.first.amount!.toDouble()).toStringAsFixed(2);
   }
 }

@@ -3,6 +3,7 @@ import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
@@ -101,10 +102,11 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
-  bool addSportEquipmentToPerson(Person? person, Bundle? bundle, bool isDeparture){
+  bool addSportEquipmentToPerson(
+      Person? person, Bundle? bundle, bool isDeparture) {
     try {
       final persons =
-      List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+          List<Person>.from(state.filterState?.numberPerson.persons ?? []);
       final selected = persons.indexWhere((element) => element == person);
       if (selected >= 0) {
         final person = persons[selected];
@@ -115,7 +117,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
         persons.insert(selected, newPerson);
         final newNumberPerson = NumberPerson(persons: persons);
         final filterState =
-        state.filterState?.copyWith(numberPerson: newNumberPerson);
+            state.filterState?.copyWith(numberPerson: newNumberPerson);
         emit(
           state.copyWith(
               filterState: filterState,
@@ -126,8 +128,8 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     } catch (e) {
       return false;
     }
-
   }
+
   bool addBaggageToPerson(Person? person, Bundle? baggage, bool isDeparture) {
     try {
       final persons =
@@ -186,5 +188,35 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     emit(state.copyWith(
         filterState: newFilterState,
         message: DateTime.now().millisecondsSinceEpoch.toString()));
+  }
+
+  void addInsuranceToPerson(int i, Bundle insurance) {
+    state.filterState!.numberPerson.persons[i] = state
+        .filterState!.numberPerson.persons[i]
+        .copyWith(insurance: insurance);
+
+    print('object');
+  }
+
+  void removeInsuranceAll() {
+    for (int i = 0; i < state.filterState!.numberPerson.persons.length; i++) {
+      removeInsuranceFromPerson(i);
+    }
+  }
+
+  void removeInsuranceFromPerson(int i) {
+    state.filterState!.numberPerson.persons[i] = state
+        .filterState!.numberPerson.persons[i]
+        .copyWith(insuranceEmpty: true);
+  }
+
+  bool showInsuranceCheck() {
+    for (int i = 0; i < state.filterState!.numberPerson.persons.length; i++) {
+      if (state.filterState!.numberPerson.persons[i].insuranceGroup != null) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

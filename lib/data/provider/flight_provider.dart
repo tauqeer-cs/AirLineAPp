@@ -16,6 +16,10 @@ import 'package:app/models/search_date_range.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../requests/token_request.dart';
+import '../responses/promotions_response.dart';
+
+
 part 'flight_provider.g.dart';
 
 @RestApi()
@@ -50,4 +54,14 @@ abstract class FlightProvider {
 
   @POST('checkout/addvoucherflight')
   Future<VoucherResponse> addVoucher(@Body() VoucherRequest voucher);
+
+  @POST('checkout/getlmsoption')
+  Future<PromotionsResponse> getPromotionsData(@Body() Token voucher);
+
+
+  @POST('checkout/holdlmsoption')
+  Future<PromotionsResponse> setectPromotion(@Body() Token voucher);
+
+//
+
 }

@@ -74,6 +74,10 @@ Value _$ValueFromJson(Map<String, dynamic> json) => Value(
           ? null
           : BookingContact.fromJson(
               json['bookingContact'] as Map<String, dynamic>),
+      insuranceSSRDetail: json['insuranceSSRDetail'] == null
+          ? null
+          : InsuranceDetails.fromJson(
+              json['insuranceSSRDetail'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ValueToJson(Value instance) {
@@ -96,6 +100,7 @@ Map<String, dynamic> _$ValueToJson(Value instance) {
   writeNotNull('bookingContact', instance.bookingContact);
   writeNotNull('baggageDetail', instance.baggageDetail);
   writeNotNull('sportEquipmentDetail', instance.sportEquipmentDetail);
+  writeNotNull('insuranceSSRDetail', instance.insuranceSSRDetail);
   writeNotNull('flightSegments', instance.flightSegments);
   return val;
 }
@@ -204,6 +209,7 @@ Baggage _$BaggageFromJson(Map<String, dynamic> json) => Baggage(
       departReturn: json['departReturn'] as String?,
       seatPosition: json['seatPosition'] as String?,
       sportEquipmentName: json['sportEquipmentName'] as String?,
+      insuranceSSRName: json['insuranceSSRName'] as String?,
     );
 
 Map<String, dynamic> _$BaggageToJson(Baggage instance) {
@@ -225,6 +231,7 @@ Map<String, dynamic> _$BaggageToJson(Baggage instance) {
   writeNotNull('departReturn', instance.departReturn);
   writeNotNull('seatPosition', instance.seatPosition);
   writeNotNull('sportEquipmentName', instance.sportEquipmentName);
+  writeNotNull('insuranceSSRName', instance.insuranceSSRName);
   return val;
 }
 
@@ -951,5 +958,27 @@ Map<String, dynamic> _$SportsEquipmentDetailToJson(
 
   writeNotNull('totalAmount', instance.totalAmount);
   writeNotNull('sportEquipments', instance.sportEquipments);
+  return val;
+}
+
+InsuranceDetails _$InsuranceDetailsFromJson(Map<String, dynamic> json) =>
+    InsuranceDetails(
+      totalAmount: json['totalAmount'] as num?,
+      insuranceSSRs: (json['insuranceSSRs'] as List<dynamic>?)
+          ?.map((e) => Baggage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$InsuranceDetailsToJson(InsuranceDetails instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('totalAmount', instance.totalAmount);
+  writeNotNull('insuranceSSRs', instance.insuranceSSRs);
   return val;
 }

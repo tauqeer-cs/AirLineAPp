@@ -70,9 +70,10 @@ class PaymentDetail extends StatelessWidget {
                 AppDateUtils.formatHalfDate(paymentOrder.paymentDate),
           ),
           kVerticalSpacer,
-          BorderedLeftContainerNoTitle(
+           BorderedLeftContainerNoTitle(
             content:
                 "Total ${paymentOrder.currencyCode} ${NumberUtils.formatNum(paymentOrder.paymentAmount)}",
+
           ),
         ],
       ),

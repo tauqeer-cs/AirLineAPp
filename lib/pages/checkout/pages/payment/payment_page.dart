@@ -18,6 +18,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/constant_utils.dart';
+import '../booking_details/bloc/summary_cubit.dart';
+
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
@@ -26,8 +29,22 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+
+
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    if(ConstantUtils.showRedeemPoints) {
+      //context.read<PaymentRoute>().getAvailablePromotions();
+    }
+
     return WillPopScope(
       onWillPop: () async {
         final superPnr = context.read<BookingCubit>().state.superPnrNo;
@@ -100,7 +117,6 @@ class _PaymentPageState extends State<PaymentPage> {
                           var query = urlParsed.queryParametersAll;
                           String? status = query['status']?.first;
                           String? superPNR = query['superPNR']?.first;
-                          print("url parsed is $urlParsed");
                           if (status != "FAIL") {
                             if (mounted) {
                               final filter = context
@@ -169,6 +185,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     );
                   },
                 ),
+
               ],
               child: Scaffold(
                 appBar: AppAppBar(

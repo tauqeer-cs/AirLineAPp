@@ -21,7 +21,7 @@ class SeatsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: AppLoadingScreen(message: "Loading"),
+      overlayWidget: const AppLoadingScreen(message: "Loading"),
       child: BlocListener<SearchFlightCubit, SearchFlightState>(
         listener: (context, state) {
           if (state.blocState == BlocState.failed) {

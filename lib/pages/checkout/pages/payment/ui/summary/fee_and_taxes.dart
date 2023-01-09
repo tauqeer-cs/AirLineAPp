@@ -1,5 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/baggage_fee.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/fares_and_bundles.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/fee_and_taxes_detail.dart';
@@ -43,6 +44,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
           ),
         ),
         FeeAndTaxesDetailPayment(isDeparture: widget.isDeparture),
+
         Visibility(
           visible: (filter?.numberPerson
                       .getTotalBundlesPartial(widget.isDeparture) ??
@@ -71,6 +73,14 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
               0,
           child: BaggageFeePayment(isDeparture: widget.isDeparture),
         ),
+        Visibility(
+          visible: (filter?.numberPerson
+              .getTotalSportsPartial(widget.isDeparture) ??
+              0) >
+              0,
+          child: BaggageFeePayment(isDeparture: widget.isDeparture,isSports: true,),
+        ),
+
         kVerticalSpacerBig,
       ],
     );

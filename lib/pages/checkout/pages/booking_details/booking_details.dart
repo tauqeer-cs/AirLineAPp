@@ -26,7 +26,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../theme/theme.dart';
+import '../../../../utils/constant_utils.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   const BookingDetailsPage({super.key});
@@ -224,10 +226,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: AppLoadingScreen(message: "Loading"),
+        overlayWidget: const AppLoadingScreen(message: "Loading"),
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => SummaryCubit()),
+
             BlocProvider(create: (context) => InfoCubit()),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
@@ -248,12 +250,35 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   }
                   Toast.of(context).show(message: state.message);
                 },
-                onFinished: () {
+                onFinished: () async {
                   context.loaderOverlay.hide();
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
-                  context.router.push(const PaymentRoute());
+                  print(context.router.currentUrl);
+                  if(context.router.currentUrl == '/booking-details'){
+
+                    if(ConstantUtils.showRedeemPoints)  {
+                      var token = context.read<SummaryCubit>().state.summaryRequest!.token;
+
+                      context.read<VoucherCubit>().state.copyWith(
+                          flightToken: context.read<SummaryCubit>().state.summaryRequest!.token
+                      );
+
+                       await context.read<VoucherCubit>().getAvailablePromotions(token);
+
+                    }
+
+
+
+
+                    context.router.push(const PaymentRoute());
+
+
+                  }
+
+                  //VoucherCubit
+
                 },
               );
             },
