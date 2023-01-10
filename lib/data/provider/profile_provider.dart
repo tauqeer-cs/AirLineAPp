@@ -24,6 +24,13 @@ abstract class ProfileProvider {
   @POST('user/user-update-friendsandfamily')
   Future<CommonResponse> updateFriendsFamily(@Body() UpdateFriendsFamily profile);
 
+  @GET('user/user-delete-friendsandfamily')
+  Future<CommonResponse> deleteFriendFamily(@Query("friendsandfamilyid") String key);
+
+  //https://mya-api.alphareds.com/api/v1/user/user-delete-friendsandfamily?friendsandfamilyid=2
+  //  @GET('checkout/flightbookingdetail')
+//   Future<ConfirmationModel> bookingDetail(@Query("superPNRNo") String key);
+
 
 
 }

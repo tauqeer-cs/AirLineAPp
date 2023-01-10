@@ -1,4 +1,5 @@
 import 'package:app/data/repositories/profile_repository.dart';
+import 'package:app/data/requests/friend_family_add.dart';
 import 'package:app/models/profile.dart';
 import 'package:bloc/bloc.dart';
 import 'package:app/app/app_bloc_helper.dart';
@@ -11,8 +12,42 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(const ProfileState());
   final _repository = ProfileRepository();
 
-  resetState(){
+  resetState() {
     emit(const ProfileState());
+  }
+
+  //AppLoading
+
+  void deleteFnF(String id) async {
+    emit(
+      state.copyWith(deletingId: id, deletedFnf: true),
+    );
+
+    try {
+      final response = await _repository.deleteFamilyFriend(id);
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(profile: routes, deletedFnf: false));
+    }
+    catch(e,st) {
+      emit(state.copyWith(
+          deletedFnf: false,));
+    }
+
+  }
+
+  void addFamilyMember(FriendsFamilyAdd member) async {
+    emit(state.copyWith(addingFnF: true));
+
+    try {
+      final response = await _repository.addFriendsAndFamily(member);
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(profile: routes, addingFnF: false));
+    } catch (e, st) {
+      emit(state.copyWith(
+          blocState: BlocState.finished,
+          addingFnF: false,
+          errorWhileAddingFnf: true));
+    }
   }
 
   getProfile() async {
@@ -54,7 +89,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updatePreferences(CommunicationPreferences communicationPreferences) async {
+  Future<void> updatePreferences(
+      CommunicationPreferences communicationPreferences) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final profile = Profile(
@@ -76,7 +112,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  /*Profile setTmpObject(
+/*Profile setTmpObject(
     String? icNumber,
     String? newTitle,
     String? newFirstName,

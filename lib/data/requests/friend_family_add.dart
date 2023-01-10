@@ -28,9 +28,10 @@ class FriendsFamilyAdd {
     data['DOB'] = dOB;
     data['FirstName'] = firstName;
     data['LastName'] = lastName;
-    data['MemberID'] = memberID;
+    data['MemberID'] = memberID == null ? '0' : memberID!;
     data['Nationality'] = nationality;
     data['Title'] = title;
+
     return data;
   }
 }

@@ -38,8 +38,13 @@ class ProfileRepository {
   Future<CommonResponse> updateFriendsAndFamily(UpdateFriendsFamily familyMember) async {
     return await _provider.updateFriendsFamily(familyMember);
   }
-  //
 
+  Future<CommonResponse> deleteFamilyFriend(String familyMemberId) async {
+    return await _provider.deleteFriendFamily(familyMemberId);
+  }
+
+
+  //
   //
 
 }

@@ -31,9 +31,7 @@ class FriendsFamilyPage extends StatelessWidget {
                 success: true,
                 message: 'User information updated successfully',
               );
-              await Future.delayed(const Duration(seconds: 1), () {
-                context.router.pop();
-              });
+
             }
           },
           child: BlocBuilder<ProfileCubit, ProfileState>(

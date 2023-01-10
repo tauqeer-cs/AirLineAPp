@@ -72,9 +72,10 @@ class LoginForm extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: AppDividerWidget(
-                      color: Styles.kSubTextColor,
-                    )),
+                      child: AppDividerWidget(
+                        color: Styles.kSubTextColor,
+                      ),
+                    ),
                     kHorizontalSpacerMini,
                     const Text("or"),
                     kHorizontalSpacerMini,

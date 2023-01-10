@@ -248,7 +248,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                     TimerStarted(
                       duration: state.superPnrNo != null ? 900 : diff.inSeconds,
                       expiredTime: state.superPnrNo != null
-                          ? nowUTC.add(Duration(seconds: 900))
+                          ? nowUTC.add(const Duration(seconds: 900))
                           : expiredInUTC,
                     ),
                   );
