@@ -39,6 +39,32 @@ class FriendsFamilyView extends StatelessWidget {
     );
   }
 
+  showEditFamilyDialog(context,FriendsFamily familyMember) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
+      constraints: BoxConstraints(
+        maxWidth: 0.9.sw,
+      ),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+      builder: (dialogContext) => LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidget: SizedBox(
+          height: 0.5.sh,
+          child: const AppLoadingScreen(message: "Loading"),
+        ),
+        child:  AddFamilyFriendsView(isEditing: true,familyMember: familyMember,),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<ProfileCubit>();
@@ -95,6 +121,7 @@ class FriendsFamilyView extends StatelessWidget {
                                 child: OutlinedButton(
                                   onPressed: () {
                                     //Navigator.pop(context);
+                                    showEditFamilyDialog(context,currentItem);
                                   },
                                   child: const Text(
                                     'Edit',

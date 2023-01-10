@@ -1,10 +1,14 @@
+import 'package:app/models/country.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
+import '../../../blocs/countries/countries_cubit.dart';
 import '../../../data/requests/friend_family_add.dart';
 import '../../../models/number_person.dart';
+import '../../../models/profile.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
@@ -16,22 +20,27 @@ import '../../../widgets/forms/app_input_text.dart';
 import '../../checkout/pages/booking_details/ui/shadow_input.dart';
 
 class AddFamilyFriendsView extends StatelessWidget {
-  const AddFamilyFriendsView({Key? key}) : super(key: key);
+  final bool isEditing;
+  final FriendsFamily? familyMember;
+
+  const AddFamilyFriendsView({Key? key,  this.isEditing = false, this.familyMember}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
           12, 12, 12, MediaQuery.of(context).viewInsets.bottom + 20),
-      child: const SingleChildScrollView(
-        child: FriendsFamilyForm(),
+      child:  SingleChildScrollView(
+        child: FriendsFamilyForm(isEditing: isEditing,familyMember: familyMember,),
       ),
     );
   }
 }
 
 class FriendsFamilyForm extends StatefulWidget {
-  const FriendsFamilyForm({Key? key}) : super(key: key);
+  const FriendsFamilyForm({Key? key, this.isEditing = false, this.familyMember}) : super(key: key);
+  final bool isEditing;
+  final FriendsFamily? familyMember;
 
   @override
   State<FriendsFamilyForm> createState() => _FriendsFamilyFormState();
@@ -49,8 +58,42 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
   final titleController = TextEditingController();
   final nationalityController = TextEditingController();
 
+  final TextEditingController firstNameTextController = TextEditingController();
+  final TextEditingController lastNameTextController = TextEditingController();
+
+  String? selectedTitle;
+  String? selectedCountry;
+
+  //AppCountriesDropdown
+
+  @override
+  void initState() {
+    super.initState();
+
+    print('');
+
+    if(widget.isEditing) {
+      firstNameTextController.text = widget.familyMember?.firstName ?? '';
+      lastNameTextController.text = widget.familyMember?.lastName ?? '';
+      selectedTitle = widget.familyMember?.title ?? '';
+      selectedCountry = widget.familyMember?.nationality;
+      print('');
+
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
+
+    var bloc = context.read<CountriesCubit>();
+
+    Country? selectedCountryObject;
+
+    //if(widget.isEditing && selectedCountry != null){
+
+     // selectedCountryObject = bloc.state.countries.firstWhere((element) => element.countryCode2 == selectedCountry);
+   // }
+
     return FormBuilder(
       autoFocusOnValidationFailure: true,
       key: formKey,
@@ -71,6 +114,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             textInputType: TextInputType.emailAddress,
             name: fName,
             hintText: 'First Name / Given Name',
+            textEditingController: firstNameTextController,
             validators: [
               FormBuilderValidators.required(),
             ],
@@ -80,6 +124,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             isRequired: false,
             textInputType: TextInputType.emailAddress,
             name: lName,
+            textEditingController: lastNameTextController,
             hintText: 'Last Name / Surname',
             validators: [
               FormBuilderValidators.required(),
@@ -96,7 +141,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                   child: AppDropDown<String>(
                     items: availableTitle,
                     //: availableTitleChild,
-                    defaultValue: null,
+                    defaultValue: selectedTitle,
                     sheetTitle: "Title",
                     onChanged: (value) {
                       titleController.text = value ?? "";
@@ -112,6 +157,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                   child: AppCountriesDropdown(
                     hintText: "Country",
                     isPhoneCode: false,
+                    initialValue: selectedCountryObject,
                     onChanged: (value) {
                       nationalityController.text = value?.countryCode2 ?? "";
                     },
@@ -203,7 +249,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                       //context.read<LoginCubit>().logInWithCredentials(email, password);
                     }
                   },
-                  child: const Text("Login"),
+                  child: const Text('Save'),
                 ),
               ),
             ],
