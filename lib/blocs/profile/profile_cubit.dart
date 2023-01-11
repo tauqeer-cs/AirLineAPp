@@ -20,6 +20,27 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   //AppLoading
 
+  //profileBloc.state.profile.userProfile.friendsAndFamily
+  List<FriendsFamily> get friendFamily {
+    if(state.profile?.userProfile?.friendsAndFamily != null) {
+
+      return state.profile!.userProfile!.friendsAndFamily!;
+
+    }
+    return [];
+  }
+
+  bool get hasAnyFriends {
+    if(state.profile?.userProfile?.friendsAndFamily != null) {
+      if( (state.profile?.userProfile?.friendsAndFamily ?? []).isNotEmpty ) {
+
+        return true;
+
+      }
+    }
+    return false;
+
+  }
   void deleteFnF(String id) async {
     emit(
       state.copyWith(deletingId: id, deletedFnf: true),
@@ -37,28 +58,36 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void editFamilyMember(UpdateFriendsFamily member) async {
-    emit(state.copyWith(addingFnF: true));
+    emit(
+      state.copyWith(
+        updatingFnF: true,
+        deletingId: member.friendsAndFamilyID.toString(),
+      ),
+    );
 
     try {
       final response = await _repository.updateFriendsAndFamily(member);
+
       if (response.success == false) {
-        emit(state.copyWith(
-            blocState: BlocState.failed,
-            addingFnF: false,
-            message: response.message));
+        emit(
+          state.copyWith(
+              blocState: BlocState.failed,
+              updatingFnF: false,
+              message: response.message),
+        );
         return;
       }
 
       final routes = await _repository.getProfile();
       emit(state.copyWith(
         profile: routes,
-        addingFnF: false,
+        updatingFnF: false,
         blocState: BlocState.finished,
       ));
     } catch (e, st) {
       emit(state.copyWith(
           blocState: BlocState.finished,
-          addingFnF: false,
+          updatingFnF: false,
           errorWhileAddingFnf: true));
     }
   }

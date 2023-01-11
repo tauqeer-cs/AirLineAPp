@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../blocs/profile/profile_cubit.dart';
 import '../../../../../data/responses/promotions_response.dart';
 import '../../../../../utils/constant_utils.dart';
 import '../../booking_details/bloc/summary_cubit.dart';
@@ -25,6 +26,7 @@ class RewardAndDiscount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final state = context.watch<VoucherCubit>().state;
     final bookingState = context.read<BookingCubit>().state;
     var bloc = context.read<SummaryCubit>();

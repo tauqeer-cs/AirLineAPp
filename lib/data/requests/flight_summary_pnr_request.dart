@@ -284,7 +284,7 @@ class Passenger extends HiveObject with EquatableMixin {
 
   @HiveField(0)
   @JsonKey(name: 'DOB', toJson: AppDateUtils.toDateWithoutTimeToJson)
-  final DateTime? dob;
+  late  DateTime? dob;
   @HiveField(1)
   @JsonKey(name: 'FirstName')
   final String? firstName;

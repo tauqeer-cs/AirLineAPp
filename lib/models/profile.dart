@@ -172,6 +172,12 @@ class FriendsFamily extends Equatable {
   final String? nationality;
   final int? memberID;
 
+  DateTime? get dobDate {
+    if(dob == null) {
+      return null;
+    }
+    return DateTime.parse(dob!);
+  }
   String get fullName {
 
     String name = firstName ?? '';

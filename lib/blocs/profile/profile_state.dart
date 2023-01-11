@@ -4,6 +4,7 @@ class ProfileState extends Equatable {
   final Profile? profile;
   final BlocState blocState;
   final String message;
+  final bool updatingFnF;
 
   final bool errorWhileAddingFnf;
   final bool addingFamily;
@@ -18,6 +19,7 @@ class ProfileState extends Equatable {
     this.message = '',
     this.errorWhileAddingFnf = false,
     this.deletingId,
+    this.updatingFnF = false,
   });
 
   ProfileState copyWith({
@@ -25,6 +27,7 @@ class ProfileState extends Equatable {
     String? message,
     Profile? profile,
     bool? addingFnF,
+    bool? updatingFnF,
     bool? errorWhileAddingFnf,
     bool? deletedFnf,
     String? deletingId,
@@ -36,7 +39,10 @@ class ProfileState extends Equatable {
         addingFamily: addingFnF ?? addingFamily,
         errorWhileAddingFnf: errorWhileAddingFnf ?? this.errorWhileAddingFnf,
         deleteMember: deletedFnf ?? deleteMember,
-        deletingId: deletingId ?? this.deletingId);
+        deletingId: deletingId ?? this.deletingId,
+      updatingFnF: updatingFnF ?? this.updatingFnF,
+
+    );
   }
 
   @override
@@ -47,6 +53,7 @@ class ProfileState extends Equatable {
         errorWhileAddingFnf,
         addingFamily,
         deleteMember,
-        deletingId
+        deletingId,
+    updatingFnF,
       ];
 }

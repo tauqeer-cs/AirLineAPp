@@ -5,6 +5,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 import '../../../blocs/profile/profile_cubit.dart';
 import '../../../data/requests/friend_family_add.dart';
+import '../../../data/requests/update_friends_family.dart';
 import '../../../models/profile.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
@@ -39,7 +40,7 @@ class FriendsFamilyView extends StatelessWidget {
     );
   }
 
-  showEditFamilyDialog(context,FriendsFamily familyMember) {
+  showEditFamilyDialog(context, FriendsFamily familyMember) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -59,11 +60,13 @@ class FriendsFamilyView extends StatelessWidget {
           height: 0.5.sh,
           child: const AppLoadingScreen(message: "Loading"),
         ),
-        child:  AddFamilyFriendsView(isEditing: true,familyMember: familyMember,),
+        child: AddFamilyFriendsView(
+          isEditing: true,
+          familyMember: familyMember,
+        ),
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,88 +81,97 @@ class FriendsFamilyView extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  child: ListView(
-                    children: [
-                      for (FriendsFamily currentItem
-                          in state.profile?.userProfile?.friendsAndFamily ??
-                              []) ...[
-                        if (state.deleteMember &&
-                            (state.deletingId ?? '') ==
-                                currentItem.friendsAndFamilyID.toString()) ...[
-                          Row(
-                            children: [
-                              Text(
-                                currentItem.fullName,
-                                style: kMediumMedium.copyWith(
-                                    color: Styles.kTextColor),
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              const Center(
-                                child: AppLoading(),
-                              ),
+                  child: !bloc.hasAnyFriends
+                      ? const NoFriendFamily()
+                      : ListView(
+                          children: [
+                            for (FriendsFamily currentItem in state
+                                    .profile?.userProfile?.friendsAndFamily ??
+                                []) ...[
+                              if ((state.deleteMember || state.updatingFnF) &&
+                                  (state.deletingId ?? '') ==
+                                      currentItem.friendsAndFamilyID
+                                          .toString()) ...[
+                                Row(
+                                  children: [
+                                    Text(
+                                      currentItem.fullName,
+                                      style: kMediumMedium.copyWith(
+                                          color: Styles.kTextColor),
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    const Center(
+                                      child: AppLoading(),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                  ],
+                                ),
+                              ] else ...[
+                                Row(
+                                  children: [
+                                    Text(
+                                      currentItem.fullName,
+                                      style: kMediumMedium.copyWith(
+                                          color: Styles.kTextColor),
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    SizedBox(
+                                      width: 70.w,
+                                      height: 32.h,
+                                      child: OutlinedButton(
+                                        onPressed: () async {
+                                          //Navigator.pop(context);
+                                          UpdateFriendsFamily? updateObject =
+                                              await showEditFamilyDialog(
+                                                  context, currentItem);
+                                          if (updateObject != null) {
+                                            bloc.editFamilyMember(updateObject);
+                                          }
+                                        },
+                                        child: const Text(
+                                          'Edit',
+                                          style: kSmallRegular,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    SizedBox(
+                                      width: 70.w,
+                                      height: 32.h,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          // Navigator.pop(context);
+
+                                          bloc.deleteFnF(currentItem
+                                              .friendsAndFamilyID
+                                              .toString());
+                                        },
+                                        child: const Text(
+                                          'Delete',
+                                          style: kSmallRegular,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                  ],
+                                ),
+                              ],
                               const SizedBox(
-                                height: 4,
+                                height: 16,
                               ),
                             ],
-                          ),
-                        ] else ...[
-                          Row(
-                            children: [
-                              Text(
-                                currentItem.fullName,
-                                style: kMediumMedium.copyWith(
-                                    color: Styles.kTextColor),
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              SizedBox(
-                                width: 70.w,
-                                height: 32.h,
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    //Navigator.pop(context);
-                                    showEditFamilyDialog(context,currentItem);
-                                  },
-                                  child: const Text(
-                                    'Edit',
-                                    style: kSmallRegular,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              SizedBox(
-                                width: 70.w,
-                                height: 32.h,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Navigator.pop(context);
-
-                                    bloc.deleteFnF(currentItem.friendsAndFamilyID.toString());
-
-                                  },
-                                  child: const Text(
-                                    'Delete',
-                                    style: kSmallRegular,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                            ],
-                          ),
-                        ],
-                        const SizedBox(
-                          height: 16,
+                          ],
                         ),
-                      ],
-                    ],
-                  ),
                 ),
               ),
               Padding(
@@ -213,6 +225,22 @@ class FriendsFamilyView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class NoFriendFamily extends StatelessWidget {
+  const NoFriendFamily({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 32),
+        child: Text('No family or friends added'),
+      ),
     );
   }
 }

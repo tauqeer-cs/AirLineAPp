@@ -253,9 +253,8 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                       
                       var dobString =personDob.toString();
                       var indexOfSpace = dobString.indexOf(' ');
-                      dobString = dobString.replaceAll(' ','T') + 'Z';
+                      dobString = '${dobString.replaceAll(' ','T')}Z';
 
-                      print('object');
 
                     final dobToSend =
                           '${dobString.substring(0, indexOfSpace)}T02:10:32.977Z';
