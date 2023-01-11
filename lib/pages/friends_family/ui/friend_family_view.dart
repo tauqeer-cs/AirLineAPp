@@ -9,6 +9,7 @@ import '../../../data/requests/update_friends_family.dart';
 import '../../../models/profile.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
+import '../../../utils/ui_utils.dart';
 import '../../../widgets/app_loading_screen.dart';
 import 'add_fnd_dialog.dart';
 
@@ -16,54 +17,15 @@ class FriendsFamilyView extends StatelessWidget {
   const FriendsFamilyView({Key? key}) : super(key: key);
 
   showAddFamilyDialog(context) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: true,
-      backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
-      constraints: BoxConstraints(
-        maxWidth: 0.9.sw,
-      ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(16),
-        ),
-      ),
-      builder: (dialogContext) => LoaderOverlay(
-        useDefaultLoading: false,
-        overlayWidget: SizedBox(
-          height: 0.5.sh,
-          child: const AppLoadingScreen(message: "Loading"),
-        ),
-        child: const AddFamilyFriendsView(),
-      ),
-    );
+    return showBottomDialog(context, const AddFamilyFriendsView());
   }
 
   showEditFamilyDialog(context, FriendsFamily familyMember) {
-    return showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: true,
-      backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
-      constraints: BoxConstraints(
-        maxWidth: 0.9.sw,
-      ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(16),
-        ),
-      ),
-      builder: (dialogContext) => LoaderOverlay(
-        useDefaultLoading: false,
-        overlayWidget: SizedBox(
-          height: 0.5.sh,
-          child: const AppLoadingScreen(message: "Loading"),
-        ),
-        child: AddFamilyFriendsView(
-          isEditing: true,
-          familyMember: familyMember,
-        ),
+    return showBottomDialog(
+      context,
+      AddFamilyFriendsView(
+        isEditing: true,
+        familyMember: familyMember,
       ),
     );
   }
