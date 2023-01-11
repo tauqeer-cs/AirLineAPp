@@ -79,6 +79,11 @@ class AvailableRedeemOptions {
   int? redemptionAmount;
   String? redemptionCode;
 
+  String get redeemAmountString {
+
+    return 'MYR $redemptionAmount off';
+
+  }
   AvailableRedeemOptions(
       {this.redemptionName,
         this.redemptionPoint,

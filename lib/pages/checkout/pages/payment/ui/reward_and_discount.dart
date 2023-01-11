@@ -85,7 +85,7 @@ class RewardAndDiscount extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          currenteItem.redemptionName.toString(),
+                          currenteItem.redeemAmountString,
                           style: kLargeHeavy,
                         ),
                         Expanded(

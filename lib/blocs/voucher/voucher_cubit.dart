@@ -2,6 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/data/responses/voucher_response.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -21,7 +22,25 @@ class VoucherCubit extends Cubit<VoucherState> {
 
   redeemPoints() async {
 
-    final response = await _repository.getRedeemPoints(Token(token: state.flightToken,redemptionName: state.selectedRedeemOption!.redemptionName));
+    try {
+      emit(state.copyWith(
+        redeemingPromo: true,
+      ));
+
+      final response = await _repository.getRedeemPoints(Token(token: state.flightToken,redemptionName: state.selectedRedeemOption!.redemptionName));
+      emit(state.copyWith(
+        redeemingPromo: false,
+      ));
+
+    }
+    catch(e) {
+
+      emit(state.copyWith(
+        blocState: BlocState.finished,
+        //  redemptionOption: response.value!.redemptionOption,
+        redeemingPromo: false,
+      ));
+    }
     print('object');
 
   }
