@@ -2,7 +2,7 @@ class ConstantUtils{
   static bool isFirstStart = false;
   static bool showPromoTextField = true;
 
-  static bool showRedeemPoints = false;
+  static bool showRedeemPoints = true;
 
   static bool showFamily = true;
 

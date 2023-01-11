@@ -50,6 +50,10 @@ class Assets {
   static const String nativeLogoNew = 'assets/images/native/logo_new.png';
   static const String nativeLogoNewWhite = 'assets/images/native/logo_new_white.png';
   static const String nativeLogoWhite = 'assets/images/native/logo_white.png';
+  static const String pdfsGIMYAirlineTravelDomesticSOB20221222 = 'assets/pdfs/GI_MYAirlineTravelDomestic_SOB_20221222.pdf';
+  static const String pdfsInsurancerequirementsBRSCY20221228 = 'assets/pdfs/InsurancerequirementsBRS-CY20221228.pdf';
+  static const String pdfsMYTravelShieldDomesticPDS = 'assets/pdfs/MYTravelShieldDomestic_PDS.pdf';
+  static const String pdfsMYTravelShieldDomesticPolicyWording = 'assets/pdfs/MYTravelShieldDomestic_PolicyWording.pdf';
   static const String svgSeatsArrowLeft = 'assets/images/svg/seats_arrow_left.svg';
   static const String svgSeatsArrowRight = 'assets/images/svg/seats_arrow_right.svg';
 

@@ -57,7 +57,9 @@ class RewardAndDiscount extends StatelessWidget {
             //
 
             if (ConstantUtils.showRedeemPoints && !promoReady) ...[
-              const CircularProgressIndicator(),
+              const Center(
+                child: AppLoading(),
+              ),
             ] else if (ConstantUtils.showRedeemPoints &&
                 promotionsList != null) ...[
               //showReward
