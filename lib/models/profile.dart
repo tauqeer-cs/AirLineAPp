@@ -11,7 +11,11 @@ class Profile extends Equatable {
   final UserProfile? userProfile;
   final CommunicationPreferences? communicationPreferences;
 
-  const Profile({this.userID, this.userProfile, this.communicationPreferences});
+
+  const Profile(
+      {this.userID,
+      this.userProfile,
+      this.communicationPreferences});
 
   @override
   List<Object?> get props => [userID, userProfile, communicationPreferences];
@@ -44,8 +48,9 @@ class UserProfile extends Equatable {
   final int? memberID;
   final String? referralCode;
   final String? referralBy;
+  final List<FriendsFamily>? friendsAndFamily;
 
-  const UserProfile({
+  const UserProfile( {
     this.title,
     this.firstName,
     this.lastName,
@@ -64,6 +69,7 @@ class UserProfile extends Equatable {
     this.referralBy,
     this.email,
     this.emergencyContact,
+    this.friendsAndFamily
   });
 
   @override
@@ -86,6 +92,7 @@ class UserProfile extends Equatable {
         referralBy,
         emergencyContact,
         email,
+    friendsAndFamily
       ];
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>
@@ -154,3 +161,65 @@ class EmergencyContact extends Equatable {
 
   Map<String, dynamic> toJson() => _$EmergencyContactToJson(this);
 }
+
+@JsonSerializable(explicitToJson: true)
+class FriendsFamily extends Equatable {
+  final int? friendsAndFamilyID;
+  final String? title;
+  final String? firstName;
+  final String? lastName;
+  final String? dob;
+  final String? nationality;
+  final int? memberID;
+
+  DateTime? get dobDate {
+    if(dob == null) {
+      return null;
+    }
+    return DateTime.parse(dob!);
+  }
+  String get fullName {
+
+    String name = firstName ?? '';
+    if(name.isNotEmpty) {
+      name = '$name ';
+    }
+    name = name + (lastName ?? '');
+
+    return name;
+
+  }
+  const FriendsFamily({
+    this.friendsAndFamilyID,
+    this.firstName,
+    this.lastName,
+    this.title,
+    this.dob,
+    this.nationality,
+    this.memberID,
+  });
+
+  @override
+  List<Object?> get props => [
+        firstName,
+        lastName,
+        friendsAndFamilyID,
+        title,
+        dob,
+        nationality,
+        memberID
+      ];
+
+  factory FriendsFamily.fromJson(Map<String, dynamic> json) =>
+      _$FriendsFamilyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FriendsFamilyToJson(this);
+}
+
+//"friendsAndFamilyID": 55,
+//"title": "Mr.",
+//"firstName": "gffh",
+//"lastName": "fgfg",
+//"dob": "1998-01-05T02:10:33",
+//"nationality": "Malaysia",
+//"memberID": 0
