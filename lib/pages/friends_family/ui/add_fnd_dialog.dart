@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import '../../../blocs/countries/countries_cubit.dart';
 import '../../../data/requests/friend_family_add.dart';
+import '../../../data/requests/update_friends_family.dart';
 import '../../../models/number_person.dart';
 import '../../../models/profile.dart';
 import '../../../theme/spacer.dart';
@@ -60,11 +61,15 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
 
   final TextEditingController firstNameTextController = TextEditingController();
   final TextEditingController lastNameTextController = TextEditingController();
+  final TextEditingController memberTextController = TextEditingController();
 
   String? selectedTitle;
   String? selectedCountry;
 
   //AppCountriesDropdown
+
+
+  DateTime? initialDateTime;
 
   @override
   void initState() {
@@ -77,6 +82,14 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
       lastNameTextController.text = widget.familyMember?.lastName ?? '';
       selectedTitle = widget.familyMember?.title ?? '';
       selectedCountry = widget.familyMember?.nationality;
+      var tmpDate = widget.familyMember?.dob;
+      initialDateTime = DateTime.parse(tmpDate!);
+
+      if(widget.familyMember?.memberID != null){
+
+        memberTextController.text =  widget.familyMember!.memberID!.toString();
+
+      }
       print('');
 
     }
@@ -170,7 +183,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             name: dob,
             firstDate: DateTime.now().add(const Duration(days: -365 * 100)),
             lastDate: DateTime.now(),
-            initialValue: null,
+            initialValue: initialDateTime,
             //
 
             format: DateFormat("dd MMM yyyy"),
@@ -192,6 +205,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
           ),
           AppInputText(
             name: reward,
+            textEditingController: memberTextController,
             hintText: "MYReward Member ID (Optional)",
             inputFormatters: [AppFormUtils.onlyNumber()],
             textInputType: TextInputType.number,
@@ -231,20 +245,49 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                       final rewardId = value[reward];
 
 
+                      int? memberIdToSemd;
+                      if(rewardId != '') {
+                        memberIdToSemd = int.parse(rewardId);
+                      }
 
+                      
+                      var dobString =personDob.toString();
+                      var indexOfSpace = dobString.indexOf(' ');
+                      dobString = dobString.replaceAll(' ','T') + 'Z';
+
+                      print('object');
 
                     final dobToSend =
-                          '${personDob.toString().substring(0, personDob.toString().indexOf(' '))}T02:10:32.977Z';
+                          '${dobString.substring(0, indexOfSpace)}T02:10:32.977Z';
+
+                    if(widget.isEditing) {
+                      final friendsObject = UpdateFriendsFamily(
+                        firstName: firstName,
+                        lastName: lastName,
+                        title: personTitle,
+                        nationality: personNationality,
+                        dob: dobToSend,
+                        memberID: memberIdToSemd,
+                        friendsAndFamilyID: widget.familyMember!.friendsAndFamilyID
+                      );
+
+                      Navigator.pop(context, friendsObject);
+
+
+                    }
+                    else {
                       final friendsObject = FriendsFamilyAdd(
                         firstName: firstName,
                         lastName: lastName,
                         title: personTitle,
                         nationality: personNationality,
                         dOB: dobToSend,
-                        memberID: rewardId,
+                        memberID: memberIdToSemd,
                       );
 
                       Navigator.pop(context, friendsObject);
+
+                    }
 
                       //context.read<LoginCubit>().logInWithCredentials(email, password);
                     }

@@ -26,11 +26,21 @@ class FriendsFamilyPage extends StatelessWidget {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: BlocListener<ProfileCubit, ProfileState>(
           listener: (context, state) async {
-            if (state.blocState == BlocState.finished) {
+
+            if(state.blocState == BlocState.failed && !state.addingFamily ){
               Toast.of(context).show(
-                success: true,
-                message: 'User information updated successfully',
+                success: false,
+                message: state.message,
               );
+
+            }
+            else if (state.blocState == BlocState.finished) {
+
+              /*Toast.of(context).show(
+                success: true,
+                message: 'Family member added updated successfully',
+              );*/
+
 
             }
           },

@@ -6,6 +6,8 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../data/requests/update_friends_family.dart';
+
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
@@ -27,12 +29,38 @@ class ProfileCubit extends Cubit<ProfileState> {
       final response = await _repository.deleteFamilyFriend(id);
       final routes = await _repository.getProfile();
       emit(state.copyWith(profile: routes, deletedFnf: false));
-    }
-    catch(e,st) {
+    } catch (e, st) {
       emit(state.copyWith(
-          deletedFnf: false,));
+        deletedFnf: false,
+      ));
     }
+  }
 
+  void editFamilyMember(UpdateFriendsFamily member) async {
+    emit(state.copyWith(addingFnF: true));
+
+    try {
+      final response = await _repository.updateFriendsAndFamily(member);
+      if (response.success == false) {
+        emit(state.copyWith(
+            blocState: BlocState.failed,
+            addingFnF: false,
+            message: response.message));
+        return;
+      }
+
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(
+        profile: routes,
+        addingFnF: false,
+        blocState: BlocState.finished,
+      ));
+    } catch (e, st) {
+      emit(state.copyWith(
+          blocState: BlocState.finished,
+          addingFnF: false,
+          errorWhileAddingFnf: true));
+    }
   }
 
   void addFamilyMember(FriendsFamilyAdd member) async {
@@ -40,8 +68,20 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     try {
       final response = await _repository.addFriendsAndFamily(member);
+      if (response.success == false) {
+        emit(state.copyWith(
+            blocState: BlocState.failed,
+            addingFnF: false,
+            message: response.message));
+        return;
+      }
+
       final routes = await _repository.getProfile();
-      emit(state.copyWith(profile: routes, addingFnF: false));
+      emit(state.copyWith(
+        profile: routes,
+        addingFnF: false,
+        blocState: BlocState.finished,
+      ));
     } catch (e, st) {
       emit(state.copyWith(
           blocState: BlocState.finished,

@@ -34,7 +34,7 @@ class UpdateFriendsFamily {
     data['lastName'] = lastName;
     data['dob'] = dob;
     data['nationality'] = nationality;
-    data['memberID'] = memberID;
+    data['memberID'] = memberID ?? '0';
     return data;
   }
 }
