@@ -75,9 +75,11 @@ class FriendsFamilyPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  body: Container(
-                    color: Colors.white,
-                    child:  const FriendsFamilyView(),
+                  body: SafeArea(
+                    child: Container(
+                      color: Colors.white,
+                      child:  const FriendsFamilyView(),
+                    ),
                   ),
                 ),
               );
