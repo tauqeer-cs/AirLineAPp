@@ -14,6 +14,7 @@ import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -29,6 +30,7 @@ import '../../../../../models/profile.dart';
 import '../../../../../utils/constant_utils.dart';
 import '../../../../../utils/ui_utils.dart';
 import '../../../../../widgets/app_divider_widget.dart';
+import '../../../../../widgets/pdf_viewer.dart';
 
 class PassengerInfo extends StatefulWidget {
   final Person person;
@@ -144,26 +146,70 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       // BookingDetailsView.fbKey.currentState?.patchValue('age': '50');
                       //passengerInfo?.dob = DateTime.now();
 
-                      BookingDetailsView
-                          .fbKey.currentState!.fields[firstNameKey]!
-                          .didChange(selectFamily.firstName ?? '');
+                      if(selectFamily.memberID == -121 && selectFamily.firstName == 'My'){
 
-                      BookingDetailsView
-                          .fbKey.currentState!.fields[lastNameKey]!
-                          .didChange(selectFamily.lastName ?? '');
 
-                      if (selectFamily.dobDate != null) {
-                        BookingDetailsView.fbKey.currentState!.fields[dobKey]!
-                            .didChange(selectFamily.dobDate);
-                      }
 
-                      BookingDetailsView.fbKey.currentState!.fields[titleKey]!
-                          .didChange(selectFamily.title ?? '');
-                      if (selectFamily.memberID != null) {
                         BookingDetailsView
-                            .fbKey.currentState!.fields[rewardKey]!
-                            .didChange(selectFamily.memberID!);
+                            .fbKey.currentState!.fields[firstNameKey]!
+                            .didChange(profileBloc.state.profile?.userProfile?.firstName ?? '');
+
+                        BookingDetailsView
+                            .fbKey.currentState!.fields[lastNameKey]!
+                            .didChange(profileBloc.state.profile?.userProfile?.lastName ?? '');
+
+                        if (profileBloc.state.profile?.userProfile?.dob != null) {
+                          BookingDetailsView.fbKey.currentState!.fields[dobKey]!
+                              .didChange(profileBloc.state.profile?.userProfile?.dob);
+                        }
+
+                        BookingDetailsView.fbKey.currentState!.fields[titleKey]!
+                            .didChange(profileBloc.state.profile?.userProfile?.title  ?? '');
+                        if (profileBloc.state.profile?.userProfile?.memberID != null) {
+                          BookingDetailsView
+                              .fbKey.currentState!.fields[rewardKey]!
+                              .didChange(profileBloc.state.profile?.userProfile?.memberID.toString());
+                        }
                       }
+                      else {
+                        //                            Navigator.pop(context, const FriendsFamily(memberID: -121,firstName: 'My'));
+                        BookingDetailsView
+                            .fbKey.currentState!.fields[firstNameKey]!
+                            .didChange(selectFamily.firstName ?? '');
+
+                        BookingDetailsView
+                            .fbKey.currentState!.fields[lastNameKey]!
+                            .didChange(selectFamily.lastName ?? '');
+
+                        if (selectFamily.dobDate != null) {
+                          BookingDetailsView.fbKey.currentState!.fields[dobKey]!
+                              .didChange(selectFamily.dobDate);
+                        }
+
+                        BookingDetailsView.fbKey.currentState!.fields[titleKey]!
+                            .didChange(selectFamily.title ?? '');
+                        if (selectFamily.memberID != null) {
+                          if(selectFamily.memberID == 0) {
+                            BookingDetailsView
+                                .fbKey.currentState!.fields[rewardKey]!
+                                .didChange('');
+                          }
+                          else {
+                            BookingDetailsView
+                                .fbKey.currentState!.fields[rewardKey]!
+                                .didChange(selectFamily.memberID!);
+                          }
+
+                        }
+                        else {
+                          BookingDetailsView
+                              .fbKey.currentState!.fields[rewardKey]!
+                              .didChange('');
+
+                        }
+                      }
+
+
                     }
                   },
                   child: Row(
@@ -397,8 +443,38 @@ class _PassengerInfoState extends State<PassengerInfo> {
                             focusedBorder: InputBorder.none,
                             focusedErrorBorder: InputBorder.none,
                           ),
-                          title: Text(
-                              "I want travel protection : MYR${travelProtectionRate(bookingState.outbound!)}"),
+                          title: RichText(
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                const TextSpan(text: 'I want '),
+                                TextSpan(
+                                  text: 'travel protection',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const PdfViewer(
+                                            title: 'Travel Protection',
+                                            fileName:
+                                                'GI_MYAirline_TravelDomestic_SOB_20221222',
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.grey.shade900,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      " : MYR${travelProtectionRate(bookingState.outbound!)}",
+                                )
+                              ],
+                            ),
+                          ),
                           onChanged: (value) {
                             setState(() {
                               insuranceSelected = value ?? false;
@@ -491,10 +567,20 @@ class FriendsAndFamilySelectorPopUp extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.pop(context, friendsAndFamily[index]);
+                          if(index == 0){
+
+                            Navigator.pop(context, const FriendsFamily(memberID: -121,firstName: 'My'));
+
+
+                            return;
+                          }
+                          Navigator.pop(context, friendsAndFamily[index -1]);
                         },
-                        child: Text(
-                          friendsAndFamily[index].fullName,
+                        child: index == 0 ? Text(
+                          'I am flying',
+                          style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
+                        ) : Text(
+                          friendsAndFamily[index-1].fullName,
                           style: kMediumRegular,
                         ),
                       ),
@@ -502,7 +588,7 @@ class FriendsAndFamilySelectorPopUp extends StatelessWidget {
                     ],
                   );
                 },
-                itemCount: friendsAndFamily.length,
+                itemCount: friendsAndFamily.length + 1,
               ),
             ),
             kVerticalSpacerMini,

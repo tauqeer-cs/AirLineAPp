@@ -66,54 +66,104 @@ class RewardAndDiscount extends StatelessWidget {
               kVerticalSpacer,
               Text(
                 "MYReward",
-                style: kGiantHeavy.copyWith(
-                  color: Styles.kOrangeColor,
+                style: kHugeSemiBold.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               kVerticalSpacerSmall,
-              Text(
-                'Redeem your MYReward Points from options below!',
-                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
-              ),
-              kVerticalSpacer,
 
-              for (var currenteItem in promotionsList ?? []) ...[
+              if(!state.pointsRedeemed) ... [
+                const Text(
+                  'Redeem your MYReward Points from options below!',
+                  style: kMediumRegular,
+                ),
+                kVerticalSpacer,
+              ] else ... [
+                const Text(
+                  'Promo Redeemed',
+                  style: kMediumRegular,
+                ),
+                kVerticalSpacer,
+              ],
+
+
+              if(state.redeemingPromo) ... [
+                const AppLoading(),
+              ] else if(state.pointsRedeemed) ... [
+
                 AppCard(
-                  customColor: Styles.klightBackgroundColor,
+                  customColor: Colors.white,
                   edgeInsets: EdgeInsets.zero,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
+                        Radio(
+                            fillColor: MaterialStateColor.resolveWith((states) => Styles.kSubTextColor),
+                            activeColor: Styles.kActiveColor,
+                            value: true,
+                            groupValue: true,
+                            onChanged: null),
                         Text(
-                          currenteItem.redeemAmountString,
-                          style: kLargeHeavy,
+                         state.selectedRedeemOption
+                         !.redeemAmountString,
+                          style: kMediumMedium,
                         ),
                         Expanded(
                           child: Container(),
                         ),
                         Text(
-                          '${currenteItem.redemptionPoint} points',
-                          style: kLargeHeavy,
+                          '${state.selectedRedeemOption!.redemptionPoint} points',
+                          style: kMediumMedium,
                         ),
-                        Radio(
-                            value: bloc.getSelectedItem,
-                            groupValue: currenteItem,
-                            onChanged: (value) {
-                              bloc.selectedItem(currenteItem);
-                            }),
+
                       ],
                     ),
                   ),
                 ),
-                kVerticalSpacerSmall,
+
+              ] else ... [
+                for (var currenteItem in promotionsList ?? []) ...[
+                  AppCard(
+                    customColor: Colors.white,
+                    edgeInsets: EdgeInsets.zero,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Radio(
+                              fillColor: MaterialStateColor.resolveWith((states) => Styles.kDartBlack),
+                              activeColor: Styles.kActiveColor,
+                              value: bloc.getSelectedItem,
+                              groupValue: currenteItem,
+                              onChanged: (value) {
+                                bloc.selectedItem(currenteItem);
+                              }),
+                          Text(
+                            currenteItem.redeemAmountString,
+                            style: kMediumMedium,
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Text(
+                            '${currenteItem.redemptionPoint} points',
+                            style: kMediumMedium,
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                  kVerticalSpacerSmall,
+                ],
+
               ],
 
               kVerticalSpacerSmall,
 
               ElevatedButton(
-                onPressed: bloc.getSelectedItem == null
+                onPressed: (bloc.getSelectedItem  == null || state.pointsRedeemed)
                     ? null
                     : () {
                         bloc.redeemPoints();

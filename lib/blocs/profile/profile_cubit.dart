@@ -31,12 +31,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   bool get hasAnyFriends {
-    if(state.profile?.userProfile?.friendsAndFamily != null) {
-      if( (state.profile?.userProfile?.friendsAndFamily ?? []).isNotEmpty ) {
+    if(state.profile != null) {
 
         return true;
 
-      }
+
     }
     return false;
 

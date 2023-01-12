@@ -18,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../../theme/theme.dart';
+import '../../../../../utils/security_utils.dart';
 import '../../../../../widgets/pdf_viewer.dart';
 
 const formNameFirstName = "_first_name";
@@ -151,26 +152,15 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                                 child: RichText(
                                   text: TextSpan(
                                     style: DefaultTextStyle.of(context).style,
-                                    children: <TextSpan>[
-                                      const TextSpan(
+                                    children: const <TextSpan>[
+                                      TextSpan(
                                           text: 'Yes, I would like to add  '),
                                       TextSpan(
                                         text: 'MY Travel Shield',
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                   const PdfViewer(title: 'MY Travel Shield', fileName: 'MYTravelShieldDomestic_PDS',)),
-                                            );
-                                          },
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.grey.shade900,
-                                        ),
+
+
                                       ),
-                                      const TextSpan(
+                                      TextSpan(
                                         text: ' to cover my trip.',
                                       )
                                     ],
@@ -186,9 +176,32 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                             child: RichText(
                               text: TextSpan(
                                 text:
-                                    'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable.  I confirm that I have read the Product Disclosure Sheet, understood and agree to the ',
+                                    'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable.  I confirm that I have read the ',
                                 style: DefaultTextStyle.of(context).style,
                                 children: <TextSpan>[
+                                  //
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const PdfViewer(title: 'Product Disclosure Sheet', fileName: 'MYTravelShieldDomestic_PDS',),),
+
+                                        );
+                                      },
+                                    text: 'Product Disclosure Sheet',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.grey.shade900,
+                                    ),
+                                  ),
+
+                                  const TextSpan(
+                                      text:
+                                      ' , understood and agree to the '),
+
                                   TextSpan(
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
@@ -212,15 +225,10 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                                   TextSpan(
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        // Single tapped.
-                                        //GI_MYAirline TravelDomestic_SOB_20221222.pdf
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                               const PdfViewer(title: 'Data Privacy Notice', fileName: 'MYTravelShieldDomestic_PolicyWording',)),
-                                          //.pdf
-                                        );
+
+                                        SecurityUtils.tryLaunch(
+                                            'https://www.zurich.com.my/pdpa');
+
                                       },
                                     text: 'Data Privacy Notice.',
                                     style: TextStyle(

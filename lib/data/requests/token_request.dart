@@ -23,29 +23,30 @@ class Token {
 }
 
 class RedeemPointsResponse {
-  Result? result;
-  bool? success;
-  String? message;
+  Value? value;
 
-  RedeemPointsResponse({this.result, this.success, this.message});
+  int? statusCode;
+
+  RedeemPointsResponse(
+      {this.value,  this.statusCode});
 
   RedeemPointsResponse.fromJson(Map<String, dynamic> json) {
-    result =
-    json['result'] != null ? Result.fromJson(json['result']) : null;
-    success = json['success'];
-    message = json['message'];
+    value = json['value'] != null ? new Value.fromJson(json['value']) : null;
+
+    statusCode = json['statusCode'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (result != null) {
-      data['result'] = result!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.value != null) {
+      data['value'] = this.value!.toJson();
     }
-    data['success'] = success;
-    data['message'] = message;
+
+    data['statusCode'] = this.statusCode;
     return data;
   }
 }
+
 
 class Result {
   Value? value;
