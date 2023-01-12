@@ -42,7 +42,10 @@ class FlightRepository {
 
   Future<PromotionsResponse> getPromoInfo(Token token) async {
     return await _provider.getPromotionsData(token);
+  }
 
+  Future<RedeemPointsResponse> getRedeemPoints(Token token) async {
+    return await _provider.holdLmsOption(token);
   }
 
   Future<FlightResponse> searchFlight(SearchFlight searchFlight) async {

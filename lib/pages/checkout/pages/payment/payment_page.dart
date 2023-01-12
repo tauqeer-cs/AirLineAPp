@@ -18,6 +18,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../utils/constant_utils.dart';
 import '../booking_details/bloc/summary_cubit.dart';
 
@@ -214,7 +215,13 @@ class _PaymentPageState extends State<PaymentPage> {
                     },
                   ),
                 ),
-                body: const PaymentView(),
+                body: BlocBuilder<VoucherCubit, VoucherState>(
+                  builder: (context,state) {
+
+                    //
+                    return  PaymentView(promoReady: state.promoLoaded,);
+                  }
+                ),
               ),
             ),
           ),
