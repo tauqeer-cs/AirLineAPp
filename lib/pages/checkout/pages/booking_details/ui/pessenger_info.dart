@@ -190,9 +190,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                             .didChange(selectFamily.title ?? '');
                         if (selectFamily.memberID != null) {
                           if(selectFamily.memberID == 0) {
-                            BookingDetailsView
-                                .fbKey.currentState!.fields[rewardKey]!
-                                .didChange('');
+
                           }
                           else {
                             BookingDetailsView
@@ -202,9 +200,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
 
                         }
                         else {
-                          BookingDetailsView
-                              .fbKey.currentState!.fields[rewardKey]!
-                              .didChange('');
+
 
                         }
                       }
