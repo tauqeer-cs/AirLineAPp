@@ -172,6 +172,17 @@ class FriendsFamily extends Equatable {
   final String? nationality;
   final int? memberID;
 
+  String get titleToShow {
+    if(title == null) {
+      return 'Mr.';
+    }
+    else if(title == 'Tan S') {
+      return 'Tan Sri';
+    }
+
+    return title!;
+
+  }
   DateTime? get dobDate {
     if(dob == null) {
       return null;
