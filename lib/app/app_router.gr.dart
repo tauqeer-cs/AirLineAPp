@@ -230,6 +230,12 @@ class _$AppRouter extends RootStackRouter {
         child: const FriendsFamilyPage(),
       );
     },
+    MemberCardsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const MemberCardsPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -446,6 +452,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           FriendsFamilyRoute.name,
           path: '/friends-family',
+        ),
+        RouteConfig(
+          MemberCardsRoute.name,
+          path: '/member-cards',
         ),
       ];
 }
@@ -996,6 +1006,18 @@ class FriendsFamilyRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FriendsFamilyRoute';
+}
+
+/// generated route for
+/// [MemberCardsPage]
+class MemberCardsRoute extends PageRouteInfo<void> {
+  const MemberCardsRoute()
+      : super(
+          MemberCardsRoute.name,
+          path: '/member-cards',
+        );
+
+  static const String name = 'MemberCardsRoute';
 }
 
 /// generated route for

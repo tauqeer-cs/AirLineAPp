@@ -192,16 +192,18 @@ class FriendsFamilyView extends StatelessWidget {
 }
 
 class NoFriendFamily extends StatelessWidget {
+  final String? text;
+
   const NoFriendFamily({
-    Key? key,
+    Key? key, this.text,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return  Center(
       child: Padding(
-        padding: EdgeInsets.only(bottom: 32),
-        child: Text('No family or friends added'),
+        padding: const EdgeInsets.only(bottom: 32),
+        child: Text(text ?? 'No family or friends added'),
       ),
     );
   }

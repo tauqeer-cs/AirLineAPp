@@ -11,6 +11,7 @@ class Profile extends Equatable {
   final UserProfile? userProfile;
   final CommunicationPreferences? communicationPreferences;
 
+  //final
 
   const Profile(
       {this.userID,
@@ -49,6 +50,7 @@ class UserProfile extends Equatable {
   final String? referralCode;
   final String? referralBy;
   final List<FriendsFamily>? friendsAndFamily;
+  final List<MemberCard>? memberCards;
 
   const UserProfile( {
     this.title,
@@ -69,7 +71,8 @@ class UserProfile extends Equatable {
     this.referralBy,
     this.email,
     this.emergencyContact,
-    this.friendsAndFamily
+    this.friendsAndFamily,
+    this.memberCards,
   });
 
   @override
@@ -92,7 +95,8 @@ class UserProfile extends Equatable {
         referralBy,
         emergencyContact,
         email,
-    friendsAndFamily
+    friendsAndFamily,
+    memberCards
       ];
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>
@@ -215,6 +219,130 @@ class FriendsFamily extends Equatable {
 
   Map<String, dynamic> toJson() => _$FriendsFamilyToJson(this);
 }
+
+@JsonSerializable(explicitToJson: true)
+class MemberCard extends Equatable {
+  /*
+   "": "2501",
+        "": "",
+        "": "JENNY",
+        "": "8829022000788477505",
+        "": "VSA",
+        "": "Jenny"
+   visa.png
+
+
+trash.png
+
+"expiryDate": "2501",
+
+			"cardHolderName": "Sdfff",
+			"token": "8801223000836177736",
+			"cardType": "MST",
+			"cardNickName": ""
+
+
+			  {
+        "expiryDate": "2501",
+        "countryCode": "",
+        "cardHolderName": "JENNY",
+        "token": "8829022000788477505",
+        "cardType": "VSA",
+        "cardNickName": "Jenny"
+      },
+   */
+
+
+  bool get hasCardExpired {
+    if(expiryDate != null){
+
+
+      String yearPart = expiryDate!.substring(0,2);
+      int year = int.parse(yearPart)+2000;
+
+      if(year > DateTime.now().year) {
+        return false;
+      }
+      else if(year < DateTime.now().year){
+
+        return true;
+
+      }
+
+      String monthPart = expiryDate!.substring(2,4);
+      int month = int.parse(monthPart)+2000;
+
+      if(month > DateTime.now().month) {
+
+        return false;
+      }
+
+      return true;
+
+
+    }
+    return false;
+
+  }
+  String get cardImageName {
+    if(cardType == 'VSA') {
+      return 'visa';
+    }
+    else if(cardType == 'UNP' || cardType == 'UP') {
+      return 'unionpay_logo';
+    }
+
+    return 'mc';
+
+  }
+
+  final String? expiryDate;
+  final String? countryCode;
+  final String? cardHolderName;
+  final String? token;
+  final String? cardType;
+  final String? cardNickName;
+
+
+   String get cardDisplay {
+
+     if(cardNickName != null && cardNickName!.isNotEmpty) {
+       return cardNickName!;
+     }
+     else if(cardHolderName != null && cardHolderName!.isNotEmpty) {
+       return cardHolderName!;
+     }
+
+
+     return '';
+
+   }
+
+  const MemberCard({
+    this.expiryDate,
+    this.countryCode,
+    this.cardHolderName,
+    this.token,
+    this.cardType,
+    this.cardNickName,
+  });
+
+  @override
+  List<Object?> get props => [
+    expiryDate,
+    countryCode,
+    cardHolderName,
+    token,
+    cardType,
+    cardNickName,
+  ];
+
+  factory MemberCard.fromJson(Map<String, dynamic> json) =>
+      _$MemberCardFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MemberCardToJson(this);
+}
+
 
 //"friendsAndFamilyID": 55,
 //"title": "Mr.",
