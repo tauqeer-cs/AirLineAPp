@@ -46,7 +46,7 @@ class AddVoucherResult extends Equatable {
   });
 
   final List<VoucherDiscount>? voucherDiscounts;
-  final int? voucherTotalDiscountAmount;
+  final num? voucherTotalDiscountAmount;
 
   @override
   // TODO: implement props
@@ -69,8 +69,8 @@ class VoucherDiscount {
     this.currency,
   });
 
-  final int? reservationPaymentId;
-  final int? discountAmount;
+  final num? reservationPaymentId;
+  final num? discountAmount;
   final String? currency;
 
   factory VoucherDiscount.fromJson(Map<String, dynamic> json) =>

@@ -182,41 +182,86 @@ class RewardAndDiscount extends StatelessWidget {
               style: kHugeSemiBold,
             ),
             kVerticalSpacerSmall,
-            AppCard(
-              child: FormBuilderTextField(
-                name: "voucherCode",
-                validator: FormBuilderValidators.required(),
-                style: const TextStyle(fontSize: 14),
-                readOnly: bookingState.superPnrNo != null,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  hintText: "Voucher Code",
-                  border: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                  isDense: true,
-                  suffixIconConstraints: const BoxConstraints(
-                    minWidth: 40,
-                    minHeight: 20,
-                    maxHeight: 20,
-                    maxWidth: 40,
-                  ),
-                  suffixIcon: blocBuilderWrapper(
-                    blocState: state.blocState,
-                    loadingBuilder: const AppLoading(
-                      size: 20,
+            Row(
+              children: [
+                Expanded(
+                  child: AppCard(
+                    child: FormBuilderTextField(
+                      name: "voucherCode",
+                      validator: FormBuilderValidators.required(),
+                      style: const TextStyle(fontSize: 14),
+                      readOnly: bookingState.superPnrNo != null,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        hintText: "Voucher Code",
+                        border: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 0),
+                        isDense: true,
+                        suffixIconConstraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 20,
+                          maxHeight: 20,
+                          maxWidth: 40,
+                        ),
+                        suffixIcon: blocBuilderWrapper(
+                          blocState: state.blocState,
+                          loadingBuilder: const AppLoading(
+                            size: 20,
+                          ),
+                          failedBuilder: const SizedBox(),
+                          finishedBuilder: Image.asset(
+                              "assets/images/icons/iconVoucher.png"),
+                        ),
+                      ),
                     ),
-                    failedBuilder: const SizedBox(),
-                    finishedBuilder:
-                        Image.asset("assets/images/icons/iconVoucher.png"),
                   ),
                 ),
-              ),
+                kHorizontalSpacerSmall,
+                Expanded(
+                  child: AppCard(
+                    child: FormBuilderTextField(
+                      name: "voucherPin",
+                      validator: FormBuilderValidators.required(),
+                      style: const TextStyle(fontSize: 14),
+                      readOnly: bookingState.superPnrNo != null,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        hintText: "PIN",
+                        border: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 0),
+                        isDense: true,
+                        suffixIconConstraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 20,
+                          maxHeight: 20,
+                          maxWidth: 40,
+                        ),
+                        suffixIcon: blocBuilderWrapper(
+                          blocState: state.blocState,
+                          loadingBuilder: const AppLoading(
+                            size: 20,
+                          ),
+                          failedBuilder: const SizedBox(),
+                          finishedBuilder: Image.asset(
+                              "assets/images/icons/iconVoucher.png"),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             kVerticalSpacerSmall,
             Visibility(
@@ -238,9 +283,14 @@ class RewardAndDiscount extends StatelessWidget {
                       if (_fbKey.currentState!.saveAndValidate()) {
                         final value = _fbKey.currentState!.value;
                         final voucher = value["voucherCode"];
+                        final pin = value["voucherPin"];
+                        final voucherPin = InsertVoucherPIN(
+                          voucherCode: voucher,
+                          voucherPin: pin,
+                        );
                         final token = bookingState.verifyResponse?.token;
                         final voucherRequest = VoucherRequest(
-                          insertVoucher: voucher,
+                          voucherPins: [voucherPin],
                           token: token,
                         );
                         context.read<VoucherCubit>().addVoucher(voucherRequest);

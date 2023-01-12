@@ -130,7 +130,7 @@ extension $VoucherResponseCopyWith on VoucherResponse {
 abstract class _$AddVoucherResultCWProxy {
   AddVoucherResult voucherDiscounts(List<VoucherDiscount>? voucherDiscounts);
 
-  AddVoucherResult voucherTotalDiscountAmount(int? voucherTotalDiscountAmount);
+  AddVoucherResult voucherTotalDiscountAmount(num? voucherTotalDiscountAmount);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `AddVoucherResult(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -140,7 +140,7 @@ abstract class _$AddVoucherResultCWProxy {
   /// ````
   AddVoucherResult call({
     List<VoucherDiscount>? voucherDiscounts,
-    int? voucherTotalDiscountAmount,
+    num? voucherTotalDiscountAmount,
   });
 }
 
@@ -156,7 +156,7 @@ class _$AddVoucherResultCWProxyImpl implements _$AddVoucherResultCWProxy {
 
   @override
   AddVoucherResult voucherTotalDiscountAmount(
-          int? voucherTotalDiscountAmount) =>
+          num? voucherTotalDiscountAmount) =>
       this(voucherTotalDiscountAmount: voucherTotalDiscountAmount);
 
   @override
@@ -180,7 +180,7 @@ class _$AddVoucherResultCWProxyImpl implements _$AddVoucherResultCWProxy {
           voucherTotalDiscountAmount == const $CopyWithPlaceholder()
               ? _value.voucherTotalDiscountAmount
               // ignore: cast_nullable_to_non_nullable
-              : voucherTotalDiscountAmount as int?,
+              : voucherTotalDiscountAmount as num?,
     );
   }
 }
@@ -212,9 +212,9 @@ extension $AddVoucherResultCopyWith on AddVoucherResult {
 abstract class _$VoucherDiscountCWProxy {
   VoucherDiscount currency(String? currency);
 
-  VoucherDiscount discountAmount(int? discountAmount);
+  VoucherDiscount discountAmount(num? discountAmount);
 
-  VoucherDiscount reservationPaymentId(int? reservationPaymentId);
+  VoucherDiscount reservationPaymentId(num? reservationPaymentId);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `VoucherDiscount(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -224,8 +224,8 @@ abstract class _$VoucherDiscountCWProxy {
   /// ````
   VoucherDiscount call({
     String? currency,
-    int? discountAmount,
-    int? reservationPaymentId,
+    num? discountAmount,
+    num? reservationPaymentId,
   });
 }
 
@@ -239,11 +239,11 @@ class _$VoucherDiscountCWProxyImpl implements _$VoucherDiscountCWProxy {
   VoucherDiscount currency(String? currency) => this(currency: currency);
 
   @override
-  VoucherDiscount discountAmount(int? discountAmount) =>
+  VoucherDiscount discountAmount(num? discountAmount) =>
       this(discountAmount: discountAmount);
 
   @override
-  VoucherDiscount reservationPaymentId(int? reservationPaymentId) =>
+  VoucherDiscount reservationPaymentId(num? reservationPaymentId) =>
       this(reservationPaymentId: reservationPaymentId);
 
   @override
@@ -267,11 +267,11 @@ class _$VoucherDiscountCWProxyImpl implements _$VoucherDiscountCWProxy {
       discountAmount: discountAmount == const $CopyWithPlaceholder()
           ? _value.discountAmount
           // ignore: cast_nullable_to_non_nullable
-          : discountAmount as int?,
+          : discountAmount as num?,
       reservationPaymentId: reservationPaymentId == const $CopyWithPlaceholder()
           ? _value.reservationPaymentId
           // ignore: cast_nullable_to_non_nullable
-          : reservationPaymentId as int?,
+          : reservationPaymentId as num?,
     );
   }
 }
@@ -342,7 +342,7 @@ AddVoucherResult _$AddVoucherResultFromJson(Map<String, dynamic> json) =>
       voucherDiscounts: (json['voucherDiscounts'] as List<dynamic>?)
           ?.map((e) => VoucherDiscount.fromJson(e as Map<String, dynamic>))
           .toList(),
-      voucherTotalDiscountAmount: json['voucherTotalDiscountAmount'] as int?,
+      voucherTotalDiscountAmount: json['voucherTotalDiscountAmount'] as num?,
     );
 
 Map<String, dynamic> _$AddVoucherResultToJson(AddVoucherResult instance) {
@@ -362,8 +362,8 @@ Map<String, dynamic> _$AddVoucherResultToJson(AddVoucherResult instance) {
 
 VoucherDiscount _$VoucherDiscountFromJson(Map<String, dynamic> json) =>
     VoucherDiscount(
-      reservationPaymentId: json['reservationPaymentId'] as int?,
-      discountAmount: json['discountAmount'] as int?,
+      reservationPaymentId: json['reservationPaymentId'] as num?,
+      discountAmount: json['discountAmount'] as num?,
       currency: json['currency'] as String?,
     );
 
