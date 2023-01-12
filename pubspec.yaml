@@ -78,6 +78,7 @@ dependencies:
   flutter_svg: ^1.1.6
   firebase_remote_config: ^3.0.6
   version: ^3.0.2
+  syncfusion_flutter_pdfviewer: ^20.4.43
 
 
 dev_dependencies:
@@ -131,3 +132,4 @@ flutter:
     - assets/images/icons/
     - assets/images/svg/
     - assets/fonts/
+    - assets/pdfs/
