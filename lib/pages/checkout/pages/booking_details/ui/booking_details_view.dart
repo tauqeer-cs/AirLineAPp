@@ -187,7 +187,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                            const PdfViewer(title: 'Product Disclosure Sheet', fileName: 'MYTravelShieldDomestic_PDS',),),
+                                             PdfViewer(title: 'Product Disclosure Sheet', fileName: 'MYTravelShieldDomestic_PDS',),),
 
                                         );
                                       },
@@ -209,7 +209,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                   const PdfViewer(title: 'Terms and Conditions', fileName: 'MYTravelShieldDomestic_PolicyWording',),),
+                                                    PdfViewer(title: 'Terms and Conditions', fileName: 'MYTravelShieldDomestic_PolicyWording',),),
 
                                         );
                                       },

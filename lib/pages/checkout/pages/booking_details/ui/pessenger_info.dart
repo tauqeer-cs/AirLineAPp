@@ -451,10 +451,10 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const PdfViewer(
+                                          builder: (context) =>  PdfViewer(
                                             title: 'Travel Protection',
                                             fileName:
-                                                'GI_MYAirline_TravelDomestic_SOB_20221222',
+                                                'GI_MYAirline_TravelDomestic_SOB_20221222-2',
                                           ),
                                         ),
                                       );
