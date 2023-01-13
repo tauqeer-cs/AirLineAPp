@@ -21,7 +21,7 @@ class ListOfPassengerInfo extends StatelessWidget {
     return Column(
       children: [
         if (persons != null) ...[
-          for (int i = 0; i < (persons.persons ?? []).length; i++) ...[
+          for (int i = 0; i < persons.persons.length; i++) ...[
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: PassengerInfo(
