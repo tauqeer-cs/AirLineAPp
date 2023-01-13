@@ -6,6 +6,8 @@ class ConstantUtils{
 
   static bool showFamily = true;
 
+  static bool showCards = true;
+
   static bool showPinInVoucher = false;
 
 }

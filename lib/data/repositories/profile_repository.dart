@@ -4,6 +4,7 @@ import 'package:app/data/provider/profile_provider.dart';
 import 'package:app/data/responses/common_response.dart';
 
 import '../../models/profile.dart';
+import '../requests/delete_card_request.dart';
 import '../requests/friend_family_add.dart';
 import '../requests/update_friends_family.dart';
 
@@ -42,6 +43,12 @@ class ProfileRepository {
   Future<CommonResponse> deleteFamilyFriend(String familyMemberId) async {
     return await _provider.deleteFriendFamily(familyMemberId);
   }
+
+  Future<CommonResponse> deleteUserCard(DeleteCardReuquest card) async {
+    return await _provider.deleteUserCard(card);
+  }
+
+  //
 
 
   //

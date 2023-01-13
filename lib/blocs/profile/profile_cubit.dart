@@ -6,6 +6,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../data/requests/delete_card_request.dart';
 import '../../data/requests/update_friends_family.dart';
 
 part 'profile_state.dart';
@@ -18,27 +19,44 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(const ProfileState());
   }
 
-  //AppLoading
-
-  //profileBloc.state.profile.userProfile.friendsAndFamily
   List<FriendsFamily> get friendFamily {
-    if(state.profile?.userProfile?.friendsAndFamily != null) {
-
+    if (state.profile?.userProfile?.friendsAndFamily != null) {
       return state.profile!.userProfile!.friendsAndFamily!;
-
     }
     return [];
   }
 
   bool get hasAnyFriends {
-    if(state.profile != null) {
-
-        return true;
-
-
+    if (state.profile != null) {
+      return true;
     }
     return false;
+  }
 
+
+  ///deleteUserCard
+  ///
+  void deleteCard(int cardIndex) async {
+    emit(
+      state.copyWith(deletingCard: true),
+    );
+
+    try {
+      //
+      var requestObject = DeleteCardReuquest(
+        expiryDate: state.profile!.userProfile!.memberCards![cardIndex].expiryDate,
+        countryCode: state.profile!.userProfile!.memberCards![cardIndex].countryCode,
+        token: state.profile!.userProfile!.memberCards![cardIndex].token,
+      );
+
+      final response = await _repository.deleteUserCard(requestObject);
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(profile: routes, deletingCard: false));
+    } catch (e, st) {
+      emit(state.copyWith(
+        deletingCard: false,
+      ));
+    }
   }
   void deleteFnF(String id) async {
     emit(

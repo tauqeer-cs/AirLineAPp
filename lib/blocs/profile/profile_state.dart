@@ -11,6 +11,8 @@ class ProfileState extends Equatable {
   final bool deleteMember;
   final String? deletingId;
 
+  final bool deletingCard;
+
   const ProfileState({
     this.addingFamily = false,
     this.deleteMember = false,
@@ -20,6 +22,7 @@ class ProfileState extends Equatable {
     this.errorWhileAddingFnf = false,
     this.deletingId,
     this.updatingFnF = false,
+    this.deletingCard = false,
   });
 
   ProfileState copyWith({
@@ -31,17 +34,18 @@ class ProfileState extends Equatable {
     bool? errorWhileAddingFnf,
     bool? deletedFnf,
     String? deletingId,
+    bool? deletingCard,
   }) {
     return ProfileState(
-        blocState: blocState ?? this.blocState,
-        message: message ?? this.message,
-        profile: profile ?? this.profile,
-        addingFamily: addingFnF ?? addingFamily,
-        errorWhileAddingFnf: errorWhileAddingFnf ?? this.errorWhileAddingFnf,
-        deleteMember: deletedFnf ?? deleteMember,
-        deletingId: deletingId ?? this.deletingId,
+      blocState: blocState ?? this.blocState,
+      message: message ?? this.message,
+      profile: profile ?? this.profile,
+      addingFamily: addingFnF ?? addingFamily,
+      errorWhileAddingFnf: errorWhileAddingFnf ?? this.errorWhileAddingFnf,
+      deleteMember: deletedFnf ?? deleteMember,
+      deletingId: deletingId ?? this.deletingId,
       updatingFnF: updatingFnF ?? this.updatingFnF,
-
+      deletingCard: deletingCard ?? this.deletingCard,
     );
   }
 
@@ -54,6 +58,7 @@ class ProfileState extends Equatable {
         addingFamily,
         deleteMember,
         deletingId,
-    updatingFnF,
+        updatingFnF,
+        deletingCard,
       ];
 }
