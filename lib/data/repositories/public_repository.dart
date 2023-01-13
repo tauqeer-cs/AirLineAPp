@@ -22,7 +22,11 @@ class PublicRepository {
     return await _provider.getCountries();
   }
 
-  Future<SwitchSetting> getSettings() async {
+  Future<SwitchSetting> getSettings({bool returnTrue = false}) async {
+    if (returnTrue) {
+      return const SwitchSetting(insurance: true, myReward: true);
+    }
+
     return await _provider.getSettings();
   }
 }

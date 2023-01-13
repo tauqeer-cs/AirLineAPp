@@ -26,6 +26,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/settings/settings_cubit.dart';
 import '../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../theme/theme.dart';
 import '../../../../utils/constant_utils.dart';
@@ -257,7 +258,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       .summaryFlight(state.summaryRequest);
                   print(context.router.currentUrl);
                   if (context.router.currentUrl == '/booking-details') {
-                    if (ConstantUtils.showRedeemPoints) {
+                    //
+
+                    context.router.push(const PaymentRoute());
+
+                    if (context.read<SettingsCubit>().state.switchSetting.myReward ?? false) {
                       var token = context
                           .read<SummaryCubit>()
                           .state
@@ -276,7 +281,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           .getAvailablePromotions(token);
                     }
 
-                    context.router.push(const PaymentRoute());
                   }
 
                   //VoucherCubit

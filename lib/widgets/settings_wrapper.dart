@@ -25,6 +25,6 @@ class SettingsWrapper extends StatelessWidget {
   }
 
   childOrSizedBox(bool isShow){
-    return isShow ? child : SizedBox.shrink();
+    return isShow ? child : const SizedBox.shrink();
   }
 }

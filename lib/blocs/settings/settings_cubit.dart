@@ -8,7 +8,7 @@ import 'package:equatable/equatable.dart';
 part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit() : super(SettingsState());
+  SettingsCubit() : super(const SettingsState());
   final _repository = PublicRepository();
 
   getSettings() async {
