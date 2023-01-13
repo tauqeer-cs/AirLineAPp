@@ -60,7 +60,7 @@ class _PassengerContactState extends State<PassengerContact> {
     super.initState();
     final contact = context.read<LocalUserBloc>().state;
     final profile = context.read<ProfileCubit>().state.profile?.userProfile;
-    email = profile?.email ?? contact.contactEmail.trim();
+    email = profile?.emailShow ?? contact.contactEmail.trim();
     firstName = profile?.firstName ?? contact.contactFullName;
     phoneCode = profile?.phoneCode ?? contact.contactPhoneCode;
     phoneNumber = profile?.phoneNumber ?? contact.contactPhoneNumber;

@@ -12,14 +12,14 @@ import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import '../../../../../models/switch_setting.dart';
 import '../../../../../theme/theme.dart';
-import '../../../../../utils/security_utils.dart';
-import '../../../../../widgets/pdf_viewer.dart';
+import '../../../../../widgets/settings_wrapper.dart';
+import 'insurance_terms.dart';
 
 const formNameFirstName = "_first_name";
 const formNameLastName = "_last_name";
@@ -139,105 +139,30 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         ),
                         kVerticalSpacer,
                         if (showInsuranceTerms) ...[
-                          Row(
-                            children: [
-                              Checkbox(
-                                  value: insuranceChecked,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      insuranceChecked = newValue ?? false;
-                                    });
-                                  }),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: DefaultTextStyle.of(context).style,
-                                    children: const <TextSpan>[
-                                      TextSpan(
-                                          text: 'Yes, I would like to add  '),
-                                      TextSpan(
-                                        text: 'MY Travel Shield',
+                          SettingsWrapper(
+                            settingType: AvailableSetting.insurance,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                        value: insuranceChecked,
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            insuranceChecked =
+                                                newValue ?? false;
+                                          });
+                                        }),
 
-
-                                      ),
-                                      TextSpan(
-                                        text: ' to cover my trip.',
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ], //
-                            //
-                            //
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 32),
-                            child: RichText(
-                              text: TextSpan(
-                                text:
-                                    'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable.  I confirm that I have read the ',
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
+                                    const Expanded(
+                                      child: Text('Yes, I would like to add MY Travel Shield to cover my trip.'),
+                                    ),
+                                  ], //
                                   //
-                                  TextSpan(
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                            const PdfViewer(title: 'Product Disclosure Sheet', fileName: 'MYTravelShieldDomestic_PDS',),),
-
-                                        );
-                                      },
-                                    text: 'Product Disclosure Sheet',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.grey.shade900,
-                                    ),
-                                  ),
-
-                                  const TextSpan(
-                                      text:
-                                      ' , understood and agree to the '),
-
-                                  TextSpan(
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                   const PdfViewer(title: 'Terms and Conditions', fileName: 'MYTravelShieldDomestic_PolicyWording',),),
-
-                                        );
-                                      },
-                                    text: 'Terms and Conditions',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.grey.shade900,
-                                    ),
-                                  ),
-                                  const TextSpan(
-                                      text:
-                                          ' of MY Travel Shield and agree to the processing of my Personal Data in accordance with the '),
-                                  TextSpan(
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-
-                                        SecurityUtils.tryLaunch(
-                                            'https://www.zurich.com.my/pdpa');
-
-                                      },
-                                    text: 'Data Privacy Notice.',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.grey.shade900,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                  //
+                                ),
+                                const InsuranceTerms(),
+                              ],
                             ),
                           ),
                         ],
@@ -486,3 +411,4 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
             'Emergency contact name should be different from contact name and passenger name.');
   }
 }
+

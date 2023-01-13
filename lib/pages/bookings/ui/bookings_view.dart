@@ -58,7 +58,7 @@ class BookingsView extends StatelessWidget {
                     kVerticalSpacerSmall,
                     AppInputText(
                       name: "lastName",
-                      hintText: "Surname / Lastname",
+                      hintText: "Surname / Last Name",
                       validators: [FormBuilderValidators.required()],
                     ),
                     kVerticalSpacer,

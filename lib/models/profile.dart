@@ -44,6 +44,13 @@ class UserProfile extends Equatable {
   final String? state;
   final String? postCode;
   final String? email;
+
+  String? get emailShow {
+    if(email == null) {
+      return null;
+    }
+    return email!.trim();
+  }
   final EmergencyContact? emergencyContact;
   final String? country;
   final int? memberID;

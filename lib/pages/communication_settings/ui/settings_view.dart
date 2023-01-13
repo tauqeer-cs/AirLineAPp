@@ -15,6 +15,10 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   late CommunicationPreferences communicationPreferences;
 
+  bool showWebPush = false;
+  bool showSms =  false;
+  bool showWhatsApp = false;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -40,36 +44,45 @@ class _SettingsViewState extends State<SettingsView> {
               });
             },
           ),
-          SwitchListTile(
-            value: communicationPreferences.webPushNotification ?? false,
-            title: const Text("Web Push Notification"),
-            onChanged: (value) {
-              setState(() {
-                communicationPreferences =
-                    communicationPreferences.copyWith(webPushNotification: value);
-              });
-            },
-          ),
-          SwitchListTile(
-            value: communicationPreferences.sms ?? false,
-            title: const Text("SMS"),
-            onChanged: (value) {
-              setState(() {
-                communicationPreferences =
-                    communicationPreferences.copyWith(sms: value);
-              });
-            },
-          ),
-          SwitchListTile(
-            value: communicationPreferences.whatsapp ?? false,
-            title: const Text("Whatsapp"),
-            onChanged: (value) {
-              setState(() {
-                communicationPreferences =
-                    communicationPreferences.copyWith(whatsapp: value);
-              });
-            },
-          ),
+          if(showWebPush) ... [
+            SwitchListTile(
+              value: communicationPreferences.webPushNotification ?? false,
+              title: const Text("Web Push Notification"),
+              onChanged: (value) {
+                setState(() {
+                  communicationPreferences =
+                      communicationPreferences.copyWith(webPushNotification: value);
+                });
+              },
+            ),
+          ],
+
+          if(showSms) ... [
+            SwitchListTile(
+              value: communicationPreferences.sms ?? false,
+              title: const Text("SMS"),
+              onChanged: (value) {
+                setState(() {
+                  communicationPreferences =
+                      communicationPreferences.copyWith(sms: value);
+                });
+              },
+            ),
+          ],
+
+          if(showWhatsApp) ... [
+            SwitchListTile(
+              value: communicationPreferences.whatsapp ?? false,
+              title: const Text("Whatsapp"),
+              onChanged: (value) {
+                setState(() {
+                  communicationPreferences =
+                      communicationPreferences.copyWith(whatsapp: value);
+                });
+              },
+            ),
+          ],
+
           const Spacer(),
           OutlinedButton(
             onPressed: () {

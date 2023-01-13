@@ -28,7 +28,6 @@ class ListOfPassengerInfo extends StatelessWidget {
                 person: persons.persons[i],
                 insuranceSelected: (bool flag, Bundle insurance) {
                   if (flag) {
-                    //  e = e.copyWith(insurance: insurance);
 
                     bloc.addInsuranceToPerson(i,insurance);
 

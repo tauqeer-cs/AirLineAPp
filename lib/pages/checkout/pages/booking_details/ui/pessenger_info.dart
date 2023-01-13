@@ -448,30 +448,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                 style: DefaultTextStyle.of(context).style,
                                 children: <TextSpan>[
                                   const TextSpan(text: 'I want '),
-                                  TextSpan(
-                                    text: 'travel protection',
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => const PdfViewer(
-                                              title: 'Travel Protection',
-                                              fileName:
-                                                  'GI_MYAirline_TravelDomestic_SOB_20221222',
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.grey.shade900,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text:
-                                        " : MYR${travelProtectionRate(bookingState.outbound!)}",
-                                  )
+                                  makeClickableTextSpan(context,text: 'travel protection',pdfName: 'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
+                                  makeClickableTextSpan(context,text: " : MYR${travelProtectionRate(bookingState.outbound!)}"),
                                 ],
                               ),
                             ),
@@ -481,10 +459,6 @@ class _PassengerInfoState extends State<PassengerInfo> {
                               });
 
                               if (value == true) {
-                                // widget.person.insuranceGroup =
-                                //   currentInsuranceBundlde;
-
-                                //widget.person = widget.person.copyWith(insurance: );
 
                                 widget.insuranceSelected(
                                     true, currentInsuranceBundlde!);
@@ -492,9 +466,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                 widget.insuranceSelected(
                                     false, currentInsuranceBundlde!);
 
-                                // widget.person = widget.person.copyWith(insuranceEmpty: true);
 
-                                //widget.person.insuranceGroup = null;
                               }
                             },
                           ),
