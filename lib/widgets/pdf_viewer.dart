@@ -81,10 +81,6 @@ class _PdfViewerState extends State<PdfViewer> {
       ),
       body:  pathPDF.isEmpty ? Container() : PDFView(
         filePath: pathPDF,
-        enableSwipe: true,
-        swipeHorizontal: true,
-        autoSpacing: false,
-        pageFling: false,
         onRender: (_pages) {
 
         },
