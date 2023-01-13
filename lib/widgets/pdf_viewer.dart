@@ -13,8 +13,7 @@ class PdfViewer extends StatefulWidget {
   final String title;
   final String fileName;
 
-
-   PdfViewer({Key? key, required this.title, required this.fileName})
+  PdfViewer({Key? key, required this.title, required this.fileName})
       : super(key: key);
 
   @override
@@ -22,36 +21,18 @@ class PdfViewer extends StatefulWidget {
 }
 
 class _PdfViewerState extends State<PdfViewer> {
-  Future<io.File> fromAsset(String asset, String filename) async {
-    // To open from assets, you can copy them to the app storage folder, and the access them "locally"
-    Completer<io.File> completer = Completer();
-
-    try {
-      var dir = await getApplicationDocumentsDirectory();
-      io.File file = io.File("${dir.path}/$filename");
-      var data = await rootBundle.load(asset);
-      var bytes = data.buffer.asUint8List();
-      await file.writeAsBytes(bytes, flush: true);
-      completer.complete(file);
-    } catch (e) {
-      throw Exception('Error parsing asset file!');
-    }
-
-    return completer.future;
-  }
   String pathPDF = "";
+
   Future<io.File> getFileFromAssets(String path) async {
     final byteData = await rootBundle.load('assets/$path');
 
     final file = io.File('${(await getTemporaryDirectory()).path}/$path');
-    if(!file.existsSync()){
-
-      await io.File( file.path).create(recursive: true);
-
+    if (!file.existsSync()) {
+      await io.File(file.path).create(recursive: true);
     }
 
-      await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
     setState(() {
       pathPDF = file.path;
@@ -59,38 +40,31 @@ class _PdfViewerState extends State<PdfViewer> {
 
     return file;
   }
+
   @override
   void initState() {
-
-
     super.initState();
     getFileFromAssets('pdfs/${widget.fileName}.pdf');
-
-
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar:  AppAppBar(
+      appBar: AppAppBar(
         centerTitle: true,
         title: widget.title,
         height: 80.h,
       ),
-      body:  pathPDF.isEmpty ? Container() : PDFView(
-        filePath: pathPDF,
-        onRender: (_pages) {
-
-        },
-        onError: (error) {
-          print(error.toString());
-        },
-        onPageError: (page, error) {
-          print('$page: ${error.toString()}');
-        },
-      ),
+      body: pathPDF.isEmpty
+          ? Container()
+          : PDFView(
+              filePath: pathPDF,
+              onRender: (pages) {},
+              onError: (error) {},
+              onPageError: (page, error) {
+                print('$page: ${error.toString()}');
+              },
+            ),
     );
   }
 }

@@ -8,7 +8,7 @@ class ConstantUtils{
 
   static bool showCards = true;
 
-  static bool showPinInVoucher = false;
+  static bool showPinInVoucher = true;
 
 }
 
