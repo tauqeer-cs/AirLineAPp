@@ -32,6 +32,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_insider/enum/InsiderCallbackAction.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -65,8 +66,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    initInsider();
   }
 
   @override
@@ -77,15 +79,27 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   Future initInsider() async {
     if (!mounted) return;
-
     // Call in async method.
-    await FlutterInsider.Instance.init("${AppFlavor.insiderPartnerName}","appgroup", callback);
-
+    await FlutterInsider.Instance.init(AppFlavor.insiderPartnerName,AppFlavor.insiderAppGroup, userInsiderCallBack);
     // This is an utility method, if you want to handle the push permission in iOS own your own you can omit the following method.
     FlutterInsider.Instance.registerWithQuietPermission(false);
   }
 
-  @override
+  userInsiderCallBack(int type, dynamic data) {
+    switch (type) {
+      case InsiderCallbackAction.NOTIFICATION_OPEN:
+        print("[INSIDER][NOTIFICATION_OPEN]: " + data.toString());
+        break;
+      case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
+        print("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: " + data.toString());
+        break;
+      default:
+        print("[INSIDER][InsiderCallbackAction]: Unregistered Action!");
+        break;
+    }
+  }
+
+    @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       try {

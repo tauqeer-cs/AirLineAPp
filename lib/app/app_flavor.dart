@@ -98,7 +98,7 @@ class AppFlavor {
     }
   }
 
-  static String get AppGroup {
+  static String get insiderAppGroup {
     final isAndroid = Platform.isAndroid;
     switch (appFlavor) {
       case Flavor.staging:
