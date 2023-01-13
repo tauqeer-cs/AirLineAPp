@@ -72,6 +72,20 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
   DateTime? initialDateTime;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if(widget.isEditing) {
+
+      setTitle();
+
+      print('');
+
+    }
+
+  }
+
+  @override
   void initState() {
     super.initState();
 
@@ -80,7 +94,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
     if(widget.isEditing) {
       firstNameTextController.text = widget.familyMember?.firstName ?? '';
       lastNameTextController.text = widget.familyMember?.lastName ?? '';
-      selectedTitle = widget.familyMember?.title ?? '';
+
       selectedCountry = widget.familyMember?.nationality;
       var tmpDate = widget.familyMember?.dob;
       initialDateTime = DateTime.parse(tmpDate!);
@@ -94,6 +108,24 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
 
     }
 
+  }
+
+  void setTitle() async {
+     if(widget.familyMember?.title == 'Tan S') {
+      selectedTitle = availableTitle.last;
+      await Future.delayed(const Duration(seconds: 1));
+      formKey.currentState!.fields['title']!
+          .didChange(availableTitle.last);
+    }
+    else {
+      selectedTitle = widget.familyMember?.title ?? '';
+      await Future.delayed(const Duration(seconds: 1));
+
+      formKey.currentState!.fields['title']!
+          .didChange(selectedTitle);
+
+
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -184,8 +216,6 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             firstDate: DateTime.now().add(const Duration(days: -365 * 100)),
             lastDate: DateTime.now(),
             initialValue: initialDateTime,
-            //
-
             format: DateFormat("dd MMM yyyy"),
             initialEntryMode: DatePickerEntryMode.calendar,
             decoration: const InputDecoration(hintText: "Date of Birth"),
