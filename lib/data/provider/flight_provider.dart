@@ -62,7 +62,6 @@ abstract class FlightProvider {
   Future<RedeemPointsResponse> holdLmsOption(@Body() Token voucher);
 
 
-
   @POST('checkout/holdlmsoption')
   Future<PromotionsResponse> setectPromotion(@Body() Token voucher);
 

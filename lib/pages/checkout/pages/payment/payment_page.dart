@@ -217,8 +217,6 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 body: BlocBuilder<VoucherCubit, VoucherState>(
                   builder: (context,state) {
-
-                    //
                     return  PaymentView(promoReady: state.promoLoaded,);
                   }
                 ),

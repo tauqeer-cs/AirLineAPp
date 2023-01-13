@@ -2,6 +2,7 @@ import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/models/switch_setting.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
@@ -14,6 +15,7 @@ import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:app/widgets/settings_wrapper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -426,73 +428,76 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     if (bookingState.outbound!.isNotEmpty) ...[
                       Visibility(
                         visible: visible(),
-                        child: FormBuilderCheckbox(
-                          name: "${widget.person.toString()}$formNameInsurance",
-                          contentPadding: EdgeInsets.zero,
-                          initialValue: insuranceSelected,
-                          decoration: const InputDecoration(
+                        child: SettingsWrapper(
+                          settingType: AvailableSetting.insurance,
+                          child: FormBuilderCheckbox(
+                            name: "${widget.person.toString()}$formNameInsurance",
                             contentPadding: EdgeInsets.zero,
-                            border: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            focusedErrorBorder: InputBorder.none,
-                          ),
-                          title: RichText(
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                const TextSpan(text: 'I want '),
-                                TextSpan(
-                                  text: 'travel protection',
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const PdfViewer(
-                                            title: 'Travel Protection',
-                                            fileName:
-                                                'GI_MYAirline_TravelDomestic_SOB_20221222',
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: Colors.grey.shade900,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text:
-                                      " : MYR${travelProtectionRate(bookingState.outbound!)}",
-                                )
-                              ],
+                            initialValue: insuranceSelected,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.zero,
+                              border: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              focusedErrorBorder: InputBorder.none,
                             ),
+                            title: RichText(
+                              text: TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: <TextSpan>[
+                                  const TextSpan(text: 'I want '),
+                                  TextSpan(
+                                    text: 'travel protection',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const PdfViewer(
+                                              title: 'Travel Protection',
+                                              fileName:
+                                                  'GI_MYAirline_TravelDomestic_SOB_20221222',
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.grey.shade900,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        " : MYR${travelProtectionRate(bookingState.outbound!)}",
+                                  )
+                                ],
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                insuranceSelected = value ?? false;
+                              });
+
+                              if (value == true) {
+                                // widget.person.insuranceGroup =
+                                //   currentInsuranceBundlde;
+
+                                //widget.person = widget.person.copyWith(insurance: );
+
+                                widget.insuranceSelected(
+                                    true, currentInsuranceBundlde!);
+                              } else {
+                                widget.insuranceSelected(
+                                    false, currentInsuranceBundlde!);
+
+                                // widget.person = widget.person.copyWith(insuranceEmpty: true);
+
+                                //widget.person.insuranceGroup = null;
+                              }
+                            },
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              insuranceSelected = value ?? false;
-                            });
-
-                            if (value == true) {
-                              // widget.person.insuranceGroup =
-                              //   currentInsuranceBundlde;
-
-                              //widget.person = widget.person.copyWith(insurance: );
-
-                              widget.insuranceSelected(
-                                  true, currentInsuranceBundlde!);
-                            } else {
-                              widget.insuranceSelected(
-                                  false, currentInsuranceBundlde!);
-
-                              // widget.person = widget.person.copyWith(insuranceEmpty: true);
-
-                              //widget.person.insuranceGroup = null;
-                            }
-                          },
                         ),
                       ),
                     ],
@@ -515,9 +520,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
 
   String travelProtectionRate(List<Bundle> outbound) {
     currentInsuranceBundlde = outbound.first;
-
     var taxAmount = 0.0;
-
     if (currentInsuranceBundlde!.applicableTaxes != null) {
       taxAmount =
           currentInsuranceBundlde!.applicableTaxes!.first.taxAmount!.toDouble();
