@@ -72,11 +72,9 @@ android {
         }*/
         applicationId "com.myairline.mobileapp"
         minSdkVersion 23
-        manifestPlaceholders = [partner:"myairlineuat"]
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-
     }
 
     signingConfigs {
