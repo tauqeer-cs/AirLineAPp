@@ -2,6 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/data/responses/voucher_response.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -19,10 +20,48 @@ class VoucherCubit extends Cubit<VoucherState> {
     emit( VoucherState());
   }
 
+  redeemPoints() async {
+
+    try {
+      emit(state.copyWith(
+        redeemingPromo: true,
+      ));
+
+      final response = await _repository.getRedeemPoints(Token(token: state.flightToken,redemptionName: state.selectedRedeemOption!.redemptionName));
+
+      if(response.value?.success == true){
+        emit(state.copyWith(
+          redeemingPromo: false,
+          pointsRedeemed: true,
+        ));
+      }
+      else {
+        emit(state.copyWith(
+          blocState: BlocState.finished,
+          redeemingPromo: false,
+        ));
+      }
+
+
+
+    }
+    catch(e) {
+
+      emit(state.copyWith(
+        blocState: BlocState.finished,
+        redeemingPromo: false,
+      ));
+    }
+    print('object');
+
+  }
   getAvailablePromotions(String token) async {
     if (state.promoLoaded) {
       return;
     }
+     state.flightToken = token;
+
+
     final response = await _repository
         .getPromoInfo(Token(token: token));
     print('object');
@@ -38,7 +77,7 @@ class VoucherCubit extends Cubit<VoucherState> {
       emit(state.copyWith(
         blocState: BlocState.finished,
       //  redemptionOption: response.value!.redemptionOption,
-        promoReady: false,
+        promoReady: true,
       ));
       return;
 

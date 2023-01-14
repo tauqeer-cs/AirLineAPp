@@ -6,13 +6,17 @@ class VoucherState extends Equatable {
   final String message;
   final String? appliedVoucher;
   final bool promoLoaded;
-  final String? flightToken;
+  late String? flightToken;
+
+  final bool redeemingPromo;
+
+  final bool pointsRedeemed;
 
   final AvailableRedeemOptions? selectedRedeemOption;
 
   RedemptionOption? redemptionOption;
 
-  VoucherState({
+  VoucherState( {
     this.response,
     this.blocState = BlocState.initial,
     this.message = '',
@@ -21,17 +25,23 @@ class VoucherState extends Equatable {
     this.promoLoaded = false,
     this.selectedRedeemOption,
     this.flightToken,
+    this.redeemingPromo = false,
+    this.pointsRedeemed = false,
   });
 
-  VoucherState copyWith(
-      {BlocState? blocState,
-      String? message,
-      VoucherResponse? response,
-      String? appliedVoucher,
-      bool? promoReady,
-      AvailableRedeemOptions? selectedRedeemOption,
-      RedemptionOption? redemptionOption,
-      String? flightToken}) {
+  VoucherState copyWith({
+    BlocState? blocState,
+    String? message,
+    VoucherResponse? response,
+    String? appliedVoucher,
+    bool? promoReady,
+    AvailableRedeemOptions? selectedRedeemOption,
+    RedemptionOption? redemptionOption,
+    String? flightToken,
+    bool? redeemingPromo,
+    bool? pointsRedeemed,
+
+  }) {
     return VoucherState(
       blocState: blocState ?? this.blocState,
       message: message ?? this.message,
@@ -41,6 +51,8 @@ class VoucherState extends Equatable {
       selectedRedeemOption: selectedRedeemOption ?? this.selectedRedeemOption,
       redemptionOption: redemptionOption ?? this.redemptionOption,
       flightToken: flightToken ?? this.flightToken,
+      redeemingPromo: redeemingPromo ?? this.redeemingPromo,
+      pointsRedeemed: pointsRedeemed ?? this.pointsRedeemed,
     );
   }
 
@@ -54,5 +66,7 @@ class VoucherState extends Equatable {
         selectedRedeemOption,
         promoLoaded,
         flightToken,
+        redeemingPromo,
+    pointsRedeemed,
       ];
 }

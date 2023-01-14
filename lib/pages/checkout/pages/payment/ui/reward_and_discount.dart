@@ -18,32 +18,28 @@ import '../../booking_details/bloc/summary_cubit.dart';
 
 class RewardAndDiscount extends StatelessWidget {
   final _fbKey = GlobalKey<FormBuilderState>();
+  final bool promoReady;
 
   RewardAndDiscount({
     Key? key,
+    required this.promoReady,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<VoucherCubit>().state;
-    final bookingState = context.read<BookingCubit>().state;
-    var bloc = context.read<SummaryCubit>();
-    bool showReward = false;
+    var bloc = context.watch<VoucherCubit>();
 
-    var cc = context.read<VoucherCubit>();
+    final state = bloc.state;
+    final bookingState = context.read<BookingCubit>().state;
 
     List<AvailableRedeemOptions>? promotionsList;
 
     if (ConstantUtils.showRedeemPoints) {
-      //      showReward = bloc.state.promoLoaded;
+      if (promoReady) {
+        promotionsList = bloc.state.redemptionOption?.availableOptions;
 
-      /*
-      promotionsList = bloc
-          .state
-          .lmsRedemptionOption
-          ?.availableOptions;
-  */
-
+        print('');
+      }
     }
 
     return Padding(
@@ -59,81 +55,118 @@ class RewardAndDiscount extends StatelessWidget {
             ),
 
             //
-            if (ConstantUtils.showRedeemPoints && promotionsList != null) ...[
+
+            if (ConstantUtils.showRedeemPoints && !promoReady) ...[
+              const Center(
+                child: AppLoading(),
+              ),
+            ] else if (ConstantUtils.showRedeemPoints &&
+                promotionsList != null) ...[
               //showReward
               kVerticalSpacer,
               Text(
                 "MYReward",
-                style: kGiantHeavy.copyWith(
-                  color: Styles.kOrangeColor,
+                style: kHugeSemiBold.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               kVerticalSpacerSmall,
-              Text(
-                'Redeem your MYReward Points from options below!',
-                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
-              ),
-              kVerticalSpacer,
 
-              for (var currenteItem in promotionsList ?? []) ...[
+              if(!state.pointsRedeemed) ... [
+                const Text(
+                  'Redeem your MYReward Points from options below!',
+                  style: kMediumRegular,
+                ),
+                kVerticalSpacer,
+              ] else ... [
+                const Text(
+                  'Promo Redeemed',
+                  style: kMediumRegular,
+                ),
+                kVerticalSpacer,
+              ],
+
+
+              if(state.redeemingPromo) ... [
+                const AppLoading(),
+              ] else if(state.pointsRedeemed) ... [
+
                 AppCard(
-                  customColor: Styles.klightBackgroundColor,
+                  customColor: Colors.white,
                   edgeInsets: EdgeInsets.zero,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
+                        Radio(
+                            fillColor: MaterialStateColor.resolveWith((states) => Styles.kSubTextColor),
+                            activeColor: Styles.kActiveColor,
+                            value: true,
+                            groupValue: true,
+                            onChanged: null),
                         Text(
-                          currenteItem.redemptionName.toString(),
-                          style: kLargeHeavy,
+                         state.selectedRedeemOption
+                         !.redeemAmountString,
+                          style: kMediumMedium,
                         ),
                         Expanded(
                           child: Container(),
                         ),
                         Text(
-                          '${currenteItem.redemptionPoint} points',
-                          style: kLargeHeavy,
+                          '${state.selectedRedeemOption!.redemptionPoint} points',
+                          style: kMediumMedium,
                         ),
 
-                        /*
-                        Radio(value: bloc.getSelectedItem, groupValue: currenteItem,
-                            onChanged: (
-                                value){
-
-
-                          bloc.selectedItem(currenteItem);
-
-
-
-                        }),
-*/
                       ],
                     ),
                   ),
                 ),
-                kVerticalSpacerSmall,
+
+              ] else ... [
+                for (var currenteItem in promotionsList ?? []) ...[
+                  AppCard(
+                    customColor: Colors.white,
+                    edgeInsets: EdgeInsets.zero,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Radio(
+                              fillColor: MaterialStateColor.resolveWith((states) => Styles.kDartBlack),
+                              activeColor: Styles.kActiveColor,
+                              value: bloc.getSelectedItem,
+                              groupValue: currenteItem,
+                              onChanged: (value) {
+                                bloc.selectedItem(currenteItem);
+                              }),
+                          Text(
+                            currenteItem.redeemAmountString,
+                            style: kMediumMedium,
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Text(
+                            '${currenteItem.redemptionPoint} points',
+                            style: kMediumMedium,
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                  kVerticalSpacerSmall,
+                ],
+
               ],
 
               kVerticalSpacerSmall,
 
               ElevatedButton(
-                onPressed: state.blocState == BlocState.loading ||
-                        bookingState.superPnrNo != null
+                onPressed: (bloc.getSelectedItem  == null || state.pointsRedeemed)
                     ? null
                     : () {
-                        /*
-                  if (_fbKey.currentState!.saveAndValidate()) {
-                    final value = _fbKey.currentState!.value;
-                    final voucher = value["voucherCode"];
-                    final token = bookingState.verifyResponse?.token;
-                    final voucherRequest = VoucherRequest(
-                      insertVoucher: voucher,
-                      token: token,
-                    );
-                    context.read<VoucherCubit>().addVoucher(voucherRequest);
-                  }
-                  */
+                        bloc.redeemPoints();
                       },
                 child: state.blocState == BlocState.loading
                     ? const AppLoading(
@@ -149,43 +182,131 @@ class RewardAndDiscount extends StatelessWidget {
               style: kHugeSemiBold,
             ),
             kVerticalSpacerSmall,
-            AppCard(
-              child: FormBuilderTextField(
-                name: "voucherCode",
-                validator: FormBuilderValidators.required(),
-                style: const TextStyle(fontSize: 14),
-                readOnly: bookingState.superPnrNo != null,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  hintText: "Voucher Code",
-                  border: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                  isDense: true,
-                  suffixIconConstraints: const BoxConstraints(
-                    minWidth: 40,
-                    minHeight: 20,
-                    maxHeight: 20,
-                    maxWidth: 40,
-                  ),
-                  suffixIcon: blocBuilderWrapper(
-                    blocState: state.blocState,
-                    loadingBuilder: const AppLoading(
-                      size: 20,
+
+            if(!ConstantUtils.showPinInVoucher) ... [
+              AppCard(
+                child: FormBuilderTextField(
+                  name: "voucherCode",
+                  validator: FormBuilderValidators.required(),
+                  style: const TextStyle(fontSize: 14),
+                  readOnly: bookingState.superPnrNo != null,
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    hintText: "Voucher Code",
+                    border: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                    isDense: true,
+                    suffixIconConstraints: const BoxConstraints(
+                      minWidth: 40,
+                      minHeight: 20,
+                      maxHeight: 20,
+                      maxWidth: 40,
                     ),
-                    failedBuilder: const SizedBox(),
-                    finishedBuilder:
-                        Image.asset("assets/images/icons/iconVoucher.png"),
+                    suffixIcon: blocBuilderWrapper(
+                      blocState: state.blocState,
+                      loadingBuilder: const AppLoading(
+                        size: 20,
+                      ),
+                      failedBuilder: const SizedBox(),
+                      finishedBuilder:
+                      Image.asset("assets/images/icons/iconVoucher.png"),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ] else ... [
+              Row(
+                children: [
+                  Expanded(
+                    child: AppCard(
+                      child: FormBuilderTextField(
+                        name: "voucherCode",
+                        validator: FormBuilderValidators.required(),
+                        style: const TextStyle(fontSize: 14),
+                        readOnly: bookingState.superPnrNo != null,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                          hintText: "Voucher Code",
+                          border: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 0),
+                          isDense: true,
+                          suffixIconConstraints: const BoxConstraints(
+                            minWidth: 40,
+                            minHeight: 20,
+                            maxHeight: 20,
+                            maxWidth: 40,
+                          ),
+                          suffixIcon: blocBuilderWrapper(
+                            blocState: state.blocState,
+                            loadingBuilder: const AppLoading(
+                              size: 20,
+                            ),
+                            failedBuilder: const SizedBox(),
+                            finishedBuilder: Image.asset(
+                                "assets/images/icons/iconVoucher.png"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  kHorizontalSpacerSmall,
+                  Expanded(
+                    child: AppCard(
+                      child: FormBuilderTextField(
+                        name: "voucherPin",
+                        validator: FormBuilderValidators.required(),
+                        style: const TextStyle(fontSize: 14),
+                        readOnly: bookingState.superPnrNo != null,
+                        textAlignVertical: TextAlignVertical.center,
+                        decoration: InputDecoration(
+                          hintText: "PIN",
+                          border: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 0),
+                          isDense: true,
+                          suffixIconConstraints: const BoxConstraints(
+                            minWidth: 40,
+                            minHeight: 20,
+                            maxHeight: 20,
+                            maxWidth: 40,
+                          ),
+                          suffixIcon: blocBuilderWrapper(
+                            blocState: state.blocState,
+                            loadingBuilder: const AppLoading(
+                              size: 20,
+                            ),
+                            failedBuilder: const SizedBox(),
+                            finishedBuilder: Image.asset(
+                                "assets/images/icons/iconVoucher.png"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+
             kVerticalSpacerSmall,
+
+
             Visibility(
               visible: state.blocState == BlocState.failed,
               child: Padding(
@@ -203,14 +324,34 @@ class RewardAndDiscount extends StatelessWidget {
                   ? null
                   : () {
                       if (_fbKey.currentState!.saveAndValidate()) {
-                        final value = _fbKey.currentState!.value;
-                        final voucher = value["voucherCode"];
-                        final token = bookingState.verifyResponse?.token;
-                        final voucherRequest = VoucherRequest(
-                          insertVoucher: voucher,
-                          token: token,
-                        );
-                        context.read<VoucherCubit>().addVoucher(voucherRequest);
+
+                        if(ConstantUtils.showPinInVoucher) {
+                          final value = _fbKey.currentState!.value;
+                          final voucher = value["voucherCode"];
+                          final pin = value["voucherPin"];
+                          final voucherPin = InsertVoucherPIN(
+                            voucherCode: voucher,
+                            voucherPin: pin,
+                          );
+                          final token = bookingState.verifyResponse?.token;
+                          final voucherRequest = VoucherRequest(
+                            voucherPins: [voucherPin],
+                            token: token,
+                          );
+                          context.read<VoucherCubit>().addVoucher(voucherRequest);
+                        }
+                        else {
+                          final value = _fbKey.currentState!.value;
+                          final voucher = value["voucherCode"];
+                          final token = bookingState.verifyResponse?.token;
+                          final voucherRequest = VoucherRequest(
+                            insertVoucher: voucher,
+                            token: token,
+                          );
+                          context.read<VoucherCubit>().addVoucher(voucherRequest);
+
+                        }
+
                       }
                     },
               child: state.blocState == BlocState.loading

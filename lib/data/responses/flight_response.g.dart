@@ -85,6 +85,7 @@ FlightResult _$FlightResultFromJson(Map<String, dynamic> json) => FlightResult(
       taxDetails: (json['taxDetails'] as List<dynamic>?)
           ?.map((e) => TaxDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
+      requestedPromotionalCode: json['requestedPromotionalCode'] as String?,
     );
 
 Map<String, dynamic> _$FlightResultToJson(FlightResult instance) {
@@ -107,6 +108,7 @@ Map<String, dynamic> _$FlightResultToJson(FlightResult instance) {
   writeNotNull('requestedFareFilterMethod', instance.requestedFareFilterMethod);
   writeNotNull('requestedGroupMethod', instance.requestedGroupMethod);
   writeNotNull('requestedIataNumber', instance.requestedIataNumber);
+  writeNotNull('requestedPromotionalCode', instance.requestedPromotionalCode);
   writeNotNull('requestedInventoryFilterMethod',
       instance.requestedInventoryFilterMethod);
   writeNotNull('taxDetails', instance.taxDetails);

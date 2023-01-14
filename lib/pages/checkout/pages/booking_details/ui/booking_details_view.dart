@@ -12,11 +12,14 @@ import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../../theme/theme.dart';
+import '../../../../../utils/security_utils.dart';
+import '../../../../../widgets/pdf_viewer.dart';
 
 const formNameFirstName = "_first_name";
 const formNameLastName = "_last_name";
@@ -67,13 +70,16 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       el.markNeedsBuild();
       el.visitChildren(rebuild);
     }
+
     (keySummary.currentContext as Element).visitChildren(rebuild);
   }
+
   void rebuildSummary() {
     void rebuild(Element el) {
       el.markNeedsBuild();
       el.visitChildren(rebuild);
     }
+
     (bookingSummary.currentContext as Element).visitChildren(rebuild);
   }
 
@@ -83,8 +89,8 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
   @override
   void initState() {
     super.initState();
-
   }
+
   SearchFlightState? currentState;
 
   @override
@@ -92,7 +98,8 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
     final bloc = context.watch<SearchFlightCubit>();
     currentState = bloc.state;
 
-    bool showInsuranceTerms = context.watch<SearchFlightCubit>().showInsuranceCheck();
+    bool showInsuranceTerms =
+        context.watch<SearchFlightCubit>().showInsuranceCheck();
     return Stack(
       children: [
         FormBuilder(
@@ -124,58 +131,141 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         kVerticalSpacer,
                         const CardSummary(showFees: false),
                         kVerticalSpacer,
-                         ListOfPassengerInfo(onInsuranceChanged: (){
-
-                           rebuild();
-                           rebuildSummary();
-                         },),
+                        ListOfPassengerInfo(
+                          onInsuranceChanged: () {
+                            rebuild();
+                            rebuildSummary();
+                          },
+                        ),
                         kVerticalSpacer,
-
-
-                        if(showInsuranceTerms) ... [
+                        if (showInsuranceTerms) ...[
                           Row(
                             children: [
-                              Checkbox(value: insuranceChecked, onChanged:(newValue){
-                                setState(() {
-                                  insuranceChecked = newValue ?? false;
-                                });
-                              }),
-                              const Text("Here's the text to be used for the green box:"),
-                            ],
+                              Checkbox(
+                                  value: insuranceChecked,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      insuranceChecked = newValue ?? false;
+                                    });
+                                  }),
+                              Expanded(
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: const <TextSpan>[
+                                      TextSpan(
+                                          text: 'Yes, I would like to add  '),
+                                      TextSpan(
+                                        text: 'MY Travel Shield',
+
+
+                                      ),
+                                      TextSpan(
+                                        text: ' to cover my trip.',
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ], //
+                            //
+                            //
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 32),
+                            child: RichText(
+                              text: TextSpan(
+                                text:
+                                    'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable.  I confirm that I have read the ',
+                                style: DefaultTextStyle.of(context).style,
+                                children: <TextSpan>[
+                                  //
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const PdfViewer(title: 'Product Disclosure Sheet', fileName: 'MYTravelShieldDomestic_PDS',),),
 
-                          const Padding(
+                                        );
+                                      },
+                                    text: 'Product Disclosure Sheet',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.grey.shade900,
+                                    ),
+                                  ),
 
-                            padding: EdgeInsets.only(left: 32),
-                            child: Text(
-                                '''I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non- refundable. I confirm that I have read, understood and agree to the Terms and Conditions of MY Travel Shield and agree to the processing of my Personal Data in accordance with the Data Privacy Notice.'''),
+                                  const TextSpan(
+                                      text:
+                                      ' , understood and agree to the '),
+
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                   const PdfViewer(title: 'Terms and Conditions', fileName: 'MYTravelShieldDomestic_PolicyWording',),),
+
+                                        );
+                                      },
+                                    text: 'Terms and Conditions',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.grey.shade900,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                      text:
+                                          ' of MY Travel Shield and agree to the processing of my Personal Data in accordance with the '),
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+
+                                        SecurityUtils.tryLaunch(
+                                            'https://www.zurich.com.my/pdpa');
+
+                                      },
+                                    text: 'Data Privacy Notice.',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.grey.shade900,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
-
-
                       ],
                     ),
                   ),
                   Stack(
-                          children: [
-                             CheckoutSummary(key: bookingSummary,),
-                            Positioned(
-                              bottom: 0,
-                              right: 15,
-                              child: FloatingActionButton(
-                                onPressed: () {
-                                  scrollController.animateTo(
-                                    scrollController.position.minScrollExtent,
-                                    duration: const Duration(seconds: 1),
-                                    curve: Curves.fastOutSlowIn,
-                                  );
-                                },
-                                backgroundColor: Styles.kPrimaryColor,
-                                child: const Icon(Icons.keyboard_arrow_up),
-                              ),
-                            )
-                          ],
+                    children: [
+                      CheckoutSummary(
+                        key: bookingSummary,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 15,
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            scrollController.animateTo(
+                              scrollController.position.minScrollExtent,
+                              duration: const Duration(seconds: 1),
+                              curve: Curves.fastOutSlowIn,
+                            );
+                          },
+                          backgroundColor: Styles.kPrimaryColor,
+                          child: const Icon(Icons.keyboard_arrow_up),
                         ),
+                      )
+                    ],
+                  ),
                   kSummaryContainerSpacing,
                   kSummaryContainerSpacing,
                 ],
@@ -193,9 +283,15 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                   BookingSummary(key: keySummary,),
+                  BookingSummary(
+                    key: keySummary,
+                  ),
                   ElevatedButton(
-                    onPressed: showInsuranceTerms ? ((showInsuranceTerms && insuranceChecked) ? (isValid ? () => onBooking(context) : null) : null) : (isValid ? () => onBooking(context) : null),
+                    onPressed: showInsuranceTerms
+                        ? ((showInsuranceTerms && insuranceChecked)
+                            ? (isValid ? () => onBooking(context) : null)
+                            : null)
+                        : (isValid ? () => onBooking(context) : null),
                     child: const Text("Continue"),
                   ),
                   kVerticalSpacer,
@@ -326,9 +422,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           insuranceSelected: value["${person.toString()}$formNameInsurance"],
           oKUIDNumber: value["${person.toString()}$formNameOkIdNumber"],
         );
-        if(filledPassenger.insuranceSelected ?? false) {
-          filledPassenger.setInsuranceWith(bookingState.verifyResponse!.flightSSR!.insuranceGroup!.outbound!.first);
-
+        if (filledPassenger.insuranceSelected ?? false) {
+          filledPassenger.setInsuranceWith(bookingState
+              .verifyResponse!.flightSSR!.insuranceGroup!.outbound!.first);
         }
         passengers.add(filledPassenger);
       }

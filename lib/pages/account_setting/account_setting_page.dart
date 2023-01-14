@@ -42,7 +42,7 @@ class AccountSettingPage extends StatelessWidget {
             appBar: AppAppBar(
               centerTitle: true,
               title: 'Account Settings',
-              height: 80.h,
+              height: 40.h,
               overrideInnerHeight: true,
               child: Column(
                 children: [
