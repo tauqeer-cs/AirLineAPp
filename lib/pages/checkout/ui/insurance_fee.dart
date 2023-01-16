@@ -21,10 +21,10 @@ class InsuranceFee extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<InsuranceFee> createState() => _BaggageFeeState();
+  State<InsuranceFee> createState() => _InsuranceFeeState();
 }
 
-class _BaggageFeeState extends State<InsuranceFee> {
+class _InsuranceFeeState extends State<InsuranceFee> {
   bool isExpand = false;
 
   @override
