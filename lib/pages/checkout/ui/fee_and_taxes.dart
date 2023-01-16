@@ -13,6 +13,8 @@ import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'insurance_fee.dart';
+
 class FeeAndTaxes extends StatefulWidget {
   final bool isDeparture;
 
@@ -133,9 +135,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 .getTotalInsurance() ??
                 0) >
                 0,
-            child: BaggageFee(
-              isDeparture: widget.isDeparture,
-              isInsurance: true,
+            child: const InsuranceFee(
             ),
           ),
 

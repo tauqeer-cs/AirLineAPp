@@ -23,7 +23,7 @@ class InsuranceTerms extends StatelessWidget {
             makeClickableTextSpan(context,text: 'Product Disclosure Sheet',pdfName: 'MYTravelShieldDomestic_PDS'),
             makeClickableTextSpan(context,text: ' , understood and agree to the '),
             makeClickableTextSpan(context,text: 'Terms and Conditions',pdfName: 'MYTravelShieldDomestic_PolicyWording'),
-            makeClickableTextSpan(context,text: ' of MY Travel Shield and agree to the processing of my Personal Data in accordance with the ',webViewLink: 'https://www.zurich.com.my/pdpa'),
+            makeClickableTextSpan(context,text: ' of MY Travel Shield and agree to the processing of my Personal Data in accordance with the '),
             makeClickableTextSpan(context,text: 'Data Privacy Notice.',webViewLink: 'https://www.zurich.com.my/pdpa'),
 
           ],

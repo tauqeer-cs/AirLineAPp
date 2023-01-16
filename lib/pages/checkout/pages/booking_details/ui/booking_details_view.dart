@@ -171,9 +171,11 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                   ),
                   Stack(
                     children: [
+
                       CheckoutSummary(
                         key: bookingSummary,
                       ),
+
                       Positioned(
                         bottom: 0,
                         right: 15,
@@ -208,9 +210,11 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+
                   BookingSummary(
                     key: keySummary,
                   ),
+
                   ElevatedButton(
                     onPressed: showInsuranceTerms
                         ? ((showInsuranceTerms && insuranceChecked)

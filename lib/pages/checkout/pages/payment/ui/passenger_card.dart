@@ -74,18 +74,7 @@ class PassengerCard extends StatelessWidget {
                             kVerticalSpacerMini,
                             Text("${e.title} ${e.firstName} ${e.lastName}"),
                             kVerticalSpacerSmall,
-                            if (e.ifPassengerHasInsurance != null) ...[
-                              Row(
-                                children: [
-                                   Text(e.ifPassengerHasInsuranceName ?? 'Insurance'),
-                                  Expanded(
-                                    child: Container(),
-                                  ),
-                                  Text(e.ifPassengerHasInsurance!),
-                                ],
-                              ),
-                            ],
-                            kVerticalSpacerSmall,
+
                           ],
                         );
                       },

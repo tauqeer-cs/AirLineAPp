@@ -12,6 +12,8 @@ import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../ui/insurance_fee.dart';
+
 class FeeAndTaxesPayment extends StatefulWidget {
   final bool isDeparture;
 
@@ -66,6 +68,22 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
                   0,
           child: MealsFeePayment(isDeparture: widget.isDeparture),
         ),
+
+        if(widget.isDeparture) ... [
+
+
+          Visibility(
+            visible: (filter?.numberPerson
+                .getTotalInsurance() ??
+                0) >
+                0,
+            child: const InsuranceFeeSummary(),
+          ),
+
+
+        ],
+
+
         Visibility(
           visible: (filter?.numberPerson
                       .getTotalBaggagePartial(widget.isDeparture) ??

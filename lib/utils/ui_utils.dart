@@ -37,7 +37,7 @@ TextSpan makeClickableTextSpan(context,
     {required String text,
     String? pdfName,
     String? webViewLink,
-    VoidCallback? callBackAction}) {
+    VoidCallback? callBackAction,bool makeNormalTextBol = false,}) {
   return TextSpan(
     recognizer: TapGestureRecognizer()
       ..onTap = () {
@@ -60,9 +60,11 @@ TextSpan makeClickableTextSpan(context,
         }
       },
     text: text,
-    style: (pdfName == null && webViewLink == null && callBackAction == null) ? null : TextStyle(
-      decoration: TextDecoration.underline,
+    style: (pdfName == null && webViewLink == null && callBackAction == null && makeNormalTextBol == false) ? null : TextStyle(
+      decoration: makeNormalTextBol ? null : TextDecoration.underline,
       decorationColor: Colors.grey.shade900,
+      fontWeight: FontWeight.w700,
+
     ),
   );
 }

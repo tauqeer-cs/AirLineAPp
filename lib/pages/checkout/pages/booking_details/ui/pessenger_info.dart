@@ -11,6 +11,7 @@ import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/form_utils.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
@@ -448,8 +449,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                 style: DefaultTextStyle.of(context).style,
                                 children: <TextSpan>[
                                   const TextSpan(text: 'I want '),
-                                  makeClickableTextSpan(context,text: 'travel protection',pdfName: 'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
-                                  makeClickableTextSpan(context,text: " : MYR${travelProtectionRate(bookingState.outbound!)}"),
+                                  makeClickableTextSpan(context,text: 'MY${' travel protection'.capitalize()}',pdfName: 'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
+                                  makeClickableTextSpan(context,text: " : MYR${travelProtectionRate(bookingState.outbound!)}",makeNormalTextBol : true),
                                 ],
                               ),
                             ),

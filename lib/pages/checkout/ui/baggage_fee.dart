@@ -86,7 +86,7 @@ class _BaggageFeeState extends State<BaggageFee> {
      return 'Sports Equipment';
     }
     else if(widget.isInsurance) {
-      return 'Insurance';
+      return '- Insurance';
     }
    // return widget.isSports ? (isPaymentPage ? "Sports Equipment" : "- Sports Equipment") : (isPaymentPage ? "Baggage" : "- Baggage");
     return "Baggage";
