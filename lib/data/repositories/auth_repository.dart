@@ -5,6 +5,7 @@ import 'package:app/app/app_flavor.dart';
 import 'package:app/app/app_logger.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/auth_provider.dart';
+import 'package:app/data/repositories/insider_repository.dart';
 import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/data/requests/resend_email_request.dart';
@@ -28,6 +29,7 @@ class AuthenticationRepository {
   final _controller = StreamController<User>();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn.standard();
+  final InsiderRepository insiderRepository = InsiderRepository();
 
   static final AuthProvider _provider = AuthProvider(
     Api.client,
@@ -88,6 +90,7 @@ class AuthenticationRepository {
     final user = await _provider.emailLogin(loginRequest);
     if(user.isAccountVerified ?? false){
       storeAccessToken(user.token);
+      insiderRepository.loginUser(user);
       setCurrentUser(user);
     }else{
       sendEmail(ResendEmailRequest(email: user.email));
