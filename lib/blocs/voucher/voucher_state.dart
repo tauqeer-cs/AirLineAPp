@@ -13,7 +13,7 @@ class VoucherState extends Equatable {
   final bool pointsRedeemed;
 
   final AvailableRedeemOptions? selectedRedeemOption;
-
+  final InsertVoucherPIN? insertedVoucher;
   RedemptionOption? redemptionOption;
 
   VoucherState( {
@@ -25,6 +25,7 @@ class VoucherState extends Equatable {
     this.promoLoaded = false,
     this.selectedRedeemOption,
     this.flightToken,
+    this.insertedVoucher,
     this.redeemingPromo = false,
     this.pointsRedeemed = false,
   });
@@ -41,11 +42,13 @@ class VoucherState extends Equatable {
     bool? redeemingPromo,
     bool? pointsRedeemed,
 
+    InsertVoucherPIN? insertedVoucher,
   }) {
     return VoucherState(
       blocState: blocState ?? this.blocState,
       message: message ?? this.message,
       response: response ?? this.response,
+      insertedVoucher: insertedVoucher ?? this.insertedVoucher,
       appliedVoucher: appliedVoucher ?? this.appliedVoucher,
       promoLoaded: promoReady ?? promoLoaded,
       selectedRedeemOption: selectedRedeemOption ?? this.selectedRedeemOption,

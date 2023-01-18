@@ -102,6 +102,7 @@ class RewardAndDiscount extends StatelessWidget {
                     child: AppCard(
                       child: FormBuilderTextField(
                         name: "voucherCode",
+                        initialValue: state.insertedVoucher?.voucherCode,
                         validator: FormBuilderValidators.required(),
                         style: const TextStyle(fontSize: 14),
                         readOnly: bookingState.superPnrNo != null,
@@ -141,6 +142,7 @@ class RewardAndDiscount extends StatelessWidget {
                     child: AppCard(
                       child: FormBuilderTextField(
                         name: "voucherPin",
+                        initialValue: state.insertedVoucher?.voucherPin,
                         validator: FormBuilderValidators.required(),
                         style: const TextStyle(fontSize: 14),
                         readOnly: bookingState.superPnrNo != null,
@@ -192,7 +194,7 @@ class RewardAndDiscount extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: state.blocState == BlocState.loading ||
-                      bookingState.superPnrNo != null
+                      bookingState.superPnrNo != null || (state.appliedVoucher?.isNotEmpty ?? false)
                   ? null
                   : () {
                       if (_fbKey.currentState!.saveAndValidate()) {
@@ -231,7 +233,7 @@ class RewardAndDiscount extends StatelessWidget {
                       size: 25,
                       color: Colors.white,
                     )
-                  : const Text("Apply"),
+                  : state.insertedVoucher!=null ? const Text("Applied") : const Text("Apply"),
             ),
           ],
         ),
