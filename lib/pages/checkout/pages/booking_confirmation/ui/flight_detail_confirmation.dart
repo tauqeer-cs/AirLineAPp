@@ -29,18 +29,18 @@ class FlightDetailConfirmation extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacer,
-        Text(title, style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor)),
+        Text(title, style: kHugeHeavy.copyWith(color: Styles.kPrimaryColor)),
         kVerticalSpacer,
         RichText(
           text: TextSpan(
             children: [
               TextSpan(
                 text: '$subtitle - ',
-                style: kMediumHeavy.copyWith(color: Styles.kTextColor),
+                style: kLargeHeavy.copyWith(color: Styles.kTextColor),
               ),
               TextSpan(
                 text: '\n$dateTitle ',
-                style: kMediumMedium.copyWith(color: Styles.kTextColor),
+                style: kLargeMedium.copyWith(color: Styles.kTextColor),
               ),
             ],
           ),

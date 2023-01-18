@@ -381,7 +381,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       focusedBorder: InputBorder.none,
                       focusedErrorBorder: InputBorder.none,
                     ),
-                    title: const Text("I need wheelchair assistance."),
+                    title: const Text('Tick this box and check-in at the airport counter to receive a wheelchair'),
                     onChanged: (value) {
                       setState(() {
                         isWheelChairChecked = value ?? false;

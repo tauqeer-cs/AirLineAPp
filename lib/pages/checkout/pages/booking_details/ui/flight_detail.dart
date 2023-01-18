@@ -158,7 +158,7 @@ class BorderedLeftContainer extends StatelessWidget {
         children: [
           Text(title, style: kLargeHeavy),
           kVerticalSpacerSmall,
-          Text(content, style: kLargeRegular),
+          Text(content, style: kLargeRegular.copyWith(color: Styles.kBlack)),
         ],
       ),
     );

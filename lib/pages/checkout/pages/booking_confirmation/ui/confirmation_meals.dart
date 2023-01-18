@@ -37,9 +37,12 @@ class ConfirmationMeals extends StatelessWidget {
             .map((e) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${e.title} ${e.givenName} ${e.surName}"),
-                    ...(e.mealList??[]).map((e) => Text("${e.mealName} x${e.quantity}")).toList(),
-                    kVerticalSpacerSmall,
+                    if( e.mealList?.isNotEmpty ?? false) ... [
+                      Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
+                      ...(e.mealList??[]).map((e) => Text("${e.mealName} x${e.quantity}")).toList(),
+                      kVerticalSpacerSmall,
+                    ]
+
                   ],
                 ))
             .toList(),

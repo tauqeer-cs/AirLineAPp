@@ -1,5 +1,6 @@
 import 'package:app/models/number_person.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
@@ -329,10 +330,19 @@ class Baggage extends Equatable {
         departReturn,
         sportEquipmentName,
       ];
+  String? get titleToShow {
+
+    if(title != null) {
+
+      return title!.capitalize();
+    }
+    return null;
+  }
 
   final String? surName;
   final String? givenName;
   final String? title;
+
   final String? baggageName;
   final num? amount;
   final num? quantity;
@@ -433,6 +443,15 @@ class FareAndBundle extends Equatable {
   final String? surName;
   final String? givenName;
   final String? title;
+   String? get titleToShow {
+
+     if(title != null) {
+
+       return title!.capitalize();
+     }
+     return null;
+  }
+
   final num? fareAmount;
   final String? currency;
   final num? quantity;
@@ -1079,6 +1098,14 @@ class Meal extends Equatable {
   final String? givenName;
   final String? title;
   final List<MealList>? mealList;
+  String? get titleToShow {
+
+    if(title != null) {
+
+      return title!.capitalize();
+    }
+    return null;
+  }
 
   Meal copyWith({
     String? surName,
@@ -1204,6 +1231,15 @@ class Passenger extends Equatable {
   final String? passport;
   final DateTime? passportExpiryDate;
   final String? titleCode;
+  String? get titleToShow {
+
+    if(titleCode != null) {
+
+      return titleCode!.capitalize();
+    }
+    return null;
+  }
+
   final String? myRewardMemberId;
   final num? createdById;
   final DateTime? createdDate;

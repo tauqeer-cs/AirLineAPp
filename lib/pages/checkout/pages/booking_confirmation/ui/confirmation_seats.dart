@@ -38,7 +38,7 @@ class ConfirmationSeats extends StatelessWidget {
             .map((e) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${e.title} ${e.givenName} ${e.surName}"),
+                    Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
                     Text("${e.seatPosition}"),
                     kVerticalSpacerSmall,
                   ],

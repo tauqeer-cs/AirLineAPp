@@ -83,7 +83,7 @@ class ConfirmationBaggage extends StatelessWidget {
               .map((e) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${e.title} ${e.givenName} ${e.surName}"),
+              Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
                Text(e.insuranceSSRName ?? 'Insurance'),
               kVerticalSpacerSmall,
             ],
@@ -96,7 +96,7 @@ class ConfirmationBaggage extends StatelessWidget {
               .map((e) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${e.title} ${e.givenName} ${e.surName}"),
+              Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
               Text("${e.sportEquipmentName}"),
               kVerticalSpacerSmall,
             ],
@@ -109,7 +109,7 @@ class ConfirmationBaggage extends StatelessWidget {
               .map((e) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${e.title} ${e.givenName} ${e.surName}"),
+              Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
               Text("${e.baggageName}"),
               kVerticalSpacerSmall,
             ],
