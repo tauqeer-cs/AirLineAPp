@@ -18,6 +18,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../../models/switch_setting.dart';
 import '../../../../../theme/theme.dart';
+import '../../../../../utils/ui_utils.dart';
 import '../../../../../widgets/settings_wrapper.dart';
 import 'insurance_terms.dart';
 
@@ -153,9 +154,22 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                                                 newValue ?? false;
                                           });
                                         }),
-
-                                    const Expanded(
-                                      child: Text('Yes, I would like to add MY Travel Shield to cover my trip.'),
+                                    Expanded(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: 'Yes, I would like to add ',
+                                          style: DefaultTextStyle.of(context)
+                                              .style,
+                                          children: <TextSpan>[
+                                            makeClickableTextSpan(context,
+                                                text: 'MY Travel Shield',
+                                                makeNormalTextBol: true),
+                                            makeClickableTextSpan(context,
+                                                text: ' to cover my trip.',
+                                                makeNormalTextBol: false),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ], //
                                   //
@@ -171,11 +185,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                   ),
                   Stack(
                     children: [
-
                       CheckoutSummary(
                         key: bookingSummary,
                       ),
-
                       Positioned(
                         bottom: 0,
                         right: 15,
@@ -210,11 +222,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-
                   BookingSummary(
                     key: keySummary,
                   ),
-
                   ElevatedButton(
                     onPressed: showInsuranceTerms
                         ? ((showInsuranceTerms && insuranceChecked)
@@ -415,4 +425,3 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
             'Emergency contact name should be different from contact name and passenger name.');
   }
 }
-

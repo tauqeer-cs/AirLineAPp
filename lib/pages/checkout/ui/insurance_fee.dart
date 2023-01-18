@@ -206,30 +206,16 @@ class InsuranceFeeDtailsSummary extends StatelessWidget {
                 ? const SizedBox.shrink()
                 :
             * */
-            return insurance == null ? Container() : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${passenger.title} ${passenger.firstName}",
-                  style: kMediumRegular,
-                ),
-                kVerticalSpacerMini,
-
-                PriceRow(
-                  child1: Text(
-                    insurance.description ?? "",
-                    style: kMediumRegular,
-                  ),
-                  child2: MoneyWidgetSummary(
-                    amount: insurance.finalAmount,
-                    isDense: true,
-                    currency: insurance.currencyCode,
-                  ),
-                ),
-
-                kVerticalSpacerSmall,
-
-              ],
+            return insurance == null ? Container() : PriceRow(
+              child1: Text(
+                "${passenger.title} ${passenger.firstName}",
+                style: kMediumRegular,
+              ),
+              child2: MoneyWidgetSummary(
+                amount: insurance.finalAmount,
+                isDense: true,
+                currency: insurance.currencyCode,
+              ),
             );
           },
         ).toList(),
