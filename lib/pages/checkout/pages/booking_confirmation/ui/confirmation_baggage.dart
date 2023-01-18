@@ -61,6 +61,10 @@ class ConfirmationBaggage extends StatelessWidget {
 
 
     }
+    else {
+      hideView = (baggage?.baggages ?? []).isEmpty;
+
+    }
     return hideView ? Container() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

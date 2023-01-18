@@ -1054,6 +1054,16 @@ class MealDetail extends Equatable {
     this.meals,
   });
 
+  bool get noMealsSelected {
+
+    for(Meal currentItem in meals ?? []) {
+      if((currentItem.mealList ?? []).isNotEmpty){
+        return false;
+      }
+    }
+    return true;
+
+  }
   @override
   List<Object?> get props => [
         totalAmount,
