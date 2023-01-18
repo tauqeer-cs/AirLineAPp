@@ -15,7 +15,7 @@ class ConfirmationSeats extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.seatDetail;
-    return Column(
+    return (seats?.seats ?? []).isEmpty ? Container() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(

@@ -1,4 +1,3 @@
-
 import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
@@ -34,7 +33,8 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
   @override
   void initState() {
     super.initState();
-    final contact = context.read<LocalUserBloc>().state.companyTaxInvoice;
+    final contact =
+        true ? null : context.read<LocalUserBloc>().state.companyTaxInvoice;
     name = contact?.companyName;
     address = contact?.companyAddress;
     state = contact?.state;
@@ -66,13 +66,13 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text:
-                          "Company Tax Invoice ",
+                          text: "Company Tax Invoice ",
                           style: k18Heavy.copyWith(color: Styles.kTextColor),
                         ),
                         TextSpan(
                           text: "(Optional)",
-                          style: kMediumRegular.copyWith(color: Styles.kTextColor),
+                          style:
+                              kMediumRegular.copyWith(color: Styles.kTextColor),
                         ),
                       ],
                     ),
@@ -102,7 +102,9 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
                     final newRequest = request?.copyWith(companyName: value);
-                    context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
                   },
                 ),
                 kVerticalSpacer,
@@ -114,7 +116,9 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
                     final newRequest = request?.copyWith(companyAddress: value);
-                    context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
                   },
                 ),
                 kVerticalSpacer,
@@ -131,7 +135,9 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
                     final newRequest = request?.copyWith(state: value);
-                    context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
                   },
                 ),
                 kVerticalSpacer,
@@ -143,7 +149,9 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
                     final newRequest = request?.copyWith(city: value);
-                    context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
                   },
                 ),
                 kVerticalSpacer,
@@ -155,7 +163,9 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
                     final newRequest = request?.copyWith(postCode: value);
-                    context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
                   },
                 ),
                 kVerticalSpacer,
@@ -168,14 +178,15 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
                     final newRequest = request?.copyWith(emailAddress: value);
-                    context.read<LocalUserBloc>().add(UpdateCompany(newRequest));
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
                   },
                 ),
               ],
             ),
           ),
         ),
-
       ],
     );
   }

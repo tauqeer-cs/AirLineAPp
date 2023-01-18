@@ -122,20 +122,7 @@ class RedeemVoucherView extends StatelessWidget {
             kVerticalSpacerSmall,
           ],
           kVerticalSpacerSmall,
-          ElevatedButton(
-            onPressed:
-            (bloc.getSelectedItem == null || state.pointsRedeemed)
-                ? null
-                : () {
-              bloc.redeemPoints();
-            },
-            child: state.blocState == BlocState.loading
-                ? const AppLoading(
-              size: 25,
-              color: Colors.white,
-            )
-                : const Text("Redeem"),
-          ),
+
 
         ],
 

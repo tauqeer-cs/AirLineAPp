@@ -30,6 +30,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     String? token,
     num? total,
     num? totalNeedPaid,
+    String? redeemCodeToSend,
   }) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
@@ -38,6 +39,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         totalAmount: total,
         totalAmountNeedToPay: totalNeedPaid,
         frontendUrl: AppFlavor.paymentRedirectUrl,
+        myRewardRedemptionName: redeemCodeToSend
       );
       FlightSummaryPnrRequest? flightSummaryPnrRequestNew;
       if((promoCode?.isNotEmpty ?? false) && flightSummaryPnrRequest!=null){

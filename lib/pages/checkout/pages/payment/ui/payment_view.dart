@@ -79,6 +79,14 @@ class _PaymentViewState extends State<PaymentView> {
     final voucher = context.read<VoucherCubit>().state.appliedVoucher;
     final token = bookingState.verifyResponse?.token;
     final pnrRequest = bookingState.summaryRequest?.flightSummaryPNRRequest;
+
+    String? redeemCodeToSend;
+
+    if(context.read<VoucherCubit>().state.selectedRedeemOption != null) {
+
+     redeemCodeToSend = context.read<VoucherCubit>().state.selectedRedeemOption!.redemptionName!;
+
+    }
     context.read<PaymentCubit>().pay(
           flightSummaryPnrRequest: pnrRequest,
           token: token,
@@ -87,6 +95,7 @@ class _PaymentViewState extends State<PaymentView> {
           totalNeedPaid: bookingState.getFinalPrice +
               (filterState?.numberPerson.getTotal() ?? 0),
           promoCode: voucher,
+      redeemCodeToSend: redeemCodeToSend
         );
   }
 }

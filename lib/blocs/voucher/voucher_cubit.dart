@@ -5,6 +5,7 @@ import 'package:app/data/responses/voucher_response.dart';
 import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../data/requests/token_request.dart';
@@ -83,17 +84,20 @@ class VoucherCubit extends Cubit<VoucherState> {
       final response = await _repository.addVoucher(voucherRequest);
       emit(
         state.copyWith(
-            blocState: BlocState.finished,
-            response: response,
-            appliedVoucher: voucherRequest.insertVoucher ?? ""),
+          blocState: BlocState.finished,
+          response: response,
+          appliedVoucher: voucherRequest.insertVoucher,
+          insertedVoucher: voucherRequest.voucherPins.firstOrNull,
+        ),
       );
     } catch (e, st) {
       emit(
         state.copyWith(
-            message: ErrorUtils.getErrorMessage(e, st),
-            blocState: BlocState.failed,
-            response: const VoucherResponse(),
-            appliedVoucher: ""),
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+          response: const VoucherResponse(),
+          appliedVoucher: "",
+        ),
       );
     }
   }
