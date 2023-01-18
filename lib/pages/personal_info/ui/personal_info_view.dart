@@ -126,7 +126,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                       value[formNameRelationshipEmergency];
                   String? ePhoneNo = value[formNamePhoneNoRelationship];
 
-                  final UserProfile userProfile = UserProfile(
+                  var userProfile = context.read<ProfileCubit>().state.profile!.userProfile!.copyWith(
                     icNumber: myId,
                     title: nameTitle ?? profile?.userProfile?.title,
                     firstName: fName,
@@ -152,6 +152,8 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                       relationship: eRelationShip,
                     ),
                   );
+
+
                   context.read<ProfileCubit>().updateProfile(userProfile);
                 }
               },
