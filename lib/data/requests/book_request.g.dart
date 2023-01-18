@@ -44,6 +44,7 @@ PaymentDetail _$PaymentDetailFromJson(Map<String, dynamic> json) =>
       myRewardPoints: json['MyRewardPoints'] as num? ?? 0,
       promoCode: json['PromoCode'],
       frontendUrl: json['FrontendURL'] as String,
+      myRewardRedemptionName: json['MyRewardRedemptionName'],
     );
 
 Map<String, dynamic> _$PaymentDetailToJson(PaymentDetail instance) =>
@@ -55,4 +56,5 @@ Map<String, dynamic> _$PaymentDetailToJson(PaymentDetail instance) =>
       'MyRewardPoints': instance.myRewardPoints,
       'PromoCode': instance.promoCode,
       'FrontendURL': instance.frontendUrl,
+      'MyRewardRedemptionName': instance.myRewardRedemptionName,
     };

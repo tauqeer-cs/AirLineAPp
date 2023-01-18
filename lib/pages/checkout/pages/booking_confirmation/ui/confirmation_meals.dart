@@ -15,7 +15,7 @@ class ConfirmationMeals extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.mealDetail;
-    return Column(
+    return (meals?.meals ?? []).isEmpty ? Container() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
