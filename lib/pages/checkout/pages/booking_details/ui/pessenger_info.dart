@@ -453,13 +453,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
           value: profileBloc
                   .state.profile?.userProfile?.firstName ??
               '');
-
       changeSetValue(
           keyName: lastNameKey,
           value: profileBloc
                   .state.profile?.userProfile?.lastName ??
               '');
-
       if (profileBloc.state.profile?.userProfile?.dob !=
           null) {
         changeSetValue(
@@ -497,9 +495,10 @@ class _PassengerInfoState extends State<PassengerInfo> {
             keyName: dobKey, value: selectFamily.dobDate);
       }
 
+
       defaultTitle = selectFamily.title ?? '';
       changeSetValue(
-          keyName: 'titleKey',
+          keyName: titleKey,
           value: selectFamily.title ?? '');
 
       if (selectFamily.memberID != null) {
