@@ -32,6 +32,19 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bookingTotal = context.watch<BookingCubit>().state;
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
+
+    final booking = context.watch<BookingCubit>().state;
+    var discountPercent = booking.selectedDeparture!.discountPCT;
+
+    var discountTotal = 0;
+
+    if(filter?.promoCode != null && discountPercent != null && (discountPercent > 0) ) {
+
+      print('discountTotal');
+
+    }
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
 

@@ -142,6 +142,7 @@ class RewardAndDiscount extends StatelessWidget {
                     child: AppCard(
                       child: FormBuilderTextField(
                         name: "voucherPin",
+                        obscureText: state.insertedVoucher != null,
                         initialValue: state.insertedVoucher?.voucherPin,
                         validator: FormBuilderValidators.required(),
                         style: const TextStyle(fontSize: 14),
@@ -149,6 +150,7 @@ class RewardAndDiscount extends StatelessWidget {
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
                           hintText: "PIN",
+
                           border: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -233,7 +235,7 @@ class RewardAndDiscount extends StatelessWidget {
                       size: 25,
                       color: Colors.white,
                     )
-                  : state.insertedVoucher!=null ? const Text("Applied") : const Text("Apply"),
+                  : state.insertedVoucher!=null ? const Text("Apply") : const Text("Apply"),
             ),
           ],
         ),

@@ -107,6 +107,7 @@ class ContinueButton extends StatelessWidget {
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final filter = context.watch<FilterCubit>().state;
 
+
     final isAllowedContinue = booking.selectedDeparture != null &&
         (booking.selectedReturn != null ||
             filterState?.flightType == FlightType.oneWay);

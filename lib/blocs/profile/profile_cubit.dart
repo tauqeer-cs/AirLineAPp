@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../data/requests/delete_card_request.dart';
 import '../../data/requests/update_friends_family.dart';
+import '../../models/number_person.dart';
 
 part 'profile_state.dart';
 
@@ -19,9 +20,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(const ProfileState());
   }
 
-  List<FriendsFamily> get friendFamily {
+  List<FriendsFamily> friendFamily(Person person,DateTime departureDate) {
     if (state.profile?.userProfile?.friendsAndFamily != null) {
-      return state.profile!.userProfile!.friendsAndFamily!;
+
+      //person.
+      var limitDate = person.dateLimitStart(departureDate);
+
+      var check = state.profile!.userProfile!.friendsAndFamily!.where((element) => element.dobDate!.difference(limitDate).inDays > 1).toList();
+
+      return check;
     }
     return [];
   }

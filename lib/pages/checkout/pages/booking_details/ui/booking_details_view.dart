@@ -106,10 +106,14 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         FormBuilder(
           //autoFocusOnValidationFailure: true,
           onChanged: () {
+
+
             if (BookingDetailsView.fbKey.currentState!.validate()) {
+
               setState(() {
                 isValid = true;
               });
+
             } else {
               setState(() {
                 isValid = false;

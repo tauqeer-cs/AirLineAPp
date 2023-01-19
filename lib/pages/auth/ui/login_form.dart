@@ -94,6 +94,7 @@ class LoginForm extends StatelessWidget {
             textInputType: TextInputType.emailAddress,
             name: formEmailLoginName,
             hintText: 'Email Address',
+            maxLength: 45,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.email(),

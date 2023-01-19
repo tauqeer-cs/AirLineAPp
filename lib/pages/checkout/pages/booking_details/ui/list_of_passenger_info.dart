@@ -24,7 +24,7 @@ class ListOfPassengerInfo extends StatelessWidget {
           for (int i = 0; i < persons.persons.length; i++) ...[
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
-              child: PassengerInfo(
+              child:  PassengerInfo(
                 person: persons.persons[i],
                 insuranceSelected: (bool flag, Bundle insurance) {
                   if (flag) {

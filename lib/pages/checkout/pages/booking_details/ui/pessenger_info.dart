@@ -138,10 +138,22 @@ class _PassengerInfoState extends State<PassengerInfo> {
               if (profileBloc.hasAnyFriends && ConstantUtils.showFamily) ...[
                 InkWell(
                   onTap: () async {
+                    DateTime userDob =
+                        profileBloc.state.profile?.userProfile?.dob ??
+                            DateTime.now();
+
+                    var limitDate =
+                        widget.person.dateLimitStart(filter.departDate);
+
+                    int difference = userDob.difference(limitDate).inDays;
+
                     FriendsFamily? selectFamily = await showBottomDialog(
                       context,
                       FriendsAndFamilySelectorPopUp(
-                        friendsAndFamily: profileBloc.friendFamily,
+                        friendsAndFamily: profileBloc.friendFamily(
+                            widget.person, filter.departDate ?? DateTime.now()),
+                        person: widget.person,
+                        showMySelf: difference > 1,
                       ),
                     );
 
@@ -149,32 +161,40 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       // BookingDetailsView.fbKey.currentState?.patchValue('age': '50');
                       //passengerInfo?.dob = DateTime.now();
 
-                      if(selectFamily.memberID == -121 && selectFamily.firstName == 'My'){
-
-
-
+                      if (selectFamily.memberID == -121 &&
+                          selectFamily.firstName == 'My') {
                         BookingDetailsView
                             .fbKey.currentState!.fields[firstNameKey]!
-                            .didChange(profileBloc.state.profile?.userProfile?.firstName ?? '');
+                            .didChange(profileBloc
+                                    .state.profile?.userProfile?.firstName ??
+                                '');
 
                         BookingDetailsView
                             .fbKey.currentState!.fields[lastNameKey]!
-                            .didChange(profileBloc.state.profile?.userProfile?.lastName ?? '');
+                            .didChange(profileBloc
+                                    .state.profile?.userProfile?.lastName ??
+                                '');
 
-                        if (profileBloc.state.profile?.userProfile?.dob != null) {
+                        if (profileBloc.state.profile?.userProfile?.dob !=
+                            null) {
                           BookingDetailsView.fbKey.currentState!.fields[dobKey]!
-                              .didChange(profileBloc.state.profile?.userProfile?.dob);
+                              .didChange(
+                                  profileBloc.state.profile?.userProfile?.dob);
                         }
 
                         BookingDetailsView.fbKey.currentState!.fields[titleKey]!
-                            .didChange(profileBloc.state.profile?.userProfile?.title  ?? '');
-                        if (profileBloc.state.profile?.userProfile?.memberID != null) {
+                            .didChange(
+                                profileBloc.state.profile?.userProfile?.title ??
+                                    '');
+                        if (profileBloc.state.profile?.userProfile?.memberID !=
+                            null) {
                           BookingDetailsView
                               .fbKey.currentState!.fields[rewardKey]!
-                              .didChange(profileBloc.state.profile?.userProfile?.memberID.toString());
+                              .didChange(profileBloc
+                                  .state.profile?.userProfile?.memberID
+                                  .toString());
                         }
-                      }
-                      else {
+                      } else {
                         //                            Navigator.pop(context, const FriendsFamily(memberID: -121,firstName: 'My'));
                         BookingDetailsView
                             .fbKey.currentState!.fields[firstNameKey]!
@@ -192,23 +212,14 @@ class _PassengerInfoState extends State<PassengerInfo> {
                         BookingDetailsView.fbKey.currentState!.fields[titleKey]!
                             .didChange(selectFamily.title ?? '');
                         if (selectFamily.memberID != null) {
-                          if(selectFamily.memberID == 0) {
-
-                          }
-                          else {
+                          if (selectFamily.memberID == 0) {
+                          } else {
                             BookingDetailsView
                                 .fbKey.currentState!.fields[rewardKey]!
                                 .didChange(selectFamily.memberID!);
                           }
-
-                        }
-                        else {
-
-
-                        }
+                        } else {}
                       }
-
-
                     }
                   },
                   child: Row(
@@ -381,7 +392,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       focusedBorder: InputBorder.none,
                       focusedErrorBorder: InputBorder.none,
                     ),
-                    title: const Text('Tick this box and check-in at the airport counter to receive a wheelchair'),
+                    title: const Text(
+                        'Tick this box and check-in at the airport counter to receive a wheelchair'),
                     onChanged: (value) {
                       setState(() {
                         isWheelChairChecked = value ?? false;
@@ -432,7 +444,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                         child: SettingsWrapper(
                           settingType: AvailableSetting.insurance,
                           child: FormBuilderCheckbox(
-                            name: "${widget.person.toString()}$formNameInsurance",
+                            name:
+                                "${widget.person.toString()}$formNameInsurance",
                             contentPadding: EdgeInsets.zero,
                             initialValue: insuranceSelected,
                             decoration: const InputDecoration(
@@ -449,8 +462,15 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                 style: DefaultTextStyle.of(context).style,
                                 children: <TextSpan>[
                                   const TextSpan(text: 'I want '),
-                                  makeClickableTextSpan(context,text: 'MY${' travel protection'.capitalize()}',pdfName: 'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
-                                  makeClickableTextSpan(context,text: " : MYR${travelProtectionRate(bookingState.outbound!)}",makeNormalTextBol : true),
+                                  makeClickableTextSpan(context,
+                                      text:
+                                          'MY${' MY Travel Shield'.capitalize()}',
+                                      pdfName:
+                                          'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
+                                  makeClickableTextSpan(context,
+                                      text:
+                                          " : MYR${travelProtectionRate(bookingState.outbound!)}",
+                                      makeNormalTextBol: true),
                                 ],
                               ),
                             ),
@@ -460,14 +480,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                               });
 
                               if (value == true) {
-
                                 widget.insuranceSelected(
                                     true, currentInsuranceBundlde!);
                               } else {
                                 widget.insuranceSelected(
                                     false, currentInsuranceBundlde!);
-
-
                               }
                             },
                           ),
@@ -503,9 +520,15 @@ class _PassengerInfoState extends State<PassengerInfo> {
 }
 
 class FriendsAndFamilySelectorPopUp extends StatelessWidget {
+  final Person person;
+
+  final bool showMySelf;
+
   FriendsAndFamilySelectorPopUp({
     Key? key,
     required this.friendsAndFamily,
+    required this.person,
+    required this.showMySelf,
   }) : super(key: key);
   List<FriendsFamily> friendsAndFamily;
 
@@ -531,38 +554,58 @@ class FriendsAndFamilySelectorPopUp extends StatelessWidget {
               color: Colors.white,
             ),
             kVerticalSpacer,
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          if(index == 0){
-
-                            Navigator.pop(context, const FriendsFamily(memberID: -121,firstName: 'My'));
-
-
-                            return;
-                          }
-                          Navigator.pop(context, friendsAndFamily[index -1]);
-                        },
-                        child: index == 0 ? Text(
-                          'I am flying',
-                          style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
-                        ) : Text(
-                          friendsAndFamily[index-1].fullName,
-                          style: kMediumRegular,
-                        ),
-                      ),
-                      kVerticalSpacer,
-                    ],
-                  );
-                },
-                itemCount: friendsAndFamily.length + 1,
+            if (!showMySelf && friendsAndFamily.isEmpty) ...[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Center(
+                    child: Text(
+                      'Your family and friends doesnt have ${person.peopleType!.toPersonTypeString()} added',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               ),
-            ),
+            ] else ...[
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            if (showMySelf && index == 0) {
+                              Navigator.pop(
+                                  context,
+                                  const FriendsFamily(
+                                      memberID: -121, firstName: 'My'));
+
+                              return;
+                            }
+                            Navigator.pop(context,
+                                friendsAndFamily[index - (showMySelf ? 1 : 0)]);
+                          },
+                          child: (showMySelf && index == 0)
+                              ? Text(
+                                  'I am flying',
+                                  style: kMediumRegular.copyWith(
+                                      color: Styles.kPrimaryColor),
+                                )
+                              : Text(
+                                  friendsAndFamily[index - (showMySelf ? 1 : 0)]
+                                      .fullName,
+                                  style: kMediumRegular,
+                                ),
+                        ),
+                        kVerticalSpacer,
+                      ],
+                    );
+                  },
+                  itemCount: friendsAndFamily.length + (showMySelf ? 1 : 0),
+                ),
+              ),
+            ],
             kVerticalSpacerMini,
           ],
         ),

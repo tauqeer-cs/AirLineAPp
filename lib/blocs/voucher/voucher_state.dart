@@ -8,9 +8,7 @@ class VoucherState extends Equatable {
   final bool promoLoaded;
   late String? flightToken;
 
-  final bool redeemingPromo;
 
-  final bool pointsRedeemed;
 
   final AvailableRedeemOptions? selectedRedeemOption;
   final InsertVoucherPIN? insertedVoucher;
@@ -26,8 +24,7 @@ class VoucherState extends Equatable {
     this.selectedRedeemOption,
     this.flightToken,
     this.insertedVoucher,
-    this.redeemingPromo = false,
-    this.pointsRedeemed = false,
+
   });
 
   VoucherState copyWith({
@@ -54,8 +51,6 @@ class VoucherState extends Equatable {
       selectedRedeemOption: selectedRedeemOption ?? this.selectedRedeemOption,
       redemptionOption: redemptionOption ?? this.redemptionOption,
       flightToken: flightToken ?? this.flightToken,
-      redeemingPromo: redeemingPromo ?? this.redeemingPromo,
-      pointsRedeemed: pointsRedeemed ?? this.pointsRedeemed,
     );
   }
 
@@ -69,7 +64,5 @@ class VoucherState extends Equatable {
         selectedRedeemOption,
         promoLoaded,
         flightToken,
-        redeemingPromo,
-    pointsRedeemed,
       ];
 }

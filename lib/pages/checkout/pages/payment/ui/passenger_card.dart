@@ -72,7 +72,7 @@ class PassengerCard extends StatelessWidget {
                               style: kLargeHeavy,
                             ),
                             kVerticalSpacerMini,
-                            Text("${e.title} ${e.firstName} ${e.lastName}"),
+                            Text("${e.titleToShow} ${e.firstName} ${e.lastName}"),
                             kVerticalSpacerSmall,
 
                           ],

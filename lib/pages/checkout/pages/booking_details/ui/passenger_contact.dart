@@ -45,7 +45,7 @@ class _PassengerContactState extends State<PassengerContact> {
       value = value.trim();
       alreadySpaceRemoved = true;
 
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
 
       emailController.text = value;
       emailController.selection = TextSelection.fromPosition(
