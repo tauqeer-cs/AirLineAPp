@@ -73,6 +73,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
   }
 
   String get titleKey {
+    //"${widget.person.toString()}$formNameTitle"
     return "${widget.person.toString()}$formNameTitle";
   }
 
@@ -120,7 +121,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
         .verifyResponse
         ?.flightSSR
         ?.insuranceGroup;
-    //
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -138,89 +139,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
               if (profileBloc.hasAnyFriends && ConstantUtils.showFamily) ...[
                 InkWell(
                   onTap: () async {
-                    DateTime userDob =
-                        profileBloc.state.profile?.userProfile?.dob ??
-                            DateTime.now();
+                    await onFamilyButtonTapped(profileBloc, filter, context);
 
-                    var limitDate =
-                        widget.person.dateLimitStart(filter.departDate);
-
-                    int difference = userDob.difference(limitDate).inDays;
-
-                    FriendsFamily? selectFamily = await showBottomDialog(
-                      context,
-                      FriendsAndFamilySelectorPopUp(
-                        friendsAndFamily: profileBloc.friendFamily(
-                            widget.person, filter.departDate ?? DateTime.now()),
-                        person: widget.person,
-                        showMySelf: difference > 1,
-                      ),
-                    );
-
-                    if (selectFamily != null) {
-                      // BookingDetailsView.fbKey.currentState?.patchValue('age': '50');
-                      //passengerInfo?.dob = DateTime.now();
-
-                      if (selectFamily.memberID == -121 &&
-                          selectFamily.firstName == 'My') {
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[firstNameKey]!
-                            .didChange(profileBloc
-                                    .state.profile?.userProfile?.firstName ??
-                                '');
-
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[lastNameKey]!
-                            .didChange(profileBloc
-                                    .state.profile?.userProfile?.lastName ??
-                                '');
-
-                        if (profileBloc.state.profile?.userProfile?.dob !=
-                            null) {
-                          BookingDetailsView.fbKey.currentState!.fields[dobKey]!
-                              .didChange(
-                                  profileBloc.state.profile?.userProfile?.dob);
-                        }
-
-                        BookingDetailsView.fbKey.currentState!.fields[titleKey]!
-                            .didChange(
-                                profileBloc.state.profile?.userProfile?.title ??
-                                    '');
-                        if (profileBloc.state.profile?.userProfile?.memberID !=
-                            null) {
-                          BookingDetailsView
-                              .fbKey.currentState!.fields[rewardKey]!
-                              .didChange(profileBloc
-                                  .state.profile?.userProfile?.memberID
-                                  .toString());
-                        }
-                      } else {
-                        //                            Navigator.pop(context, const FriendsFamily(memberID: -121,firstName: 'My'));
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[firstNameKey]!
-                            .didChange(selectFamily.firstName ?? '');
-
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[lastNameKey]!
-                            .didChange(selectFamily.lastName ?? '');
-
-                        if (selectFamily.dobDate != null) {
-                          BookingDetailsView.fbKey.currentState!.fields[dobKey]!
-                              .didChange(selectFamily.dobDate);
-                        }
-
-                        BookingDetailsView.fbKey.currentState!.fields[titleKey]!
-                            .didChange(selectFamily.title ?? '');
-                        if (selectFamily.memberID != null) {
-                          if (selectFamily.memberID == 0) {
-                          } else {
-                            BookingDetailsView
-                                .fbKey.currentState!.fields[rewardKey]!
-                                .didChange(selectFamily.memberID!);
-                          }
-                        } else {}
-                      }
-                    }
                   },
                   child: Row(
                     children: [
@@ -285,7 +205,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   ],
                 ),
                 ShadowInput(
-                  name: "${widget.person.toString()}$formNameTitle",
+                  name: titleKey,
                   validators: [FormBuilderValidators.required()],
                   textEditingController: titleController,
                   child: AppDropDown<String>(
@@ -499,6 +419,102 @@ class _PassengerInfoState extends State<PassengerInfo> {
         ),
       ],
     );
+  }
+
+  Future<void> onFamilyButtonTapped(ProfileCubit profileBloc, FilterState filter, BuildContext context) async {
+    DateTime userDob =
+        profileBloc.state.profile?.userProfile?.dob ??
+            DateTime.now();
+
+    var limitDate =
+        widget.person.dateLimitStart(filter.departDate);
+
+    int difference = userDob.difference(limitDate).inDays;
+
+    FriendsFamily? selectFamily = await showBottomDialog(
+      context,
+      FriendsAndFamilySelectorPopUp(
+        friendsAndFamily: profileBloc.friendFamily(
+            widget.person, filter.departDate ?? DateTime.now()),
+        person: widget.person,
+        showMySelf: difference > 1,
+      ),
+    );
+    if (selectFamily != null) {
+      setFamilyMemberValues(selectFamily, profileBloc);
+    }
+  }
+
+  void setFamilyMemberValues(FriendsFamily selectFamily, ProfileCubit profileBloc) {
+    if (selectFamily.memberID == -121 &&
+        selectFamily.firstName == 'My') {
+      changeSetValue(
+          keyName: firstNameKey,
+          value: profileBloc
+                  .state.profile?.userProfile?.firstName ??
+              '');
+
+      changeSetValue(
+          keyName: lastNameKey,
+          value: profileBloc
+                  .state.profile?.userProfile?.lastName ??
+              '');
+
+      if (profileBloc.state.profile?.userProfile?.dob !=
+          null) {
+        changeSetValue(
+            keyName: dobKey,
+            value:
+                profileBloc.state.profile?.userProfile?.dob);
+      }
+
+      defaultTitle =
+          profileBloc.state.profile?.userProfile?.title;
+
+      changeSetValue(
+          keyName: titleKey,
+          value:
+              profileBloc.state.profile?.userProfile?.title ??
+                  '');
+      if (profileBloc.state.profile?.userProfile?.memberID !=
+          null) {
+        changeSetValue(
+            keyName: rewardKey,
+            value: profileBloc
+                .state.profile?.userProfile?.memberID
+                .toString());
+      }
+    } else {
+      changeSetValue(
+          keyName: firstNameKey,
+          value: selectFamily.firstName ?? '');
+      changeSetValue(
+          keyName: lastNameKey,
+          value: selectFamily.lastName ?? '');
+
+      if (selectFamily.dobDate != null) {
+        changeSetValue(
+            keyName: dobKey, value: selectFamily.dobDate);
+      }
+
+      defaultTitle = selectFamily.title ?? '';
+      changeSetValue(
+          keyName: 'titleKey',
+          value: selectFamily.title ?? '');
+
+      if (selectFamily.memberID != null) {
+        if (selectFamily.memberID == 0) {
+        } else {
+          changeSetValue(
+              keyName: rewardKey,
+              value: selectFamily.memberID!);
+        }
+      } else {}
+    }
+  }
+
+  void changeSetValue({required String keyName, required dynamic value}) {
+    BookingDetailsView.fbKey.currentState!.fields[keyName]!.didChange(value);
   }
 
   bool visible() {
