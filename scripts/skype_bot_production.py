@@ -102,5 +102,5 @@ for opt, arg in opts:
     if opt in ("-n", "--name"):
         env = arg
 print(env)
-channel.sendMsg("New Production Release:\n"+", ".join(versions) +
+channel.sendMsg("New " +env+ " Release:\n"+", ".join(versions) +
                 "\nEnv: IOS and Android \nDeployed Task Since Last Release:\n\n"+result)
