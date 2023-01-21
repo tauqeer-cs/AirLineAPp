@@ -127,6 +127,14 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
 
     }
   }
+  bool validateOnChange = false;
+
+  bool isTwelveYearsAgo(DateTime dob) {
+
+    var twelveYearsAgo = DateTime.now().subtract(Duration(days: 365 * 12)).subtract(const Duration(days: 3));
+    return dob.isBefore(twelveYearsAgo);
+  }
+  
   @override
   Widget build(BuildContext context) {
 
@@ -140,12 +148,23 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
    // }
 
     return FormBuilder(
+      onChanged: (){
+
+
+        if(validateOnChange) {
+          formKey.currentState!.validate();
+
+        }
+
+
+
+      },
       autoFocusOnValidationFailure: true,
       key: formKey,
       child: Column(
         children: [
-          const Text(
-            "New Family and Friends",
+          Text(
+            widget.isEditing ? 'Family and Friends' : 'New Family and Friends',
             style: kHugeSemiBold,
           ),
           const SizedBox(
@@ -184,7 +203,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                   validators: [FormBuilderValidators.required()],
                   textEditingController: titleController,
                   child: AppDropDown<String>(
-                    items: availableTitle,
+                    items: availableTitleAll,
                     //: availableTitleChild,
                     defaultValue: selectedTitle,
                     sheetTitle: "Title",
@@ -262,6 +281,14 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
+
+                    if(validateOnChange == false) {
+                      setState(() {
+                        validateOnChange = true;
+                      });
+                    }
+
+
                     if (formKey.currentState!.saveAndValidate()) {
                       final value = formKey.currentState!.value;
                       final firstName = value[fName];
@@ -272,15 +299,37 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                         personNationality = 'Malaysia';
                       }
                       final personDob = value[dob];
+
+                      //personDob
+                      if((personTitle == 'Mstr.' || personTitle == 'Miss')) {
+
+                        bool check = isTwelveYearsAgo(personDob,);
+                        if(check) {
+                          //error here of form
+                          formKey.currentState!.invalidateField(name: 'title' , errorText: 'Invalid title');
+                          return;
+                        }
+                        else {
+
+
+
+                        }
+                      }
+                      else {
+                        bool check = isTwelveYearsAgo(personDob,);
+                        if(!check) {
+                          //error here of form
+                          formKey.currentState!.invalidateField(name: 'title' , errorText: 'Invalid title');
+                          return;
+                        }
+
+                      }
                       final rewardId = value[reward];
-
-
                       int? memberIdToSemd;
                       if(rewardId != '') {
                         memberIdToSemd = int.parse(rewardId);
                       }
 
-                      
                       var dobString =personDob.toString();
                       var indexOfSpace = dobString.indexOf(' ');
                       dobString = '${dobString.replaceAll(' ','T')}Z';
