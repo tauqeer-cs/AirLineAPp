@@ -15,6 +15,7 @@ import 'package:app/data/responses/common_response.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/security_utils.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -169,6 +170,7 @@ class AuthenticationRepository {
   }
 
   void setCurrentUser(User user) async {
+    UserInsider.instance.registerStandardEvent(InsiderConstants.loginCompleted);
     var box = Hive.box<User>(userBoxName);
     logger.i("saved user ${user.toJson()}");
     await box.clear();

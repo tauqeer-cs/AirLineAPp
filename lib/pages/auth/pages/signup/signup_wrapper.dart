@@ -2,11 +2,13 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/validate_email/validate_email_cubit.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 const formNameFirstName = "_first_name";
@@ -66,6 +68,10 @@ class SignupWrapperPage extends StatelessWidget {
                   Toast.of(context).show(message: state.message);
                 },
                 onFinished: () {
+                  FlutterInsider.Instance.signUpConfirmation();
+                  UserInsider.of(context).registerStandardEvent(
+                      InsiderConstants.registrationCompleted);
+
                   context.loaderOverlay.hide();
                   context.router.root.replace(
                       CompleteSignupRoute(signupRequest: state.signupRequest));

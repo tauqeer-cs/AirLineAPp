@@ -7,6 +7,7 @@ import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/pages/auth/ui/login_form.dart';
 import 'package:app/pages/search_result/ui/search_result_view.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
@@ -30,12 +31,13 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
-
   @override
   void initState() {
     final isLoggedIn =
         context.read<AuthBloc>().state.status == AppStatus.authenticated;
 
+    UserInsider.of(context).registerEventWithParameterProduct(
+        InsiderConstants.searchFlightResultPage);
     if (!isLoggedIn && widget.showLoginDialog && false) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
     }
@@ -118,7 +120,8 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
                       Navigator.of(dialogContext).pop();
-                      Toast.of(context).show(message: "Welcome back", success: true);
+                      Toast.of(context)
+                          .show(message: "Welcome back", success: true);
                     },
                   );
                 },
@@ -126,7 +129,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
               BlocListener<AuthBloc, AuthState>(
                 listener: (_, state) {
                   if (!(state.user?.isAccountVerified ?? true)) {
-
                     FocusManager.instance.primaryFocus?.unfocus();
                     showNotVerifiedDialog(
                         context: context, email: state.user?.email ?? "");
@@ -199,8 +201,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
             height: 100.h,
             flexibleWidget: AppBookingStep(
               passedSteps: const [BookingStep.flights],
-              onTopStepTaped: (int index) {
-              },
+              onTopStepTaped: (int index) {},
             ),
           ),
           body: SearchResultView(),

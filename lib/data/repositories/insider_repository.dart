@@ -22,7 +22,7 @@ class InsiderRepository {
     FlutterInsiderUser? currentUser = FlutterInsider.Instance.getCurrentUser();
     FlutterInsiderIdentifiers identifiers = FlutterInsiderIdentifiers();
     identifiers.addEmail(user.email ?? "");
-    identifiers.addPhoneNumber("+${user.contactNo}" ?? "");
+    identifiers.addPhoneNumber("+${user.contactNo}");
     identifiers.addUserID(user.uuid ?? "");
     await currentUser?.login(identifiers, insiderIDResult: (insiderID) {
       print("[INSIDER][login][insiderIDResult]:" + insiderID);

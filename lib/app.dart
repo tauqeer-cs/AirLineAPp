@@ -25,6 +25,7 @@ import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -82,6 +83,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     // Call in async method.
     await FlutterInsider.Instance.init(AppFlavor.insiderPartnerName,AppFlavor.insiderAppGroup, userInsiderCallBack);
     // This is an utility method, if you want to handle the push permission in iOS own your own you can omit the following method.
+    FlutterInsider.Instance.visitHomePage();
     FlutterInsider.Instance.registerWithQuietPermission(false);
   }
 
@@ -360,6 +362,15 @@ class MyObserver extends AutoRouterObserver {
   @override
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
     logger.d("change tab ${route.path}");
+    if(route.path == "deals"){
+      UserInsider.instance.registerStandardEvent(InsiderConstants.dealsPageView);
+    }
+    if(route.path == "bookings"){
+      UserInsider.instance.registerStandardEvent(InsiderConstants.bookingDetailsPageview);
+    }
+    if(route.path == "check-in"){
+      UserInsider.instance.registerStandardEvent(InsiderConstants.checkInStarted);
+    }
     FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
   }
 
