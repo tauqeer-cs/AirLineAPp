@@ -1,7 +1,7 @@
 import 'package:app/data/responses/verify_response.dart';
-import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -297,6 +297,16 @@ class Passenger extends HiveObject with EquatableMixin {
   @JsonKey(name: 'Title')
   final String? title;
   @JsonKey(name: 'Gender')
+
+  String? get titleToShow {
+
+    if(title != null) {
+
+      return title!.capitalize();
+    }
+    return null;
+  }
+
   final String? gender;
   @JsonKey(name: 'InfantAssociateIndex')
   final num? infantAssociateIndex;

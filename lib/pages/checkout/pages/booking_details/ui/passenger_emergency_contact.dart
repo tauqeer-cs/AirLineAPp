@@ -36,7 +36,8 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   @override
   void initState() {
     super.initState();
-    final contact = context.read<LocalUserBloc>().state.emergencyContact;
+    final contact =
+        true ? null : context.read<LocalUserBloc>().state.emergencyContact;
     final emergency = context
         .read<ProfileCubit>()
         .state
@@ -48,14 +49,14 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
     lastName = emergency?.lastName ?? contact?.lastName;
     phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
 
-    if(emergency?.phoneCode?.isNotEmpty ?? false){
+    if (emergency?.phoneCode?.isNotEmpty ?? false) {
       nationalityController.text = emergency!.phoneCode!;
-    }else if(contact?.phoneCode?.isNotEmpty ?? false){
+    } else if (contact?.phoneCode?.isNotEmpty ?? false) {
       nationalityController.text = contact!.phoneCode!;
     }
-    if(emergency?.phoneCode?.isNotEmpty ?? false){
+    if (emergency?.relationship?.isNotEmpty ?? false) {
       relationController.text = emergency!.relationship!;
-    }else if(contact?.phoneCode?.isNotEmpty ?? false){
+    } else if (contact?.relationship?.isNotEmpty ?? false) {
       relationController.text = contact!.relationship!;
     }
   }
@@ -119,6 +120,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               ShadowInput(
                 name: formNameEmergencyRelation,
                 textEditingController: relationController,
+                validators: [FormBuilderValidators.required()],
                 child: AppDropDown<String>(
                   items: availableRelations,
                   defaultValue:

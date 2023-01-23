@@ -2,6 +2,7 @@ import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/models/switch_setting.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
@@ -10,10 +11,12 @@ import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/form_utils.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:app/widgets/settings_wrapper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,6 +73,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
   }
 
   String get titleKey {
+    //"${widget.person.toString()}$formNameTitle"
     return "${widget.person.toString()}$formNameTitle";
   }
 
@@ -117,7 +121,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
         .verifyResponse
         ?.flightSSR
         ?.insuranceGroup;
-    //
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -135,78 +139,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
               if (profileBloc.hasAnyFriends && ConstantUtils.showFamily) ...[
                 InkWell(
                   onTap: () async {
-                    FriendsFamily? selectFamily = await showBottomDialog(
-                      context,
-                      FriendsAndFamilySelectorPopUp(
-                        friendsAndFamily: profileBloc.friendFamily,
-                      ),
-                    );
+                    await onFamilyButtonTapped(profileBloc, filter, context);
 
-                    if (selectFamily != null) {
-                      // BookingDetailsView.fbKey.currentState?.patchValue('age': '50');
-                      //passengerInfo?.dob = DateTime.now();
-
-                      if(selectFamily.memberID == -121 && selectFamily.firstName == 'My'){
-
-
-
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[firstNameKey]!
-                            .didChange(profileBloc.state.profile?.userProfile?.firstName ?? '');
-
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[lastNameKey]!
-                            .didChange(profileBloc.state.profile?.userProfile?.lastName ?? '');
-
-                        if (profileBloc.state.profile?.userProfile?.dob != null) {
-                          BookingDetailsView.fbKey.currentState!.fields[dobKey]!
-                              .didChange(profileBloc.state.profile?.userProfile?.dob);
-                        }
-
-                        BookingDetailsView.fbKey.currentState!.fields[titleKey]!
-                            .didChange(profileBloc.state.profile?.userProfile?.title  ?? '');
-                        if (profileBloc.state.profile?.userProfile?.memberID != null) {
-                          BookingDetailsView
-                              .fbKey.currentState!.fields[rewardKey]!
-                              .didChange(profileBloc.state.profile?.userProfile?.memberID.toString());
-                        }
-                      }
-                      else {
-                        //                            Navigator.pop(context, const FriendsFamily(memberID: -121,firstName: 'My'));
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[firstNameKey]!
-                            .didChange(selectFamily.firstName ?? '');
-
-                        BookingDetailsView
-                            .fbKey.currentState!.fields[lastNameKey]!
-                            .didChange(selectFamily.lastName ?? '');
-
-                        if (selectFamily.dobDate != null) {
-                          BookingDetailsView.fbKey.currentState!.fields[dobKey]!
-                              .didChange(selectFamily.dobDate);
-                        }
-
-                        BookingDetailsView.fbKey.currentState!.fields[titleKey]!
-                            .didChange(selectFamily.title ?? '');
-                        if (selectFamily.memberID != null) {
-                          if(selectFamily.memberID == 0) {
-
-                          }
-                          else {
-                            BookingDetailsView
-                                .fbKey.currentState!.fields[rewardKey]!
-                                .didChange(selectFamily.memberID!);
-                          }
-
-                        }
-                        else {
-
-
-                        }
-                      }
-
-
-                    }
                   },
                   child: Row(
                     children: [
@@ -271,7 +205,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   ],
                 ),
                 ShadowInput(
-                  name: "${widget.person.toString()}$formNameTitle",
+                  name: titleKey,
                   validators: [FormBuilderValidators.required()],
                   textEditingController: titleController,
                   child: AppDropDown<String>(
@@ -378,7 +312,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       focusedBorder: InputBorder.none,
                       focusedErrorBorder: InputBorder.none,
                     ),
-                    title: const Text("I need wheelchair assistance."),
+                    title: const Text(
+                        'Tick this box and check-in at the airport counter to receive a wheelchair'),
                     onChanged: (value) {
                       setState(() {
                         isWheelChairChecked = value ?? false;
@@ -426,73 +361,53 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     if (bookingState.outbound!.isNotEmpty) ...[
                       Visibility(
                         visible: visible(),
-                        child: FormBuilderCheckbox(
-                          name: "${widget.person.toString()}$formNameInsurance",
-                          contentPadding: EdgeInsets.zero,
-                          initialValue: insuranceSelected,
-                          decoration: const InputDecoration(
+                        child: SettingsWrapper(
+                          settingType: AvailableSetting.insurance,
+                          child: FormBuilderCheckbox(
+                            name:
+                                "${widget.person.toString()}$formNameInsurance",
                             contentPadding: EdgeInsets.zero,
-                            border: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            focusedErrorBorder: InputBorder.none,
-                          ),
-                          title: RichText(
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                const TextSpan(text: 'I want '),
-                                TextSpan(
-                                  text: 'travel protection',
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const PdfViewer(
-                                            title: 'Travel Protection',
-                                            fileName:
-                                                'GI_MYAirline_TravelDomestic_SOB_20221222',
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: Colors.grey.shade900,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text:
-                                      " : MYR${travelProtectionRate(bookingState.outbound!)}",
-                                )
-                              ],
+                            initialValue: insuranceSelected,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.zero,
+                              border: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              focusedErrorBorder: InputBorder.none,
                             ),
+                            title: RichText(
+                              text: TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: <TextSpan>[
+                                  const TextSpan(text: 'I want '),
+                                  makeClickableTextSpan(context,
+                                      text:
+                                          'MY${' MY Travel Shield'.capitalize()}',
+                                      pdfName:
+                                          'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
+                                  makeClickableTextSpan(context,
+                                      text:
+                                          " : MYR${travelProtectionRate(bookingState.outbound!)}",
+                                      makeNormalTextBol: true),
+                                ],
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                insuranceSelected = value ?? false;
+                              });
+
+                              if (value == true) {
+                                widget.insuranceSelected(
+                                    true, currentInsuranceBundlde!);
+                              } else {
+                                widget.insuranceSelected(
+                                    false, currentInsuranceBundlde!);
+                              }
+                            },
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              insuranceSelected = value ?? false;
-                            });
-
-                            if (value == true) {
-                              // widget.person.insuranceGroup =
-                              //   currentInsuranceBundlde;
-
-                              //widget.person = widget.person.copyWith(insurance: );
-
-                              widget.insuranceSelected(
-                                  true, currentInsuranceBundlde!);
-                            } else {
-                              widget.insuranceSelected(
-                                  false, currentInsuranceBundlde!);
-
-                              // widget.person = widget.person.copyWith(insuranceEmpty: true);
-
-                              //widget.person.insuranceGroup = null;
-                            }
-                          },
                         ),
                       ),
                     ],
@@ -506,6 +421,101 @@ class _PassengerInfoState extends State<PassengerInfo> {
     );
   }
 
+  Future<void> onFamilyButtonTapped(ProfileCubit profileBloc, FilterState filter, BuildContext context) async {
+    DateTime userDob =
+        profileBloc.state.profile?.userProfile?.dob ??
+            DateTime.now();
+
+    var limitDate =
+        widget.person.dateLimitStart(filter.departDate);
+
+    int difference = userDob.difference(limitDate).inDays;
+
+    FriendsFamily? selectFamily = await showBottomDialog(
+      context,
+      FriendsAndFamilySelectorPopUp(
+        friendsAndFamily: profileBloc.friendFamily(
+            widget.person, filter.departDate ?? DateTime.now()),
+        person: widget.person,
+        showMySelf: difference > 1,
+      ),
+    );
+    if (selectFamily != null) {
+      setFamilyMemberValues(selectFamily, profileBloc);
+    }
+  }
+
+  void setFamilyMemberValues(FriendsFamily selectFamily, ProfileCubit profileBloc) {
+    if (selectFamily.memberID == -121 &&
+        selectFamily.firstName == 'My') {
+      changeSetValue(
+          keyName: firstNameKey,
+          value: profileBloc
+                  .state.profile?.userProfile?.firstName ??
+              '');
+      changeSetValue(
+          keyName: lastNameKey,
+          value: profileBloc
+                  .state.profile?.userProfile?.lastName ??
+              '');
+      if (profileBloc.state.profile?.userProfile?.dob !=
+          null) {
+        changeSetValue(
+            keyName: dobKey,
+            value:
+                profileBloc.state.profile?.userProfile?.dob);
+      }
+
+      defaultTitle =
+          profileBloc.state.profile?.userProfile?.title;
+
+      changeSetValue(
+          keyName: titleKey,
+          value:
+              profileBloc.state.profile?.userProfile?.title ??
+                  '');
+      if (profileBloc.state.profile?.userProfile?.memberID !=
+          null) {
+        changeSetValue(
+            keyName: rewardKey,
+            value: profileBloc
+                .state.profile?.userProfile?.memberID
+                .toString());
+      }
+    } else {
+      changeSetValue(
+          keyName: firstNameKey,
+          value: selectFamily.firstName ?? '');
+      changeSetValue(
+          keyName: lastNameKey,
+          value: selectFamily.lastName ?? '');
+
+      if (selectFamily.dobDate != null) {
+        changeSetValue(
+            keyName: dobKey, value: selectFamily.dobDate);
+      }
+
+
+      defaultTitle = selectFamily.title ?? '';
+      changeSetValue(
+          keyName: titleKey,
+          value: selectFamily.title ?? '');
+
+      if (selectFamily.memberID != null) {
+        if (selectFamily.memberID == 0) {
+        } else {
+          changeSetValue(
+              keyName: rewardKey,
+              value: selectFamily.memberID!);
+        }
+      } else {}
+    }
+  }
+
+  void changeSetValue({required String keyName, required dynamic value}) {
+    BookingDetailsView.fbKey.currentState!.fields[keyName]!.didChange(value);
+  }
+
   bool visible() {
     if (widget.person.peopleType == PeopleType.infant) {
       return true;
@@ -515,9 +525,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
 
   String travelProtectionRate(List<Bundle> outbound) {
     currentInsuranceBundlde = outbound.first;
-
     var taxAmount = 0.0;
-
     if (currentInsuranceBundlde!.applicableTaxes != null) {
       taxAmount =
           currentInsuranceBundlde!.applicableTaxes!.first.taxAmount!.toDouble();
@@ -527,9 +535,15 @@ class _PassengerInfoState extends State<PassengerInfo> {
 }
 
 class FriendsAndFamilySelectorPopUp extends StatelessWidget {
+  final Person person;
+
+  final bool showMySelf;
+
   FriendsAndFamilySelectorPopUp({
     Key? key,
     required this.friendsAndFamily,
+    required this.person,
+    required this.showMySelf,
   }) : super(key: key);
   List<FriendsFamily> friendsAndFamily;
 
@@ -555,38 +569,58 @@ class FriendsAndFamilySelectorPopUp extends StatelessWidget {
               color: Colors.white,
             ),
             kVerticalSpacer,
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          if(index == 0){
-
-                            Navigator.pop(context, const FriendsFamily(memberID: -121,firstName: 'My'));
-
-
-                            return;
-                          }
-                          Navigator.pop(context, friendsAndFamily[index -1]);
-                        },
-                        child: index == 0 ? Text(
-                          'I am flying',
-                          style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
-                        ) : Text(
-                          friendsAndFamily[index-1].fullName,
-                          style: kMediumRegular,
-                        ),
-                      ),
-                      kVerticalSpacer,
-                    ],
-                  );
-                },
-                itemCount: friendsAndFamily.length + 1,
+            if (!showMySelf && friendsAndFamily.isEmpty) ...[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Center(
+                    child: Text(
+                      'Your family and friends doesnt have ${person.peopleType!.toPersonTypeString()} added',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               ),
-            ),
+            ] else ...[
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            if (showMySelf && index == 0) {
+                              Navigator.pop(
+                                  context,
+                                  const FriendsFamily(
+                                      memberID: -121, firstName: 'My'));
+
+                              return;
+                            }
+                            Navigator.pop(context,
+                                friendsAndFamily[index - (showMySelf ? 1 : 0)]);
+                          },
+                          child: (showMySelf && index == 0)
+                              ? Text(
+                                  'I am flying',
+                                  style: kMediumRegular.copyWith(
+                                      color: Styles.kPrimaryColor),
+                                )
+                              : Text(
+                                  friendsAndFamily[index - (showMySelf ? 1 : 0)]
+                                      .fullName,
+                                  style: kMediumRegular,
+                                ),
+                        ),
+                        kVerticalSpacer,
+                      ],
+                    );
+                  },
+                  itemCount: friendsAndFamily.length + (showMySelf ? 1 : 0),
+                ),
+              ),
+            ],
             kVerticalSpacerMini,
           ],
         ),

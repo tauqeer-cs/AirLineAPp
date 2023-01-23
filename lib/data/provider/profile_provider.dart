@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../models/profile.dart';
+import '../requests/delete_card_request.dart';
 import '../requests/friend_family_add.dart';
 import '../requests/update_friends_family.dart';
 
@@ -27,10 +28,7 @@ abstract class ProfileProvider {
   @GET('user/user-delete-friendsandfamily')
   Future<CommonResponse> deleteFriendFamily(@Query("friendsandfamilyid") String key);
 
-  //https://mya-api.alphareds.com/api/v1/user/user-delete-friendsandfamily?friendsandfamilyid=2
-  //  @GET('checkout/flightbookingdetail')
-//   Future<ConfirmationModel> bookingDetail(@Query("superPNRNo") String key);
-
-
+  @POST('user/user-delete-card')
+  Future<CommonResponse> deleteUserCard(@Body() DeleteCardReuquest profile);
 
 }

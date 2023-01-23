@@ -5,6 +5,7 @@ import 'package:app/data/responses/voucher_response.dart';
 import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../data/requests/token_request.dart';
@@ -13,61 +14,20 @@ import '../../data/responses/promotions_response.dart';
 part 'voucher_state.dart';
 
 class VoucherCubit extends Cubit<VoucherState> {
-  VoucherCubit() : super( VoucherState());
+  VoucherCubit() : super(VoucherState());
   final _repository = FlightRepository();
 
   resetState() {
-    emit( VoucherState());
+    emit(VoucherState());
   }
 
-  redeemPoints() async {
-
-    try {
-      emit(state.copyWith(
-        redeemingPromo: true,
-      ));
-
-      final response = await _repository.getRedeemPoints(Token(token: state.flightToken,redemptionName: state.selectedRedeemOption!.redemptionName));
-
-      if(response.value?.success == true){
-        emit(state.copyWith(
-          redeemingPromo: false,
-          pointsRedeemed: true,
-        ));
-      }
-      else {
-        emit(state.copyWith(
-          blocState: BlocState.finished,
-          redeemingPromo: false,
-        ));
-      }
-
-
-
-    }
-    catch(e) {
-
-      emit(state.copyWith(
-        blocState: BlocState.finished,
-        redeemingPromo: false,
-      ));
-    }
-    print('object');
-
-  }
   getAvailablePromotions(String token) async {
-    if (state.promoLoaded) {
-      return;
-    }
-     state.flightToken = token;
 
+    state.flightToken = token;
 
-    final response = await _repository
-        .getPromoInfo(Token(token: token));
-    print('object');
+    final response = await _repository.getPromoInfo(Token(token: token));
     if (response.statusCode == 200) {
       emit(state.copyWith(
-        blocState: BlocState.finished,
         redemptionOption: response.value!.lmsRedemptionOption,
         promoReady: true,
       ));
@@ -75,12 +35,9 @@ class VoucherCubit extends Cubit<VoucherState> {
       return;
     } else {
       emit(state.copyWith(
-        blocState: BlocState.finished,
-      //  redemptionOption: response.value!.redemptionOption,
         promoReady: true,
       ));
       return;
-
     }
   }
 
@@ -89,17 +46,8 @@ class VoucherCubit extends Cubit<VoucherState> {
   }
 
   selectedItem(AvailableRedeemOptions option) {
-
-    emit(
-        state.copyWith(
-            selectedRedeemOption: option
-        )
-    );
+    emit(state.copyWith(selectedRedeemOption: option));
   }
-
-
-
-
 
   addVoucher(VoucherRequest voucherRequest) async {
     emit(state.copyWith(blocState: BlocState.loading));
@@ -109,7 +57,8 @@ class VoucherCubit extends Cubit<VoucherState> {
         state.copyWith(
           blocState: BlocState.finished,
           response: response,
-          appliedVoucher: voucherRequest.insertVoucher ?? ""
+          appliedVoucher: voucherRequest.insertVoucher,
+          insertedVoucher: voucherRequest.voucherPins.firstOrNull,
         ),
       );
     } catch (e, st) {
@@ -118,7 +67,7 @@ class VoucherCubit extends Cubit<VoucherState> {
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           response: const VoucherResponse(),
-          appliedVoucher: ""
+          appliedVoucher: "",
         ),
       );
     }

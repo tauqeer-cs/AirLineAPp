@@ -13,6 +13,8 @@ import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'insurance_fee.dart';
+
 class FeeAndTaxes extends StatefulWidget {
   final bool isDeparture;
 
@@ -30,6 +32,19 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bookingTotal = context.watch<BookingCubit>().state;
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
+
+    final booking = context.watch<BookingCubit>().state;
+    var discountPercent = booking.selectedDeparture!.discountPCT;
+
+    var discountTotal = 0;
+
+    if(filter?.promoCode != null && discountPercent != null && (discountPercent > 0) ) {
+
+      print('discountTotal');
+
+    }
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -133,9 +148,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 .getTotalInsurance() ??
                 0) >
                 0,
-            child: BaggageFee(
-              isDeparture: widget.isDeparture,
-              isInsurance: true,
+            child: const InsuranceFee(
             ),
           ),
 

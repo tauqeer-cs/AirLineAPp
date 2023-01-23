@@ -12,6 +12,7 @@ import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/blocs/routes/routes_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/blocs/settings/settings_cubit.dart';
 import 'package:app/blocs/timer/ticker_repository.dart';
 import 'package:app/blocs/timer/timer_bloc.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
@@ -24,7 +25,6 @@ import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/utils/error_utils.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -226,6 +226,10 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => CountriesCubit()..getCountries()),
+        BlocProvider(
+          create: (_) => SettingsCubit()..getSettings(),
+          lazy: false,
+        ),
         BlocProvider(create: (_) => FilterCubit()),
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (context) => SummaryCubit()),

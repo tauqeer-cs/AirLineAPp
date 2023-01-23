@@ -56,7 +56,7 @@ class CheckInView extends StatelessWidget {
                   kVerticalSpacerSmall,
                   AppInputText(
                     name: "lastNameCheckIn",
-                    hintText: "Surname / Lastname",
+                    hintText: "Surname / Last Name",
                     validators: [FormBuilderValidators.required()],
                   ),
                   kVerticalSpacer,

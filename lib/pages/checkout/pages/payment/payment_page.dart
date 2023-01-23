@@ -30,22 +30,14 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-
-
-
-
   @override
   void initState() {
     super.initState();
+    context.read<VoucherCubit>().resetState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    if(ConstantUtils.showRedeemPoints) {
-      //context.read<PaymentRoute>().getAvailablePromotions();
-    }
-
     return WillPopScope(
       onWillPop: () async {
         final superPnr = context.read<BookingCubit>().state.superPnrNo;
@@ -106,7 +98,9 @@ class _PaymentPageState extends State<PaymentPage> {
                         context.read<TimerBloc>().add(
                               TimerStarted(
                                 duration: 900,
-                                expiredTime: DateTime.now().toUtc().add(const Duration(seconds: 900)),
+                                expiredTime: DateTime.now()
+                                    .toUtc()
+                                    .add(const Duration(seconds: 900)),
                               ),
                             );
                         final result = await context.router.push(
@@ -186,7 +180,6 @@ class _PaymentPageState extends State<PaymentPage> {
                     );
                   },
                 ),
-
               ],
               child: Scaffold(
                 appBar: AppAppBar(
@@ -216,12 +209,11 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                 ),
                 body: BlocBuilder<VoucherCubit, VoucherState>(
-                  builder: (context,state) {
-
-                    //
-                    return  PaymentView(promoReady: state.promoLoaded,);
-                  }
-                ),
+                    builder: (context, state) {
+                  return PaymentView(
+                    promoReady: state.promoLoaded,
+                  );
+                }),
               ),
             ),
           ),

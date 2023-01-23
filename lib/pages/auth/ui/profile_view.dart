@@ -177,24 +177,27 @@ class ProfileView extends StatelessWidget {
                                             imageName: 'iconFamily',
                                             onTap: () {
                                               //Page
-
                                               context.router.push(
                                                 const FriendsFamilyRoute(),
                                               );
+                                            },
+                                          ),
+                                        ],
 
+                                        if(ConstantUtils.showCards) ... [
+                                          ProfileBoxButton(
+                                            text: 'My Payment Cards',
+                                            imageName: 'iconPayment',
+                                            onTap: () {
+                                              context.router.push(
+                                                const MemberCardsRoute(),
+                                              );
                                             },
                                           ),
                                         ],
 
 
-                                        /* ProfileBoxButton(
-                                        text: 'My Payment Cards',
-                                        imageName: 'iconPayment',
-                                        onTap: () {
-                                          print('Not required at this time');
-                                        },
-                                      ),
-                                      */
+
                                       ],
                                     ),
                                   ),
@@ -207,96 +210,8 @@ class ProfileView extends StatelessWidget {
                               ),
                             ),
 
-                            /*Row(
-                            children: [
-                              Expanded(
-                                child: Container(),
-                              ),
-                              ProfileBoxButton(
-                                text: 'Personal Info',
-                                imageName: 'iconInfo',
-                                onTap: () {
-                                  context.router.push(const PersonalInfoRoute());
-                                },
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              ProfileBoxButton(
-                                text: 'Account Settings',
-                                imageName: 'iconSetting',
-                                onTap: () {},
-                              ),
-                              */ /*ProfileBoxButton(
-                                text: 'My Payment Cards',
-                                imageName: 'iconPayment',
-                                onTap: () {
-                                  print('Not required at this time');
-                                },
-                              ),*/ /*
-                              Expanded(
-                                child: Container(),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(),
-                              ),
-                              ProfileBoxButton(
-                                text: 'Communication\nPreferences',
-                                imageName: 'iconPref',
-                                onTap: () {},
-                              ),
-                              */ /*ProfileBoxButton(
-                                text: 'Family and Friends',
-                                imageName: 'iconFamily',
-                                onTap: () {
-                                  print('Not required at this time');
-                                },
-                              ),*/ /*
-                              Expanded(
-                                child: Container(),
-                              ),
-                              */ /*ProfileBoxButton(
-                                text: 'Account Settings',
-                                imageName: 'iconSetting',
-                                onTap: () {},
-                              ),*/ /*
-                              */ /*Expanded(
-                                child: Container(),
-                              ),*/ /*
-                            ],
-                          ),
-                          const Spacer(),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(),
-                              ),
-                              ProfileBoxButton(
-                                text: 'Communication\nPreferences',
-                                imageName: 'iconPref',
-                                onTap: () {},
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width / 2.462,
-                                height: MediaQuery.of(context).size.width / 3.7,
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          const Spacer(),
-                          const Spacer(),
-                          const Spacer(),*/
+
+
                           ],
                         ),
                       ),

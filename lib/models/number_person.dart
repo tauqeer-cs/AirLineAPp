@@ -495,7 +495,7 @@ class Person extends Equatable {
       case PeopleType.child:
         return DateTime(now.year - 2, now.month, now.day);
       case PeopleType.infant:
-        return now.add(Duration(days: -8));
+        return now.add(const Duration(days: -8));
       default:
         return now;
     }
@@ -514,6 +514,8 @@ class Person extends Equatable {
         return now;
     }
   }
+
+
 }
 
 enum PeopleType {
@@ -526,6 +528,13 @@ enum PeopleType {
   final String code;
 }
 
+extension PeopleTypeToString on PeopleType {
+  String toPersonTypeString() {
+    return toString().replaceAll('PeopleType.', '').capitalize();
+  }
+}
+
+
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
 List<String> availableRelations = [
@@ -535,3 +544,5 @@ List<String> availableRelations = [
   "Guardian",
   "Others"
 ];
+
+List<String> availableTitleAll = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri","Mstr.", "Miss"];

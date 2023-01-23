@@ -168,6 +168,9 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       friendsAndFamily: (json['friendsAndFamily'] as List<dynamic>?)
           ?.map((e) => FriendsFamily.fromJson(e as Map<String, dynamic>))
           .toList(),
+      memberCards: (json['memberCards'] as List<dynamic>?)
+          ?.map((e) => MemberCard.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
@@ -199,6 +202,8 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('referralBy', instance.referralBy);
   writeNotNull('friendsAndFamily',
       instance.friendsAndFamily?.map((e) => e.toJson()).toList());
+  writeNotNull(
+      'memberCards', instance.memberCards?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -283,5 +288,32 @@ Map<String, dynamic> _$FriendsFamilyToJson(FriendsFamily instance) {
   writeNotNull('dob', instance.dob);
   writeNotNull('nationality', instance.nationality);
   writeNotNull('memberID', instance.memberID);
+  return val;
+}
+
+MemberCard _$MemberCardFromJson(Map<String, dynamic> json) => MemberCard(
+      expiryDate: json['expiryDate'] as String?,
+      countryCode: json['countryCode'] as String?,
+      cardHolderName: json['cardHolderName'] as String?,
+      token: json['token'] as String?,
+      cardType: json['cardType'] as String?,
+      cardNickName: json['cardNickName'] as String?,
+    );
+
+Map<String, dynamic> _$MemberCardToJson(MemberCard instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('expiryDate', instance.expiryDate);
+  writeNotNull('countryCode', instance.countryCode);
+  writeNotNull('cardHolderName', instance.cardHolderName);
+  writeNotNull('token', instance.token);
+  writeNotNull('cardType', instance.cardType);
+  writeNotNull('cardNickName', instance.cardNickName);
   return val;
 }

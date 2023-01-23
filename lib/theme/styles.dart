@@ -42,6 +42,8 @@ class Styles {
 
   static Color get kDartBlack => const Color.fromRGBO(26, 24, 24, 1);
 
+  static Color get kBlack => const Color.fromRGBO(0, 0, 0, 1);
+
 //  static Color get kSubTextColor => const Color.fromRGBO(102, 102, 102, 1);
   static Color get klightBackgroundColor => const Color.fromRGBO(0, 0, 0, 0.05);
 

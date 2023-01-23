@@ -11,11 +11,7 @@ class Profile extends Equatable {
   final UserProfile? userProfile;
   final CommunicationPreferences? communicationPreferences;
 
-
-  const Profile(
-      {this.userID,
-      this.userProfile,
-      this.communicationPreferences});
+  const Profile({this.userID, this.userProfile, this.communicationPreferences});
 
   @override
   List<Object?> get props => [userID, userProfile, communicationPreferences];
@@ -43,14 +39,69 @@ class UserProfile extends Equatable {
   final String? state;
   final String? postCode;
   final String? email;
+
+  String? get emailShow {
+    if (email == null) {
+      return null;
+    }
+    return email!.trim();
+  }
+
   final EmergencyContact? emergencyContact;
   final String? country;
   final int? memberID;
   final String? referralCode;
   final String? referralBy;
   final List<FriendsFamily>? friendsAndFamily;
+  final List<MemberCard>? memberCards;
 
-  const UserProfile( {
+  UserProfile copyWith({
+    String? title,
+    String? firstName,
+    String? lastName,
+    String? nationality,
+    String? icNumber,
+    DateTime? dob,
+    String? phoneCode,
+    String? phoneNumber,
+    String? address,
+    String? city,
+    String? state,
+    String? postCode,
+    String? email,
+     EmergencyContact? emergencyContact,
+     String? country,
+     int? memberID,
+     String? referralCode,
+     String? referralBy,
+     List<FriendsFamily>? friendsAndFamily,
+     List<MemberCard>? memberCards,
+  }) {
+    return UserProfile(
+      title: title ?? this.title,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      nationality: nationality ?? this.nationality,
+      icNumber: icNumber ?? this.icNumber,
+      dob: dob ?? this.dob,
+        phoneCode : phoneCode ?? this.phoneCode,
+        phoneNumber : phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      postCode: postCode ?? this.postCode,
+      email: email ?? this.email,
+      emergencyContact: emergencyContact ?? this.emergencyContact,
+      country : country ?? this.country,
+      memberID : memberID ?? this.memberID,
+      referralCode: email ?? this.referralCode,
+      referralBy: referralBy ?? this.referralBy,
+      friendsAndFamily : friendsAndFamily ?? this.friendsAndFamily,
+      memberCards : memberCards ?? this.memberCards,
+    );
+  }
+
+  const UserProfile({
     this.title,
     this.firstName,
     this.lastName,
@@ -69,7 +120,8 @@ class UserProfile extends Equatable {
     this.referralBy,
     this.email,
     this.emergencyContact,
-    this.friendsAndFamily
+    this.friendsAndFamily,
+    this.memberCards,
   });
 
   @override
@@ -92,7 +144,8 @@ class UserProfile extends Equatable {
         referralBy,
         emergencyContact,
         email,
-    friendsAndFamily
+        friendsAndFamily,
+        memberCards
       ];
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>
@@ -173,33 +226,32 @@ class FriendsFamily extends Equatable {
   final int? memberID;
 
   String get titleToShow {
-    if(title == null) {
+    if (title == null) {
       return 'Mr.';
-    }
-    else if(title == 'Tan S') {
+    } else if (title == 'Tan S') {
       return 'Tan Sri';
     }
 
     return title!;
-
   }
+
   DateTime? get dobDate {
-    if(dob == null) {
+    if (dob == null) {
       return null;
     }
     return DateTime.parse(dob!);
   }
-  String get fullName {
 
+  String get fullName {
     String name = firstName ?? '';
-    if(name.isNotEmpty) {
+    if (name.isNotEmpty) {
       name = '$name ';
     }
     name = name + (lastName ?? '');
 
     return name;
-
   }
+
   const FriendsFamily({
     this.friendsAndFamilyID,
     this.firstName,
@@ -225,6 +277,113 @@ class FriendsFamily extends Equatable {
       _$FriendsFamilyFromJson(json);
 
   Map<String, dynamic> toJson() => _$FriendsFamilyToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class MemberCard extends Equatable {
+  /*
+   "": "2501",
+        "": "",
+        "": "JENNY",
+        "": "8829022000788477505",
+        "": "VSA",
+        "": "Jenny"
+   visa.png
+
+
+trash.png
+
+"expiryDate": "2501",
+
+			"cardHolderName": "Sdfff",
+			"token": "8801223000836177736",
+			"cardType": "MST",
+			"cardNickName": ""
+
+
+			  {
+        "expiryDate": "2501",
+        "countryCode": "",
+        "cardHolderName": "JENNY",
+        "token": "8829022000788477505",
+        "cardType": "VSA",
+        "cardNickName": "Jenny"
+      },
+   */
+
+  bool get hasCardExpired {
+    if (expiryDate != null) {
+      String yearPart = expiryDate!.substring(0, 2);
+      int year = int.parse(yearPart) + 2000;
+
+      if (year > DateTime.now().year) {
+        return false;
+      } else if (year < DateTime.now().year) {
+        return true;
+      }
+
+      String monthPart = expiryDate!.substring(2, 4);
+      int month = int.parse(monthPart) + 2000;
+
+      if (month > DateTime.now().month) {
+        return false;
+      }
+
+      return true;
+    }
+    return false;
+  }
+
+  String get cardImageName {
+    if (cardType == 'VSA') {
+      return 'visa';
+    } else if (cardType == 'UNP' || cardType == 'UP') {
+      return 'unionpay_logo';
+    }
+
+    return 'mc';
+  }
+
+  final String? expiryDate;
+  final String? countryCode;
+  final String? cardHolderName;
+  final String? token;
+  final String? cardType;
+  final String? cardNickName;
+
+  String get cardDisplay {
+    if (cardNickName != null && cardNickName!.isNotEmpty) {
+      return cardNickName!;
+    } else if (cardHolderName != null && cardHolderName!.isNotEmpty) {
+      return cardHolderName!;
+    }
+
+    return '';
+  }
+
+  const MemberCard({
+    this.expiryDate,
+    this.countryCode,
+    this.cardHolderName,
+    this.token,
+    this.cardType,
+    this.cardNickName,
+  });
+
+  @override
+  List<Object?> get props => [
+        expiryDate,
+        countryCode,
+        cardHolderName,
+        token,
+        cardType,
+        cardNickName,
+      ];
+
+  factory MemberCard.fromJson(Map<String, dynamic> json) =>
+      _$MemberCardFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MemberCardToJson(this);
 }
 
 //"friendsAndFamilyID": 55,

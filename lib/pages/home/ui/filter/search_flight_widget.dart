@@ -5,6 +5,7 @@ import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/filter/trip_selection.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/constant_utils.dart';
@@ -35,6 +36,15 @@ class SearchFlightWidget extends StatelessWidget {
             name: "promoFlight",
             onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
             hintText: "Promo Code",
+            //inputFormatters: [
+            //     UpperCaseTextFormatter(),
+            //   ]
+
+              inputFormatters: [
+                UpperCaseTextFormatter(),
+                FilteringTextInputFormatter.allow(RegExp("[A-Za-z0-9\']")),
+              ]
+
           ),
           kVerticalSpacer,
 
@@ -63,5 +73,17 @@ enum FlightType {
   @override
   String toString() {
     return message;
+  }
+}
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.contains(" ")) {
+      return oldValue;
+    }
+    return TextEditingValue(
+      text: newValue.text.toUpperCase().trim(),
+      selection: newValue.selection,
+    );
   }
 }
