@@ -102,11 +102,11 @@ class AppFlavor {
     final isAndroid = Platform.isAndroid;
     switch (appFlavor) {
       case Flavor.staging:
-        return isAndroid ? '' : 'MB76LUP53C.com.myairline.mobileapp.dev';
+        return isAndroid ? '' : 'group.com.myairline.mobileapp';
       case Flavor.uat:
-        return isAndroid ? '' : 'MB76LUP53C.com.myairline.mobileapp.uat';
+        return isAndroid ? '' : 'group.com.myairline.mobileapp';
       default:
-        return isAndroid ? '' : 'MB76LUP53C.com.myairline.mobileapp';
+        return isAndroid ? '' : 'group.com.myairline.mobileapp';
     }
   }
 }
