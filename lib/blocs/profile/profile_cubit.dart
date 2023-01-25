@@ -40,9 +40,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     return false;
   }
 
-
-  ///deleteUserCard
-  ///
   void deleteCard(int cardIndex) async {
     emit(
       state.copyWith(deletingCard: true),
