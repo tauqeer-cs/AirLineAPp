@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
+import 'package:paged_vertical_calendar/utils/date_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarSheetVertical extends StatefulWidget {
@@ -131,17 +132,18 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   kVerticalSpacerMini,
                   Expanded(
                     child: PagedVerticalCalendar(
-                      minDate: DateTime.now(),
-                      maxDate: DateTime.now().add(const Duration(days: 365)),
-                      initialDate: departDate ?? DateTime.now(),
-                      onMonthLoaded: (year, month) {
+                      invisibleMonthsThreshold: 12,
+                      minDate: DateTime.now().removeTime(),
+                      maxDate: DateTime.now().add(const Duration(days: 365)).removeTime(),
+                      initialDate: departDate?.removeTime() ?? DateTime.now().removeTime(),
+                      /*onMonthLoaded: (year, month) {
                         if(RemoteConfigRepository.fetchPriceRange){
                           context.read<PriceRangeCubit>().getPrices(
                             filterCubit.state,
                             startFilter: DateTime(year, month, 1),
                           );
                         }
-                      },
+                      },*/
                       startWeekWithSunday: true,
                       onDayPressed: (value) async {
                         final isBefore = value.isBefore(DateTime.now());
@@ -176,7 +178,9 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                           // }
                         }
                       },
-                      onPaginationCompleted: (direction) {},
+                      onPaginationCompleted: (direction) {
+                        print("pagination completed");
+                      },
                       monthBuilder: (context, month, year) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
