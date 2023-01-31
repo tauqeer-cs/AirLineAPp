@@ -38,6 +38,7 @@ import 'package:app/pages/personal_info/personal_info_page.dart';
 
 import '../pages/friends_family/friend_family_page.dart';
 import '../pages/member_cards/member_cards_page.dart';
+import '../pages/more_info/more_info_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -94,6 +95,7 @@ part 'app_router.gr.dart';
     AutoRoute(page: DeleteAccountPage, path: "/delete-account"),
     AutoRoute(page: FriendsFamilyPage, path: "/friends-family"),
     AutoRoute(page: MemberCardsPage, path: "/member-cards"),
+    AutoRoute(page: MoreOptionsPage, path: "/more-options"),
 
 
     //

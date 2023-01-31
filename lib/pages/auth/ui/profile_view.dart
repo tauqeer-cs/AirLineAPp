@@ -202,6 +202,18 @@ class ProfileView extends StatelessWidget {
                                           ),
                                         ],
 
+                                        ProfileBoxButton(
+                                          text: 'More\nInformation',
+                                          imageName: 'iconMoreInfo',
+                                          onTap: () {
+                                            //Page
+                                            context.router.push(
+                                              const MoreOptionsRoute(),
+                                            );
+                                          },
+                                        ),
+
+
 
 
                                       ],

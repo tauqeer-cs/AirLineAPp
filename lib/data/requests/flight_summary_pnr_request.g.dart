@@ -934,7 +934,7 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       lastName: json['LastName'] as String? ?? "",
       middleName: json['MiddleName'] as String? ?? "",
       title: json['Title'] as String? ?? "",
-      gender: json['Gender'] as String? ?? "",
+      gender: json['gender'] as String? ?? "",
       wheelChairNeeded: json['WheelChairNeeded'] as bool?,
       oKUIDNumber: json['OKUIDNumber'] as String?,
       infantAssociateIndex: json['InfantAssociateIndex'] as num? ?? 0,
@@ -973,7 +973,7 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
   writeNotNull('LastName', instance.lastName);
   writeNotNull('MiddleName', instance.middleName);
   writeNotNull('Title', instance.title);
-  writeNotNull('Gender', instance.gender);
+  writeNotNull('gender', instance.gender);
   writeNotNull('InfantAssociateIndex', instance.infantAssociateIndex);
   writeNotNull('IsPrimaryPassenger', instance.isPrimaryPassenger);
   writeNotNull('WheelChairNeeded', instance.wheelChairNeeded);
