@@ -1,6 +1,7 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,12 @@ class SubmitSearch extends StatelessWidget {
           : () {
               context.read<SearchFlightCubit>().searchFlights(filter);
               if (isHomePage) {
-                context.router.push(SearchResultRoute(showLoginDialog: isHomePage));
+                UserInsider.of(context).registerStandardEvent(
+                  InsiderConstants.searchFlightButtonClicked,
+                );
+
+                context.router
+                    .push(SearchResultRoute(showLoginDialog: isHomePage));
               } else {
                 context.router.pop();
               }
