@@ -133,7 +133,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   Expanded(
                     child: PagedVerticalCalendar(
                       invisibleMonthsThreshold: 12,
-                      minDate: DateTime.now().removeTime(),
+                      minDate: DateTime(DateTime.now().year, DateTime.now().month, 1).removeTime(),
                       maxDate: DateTime.now().add(const Duration(days: 365)).removeTime(),
                       initialDate: departDate?.removeTime() ?? DateTime.now().removeTime(),
                       /*onMonthLoaded: (year, month) {
