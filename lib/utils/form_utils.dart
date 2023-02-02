@@ -17,6 +17,12 @@ class AppFormUtils{
     return FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"));
   }
 
+
+  static TextInputFormatter onlyLetterAndSpace(){
+    return FilteringTextInputFormatter.allow(RegExp(r"^[a-zA-Z\s]+"));
+  }
+
+
   static TextInputFormatter onlyNumber(){
     return FilteringTextInputFormatter.allow(RegExp("[0-9]"));
   }

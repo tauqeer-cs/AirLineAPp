@@ -39,7 +39,7 @@ class HomeBanner extends StatelessWidget {
                           )
                           .build();
 
-                      context.router.push(WebViewRoute(url: e.link ?? ""));
+                      context.router.push(WebViewRoute(url: e.link ?? "",title: e.name ?? 'Promotion'));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),

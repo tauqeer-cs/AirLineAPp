@@ -236,12 +236,12 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   name: dobKey,
                   firstDate: widget.person.dateLimitStart(filter.departDate),
                   lastDate: widget.person.peopleType == PeopleType.infant
-                      ? DateTime.now().add(const Duration(days: -8))
+                      ? infantDOBlimit(filter.departDate ?? DateTime.now())
                       : widget.person.dateLimitEnd(filter.departDate),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
                   initialDate: widget.person.peopleType == PeopleType.infant
-                      ? DateTime.now().add(const Duration(days: -8))
+                      ? infantDOBlimit(filter.departDate ?? DateTime.now())
                       : widget.person.dateLimitEnd(filter.departDate),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),
@@ -384,7 +384,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                   const TextSpan(text: 'I want '),
                                   makeClickableTextSpan(context,
                                       text:
-                                          'MY${' MY Travel Shield'.capitalize()}',
+                                          'MY${' Travel Shield'.capitalize()}',
                                       pdfName:
                                           'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
                                   makeClickableTextSpan(context,
@@ -419,6 +419,18 @@ class _PassengerInfoState extends State<PassengerInfo> {
         ),
       ],
     );
+  }
+
+  DateTime infantDOBlimit(DateTime departDate) {
+    var cc = departDate.difference(DateTime.now()).inDays;
+
+    if(cc > 8) {
+      return DateTime.now().add(const Duration(days: -1));
+    }
+
+    var op = cc - 8;
+
+  return DateTime.now().add( Duration(days: op));
   }
 
   Future<void> onFamilyButtonTapped(ProfileCubit profileBloc, FilterState filter, BuildContext context) async {

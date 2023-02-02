@@ -105,7 +105,7 @@ class AddressInput extends StatelessWidget {
                       hintText: 'City',
                       initialValue: selectedCity,
                       inputFormatters: [
-                        AppFormUtils.onlyLetter(),
+                        AppFormUtils.onlyLetterAndSpace(),
                       ],
                     ),
                   ),
