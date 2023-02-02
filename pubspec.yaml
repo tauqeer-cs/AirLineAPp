@@ -2,7 +2,7 @@ name: app
 description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-#prodlist: 1.0.58+58,1.0.59+59, 1.0.60+60
+#prodlist:
 version: 1.0.64+64
 
 environment:
