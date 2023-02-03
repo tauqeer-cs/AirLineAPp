@@ -21,9 +21,9 @@ class InsuranceTerms extends StatelessWidget {
           style: DefaultTextStyle.of(context).style,
           children: <TextSpan>[
 
-            makeClickableTextSpan(context,text: 'Product Disclosure Sheet',pdfName: 'MYTravelShieldDomestic_PDS'),
+            makeClickableTextSpan(context,text: 'Product Disclosure Sheet',pdfName: 'https://booking.myairline.my/insurance/product_disclosure.pdf',pdfIsLink: true),
             makeClickableTextSpan(context,text: ' , understood and agree to the '),
-            makeClickableTextSpan(context,text: 'Terms and Conditions',pdfName: 'MYTravelShieldDomestic_PolicyWording'),
+            makeClickableTextSpan(context,text: 'Terms and Conditions',pdfName: 'https://booking.myairline.my/insurance/term_and_conditions.pdf',pdfIsLink: true),
             makeClickableTextSpan(context,text: ' of MY Travel Shield and agree to the processing of my Personal Data in accordance with the '),
             makeClickableTextSpan(context,text: 'Data Privacy Notice.',webViewLink: 'https://www.zurich.com.my/pdpa'),
 

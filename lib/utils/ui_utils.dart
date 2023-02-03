@@ -37,7 +37,8 @@ TextSpan makeClickableTextSpan(context,
     {required String text,
     String? pdfName,
     String? webViewLink,
-    VoidCallback? callBackAction,bool makeNormalTextBol = false,}) {
+    VoidCallback? callBackAction,bool makeNormalTextBol = false,
+    bool pdfIsLink = false}) {
   return TextSpan(
     recognizer: TapGestureRecognizer()
       ..onTap = () {
@@ -48,6 +49,7 @@ TextSpan makeClickableTextSpan(context,
               builder: (context) => PdfViewer(
                 title: text,
                 fileName: pdfName,
+                pdfIsLink: pdfIsLink,
               ),
             ),
           );

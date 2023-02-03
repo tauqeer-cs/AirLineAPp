@@ -140,7 +140,6 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 InkWell(
                   onTap: () async {
                     await onFamilyButtonTapped(profileBloc, filter, context);
-
                   },
                   child: Row(
                     children: [
@@ -383,13 +382,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                 children: <TextSpan>[
                                   const TextSpan(text: 'I want '),
                                   makeClickableTextSpan(context,
-                                      text:
-                                          'MY${' Travel Shield'.capitalize()}',
+                                      text: 'MY${' Travel Shield'}',
                                       pdfName:
-                                          'GI_MYAirline_TravelDomestic_SOB_20221222-2'),
+                                          'https://booking.myairline.my/insurance/travel_protection.pdf',
+                                      pdfIsLink: true),
                                   makeClickableTextSpan(context,
                                       text:
-                                          " : MYR${travelProtectionRate(bookingState.outbound!)}",
+                                          ": MYR ${travelProtectionRate(bookingState.outbound!)}",
                                       makeNormalTextBol: true),
                                 ],
                               ),
@@ -424,22 +423,21 @@ class _PassengerInfoState extends State<PassengerInfo> {
   DateTime infantDOBlimit(DateTime departDate) {
     var cc = departDate.difference(DateTime.now()).inDays;
 
-    if(cc > 8) {
+    if (cc > 8) {
       return DateTime.now().add(const Duration(days: -1));
     }
 
     var op = cc - 8;
 
-  return DateTime.now().add( Duration(days: op));
+    return DateTime.now().add(Duration(days: op));
   }
 
-  Future<void> onFamilyButtonTapped(ProfileCubit profileBloc, FilterState filter, BuildContext context) async {
+  Future<void> onFamilyButtonTapped(ProfileCubit profileBloc,
+      FilterState filter, BuildContext context) async {
     DateTime userDob =
-        profileBloc.state.profile?.userProfile?.dob ??
-            DateTime.now();
+        profileBloc.state.profile?.userProfile?.dob ?? DateTime.now();
 
-    var limitDate =
-        widget.person.dateLimitStart(filter.departDate);
+    var limitDate = widget.person.dateLimitStart(filter.departDate);
 
     int difference = userDob.difference(limitDate).inDays;
 
@@ -457,68 +455,47 @@ class _PassengerInfoState extends State<PassengerInfo> {
     }
   }
 
-  void setFamilyMemberValues(FriendsFamily selectFamily, ProfileCubit profileBloc) {
-    if (selectFamily.memberID == -121 &&
-        selectFamily.firstName == 'My') {
+  void setFamilyMemberValues(
+      FriendsFamily selectFamily, ProfileCubit profileBloc) {
+    if (selectFamily.memberID == -121 && selectFamily.firstName == 'My') {
       changeSetValue(
           keyName: firstNameKey,
-          value: profileBloc
-                  .state.profile?.userProfile?.firstName ??
-              '');
+          value: profileBloc.state.profile?.userProfile?.firstName ?? '');
       changeSetValue(
           keyName: lastNameKey,
-          value: profileBloc
-                  .state.profile?.userProfile?.lastName ??
-              '');
-      if (profileBloc.state.profile?.userProfile?.dob !=
-          null) {
+          value: profileBloc.state.profile?.userProfile?.lastName ?? '');
+      if (profileBloc.state.profile?.userProfile?.dob != null) {
         changeSetValue(
             keyName: dobKey,
-            value:
-                profileBloc.state.profile?.userProfile?.dob);
+            value: profileBloc.state.profile?.userProfile?.dob);
       }
 
-      defaultTitle =
-          profileBloc.state.profile?.userProfile?.title;
+      defaultTitle = profileBloc.state.profile?.userProfile?.title;
 
       changeSetValue(
           keyName: titleKey,
-          value:
-              profileBloc.state.profile?.userProfile?.title ??
-                  '');
-      if (profileBloc.state.profile?.userProfile?.memberID !=
-          null) {
+          value: profileBloc.state.profile?.userProfile?.title ?? '');
+      if (profileBloc.state.profile?.userProfile?.memberID != null) {
         changeSetValue(
             keyName: rewardKey,
-            value: profileBloc
-                .state.profile?.userProfile?.memberID
-                .toString());
+            value: profileBloc.state.profile?.userProfile?.memberID.toString());
       }
     } else {
       changeSetValue(
-          keyName: firstNameKey,
-          value: selectFamily.firstName ?? '');
-      changeSetValue(
-          keyName: lastNameKey,
-          value: selectFamily.lastName ?? '');
+          keyName: firstNameKey, value: selectFamily.firstName ?? '');
+      changeSetValue(keyName: lastNameKey, value: selectFamily.lastName ?? '');
 
       if (selectFamily.dobDate != null) {
-        changeSetValue(
-            keyName: dobKey, value: selectFamily.dobDate);
+        changeSetValue(keyName: dobKey, value: selectFamily.dobDate);
       }
 
-
       defaultTitle = selectFamily.title ?? '';
-      changeSetValue(
-          keyName: titleKey,
-          value: selectFamily.title ?? '');
+      changeSetValue(keyName: titleKey, value: selectFamily.title ?? '');
 
       if (selectFamily.memberID != null) {
         if (selectFamily.memberID == 0) {
         } else {
-          changeSetValue(
-              keyName: rewardKey,
-              value: selectFamily.memberID!);
+          changeSetValue(keyName: rewardKey, value: selectFamily.memberID!);
         }
       } else {}
     }
