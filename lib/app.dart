@@ -1,5 +1,4 @@
 import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/app/app_flavor.dart';
 import 'package:app/app/app_logger.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/airports/airports_cubit.dart';
@@ -25,7 +24,6 @@ import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
-import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -33,8 +31,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_insider/enum/InsiderCallbackAction.dart';
-import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -67,9 +63,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addObserver(this);
-    initInsider();
+    super.initState();
   }
 
   @override
@@ -78,34 +73,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  Future initInsider() async {
-    if (!mounted) return;
-    // Call in async method.
-    await FlutterInsider.Instance.init(AppFlavor.insiderPartnerName,AppFlavor.insiderAppGroup, userInsiderCallBack);
-    // This is an utility method, if you want to handle the push permission in iOS own your own you can omit the following method.
-    try{
-      await FlutterInsider.Instance.visitHomePage();
-    }catch(e){
-      logger.e(e);
-    }
-    FlutterInsider.Instance.registerWithQuietPermission(false);
-  }
-
-  userInsiderCallBack(int type, dynamic data) {
-    switch (type) {
-      case InsiderCallbackAction.NOTIFICATION_OPEN:
-        print("[INSIDER][NOTIFICATION_OPEN]: " + data.toString());
-        break;
-      case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
-        print("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: " + data.toString());
-        break;
-      default:
-        print("[INSIDER][InsiderCallbackAction]: Unregistered Action!");
-        break;
-    }
-  }
-
-    @override
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       try {
@@ -366,15 +334,6 @@ class MyObserver extends AutoRouterObserver {
   @override
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
     logger.d("change tab ${route.path}");
-    if(route.path == "deals"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.dealsPageView);
-    }
-    if(route.path == "bookings"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.bookingDetailsPageview);
-    }
-    if(route.path == "check-in"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.checkInStarted);
-    }
     FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
   }
 

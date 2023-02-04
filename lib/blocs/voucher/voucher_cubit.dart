@@ -4,11 +4,9 @@ import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/data/responses/voucher_response.dart';
 import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/error_utils.dart';
-import 'package:app/utils/user_insider.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_insider/flutter_insider.dart';
 
 import '../../data/requests/token_request.dart';
 import '../../data/responses/promotions_response.dart';
@@ -24,6 +22,7 @@ class VoucherCubit extends Cubit<VoucherState> {
   }
 
   getAvailablePromotions(String token) async {
+
     state.flightToken = token;
 
     final response = await _repository.getPromoInfo(Token(token: token));
@@ -54,14 +53,6 @@ class VoucherCubit extends Cubit<VoucherState> {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final response = await _repository.addVoucher(voucherRequest);
-      FlutterInsider.Instance.tagEvent(
-        InsiderConstants.promoCodeApplied,
-      )
-          .addParameterWithString(
-            "voucher_name",
-            voucherRequest.voucherPins.firstOrNull?.voucherCode ?? "",
-          )
-          .build();
       emit(
         state.copyWith(
           blocState: BlocState.finished,

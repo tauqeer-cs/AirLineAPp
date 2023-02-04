@@ -51,18 +51,15 @@ android {
             dimension "env"
             applicationIdSuffix ".dev"
             resValue "string", "app_name", "[DEV] MyAirline"
-            manifestPlaceholders = [partner:"myairlineuat"]
         }
         uat {
             dimension "env"
             applicationIdSuffix ".uat"
             resValue "string", "app_name", "[UAT] MyAirline"
-            manifestPlaceholders = [partner:"myairlineuat"]
         }
         prod {
             dimension "env"
             resValue "string", "app_name", "MyAirline"
-            manifestPlaceholders = [partner:"myairlineuat"]
         }
     }
 
@@ -105,11 +102,4 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-messaging:20.2.0'
-    implementation 'com.google.firebase:firebase-iid'
-    implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
-    implementation 'com.useinsider:insider:13.0.0'
-    implementation 'com.google.android.gms:play-services-ads:16.0.0'
 }
-
-apply plugin: 'com.google.gms.google-services'

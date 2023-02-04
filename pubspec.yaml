@@ -26,9 +26,8 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_custom_clippers: ^2.0.0
   flutter_html: ^3.0.0-alpha.6
-  flutter_insider: ^3.4.0+nh
   auto_size_text: ^3.0.0
-  flutter_inappwebview: ^5.7.2
+  flutter_inappwebview: ^5.7.2+3
   flutter_screenutil: ^5.3.1
   flutter_secure_storage: ^5.0.2
   flutter_form_builder: ^7.5.0

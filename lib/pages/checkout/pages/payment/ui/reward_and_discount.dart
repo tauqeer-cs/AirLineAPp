@@ -150,6 +150,7 @@ class RewardAndDiscount extends StatelessWidget {
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
                           hintText: "PIN",
+
                           border: InputBorder.none,
                           disabledBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
@@ -195,8 +196,7 @@ class RewardAndDiscount extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: state.blocState == BlocState.loading ||
-                      bookingState.superPnrNo != null ||
-                      (state.appliedVoucher?.isNotEmpty ?? false)
+                      bookingState.superPnrNo != null || (state.appliedVoucher?.isNotEmpty ?? false)
                   ? null
                   : () {
                       if (_fbKey.currentState!.saveAndValidate()) {
@@ -235,9 +235,7 @@ class RewardAndDiscount extends StatelessWidget {
                       size: 25,
                       color: Colors.white,
                     )
-                  : state.insertedVoucher != null
-                      ? const Text("Applied")
-                      : const Text("Apply"),
+                  : state.insertedVoucher!=null ? const Text("Apply") : const Text("Apply"),
             ),
           ],
         ),
