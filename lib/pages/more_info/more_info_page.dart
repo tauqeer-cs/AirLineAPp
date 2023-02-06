@@ -53,9 +53,10 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PdfViewer(
+                                builder: (context) => const PdfViewer(
                                   title: 'Conditions of Carriage',
-                                  fileName: 'myairline-terms-conditions-of-carriage-final',
+                                  fileName: 'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
+                                  pdfIsLink: true,
                                 ),
                               ),
                             );
@@ -77,9 +78,10 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PdfViewer(
+                                builder: (context) => const PdfViewer(
                                   title: 'Privacy Policy',
-                                  fileName: 'myairline_privacy-policy',
+                                  fileName: 'https://myacontents.blob.core.windows.net/myacontents/odxgmbdo/myairline_privacy-policy.pdf',
+                                  pdfIsLink: true,
                                 ),
                               ),
                             );
@@ -101,9 +103,10 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PdfViewer(
+                                builder: (context) => const PdfViewer(
                                   title: 'Terms of Use',
-                                  fileName: 'myairline_term-of-use_final',
+                                  fileName: 'https://myacontents.blob.core.windows.net/myacontents/kbyjsapq/myairline_term-of-use_final.pdf',
+                                  pdfIsLink: true,
                                 ),
                               ),
                             );
