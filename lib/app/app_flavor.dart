@@ -1,5 +1,3 @@
-import 'dart:io';
-
 enum Flavor {
   staging,
   uat,
@@ -9,7 +7,6 @@ enum Flavor {
 /// The flavor to handle different kind of environment dev, staging, production
 class AppFlavor {
   static Flavor appFlavor = Flavor.staging;
-
   static String get title {
     switch (appFlavor) {
       case Flavor.staging:
@@ -20,6 +17,7 @@ class AppFlavor {
         return 'MyAirline';
     }
   }
+
 
   static String get paymentRedirectUrl {
     switch (appFlavor) {
@@ -42,13 +40,12 @@ class AppFlavor {
         return 'https://mybooking.myairline.my';
     }
   }
-
   static String get baseUrlCMS {
     switch (appFlavor) {
       case Flavor.staging:
         return 'https://mya-cms.alphareds.com/';
       case Flavor.uat:
-       return 'https://uat-cms.myairline.my/';
+        return 'https://uat-cms.myairline.my/';
       default:
         return 'https://cms.myairline.my/';
     }
@@ -59,7 +56,7 @@ class AppFlavor {
       case Flavor.staging:
         return 'https://mya-api.alphareds.com/api/mobile/';
       case Flavor.uat:
-       return 'https://uat-api.myairline.my/api/mobile/';
+        return 'https://uat-api.myairline.my/api/mobile/';
       default:
         return 'https://api.myairline.my/api/mobile/';
     }
@@ -84,29 +81,6 @@ class AppFlavor {
         return 'recommendedVersionUat';
       default:
         return 'recommendedVersion';
-    }
-  }
-
-  static String get insiderPartnerName {
-    switch (appFlavor) {
-      case Flavor.staging:
-        return 'myairlineuat';
-      case Flavor.uat:
-        return 'myairlineuat';
-      default:
-        return 'myairlineuat';
-    }
-  }
-
-  static String get insiderAppGroup {
-    final isAndroid = Platform.isAndroid;
-    switch (appFlavor) {
-      case Flavor.staging:
-        return isAndroid ? '' : 'group.com.myairline.mobileapp';
-      case Flavor.uat:
-        return isAndroid ? '' : 'group.com.myairline.mobileapp';
-      default:
-        return isAndroid ? '' : 'group.com.myairline.mobileapp';
     }
   }
 }

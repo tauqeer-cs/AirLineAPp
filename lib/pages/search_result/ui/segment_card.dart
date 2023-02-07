@@ -5,7 +5,6 @@ import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
-import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -152,18 +151,8 @@ class SegmentCard extends StatelessWidget {
                         .read<SummaryContainerCubit>()
                         .changeVisibility(true);
                     if (isDeparture) {
-                      UserInsider.of(context).registerEventWithParameterProduct(
-                        InsiderConstants.flightSelected,
-                        aircraft: segment.segmentDetail?.aircraftDescription,
-                        flightNumber: segment.segmentDetail?.flightNum,
-                      );
                       context.read<BookingCubit>().selectDeparture(segment);
                     } else {
-                      UserInsider.of(context).registerEventWithParameterProduct(
-                        InsiderConstants.flightSelected,
-                        aircraft: segment.segmentDetail?.aircraftDescription,
-                        flightNumber: segment.segmentDetail?.flightNum,
-                      );
                       context.read<BookingCubit>().selectReturn(segment);
                     }
                   },

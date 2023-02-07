@@ -97,7 +97,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 AppInputText(
                   name: formNameCompanyName,
                   initialValue: name,
-                  hintText: "Company",
+                  hintText: "Company Name",
                   onChanged: (value) {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;

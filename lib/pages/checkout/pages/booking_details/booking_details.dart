@@ -13,7 +13,6 @@ import 'package:app/pages/auth/ui/login_form.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
-import 'package:app/utils/user_insider.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
@@ -48,9 +47,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     if (!isLoggedIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
     }
-    UserInsider.of(context).registerStandardEvent(
-      InsiderConstants.bookingDetailsPageview,
-    );
     temporarySummaryRequest();
   }
 

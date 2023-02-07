@@ -71,6 +71,7 @@ class FilterCubit extends Cubit<FilterState> {
   }
 
   updateDestinationAirport(Airports? destination) {
+
     emit(state.copyWith(destination: destination,promoCode: state.promoCode));
   }
 

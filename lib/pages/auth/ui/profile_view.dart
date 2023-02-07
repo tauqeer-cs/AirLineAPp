@@ -89,6 +89,12 @@ class ProfileView extends StatelessWidget {
                               "MYReward Membership #${state.profile?.userProfile?.memberID ?? ''}",
                               style: kMediumSemiBold,
                             ),
+                            if(state.profile?.userProfile?.memberPoint != null) ... [
+                              Text(
+                                "${state.profile?.userProfile?.memberPoint ?? 0} pts",
+                                style: kGiantMedium,
+                              ),
+                            ],
                           ],
                         ),
                       ),
@@ -195,6 +201,18 @@ class ProfileView extends StatelessWidget {
                                             },
                                           ),
                                         ],
+
+                                        ProfileBoxButton(
+                                          text: 'More\nInformation',
+                                          imageName: 'iconMoreInfo',
+                                          onTap: () {
+                                            //Page
+                                            context.router.push(
+                                              const MoreOptionsRoute(),
+                                            );
+                                          },
+                                        ),
+
 
 
 

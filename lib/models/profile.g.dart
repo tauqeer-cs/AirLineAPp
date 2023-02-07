@@ -171,6 +171,7 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       memberCards: (json['memberCards'] as List<dynamic>?)
           ?.map((e) => MemberCard.fromJson(e as Map<String, dynamic>))
           .toList(),
+      memberPoint: json['memberPoint'] as int?,
     );
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
@@ -195,6 +196,7 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('state', instance.state);
   writeNotNull('postCode', instance.postCode);
   writeNotNull('email', instance.email);
+  writeNotNull('memberPoint', instance.memberPoint);
   writeNotNull('emergencyContact', instance.emergencyContact?.toJson());
   writeNotNull('country', instance.country);
   writeNotNull('memberID', instance.memberID);

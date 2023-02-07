@@ -39,6 +39,8 @@ class UserProfile extends Equatable {
   final String? state;
   final String? postCode;
   final String? email;
+  final int? memberPoint;
+
 
   String? get emailShow {
     if (email == null) {
@@ -76,6 +78,7 @@ class UserProfile extends Equatable {
      String? referralBy,
      List<FriendsFamily>? friendsAndFamily,
      List<MemberCard>? memberCards,
+    int? memberPoint,
   }) {
     return UserProfile(
       title: title ?? this.title,
@@ -98,6 +101,8 @@ class UserProfile extends Equatable {
       referralBy: referralBy ?? this.referralBy,
       friendsAndFamily : friendsAndFamily ?? this.friendsAndFamily,
       memberCards : memberCards ?? this.memberCards,
+      memberPoint : memberPoint ?? this.memberPoint,
+
     );
   }
 
@@ -122,6 +127,7 @@ class UserProfile extends Equatable {
     this.emergencyContact,
     this.friendsAndFamily,
     this.memberCards,
+    this.memberPoint
   });
 
   @override
@@ -145,7 +151,8 @@ class UserProfile extends Equatable {
         emergencyContact,
         email,
         friendsAndFamily,
-        memberCards
+        memberCards,
+    memberPoint
       ];
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>
