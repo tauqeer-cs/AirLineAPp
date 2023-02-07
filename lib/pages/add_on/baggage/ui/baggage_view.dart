@@ -10,9 +10,11 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 
 class BaggageView extends StatefulWidget {
   final bool isDeparture;
@@ -155,6 +157,7 @@ class ContinueButton extends StatelessWidget {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(BaggageRoute(isDeparture: false));
         } else {
+          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
           context.router.push(const BookingDetailsRoute());
         }
       },
