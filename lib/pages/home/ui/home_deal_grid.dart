@@ -3,6 +3,7 @@ import 'package:app/models/airports.dart';
 import 'package:app/models/home_content.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:auto_route/auto_route.dart';
@@ -45,6 +46,9 @@ class HomeDealGrid extends StatelessWidget {
                 context
                     .read<FilterCubit>()
                     .updateDestinationAirport(to ?? Airports(code: e.to));
+                UserInsider.of(context).registerEventWithParameterProduct(
+                  InsiderConstants.promotionSearchFlightButtonClicked,
+                );
                 final tabsRouter = AutoTabsRouter.of(context);
                 tabsRouter.setActiveIndex(0);
                 //context.router.push(WebViewRoute(url: e.link ?? ""));

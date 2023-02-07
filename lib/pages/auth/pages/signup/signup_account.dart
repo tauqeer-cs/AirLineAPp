@@ -9,11 +9,13 @@ import 'package:app/pages/auth/pages/signup/ui/name_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/password_input.dart';
 import 'package:app/pages/auth/pages/signup/ui/signup_container.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 
 class SignupAccountPage extends StatefulWidget {
   const SignupAccountPage({Key? key}) : super(key: key);
@@ -49,6 +51,7 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
   @override
   void initState() {
     super.initState();
+    UserInsider.of(context).registerStandardEvent(InsiderConstants.registrationStarted);
     focusNodeEmail = FocusNode();
     focusNodeEmail.addListener(() {
       if (!focusNodeEmail.hasFocus) {
