@@ -18,7 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'data/repositories/auth_repository.dart';
 import 'firebase_options.dart';
 
-main() {
+main() async {
   AppFlavor.appFlavor = Flavor.staging;
   run();
 }
@@ -26,13 +26,14 @@ main() {
 void run() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: AppFlavor.firebaseOptions,
   );
   if (Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
   await Hive.initFlutter();
-  Hive.registerAdapter<FlightSummaryPnrRequest>(FlightSummaryPnrRequestAdapter());
+  Hive.registerAdapter<FlightSummaryPnrRequest>(
+      FlightSummaryPnrRequestAdapter());
   Hive.registerAdapter<CompanyTaxInvoice>(CompanyTaxInvoiceAdapter());
   Hive.registerAdapter<EmergencyContact>(EmergencyContactAdapter());
   Hive.registerAdapter<Passenger>(PassengerAdapter());

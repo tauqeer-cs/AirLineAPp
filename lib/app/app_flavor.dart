@@ -1,5 +1,11 @@
 import 'dart:io';
 
+import 'package:app/firebase/dev/firebase_options.dart' as staging;
+import 'package:app/firebase/uat/firebase_options.dart' as uat;
+import 'package:app/firebase_options.dart' as production;
+
+import 'package:firebase_core/firebase_core.dart';
+
 enum Flavor {
   staging,
   uat,
@@ -18,6 +24,17 @@ class AppFlavor {
         return 'MyAirline - UAT';
       default:
         return 'MyAirline';
+    }
+  }
+
+  static FirebaseOptions get firebaseOptions {
+    switch (appFlavor) {
+      case Flavor.staging:
+        return staging.DefaultFirebaseOptions.currentPlatform;
+      case Flavor.uat:
+        return uat.DefaultFirebaseOptions.currentPlatform;
+      default:
+        return production.DefaultFirebaseOptions.currentPlatform;
     }
   }
 

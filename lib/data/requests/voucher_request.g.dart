@@ -200,10 +200,7 @@ Map<String, dynamic> _$VoucherRequestToJson(VoucherRequest instance) {
 
   writeNotNull('token', instance.token);
   writeNotNull('InsertVoucher', instance.insertVoucher);
-
-  if(instance.voucherPins.isNotEmpty) {
-    val['InsertVoucherPIN'] = instance.voucherPins;
-  }
+  val['InsertVoucherPIN'] = instance.voucherPins;
   return val;
 }
 
