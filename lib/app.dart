@@ -92,6 +92,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   userInsiderCallBack(int type, dynamic data) {
+    print("type is $type");
     switch (type) {
       case InsiderCallbackAction.NOTIFICATION_OPEN:
         print("[INSIDER][NOTIFICATION_OPEN]: " + data.toString());
