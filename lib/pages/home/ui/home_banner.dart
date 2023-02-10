@@ -23,12 +23,13 @@ class HomeBanner extends StatelessWidget {
             aspectRatio: 393 / 185,
             showIndicator: true,
             infiniteScroll: true,
-            autoPlay: (content.items ?? []).length>1,
+            autoPlay: (content.items ?? []).length > 1,
             items: (content.items ?? [])
                 .map(
                   (e) => InkWell(
                     onTap: () {
-                      context.router.push(WebViewRoute(url: e.link ?? ""));
+                      context.router.push(WebViewRoute(url: e.link ?? "",title: e.name ?? 'Promotion'));
+
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
