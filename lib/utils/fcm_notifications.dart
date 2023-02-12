@@ -117,6 +117,8 @@ void showFlutterNotification(RemoteMessage message) async {
           importance: Importance.max,
           priority: Priority.high,
           styleInformation: bigPictureStyleInformation,
+          icon: 'ic_notif',
+          largeIcon: const DrawableResourceAndroidBitmap('ic_notif'),
         ),
       ),
       payload: jsonEncode(message.data),
