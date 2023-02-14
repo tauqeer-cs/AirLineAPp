@@ -91,7 +91,7 @@ class AuthenticationRepository {
     final user = await _provider.emailLogin(loginRequest);
     if(user.isAccountVerified ?? false){
       storeAccessToken(user.token);
-      insiderRepository.loginUser(user);
+      //insiderRepository.loginUser(user);
       setCurrentUser(user);
     }else{
       sendEmail(ResendEmailRequest(email: user.email));
@@ -193,6 +193,8 @@ class AuthenticationRepository {
     disconnectGoogleAccount();
     deleteAccessToken();
     deleteCurrentUser();
+    insiderRepository.logoutUser();
+
   }
 
   Future<void> disconnectGoogleAccount() async {

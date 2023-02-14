@@ -375,6 +375,7 @@ class MyObserver extends AutoRouterObserver {
   void checkInsiderEvent(TabPageRoute route) {
     if(route.path == "deals"){
       UserInsider.instance.registerStandardEvent(InsiderConstants.dealsPageView);
+      UserInsider.instance.registerStandardEvent(InsiderConstants.promotionListingPageView);
     }
     if(route.path == "bookings"){
       UserInsider.instance.registerStandardEvent(InsiderConstants.manageBookingPageView);

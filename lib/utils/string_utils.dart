@@ -82,4 +82,8 @@ extension StringNullExtension on String? {
     if (this?.isEmpty ?? true) return null;
     return this;
   }
+
+  String get setNoneIfNullOrEmpty{
+    return nullIfEmpty ?? "none";
+  }
 }

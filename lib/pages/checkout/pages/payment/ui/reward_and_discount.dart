@@ -3,19 +3,15 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/settings/settings_cubit.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/requests/voucher_request.dart';
-import 'package:flutter_insider/src/product.dart';
-
 import 'package:app/pages/checkout/pages/payment/ui/redeem_voucher.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
-import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_insider/flutter_insider.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../../data/responses/promotions_response.dart';
@@ -68,7 +64,7 @@ class RewardAndDiscount extends StatelessWidget {
                   name: "voucherCode",
                   validator: FormBuilderValidators.required(),
                   style: const TextStyle(fontSize: 14),
-                  readOnly: bookingState.superPnrNo != null && false,
+                  readOnly: bookingState.superPnrNo != null,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: "Voucher Code",
@@ -198,18 +194,13 @@ class RewardAndDiscount extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: (state.blocState == BlocState.loading ||
-                          bookingState.superPnrNo != null ||
-                          (state.appliedVoucher?.isNotEmpty ?? false)) &&
-                      false
+              onPressed: state.blocState == BlocState.loading ||
+                      bookingState.superPnrNo != null ||
+                      (state.appliedVoucher?.isNotEmpty ?? false)
                   ? null
                   : () {
                       if (_fbKey.currentState!.saveAndValidate()) {
                         if (ConstantUtils.showPinInVoucher) {
-                          print("add to cart");
-                          FlutterInsider.Instance.itemAddedToCart(
-                              UserInsider.of(context).generateProduct());
-
                           final value = _fbKey.currentState!.value;
                           final voucher = value["voucherCode"];
                           final pin = value["voucherPin"];
@@ -225,21 +216,7 @@ class RewardAndDiscount extends StatelessWidget {
                           context
                               .read<VoucherCubit>()
                               .addVoucher(voucherRequest);
-                          FlutterInsider.Instance.itemAddedToCart(
-                              UserInsider.of(context).generateProduct());
                         } else {
-                          print("add to cart");
-                          FlutterInsiderProduct appInsiderProduct =
-                              UserInsider.of(context).generateProduct();
-                          FlutterInsider.Instance.itemAddedToCart(
-                              appInsiderProduct);
-                          FlutterInsider.Instance.visitProductDetailPage(
-                              appInsiderProduct);
-                          print(
-                              "add to cart ${UserInsider.of(context).generateProduct().productMustMap}");
-                          print(
-                              "add to cart ${UserInsider.of(context).generateProduct().productOptMap}");
-
                           final value = _fbKey.currentState!.value;
                           final voucher = value["voucherCode"];
                           final token = bookingState.verifyResponse?.token;

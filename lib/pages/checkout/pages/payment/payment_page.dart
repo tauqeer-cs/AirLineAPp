@@ -35,6 +35,8 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
+    FlutterInsider.Instance.visitCartPage([UserInsider.of(context).generateProduct()]);
+
     context.read<VoucherCubit>().resetState();
   }
 

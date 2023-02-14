@@ -2,6 +2,8 @@ import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/models/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_insider/flutter_insider.dart';
+import 'package:flutter_insider/src/user.dart';
 
 import '../../../theme/theme.dart';
 
@@ -94,6 +96,9 @@ class _SettingsViewState extends State<SettingsView> {
           ElevatedButton(
             onPressed: (){
               context.read<ProfileCubit>().updatePreferences(communicationPreferences);
+              FlutterInsiderUser? currentUser = FlutterInsider.Instance.getCurrentUser();
+              currentUser?.setEmailOptin(communicationPreferences.email ?? false);
+
             },
             child: const Text("Save"),
           ),

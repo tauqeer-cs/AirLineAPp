@@ -1,6 +1,7 @@
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/profile_provider.dart';
+import 'package:app/data/repositories/insider_repository.dart';
 import 'package:app/data/responses/common_response.dart';
 
 import '../../models/profile.dart';
@@ -10,6 +11,7 @@ import '../requests/update_friends_family.dart';
 
 class ProfileRepository {
   static final ProfileRepository _instance = ProfileRepository._internal();
+  final InsiderRepository insiderRepository = InsiderRepository();
 
   static final  _provider = ProfileProvider(
     Api.client,
@@ -26,7 +28,11 @@ class ProfileRepository {
 
 
   Future<Profile> getProfile() async {
-    return await _provider.getProfile();
+    final profile = await _provider.getProfile();
+    if(profile.userProfile!=null){
+      insiderRepository.loginProfile(profile.userProfile!);
+    }
+    return profile;
   }
 
   Future<CommonResponse> updateProfile(Profile profile) async {

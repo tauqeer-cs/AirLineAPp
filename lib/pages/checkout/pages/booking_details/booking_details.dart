@@ -22,6 +22,7 @@ import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     if (!isLoggedIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
     }
-
+    FlutterInsider.Instance.itemAddedToCart(UserInsider.of(context).generateProduct());
     UserInsider.of(context).registerPurchasedAddOn();
     temporarySummaryRequest();
   }
