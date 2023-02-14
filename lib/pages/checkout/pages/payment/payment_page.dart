@@ -7,6 +7,7 @@ import 'package:app/blocs/timer/timer_bloc.dart';
 import 'package:app/models/booking_local.dart';
 import 'package:app/pages/checkout/pages/payment/bloc/payment_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/payment_view.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
@@ -35,7 +36,8 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     super.initState();
-    FlutterInsider.Instance.visitCartPage([UserInsider.of(context).generateProduct()]);
+    FlutterInsider.Instance.visitCartPage(
+        [UserInsider.of(context).generateProduct()]);
 
     context.read<VoucherCubit>().resetState();
   }
@@ -107,7 +109,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                     .add(const Duration(seconds: 900)),
                               ),
                             );
-                        FlutterInsider.Instance.visitCartPage([UserInsider.of(context).generateProduct()]);
+                        FlutterInsider.Instance.visitCartPage(
+                            [UserInsider.of(context).generateProduct()]);
 
                         final result = await context.router.push(
                           WebViewRoute(
@@ -134,7 +137,12 @@ class _PaymentPageState extends State<PaymentPage> {
                               context
                                   .read<BookingLocalCubit>()
                                   .saveBooking(bookingLocal);
+                              FlutterInsider.Instance.itemPurchased(
+                                superPNR.setNoneIfNullOrEmpty,
+                                UserInsider.of(context).generateProduct(),
+                              );
                             }
+
                             //context.router.popUntilRoot();
                             context.router.replaceAll([
                               const NavigationRoute(),
