@@ -42,8 +42,6 @@ class ConfirmationBaggage extends StatelessWidget {
         hideView = true;
       }
 
-      print('');
-
     }
     else if(isInsurance){
 

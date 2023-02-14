@@ -64,12 +64,10 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kVerticalSpacer,
-
                     BlocProvider(
                       create: (context) => IsPaymentPageCubit(false),
                       child: const FeeAndTaxes(isDeparture: true),
                     ),
-
                     Visibility(
                       visible: booking.selectedReturn != null,
                       child: BlocProvider(

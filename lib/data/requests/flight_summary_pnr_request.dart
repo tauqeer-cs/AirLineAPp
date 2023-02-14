@@ -389,10 +389,7 @@ class Passenger extends HiveObject with EquatableMixin {
       PeopleType.values.firstWhereOrNull((element) => element.code == paxType);
 
   void setInsuranceWith(Bundle first) {
-
     this.ssr!.outbound!.add(first.toBound(isInsurance: true));
-
-    print('object');
 
   }
 }

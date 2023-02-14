@@ -50,9 +50,6 @@ class FeeAndTaxesDetail extends StatelessWidget {
 
         discountTotal = a! - b!;
 
-        print('');
-
-        print('discountTotal');
       }
     }
 

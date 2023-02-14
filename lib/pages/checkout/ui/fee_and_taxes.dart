@@ -40,7 +40,6 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
 
     if(filter?.promoCode != null && discountPercent != null && (discountPercent > 0) ) {
 
-      print('discountTotal');
 
     }
 

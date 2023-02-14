@@ -92,16 +92,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   userInsiderCallBack(int type, dynamic data) {
-    print("type is $type");
     switch (type) {
       case InsiderCallbackAction.NOTIFICATION_OPEN:
-        print("[INSIDER][NOTIFICATION_OPEN]: " + data.toString());
+        logger.d("[INSIDER][NOTIFICATION_OPEN]: $data");
         break;
       case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
-        print("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: " + data.toString());
+        logger.d("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: $data");
         break;
       default:
-        print("[INSIDER][InsiderCallbackAction]: Unregistered Action!");
+        logger.d("[INSIDER][InsiderCallbackAction]: Unregistered Action!");
         break;
     }
   }
@@ -361,22 +360,28 @@ class MyObserver extends AutoRouterObserver {
   @override
   void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
     logger.d("init tab ${route.path}");
+    checkInsiderEvent(route);
     FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
   }
 
   @override
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
     logger.d("change tab ${route.path}");
+    checkInsiderEvent(route);
+    FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
+  }
+
+  void checkInsiderEvent(TabPageRoute route) {
     if(route.path == "deals"){
       UserInsider.instance.registerStandardEvent(InsiderConstants.dealsPageView);
+      UserInsider.instance.registerStandardEvent(InsiderConstants.promotionListingPageView);
     }
     if(route.path == "bookings"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.bookingDetailsPageview);
+      UserInsider.instance.registerStandardEvent(InsiderConstants.manageBookingPageView);
     }
     if(route.path == "check-in"){
       UserInsider.instance.registerStandardEvent(InsiderConstants.checkInStarted);
     }
-    FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
   }
 
   @override

@@ -1,11 +1,12 @@
 part of 'booking_cubit.dart';
 
+
+
 @CopyWith(copyWithNull: true)
 class BookingState extends Equatable {
   final BlocState blocState;
   final String message;
   final String? superPnrNo;
-
   final InboundOutboundSegment? selectedDeparture;
   final InboundOutboundSegment? selectedReturn;
   final bool isVerify;

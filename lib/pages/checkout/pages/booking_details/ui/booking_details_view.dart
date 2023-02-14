@@ -106,14 +106,10 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         FormBuilder(
           //autoFocusOnValidationFailure: true,
           onChanged: () {
-
-
             if (BookingDetailsView.fbKey.currentState!.validate()) {
-
               setState(() {
                 isValid = true;
               });
-
             } else {
               setState(() {
                 isValid = false;
@@ -354,7 +350,12 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         final filledPassenger = passenger.copyWith(
           firstName: value["${person.toString()}$formNameFirstName"],
           lastName: value["${person.toString()}$formNameLastName"],
-          mYRewardMemberID: value["${person.toString()}$formNameMYRewardId"],
+          mYRewardMemberID: (value["${person.toString()}$formNameMYRewardId"]
+                          as String?)
+                      ?.isEmpty ??
+                  true
+              ? null
+              : (value["${person.toString()}$formNameMYRewardId"] as String?),
           title: (value["${person.toString()}$formNameTitle"] as String?)
               ?.toUpperCase(),
           nationality: value["${person.toString()}$formNameNationality"],

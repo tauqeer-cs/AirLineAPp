@@ -24,7 +24,6 @@ class SubmitSearch extends StatelessWidget {
                 UserInsider.of(context).registerStandardEvent(
                   InsiderConstants.searchFlightButtonClicked,
                 );
-
                 context.router
                     .push(SearchResultRoute(showLoginDialog: isHomePage));
               } else {
