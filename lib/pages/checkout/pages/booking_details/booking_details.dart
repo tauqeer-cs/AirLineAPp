@@ -48,9 +48,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     if (!isLoggedIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
     }
-    UserInsider.of(context).registerStandardEvent(
-      InsiderConstants.bookingDetailsPageview,
-    );
+
+    UserInsider.of(context).registerPurchasedAddOn();
     temporarySummaryRequest();
   }
 

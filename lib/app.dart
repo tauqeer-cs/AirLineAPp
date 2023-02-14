@@ -361,22 +361,27 @@ class MyObserver extends AutoRouterObserver {
   @override
   void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
     logger.d("init tab ${route.path}");
+    checkInsiderEvent(route);
     FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
   }
 
   @override
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
     logger.d("change tab ${route.path}");
+    checkInsiderEvent(route);
+    FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
+  }
+
+  void checkInsiderEvent(TabPageRoute route) {
     if(route.path == "deals"){
       UserInsider.instance.registerStandardEvent(InsiderConstants.dealsPageView);
     }
     if(route.path == "bookings"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.bookingDetailsPageview);
+      UserInsider.instance.registerStandardEvent(InsiderConstants.manageBookingPageView);
     }
     if(route.path == "check-in"){
       UserInsider.instance.registerStandardEvent(InsiderConstants.checkInStarted);
     }
-    FirebaseAnalytics.instance.setCurrentScreen(screenName: route.path);
   }
 
   @override

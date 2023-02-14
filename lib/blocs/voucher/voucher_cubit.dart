@@ -53,13 +53,16 @@ class VoucherCubit extends Cubit<VoucherState> {
   addVoucher(VoucherRequest voucherRequest) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
+
       final response = await _repository.addVoucher(voucherRequest);
       FlutterInsider.Instance.tagEvent(
         InsiderConstants.promoCodeApplied,
       )
           .addParameterWithString(
             "voucher_name",
-            voucherRequest.voucherPins.firstOrNull?.voucherCode ?? "",
+            voucherRequest.voucherPins.firstOrNull?.voucherCode ??
+                voucherRequest.insertVoucher ??
+                "",
           )
           .build();
       emit(

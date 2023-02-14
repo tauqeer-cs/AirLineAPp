@@ -1,4 +1,5 @@
 import 'package:app/models/user.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_insider/src/user.dart';
 import 'package:flutter_insider/src/product.dart';
@@ -21,9 +22,9 @@ class InsiderRepository {
   loginUser(User user) async{
     FlutterInsiderUser? currentUser = FlutterInsider.Instance.getCurrentUser();
     FlutterInsiderIdentifiers identifiers = FlutterInsiderIdentifiers();
-    identifiers.addEmail(user.email ?? "");
-    identifiers.addPhoneNumber("+${user.contactNo}");
-    identifiers.addUserID(user.uuid ?? "");
+    identifiers.addEmail(user.email.nullIfEmpty ?? "");
+    identifiers.addPhoneNumber("+${user.contactNo.nullIfEmpty ?? "00000"}");
+    identifiers.addUserID(user.uuid.nullIfEmpty ?? "");
     await currentUser?.login(identifiers, insiderIDResult: (insiderID) {
       print("[INSIDER][login][insiderIDResult]:" + insiderID);
     });
