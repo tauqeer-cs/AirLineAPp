@@ -8,7 +8,9 @@ import Flutter
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate  {
-    
+
+    let appGroupUat = "group.com.myairline.mobileapp.uat"
+
     let appGroup = "group.com.myairline.mobileapp.uat"
 
     
@@ -19,10 +21,16 @@ import Flutter
     
       UNUserNotificationCenter.current().delegate = self
 
-      //insider api key 9NSEqzLBz0quco87ih2AwhG0IUV7suyj
+      if let bundleIdentifier = Bundle.main.bundleIdentifier {
+          print("Bundle Identifier: \(bundleIdentifier)")
+          Insider.initWithLaunchOptions(launchOptions, partnerName: bundleIdentifier == "com.myairline.mobileapp.uat" ? "myairlineuat" : "myairline" , appGroup: appGroup)
+          Insider.register(withQuietPermission: false)
+          
+          
+          
+      }
       
-      Insider.initWithLaunchOptions(launchOptions, partnerName: "myairlineuat", appGroup: appGroup)
-      Insider.register(withQuietPermission: false)
+      //insider api key 9NSEqzLBz0quco87ih2AwhG0IUV7suyj
       
       
       GeneratedPluginRegistrant.register(with: self)
