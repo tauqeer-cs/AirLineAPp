@@ -156,9 +156,7 @@ class FriendsFamilyView extends StatelessWidget {
                   onPressed: () async {
                     FriendsFamilyAdd? response =
                         await showAddFamilyDialog(context);
-
                     if (response != null) {
-                      print('Not Null');
                       bloc.addFamilyMember(response);
                     }
                     //Navigator.pop(context);

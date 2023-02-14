@@ -76,20 +76,13 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
     super.didChangeDependencies();
 
     if(widget.isEditing) {
-
       setTitle();
-
-      print('');
-
     }
-
   }
 
   @override
   void initState() {
     super.initState();
-
-    print('');
 
     if(widget.isEditing) {
       firstNameTextController.text = widget.familyMember?.firstName ?? '';
@@ -104,8 +97,6 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
         memberTextController.text =  widget.familyMember!.memberID!.toString();
 
       }
-      print('');
-
     }
 
   }

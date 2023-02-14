@@ -111,7 +111,7 @@ class AppFlavor {
       case Flavor.uat:
         return 'myairlineuat';
       default:
-        return 'myairlineuat';
+        return 'myairline';
     }
   }
 

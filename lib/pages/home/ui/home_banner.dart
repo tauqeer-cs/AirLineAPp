@@ -1,5 +1,6 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/models/home_content.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_image_carousel.dart';
@@ -35,11 +36,12 @@ class HomeBanner extends StatelessWidget {
                       )
                           .addParameterWithString(
                             "promotion_title",
-                            e.title ?? "",
+                            e.name.setNoneIfNullOrEmpty,
                           )
                           .build();
 
-                      context.router.push(WebViewRoute(url: e.link ?? "",title: e.name ?? 'Promotion'));
+                      context.router.push(WebViewRoute(
+                          url: e.link ?? "", title: e.name ?? 'Promotion'));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),

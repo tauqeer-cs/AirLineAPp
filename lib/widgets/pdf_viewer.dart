@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/app/app_logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -101,19 +102,14 @@ class _PdfViewerState extends State<PdfViewer> {
 
   Future<File> createFileOfPdfUrl() async {
     Completer<File> completer = Completer();
-    print("Start download file from internet!");
     try {
-
       var url = widget.fileName;
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
       var dir = await getApplicationDocumentsDirectory();
-      print("Download files");
-      print("${dir.path}/$filename");
       File file = File("${dir.path}/$filename");
-
       await file.writeAsBytes(bytes, flush: true);
       completer.complete(file);
     } catch (e) {
@@ -144,7 +140,7 @@ class _PdfViewerState extends State<PdfViewer> {
         onRender: (pages) {},
         onError: (error) {},
         onPageError: (page, error) {
-          print('$page: ${error.toString()}');
+          logger.e('$page: ${error.toString()}');
         },
       );
     }
@@ -157,7 +153,8 @@ class _PdfViewerState extends State<PdfViewer> {
             onRender: (pages) {},
             onError: (error) {},
             onPageError: (page, error) {
-              print('$page: ${error.toString()}');
+
+              logger.e('$page: ${error.toString()}');
             },
           );
   }
