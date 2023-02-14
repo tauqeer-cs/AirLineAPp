@@ -194,8 +194,6 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     state.filterState!.numberPerson.persons[i] = state
         .filterState!.numberPerson.persons[i]
         .copyWith(insurance: insurance);
-
-    print('object');
   }
 
   void removeInsuranceAll() {

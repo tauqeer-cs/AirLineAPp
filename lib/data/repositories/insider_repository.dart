@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/app/app_logger.dart';
 import 'package:app/models/profile.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/string_utils.dart';
@@ -27,8 +28,8 @@ class InsiderRepository {
     FlutterInsiderIdentifiers identifiers = FlutterInsiderIdentifiers();
     identifiers.addEmail(user.email.nullIfEmpty ?? "none");
     await currentUser?.login(identifiers, insiderIDResult: (insiderID) {
-      print("[INSIDER][login][insiderIDResult]:" + insiderID);
-      print("identifiers is ${identifiers.identifiers}");
+      logger.d("[INSIDER][login][insiderIDResult]:" + insiderID);
+      logger.d("identifiers is ${identifiers.identifiers}");
     });
   }
 
@@ -50,9 +51,9 @@ class InsiderRepository {
     currentUser?.setCustomAttributeWithString("State", user.state.setNoneIfNullOrEmpty);
     currentUser?.setCustomAttributeWithString("City", user.city.setNoneIfNullOrEmpty);
     await currentUser?.login(identifiers, insiderIDResult: (insiderID) async{
-      print("[INSIDER][login][insiderIDResult]:" + insiderID);
+      logger.d('[INSIDER][login][insiderIDResult]: $insiderID');
       final map = await identifiers.getIdentifiers();
-      print("identifiers is $map");
+      logger.d("identifiers is $map");
     });
     isLoggedIn = true;
   }

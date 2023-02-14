@@ -31,7 +31,6 @@ class HomeBanner extends StatelessWidget {
                 .map(
                   (e) => InkWell(
                     onTap: () {
-                      print("see webview ${e.name.setNoneIfNullOrEmpty}");
                       FlutterInsider.Instance.tagEvent(
                         InsiderConstants.promotionDetailPageView,
                       )

@@ -92,16 +92,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   userInsiderCallBack(int type, dynamic data) {
-    print("type is $type");
     switch (type) {
       case InsiderCallbackAction.NOTIFICATION_OPEN:
-        print("[INSIDER][NOTIFICATION_OPEN]: " + data.toString());
+        logger.d("[INSIDER][NOTIFICATION_OPEN]: $data");
         break;
       case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
-        print("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: " + data.toString());
+        logger.d("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: $data");
         break;
       default:
-        print("[INSIDER][InsiderCallbackAction]: Unregistered Action!");
+        logger.d("[INSIDER][InsiderCallbackAction]: Unregistered Action!");
         break;
     }
   }

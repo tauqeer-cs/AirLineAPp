@@ -82,7 +82,6 @@ class NumberPerson extends Equatable {
   num getTotalSeatsPartial(bool isDeparture) {
     num total = 0;
     for (var element in persons) {
-      print("person is $element");
       total = total + element.getPartialPriceSeatPartial(isDeparture);
     }
     return total;

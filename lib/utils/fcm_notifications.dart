@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:app/app/app_flavor.dart';
 import 'package:app/app/app_logger.dart';
 import 'package:app/firebase/dev/firebase_options.dart';
@@ -25,7 +24,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   showFlutterNotification(message);
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  print('Handling a background message ${message.messageId}');
 }
 
 Future<void> setupFlutterNotifications() async {
@@ -93,7 +91,6 @@ void showFlutterNotification(RemoteMessage message) async {
         InsiderNotificationModel.fromJson(message.data);
     BigPictureStyleInformation? bigPictureStyleInformation;
     if (insiderNotificationModel.imageUrl != null) {
-      print("image not null");
       final String bigPicturePath = await _downloadAndSaveFile(
           insiderNotificationModel.imageUrl!, 'bigPicture');
       bigPictureStyleInformation = BigPictureStyleInformation(
@@ -213,7 +210,6 @@ class FCMNotification {
 
     // handling foreground notification
     FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-      print('Handling a foreground message ${event.data}');
       showFlutterNotification(event);
     });
 
@@ -224,7 +220,6 @@ class FCMNotification {
   }
 
   void notificationAction(String value) {
-    print("notification selected $value");
     final convertJson = jsonDecode(value);
     final jsonValue = convertJson['path'] as String?;
     if (jsonValue?.isNotEmpty ?? false) {

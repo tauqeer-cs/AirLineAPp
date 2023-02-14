@@ -260,9 +260,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
-                  print(context.router.currentUrl);
                   if (context.router.currentUrl == '/booking-details') {
-                    //
+
 
                     context.router.push(const PaymentRoute());
 

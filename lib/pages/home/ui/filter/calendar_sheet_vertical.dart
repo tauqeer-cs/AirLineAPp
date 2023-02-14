@@ -1,4 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_logger.dart';
 import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
@@ -179,7 +180,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         }
                       },
                       onPaginationCompleted: (direction) {
-                        print("pagination completed");
+                        logger.d("pagination completed");
                       },
                       monthBuilder: (context, month, year) {
                         return Padding(

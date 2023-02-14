@@ -63,7 +63,7 @@ class UserInsider {
       ],
       "https://www.myairline.my/image/logo.png",
       (bookingState.getFinalPriceDisplay +
-              (filter.numberPerson.getTotal() ?? 0))
+              (filter.numberPerson.getTotal()))
           .toDouble(),
       "MYR",
     );
@@ -157,9 +157,7 @@ class UserInsider {
 
     final filter = context!.read<SearchFlightCubit>().state.filterState;
     if (filter == null) return;
-    print("seats price is ${filter.numberPerson.getTotalSeatsPartial(true)}");
     if (filter.numberPerson.getTotalSeatsPartial(true) > 0) {
-      print("seats is more than 0");
       for (var element in filter.numberPerson.persons) {
         if (element.departureSeats == null) continue;
         insiderEvent.addParameterWithString(
