@@ -2,6 +2,7 @@
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/cms_provider.dart';
+import 'package:app/data/responses/home_detail.dart';
 import 'package:app/data/responses/home_response.dart';
 import 'package:app/models/cms_flight.dart';
 import 'package:app/models/cms_route.dart';
@@ -46,5 +47,10 @@ class CMSRepository {
   Future<CMSFlight> getSSRContent(String id) async {
     await getCMSToken();
     return await _provider.getSSRContent(id);
+  }
+
+  Future<HomeDetail> getContentDetail(String id) async {
+    await getCMSToken();
+    return await _provider.getContentDetail(id);
   }
 }

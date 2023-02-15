@@ -65,6 +65,7 @@ class HomeItems extends Equatable {
   final double? price;
   final String? name;
   final String? link;
+  final String? key;
 
   const HomeItems({
     this.description,
@@ -77,6 +78,7 @@ class HomeItems extends Equatable {
     this.title,
     this.id,
     this.link,
+    this.key,
     this.name,
   });
 
@@ -94,6 +96,7 @@ class HomeItems extends Equatable {
         img,
         style,
         title,
+        key,
         id,
         name,
         link,

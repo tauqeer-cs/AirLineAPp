@@ -47,7 +47,7 @@ class _CMSProvider implements CMSProvider {
   Future<HomeResponse> getHomeContent(
     key, {
     query =
-        "images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
+        "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -103,6 +103,36 @@ class _CMSProvider implements CMSProvider {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CMSFlight.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<HomeDetail> getContentDetail(
+    key, {
+    query = "content,showBookNow",
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'key': key,
+      r'query': query,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<HomeDetail>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'shared/detail',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = HomeDetail.fromJson(_result.data!);
     return value;
   }
 
