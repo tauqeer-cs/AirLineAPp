@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/home_detail/bloc/home_detail_cubit.dart';
 import 'package:app/theme/spacer.dart';
+import 'package:app/widgets/app_error_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ class HomeDetailView extends StatelessWidget {
       builder: (context, state) {
         return blocBuilderWrapper(
           blocState: state.blocState,
+          failedBuilder: AppErrorScreen(message: state.message),
           finishedBuilder: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -22,7 +24,9 @@ class HomeDetailView extends StatelessWidget {
                 Html(
                   data: state.content?.data?.current?.content ?? "",
                 ),
-                ElevatedButton(onPressed: ()=>context.router.pop(), child: Text("Search Flight")),
+                ElevatedButton(
+                    onPressed: () => context.router.pop(),
+                    child: Text("Search Flight")),
                 kVerticalSpacer,
               ],
             ),

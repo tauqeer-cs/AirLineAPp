@@ -38,6 +38,16 @@ class AppErrorScreen extends StatelessWidget {
             ),
             kVerticalSpacer,
             Text(
+              "Detail:",
+              style: kMediumSemiBold.copyWith(
+                color: isDarkBackground
+                    ? Theme.of(context).iconTheme.color
+                    : Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            kVerticalSpacerSmall,
+            Text(
               message,
               style: kMediumSemiBold.copyWith(
                 color: isDarkBackground
@@ -46,16 +56,16 @@ class AppErrorScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            kVerticalSpacer,
-            Text(
-              "Contact Us",
-              style: kMediumSemiBold.copyWith(
-                color: isDarkBackground
-                    ? Theme.of(context).iconTheme.color
-                    : Colors.black,
-              ),
-              textAlign: TextAlign.center,
-            ),
+            // kVerticalSpacer,
+            // Text(
+            //   "Contact Us",
+            //   style: kMediumSemiBold.copyWith(
+            //     color: isDarkBackground
+            //         ? Theme.of(context).iconTheme.color
+            //         : Colors.black,
+            //   ),
+            //   textAlign: TextAlign.center,
+            // ),
           ],
         ),
       ),

@@ -18,9 +18,15 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
     try {
       print("list of routes $routes");
       final contentId = routes.firstWhereOrNull(
-              (element) => url.contains(element.urlSegment ?? ""));
+          (element) => url.contains(element.urlSegment ?? ""));
+      if (contentId?.key == null) {
+        emit(
+          state.copyWith(
+              message: "The page is not found", blocState: BlocState.failed),
+        );
+        return;
+      }
       emit(state.copyWith(blocState: BlocState.loading));
-      if(contentId?.key == null) return;
       final response = await _repository.getContentDetail(contentId!.key!);
       emit(state.copyWith(
         blocState: BlocState.finished,
