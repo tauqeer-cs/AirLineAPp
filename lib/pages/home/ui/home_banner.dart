@@ -23,33 +23,42 @@ class HomeBanner extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           child: AppImageCarousel(
             showArrow: true,
-            aspectRatio: 393 / 185,
             showIndicator: true,
             infiniteScroll: true,
             autoPlay: (content.items ?? []).length > 1,
-            items: (content.items ?? [])
-                .map(
-                  (e) => InkWell(
-                    onTap: () {
-                      FlutterInsider.Instance.tagEvent(
-                        InsiderConstants.promotionDetailPageView,
-                      )
-                          .addParameterWithString(
-                            "promotion_title",
-                            e.name.setNoneIfNullOrEmpty,
-                          )
-                          .build();
-
-                      context.router.push(WebViewRoute(
-                          url: e.link ?? "", title: e.name ?? 'Promotion'));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: AppImage(imageUrl: e.img),
+            items: (content.items ?? []).map(
+              (e) {
+                print("content is ${e.key}");
+                return InkWell(
+                  onTap: () {
+                    FlutterInsider.Instance.tagEvent(
+                      InsiderConstants.promotionDetailPageView,
+                    )
+                        .addParameterWithString(
+                          "promotion_title",
+                          e.name.setNoneIfNullOrEmpty,
+                        )
+                        .build();
+                    if(e.link == null) return;
+                    final url = Uri.parse(e.link!);
+                    context.router.push(HomeDetailRoute(url: url.path));
+                    /*context.router.push(WebViewRoute(
+                        url: e.link ?? "", title: e.name ?? 'Promotion'));*/
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: FittedBox(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: AppImage(
+                          imageUrl: e.img,
+                        ),
+                      ),
                     ),
                   ),
-                )
-                .toList(),
+                );
+              },
+            ).toList(),
           ),
         ),
         kVerticalSpacerBig,
