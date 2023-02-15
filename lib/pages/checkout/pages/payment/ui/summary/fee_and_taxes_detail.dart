@@ -2,12 +2,16 @@ import 'dart:developer';
 
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/localizations/localizations_util.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
+
+import '../../../../../../blocs/search_flight/search_flight_cubit.dart';
+import '../../../../../../utils/constant_utils.dart';
 
 class FeeAndTaxesDetailPayment extends StatelessWidget {
   final bool isDeparture;
@@ -17,6 +21,8 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bookingCubit = context.watch<BookingCubit>().state;
+
     final segment = isDeparture
         ? context.watch<BookingCubit>().state.selectedDeparture
         : context.watch<BookingCubit>().state.selectedReturn;
@@ -31,6 +37,23 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
         : bookingState.selectedReturn;
     if (taxes?.isEmpty ?? true) return const SizedBox();
     log(pnrRequest?.toJson().toString() ?? "");
+    num discountTotal = 0;
+    if(ConstantUtils.showPromoInFareBreakDown) {
+      final filter = context.watch<SearchFlightCubit>().state.filterState;
+      var discountPercent = bookingCubit.selectedDeparture!.discountPCT;
+      if (filter?.promoCode != null &&
+          discountPercent != null &&
+          (discountPercent > 0)) {
+        discountTotal = 1;
+        var a =
+            bookingCubit.selectedDeparture!.beforeDiscountTotalAmtWithInfantSSR;
+        var b = bookingCubit.selectedDeparture!.totalSegmentFareAmtWithInfantSSR;
+
+        discountTotal = a! - b!;
+      }
+    }
+
+
     return Column(
       children: [
         kVerticalSpacerSmall,
@@ -40,7 +63,7 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10.0),
             child: PriceRow(
               child1: Text(
-                "${e.title} ${e.firstName}",
+                "${e.titleToShow} ${e.firstName}",
                 style: kMediumRegular,
               ),
               child2: MoneyWidgetSummary(
@@ -50,9 +73,25 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
             ),
           );
         }).toList(),
+
+        if(ConstantUtils.showPromoInFareBreakDown && discountTotal > 0) ... [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: PriceRow(
+              child1: const Text(
+                'Promo',
+                style: kMediumRegular,
+              ),
+              child2: MoneyWidgetSummary(
+                amount: discountTotal,
+                isDense: true,
+                  isNegative : true,
+              ),
+            ),
+          )
+        ],
         kVerticalSpacerSmall,
       ],
-
     );
   }
 }

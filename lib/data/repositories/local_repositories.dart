@@ -25,10 +25,14 @@ class LocalRepository {
 
   FlightSummaryPnrRequest getPassengerInfo() {
     var box = Hive.box<FlightSummaryPnrRequest>(passengerInfoBox);
-    return box.get("info") ??
-        FlightSummaryPnrRequest(
-          emergencyContact: EmergencyContact(),
-        );
+    return false
+        ? box.get("info") ??
+            FlightSummaryPnrRequest(
+              emergencyContact: EmergencyContact(),
+            )
+        : FlightSummaryPnrRequest(
+            emergencyContact: EmergencyContact(),
+          );
   }
 
   void saveAirports(AirportsResponse airportsResponse) {

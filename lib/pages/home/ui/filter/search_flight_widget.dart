@@ -5,6 +5,12 @@ import 'package:app/pages/home/ui/filter/submit_search.dart';
 import 'package:app/pages/home/ui/filter/trip_selection.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../utils/constant_utils.dart';
+import '../../../../widgets/forms/app_input_text.dart';
+import '../../bloc/filter_cubit.dart';
 
 
 class SearchFlightWidget extends StatelessWidget {
@@ -23,18 +29,33 @@ class SearchFlightWidget extends StatelessWidget {
         const PassengersWidget(),
         kVerticalSpacerSmall,
         const CalendarWidget(),
-        kVerticalSpacer,
+        kVerticalSpacerSmall,
+
+        if(ConstantUtils.showPromoTextField) ... [
+          AppInputText(
+            name: "promoFlight",
+            onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
+            hintText: "Promo Code",
+            //inputFormatters: [
+            //     UpperCaseTextFormatter(),
+            //   ]
+
+              inputFormatters: [
+                UpperCaseTextFormatter(),
+                FilteringTextInputFormatter.allow(RegExp("[A-Za-z0-9\']")),
+              ]
+
+          ),
+          kVerticalSpacer,
+
+        ],
         kVerticalSpacer,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: SubmitSearch(isHomePage: isHome),
         ),
 
-        // AppInputText(
-        //   name: "promoFlight",
-        //   onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
-        //   hintText: "Promo Code",
-        // ),
+
       ],
     );
   }
@@ -52,5 +73,17 @@ enum FlightType {
   @override
   String toString() {
     return message;
+  }
+}
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.contains(" ")) {
+      return oldValue;
+    }
+    return TextEditingValue(
+      text: newValue.text.toUpperCase().trim(),
+      selection: newValue.selection,
+    );
   }
 }

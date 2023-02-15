@@ -12,15 +12,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../theme/theme.dart';
 
 class PaymentView extends StatefulWidget {
+  const PaymentView({Key? key, required this.promoReady}) : super(key: key);
 
-  const PaymentView({Key? key}) : super(key: key);
+  final bool promoReady;
 
   @override
   State<PaymentView> createState() => _PaymentViewState();
 }
 
 class _PaymentViewState extends State<PaymentView> {
-
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,9 @@ class _PaymentViewState extends State<PaymentView> {
         ),
       ),
       kVerticalSpacer,
-      const RewardAndDiscount(),
+      RewardAndDiscount(
+        promoReady: widget.promoReady,
+      ),
       kVerticalSpacer,
       const DiscountSummary(),
       SummaryContainer(
@@ -61,6 +67,7 @@ class _PaymentViewState extends State<PaymentView> {
       ),
     ];
     return ListView.builder(
+      key: const PageStorageKey<String>('controllerA'),
       itemBuilder: (context, index) => widgets[index],
       itemCount: widgets.length,
     );
@@ -72,6 +79,14 @@ class _PaymentViewState extends State<PaymentView> {
     final voucher = context.read<VoucherCubit>().state.appliedVoucher;
     final token = bookingState.verifyResponse?.token;
     final pnrRequest = bookingState.summaryRequest?.flightSummaryPNRRequest;
+
+    String? redeemCodeToSend;
+
+    if(context.read<VoucherCubit>().state.selectedRedeemOption != null) {
+
+     redeemCodeToSend = context.read<VoucherCubit>().state.selectedRedeemOption!.redemptionName!;
+
+    }
     context.read<PaymentCubit>().pay(
           flightSummaryPnrRequest: pnrRequest,
           token: token,
@@ -80,6 +95,7 @@ class _PaymentViewState extends State<PaymentView> {
           totalNeedPaid: bookingState.getFinalPrice +
               (filterState?.numberPerson.getTotal() ?? 0),
           promoCode: voucher,
+      redeemCodeToSend: redeemCodeToSend
         );
   }
 }

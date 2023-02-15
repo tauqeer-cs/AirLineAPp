@@ -224,6 +224,24 @@ class _$AppRouter extends RootStackRouter {
         child: const DeleteAccountPage(),
       );
     },
+    FriendsFamilyRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const FriendsFamilyPage(),
+      );
+    },
+    MemberCardsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const MemberCardsPage(),
+      );
+    },
+    MoreOptionsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const MoreOptionsPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -436,6 +454,18 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           DeleteAccountRoute.name,
           path: '/delete-account',
+        ),
+        RouteConfig(
+          FriendsFamilyRoute.name,
+          path: '/friends-family',
+        ),
+        RouteConfig(
+          MemberCardsRoute.name,
+          path: '/member-cards',
+        ),
+        RouteConfig(
+          MoreOptionsRoute.name,
+          path: '/more-options',
         ),
       ];
 }
@@ -974,6 +1004,42 @@ class DeleteAccountRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DeleteAccountRoute';
+}
+
+/// generated route for
+/// [FriendsFamilyPage]
+class FriendsFamilyRoute extends PageRouteInfo<void> {
+  const FriendsFamilyRoute()
+      : super(
+          FriendsFamilyRoute.name,
+          path: '/friends-family',
+        );
+
+  static const String name = 'FriendsFamilyRoute';
+}
+
+/// generated route for
+/// [MemberCardsPage]
+class MemberCardsRoute extends PageRouteInfo<void> {
+  const MemberCardsRoute()
+      : super(
+          MemberCardsRoute.name,
+          path: '/member-cards',
+        );
+
+  static const String name = 'MemberCardsRoute';
+}
+
+/// generated route for
+/// [MoreOptionsPage]
+class MoreOptionsRoute extends PageRouteInfo<void> {
+  const MoreOptionsRoute()
+      : super(
+          MoreOptionsRoute.name,
+          path: '/more-options',
+        );
+
+  static const String name = 'MoreOptionsRoute';
 }
 
 /// generated route for

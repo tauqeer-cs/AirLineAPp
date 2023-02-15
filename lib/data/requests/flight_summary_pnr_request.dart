@@ -1,5 +1,7 @@
+import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/string_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -80,8 +82,6 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
       _$FlightSummaryPnrRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightSummaryPnrRequestToJson(this);
-
-
 }
 
 @HiveType(typeId: 1)
@@ -245,7 +245,9 @@ class Passenger extends HiveObject with EquatableMixin {
         ssr,
         seat,
         wheelChairNeeded,
+    insuranceSelected,
         oKUIDNumber,
+        mYRewardMemberID,
       ];
 
   factory Passenger.fromJson(Map<String, dynamic> json) =>
@@ -274,13 +276,15 @@ class Passenger extends HiveObject with EquatableMixin {
     this.redressNumber = "",
     this.relation = "",
     this.suffix = "",
+    this.mYRewardMemberID,
     this.ssr,
     this.seat,
+    this.insuranceSelected = false,
   });
 
   @HiveField(0)
   @JsonKey(name: 'DOB', toJson: AppDateUtils.toDateWithoutTimeToJson)
-  final DateTime? dob;
+  late  DateTime? dob;
   @HiveField(1)
   @JsonKey(name: 'FirstName')
   final String? firstName;
@@ -293,6 +297,16 @@ class Passenger extends HiveObject with EquatableMixin {
   @JsonKey(name: 'Title')
   final String? title;
   @JsonKey(name: 'Gender')
+
+  String? get titleToShow {
+
+    if(title != null) {
+
+      return title!.capitalize();
+    }
+    return null;
+  }
+
   final String? gender;
   @JsonKey(name: 'InfantAssociateIndex')
   final num? infantAssociateIndex;
@@ -300,6 +314,10 @@ class Passenger extends HiveObject with EquatableMixin {
   final bool? isPrimaryPassenger;
   @JsonKey(name: 'WheelChairNeeded')
   final bool? wheelChairNeeded;
+
+  @JsonKey(name: 'insurance')
+  final bool? insuranceSelected;
+
   @JsonKey(name: 'OKUIDNumber')
   final String? oKUIDNumber;
   @JsonKey(name: 'KnownTravelerNumber')
@@ -322,6 +340,8 @@ class Passenger extends HiveObject with EquatableMixin {
   final String? relation;
   @JsonKey(name: 'Suffix')
   final String? suffix;
+  @JsonKey(name: 'MYRewardMemberID')
+  final String? mYRewardMemberID;
   @JsonKey(name: 'SSR')
   final Ssr? ssr;
   @JsonKey(name: 'Seat')
@@ -329,8 +349,52 @@ class Passenger extends HiveObject with EquatableMixin {
 
 
 
+  String? get ifPassengerHasInsuranceName {
+
+    if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+
+        if(object.isNotEmpty){
+          return object.first.name;
+        }
+
+        return null;
+      }
+    }
+    return null;
+
+  }
+  String? get ifPassengerHasInsurance {
+
+    if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+
+        if(object.isNotEmpty){
+         return object.first.price!.toDouble().toStringAsFixed(2);
+        }
+
+        return null;
+      }
+    }
+    return null;
+
+  }
+
+
   PeopleType? get getType =>
       PeopleType.values.firstWhereOrNull((element) => element.code == paxType);
+
+  void setInsuranceWith(Bundle first) {
+
+    this.ssr!.outbound!.add(first.toBound(isInsurance: true));
+
+    print('object');
+
+  }
 }
 
 @JsonSerializable()

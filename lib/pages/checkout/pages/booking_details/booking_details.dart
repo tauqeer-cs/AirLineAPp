@@ -26,7 +26,10 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/settings/settings_cubit.dart';
+import '../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../theme/theme.dart';
+import '../../../../utils/constant_utils.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   const BookingDetailsPage({super.key});
@@ -181,7 +184,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
                       Navigator.of(dialogContext).pop();
-                      Toast.of(context).show(message: "Welcome back", success: true);
+                      Toast.of(context)
+                          .show(message: "Welcome back", success: true);
                     },
                   );
                 },
@@ -224,10 +228,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: AppLoadingScreen(message: "Loading"),
+        overlayWidget: const AppLoadingScreen(message: "Loading"),
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => SummaryCubit()),
             BlocProvider(create: (context) => InfoCubit()),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
@@ -248,12 +251,39 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   }
                   Toast.of(context).show(message: state.message);
                 },
-                onFinished: () {
+                onFinished: () async {
                   context.loaderOverlay.hide();
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
-                  context.router.push(const PaymentRoute());
+                  print(context.router.currentUrl);
+                  if (context.router.currentUrl == '/booking-details') {
+                    //
+
+                    context.router.push(const PaymentRoute());
+
+                    if (context.read<SettingsCubit>().state.switchSetting.myReward ?? false) {
+                      var token = context
+                          .read<SummaryCubit>()
+                          .state
+                          .summaryRequest!
+                          .token;
+
+                      context.read<VoucherCubit>().state.copyWith(
+                          flightToken: context
+                              .read<SummaryCubit>()
+                              .state
+                              .summaryRequest!
+                              .token);
+
+                      context
+                          .read<VoucherCubit>()
+                          .getAvailablePromotions(token);
+                    }
+
+                  }
+
+                  //VoucherCubit
                 },
               );
             },

@@ -7,8 +7,17 @@ import 'package:app/widgets/app_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PaymentInfo extends StatelessWidget {
+import '../../../../../widgets/containers/app_expanded_section.dart';
+
+class PaymentInfo extends StatefulWidget {
   const PaymentInfo({Key? key}) : super(key: key);
+
+  @override
+  State<PaymentInfo> createState() => _PaymentInfoState();
+}
+
+class _PaymentInfoState extends State<PaymentInfo> {
+  bool isExpand = true;
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +30,41 @@ class PaymentInfo extends StatelessWidget {
     return AppCard(
       child: Column(
         children: [
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Payment",
-              style: kHugeSemiBold,
+          InkWell(
+            onTap: () {
+              setState(() {
+                isExpand = !isExpand;
+              });
+            },
+            child: Row(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Payment",
+                    style: kHugeSemiBold,
+                  ),
+                ),
+                Icon(
+                  isExpand
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  size: 24,
+                ),
+              ],
             ),
           ),
-          kVerticalSpacerSmall,
-          ...(payments ?? [])
-              .map((f) => PaymentDetail(paymentOrder: f))
-              .toList(),
+          ExpandedSection(
+            expand: isExpand,
+            child: Column(
+              children: [
+                kVerticalSpacerSmall,
+                ...(payments ?? [])
+                    .map((f) => PaymentDetail(paymentOrder: f))
+                    .toList(),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -52,27 +85,44 @@ class PaymentDetail extends StatelessWidget {
         children: [
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
-            content: '${paymentOrder.paymentMethodCode}    ${paymentOrder.cardOption}',
+            content:
+                '${paymentOrder.paymentMethodCode}    ${paymentOrder.cardOption}',
+            makeBoldAll: true,
+
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content: paymentOrder.paymentStatusCode ?? "",
-          ),
+            makeBoldAll: true,
 
-          kVerticalSpacer,
-          BorderedLeftContainerNoTitle(
-            content:
-            '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate)} Local Time',
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content:
-                AppDateUtils.formatHalfDate(paymentOrder.paymentDate),
+                '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate)} Local Time',
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
-            content:
-                "Total ${paymentOrder.currencyCode} ${NumberUtils.formatNum(paymentOrder.paymentAmount)}",
+            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate),
+          ),
+          kVerticalSpacer,
+          Row(
+            children: [
+              const BorderedLeftContainerNoTitle(
+                content:
+                    "Total ",
+                makeBoldAll: true,
+              ),
+
+              Expanded(child: Container(),),
+
+              Text(paymentOrder.currencyCode! + NumberUtils.formatNum(paymentOrder.paymentAmount), style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+
+
+              Expanded(
+                flex: 2,
+                child: Container(),),
+            ],
           ),
         ],
       ),
@@ -83,7 +133,10 @@ class PaymentDetail extends StatelessWidget {
 class BorderedLeftContainerNoTitle extends StatelessWidget {
   final String content;
 
-  const BorderedLeftContainerNoTitle({Key? key, required this.content})
+  final bool makeBoldAll;
+
+  const BorderedLeftContainerNoTitle(
+      {Key? key, required this.content, this.makeBoldAll = false})
       : super(key: key);
 
   @override
@@ -98,7 +151,12 @@ class BorderedLeftContainerNoTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(content, style: kLargeRegular),
+          if(makeBoldAll) ... [
+            Text(content, style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+          ] else ... [
+            Text(content, style: kLargeRegular.copyWith(color: Styles.kTextColor)),
+
+          ]
         ],
       ),
     );

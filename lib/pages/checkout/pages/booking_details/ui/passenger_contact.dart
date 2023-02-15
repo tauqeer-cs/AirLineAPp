@@ -41,37 +41,33 @@ class _PassengerContactState extends State<PassengerContact> {
   bool alreadySpaceRemoved = false;
 
   void removeEmptyFromEmail(String value) async {
-    if(emailController.text.isNotEmpty) {
+    if (emailController.text.isNotEmpty) {
       value = value.trim();
       alreadySpaceRemoved = true;
 
-      await Future.delayed(Duration(seconds: 1));
-
+      await Future.delayed(const Duration(seconds: 1));
 
       emailController.text = value;
-      emailController.selection = TextSelection.fromPosition(TextPosition(offset: emailController.text.length));
+      emailController.selection = TextSelection.fromPosition(
+          TextPosition(offset: emailController.text.length));
       alreadySpaceRemoved = false;
-
     }
   }
 
   @override
   void initState() {
     super.initState();
-    final contact = context.read<LocalUserBloc>().state;
+    final contact = true ? null : context.read<LocalUserBloc>().state;
     final profile = context.read<ProfileCubit>().state.profile?.userProfile;
-    email = profile?.email ?? contact.contactEmail.trim();
-    firstName = profile?.firstName ?? contact.contactFullName;
-    phoneCode = profile?.phoneCode ?? contact.contactPhoneCode;
-    phoneNumber = profile?.phoneNumber ?? contact.contactPhoneNumber;
-    lastName = profile?.lastName ?? contact.comment;
+    email = profile?.emailShow ?? contact?.contactEmail.trim();
+    firstName = profile?.firstName ?? contact?.contactFullName;
+    phoneCode = profile?.phoneCode ?? contact?.contactPhoneCode;
+    phoneNumber = profile?.phoneNumber ?? contact?.contactPhoneNumber;
+    lastName = profile?.lastName ?? contact?.comment;
     nationalityController.text =
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
     emailController.text = email ?? '';
-    emailController.addListener(() {
-
-    });
-
+    emailController.addListener(() {});
   }
 
   @override
@@ -101,9 +97,10 @@ class _PassengerContactState extends State<PassengerContact> {
               TextSpan(
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    try{
-                      SecurityUtils.tryLaunch("https://myacontents.blob.core.windows.net/myacontents/odxgmbdo/myairline_privacy-policy.pdf");
-                    }catch(e, st){
+                    try {
+                      SecurityUtils.tryLaunch(
+                          "https://myacontents.blob.core.windows.net/myacontents/odxgmbdo/myairline_privacy-policy.pdf");
+                    } catch (e, st) {
                       Toast.of(context).show(message: "Cannot Launch url");
                       ErrorUtils.getErrorMessage(e, st);
                     }
@@ -148,11 +145,12 @@ class _PassengerContactState extends State<PassengerContact> {
                 child: AppCountriesDropdown(
                   hintText: "Phone Code",
                   isPhoneCode: true,
-                  initialCountryCode: profile?.phoneCode  ?? phoneCode,
+                  initialCountryCode: profile?.phoneCode ?? phoneCode,
                   onChanged: (value) {
                     nationalityController.text = value?.phoneCode ?? "";
                     final request = context.read<LocalUserBloc>().state;
-                    final newRequest = request.copyWith(contactPhoneCode: value?.phoneCode);
+                    final newRequest =
+                        request.copyWith(contactPhoneCode: value?.phoneCode);
                     context.read<LocalUserBloc>().add(UpdateData(newRequest));
                   },
                 ),
@@ -165,7 +163,8 @@ class _PassengerContactState extends State<PassengerContact> {
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {
                   final request = context.read<LocalUserBloc>().state;
-                  final newRequest = request.copyWith(contactPhoneNumber: value);
+                  final newRequest =
+                      request.copyWith(contactPhoneNumber: value);
                   context.read<LocalUserBloc>().add(UpdateData(newRequest));
                 },
               ),
@@ -180,25 +179,20 @@ class _PassengerContactState extends State<PassengerContact> {
                 //initialValue: profile?.email ?? email,
                 textEditingController: emailController,
                 onChanged: (value) {
-                  if(value != null) {
-                    if(!alreadySpaceRemoved) {
-                      if(value.contains(' ')){
-                        if(alreadySpaceRemoved){
-
+                  if (value != null) {
+                    if (!alreadySpaceRemoved) {
+                      if (value.contains(' ')) {
+                        if (alreadySpaceRemoved) {
                           return;
-
-                        }
-                        else {
+                        } else {
                           removeEmptyFromEmail(value);
-
                         }
-
                       }
                     }
-
                   }
                   final request = context.read<LocalUserBloc>().state;
-                  final newRequest = request.copyWith(contactEmail: value?.trim());
+                  final newRequest =
+                      request.copyWith(contactEmail: value?.trim());
                   context
                       .read<LocalUserBloc>()
                       .add(UpdateEmailContact(newRequest.contactEmail));

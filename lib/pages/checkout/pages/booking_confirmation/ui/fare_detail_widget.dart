@@ -15,7 +15,7 @@ class FareDetailWidget extends StatelessWidget {
         Row(
           children: [
             Text(
-                "${fareAndBundle.title} ${fareAndBundle.givenName} ${fareAndBundle.surName}"),
+                "${fareAndBundle.titleToShow} ${fareAndBundle.givenName} ${fareAndBundle.surName}"),
             const Spacer(),
             // MoneyWidget(
             //   currency: fareAndBundle.currency,

@@ -1,9 +1,14 @@
 import 'package:app/data/repositories/profile_repository.dart';
+import 'package:app/data/requests/friend_family_add.dart';
 import 'package:app/models/profile.dart';
 import 'package:bloc/bloc.dart';
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../data/requests/delete_card_request.dart';
+import '../../data/requests/update_friends_family.dart';
+import '../../models/number_person.dart';
 
 part 'profile_state.dart';
 
@@ -11,8 +16,128 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(const ProfileState());
   final _repository = ProfileRepository();
 
-  resetState(){
+  resetState() {
     emit(const ProfileState());
+  }
+
+  List<FriendsFamily> friendFamily(Person person,DateTime departureDate) {
+    if (state.profile?.userProfile?.friendsAndFamily != null) {
+
+      //person.
+      var limitDate = person.dateLimitStart(departureDate);
+
+      var check = state.profile!.userProfile!.friendsAndFamily!.where((element) => element.dobDate!.difference(limitDate).inDays > 1).toList();
+
+      return check;
+    }
+    return [];
+  }
+
+  bool get hasAnyFriends {
+    if (state.profile != null) {
+      return true;
+    }
+    return false;
+  }
+
+  void deleteCard(int cardIndex) async {
+    emit(
+      state.copyWith(deletingCard: true),
+    );
+
+    try {
+      //
+      var requestObject = DeleteCardReuquest(
+        expiryDate: state.profile!.userProfile!.memberCards![cardIndex].expiryDate,
+        countryCode: state.profile!.userProfile!.memberCards![cardIndex].countryCode,
+        token: state.profile!.userProfile!.memberCards![cardIndex].token,
+      );
+
+      final response = await _repository.deleteUserCard(requestObject);
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(profile: routes, deletingCard: false));
+    } catch (e, st) {
+      emit(state.copyWith(
+        deletingCard: false,
+      ));
+    }
+  }
+  void deleteFnF(String id) async {
+    emit(
+      state.copyWith(deletingId: id, deletedFnf: true),
+    );
+
+    try {
+      final response = await _repository.deleteFamilyFriend(id);
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(profile: routes, deletedFnf: false));
+    } catch (e, st) {
+      emit(state.copyWith(
+        deletedFnf: false,
+      ));
+    }
+  }
+
+  void editFamilyMember(UpdateFriendsFamily member) async {
+    emit(
+      state.copyWith(
+        updatingFnF: true,
+        deletingId: member.friendsAndFamilyID.toString(),
+      ),
+    );
+
+    try {
+      final response = await _repository.updateFriendsAndFamily(member);
+
+      if (response.success == false) {
+        emit(
+          state.copyWith(
+              blocState: BlocState.failed,
+              updatingFnF: false,
+              message: response.message),
+        );
+        return;
+      }
+
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(
+        profile: routes,
+        updatingFnF: false,
+        blocState: BlocState.finished,
+      ));
+    } catch (e, st) {
+      emit(state.copyWith(
+          blocState: BlocState.finished,
+          updatingFnF: false,
+          errorWhileAddingFnf: true));
+    }
+  }
+
+  void addFamilyMember(FriendsFamilyAdd member) async {
+    emit(state.copyWith(addingFnF: true));
+
+    try {
+      final response = await _repository.addFriendsAndFamily(member);
+      if (response.success == false) {
+        emit(state.copyWith(
+            blocState: BlocState.failed,
+            addingFnF: false,
+            message: response.message));
+        return;
+      }
+
+      final routes = await _repository.getProfile();
+      emit(state.copyWith(
+        profile: routes,
+        addingFnF: false,
+        blocState: BlocState.finished,
+      ));
+    } catch (e, st) {
+      emit(state.copyWith(
+          blocState: BlocState.finished,
+          addingFnF: false,
+          errorWhileAddingFnf: true));
+    }
   }
 
   getProfile() async {
@@ -54,7 +179,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> updatePreferences(CommunicationPreferences communicationPreferences) async {
+  Future<void> updatePreferences(
+      CommunicationPreferences communicationPreferences) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final profile = Profile(
@@ -76,107 +202,5 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  /*Profile setTmpObject(
-    String? icNumber,
-    String? newTitle,
-    String? newFirstName,
-    String? lastName,
-    String? newCountry,
-    String? newEmail,
-    DateTime? newDob,
-    String? newPhoneCountryCode,
-    String? newPhNo,
-    String? newAddress,
-    String? newAddressCountry,
-    String? newAddressState,
-    String? newAddressCity,
-    String? newAddresZipCode,
-    String? emergencyFirstName,
-    String? emergencyLastName,
-    String? emergencyRelationShip,
-    String? emergencyPhCode,
-    String? emergencyPhNo,
-  ) {
-    var copyProfile = state.profile;
-    if (newTitle != null) {
-      copyProfile?.userProfile?.title = newTitle;
-    }
 
-    if (newFirstName != null) {
-      copyProfile?.userProfile?.firstName = newFirstName;
-    }
-
-    if (lastName != null) {
-      copyProfile?.userProfile?.lastName = lastName;
-    }
-
-    if (newCountry != null) {
-      copyProfile?.userProfile?.country = newCountry;
-    }
-
-    if (icNumber != null) {
-      copyProfile?.userProfile?.icNumber = icNumber;
-    }
-
-    if (newEmail != null) {
-      copyProfile?.userProfile?.email = newEmail;
-    }
-
-    if (newDob != null) {
-      copyProfile?.userProfile?.dob = newDob;
-    }
-
-    if (newPhoneCountryCode != null) {
-      copyProfile?.userProfile?.phoneCode = newPhoneCountryCode;
-    }
-
-    if (newPhNo != null) {
-      copyProfile?.userProfile?.phoneNumber = newPhNo;
-    }
-
-    if (newPhNo != null) {
-      copyProfile?.userProfile?.phoneNumber = newPhNo;
-    }
-
-    if (newAddress != null) {
-      copyProfile?.userProfile?.address = newAddress;
-    }
-
-    if (newAddressCountry != null) {
-      copyProfile?.userProfile?.country = newAddressCountry;
-    }
-
-    if (newAddressState != null) {
-      copyProfile?.userProfile?.state = newAddressState;
-    }
-
-    if (newAddressCity != null) {
-      copyProfile?.userProfile?.city = newAddressCity;
-    }
-
-    if (newAddresZipCode != null) {
-      copyProfile?.userProfile?.postCode = newAddresZipCode;
-    }
-
-    if (emergencyFirstName != null) {
-      copyProfile?.userProfile?.emergencyContact?.firstName =
-          emergencyFirstName;
-    }
-
-    if (emergencyLastName != null) {
-      copyProfile?.userProfile?.emergencyContact?.lastName = emergencyLastName;
-    }
-
-    if (emergencyRelationShip != null) {
-      copyProfile?.userProfile?.emergencyContact?.relationship =
-          emergencyRelationShip;
-    }
-    if (emergencyPhCode != null) {
-      copyProfile?.userProfile?.emergencyContact?.phoneCode = emergencyPhCode;
-    }
-    if (emergencyPhNo != null) {
-      copyProfile?.userProfile?.emergencyContact?.phoneNumber = emergencyPhNo;
-    }
-    return copyProfile!;
-  }*/
 }

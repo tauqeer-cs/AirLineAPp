@@ -15,6 +15,8 @@ class AppInputText extends StatelessWidget {
   final bool isRequired, isHidden, readOnly;
   final int? minLines;
   final int? maxLines;
+  final int? maxLength;
+
   final Function(String?)? onChanged;
   final TextInputType? textInputType;
   final String? autofillHints;
@@ -44,7 +46,7 @@ class AppInputText extends StatelessWidget {
     this.textEditingController,
     this.focusNode,
     this.suffix,
-    this.prefix,
+    this.prefix, this.maxLength,
   }) : super(key: key);
 
   @override
@@ -58,6 +60,7 @@ class AppInputText extends StatelessWidget {
       minLines: minLines ?? 1,
       maxLines: maxLines ?? 1,
       keyboardType: textInputType,
+      maxLength: maxLength,
       style:
           isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
       decoration: InputDecoration(
@@ -70,6 +73,8 @@ class AppInputText extends StatelessWidget {
         focusedErrorBorder: isHidden ? InputBorder.none : null,
         prefix: prefix,
         suffix: suffix,
+        counterText: "",
+
       ),
       inputFormatters: inputFormatters,
       onChanged: onChanged,

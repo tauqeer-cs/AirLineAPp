@@ -16,11 +16,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import '../../../../../models/switch_setting.dart';
 import '../../../../../theme/theme.dart';
+import '../../../../../utils/ui_utils.dart';
+import '../../../../../widgets/settings_wrapper.dart';
+import 'insurance_terms.dart';
 
 const formNameFirstName = "_first_name";
 const formNameLastName = "_last_name";
+const formNameMYRewardId = "_reward_id";
+
 const formNameWheelChair = "_wheel_chair";
+const formNameInsurance = '_insurance';
 const formNameOkIdNumber = "_okIdNumber";
 const formNameTitle = "_title";
 const formNameNationality = "_nationality";
@@ -56,21 +63,57 @@ class BookingDetailsView extends StatefulWidget {
 
 class _BookingDetailsViewState extends State<BookingDetailsView> {
   final scrollController = ScrollController();
+  final keySummary = GlobalKey();
+  final bookingSummary = GlobalKey();
+
+  void rebuild() {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (keySummary.currentContext as Element).visitChildren(rebuild);
+  }
+
+  void rebuildSummary() {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (bookingSummary.currentContext as Element).visitChildren(rebuild);
+  }
 
   var isValid = false;
+  var insuranceChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   SearchFlightState? currentState;
+
   @override
   Widget build(BuildContext context) {
-    currentState = context.watch<SearchFlightCubit>().state;
+    final bloc = context.watch<SearchFlightCubit>();
+    currentState = bloc.state;
+
+    bool showInsuranceTerms =
+        context.watch<SearchFlightCubit>().showInsuranceCheck();
     return Stack(
       children: [
         FormBuilder(
           //autoFocusOnValidationFailure: true,
           onChanged: () {
+
+
             if (BookingDetailsView.fbKey.currentState!.validate()) {
+
               setState(() {
                 isValid = true;
               });
+
             } else {
               setState(() {
                 isValid = false;
@@ -93,13 +136,62 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         kVerticalSpacer,
                         const CardSummary(showFees: false),
                         kVerticalSpacer,
-                        const ListOfPassengerInfo(),
+                        ListOfPassengerInfo(
+                          onInsuranceChanged: () {
+                            rebuild();
+                            rebuildSummary();
+                          },
+                        ),
+                        kVerticalSpacer,
+                        if (showInsuranceTerms) ...[
+                          SettingsWrapper(
+                            settingType: AvailableSetting.insurance,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                        value: insuranceChecked,
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            insuranceChecked =
+                                                newValue ?? false;
+                                          });
+                                        }),
+                                    Expanded(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: 'Yes, I would like to add ',
+                                          style: DefaultTextStyle.of(context)
+                                              .style,
+                                          children: <TextSpan>[
+                                            makeClickableTextSpan(context,
+                                                text: 'MY Travel Shield',
+                                                makeNormalTextBol: true),
+                                            makeClickableTextSpan(context,
+                                                text: ' to cover my trip.',
+                                                makeNormalTextBol: false),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ], //
+                                  //
+                                  //
+                                ),
+                                const InsuranceTerms(),
+                              ],
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
                   Stack(
                     children: [
-                      const CheckoutSummary(),
+                      CheckoutSummary(
+                        key: bookingSummary,
+                      ),
                       Positioned(
                         bottom: 0,
                         right: 15,
@@ -134,9 +226,15 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const BookingSummary(),
+                  BookingSummary(
+                    key: keySummary,
+                  ),
                   ElevatedButton(
-                    onPressed: isValid ? () => onBooking(context) : null,
+                    onPressed: showInsuranceTerms
+                        ? ((showInsuranceTerms && insuranceChecked)
+                            ? (isValid ? () => onBooking(context) : null)
+                            : null)
+                        : (isValid ? () => onBooking(context) : null),
                     child: const Text("Continue"),
                   ),
                   kVerticalSpacer,
@@ -154,53 +252,51 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       var values = BookingDetailsView.fbKey.currentState!.value;
 
       if (values != null) {
-
-        var contactName = makeLowerCaseName(values,formNameContactFirstName,formNameContactLastName);
+        var contactName = makeLowerCaseName(
+            values, formNameContactFirstName, formNameContactLastName);
         var emergencyName = (values[formNameEmergencyFirstName].toString() +
                 values[formNameEmergencyLastName].toString())
             .toLowerCase();
-        print('');
         if (contactName == emergencyName) {
           showSameNameError();
 
           return;
-        }
-        else {
-
-
+        } else {
           var emergencyName = (values[formNameEmergencyFirstName].toString() +
-              values[formNameEmergencyLastName].toString())
+                  values[formNameEmergencyLastName].toString())
               .toLowerCase();
 
+          int adults =
+              currentState?.filterState?.numberPerson.numberOfAdult ?? 0;
+          int childs =
+              currentState?.filterState?.numberPerson.numberOfChildren ?? 0;
+          int infant =
+              currentState?.filterState?.numberPerson.numberOfInfant ?? 0;
 
-          int adults = currentState?.filterState?.numberPerson.numberOfAdult ?? 0;
-          int childs = currentState?.filterState?.numberPerson.numberOfChildren ?? 0;
-          int infant = currentState?.filterState?.numberPerson.numberOfInfant ?? 0;
-
-          for(int i = 0 ; i < adults ; i++) {
-            var keyName = 'Adult ${i+1}_first_name';
-            var keyLname = 'Adult ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < adults; i++) {
+            var keyName = 'Adult ${i + 1}_first_name';
+            var keyLname = 'Adult ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
             }
           }
 
-          for(int i = 0 ; i < childs ; i++) {
-            var keyName = 'Child ${i+1}_first_name';
-            var keyLname = 'Child ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < childs; i++) {
+            var keyName = 'Child ${i + 1}_first_name';
+            var keyLname = 'Child ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
             }
           }
 
-          for(int i = 0 ; i < infant ; i++) {
-            var keyName = 'Infant ${i+1}_first_name';
-            var keyLname = 'Infant ${i+1}_last_name';
-            var contactName = makeLowerCaseName(values,keyName,keyLname);
+          for (int i = 0; i < infant; i++) {
+            var keyName = 'Infant ${i + 1}_first_name';
+            var keyLname = 'Infant ${i + 1}_last_name';
+            var contactName = makeLowerCaseName(values, keyName, keyLname);
             if (contactName == emergencyName) {
               showSameNameError();
               return;
@@ -208,7 +304,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           }
         }
       }
-      print('');
 
       final bookingState = context.read<BookingCubit>().state;
       final state = context.read<SearchFlightCubit>().state;
@@ -259,6 +354,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         final filledPassenger = passenger.copyWith(
           firstName: value["${person.toString()}$formNameFirstName"],
           lastName: value["${person.toString()}$formNameLastName"],
+          mYRewardMemberID: value["${person.toString()}$formNameMYRewardId"],
           title: (value["${person.toString()}$formNameTitle"] as String?)
               ?.toUpperCase(),
           nationality: value["${person.toString()}$formNameNationality"],
@@ -266,8 +362,13 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           gender: "Male",
           relation: "Self",
           wheelChairNeeded: value["${person.toString()}$formNameWheelChair"],
+          insuranceSelected: value["${person.toString()}$formNameInsurance"],
           oKUIDNumber: value["${person.toString()}$formNameOkIdNumber"],
         );
+        if (filledPassenger.insuranceSelected ?? false) {
+          filledPassenger.setInsuranceWith(bookingState
+              .verifyResponse!.flightSSR!.insuranceGroup!.outbound!.first);
+        }
         passengers.add(filledPassenger);
       }
       final pnrRequest = FlightSummaryPnrRequest(
@@ -311,20 +412,20 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
     }
   }
 
-  String makeLowerCaseName(Map<String, dynamic> values,String firstKey,String lastKey) {
-    return (values[firstKey].toString() +
-              values[lastKey].toString())
-          .toLowerCase();
+  String makeLowerCaseName(
+      Map<String, dynamic> values, String firstKey, String lastKey) {
+    return (values[firstKey].toString() + values[lastKey].toString())
+        .toLowerCase();
   }
 
   void showSameNameError() {
-       BookingDetailsView.fbKey.currentState!.invalidateField(
+    BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyFirstName,
         errorText:
             'Emergency contact name should be different from contact name and passenger name.');
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyLastName,
         errorText:
-        'Emergency contact name should be different from contact name and passenger name.');
+            'Emergency contact name should be different from contact name and passenger name.');
   }
 }

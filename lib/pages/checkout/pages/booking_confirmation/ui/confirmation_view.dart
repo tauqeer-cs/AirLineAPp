@@ -61,15 +61,22 @@ class _ConfirmationViewState extends State<ConfirmationView> {
             children: [
               kVerticalSpacerSmall,
               Text(
-                "Your booking has been confirmed.\nA confirmation email has been sent to\n${confirmationDetail.confirmationModel?.value?.bookingContact?.email}",
+                "A confirmation email has been sent to",
                 style: kMediumMedium.copyWith(
                     color: Styles.kSubTextColor, height: 1.5),
                 textAlign: TextAlign.center,
               ),
+              Text(
+                "${confirmationDetail.confirmationModel?.value?.bookingContact?.email}",
+                style: kMediumMedium.copyWith(
+                    color: Styles.kTextColor, height: 1.5),
+                textAlign: TextAlign.center,
+              ),
+
               kVerticalSpacerSmall,
               Text(
                 "Booking reference:  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
-                style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                style: kHugeSemiBold.copyWith(color: Styles.kDartBlack),
                 textAlign: TextAlign.center,
               ),
               kVerticalSpacer,
@@ -89,8 +96,14 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     const FaresAndBundles(),
                     const ConfirmationSeats(),
                     const ConfirmationMeals(),
-                     ConfirmationBaggage(),
-                     ConfirmationBaggage(boolIsSports: true,),
+                    const ConfirmationBaggage(),
+                    const ConfirmationBaggage(
+                      boolIsSports: true,
+                    ),
+                    const ConfirmationBaggage(
+                      isInsurance: true,
+                    ),
+                    //1 == 1 ? Container() :
                     const ConfirmationPromo(),
                     kVerticalSpacerSmall,
                     const AppDividerWidget(),
@@ -107,6 +120,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                                       ?.superPNROrder?.voucherDiscountAmt ??
                                   0),
                           isDense: false,
+                          isNormalMYR: true,
                         ),
                       ],
                     ),

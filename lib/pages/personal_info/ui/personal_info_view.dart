@@ -124,9 +124,35 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                   String? eLastName = value[formNameLastNameEmergency];
                   String? eRelationShip =
                       value[formNameRelationshipEmergency];
+
+
+                  bool relationShipFlag = true;
+
+
+                  if((eFirstName ?? '').isNotEmpty &&  (eLastName ?? '').isEmpty){
+                    PersonalInfoView._fbKey.currentState!.invalidateField(name: formNameLastNameEmergency,errorText: 'Please enter last name');
+                    relationShipFlag = false;
+                  }
+
+                  if((eLastName ?? '').isNotEmpty &&  (eFirstName ?? '').isEmpty){
+                    PersonalInfoView._fbKey.currentState!.invalidateField(name: formNameFirstNameEmergency,errorText: 'Please enter first name');
+                    relationShipFlag = false;
+                  }
+
+
+                    if( (eFirstName ?? '').isNotEmpty || (eLastName ?? '').isNotEmpty) {
+                      if((eRelationShip ?? '').isEmpty) {
+                        PersonalInfoView._fbKey.currentState!.invalidateField(name: formNameRelationshipEmergency,errorText: 'Please Select relationship');
+                        relationShipFlag = false;
+                      }
+                    }
+
+                    if(!relationShipFlag) {
+                      return;
+                    }
                   String? ePhoneNo = value[formNamePhoneNoRelationship];
 
-                  final UserProfile userProfile = UserProfile(
+                  var userProfile = context.read<ProfileCubit>().state.profile!.userProfile!.copyWith(
                     icNumber: myId,
                     title: nameTitle ?? profile?.userProfile?.title,
                     firstName: fName,
@@ -152,6 +178,8 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                       relationship: eRelationShip,
                     ),
                   );
+
+
                   context.read<ProfileCubit>().updateProfile(userProfile);
                 }
               },

@@ -17,10 +17,10 @@ class Api {
   static final Api _instance = Api._internal();
 
   final Dio _dio = Dio(BaseOptions(
-      connectTimeout: 15 * 1000, // 10 seconds
-      receiveTimeout: 15 * 1000 // 10 seconds
+      connectTimeout: 45 * 1000, // 10 seconds
+      receiveTimeout: 45 * 1000 // 10 seconds
 
-      ));
+  ));
 
   Api._internal() {
     logger.i("Initializing API client...");
@@ -105,7 +105,9 @@ class MyInterceptor extends Interceptor {
 
     String? accessTokenData = await _repository.getAccessToken();
 
-    String? accessToken = options.baseUrl.contains(AppFlavor.paymentRedirectUrl)
+    String? accessToken =
+    options.baseUrl.contains(AppFlavor.paymentRedirectUrl) ||
+        options.baseUrl.contains(AppFlavor.baseUrlCMS)
         ? _cmsRepository.cmsToken
         : accessTokenData;
     if (accessToken != null) {
@@ -163,10 +165,9 @@ class MyInterceptor extends Interceptor {
   onError(DioError err, ErrorInterceptorHandler handler) {
     var error = err.error;
     logger.e(err);
-    if (err.type == DioErrorType.connectTimeout || err.type == DioErrorType.receiveTimeout) {
-      Map<String, dynamic> errors = {
-        'message': "Connection timed out"
-      };
+    if (err.type == DioErrorType.connectTimeout ||
+        err.type == DioErrorType.receiveTimeout) {
+      Map<String, dynamic> errors = {'message': "Connection timed out"};
       //_repository.deleteCurrentUser();
       throw ErrorResponse.fromJson(errors);
     }
@@ -202,7 +203,6 @@ class MyInterceptor extends Interceptor {
     super.onError(error, handler);
   }
 }
-
 
 /// [Dio] client interceptor that hooks into request/response process
 /// and calls Firebase Metric API in between. The request key is calculated
@@ -274,6 +274,7 @@ class DioFirebasePerformanceInterceptor extends Interceptor {
 }
 
 typedef RequestContentLengthMethod = int? Function(RequestOptions options);
+
 int? defaultRequestContentLength(RequestOptions options) {
   try {
     return options.headers.toString().length + options.data.toString().length;
@@ -283,6 +284,7 @@ int? defaultRequestContentLength(RequestOptions options) {
 }
 
 typedef ResponseContentLengthMethod = int? Function(Response options);
+
 int? defaultResponseContentLength(Response response) {
   try {
     String? lengthHeader = response.headers[Headers.contentLengthHeader]?.first;
@@ -343,3 +345,5 @@ extension _StringHttpMethod on String {
     }
   }
 }
+
+

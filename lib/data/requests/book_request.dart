@@ -58,6 +58,7 @@ class PaymentDetail extends Equatable {
     this.myRewardPoints = 0,
     this.promoCode,
     required this.frontendUrl,
+    this.myRewardRedemptionName,
   });
 
   factory PaymentDetail.fromJson(Map<String, dynamic> json) =>
@@ -80,6 +81,11 @@ class PaymentDetail extends Equatable {
   @JsonKey(name: 'FrontendURL')
   final String frontendUrl;
 
+
+  @JsonKey(name: 'MyRewardRedemptionName')
+  final dynamic myRewardRedemptionName;
+
+
   PaymentDetail copyWith({
     String? paymentMethod,
     String? currency,
@@ -87,6 +93,8 @@ class PaymentDetail extends Equatable {
     num? totalAmountNeedToPay,
     num? myRewardPoints,
     String? promoCode,
+    String? myRewardRedemptionName,
+
     String? frontendUrl,
   }) =>
       PaymentDetail(
@@ -96,11 +104,11 @@ class PaymentDetail extends Equatable {
         totalAmountNeedToPay: totalAmountNeedToPay ?? this.totalAmountNeedToPay,
         myRewardPoints: myRewardPoints ?? this.myRewardPoints,
         promoCode: promoCode ?? this.promoCode,
+        myRewardRedemptionName: myRewardRedemptionName ?? this.myRewardRedemptionName,
         frontendUrl: frontendUrl ?? this.frontendUrl,
       );
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         paymentMethod,
         currency,
@@ -109,5 +117,6 @@ class PaymentDetail extends Equatable {
         myRewardPoints,
         promoCode,
         frontendUrl,
+    myRewardRedemptionName,
       ];
 }

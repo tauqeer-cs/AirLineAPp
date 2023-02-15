@@ -40,6 +40,7 @@ class CredentialInput extends StatelessWidget {
                       Stack(
                         children: [
                           AppInputText(
+                            maxLength: 45,
                             isRequired: false,
                             focusNode: focusNode,
                             textInputType: TextInputType.emailAddress,

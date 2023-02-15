@@ -25,66 +25,80 @@ class PassengerCard extends StatelessWidget {
     int infant = 0;
     int children = 0;
     return AppCard(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Passengers",
-                    style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
-                  ),
-                ),
-                kVerticalSpacerMini,
-                ...(passengers ?? []).mapIndexed(
-                  (index, e) {
-                    int number;
-                    switch (e.getType) {
-                      case PeopleType.adult:
-                        adult++;
-                        number = adult;
-                        break;
-                      case PeopleType.child:
-                        children++;
-                        number = children;
-                        break;
-                      case PeopleType.infant:
-                        infant++;
-                        number = infant;
-                        break;
-                      case null:
-                        number = 0;
-                        break;
-                    }
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Passengers",
+                        style:
+                            kMediumHeavy.copyWith(color: Styles.kSubTextColor),
+                      ),
+                    ),
+                    kVerticalSpacerMini,
+                    ...(passengers ?? []).mapIndexed(
+                      (index, e) {
+                        int number;
+                        switch (e.getType) {
+                          case PeopleType.adult:
+                            adult++;
+                            number = adult;
+                            break;
+                          case PeopleType.child:
+                            children++;
+                            number = children;
+                            break;
+                          case PeopleType.infant:
+                            infant++;
+                            number = infant;
+                            break;
+                          case null:
+                            number = 0;
+                            break;
+                        }
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${e.getType?.name.capitalize()} $number",
-                          style: kLargeHeavy,
-                        ),
-                        kVerticalSpacerMini,
-                        Text("${e.title} ${e.firstName} ${e.lastName}"),
-                        kVerticalSpacerSmall,
-                      ],
-                    );
-                  },
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${e.getType?.name.capitalize()} $number",
+                              style: kLargeHeavy,
+                            ),
+                            kVerticalSpacerMini,
+                            Text("${e.titleToShow} ${e.firstName} ${e.lastName}"),
+                            kVerticalSpacerSmall,
+
+                          ],
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
+            ],
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Visibility(
+              visible: superPnr == null,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Edit",
+                  style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
+                ),
+              ),
             ),
           ),
-          Visibility(
-            visible: superPnr==null,
-            child: TextButton(
-              onPressed: () => context.router.pop(),
-              child: const Text("Edit"),
-            ),
-          )
         ],
       ),
     );

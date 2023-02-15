@@ -1,4 +1,5 @@
 import 'package:app/models/country.dart';
+import 'package:app/models/switch_setting.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -10,4 +11,6 @@ abstract class PublicProvider {
   @GET('public/getcountry')
   Future<Countries> getCountries();
 
+  @GET('public/getswitchsetting')
+  Future<SwitchSetting> getSettings();
 }

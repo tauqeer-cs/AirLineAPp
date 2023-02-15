@@ -15,7 +15,7 @@ class ConfirmationMeals extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.mealDetail;
-    return Column(
+    return (meals?.noMealsSelected ?? false) ? Container() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -28,6 +28,7 @@ class ConfirmationMeals extends StatelessWidget {
             MoneyWidget(
               amount: meals?.totalAmount,
               isDense: true,
+              isNormalMYR: true,
             ),
           ],
         ),
@@ -36,9 +37,12 @@ class ConfirmationMeals extends StatelessWidget {
             .map((e) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${e.title} ${e.givenName} ${e.surName}"),
-                    ...(e.mealList??[]).map((e) => Text("${e.mealName} x${e.quantity}")).toList(),
-                    kVerticalSpacerSmall,
+                    if( e.mealList?.isNotEmpty ?? false) ... [
+                      Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
+                      ...(e.mealList??[]).map((e) => Text("${e.mealName} x${e.quantity}")).toList(),
+                      kVerticalSpacerSmall,
+                    ]
+
                   ],
                 ))
             .toList(),

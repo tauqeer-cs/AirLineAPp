@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 
+import '../../../utils/constant_utils.dart';
+
 class FeeAndTaxesDetail extends StatelessWidget {
   final bool isDeparture;
 
@@ -26,10 +28,34 @@ class FeeAndTaxesDetail extends StatelessWidget {
         info?.applicationTaxDetailBinds;
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final verifyResponse = bookingCubit.verifyResponse;
-    final infantInbound= verifyResponse?.flightSSR?.infantGroup?.inbound?.firstOrNull;
-    final infantOutbound= verifyResponse?.flightSSR?.infantGroup?.outbound?.firstOrNull;
+    final infantInbound =
+        verifyResponse?.flightSSR?.infantGroup?.inbound?.firstOrNull;
+    final infantOutbound =
+        verifyResponse?.flightSSR?.infantGroup?.outbound?.firstOrNull;
     final infant = isDeparture ? infantOutbound : infantInbound;
     if (taxes?.isEmpty ?? true) return const SizedBox();
+    num discountTotal = 0;
+
+    if (ConstantUtils.showPromoInFeesAndTaxes) {
+      var discountPercent = bookingCubit.selectedDeparture!.discountPCT;
+
+      if (filter?.promoCode != null &&
+          discountPercent != null &&
+          (discountPercent > 0)) {
+        discountTotal = 1;
+        var a =
+            bookingCubit.selectedDeparture!.beforeDiscountTotalAmtWithInfantSSR;
+        var b =
+            bookingCubit.selectedDeparture!.totalSegmentFareAmtWithInfantSSR;
+
+        discountTotal = a! - b!;
+
+        print('');
+
+        print('discountTotal');
+      }
+    }
+
     return Column(
       children: [
         kVerticalSpacerMini,
@@ -42,16 +68,9 @@ class FeeAndTaxesDetail extends StatelessWidget {
                 "Ticket",
                 style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
               ),
-              Row(
-                children: [
-                  Text(
-                    "${filter?.numberPerson.totalPerson}x @",
-                    style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
-                  ),
-                  kHorizontalSpacerMini,
-                  MoneyWidgetSmall(amount: info?.baseFareAmt, isDense: true),
-                ],
-              ),
+              Align(
+                  child: MoneyWidgetSmall(
+                      amount: info?.baseFareAmt, isDense: true)),
             ],
           ),
         ),
@@ -102,13 +121,36 @@ class FeeAndTaxesDetail extends StatelessWidget {
                           kSmallRegular.copyWith(color: Styles.kSubTextColor),
                     ),
                     kHorizontalSpacerMini,
-                    MoneyWidgetSmall(amount: infant?.amount ?? segment?.infantPricePerPax, isDense: true),
+                    MoneyWidgetSmall(
+                        amount: infant?.amount ?? segment?.infantPricePerPax,
+                        isDense: true),
                   ],
                 ),
               ],
             ),
           ),
         ),
+        if (discountTotal > 0 && ConstantUtils.showPromoInFeesAndTaxes) ...[
+          Visibility(
+            visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,
+            child: PriceContainer(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Promo\n${filter?.promoCode ?? ''}",
+                    style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                  ),
+                  MoneyWidgetSmall(
+                    amount: discountTotal,
+                    isDense: true,
+                    isNegative: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }

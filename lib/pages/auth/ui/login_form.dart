@@ -72,9 +72,10 @@ class LoginForm extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: AppDividerWidget(
-                      color: Styles.kSubTextColor,
-                    )),
+                      child: AppDividerWidget(
+                        color: Styles.kSubTextColor,
+                      ),
+                    ),
                     kHorizontalSpacerMini,
                     const Text("or"),
                     kHorizontalSpacerMini,
@@ -93,6 +94,7 @@ class LoginForm extends StatelessWidget {
             textInputType: TextInputType.emailAddress,
             name: formEmailLoginName,
             hintText: 'Email Address',
+            maxLength: 45,
             validators: [
               FormBuilderValidators.required(),
               FormBuilderValidators.email(),

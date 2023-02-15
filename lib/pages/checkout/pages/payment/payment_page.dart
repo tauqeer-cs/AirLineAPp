@@ -18,6 +18,10 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/voucher/voucher_cubit.dart';
+import '../../../../utils/constant_utils.dart';
+import '../booking_details/bloc/summary_cubit.dart';
+
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
@@ -26,6 +30,12 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<VoucherCubit>().resetState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -88,7 +98,9 @@ class _PaymentPageState extends State<PaymentPage> {
                         context.read<TimerBloc>().add(
                               TimerStarted(
                                 duration: 900,
-                                expiredTime: DateTime.now().toUtc().add(const Duration(seconds: 900)),
+                                expiredTime: DateTime.now()
+                                    .toUtc()
+                                    .add(const Duration(seconds: 900)),
                               ),
                             );
                         final result = await context.router.push(
@@ -100,7 +112,6 @@ class _PaymentPageState extends State<PaymentPage> {
                           var query = urlParsed.queryParametersAll;
                           String? status = query['status']?.first;
                           String? superPNR = query['superPNR']?.first;
-                          print("url parsed is $urlParsed");
                           if (status != "FAIL") {
                             if (mounted) {
                               final filter = context
@@ -197,7 +208,12 @@ class _PaymentPageState extends State<PaymentPage> {
                     },
                   ),
                 ),
-                body: const PaymentView(),
+                body: BlocBuilder<VoucherCubit, VoucherState>(
+                    builder: (context, state) {
+                  return PaymentView(
+                    promoReady: state.promoLoaded,
+                  );
+                }),
               ),
             ),
           ),

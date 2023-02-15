@@ -2,6 +2,7 @@ import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/public_provider.dart';
 import 'package:app/models/country.dart';
+import 'package:app/models/switch_setting.dart';
 
 class PublicRepository {
   static final PublicRepository _instance = PublicRepository._internal();
@@ -19,5 +20,13 @@ class PublicRepository {
 
   Future<Countries> getCountries() async {
     return await _provider.getCountries();
+  }
+
+  Future<SwitchSetting> getSettings({bool returnTrue = false}) async {
+    if (returnTrue) {
+      return const SwitchSetting(insurance: true, myReward: true);
+    }
+
+    return await _provider.getSettings();
   }
 }

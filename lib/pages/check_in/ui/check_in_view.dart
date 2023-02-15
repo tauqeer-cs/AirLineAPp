@@ -30,8 +30,7 @@ class CheckInView extends StatelessWidget {
                 children: [
                   kVerticalSpacer,
                   const Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 0.0, horizontal: 0),
+                    padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
                     child: Text("Online Check In", style: kGiantHeavy),
                   ),
                   kVerticalSpacerMini,
@@ -47,24 +46,25 @@ class CheckInView extends StatelessWidget {
                       FormBuilderValidators.required(),
                       FormBuilderValidators.minLength(6,
                           errorText:
-                          "Booking number has to be 6 alphanumeric characters"),
+                              "Booking number has to be 6 alphanumeric characters"),
                       FormBuilderValidators.maxLength(6,
                           errorText:
-                          "Booking number has to be 6 alphanumeric characters"),
+                              "Booking number has to be 6 alphanumeric characters"),
                     ],
                   ),
                   kVerticalSpacerSmall,
                   AppInputText(
                     name: "lastNameCheckIn",
-                    hintText: "Surname / Lastname",
+                    hintText: "Surname / Last Name",
                     validators: [FormBuilderValidators.required()],
                   ),
                   kVerticalSpacer,
                   ElevatedButton(
-                      onPressed: () {
-                        onManageBooking(context);
-                      },
-                      child: const Text("Check In"))
+                    onPressed: () {
+                      onManageBooking(context);
+                    },
+                    child: const Text("Check In"),
+                  )
                 ],
               ),
             ),
