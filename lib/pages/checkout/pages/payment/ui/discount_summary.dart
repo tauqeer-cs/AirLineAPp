@@ -17,8 +17,19 @@ class DiscountSummary extends StatelessWidget {
     final voucherState = context.watch<VoucherCubit>().state;
     final discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount ?? 0;
 
+    int? redeemAmount = context.watch<VoucherCubit>().state.selectedRedeemOption?.redemptionAmount;
+
+    if(redeemAmount == 0) {
+      redeemAmount = null;
+
+    }
+
+    print('');
+
+
     return Visibility(
-      visible: discount!=0,
+      visible: discount!=0 || redeemAmount != null,
+
       child: Transform.translate(
         offset: const Offset(0,20),
         child: Container(
@@ -39,18 +50,40 @@ class DiscountSummary extends StatelessWidget {
                 ],
               ),
               kVerticalSpacerSmall,
-              Row(
-                children: [
-                  Text("Voucher", style: kMediumRegular.copyWith(color: Styles.kSubTextColor),),
-                  const Spacer(),
-                  MoneyWidgetSmall(
-                    isDense: false,
-                    amount: discount,
-                    isNegative: true,
-                  ),
-                ],
-              ),
-              kVerticalSpacerSmall,
+              if(discount!=0) ... [
+                Row(
+                  children: [
+                    Text("Voucher", style: kMediumRegular.copyWith(color: Styles.kSubTextColor),),
+                    const Spacer(),
+                    MoneyWidgetSmall(
+                      isDense: false,
+                      amount: discount,
+                      isNegative: true,
+                    ),
+                  ],
+                ),
+                kVerticalSpacerSmall,
+              ],
+
+
+              if(redeemAmount != null) ... [
+                Row(
+                  children: [
+                    Text("MYReward", style: kMediumRegular.copyWith(color: Styles.kSubTextColor),),
+                    const Spacer(),
+
+                    MoneyWidgetSmall(
+                      isDense: false,
+                      amount: redeemAmount,
+                      isNegative: true,
+                    ),
+
+
+                  ],
+                ),
+                kVerticalSpacerSmall,
+              ],
+
             ],
           ),
         ),
