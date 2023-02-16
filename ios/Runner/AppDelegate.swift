@@ -25,9 +25,6 @@ import Flutter
           print("Bundle Identifier: \(bundleIdentifier)")
           Insider.initWithLaunchOptions(launchOptions, partnerName: bundleIdentifier == "com.myairline.mobileapp.uat" ? "myairlineuat" : "myairline" , appGroup: appGroup)
           Insider.register(withQuietPermission: false)
-          
-          
-          
       }
       
       //insider api key 9NSEqzLBz0quco87ih2AwhG0IUV7suyj

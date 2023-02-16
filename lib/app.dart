@@ -81,11 +81,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Future initInsider() async {
     if (!mounted) return;
     // Call in async method.
-    await FlutterInsider.Instance.init(AppFlavor.insiderPartnerName,AppFlavor.insiderAppGroup, userInsiderCallBack);
+    await FlutterInsider.Instance.init(
+      AppFlavor.insiderPartnerName,
+      AppFlavor.insiderAppGroup,
+      userInsiderCallBack,
+    );
     // This is an utility method, if you want to handle the push permission in iOS own your own you can omit the following method.
-    try{
+    try {
       await FlutterInsider.Instance.visitHomePage();
-    }catch(e){
+    } catch (e) {
       logger.e(e);
     }
     FlutterInsider.Instance.registerWithQuietPermission(false);
@@ -105,7 +109,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
-    @override
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       try {
@@ -372,15 +376,19 @@ class MyObserver extends AutoRouterObserver {
   }
 
   void checkInsiderEvent(TabPageRoute route) {
-    if(route.path == "deals"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.dealsPageView);
-      UserInsider.instance.registerStandardEvent(InsiderConstants.promotionListingPageView);
+    if (route.path == "deals") {
+      UserInsider.instance
+          .registerStandardEvent(InsiderConstants.dealsPageView);
+      UserInsider.instance
+          .registerStandardEvent(InsiderConstants.promotionListingPageView);
     }
-    if(route.path == "bookings"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.manageBookingPageView);
+    if (route.path == "bookings") {
+      UserInsider.instance
+          .registerStandardEvent(InsiderConstants.manageBookingPageView);
     }
-    if(route.path == "check-in"){
-      UserInsider.instance.registerStandardEvent(InsiderConstants.checkInStarted);
+    if (route.path == "check-in") {
+      UserInsider.instance
+          .registerStandardEvent(InsiderConstants.checkInStarted);
     }
   }
 
