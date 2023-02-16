@@ -4,6 +4,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
+import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
@@ -20,12 +21,13 @@ class BookingsView extends StatelessWidget {
     return GestureDetector(
       onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
       child: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: FormBuilder(
-              key: _fbKey,
-              child: GreyCard(
+        child: FormBuilder(
+          key: _fbKey,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height/1.9,
+              child : AppCard(
+
+                roundedInBottom: true,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -49,7 +51,7 @@ class BookingsView extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.minLength(6,
                             errorText:
-                                "Booking number has to be 6 alphanumeric characters"),
+                            "Booking number has to be 6 alphanumeric characters"),
                         FormBuilderValidators.maxLength(6,
                             errorText:
                             "Booking number has to be 6 alphanumeric characters"),
@@ -69,8 +71,7 @@ class BookingsView extends StatelessWidget {
                         child: const Text("Manage Booking"))
                   ],
                 ),
-              ),
-            ),
+              )
           ),
         ),
       ),
