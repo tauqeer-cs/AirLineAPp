@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BundleView extends StatefulWidget {
   final bool isDeparture;
+
   const BundleView({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
@@ -69,26 +70,25 @@ class _BundleViewState extends State<BundleView> {
                 ],
               ),
               kVerticalSpacer,
-              //if (isScrollable)
-                SummaryContainer(
-                  child: Padding(
-                    padding: kPagePadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const BookingSummary(),
-                        ContinueButton(
-                          flightType: flightType,
-                          isDeparture: widget.isDeparture,
-                        ),
-                      ],
-                    ),
+              SummaryContainer(
+                child: Padding(
+                  padding: kPagePadding,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const BookingSummary(),
+                      ContinueButton(
+                        flightType: flightType,
+                        isDeparture: widget.isDeparture,
+                      ),
+                    ],
                   ),
                 ),
+              ),
             ],
           ),
         ),
-       /* if (!isScrollable)
+        /* if (!isScrollable)
           SummaryContainer(
             child: Padding(
               padding: kPagePadding,
@@ -112,6 +112,7 @@ class _BundleViewState extends State<BundleView> {
 class ContinueButton extends StatelessWidget {
   final FlightType? flightType;
   final bool isDeparture;
+
   const ContinueButton({
     Key? key,
     required this.flightType,

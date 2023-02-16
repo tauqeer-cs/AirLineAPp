@@ -37,7 +37,7 @@ class UserInsider {
 
   FlutterInsiderProduct generateProduct() {
     if (context == null) {
-      FlutterInsider.Instance.createNewProduct(
+      return FlutterInsider.Instance.createNewProduct(
         "12345",
         "test12345",
         ["test"],
@@ -62,8 +62,7 @@ class UserInsider {
         filterState.destination?.code ?? "none"
       ],
       "https://www.myairline.my/image/logo.png",
-      (bookingState.getFinalPriceDisplay +
-              (filter.numberPerson.getTotal()))
+      (bookingState.getFinalPriceDisplay + (filter.numberPerson.getTotal()))
           .toDouble(),
       "MYR",
     );
@@ -97,6 +96,12 @@ class UserInsider {
             "total_child_passenger", filterState.numberPerson.numberOfChildren)
         .setCustomAttributeWithInt(
             "total_infant_passenger", filterState.numberPerson.numberOfInfant)
+        .setCustomAttributeWithBoolean(
+          "ancillary_bundle",
+          filter.numberPerson.getTotalBundlesPartial(false) +
+                  filter.numberPerson.getTotalBundlesPartial(true) >
+              0,
+        )
         .setCustomAttributeWithBoolean(
           "ancillary_seat",
           filter.numberPerson.getTotalSeatsPartial(false) +
@@ -157,6 +162,13 @@ class UserInsider {
 
     final filter = context!.read<SearchFlightCubit>().state.filterState;
     if (filter == null) return;
+    if (filter.numberPerson.getTotalBundlesPartial(true) > 0) {
+      for (var element in filter.numberPerson.persons) {
+        if (element.departureBundle == null) continue;
+        insiderEvent.addParameterWithString("bundle_purchased",
+            element.departureBundle?.bundle?.description ?? "");
+      }
+    }
     if (filter.numberPerson.getTotalSeatsPartial(true) > 0) {
       for (var element in filter.numberPerson.persons) {
         if (element.departureSeats == null) continue;
@@ -187,6 +199,13 @@ class UserInsider {
     }
 
     if (filter.flightType == FlightType.round) {
+      if (filter.numberPerson.getTotalBundlesPartial(false) > 0) {
+        for (var element in filter.numberPerson.persons) {
+          if (element.returnBundle == null) continue;
+          insiderEvent.addParameterWithString("return_bundle_purchased",
+              element.returnBundle?.bundle?.description ?? "");
+        }
+      }
       if (filter.numberPerson.getTotalSeatsPartial(false) > 0) {
         for (var element in filter.numberPerson.persons) {
           if (element.returnSeats == null) continue;
