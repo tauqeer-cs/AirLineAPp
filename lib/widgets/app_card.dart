@@ -26,8 +26,8 @@ class AppCard extends StatelessWidget {
         color: customColor ?? Theme.of(context).cardColor,
         borderRadius: roundedInBottom
             ? const BorderRadius.only(
-                bottomLeft: Radius.circular(15.0),
-                bottomRight: Radius.circular(15.0),
+                bottomLeft: Radius.circular(30.0),
+                bottomRight: Radius.circular(30.0),
               )
             : BorderRadius.circular(15),
         boxShadow: [

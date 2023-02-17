@@ -8,9 +8,12 @@ import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+
+import '../../../widgets/app_input_border_text.dart';
 
 class BookingsView extends StatelessWidget {
   const BookingsView({Key? key}) : super(key: key);
@@ -18,61 +21,83 @@ class BookingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int _selectedValue = 0;
+//context.watch<BookingsState>().state.filterState
     return GestureDetector(
-      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: SafeArea(
         child: FormBuilder(
           key: _fbKey,
           child: SizedBox(
-            height: MediaQuery.of(context).size.height/1.9,
-              child : AppCard(
-
+              height: MediaQuery.of(context).size.height / 2,
+              child: AppCard(
                 roundedInBottom: true,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    kVerticalSpacer,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 0.0, horizontal: 0),
-                      child: Text("Manage My Booking", style: kGiantHeavy),
-                    ),
-                    kVerticalSpacerMini,
-                    Text(
-                      "Please enter your flight details to view and manage your booking.",
-                      style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                    ),
-                    kVerticalSpacer,
-                    AppInputText(
-                      name: "bookingNumber",
-                      hintText: "Booking Reference Number",
-                      validators: [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.minLength(6,
-                            errorText:
-                            "Booking number has to be 6 alphanumeric characters"),
-                        FormBuilderValidators.maxLength(6,
-                            errorText:
-                            "Booking number has to be 6 alphanumeric characters"),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        kVerticalSpacer,
+                        kVerticalSpacer,
+                        const Text("Manage My Booking", style: kGiantHeavy),
+                        kVerticalSpacerMini,
+                        Text(
+                          "Please enter your flight details to view and manage your booking.",
+                          style: kMediumRegular.copyWith(
+                              color: Styles.kSubTextColor),
+                        ),
+                        kVerticalSpacer,
+                        AppInputTextWithBorder(
+                          name: "bookingNumber",
+                          hintText: "Booking Reference Number",
+                          validators: [
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.minLength(6,
+                                errorText:
+                                    "Booking number has to be 6 alphanumeric characters"),
+                            FormBuilderValidators.maxLength(6,
+                                errorText:
+                                    "Booking number has to be 6 alphanumeric characters"),
+                          ],
+                        ),
+                        kVerticalSpacer,
+                        AppInputTextWithBorder(
+                          name: "lastName",
+                          hintText: "Surname / Last Name",
+                          validators: [FormBuilderValidators.required()],
+                        ),
+                        kVerticalSpacer,
+                        kVerticalSpacer,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  onManageBooking(context);
+
+                                },
+                                child: const Text('Add on Services'),
+                              ),
+                            ),
+
+                            kHorizontalSpacer,
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                },
+                                child: const Text('Change flight'),
+                              ),
+                            ),
+                          ],
+                        ),
+
                       ],
                     ),
-                    kVerticalSpacerSmall,
-                    AppInputText(
-                      name: "lastName",
-                      hintText: "Surname / Last Name",
-                      validators: [FormBuilderValidators.required()],
-                    ),
-                    kVerticalSpacer,
-                    ElevatedButton(
-                        onPressed: () {
-                          onManageBooking(context);
-                        },
-                        child: const Text("Manage Booking"))
-                  ],
+                  ),
                 ),
-              )
-          ),
+              )),
         ),
       ),
     );
@@ -87,7 +112,6 @@ class BookingsView extends StatelessWidget {
           "${AppFlavor.thirdPartyUrl}/en/manage?confirmationNumber=$code&bookingLastName=$lastName";
       //context.router.push(InAppWebViewRoute(url: url));
       SecurityUtils.tryLaunch(url);
-
     }
   }
 }
