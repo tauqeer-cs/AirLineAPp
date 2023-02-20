@@ -34,7 +34,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
 
     final booking = context.watch<BookingCubit>().state;
-    var discountPercent = booking.selectedDeparture!.discountPCT;
+    var discountPercent = booking.selectedDeparture?.discountPCT;
 
     var discountTotal = 0;
 
