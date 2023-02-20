@@ -118,7 +118,7 @@ class ContinueButton extends StatelessWidget {
               if (booking.blocState == BlocState.loading) return;
               context.read<BookingCubit>().verifyFlight(filterState);
               context.read<SearchFlightCubit>().resetFilterState(filter);
-              context.router.push(BundleRoute());
+              context.router.push(SeatsRoute());
               // if (booking.isVerify) {
               //   context.read<SummaryContainerCubit>().changeVisibility(true);
               //   context.router.push(SeatsRoute());
