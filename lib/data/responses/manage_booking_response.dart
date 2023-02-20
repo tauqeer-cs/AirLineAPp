@@ -1,0 +1,350 @@
+import '../../models/confirmation_model.dart';
+
+class ManageBookingResponse {
+  Result? result;
+  bool? success;
+  String? message;
+
+  ManageBookingResponse({this.result, this.success, this.message});
+
+  ManageBookingResponse.fromJson(Map<String, dynamic> json) {
+    result =
+    json['result'] != null ? Result.fromJson(json['result']) : null;
+    success = json['success'];
+    message = json['message'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (this.result != null) {
+      data['result'] = result!.toJson();
+    }
+    data['success'] = success;
+    data['message'] = message;
+    return data;
+  }
+}
+
+class Result {
+  BookingContact? bookingContact;
+  List<PassengersWithSSR>? passengersWithSSR;
+  List<PaymentOrder>? paymentOrders;
+  FareAndBundleDetail? fareAndBundleDetail;
+  SeatDetail? seatDetail;
+  MealDetail? mealDetail;
+  BaggageDetail? baggageDetail;
+  WheelChairDetail? wheelChairDetail;
+  SportsEquipmentDetail? sportEquipmentDetail;
+  InsuranceDetails? insuranceSSRDetail;
+  List<FlightSegment>? flightSegments;
+  CompanyTaxInvoice? companyTaxInvoice;
+  bool? isReturn;
+  bool? success;
+
+  Result(
+      {this.bookingContact,
+        this.passengersWithSSR,
+        this.paymentOrders,
+        this.fareAndBundleDetail,
+        this.seatDetail,
+        this.mealDetail,
+        this.baggageDetail,
+        this.wheelChairDetail,
+        this.sportEquipmentDetail,
+        this.insuranceSSRDetail,
+        this.flightSegments,
+        this.companyTaxInvoice,
+        this.isReturn,
+        this.success});
+
+  Result.fromJson(Map<String, dynamic> json) {
+    bookingContact = json['bookingContact'] != null
+        ? BookingContact.fromJson(json['bookingContact'])
+        : null;
+    if (json['passengersWithSSR'] != null) {
+      passengersWithSSR = <PassengersWithSSR>[];
+      json['passengersWithSSR'].forEach((v) {
+        passengersWithSSR!.add(PassengersWithSSR.fromJson(v));
+      });
+    }
+    if (json['paymentOrders'] != null) {
+      paymentOrders = <PaymentOrder>[];
+      json['paymentOrders'].forEach((v) {
+        paymentOrders!.add(PaymentOrder.fromJson(v));
+      });
+    }
+    fareAndBundleDetail = json['fareAndBundleDetail'] != null
+        ? FareAndBundleDetail.fromJson(json['fareAndBundleDetail'])
+        : null;
+    seatDetail = json['seatDetail'] != null
+        ? SeatDetail.fromJson(json['seatDetail'])
+        : null;
+    mealDetail = json['mealDetail'] != null
+        ?  MealDetail.fromJson(json['mealDetail'])
+        : null;
+    baggageDetail = json['baggageDetail'] != null
+        ? BaggageDetail.fromJson(json['baggageDetail'])
+        : null;
+    wheelChairDetail = json['wheelChairDetail'] != null
+        ? WheelChairDetail.fromJson(json['wheelChairDetail'])
+        : null;
+    sportEquipmentDetail = json['sportEquipmentDetail'] != null
+        ? SportsEquipmentDetail.fromJson(json['sportEquipmentDetail'])
+        : null;
+    insuranceSSRDetail = json['insuranceSSRDetail'] != null
+        ?  InsuranceDetails.fromJson(json['insuranceSSRDetail'])
+        : null;
+    if (json['flightSegments'] != null) {
+      flightSegments = <FlightSegment>[];
+      json['flightSegments'].forEach((v) {
+        flightSegments!.add(FlightSegment.fromJson(v));
+      });
+    }
+    companyTaxInvoice = json['companyTaxInvoice'] != null
+        ? CompanyTaxInvoice.fromJson(json['companyTaxInvoice'])
+        : null;
+    isReturn = json['isReturn'];
+    success = json['success'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (bookingContact != null) {
+      data['bookingContact'] = bookingContact!.toJson();
+    }
+    if (passengersWithSSR != null) {
+      data['passengersWithSSR'] =
+          passengersWithSSR!.map((v) => v.toJson()).toList();
+    }
+    if (paymentOrders != null) {
+      data['paymentOrders'] =
+          paymentOrders!.map((v) => v.toJson()).toList();
+    }
+    if (fareAndBundleDetail != null) {
+      data['fareAndBundleDetail'] = fareAndBundleDetail!.toJson();
+    }
+    if (seatDetail != null) {
+      data['seatDetail'] = seatDetail!.toJson();
+    }
+    if (mealDetail != null) {
+      data['mealDetail'] = mealDetail!.toJson();
+    }
+    if (baggageDetail != null) {
+      data['baggageDetail'] = baggageDetail!.toJson();
+    }
+    if (wheelChairDetail != null) {
+      data['wheelChairDetail'] = wheelChairDetail!.toJson();
+    }
+    if (sportEquipmentDetail != null) {
+      data['sportEquipmentDetail'] = sportEquipmentDetail!.toJson();
+    }
+    if (insuranceSSRDetail != null) {
+      data['insuranceSSRDetail'] = insuranceSSRDetail!.toJson();
+    }
+    if (flightSegments != null) {
+      data['flightSegments'] =
+          flightSegments!.map((v) => v.toJson()).toList();
+    }
+    if (companyTaxInvoice != null) {
+      data['companyTaxInvoice'] = companyTaxInvoice!.toJson();
+    }
+    data['isReturn'] = isReturn;
+    data['success'] = success;
+    return data;
+  }
+}
+
+
+class PassengersWithSSR {
+  int? personOrgID;
+  Passenger? passengers;
+  FareAndBundleDetail? fareAndBundleDetail;
+  SeatDetail? seatDetail;
+  MealDetail? mealDetail;
+  BaggageDetail? baggageDetail;
+  WheelChairDetail? wheelChairDetail;
+  SportsEquipmentDetail? sportEquipmentDetail;
+  InsuranceDetails? insuranceSSRDetail;
+
+  PassengersWithSSR(
+      {this.personOrgID,
+        this.passengers,
+        this.fareAndBundleDetail,
+        this.seatDetail,
+        this.mealDetail,
+        this.baggageDetail,
+        this.wheelChairDetail,
+        this.sportEquipmentDetail,
+        this.insuranceSSRDetail});
+
+  PassengersWithSSR.fromJson(Map<String, dynamic> json) {
+    personOrgID = json['personOrgID'];
+    passengers = json['passengers'] != null
+        ? Passenger.fromJson(json['passengers'])
+        : null;
+    fareAndBundleDetail = json['fareAndBundleDetail'] != null
+        ? FareAndBundleDetail.fromJson(json['fareAndBundleDetail'])
+        : null;
+    seatDetail = json['seatDetail'] != null
+        ? SeatDetail.fromJson(json['seatDetail'])
+        : null;
+    mealDetail = json['mealDetail'] != null
+        ? MealDetail.fromJson(json['mealDetail'])
+        : null;
+    baggageDetail = json['baggageDetail'] != null
+        ? BaggageDetail.fromJson(json['baggageDetail'])
+        : null;
+    wheelChairDetail = json['wheelChairDetail'] != null
+        ? WheelChairDetail.fromJson(json['wheelChairDetail'])
+        : null;
+    sportEquipmentDetail = json['sportEquipmentDetail'] != null
+        ? SportsEquipmentDetail.fromJson(json['sportEquipmentDetail'])
+        : null;
+    insuranceSSRDetail = json['insuranceSSRDetail'] != null
+        ? InsuranceDetails.fromJson(json['insuranceSSRDetail'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  <String, dynamic>{};;
+    data['personOrgID'] = personOrgID;
+    if (passengers != null) {
+      data['passengers'] = passengers!.toJson();
+    }
+    if (fareAndBundleDetail != null) {
+      data['fareAndBundleDetail'] = fareAndBundleDetail!.toJson();
+    }
+    if (seatDetail != null) {
+      data['seatDetail'] = seatDetail!.toJson();
+    }
+    if (mealDetail != null) {
+      data['mealDetail'] = mealDetail!.toJson();
+    }
+    if (baggageDetail != null) {
+      data['baggageDetail'] = baggageDetail!.toJson();
+    }
+    if (wheelChairDetail != null) {
+      data['wheelChairDetail'] = wheelChairDetail!.toJson();
+    }
+    if (sportEquipmentDetail != null) {
+      data['sportEquipmentDetail'] = sportEquipmentDetail!.toJson();
+    }
+    if (insuranceSSRDetail != null) {
+      data['insuranceSSRDetail'] = insuranceSSRDetail!.toJson();
+    }
+    return data;
+  }
+}
+
+
+
+
+
+
+
+
+class CompanyTaxInvoice {
+  int? superPNRID;
+  String? companyName;
+  String? companyAddress;
+  String? country;
+  String? state;
+  String? city;
+  String? postCode;
+  String? emailAddress;
+  bool? isTaxInvoiceSent;
+  String? lastGeneratedDate;
+  int? createdByID;
+  String? createdDate;
+  String? createdDateUTC;
+  int? modifiedByID;
+  String? modifiedDate;
+  String? modifiedDateUTC;
+
+  CompanyTaxInvoice(
+      {this.superPNRID,
+        this.companyName,
+        this.companyAddress,
+        this.country,
+        this.state,
+        this.city,
+        this.postCode,
+        this.emailAddress,
+        this.isTaxInvoiceSent,
+        this.lastGeneratedDate,
+        this.createdByID,
+        this.createdDate,
+        this.createdDateUTC,
+        this.modifiedByID,
+        this.modifiedDate,
+        this.modifiedDateUTC});
+
+  CompanyTaxInvoice.fromJson(Map<String, dynamic> json) {
+    superPNRID = json['superPNRID'];
+    companyName = json['companyName'];
+    companyAddress = json['companyAddress'];
+    country = json['country'];
+    state = json['state'];
+    city = json['city'];
+    postCode = json['postCode'];
+    emailAddress = json['emailAddress'];
+    isTaxInvoiceSent = json['isTaxInvoiceSent'];
+    lastGeneratedDate = json['lastGeneratedDate'];
+    createdByID = json['createdByID'];
+    createdDate = json['createdDate'];
+    createdDateUTC = json['createdDateUTC'];
+    modifiedByID = json['modifiedByID'];
+    modifiedDate = json['modifiedDate'];
+    modifiedDateUTC = json['modifiedDateUTC'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['superPNRID'] = superPNRID;
+    data['companyName'] = companyName;
+    data['companyAddress'] = companyAddress;
+    data['country'] = country;
+    data['state'] = state;
+    data['city'] = city;
+    data['postCode'] = postCode;
+    data['emailAddress'] = emailAddress;
+    data['isTaxInvoiceSent'] = isTaxInvoiceSent;
+    data['lastGeneratedDate'] = lastGeneratedDate;
+    data['createdByID'] = createdByID;
+    data['createdDate'] = createdDate;
+    data['createdDateUTC'] = createdDateUTC;
+    data['modifiedByID'] = modifiedByID;
+    data['modifiedDate'] = modifiedDate;
+    data['modifiedDateUTC'] = modifiedDateUTC;
+    return data;
+  }
+}
+
+class WheelChairDetail {
+  int? wheelChairCount;
+  int? totalAmount;
+  //List<Null>? wheelChairs;
+
+  WheelChairDetail({this.wheelChairCount, this.totalAmount});
+//, this.wheelChairs
+  WheelChairDetail.fromJson(Map<String, dynamic> json) {
+    wheelChairCount = json['wheelChairCount'];
+    totalAmount = json['totalAmount'];
+   // if (json['wheelChairs'] != null) {
+     // wheelChairs = <Null>[];
+     // json['wheelChairs'].forEach((v) {
+     //   wheelChairs!.add(new Null.fromJson(v));
+     // });
+   // }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wheelChairCount'] = wheelChairCount;
+    data['totalAmount'] = totalAmount;
+   // if (this.wheelChairs != null) {
+   //   data['wheelChairs'] = this.wheelChairs!.map((v) => v.toJson()).toList();
+   // }
+    return data;
+  }
+}
