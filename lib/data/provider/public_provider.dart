@@ -8,6 +8,7 @@ part 'public_provider.g.dart';
 @RestApi()
 abstract class PublicProvider {
   factory PublicProvider(Dio dio, {String baseUrl}) = _PublicProvider;
+
   @GET('public/getcountry')
   Future<Countries> getCountries();
 

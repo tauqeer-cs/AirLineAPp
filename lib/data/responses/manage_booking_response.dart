@@ -8,15 +8,13 @@ class ManageBookingResponse {
   ManageBookingResponse({this.result, this.success, this.message});
 
   ManageBookingResponse.fromJson(Map<String, dynamic> json) {
-    result =
-    json['result'] != null ? Result.fromJson(json['result']) : null;
-    success = json['success'];
-    message = json['message'];
+    result = Result.fromJson(json);
+    success = result?.success;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.result != null) {
+    if (result != null) {
       data['result'] = result!.toJson();
     }
     data['success'] = success;
