@@ -37,6 +37,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/personal_info/personal_info_page.dart';
 
+import '../pages/booking_details/booking_details_page.dart';
 import '../pages/friends_family/friend_family_page.dart';
 import '../pages/member_cards/member_cards_page.dart';
 import '../pages/more_info/more_info_page.dart';
@@ -98,6 +99,7 @@ part 'app_router.gr.dart';
     AutoRoute(page: FriendsFamilyPage, path: "/friends-family"),
     AutoRoute(page: MemberCardsPage, path: "/member-cards"),
     AutoRoute(page: MoreOptionsPage, path: "/more-options"),
+    AutoRoute(page: ManageBookingDetailsPage, path: "/manage-booking-details"),
 
 
     //

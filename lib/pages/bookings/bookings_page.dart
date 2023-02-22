@@ -1,9 +1,6 @@
-import 'package:app/pages/bookings/bloc/bookings_cubit.dart';
 import 'package:app/pages/bookings/ui/bookings_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../widgets/wave_background.dart';
 
 class BookingsPage extends StatelessWidget {
@@ -13,7 +10,7 @@ class BookingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WaveBackground(
       color: Colors.white,
-      child: const Scaffold(
+      child:  Scaffold(
         backgroundColor: Colors.transparent,
         body: BookingsView(),
       ),

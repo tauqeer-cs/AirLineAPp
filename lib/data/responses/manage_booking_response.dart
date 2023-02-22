@@ -1,4 +1,5 @@
 import '../../models/confirmation_model.dart';
+import '../../utils/date_utils.dart';
 
 class ManageBookingResponse {
   Result? result;
@@ -39,21 +40,93 @@ class Result {
   bool? isReturn;
   bool? success;
 
+  String get returnDepartureAirportName {
+    return flightSegments?.first.inbound?.first.departureAirportLocationName ??
+        '';
+  }
+
+  String get departureAirportName {
+    return flightSegments?.first.outbound?.first.departureAirportLocationName ??
+        '';
+  }
+
+  String get arrivalAirportName {
+    return flightSegments?.first.outbound?.first.arrivalAirportLocationName ??
+        '';
+  }
+
+
+
+
+
+  String get journeyTimeInHourMin {
+    return AppDateUtils.formatDuration(
+        (flightSegments?.first.outbound?.first.duration ?? 0).toInt());
+  }
+
+  String get returnJourneyTimeInHourMin {
+    return AppDateUtils.formatDuration(
+        (flightSegments?.first.inbound?.first.duration ?? 0).toInt());
+  }
+
+  String get returnArrivalAirportName {
+    return flightSegments?.first.inbound?.first.arrivalAirportLocationName ??
+        '';
+  }
+
+  String get departureDateWithTime {
+    return AppDateUtils.formatFullDateTwoLines(
+        flightSegments?.first.outbound?.first.departureDateTime);
+  }
+
+  String get arrivalDateWithTime {
+    return AppDateUtils.formatFullDateTwoLines(
+        flightSegments?.first.outbound?.first.arrivalDateTime);
+  }
+
+  String get returnArrivalDateWithTime {
+    return AppDateUtils.formatFullDateTwoLines(
+        flightSegments?.first.inbound?.first.arrivalDateTime);
+  }
+
+  String get returnDepartureDateWithTime {
+    return AppDateUtils.formatFullDateTwoLines(
+        flightSegments?.first.inbound?.first.departureDateTime);
+  }
+
+  String get departureDateToShow {
+    return AppDateUtils.formatHalfDateHalfMonth(
+        flightSegments?.first.outbound?.first.departureDateTime);
+  }
+
+  String get returnDepartureDateToShow {
+    return AppDateUtils.formatFullDate(
+        flightSegments?.first.inbound?.first.departureDateTime);
+  }
+
+  String get departureToDestinationCode {
+    return '${flightSegments?.first.outbound?.first.departureAirportLocationCode ?? ''} to ${flightSegments?.first.outbound?.first.arrivalAirportLocationCode ?? ''}';
+  }
+
+  String get returnToDestinationCode {
+    return '${flightSegments?.first.inbound?.first.departureAirportLocationCode ?? ''} to ${flightSegments?.first.inbound?.first.arrivalAirportLocationCode ?? ''}';
+  }
+
   Result(
       {this.bookingContact,
-        this.passengersWithSSR,
-        this.paymentOrders,
-        this.fareAndBundleDetail,
-        this.seatDetail,
-        this.mealDetail,
-        this.baggageDetail,
-        this.wheelChairDetail,
-        this.sportEquipmentDetail,
-        this.insuranceSSRDetail,
-        this.flightSegments,
-        this.companyTaxInvoice,
-        this.isReturn,
-        this.success});
+      this.passengersWithSSR,
+      this.paymentOrders,
+      this.fareAndBundleDetail,
+      this.seatDetail,
+      this.mealDetail,
+      this.baggageDetail,
+      this.wheelChairDetail,
+      this.sportEquipmentDetail,
+      this.insuranceSSRDetail,
+      this.flightSegments,
+      this.companyTaxInvoice,
+      this.isReturn,
+      this.success});
 
   Result.fromJson(Map<String, dynamic> json) {
     bookingContact = json['bookingContact'] != null
@@ -78,7 +151,7 @@ class Result {
         ? SeatDetail.fromJson(json['seatDetail'])
         : null;
     mealDetail = json['mealDetail'] != null
-        ?  MealDetail.fromJson(json['mealDetail'])
+        ? MealDetail.fromJson(json['mealDetail'])
         : null;
     baggageDetail = json['baggageDetail'] != null
         ? BaggageDetail.fromJson(json['baggageDetail'])
@@ -90,7 +163,7 @@ class Result {
         ? SportsEquipmentDetail.fromJson(json['sportEquipmentDetail'])
         : null;
     insuranceSSRDetail = json['insuranceSSRDetail'] != null
-        ?  InsuranceDetails.fromJson(json['insuranceSSRDetail'])
+        ? InsuranceDetails.fromJson(json['insuranceSSRDetail'])
         : null;
     if (json['flightSegments'] != null) {
       flightSegments = <FlightSegment>[];
@@ -115,8 +188,7 @@ class Result {
           passengersWithSSR!.map((v) => v.toJson()).toList();
     }
     if (paymentOrders != null) {
-      data['paymentOrders'] =
-          paymentOrders!.map((v) => v.toJson()).toList();
+      data['paymentOrders'] = paymentOrders!.map((v) => v.toJson()).toList();
     }
     if (fareAndBundleDetail != null) {
       data['fareAndBundleDetail'] = fareAndBundleDetail!.toJson();
@@ -140,8 +212,7 @@ class Result {
       data['insuranceSSRDetail'] = insuranceSSRDetail!.toJson();
     }
     if (flightSegments != null) {
-      data['flightSegments'] =
-          flightSegments!.map((v) => v.toJson()).toList();
+      data['flightSegments'] = flightSegments!.map((v) => v.toJson()).toList();
     }
     if (companyTaxInvoice != null) {
       data['companyTaxInvoice'] = companyTaxInvoice!.toJson();
@@ -151,7 +222,6 @@ class Result {
     return data;
   }
 }
-
 
 class PassengersWithSSR {
   int? personOrgID;
@@ -166,14 +236,14 @@ class PassengersWithSSR {
 
   PassengersWithSSR(
       {this.personOrgID,
-        this.passengers,
-        this.fareAndBundleDetail,
-        this.seatDetail,
-        this.mealDetail,
-        this.baggageDetail,
-        this.wheelChairDetail,
-        this.sportEquipmentDetail,
-        this.insuranceSSRDetail});
+      this.passengers,
+      this.fareAndBundleDetail,
+      this.seatDetail,
+      this.mealDetail,
+      this.baggageDetail,
+      this.wheelChairDetail,
+      this.sportEquipmentDetail,
+      this.insuranceSSRDetail});
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {
     personOrgID = json['personOrgID'];
@@ -204,7 +274,8 @@ class PassengersWithSSR {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    ;
     data['personOrgID'] = personOrgID;
     if (passengers != null) {
       data['passengers'] = passengers!.toJson();
@@ -234,13 +305,6 @@ class PassengersWithSSR {
   }
 }
 
-
-
-
-
-
-
-
 class CompanyTaxInvoice {
   int? superPNRID;
   String? companyName;
@@ -261,21 +325,21 @@ class CompanyTaxInvoice {
 
   CompanyTaxInvoice(
       {this.superPNRID,
-        this.companyName,
-        this.companyAddress,
-        this.country,
-        this.state,
-        this.city,
-        this.postCode,
-        this.emailAddress,
-        this.isTaxInvoiceSent,
-        this.lastGeneratedDate,
-        this.createdByID,
-        this.createdDate,
-        this.createdDateUTC,
-        this.modifiedByID,
-        this.modifiedDate,
-        this.modifiedDateUTC});
+      this.companyName,
+      this.companyAddress,
+      this.country,
+      this.state,
+      this.city,
+      this.postCode,
+      this.emailAddress,
+      this.isTaxInvoiceSent,
+      this.lastGeneratedDate,
+      this.createdByID,
+      this.createdDate,
+      this.createdDateUTC,
+      this.modifiedByID,
+      this.modifiedDate,
+      this.modifiedDateUTC});
 
   CompanyTaxInvoice.fromJson(Map<String, dynamic> json) {
     superPNRID = json['superPNRID'];
@@ -321,28 +385,30 @@ class CompanyTaxInvoice {
 class WheelChairDetail {
   int? wheelChairCount;
   int? totalAmount;
+
   //List<Null>? wheelChairs;
 
   WheelChairDetail({this.wheelChairCount, this.totalAmount});
+
 //, this.wheelChairs
   WheelChairDetail.fromJson(Map<String, dynamic> json) {
     wheelChairCount = json['wheelChairCount'];
     totalAmount = json['totalAmount'];
-   // if (json['wheelChairs'] != null) {
-     // wheelChairs = <Null>[];
-     // json['wheelChairs'].forEach((v) {
-     //   wheelChairs!.add(new Null.fromJson(v));
-     // });
-   // }
+    // if (json['wheelChairs'] != null) {
+    // wheelChairs = <Null>[];
+    // json['wheelChairs'].forEach((v) {
+    //   wheelChairs!.add(new Null.fromJson(v));
+    // });
+    // }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['wheelChairCount'] = wheelChairCount;
     data['totalAmount'] = totalAmount;
-   // if (this.wheelChairs != null) {
-   //   data['wheelChairs'] = this.wheelChairs!.map((v) => v.toJson()).toList();
-   // }
+    // if (this.wheelChairs != null) {
+    //   data['wheelChairs'] = this.wheelChairs!.map((v) => v.toJson()).toList();
+    // }
     return data;
   }
 }

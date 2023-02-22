@@ -254,6 +254,12 @@ class _$AppRouter extends RootStackRouter {
         child: const MoreOptionsPage(),
       );
     },
+    ManageBookingDetailsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ManageBookingDetailsPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -482,6 +488,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           MoreOptionsRoute.name,
           path: '/more-options',
+        ),
+        RouteConfig(
+          ManageBookingDetailsRoute.name,
+          path: '/manage-booking-details',
         ),
       ];
 }
@@ -1091,6 +1101,18 @@ class MoreOptionsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MoreOptionsRoute';
+}
+
+/// generated route for
+/// [ManageBookingDetailsPage]
+class ManageBookingDetailsRoute extends PageRouteInfo<void> {
+  const ManageBookingDetailsRoute()
+      : super(
+          ManageBookingDetailsRoute.name,
+          path: '/manage-booking-details',
+        );
+
+  static const String name = 'ManageBookingDetailsRoute';
 }
 
 /// generated route for

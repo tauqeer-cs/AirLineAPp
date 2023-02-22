@@ -5,8 +5,6 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
 import 'package:app/widgets/app_card.dart';
-import 'package:app/widgets/containers/grey_card.dart';
-import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,30 +15,35 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../../app/app_bloc_helper.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../widgets/app_input_border_text.dart';
+import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
 import '../bloc/bookings_cubit.dart';
 
 class BookingsView extends StatelessWidget {
-  const BookingsView({Key? key}) : super(key: key);
+  BookingsView({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
+
+  ManageBookingCubit? bloc;
 
   @override
   Widget build(BuildContext context) {
-    int _selectedValue = 0;
-    var bloc = context.watch<ManageBookingCubit>();
+    bloc = context.watch<ManageBookingCubit>();
 
-//
     return BlocConsumer<ManageBookingCubit, ManageBookingState>(
       listener: (context, state) {
-        if(state.blocState == BlocState.failed){
+        if (state.blocState == BlocState.failed) {
           Toast.of(context).show(
             success: false,
             message: state.message,
           );
-
+        } else if (state.dataLoaded) {
+          context.router.push(
+            const ManageBookingDetailsRoute(),
+          );
         }
       },
       builder: (context, state) {
+
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: SafeArea(
@@ -88,28 +91,29 @@ class BookingsView extends StatelessWidget {
                             ),
                             kVerticalSpacer,
                             kVerticalSpacer,
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      onManageBooking(context);
-                                    },
-                                    child: const Text('Add on Services'),
+                            state.isLoadingInfo
+                                ? const AppLoading()
+                                : Row(
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            onManageBooking(context);
+                                          },
+                                          child: const Text('Add on Services'),
+                                        ),
+                                      ),
+                                      kHorizontalSpacer,
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            onChangeFlightTapped(context);
+                                          },
+                                          child: const Text('Change flight'),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                kHorizontalSpacer,
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      bloc.getBookingInformation(
-                                          'Ahmead', 'ZV9LE8a');
-                                    },
-                                    child: const Text('Change flight'),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -119,7 +123,6 @@ class BookingsView extends StatelessWidget {
           ),
         );
       },
-      listenWhen: (_, state) => false, // add this line to disable listening
     );
   }
 
@@ -132,6 +135,19 @@ class BookingsView extends StatelessWidget {
           "${AppFlavor.thirdPartyUrl}/en/manage?confirmationNumber=$code&bookingLastName=$lastName";
       //context.router.push(InAppWebViewRoute(url: url));
       SecurityUtils.tryLaunch(url);
+    }
+  }
+
+  onChangeFlightTapped(BuildContext context) async {
+    if (_fbKey.currentState!.saveAndValidate()) {
+      final value = _fbKey.currentState!.value;
+      final code = value["bookingNumber"];
+      final lastName = value["lastName"];
+
+
+      //ZV9LE8
+
+      bloc?.getBookingInformation(lastName, code);
     }
   }
 }
