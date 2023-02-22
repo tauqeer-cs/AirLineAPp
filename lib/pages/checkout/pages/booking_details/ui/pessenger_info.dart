@@ -7,6 +7,7 @@ import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.da
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
+import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
@@ -17,6 +18,7 @@ import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:app/widgets/settings_wrapper.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,6 +83,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
     return "${widget.person.toString()}$formNameMYRewardId";
   }
 
+  String? okId;
   bool isUnder16 = false;
   bool isWheelChairChecked = false;
 
@@ -115,12 +118,20 @@ class _PassengerInfoState extends State<PassengerInfo> {
     final passengerInfo = widget.person.passenger;
     final notice = context.watch<CmsSsrCubit>().state.notice;
     final filter = context.watch<FilterCubit>().state;
-    final bookingState = context
+
+    final bookingState = context.watch<BookingCubit>().state;
+    final insuranceGroup = context
         .watch<BookingCubit>()
         .state
         .verifyResponse
         ?.flightSSR
         ?.insuranceGroup;
+    final wheelChairGroup =
+        bookingState.verifyResponse?.flightSSR?.wheelChairGroup;
+    final departureWheelChair = wheelChairGroup?.outbound;
+    final returnWheelChair = filter.flightType == FlightType.oneWay
+        ? null
+        : wheelChairGroup?.inbound;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,6 +325,16 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     title: const Text(
                         'Tick this box and check-in at the airport counter to receive a wheelchair'),
                     onChanged: (value) {
+                      if (value ?? false) {
+                        updateWheelChair(
+                            context, departureWheelChair, returnWheelChair);
+                      } else {
+                        context.read<SearchFlightCubit>().addWheelChairToPerson(
+                              widget.person,
+                              null,
+                              null,
+                            );
+                      }
                       setState(() {
                         isWheelChairChecked = value ?? false;
                       });
@@ -325,6 +346,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   child: AppInputText(
                     name: "${widget.person.toString()}$formNameOkIdNumber",
                     hintText: "Disabled ID Card No (Optional)",
+                    onChanged: (id) {
+                      okId = id;
+                      updateWheelChair(
+                          context, departureWheelChair, returnWheelChair);
+                    },
                   ),
                 ),
                 Visibility(
@@ -356,8 +382,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   ),
                 ),
                 if (!isNameExtra) ...[
-                  if (bookingState != null) ...[
-                    if (bookingState.outbound!.isNotEmpty) ...[
+                  if (insuranceGroup != null) ...[
+                    if (insuranceGroup.outbound!.isNotEmpty) ...[
                       Visibility(
                         visible: visible(),
                         child: SettingsWrapper(
@@ -388,7 +414,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                       pdfIsLink: true),
                                   makeClickableTextSpan(context,
                                       text:
-                                          ": MYR ${travelProtectionRate(bookingState.outbound!)}",
+                                          ": MYR ${travelProtectionRate(insuranceGroup.outbound!)}",
                                       makeNormalTextBol: true),
                                 ],
                               ),
@@ -418,6 +444,27 @@ class _PassengerInfoState extends State<PassengerInfo> {
         ),
       ],
     );
+  }
+
+  void updateWheelChair(BuildContext context, List<Bundle>? departureWheelChair,
+      List<Bundle>? returnWheelChair) {
+    if (okId?.isNotEmpty ?? false) {
+      context.read<SearchFlightCubit>().addWheelChairToPerson(
+            widget.person,
+            departureWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHC"),
+            returnWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHC"),
+          );
+    } else {
+      context.read<SearchFlightCubit>().addWheelChairToPerson(
+            widget.person,
+            departureWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHR"),
+            returnWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHR"),
+          );
+    }
   }
 
   DateTime infantDOBlimit(DateTime departDate) {

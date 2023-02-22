@@ -8,6 +8,7 @@ import 'package:app/pages/checkout/pages/payment/ui/summary/meals_fee.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/seats_fee.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/wheelchair_fee.dart';
 import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,17 +80,20 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
                 0,
             child: const InsuranceFeeSummary(),
           ),
-
-
         ],
-
-
         Visibility(
           visible: (filter?.numberPerson
                       .getTotalBaggagePartial(widget.isDeparture) ??
                   0) >
               0,
           child: BaggageFeePayment(isDeparture: widget.isDeparture),
+        ),
+        Visibility(
+          visible: (filter?.numberPerson
+              .getTotalWheelChairPartial(widget.isDeparture) ??
+              0) >
+              0,
+          child: WheelchairFeePayment(isDeparture: widget.isDeparture),
         ),
         Visibility(
           visible: (filter?.numberPerson
