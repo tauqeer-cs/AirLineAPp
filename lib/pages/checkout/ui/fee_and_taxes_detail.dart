@@ -120,7 +120,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                     ),
                     kHorizontalSpacerMini,
                     MoneyWidgetSmall(
-                        amount: segment?.infantPricePerPax ?? infant?.amount,
+                        amount: infant?.finalAmount ?? segment?.infantPricePerPax,
                         isDense: true),
                   ],
                 ),

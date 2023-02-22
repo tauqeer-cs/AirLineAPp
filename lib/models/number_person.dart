@@ -411,7 +411,13 @@ class Person extends Equatable {
     num totalPrice = isDeparture
         ? departureSports?.finalAmount ?? 0
         : returnSports?.finalAmount ?? 0;
+    return totalPrice;
+  }
 
+  num getPartialWheelChair(bool isDeparture) {
+    num totalPrice = isDeparture
+        ? departureSports?.finalAmount ?? 0
+        : returnSports?.finalAmount ?? 0;
     return totalPrice;
   }
 

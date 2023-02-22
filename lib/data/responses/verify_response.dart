@@ -494,7 +494,6 @@ class FlightSSR extends Equatable {
   final BundleGroupSeat? insuranceGroup;
 
 
-
   //
   //
 
