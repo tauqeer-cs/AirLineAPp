@@ -509,7 +509,8 @@ class Person extends Equatable {
       case PeopleType.child:
         return DateTime(now.year - 12, now.month, now.day);
       case PeopleType.infant:
-        return DateTime(now.year - 2, now.month, now.day).add(const Duration(days: 1));
+        final start =  now.subtract(const Duration(days: 365+364));
+        return start;
       default:
         return now;
     }

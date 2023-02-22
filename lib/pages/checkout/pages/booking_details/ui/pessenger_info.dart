@@ -421,15 +421,9 @@ class _PassengerInfoState extends State<PassengerInfo> {
   }
 
   DateTime infantDOBlimit(DateTime departDate) {
-    var cc = departDate.difference(DateTime.now()).inDays;
-
-    if (cc > 8) {
-      return DateTime.now().add(const Duration(days: -1));
-    }
-
-    var op = cc - 8;
-
-    return DateTime.now().add(Duration(days: op));
+    final now = departDate;
+    final limitEnd = now.subtract(const Duration(days: 8));
+    return limitEnd;
   }
 
   Future<void> onFamilyButtonTapped(ProfileCubit profileBloc,
