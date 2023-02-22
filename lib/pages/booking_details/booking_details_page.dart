@@ -1,26 +1,52 @@
 import 'package:app/pages/booking_details/ui/booking_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../widgets/app_app_bar.dart';
 
 class ManageBookingDetailsPage extends StatelessWidget {
-  const ManageBookingDetailsPage({Key? key}) : super(key: key);
+   ManageBookingDetailsPage({Key? key}) : super(key: key);
+  ScreenshotController screenshotController = ScreenshotController();
+
+  onShare() async {
+    //    setState(() {
+    //     isLoading = true;
+    //   });
+    final directory = (await getApplicationDocumentsDirectory())
+        .path; //from path_provide package
+    String fileName = "${DateTime.now().microsecondsSinceEpoch.toString()}.jpg";
+    await screenshotController.captureAndSave(directory, fileName: fileName);
+    //setState(() {
+    //  isLoading = false;
+    //});
+    Share.shareXFiles([XFile('$directory/$fileName')]);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppAppBar(
-        centerTitle: true,
-        title: 'Manage Booking',
-        height: 80.h,
-        overrideInnerHeight: true,
+    return Screenshot(
+      controller: screenshotController,
+      child: Scaffold(
+        appBar: AppAppBar(
+          centerTitle: true,
+          title: 'Manage Booking',
+          height: 80.h,
+          overrideInnerHeight: true,
 
-      ),
-      body:  Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ManageBookingDetailsView(),
+        ),
+        body:  Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ManageBookingDetailsView(onSharedTapped: () {
+
+            onShare();
+
+          },),
+        ),
       ),
     );
+
   }
 }

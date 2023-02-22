@@ -1,6 +1,9 @@
 import 'package:app/widgets/app_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../theme/spacer.dart';
@@ -9,7 +12,10 @@ import '../../../theme/typography.dart';
 import '../../search_result/ui/choose_flight_segment.dart';
 
 class ManageBookingDetailsView extends StatelessWidget {
-   ManageBookingDetailsView({Key? key}) : super(key: key);
+
+  final VoidCallback onSharedTapped;
+
+  ManageBookingDetailsView({Key? key, required this.onSharedTapped}) : super(key: key);
 
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -26,10 +32,10 @@ class ManageBookingDetailsView extends StatelessWidget {
   ManageBookingCubit? bloc;
 
 
+
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
-
 
     return BlocBuilder<ManageBookingCubit, ManageBookingState>(
       builder: (context, state) {
@@ -68,13 +74,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                           padding: const EdgeInsets.all(0.0),
                           child: Checkbox(
                             checkColor: Colors.white,
-                            fillColor: MaterialStateProperty.resolveWith(getColor),
+                            fillColor:
+                                MaterialStateProperty.resolveWith(getColor),
                             value: state.checkedDeparture,
                             onChanged: (bool? value) {
-
                               bloc?.setCheckDeparture(value ?? false);
-
-
                             },
                           ),
                         ),
@@ -123,18 +127,20 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       timeString: state.manageBookingResponse
                                               ?.result?.departureDateWithTime ??
                                           '',
-                                      location: state.manageBookingResponse?.result
-                                              ?.departureAirportName ??
+                                      location: state.manageBookingResponse
+                                              ?.result?.departureAirportName ??
                                           '',
                                     ),
                                   ),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4),
                                     child: Expanded(
                                       flex: 3,
                                       child: PlaneWithTime(
-                                        time: state.manageBookingResponse?.result
+                                        time: state
+                                                .manageBookingResponse
+                                                ?.result
                                                 ?.journeyTimeInHourMin ??
                                             '',
                                       ),
@@ -147,8 +153,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       timeString: state.manageBookingResponse
                                               ?.result?.arrivalDateWithTime ??
                                           '',
-                                      location: state.manageBookingResponse?.result
-                                              ?.arrivalAirportName ??
+                                      location: state.manageBookingResponse
+                                              ?.result?.arrivalAirportName ??
                                           '',
                                     ),
                                   ),
@@ -164,22 +170,24 @@ class ManageBookingDetailsView extends StatelessWidget {
                       ],
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: Divider(),
                     ),
-
-                    if(state.manageBookingResponse?.result?.flightSegments?.first.inbound != null) ... [
+                    if (state.manageBookingResponse?.result?.flightSegments
+                            ?.first.inbound !=
+                        null) ...[
                       Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(0.0),
                             child: Checkbox(
                               checkColor: Colors.white,
-                              fillColor: MaterialStateProperty.resolveWith(getColor),
+                              fillColor:
+                                  MaterialStateProperty.resolveWith(getColor),
                               value: state.checkReturn,
                               onChanged: (bool? value) {
                                 bloc?.setCheckReturn(value ?? false);
-
                               },
                             ),
                           ),
@@ -203,7 +211,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       const Spacer(),
                                       Text(
                                         state.manageBookingResponse?.result
-                                            ?.returnDepartureDateToShow ??
+                                                ?.returnDepartureDateToShow ??
                                             '',
                                         style: kMediumMedium.copyWith(
                                             color: Styles.kTextColor),
@@ -213,7 +221,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 ),
                                 Text(
                                   state.manageBookingResponse?.result
-                                      ?.returnToDestinationCode ??
+                                          ?.returnToDestinationCode ??
                                       '',
                                   style: kMediumSemiBold.copyWith(
                                       color: Styles.kTextColor),
@@ -225,22 +233,28 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       flex: 4,
                                       child: FlightInto(
                                         label: 'Depart',
-                                        timeString: state.manageBookingResponse
-                                            ?.result?.returnDepartureDateWithTime ??
+                                        timeString: state
+                                                .manageBookingResponse
+                                                ?.result
+                                                ?.returnDepartureDateWithTime ??
                                             '',
-                                        location: state.manageBookingResponse?.result
-                                            ?.returnDepartureAirportName ??
+                                        location: state
+                                                .manageBookingResponse
+                                                ?.result
+                                                ?.returnDepartureAirportName ??
                                             '',
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(horizontal: 4),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
                                       child: Expanded(
                                         flex: 3,
                                         child: PlaneWithTime(
-                                          time: state.manageBookingResponse?.result
-                                              ?.returnJourneyTimeInHourMin ??
+                                          time: state
+                                                  .manageBookingResponse
+                                                  ?.result
+                                                  ?.returnJourneyTimeInHourMin ??
                                               '',
                                         ),
                                       ),
@@ -249,11 +263,15 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       flex: 4,
                                       child: FlightInto(
                                         label: 'Arrive',
-                                        timeString: state.manageBookingResponse
-                                            ?.result?.returnArrivalDateWithTime ??
+                                        timeString: state
+                                                .manageBookingResponse
+                                                ?.result
+                                                ?.returnArrivalDateWithTime ??
                                             '',
-                                        location: state.manageBookingResponse?.result
-                                            ?.returnArrivalAirportName ??
+                                        location: state
+                                                .manageBookingResponse
+                                                ?.result
+                                                ?.returnArrivalAirportName ??
                                             '',
                                       ),
                                     ),
@@ -268,14 +286,30 @@ class ManageBookingDetailsView extends StatelessWidget {
                           ),
                         ],
                       ),
-
                     ],
+                    kVerticalSpacer,
+                    OutlinedButton(
+                      onPressed: (){
+                        onSharedTapped();
+                      }, //isLoading ? null :
+                      child: const Text("Share"),
+                      /*
+                      * isLoading
+                          ? const AppLoading(
+                        size: 20,
+                      )*/
+                    ),
+                    kVerticalSpacerSmall,
+                    ElevatedButton(
+                      onPressed: () {
+                        //   context.router.replaceAll([const NavigationRoute()]);
+                      },
+                      child: const Text('Change Flight'),
+                    ),
                   ],
                 ),
               ),
             ),
-
-
 
             /*
             ChooseFlightSegment(

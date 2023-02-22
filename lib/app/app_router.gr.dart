@@ -257,7 +257,7 @@ class _$AppRouter extends RootStackRouter {
     ManageBookingDetailsRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const ManageBookingDetailsPage(),
+        child:  ManageBookingDetailsPage(),
       );
     },
     HomeRoute.name: (routeData) {
