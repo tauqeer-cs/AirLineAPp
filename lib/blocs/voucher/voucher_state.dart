@@ -7,9 +7,6 @@ class VoucherState extends Equatable {
   final String? appliedVoucher;
   final bool promoLoaded;
   late String? flightToken;
-
-
-
   final AvailableRedeemOptions? selectedRedeemOption;
   final InsertVoucherPIN? insertedVoucher;
   RedemptionOption? redemptionOption;
@@ -24,29 +21,27 @@ class VoucherState extends Equatable {
     this.selectedRedeemOption,
     this.flightToken,
     this.insertedVoucher,
-
   });
 
   VoucherState copyWith({
     BlocState? blocState,
     String? message,
-    VoucherResponse? response,
-    String? appliedVoucher,
+    VoucherResponse? Function()? response,
+    String? Function()? appliedVoucher,
     bool? promoReady,
     AvailableRedeemOptions? selectedRedeemOption,
     RedemptionOption? redemptionOption,
     String? flightToken,
     bool? redeemingPromo,
     bool? pointsRedeemed,
-
-    InsertVoucherPIN? insertedVoucher,
+    InsertVoucherPIN? Function()? insertedVoucher,
   }) {
     return VoucherState(
       blocState: blocState ?? this.blocState,
       message: message ?? this.message,
-      response: response ?? this.response,
-      insertedVoucher: insertedVoucher ?? this.insertedVoucher,
-      appliedVoucher: appliedVoucher ?? this.appliedVoucher,
+      response: response != null ? response() : this.response,
+      insertedVoucher: insertedVoucher != null ? insertedVoucher() : this.insertedVoucher,
+      appliedVoucher: appliedVoucher != null ? appliedVoucher() : this.appliedVoucher,
       promoLoaded: promoReady ?? promoLoaded,
       selectedRedeemOption: selectedRedeemOption ?? this.selectedRedeemOption,
       redemptionOption: redemptionOption ?? this.redemptionOption,

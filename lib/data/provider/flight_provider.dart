@@ -55,6 +55,9 @@ abstract class FlightProvider {
   @POST('checkout/addvoucherflight')
   Future<VoucherResponse> addVoucher(@Body() VoucherRequest voucher);
 
+  @POST('checkout/removevoucherflight')
+  Future<VoucherResponse> removeVoucher(@Body() VoucherRequest voucher);
+
   @POST('checkout/getlmsoption')
   Future<PromotionsResponse> getPromotionsData(@Body() Token voucher);
 

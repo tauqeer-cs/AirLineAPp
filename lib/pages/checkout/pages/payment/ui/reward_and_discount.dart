@@ -130,8 +130,10 @@ class RewardAndDiscount extends StatelessWidget {
                               size: 20,
                             ),
                             failedBuilder: const SizedBox(),
-                            finishedBuilder: Image.asset(
-                                "assets/images/icons/iconVoucher.png"),
+                            finishedBuilder: state.response == null
+                                ? SizedBox()
+                                : Image.asset(
+                                    "assets/images/icons/iconVoucher.png"),
                           ),
                         ),
                       ),
@@ -171,9 +173,34 @@ class RewardAndDiscount extends StatelessWidget {
                               size: 20,
                             ),
                             failedBuilder: const SizedBox(),
-                            finishedBuilder: Image.asset(
-                                "assets/images/icons/iconVoucher.png"),
+                            finishedBuilder: state.response == null
+                                ? SizedBox()
+                                : Image.asset(
+                                    "assets/images/icons/iconVoucher.png",
+                                  ),
                           ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: state.response != null,
+                    child: InkWell(
+                      onTap: () {
+                        if (state.blocState == BlocState.loading ||
+                            bookingState.superPnrNo != null) return;
+                        removeVoucher(bookingState, context);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        margin: EdgeInsets.only(left: 6),
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Styles.kPrimaryColor,
+                          shape: BoxShape.circle,
                         ),
                       ),
                     ),
@@ -195,53 +222,63 @@ class RewardAndDiscount extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: state.blocState == BlocState.loading ||
-                      bookingState.superPnrNo != null ||
-                      (state.appliedVoucher?.isNotEmpty ?? false)
+                      bookingState.superPnrNo != null
                   ? null
-                  : () {
-                      if (_fbKey.currentState!.saveAndValidate()) {
-                        if (ConstantUtils.showPinInVoucher) {
-                          final value = _fbKey.currentState!.value;
-                          final voucher = value["voucherCode"];
-                          final pin = value["voucherPin"];
-                          final voucherPin = InsertVoucherPIN(
-                            voucherCode: voucher,
-                            voucherPin: pin,
-                          );
-                          final token = bookingState.verifyResponse?.token;
-                          final voucherRequest = VoucherRequest(
-                            voucherPins: [voucherPin],
-                            token: token,
-                          );
-                          context
-                              .read<VoucherCubit>()
-                              .addVoucher(voucherRequest);
-                        } else {
-                          final value = _fbKey.currentState!.value;
-                          final voucher = value["voucherCode"];
-                          final token = bookingState.verifyResponse?.token;
-                          final voucherRequest = VoucherRequest(
-                            insertVoucher: voucher,
-                            token: token,
-                          );
-                          context
-                              .read<VoucherCubit>()
-                              .addVoucher(voucherRequest);
-                        }
-                      }
-                    },
+                  : (state.response != null)
+                      ? () => removeVoucher(bookingState, context)
+                      : () {
+                          if (_fbKey.currentState!.saveAndValidate()) {
+                            if (ConstantUtils.showPinInVoucher) {
+                              final value = _fbKey.currentState!.value;
+                              final voucher = value["voucherCode"];
+                              final pin = value["voucherPin"];
+                              final voucherPin = InsertVoucherPIN(
+                                voucherCode: voucher,
+                                voucherPin: pin,
+                              );
+                              final token = bookingState.verifyResponse?.token;
+                              final voucherRequest = VoucherRequest(
+                                voucherPins: [voucherPin],
+                                token: token,
+                              );
+                              context
+                                  .read<VoucherCubit>()
+                                  .addVoucher(voucherRequest);
+                            } else {
+                              final value = _fbKey.currentState!.value;
+                              final voucher = value["voucherCode"];
+                              final token = bookingState.verifyResponse?.token;
+                              final voucherRequest = VoucherRequest(
+                                insertVoucher: voucher,
+                                token: token,
+                              );
+                              context
+                                  .read<VoucherCubit>()
+                                  .addVoucher(voucherRequest);
+                            }
+                          }
+                        },
               child: state.blocState == BlocState.loading
                   ? const AppLoading(
                       size: 25,
                       color: Colors.white,
                     )
                   : state.insertedVoucher != null
-                      ? const Text("Applied")
+                      ? const Text("Reset")
                       : const Text("Apply"),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void removeVoucher(BookingState bookingState, BuildContext context) {
+    _fbKey.currentState!.reset();
+    final token = bookingState.verifyResponse?.token;
+    final voucherRequest = VoucherRequest(
+      token: token,
+    );
+    context.read<VoucherCubit>().removeVoucher(voucherRequest);
   }
 }

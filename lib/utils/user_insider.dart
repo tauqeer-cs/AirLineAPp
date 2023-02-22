@@ -299,6 +299,8 @@ class InsiderConstants {
   static const String ancillaryPurchased = "ancillary_purchased";
   static const String bookingDetailsPageview = "booking_details_page_view";
   static const String promoCodeApplied = "promo_code_applied";
+  static const String promoCodeRemoved = "promo_code_removed";
+
   static const String manageBookingPageView = "manage_booking_page_view";
   static const String dealsPageView = "deals_page_view";
   static const String promotionListingPageView = "promotion_listing_page_view";

@@ -83,4 +83,8 @@ class FlightRepository {
   Future<VoucherResponse> addVoucher(VoucherRequest voucher) async {
     return await _provider.addVoucher(voucher);
   }
+
+  Future<VoucherResponse> removeVoucher(VoucherRequest voucher) async {
+    return await _provider.removeVoucher(voucher);
+  }
 }
