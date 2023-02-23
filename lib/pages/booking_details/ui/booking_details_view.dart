@@ -12,10 +12,10 @@ import '../../../theme/typography.dart';
 import '../../search_result/ui/choose_flight_segment.dart';
 
 class ManageBookingDetailsView extends StatelessWidget {
-
   final VoidCallback onSharedTapped;
 
-  ManageBookingDetailsView({Key? key, required this.onSharedTapped}) : super(key: key);
+  ManageBookingDetailsView({Key? key, required this.onSharedTapped})
+      : super(key: key);
 
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -30,8 +30,6 @@ class ManageBookingDetailsView extends StatelessWidget {
   }
 
   ManageBookingCubit? bloc;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -289,7 +287,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                     ],
                     kVerticalSpacer,
                     OutlinedButton(
-                      onPressed: (){
+                      onPressed: () {
                         onSharedTapped();
                       }, //isLoading ? null :
                       child: const Text("Share"),
@@ -308,9 +306,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                           builder: (BuildContext context) {
                             return const AlertWarningBeforeProceed();
                           },
-
                         );
-
                       },
                       child: const Text('Change Flight'),
                     ),
@@ -429,74 +425,87 @@ class AlertWarningBeforeProceed extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           Text(
+          Text(
             "Flight Change Requirements",
             textAlign: TextAlign.center,
-            style: k18Heavy.copyWith(
-                color: Styles.kTextColor),
+            style: k18Heavy.copyWith(color: Styles.kTextColor),
           ),
-
-           Expanded(child: Container(),),
+          Expanded(
+            child: Container(),
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.of(context).pop();
-
             },
             child: const Icon(Icons.close),
           ),
-
         ],
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 16.0),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
               "Flight ticket changes are subject to the following rules:",
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
+              style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 8.0),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
               "• You may not change flights if your departure time is less than 48 hours from now.\n"
-                  "• Your flight destination must be identical to the original.\n"
-                  "• Your new fare cannot be lower than the original fare.\n"
-                  "• Meals are subject to availability and the change must be made more than 24 hours before the flight.\n"
-                  "• If you're travelling for longer than your travel insurance's coverage period, please ensure you are fully covered for the entire trip. Reach out to customer care to extend your coverage.\n"
-                  "• Your baggage will be transferred over to the new flight.\n"
-                  "• You may upgrade your baggage upon your flight change.",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.red,
-              ),
+              "• Your flight destination must be identical to the original.\n"
+              "• Your new fare cannot be lower than the original fare.\n"
+              "• Meals are subject to availability and the change must be made more than 24 hours before the flight.\n"
+              "• If you're travelling for longer than your travel insurance's coverage period, please ensure you are fully covered for the entire trip. Reach out to customer care to extend your coverage.\n"
+              "• Your baggage will be transferred over to the new flight.\n"
+              "• You may upgrade your baggage upon your flight change.",
+              style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 8.0),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
               "Proceed with flight change?",
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
+              style: kMediumRegular.copyWith(color: Styles.kTextColor),
             ),
           ),
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              child: const Text("Yes"),
-              onPressed: () {
-                // Do something when the user presses "Yes"
-                Navigator.of(context).pop();
-              },
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+
+                    }, //isLoading ? null :
+                    child: const Text("NO"),
+                    /*
+                      * isLoading
+                          ? const AppLoading(
+                        size: 20,
+                      )*/
+                  ),
+                ),
+                kHorizontalSpacerSmall,
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text("Yes"),
+                    onPressed: () {
+                      // Do something when the user presses "Yes"
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-    );;
+    );
+    ;
   }
 }
