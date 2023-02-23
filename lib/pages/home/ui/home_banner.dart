@@ -5,6 +5,7 @@ import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 
@@ -19,6 +20,7 @@ class HomeBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: AppImageCarousel(
@@ -51,7 +53,6 @@ class HomeBanner extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       child: AppImage(
                         imageUrl: e.img,
-                        boxFit: BoxFit.fill,
                       ),
                     ),
                   ),

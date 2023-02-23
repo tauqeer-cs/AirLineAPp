@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
+import 'package:app/pages/home/ui/dynamic_home_banner.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/widgets/app_app_bar.dart';
@@ -67,7 +68,7 @@ class HomeView extends StatelessWidget {
                     case "3D Carousel Banner":
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: HomeBanner(content: e),
+                        child: DynamicHomeBanner(content: e),
                       );
                     /* case "Flight Deals":
                       return Padding(
