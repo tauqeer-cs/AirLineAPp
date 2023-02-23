@@ -34,6 +34,13 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       returnSeats: json['returnSeats'] == null
           ? null
           : Seats.fromJson(json['returnSeats'] as Map<String, dynamic>),
+      departureWheelChair: json['departureWheelChair'] == null
+          ? null
+          : Bundle.fromJson(
+              json['departureWheelChair'] as Map<String, dynamic>),
+      returnWheelChair: json['returnWheelChair'] == null
+          ? null
+          : Bundle.fromJson(json['returnWheelChair'] as Map<String, dynamic>),
       departureMeal: (json['departureMeal'] as List<dynamic>?)
               ?.map((e) => Bundle.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -52,6 +59,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       passenger: json['passenger'] == null
           ? null
           : Passenger.fromJson(json['passenger'] as Map<String, dynamic>),
+      useWheelChair: json['useWheelChair'] as bool?,
       departureSports: json['departureSports'] == null
           ? null
           : Bundle.fromJson(json['departureSports'] as Map<String, dynamic>),
@@ -83,7 +91,10 @@ Map<String, dynamic> _$PersonToJson(Person instance) {
   writeNotNull('returnBaggage', instance.returnBaggage);
   writeNotNull('departureSports', instance.departureSports);
   writeNotNull('returnSports', instance.returnSports);
+  writeNotNull('departureWheelChair', instance.departureWheelChair);
+  writeNotNull('returnWheelChair', instance.returnWheelChair);
   writeNotNull('insuranceGroup', instance.insuranceGroup);
+  writeNotNull('useWheelChair', instance.useWheelChair);
   writeNotNull('numberOrder', instance.numberOrder);
   writeNotNull('passenger', instance.passenger);
   return val;

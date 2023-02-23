@@ -246,12 +246,12 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   name: dobKey,
                   firstDate: widget.person.dateLimitStart(filter.departDate),
                   lastDate: widget.person.peopleType == PeopleType.infant
-                      ? infantDOBlimit(filter.departDate ?? DateTime.now())
+                      ? infantDOBlimit(DateTime.now())
                       : widget.person.dateLimitEnd(filter.departDate),
                   initialValue: passengerInfo?.dob,
                   format: DateFormat("dd MMM yyyy"),
                   initialDate: widget.person.peopleType == PeopleType.infant
-                      ? infantDOBlimit(filter.departDate ?? DateTime.now())
+                      ? infantDOBlimit(DateTime.now())
                       : widget.person.dateLimitEnd(filter.departDate),
                   initialEntryMode: DatePickerEntryMode.calendar,
                   decoration: const InputDecoration(hintText: "Date of Birth"),

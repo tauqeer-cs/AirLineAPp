@@ -119,10 +119,10 @@ class RewardAndDiscount extends StatelessWidget {
                               horizontal: 12, vertical: 0),
                           isDense: true,
                           suffixIconConstraints: const BoxConstraints(
-                            minWidth: 40,
+                            minWidth: 20,
                             minHeight: 20,
                             maxHeight: 20,
-                            maxWidth: 40,
+                            maxWidth: 20,
                           ),
                           suffixIcon: blocBuilderWrapper(
                             blocState: state.blocState,
@@ -133,7 +133,9 @@ class RewardAndDiscount extends StatelessWidget {
                             finishedBuilder: state.response == null
                                 ? SizedBox()
                                 : Image.asset(
-                                    "assets/images/icons/iconVoucher.png"),
+                                    "assets/images/icons/iconVoucher.png",
+                                    width: 15,
+                                  ),
                           ),
                         ),
                       ),
@@ -162,10 +164,10 @@ class RewardAndDiscount extends StatelessWidget {
                               horizontal: 12, vertical: 0),
                           isDense: true,
                           suffixIconConstraints: const BoxConstraints(
-                            minWidth: 40,
+                            minWidth: 20,
                             minHeight: 20,
                             maxHeight: 20,
-                            maxWidth: 40,
+                            maxWidth: 20,
                           ),
                           suffixIcon: blocBuilderWrapper(
                             blocState: state.blocState,
@@ -177,31 +179,31 @@ class RewardAndDiscount extends StatelessWidget {
                                 ? SizedBox()
                                 : Image.asset(
                                     "assets/images/icons/iconVoucher.png",
+                                    width: 15,
                                   ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Visibility(
-                    visible: state.response != null,
-                    child: InkWell(
-                      onTap: () {
-                        if (state.blocState == BlocState.loading ||
-                            bookingState.superPnrNo != null) return;
+                  InkWell(
+                    onTap: () {
+                      if (state.response != null) {
                         removeVoucher(bookingState, context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(3),
-                        margin: EdgeInsets.only(left: 6),
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Styles.kPrimaryColor,
-                          shape: BoxShape.circle,
-                        ),
+                      } else {
+                        _fbKey.currentState!.reset();
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(3),
+                      margin: EdgeInsets.only(left: 6),
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Styles.kPrimaryColor,
+                        shape: BoxShape.circle,
                       ),
                     ),
                   ),
