@@ -11,7 +11,7 @@ import Flutter
 
     let appGroupUat = "group.com.myairline.mobileapp.uat"
 
-    let appGroup = "group.com.myairline.mobileapp.uat"
+    let appGroup = "group.com.myairline.mobileapp"
 
     
   override func application(
