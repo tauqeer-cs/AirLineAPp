@@ -59,6 +59,7 @@ class HomeItems extends Equatable {
   final String? from;
   final String? to;
   final String? img;
+  final String? mimg;
   final String? style;
   final String? title;
   final int? id;
@@ -76,6 +77,7 @@ class HomeItems extends Equatable {
     this.img,
     this.style,
     this.title,
+    this.mimg,
     this.id,
     this.link,
     this.key,
@@ -98,6 +100,7 @@ class HomeItems extends Equatable {
         title,
         key,
         id,
+        mimg,
         name,
         link,
         from,

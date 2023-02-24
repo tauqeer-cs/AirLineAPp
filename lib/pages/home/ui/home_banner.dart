@@ -20,12 +20,12 @@ class HomeBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: AppImageCarousel(
             showArrow: true,
             showIndicator: true,
+            aspectRatio: 848/400,
             infiniteScroll: true,
             autoPlay: (content.items ?? []).length > 1,
             items: (content.items ?? []).map(
@@ -52,7 +52,8 @@ class HomeBanner extends StatelessWidget {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: AppImage(
-                        imageUrl: e.img,
+                        imageUrl: e.mimg,
+                        boxFit: BoxFit.cover,
                       ),
                     ),
                   ),
