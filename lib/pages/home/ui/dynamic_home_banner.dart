@@ -27,7 +27,7 @@ class DynamicHomeBanner extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ExpandablePageView.builder(
                 animateFirstPage: true,
-                estimatedPageSize: 100,
+                estimatedPageSize: 200,
                 controller: pageController,
                 itemCount: content.items?.length ?? 0,
                 itemBuilder: (context, index) {
