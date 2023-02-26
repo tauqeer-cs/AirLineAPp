@@ -1,10 +1,12 @@
 import 'package:app/widgets/app_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../app/app_router.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
@@ -299,14 +301,21 @@ class ManageBookingDetailsView extends StatelessWidget {
                     ),
                     kVerticalSpacerSmall,
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         //   context.router.replaceAll([const NavigationRoute()]);
-                        showDialog(
+                        bool? check = await showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return const AlertWarningBeforeProceed();
+                            return  const AlertWarningBeforeProceed();
                           },
                         );
+
+                        if(check == true) {
+
+                          context.router.push(
+                            const NewTravelDatesRoute(),
+                          );
+                        }
                       },
                       child: const Text('Change Flight'),
                     ),
@@ -494,9 +503,12 @@ class AlertWarningBeforeProceed extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     child: const Text("Yes"),
-                    onPressed: () {
-                      // Do something when the user presses "Yes"
-                      Navigator.of(context).pop();
+                    onPressed: () async {
+
+                      Navigator.of(context).pop(true);
+
+
+
                     },
                   ),
                 ),

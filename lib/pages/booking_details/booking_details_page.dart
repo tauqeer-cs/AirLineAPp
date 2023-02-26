@@ -12,16 +12,12 @@ class ManageBookingDetailsPage extends StatelessWidget {
   ScreenshotController screenshotController = ScreenshotController();
 
   onShare() async {
-    //    setState(() {
-    //     isLoading = true;
-    //   });
+
     final directory = (await getApplicationDocumentsDirectory())
-        .path; //from path_provide package
-    String fileName = "${DateTime.now().microsecondsSinceEpoch.toString()}.jpg";
+        .path;
+     String fileName = "${DateTime.now().microsecondsSinceEpoch.toString()}.jpg";
     await screenshotController.captureAndSave(directory, fileName: fileName);
-    //setState(() {
-    //  isLoading = false;
-    //});
+
     Share.shareXFiles([XFile('$directory/$fileName')]);
   }
 

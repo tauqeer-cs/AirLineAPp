@@ -11,6 +11,7 @@ ManageBookingRequest _$ManageBookingRequestFromJson(
     ManageBookingRequest(
       pnr: json['pnr'] as String?,
       lastname: json['lastname'] as String?,
+      email: json['email'] as String?,
     );
 
 Map<String, dynamic> _$ManageBookingRequestToJson(
@@ -25,5 +26,6 @@ Map<String, dynamic> _$ManageBookingRequestToJson(
 
   writeNotNull('pnr', instance.pnr);
   writeNotNull('lastname', instance.lastname);
+  writeNotNull('email', instance.email);
   return val;
 }

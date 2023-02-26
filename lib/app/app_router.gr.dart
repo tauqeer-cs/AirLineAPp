@@ -255,9 +255,23 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     ManageBookingDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<ManageBookingDetailsRouteArgs>(
+          orElse: () => const ManageBookingDetailsRouteArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child:  ManageBookingDetailsPage(),
+        child: ManageBookingDetailsPage(key: args.key),
+      );
+    },
+    NewTravelDatesRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const NewTravelDatesPage(),
+      );
+    },
+    SelectChangeFlightRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SelectChangeFlightPage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -492,6 +506,14 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           ManageBookingDetailsRoute.name,
           path: '/manage-booking-details',
+        ),
+        RouteConfig(
+          NewTravelDatesRoute.name,
+          path: '/new-travel-dates',
+        ),
+        RouteConfig(
+          SelectChangeFlightRoute.name,
+          path: '/select-change-flight',
         ),
       ];
 }
@@ -1105,14 +1127,51 @@ class MoreOptionsRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [ManageBookingDetailsPage]
-class ManageBookingDetailsRoute extends PageRouteInfo<void> {
-  const ManageBookingDetailsRoute()
+class ManageBookingDetailsRoute
+    extends PageRouteInfo<ManageBookingDetailsRouteArgs> {
+  ManageBookingDetailsRoute({Key? key})
       : super(
           ManageBookingDetailsRoute.name,
           path: '/manage-booking-details',
+          args: ManageBookingDetailsRouteArgs(key: key),
         );
 
   static const String name = 'ManageBookingDetailsRoute';
+}
+
+class ManageBookingDetailsRouteArgs {
+  const ManageBookingDetailsRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'ManageBookingDetailsRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [NewTravelDatesPage]
+class NewTravelDatesRoute extends PageRouteInfo<void> {
+  const NewTravelDatesRoute()
+      : super(
+          NewTravelDatesRoute.name,
+          path: '/new-travel-dates',
+        );
+
+  static const String name = 'NewTravelDatesRoute';
+}
+
+/// generated route for
+/// [SelectChangeFlightPage]
+class SelectChangeFlightRoute extends PageRouteInfo<void> {
+  const SelectChangeFlightRoute()
+      : super(
+          SelectChangeFlightRoute.name,
+          path: '/select-change-flight',
+        );
+
+  static const String name = 'SelectChangeFlightRoute';
 }
 
 /// generated route for

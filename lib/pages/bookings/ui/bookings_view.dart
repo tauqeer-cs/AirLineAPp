@@ -38,7 +38,7 @@ class BookingsView extends StatelessWidget {
           );
         } else if (state.dataLoaded) {
           context.router.push(
-            const ManageBookingDetailsRoute(),
+             ManageBookingDetailsRoute(),
           );
         }
       },

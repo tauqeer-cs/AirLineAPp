@@ -38,6 +38,8 @@ PayRedirection _$PayRedirectionFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['verifyExpiredDateTime'] as String),
       success: json['success'] as bool?,
+      isInvalidMemberID: json['isInvalidMemberID'] as bool?,
+      fromCache: json['fromCache'] as bool?,
     );
 
 Map<String, dynamic> _$PayRedirectionToJson(PayRedirection instance) {
@@ -55,6 +57,8 @@ Map<String, dynamic> _$PayRedirectionToJson(PayRedirection instance) {
   writeNotNull('verifyExpiredDateTime',
       instance.verifyExpiredDateTime?.toIso8601String());
   writeNotNull('success', instance.success);
+  writeNotNull('isInvalidMemberID', instance.isInvalidMemberID);
+  writeNotNull('fromCache', instance.fromCache);
   return val;
 }
 

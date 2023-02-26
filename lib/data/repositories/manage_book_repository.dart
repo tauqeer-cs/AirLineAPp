@@ -8,6 +8,8 @@ import '../../app/app_bloc_helper.dart';
 import '../../utils/error_utils.dart';
 import '../provider/manage_booking_provider.dart';
 import '../requests/manage_booking_request.dart';
+import '../requests/search_change_flight_request.dart';
+import '../responses/flight_response.dart';
 import '../responses/manage_booking_response.dart';
 
 class ManageBookingRepository {
@@ -28,12 +30,19 @@ class ManageBookingRepository {
   Future<ManageBookingResponse> getBookingInfo(
       ManageBookingRequest request) async {
 
-
-      final profile = await _provider.getBookingInfo(
-          request.pnr ?? '', request.lastname ?? '');
-      return profile;
-
-
-
+    final profile = await _provider.getBookingInfo(
+        request.pnr ?? '', request.lastname ?? '');
+    return profile;
   }
+
+  Future<FlightResponse> getAvailableFlights(
+      SearchChangeFlightRequest request) async {
+
+    final profile = await _provider.searchForAvailableFlights(request);
+    return profile;
+  }
+
+
+  //
+
 }

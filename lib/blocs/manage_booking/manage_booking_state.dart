@@ -9,7 +9,9 @@ class ManageBookingState extends Equatable {
   final bool dataLoaded;
   final ManageBookingResponse? manageBookingResponse;
   final String? pnrEntered;
+  final FlightResponse? flightSearchResponse;
 
+  final String? lastName;
   final bool checkedDeparture;
   final bool checkReturn;
 
@@ -24,6 +26,8 @@ class ManageBookingState extends Equatable {
     this.pnrEntered,
     this.checkedDeparture = false,
     this.checkReturn = false,
+    this.lastName,
+    this.flightSearchResponse,
   });
 
   @override
@@ -36,21 +40,24 @@ class ManageBookingState extends Equatable {
         manageBookingResponse,
         pnrEntered,
         checkedDeparture,
-        checkReturn
+        checkReturn,
+        lastName,
+        flightSearchResponse
       ];
 
-  ManageBookingState copyWith({
-    BlocState? blocState,
-    String? message,
-    bool? isRememberMe,
-    bool? isManageOpen,
-    bool? isLoadingInfo,
-    bool? dataLoaded,
-    ManageBookingResponse? manageBookingResponse,
-    String? pnrEntered,
-    bool? checkedDeparture,
-    bool? checkReturn,
-  }) {
+  ManageBookingState copyWith(
+      {BlocState? blocState,
+      String? message,
+      bool? isRememberMe,
+      bool? isManageOpen,
+      bool? isLoadingInfo,
+      bool? dataLoaded,
+      ManageBookingResponse? manageBookingResponse,
+      String? pnrEntered,
+      bool? checkedDeparture,
+      bool? checkReturn,
+      String? lastName,
+      FlightResponse? flightSearchResponse}) {
     return ManageBookingState(
       message: message ?? this.message,
       blocState: blocState ?? this.blocState,
@@ -63,6 +70,8 @@ class ManageBookingState extends Equatable {
       pnrEntered: pnrEntered ?? this.pnrEntered,
       checkedDeparture: checkedDeparture ?? this.checkedDeparture,
       checkReturn: checkReturn ?? this.checkReturn,
+      lastName: lastName ?? this.lastName,
+      flightSearchResponse: flightSearchResponse ?? this.flightSearchResponse,
     );
   }
 }

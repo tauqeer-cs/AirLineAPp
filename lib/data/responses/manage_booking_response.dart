@@ -6,6 +6,25 @@ class ManageBookingResponse {
   bool? success;
   String? message;
 
+  DateTime? newStartDateSelected;
+  DateTime? newReturnDateSelected;
+
+  DateTime? get currentStartDate {
+    if (newStartDateSelected == null) {
+      return result?.flightSegments?.first.outbound?.first.departureDateTime;
+    }
+    return newStartDateSelected;
+  }
+
+  DateTime? get currentEndDate {
+
+    if (newReturnDateSelected == null) {
+      return result?.flightSegments?.first.inbound?.first.departureDateTime;
+    }
+
+    return newReturnDateSelected;
+  }
+
   ManageBookingResponse({this.result, this.success, this.message});
 
   ManageBookingResponse.fromJson(Map<String, dynamic> json) {
@@ -54,10 +73,6 @@ class Result {
     return flightSegments?.first.outbound?.first.arrivalAirportLocationName ??
         '';
   }
-
-
-
-
 
   String get journeyTimeInHourMin {
     return AppDateUtils.formatDuration(

@@ -36,6 +36,7 @@ class Assets {
   static const String iconsIconInfo = 'assets/images/icons/iconInfo.png';
   static const String iconsIconLogout = 'assets/images/icons/iconLogout.png';
   static const String iconsIconMoreInfo = 'assets/images/icons/iconMoreInfo.png';
+  static const String iconsIconNoFlight = 'assets/images/icons/iconNoFlight.png';
   static const String iconsIconPayment = 'assets/images/icons/iconPayment.png';
   static const String iconsIconPref = 'assets/images/icons/iconPref.png';
   static const String iconsIconSetting = 'assets/images/icons/iconSetting.png';

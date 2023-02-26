@@ -7,7 +7,8 @@ part 'manage_booking_request.g.dart';
 class ManageBookingRequest extends Equatable {
   const ManageBookingRequest({
     this.pnr,
-    this.lastname
+    this.lastname,
+    this.email,
   });
 
   factory ManageBookingRequest.fromJson(Map<String, dynamic> json) =>
@@ -21,19 +22,19 @@ class ManageBookingRequest extends Equatable {
   @JsonKey(name: "lastname")
   final String? lastname;
 
+  final String? email;
+
   ManageBookingRequest copyWith({
     String? pnr,
     String? lastname,
+    String? email,
   }) =>
       ManageBookingRequest(
-        pnr: pnr ?? this.pnr,
-        lastname : lastname ?? this.lastname,
-      );
+          pnr: pnr ?? this.pnr,
+          lastname: lastname ?? this.lastname,
+          email: email ?? this.email);
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
-    pnr,
-    lastname,
-  ];
+  List<Object?> get props => [pnr, lastname, email];
 }
