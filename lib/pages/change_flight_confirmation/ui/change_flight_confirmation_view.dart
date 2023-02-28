@@ -38,6 +38,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: SingleChildScrollView(
               child: Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 16,
@@ -58,7 +59,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                           Row(
                             children: [
                               true
-                                  ? SizedBox(
+                                  ? const SizedBox(
                                       width: 16,
                                     )
                                   : Padding(
