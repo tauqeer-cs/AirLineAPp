@@ -22,20 +22,11 @@ class NewTravelDatesPage extends StatelessWidget {
         height: 80.h,
         overrideInnerHeight: true,
       ),
-      body:  Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocConsumer<ManageBookingCubit, ManageBookingState>(
-          listener: (context, state) {
+          listener: (context, state) async {
 
-            if(state.flightSearchResponse != null) {
-
-              print(context.router.current.name);
-
-              var cc = context.router.current;
-
-              context.router.push( const SelectChangeFlightRoute());
-
-            }
           },
           builder: (context, state) {
             return const SelectNewTravelDatesView();

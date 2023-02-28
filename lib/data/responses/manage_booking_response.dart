@@ -6,23 +6,34 @@ class ManageBookingResponse {
   bool? success;
   String? message;
 
+  bool customSelected = false;
+
   DateTime? newStartDateSelected;
   DateTime? newReturnDateSelected;
 
   DateTime? get currentStartDate {
-    if (newStartDateSelected == null) {
+    if (customSelected) {
+      return newStartDateSelected;
+    } else if (newStartDateSelected == null) {
       return result?.flightSegments?.first.outbound?.first.departureDateTime;
     }
     return newStartDateSelected;
   }
 
   DateTime? get currentEndDate {
-
-    if (newReturnDateSelected == null) {
+    if (customSelected) {
+      return newReturnDateSelected;
+    } else if (newReturnDateSelected == null) {
       return result?.flightSegments?.first.inbound?.first.departureDateTime;
     }
 
     return newReturnDateSelected;
+  }
+
+  bool get isTwoWay {
+    return result?.flightSegments
+        ?.first.inbound?.isNotEmpty ?? false;
+
   }
 
   ManageBookingResponse({this.result, this.success, this.message});
@@ -94,6 +105,16 @@ class Result {
         flightSegments?.first.outbound?.first.departureDateTime);
   }
 
+  String get departureDate {
+    return AppDateUtils.formatHalfDateHalfMonth(
+        flightSegments?.first.outbound?.first.departureDateTime);
+  }
+
+  String get returnDate {
+    return AppDateUtils.formatHalfDateHalfMonth(
+        flightSegments?.first.inbound?.first.departureDateTime);
+  }
+
   String get arrivalDateWithTime {
     return AppDateUtils.formatFullDateTwoLines(
         flightSegments?.first.outbound?.first.arrivalDateTime);
@@ -125,6 +146,10 @@ class Result {
 
   String get returnToDestinationCode {
     return '${flightSegments?.first.inbound?.first.departureAirportLocationCode ?? ''} to ${flightSegments?.first.inbound?.first.arrivalAirportLocationCode ?? ''}';
+  }
+
+  String get fromToDestinationName {
+    return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} to ${flightSegments?.first.outbound?.first.arrivalAirportLocationName ?? ''}';
   }
 
   Result(

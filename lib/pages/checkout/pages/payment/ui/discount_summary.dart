@@ -24,7 +24,6 @@ class DiscountSummary extends StatelessWidget {
 
     }
 
-    print('');
 
 
     return Visibility(

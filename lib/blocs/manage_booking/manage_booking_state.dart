@@ -11,6 +11,16 @@ class ManageBookingState extends Equatable {
   final String? pnrEntered;
   final FlightResponse? flightSearchResponse;
 
+
+  final bool loadingDatesData;
+  final bool loadingSelectingFlight;
+  final bool loadingCheckoutPayment;
+
+  final CRP.ChangeFlightRequestResponse? changeFlightResponse;
+
+  final InboundOutboundSegment? selectedDepartureFlight;
+  final InboundOutboundSegment? selectedReturnFlight;
+
   final String? lastName;
   final bool checkedDeparture;
   final bool checkReturn;
@@ -18,6 +28,10 @@ class ManageBookingState extends Equatable {
   const ManageBookingState({
     this.blocState = BlocState.initial,
     this.message = "",
+    this.loadingSelectingFlight = false,
+    this.loadingCheckoutPayment = false,
+    this.selectedDepartureFlight,
+    this.selectedReturnFlight,
     this.isRememberMe = true,
     this.isManageOpen = true,
     this.isLoadingInfo = false,
@@ -27,7 +41,9 @@ class ManageBookingState extends Equatable {
     this.checkedDeparture = false,
     this.checkReturn = false,
     this.lastName,
+    this.changeFlightResponse,
     this.flightSearchResponse,
+    this.loadingDatesData = false,
   });
 
   @override
@@ -35,6 +51,8 @@ class ManageBookingState extends Equatable {
         blocState,
         message,
         isRememberMe,
+        selectedDepartureFlight,
+        selectedReturnFlight,
         isLoadingInfo,
         dataLoaded,
         manageBookingResponse,
@@ -42,7 +60,11 @@ class ManageBookingState extends Equatable {
         checkedDeparture,
         checkReturn,
         lastName,
-        flightSearchResponse
+        flightSearchResponse,
+        changeFlightResponse,
+        loadingDatesData,
+        loadingSelectingFlight,
+        loadingCheckoutPayment,
       ];
 
   ManageBookingState copyWith(
@@ -56,13 +78,23 @@ class ManageBookingState extends Equatable {
       String? pnrEntered,
       bool? checkedDeparture,
       bool? checkReturn,
+      bool? loadingCheckoutPayment,
       String? lastName,
-      FlightResponse? flightSearchResponse}) {
+      FlightResponse? flightSearchResponse,
+      InboundOutboundSegment? selectedDepartureFlight,
+      InboundOutboundSegment? selectedReturnFlight,
+      bool removeSelectedDeparture = false,
+      bool removeSelectedReturn = false,
+      bool? loadingDatesData,
+      bool? loadingSelectingFlight,
+      CRP.ChangeFlightRequestResponse? changeFlightResponse}) {
     return ManageBookingState(
       message: message ?? this.message,
       blocState: blocState ?? this.blocState,
       isRememberMe: isRememberMe ?? this.isRememberMe,
       isManageOpen: isManageOpen ?? this.isManageOpen,
+      loadingSelectingFlight:
+          loadingSelectingFlight ?? this.loadingSelectingFlight,
       isLoadingInfo: isLoadingInfo ?? this.isLoadingInfo,
       dataLoaded: dataLoaded ?? this.dataLoaded,
       manageBookingResponse:
@@ -71,7 +103,19 @@ class ManageBookingState extends Equatable {
       checkedDeparture: checkedDeparture ?? this.checkedDeparture,
       checkReturn: checkReturn ?? this.checkReturn,
       lastName: lastName ?? this.lastName,
+      loadingCheckoutPayment:
+          loadingCheckoutPayment ?? this.loadingCheckoutPayment,
       flightSearchResponse: flightSearchResponse ?? this.flightSearchResponse,
+      selectedDepartureFlight: removeSelectedDeparture
+          ? null
+          : selectedDepartureFlight ?? this.selectedDepartureFlight,
+      selectedReturnFlight: removeSelectedReturn
+          ? null
+          : selectedReturnFlight ?? this.selectedReturnFlight,
+      changeFlightResponse: changeFlightResponse ?? this.changeFlightResponse,
+      loadingDatesData: loadingDatesData ?? this.loadingDatesData,
+
+
     );
   }
 }

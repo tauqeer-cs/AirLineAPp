@@ -36,10 +36,6 @@ class BookingsView extends StatelessWidget {
             success: false,
             message: state.message,
           );
-        } else if (state.dataLoaded) {
-          context.router.push(
-             ManageBookingDetailsRoute(),
-          );
         }
       },
       builder: (context, state) {
@@ -100,7 +96,7 @@ class BookingsView extends StatelessWidget {
                                           onPressed: () {
                                             onManageBooking(context);
                                           },
-                                          child: const Text('Add on Services'),
+                                          child: const Text('Add on Services',textAlign: TextAlign.center,),
                                         ),
                                       ),
                                       kHorizontalSpacer,
@@ -144,10 +140,13 @@ class BookingsView extends StatelessWidget {
       final code = value["bookingNumber"];
       final lastName = value["lastName"];
 
+      var flag = await bloc?.getBookingInformation(lastName, code);
 
-      //ZV9LE8
-
-      bloc?.getBookingInformation(lastName, code);
+      if(flag == true) {
+        context.router.push(
+          ManageBookingDetailsRoute(),
+        );
+      }
     }
   }
 }

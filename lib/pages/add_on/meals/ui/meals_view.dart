@@ -37,9 +37,11 @@ class _MealsViewState extends State<MealsView> {
 
   @override
   Widget build(BuildContext context) {
+
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
     final flightType =
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
+
     return BlocProvider(
       create: (context) =>
           IsDepartureCubit()..changeDeparture(widget.isDeparture),

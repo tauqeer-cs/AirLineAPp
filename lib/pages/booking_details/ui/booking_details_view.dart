@@ -12,6 +12,7 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../search_result/ui/choose_flight_segment.dart';
+import '../../select_change_flight/ui/booking_refrence_label.dart';
 
 class ManageBookingDetailsView extends StatelessWidget {
   final VoidCallback onSharedTapped;
@@ -43,23 +44,8 @@ class ManageBookingDetailsView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                'Booking Reference',
-                style: kMediumRegular,
-              ),
-            ),
-            const SizedBox(
-              height: 2,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                state.pnrEntered ?? '',
-                style: kHugeHeavy,
-              ),
-            ),
+
+            BookingReferenceLabel(refText: state.pnrEntered,),
             kVerticalSpacer,
             AppCard(
               edgeInsets: EdgeInsets.zero,
@@ -174,9 +160,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: Divider(),
                     ),
-                    if (state.manageBookingResponse?.result?.flightSegments
-                            ?.first.inbound !=
-                        null) ...[
+                    if (state.manageBookingResponse?.isTwoWay ?? false) ...[
                       Row(
                         children: [
                           Padding(
@@ -288,36 +272,41 @@ class ManageBookingDetailsView extends StatelessWidget {
                       ),
                     ],
                     kVerticalSpacer,
-                    OutlinedButton(
-                      onPressed: () {
-                        onSharedTapped();
-                      }, //isLoading ? null :
-                      child: const Text("Share"),
-                      /*
-                      * isLoading
-                          ? const AppLoading(
-                        size: 20,
-                      )*/
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: OutlinedButton(
+                        onPressed:  () {
+                          onSharedTapped();
+                        }, //isLoading ? null :
+                        child: const Text("Share"),
+                        /*
+                        * isLoading
+                            ? const AppLoading(
+                          size: 20,
+                        )*/
+                      ),
                     ),
                     kVerticalSpacerSmall,
-                    ElevatedButton(
-                      onPressed: () async {
-                        //   context.router.replaceAll([const NavigationRoute()]);
-                        bool? check = await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return  const AlertWarningBeforeProceed();
-                          },
-                        );
-
-                        if(check == true) {
-
-                          context.router.push(
-                            const NewTravelDatesRoute(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ElevatedButton(
+                        onPressed: (state.checkedDeparture && state.checkReturn)  != true ? null : () async {
+                          //   context.router.replaceAll([const NavigationRoute()]);
+                          bool? check = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const AlertWarningBeforeProceed();
+                            },
                           );
-                        }
-                      },
-                      child: const Text('Change Flight'),
+
+                          if (check == true) {
+                            context.router.push(
+                              const NewTravelDatesRoute(),
+                            );
+                          }
+                        },
+                        child: const Text('Change Flight'),
+                      ),
                     ),
                   ],
                 ),
@@ -489,7 +478,6 @@ class AlertWarningBeforeProceed extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-
                     }, //isLoading ? null :
                     child: const Text("NO"),
                     /*
@@ -504,11 +492,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
                   child: ElevatedButton(
                     child: const Text("Yes"),
                     onPressed: () async {
-
                       Navigator.of(context).pop(true);
-
-
-
                     },
                   ),
                 ),

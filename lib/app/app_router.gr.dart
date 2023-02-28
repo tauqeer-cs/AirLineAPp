@@ -182,15 +182,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     BookingConfirmationRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<BookingConfirmationRouteArgs>(
-          orElse: () => BookingConfirmationRouteArgs(
-              bookingId: pathParams.getString('id')));
+      final args = routeData.argsAs<BookingConfirmationRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: BookingConfirmationPage(
           key: args.key,
           bookingId: args.bookingId,
+          isChangeFlight: args.isChangeFlight,
         ),
       );
     },
@@ -272,6 +270,12 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const SelectChangeFlightPage(),
+      );
+    },
+    ChangeFlightSummaryRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ChangeFlightSummaryPage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -514,6 +518,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           SelectChangeFlightRoute.name,
           path: '/select-change-flight',
+        ),
+        RouteConfig(
+          ChangeFlightSummaryRoute.name,
+          path: '/change-flight-summary',
         ),
       ];
 }
@@ -975,12 +983,14 @@ class BookingConfirmationRoute
   BookingConfirmationRoute({
     Key? key,
     required String bookingId,
+    required bool isChangeFlight,
   }) : super(
           BookingConfirmationRoute.name,
           path: '/booking-confirmation/:id',
           args: BookingConfirmationRouteArgs(
             key: key,
             bookingId: bookingId,
+            isChangeFlight: isChangeFlight,
           ),
           rawPathParams: {'id': bookingId},
         );
@@ -992,15 +1002,18 @@ class BookingConfirmationRouteArgs {
   const BookingConfirmationRouteArgs({
     this.key,
     required this.bookingId,
+    required this.isChangeFlight,
   });
 
   final Key? key;
 
   final String bookingId;
 
+  final bool isChangeFlight;
+
   @override
   String toString() {
-    return 'BookingConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
+    return 'BookingConfirmationRouteArgs{key: $key, bookingId: $bookingId, isChangeFlight: $isChangeFlight}';
   }
 }
 
@@ -1172,6 +1185,18 @@ class SelectChangeFlightRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SelectChangeFlightRoute';
+}
+
+/// generated route for
+/// [ChangeFlightSummaryPage]
+class ChangeFlightSummaryRoute extends PageRouteInfo<void> {
+  const ChangeFlightSummaryRoute()
+      : super(
+          ChangeFlightSummaryRoute.name,
+          path: '/change-flight-summary',
+        );
+
+  static const String name = 'ChangeFlightSummaryRoute';
 }
 
 /// generated route for

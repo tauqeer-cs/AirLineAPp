@@ -22,7 +22,9 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ConfirmationView extends StatefulWidget {
-  const ConfirmationView({Key? key}) : super(key: key);
+  const ConfirmationView({Key? key,required this.isChangeFlight}) : super(key: key);
+
+  final bool isChangeFlight;
 
   @override
   State<ConfirmationView> createState() => _ConfirmationViewState();
@@ -72,7 +74,6 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     color: Styles.kTextColor, height: 1.5),
                 textAlign: TextAlign.center,
               ),
-
               kVerticalSpacerSmall,
               Text(
                 "Booking reference:  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
@@ -87,9 +88,11 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   ],
                 ),
               ),
+
               kVerticalSpacer,
               const SummaryWidget(),
               kVerticalSpacer,
+
               AppCard(
                 child: Column(
                   children: [
@@ -127,6 +130,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   ],
                 ),
               ),
+
               kVerticalSpacer,
               kVerticalSpacerSmall,
               const PaymentInfo(),

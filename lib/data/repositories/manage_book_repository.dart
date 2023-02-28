@@ -1,14 +1,13 @@
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
-import 'package:app/data/provider/public_provider.dart';
-import 'package:app/models/country.dart';
-import 'package:app/models/switch_setting.dart';
 
-import '../../app/app_bloc_helper.dart';
-import '../../utils/error_utils.dart';
+import '../../models/pay_redirection.dart';
 import '../provider/manage_booking_provider.dart';
+import '../requests/change_flight_request.dart';
 import '../requests/manage_booking_request.dart';
+import '../requests/mmb_checkout_request.dart';
 import '../requests/search_change_flight_request.dart';
+import '../responses/change_flight_response.dart';
 import '../responses/flight_response.dart';
 import '../responses/manage_booking_response.dart';
 
@@ -42,6 +41,23 @@ class ManageBookingRepository {
     return profile;
   }
 
+
+  Future<ChangeFlightRequestResponse> changeFlight(
+      ChangingFlightRequest request) async {
+
+    final profile = await _provider.changeFlight(request);
+    return profile;
+  }
+
+  Future<PayRedirectionValue> checkOutFlight(
+      MmbCheckoutRequest request) async {
+
+    final profile = await _provider.mmbcheckoutbooking(request);
+     return profile;
+  }
+
+
+  //changeFlightv
 
   //
 

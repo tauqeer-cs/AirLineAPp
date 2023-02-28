@@ -8,8 +8,7 @@ class ChangeFlightRequestResponse {
   ChangeFlightRequestResponse({this.result, this.success, this.message});
 
   ChangeFlightRequestResponse.fromJson(Map<String, dynamic> json) {
-    result =
-    json['result'] != null ? Result.fromJson(json['result']) : null;
+    result = Result.fromJson(json);
     success = json['success'];
     message = json['message'];
   }
@@ -38,14 +37,14 @@ class Result {
 
   Result(
       {this.flightVerifyResponse,
-        this.changeFlightRequest,
-        this.changeFlightResponse,
-        this.orderID,
-        this.token,
-        this.verifyExpiredDateTime,
-        this.success,
-        this.isInvalidMemberID,
-        this.fromCache});
+      this.changeFlightRequest,
+      this.changeFlightResponse,
+      this.orderID,
+      this.token,
+      this.verifyExpiredDateTime,
+      this.success,
+      this.isInvalidMemberID,
+      this.fromCache});
 
   Result.fromJson(Map<String, dynamic> json) {
     flightVerifyResponse = json['flightVerifyResponse'] != null
@@ -85,10 +84,6 @@ class Result {
     return data;
   }
 }
-
-
-
-
 
 class FareTypes {
   int? fareTypeID;
@@ -159,41 +154,40 @@ class FareInfos {
 
   FareInfos(
       {
-        //this.returnFlightSegmentDetails,
-        this.fareID,
-        this.fcCode,
-        this.fbCode,
-        this.baseFareAmtNoTaxes,
-        this.baseFareAmt,
-        this.fareAmtNoTaxes,
-        this.fareAmt,
-        this.baseFareAmtInclTax,
-        this.fareAmtInclTax,
-        this.pvtFare,
-        this.ptcid,
-        this.cabin,
-        this.seatsAvailable,
-        this.infantSeatsAvailable,
-        this.fareScheduleID,
-        this.promotionID,
-        this.roundTrip,
-        this.displayFareAmt,
-        this.displayTaxSum,
-        this.specialMarketed,
-        this.waitList,
-        this.spaceAvailable,
-        this.positiveSpace,
-        this.promotionCatID,
-        this.commissionAmount,
-        this.promotionAmount,
-        this.applicableTaxDetails,
-        this.bundleCode,
-        this.originalCurrency,
-        this.exchangeRate,
-        this.exchangeDate});
+      //this.returnFlightSegmentDetails,
+      this.fareID,
+      this.fcCode,
+      this.fbCode,
+      this.baseFareAmtNoTaxes,
+      this.baseFareAmt,
+      this.fareAmtNoTaxes,
+      this.fareAmt,
+      this.baseFareAmtInclTax,
+      this.fareAmtInclTax,
+      this.pvtFare,
+      this.ptcid,
+      this.cabin,
+      this.seatsAvailable,
+      this.infantSeatsAvailable,
+      this.fareScheduleID,
+      this.promotionID,
+      this.roundTrip,
+      this.displayFareAmt,
+      this.displayTaxSum,
+      this.specialMarketed,
+      this.waitList,
+      this.spaceAvailable,
+      this.positiveSpace,
+      this.promotionCatID,
+      this.commissionAmount,
+      this.promotionAmount,
+      this.applicableTaxDetails,
+      this.bundleCode,
+      this.originalCurrency,
+      this.exchangeRate,
+      this.exchangeDate});
 
   FareInfos.fromJson(Map<String, dynamic> json) {
-
     /*if (json['returnFlightSegmentDetails'] != null) {
       returnFlightSegmentDetails = <Null>[];
       json['returnFlightSegmentDetails'].forEach((v) {
@@ -246,7 +240,6 @@ class FareInfos {
       data['returnFlightSegmentDetails'] =
           this.returnFlightSegmentDetails!.map((v) => v.toJson()).toList();
     }*/
-
 
     data['fareID'] = fareID;
     data['fcCode'] = fcCode;
@@ -331,8 +324,6 @@ class FlightLegDetails {
   }
 }
 
-
-
 class ChangeFlightRequest {
   String? pnr;
   String? lastName;
@@ -344,12 +335,12 @@ class ChangeFlightRequest {
 
   ChangeFlightRequest(
       {this.pnr,
-        this.lastName,
-        this.isReturn,
-        this.departDate,
-        this.returnDate,
-        this.outboundFares,
-        this.inboundFares});
+      this.lastName,
+      this.isReturn,
+      this.departDate,
+      this.returnDate,
+      this.outboundFares,
+      this.inboundFares});
 
   ChangeFlightRequest.fromJson(Map<String, dynamic> json) {
     pnr = json['pnr'];
@@ -360,7 +351,7 @@ class ChangeFlightRequest {
     if (json['outboundFares'] != null) {
       outboundFares = <Fares>[];
       json['outboundFares'].forEach((v) {
-        outboundFares!.add( Fares.fromJson(v));
+        outboundFares!.add(Fares.fromJson(v));
       });
     }
     if (json['inboundFares'] != null) {
@@ -379,8 +370,7 @@ class ChangeFlightRequest {
     data['departDate'] = departDate;
     data['returnDate'] = returnDate;
     if (outboundFares != null) {
-      data['outboundFares'] =
-          outboundFares!.map((v) => v.toJson()).toList();
+      data['outboundFares'] = outboundFares!.map((v) => v.toJson()).toList();
     }
     if (inboundFares != null) {
       data['inboundFares'] = inboundFares!.map((v) => v.toJson()).toList();
@@ -413,25 +403,51 @@ class Fares {
 
 class ChangeFlightResponse {
   bool? success;
-  int? totalReservationAmount;
+  double? totalReservationAmount;
   int? changeFee;
   String? currency;
   String? session;
 
   ChangeFlightResponse(
       {this.success,
-        this.totalReservationAmount,
-        this.changeFee,
-        this.currency,
-        this.session});
+      this.totalReservationAmount,
+      this.changeFee,
+      this.currency,
+      this.session});
 
   ChangeFlightResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    totalReservationAmount = json['totalReservationAmount'];
+    if(json['totalReservationAmount'] == 0) {
+      totalReservationAmount = 0.0;
+
+    }
+    else {
+      totalReservationAmount = json['totalReservationAmount'];
+
+    }
     changeFee = json['changeFee'];
     currency = json['currency'];
     session = json['session'];
   }
+
+  String get totalReservationAmountString {
+
+    if (totalReservationAmount != null) {
+      return 'MYR ${totalReservationAmount!.toStringAsFixed(2)}';
+    }
+
+    return '';
+  }
+
+  String get flightChangAmountString {
+
+    if (totalReservationAmount != null) {
+      return 'MYR ${changeFee!.toStringAsFixed(2)}';
+    }
+
+    return '';
+  }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

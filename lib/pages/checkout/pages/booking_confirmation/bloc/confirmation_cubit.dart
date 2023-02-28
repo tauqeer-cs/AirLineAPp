@@ -16,10 +16,12 @@ class ConfirmationCubit extends Cubit<ConfirmationState> {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final response = await _repository.bookingDetail(id);
-      emit(state.copyWith(
-        blocState: BlocState.finished,
-        confirmationModel: response,
-      ));
+      emit(
+        state.copyWith(
+          blocState: BlocState.finished,
+          confirmationModel: response,
+        ),
+      );
     } catch (e, st) {
       emit(
         state.copyWith(

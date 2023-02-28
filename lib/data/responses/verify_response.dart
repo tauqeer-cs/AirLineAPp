@@ -7,6 +7,8 @@ import 'package:equatable/equatable.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../utils/date_utils.dart';
+
 part 'verify_response.g.dart';
 
 @JsonSerializable(includeIfNull: false)
@@ -214,6 +216,7 @@ class FlightSegments extends Equatable {
   Map<String, dynamic> toJson() => _$FlightSegmentsToJson(this);
   final num? lfid;
   final String? departureDate;
+
   final String? arrivalDate;
   final num? legCount;
   final bool? numernational;
@@ -228,6 +231,39 @@ class FlightSegments extends Equatable {
       this.numernational,
       this.fareTypes,
       this.flightLegDetails});
+
+
+   String get departureDateToShow {
+
+     if(departureDate == null){
+       return '';
+     }
+
+    return AppDateUtils.formatHalfDateHalfMonth(DateTime.parse(departureDate!));
+
+   }
+
+  String get departureDateToTwoLine {
+
+    if(departureDate == null){
+      return '';
+    }
+
+    return AppDateUtils.formatFullDateTwoLines(DateTime.parse(departureDate!));
+  }
+
+  String get arrivalDateToTwoLine {
+
+    if(arrivalDate == null){
+      return '';
+    }
+
+    return AppDateUtils.formatFullDateTwoLines(DateTime.parse(arrivalDate!));
+  }
+
+   //    return AppDateUtils.formatFullDateTwoLines(
+//         flightSegments?.first.inbound?.first.departureDateTime);
+
 }
 
 @JsonSerializable(includeIfNull: false)

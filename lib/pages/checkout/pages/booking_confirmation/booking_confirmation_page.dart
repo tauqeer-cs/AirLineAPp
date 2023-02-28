@@ -15,17 +15,20 @@ import 'package:loader_overlay/loader_overlay.dart';
 class BookingConfirmationPage extends StatefulWidget {
   final String bookingId;
 
+  final bool isChangeFlight;
+
   const BookingConfirmationPage({
     Key? key,
     @PathParam('id') required this.bookingId,
+    required this.isChangeFlight,
   }) : super(key: key);
 
   @override
-  State<BookingConfirmationPage> createState() => _BookingConfirmationPageState();
+  State<BookingConfirmationPage> createState() =>
+      _BookingConfirmationPageState();
 }
 
 class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
-
   @override
   void initState() {
     super.initState();
@@ -36,7 +39,8 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
     return LoaderOverlay(
       useDefaultLoading: false,
       child: BlocProvider(
-        create: (context) => ConfirmationCubit()..getConfirmation(widget.bookingId),
+        create: (context) =>
+            ConfirmationCubit()..getConfirmation(widget.bookingId),
         child: Scaffold(
           // floatingActionButton: Builder(
           //   builder: (context) {
@@ -56,7 +60,9 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
             builder: (context, state) {
               return blocBuilderWrapper(
                 blocState: state.blocState,
-                finishedBuilder: const ConfirmationView(),
+                finishedBuilder: ConfirmationView(
+                  isChangeFlight: widget.isChangeFlight,
+                ),
                 loadingBuilder: const SingleChildScrollView(
                   padding: kPagePadding,
                   child: BookingLoader(),

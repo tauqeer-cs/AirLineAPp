@@ -153,6 +153,7 @@ InboundOutboundSegment _$InboundOutboundSegmentFromJson(
       flightLegDetails: (json['flightLegDetails'] as List<dynamic>?)
           ?.map((e) => FlightLegDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
+      changeFlightAmount: json['changeFlightAmount'] as num?,
     );
 
 Map<String, dynamic> _$InboundOutboundSegmentToJson(
@@ -187,6 +188,7 @@ Map<String, dynamic> _$InboundOutboundSegmentToJson(
   writeNotNull('beforeDiscountTotalAmtWithInfantSSR',
       instance.beforeDiscountTotalAmtWithInfantSSR);
   writeNotNull('discountPCT', instance.discountPCT);
+  writeNotNull('changeFlightAmount', instance.changeFlightAmount);
   writeNotNull('fbCode', instance.fbCode);
   return val;
 }

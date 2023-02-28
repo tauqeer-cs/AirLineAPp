@@ -148,6 +148,8 @@ class InboundOutboundSegment extends Equatable {
   final num? beforeDiscountTotalAmtWithInfantSSR;
   final num? discountPCT;
 
+  final num? changeFlightAmount;
+
   final String? fbCode;
 
   const InboundOutboundSegment({
@@ -172,6 +174,7 @@ class InboundOutboundSegment extends Equatable {
     this.legCount,
     this.international,
     this.flightLegDetails,
+    this.changeFlightAmount,
   });
 
   num get getTotalPrice => totalSegmentFareAmt ?? 0;
@@ -222,7 +225,8 @@ class SegmentDetail extends Equatable {
         flySaturday,
         flySunday,
         aircraftDescription,
-        deiDisclosure
+        deiDisclosure,
+   // changeFlightAmount
       ];
 
   final num? lfid;

@@ -16,7 +16,6 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
 
   getContents(String url, List<CMSRoute> routes) async {
     try {
-      print("list of routes $routes");
       final contentId = routes.firstWhereOrNull(
           (element) => url.contains(element.urlSegment ?? ""));
       if (contentId?.key == null) {

@@ -28,7 +28,6 @@ class HomeBanner extends StatelessWidget {
             autoPlay: (content.items ?? []).length > 1,
             items: (content.items ?? []).map(
               (e) {
-                print("content is ${e.key}");
                 return InkWell(
                   onTap: () {
                     FlutterInsider.Instance.tagEvent(

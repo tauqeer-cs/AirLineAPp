@@ -13,33 +13,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+
 class SegmentCard extends StatelessWidget {
   final InboundOutboundSegment segment;
   final bool isDeparture;
+  final bool changeFlight;
 
   const SegmentCard(
-      {Key? key, required this.segment, required this.isDeparture})
+      {Key? key,
+      required this.segment,
+      required this.isDeparture,
+      this.changeFlight = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isVerify = context.watch<BookingCubit>().state.isVerify;
-    final selected = isDeparture
+    var selected = isDeparture
         ? context.watch<BookingCubit>().state.selectedDeparture
         : context.watch<BookingCubit>().state.selectedReturn;
+    ManageBookingCubit? bloc;
+
+    if (changeFlight) {
+      bloc = context.watch<ManageBookingCubit>();
+      selected = null;
+      if (isDeparture) {
+        if(segment.lfid == bloc.state.selectedDepartureFlight?.lfid) {
+          selected = bloc.state.selectedDepartureFlight;
+        }
+
+      } else {
+        if(segment.lfid == bloc.state.selectedReturnFlight?.lfid) {
+          selected = bloc.state.selectedReturnFlight;
+
+        }
+      }
+    }
     return Container(
       width: 500.w,
       margin: const EdgeInsets.symmetric(vertical: 12),
       child: InkWell(
         onTap: () {
           if (isDeparture) {
-            context.read<BookingCubit>().selectDeparture(segment);
+            if (changeFlight) {
+              bloc?.setDepartureFlight(segment);
+            } else {
+              context.read<BookingCubit>().selectDeparture(segment);
+            }
           } else {
-            context.read<BookingCubit>().selectReturn(segment);
+            if (changeFlight) {
+              bloc?.setReturnFlight(segment);
+            } else {
+              context.read<BookingCubit>().selectReturn(segment);
+            }
           }
         },
         child: AppCard(
-          isHighlighted: selected == segment && !isVerify && false,
+          isHighlighted: isHighlighted(selected, isVerify),
           edgeInsets: EdgeInsets.zero,
           child: Column(
             children: [
@@ -114,8 +145,9 @@ class SegmentCard extends StatelessWidget {
                                 ),
                                 MoneyWidget(
                                   amount:
-                                      segment.totalSegmentFareAmtWithInfantSSR,
+                                      changeFlight ? segment.changeFlightAmount : segment.totalSegmentFareAmtWithInfantSSR,
                                   isDense: true,
+                                  showPlus : changeFlight
                                 ),
                                 Visibility(
                                   visible: segment.discountPCT != null &&
@@ -148,23 +180,34 @@ class SegmentCard extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    context
-                        .read<SummaryContainerCubit>()
-                        .changeVisibility(true);
+                    if(!changeFlight){
+                      context
+                          .read<SummaryContainerCubit>()
+                          .changeVisibility(true);
+                    }
+
                     if (isDeparture) {
                       UserInsider.of(context).registerEventWithParameterProduct(
                         InsiderConstants.flightSelected,
                         aircraft: segment.segmentDetail?.aircraftDescription,
                         flightNumber: segment.segmentDetail?.flightNum,
                       );
-                      context.read<BookingCubit>().selectDeparture(segment);
+                      if (changeFlight) {
+                        bloc?.setDepartureFlight(segment);
+                      } else {
+                        context.read<BookingCubit>().selectDeparture(segment);
+                      }
                     } else {
                       UserInsider.of(context).registerEventWithParameterProduct(
                         InsiderConstants.flightSelected,
                         aircraft: segment.segmentDetail?.aircraftDescription,
                         flightNumber: segment.segmentDetail?.flightNum,
                       );
-                      context.read<BookingCubit>().selectReturn(segment);
+                      if (changeFlight) {
+                        bloc?.setReturnFlight(segment);
+                      } else {
+                        context.read<BookingCubit>().selectReturn(segment);
+                      }
                     }
                   },
                   child: const Text("Select"),
@@ -174,11 +217,21 @@ class SegmentCard extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: () {
                       //context.read<BookingCubit>().changeFlight();
+
+                      if (changeFlight) {
+                        if (isDeparture) {
+                          bloc?.removeDepartureFlight(segment);
+                        } else {
+                          bloc?.removeReturnFlight(segment);
+                        }
+                        return;
+                      }
                       if (isDeparture) {
                         context.read<BookingCubit>().removeDeparture();
                       } else {
                         context.read<BookingCubit>().removeReturn();
                       }
+
                       context
                           .read<SummaryContainerCubit>()
                           .changeVisibility(true);
@@ -193,6 +246,15 @@ class SegmentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool isHighlighted(InboundOutboundSegment? selected, bool isVerify) {
+
+    if(changeFlight) {
+      return selected == segment;
+    }
+    return  selected == segment && !isVerify && false;
+
   }
 }
 

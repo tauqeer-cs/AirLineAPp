@@ -7,12 +7,14 @@ import 'package:intl/intl.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
 
+import '../../../app/app_router.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/date_utils.dart';
 import '../../../widgets/app_card.dart';
+import '../../../widgets/app_loading_screen.dart';
 import '../../home/bloc/filter_cubit.dart';
 import '../../home/ui/filter/calendar_sheet_vertical.dart';
 import '../../home/ui/filter/search_flight_widget.dart';
@@ -21,7 +23,8 @@ class SelectNewTravelDatesView extends StatefulWidget {
   const SelectNewTravelDatesView({Key? key}) : super(key: key);
 
   @override
-  State<SelectNewTravelDatesView> createState() => _SelectNewTravelDatesViewState();
+  State<SelectNewTravelDatesView> createState() =>
+      _SelectNewTravelDatesViewState();
 }
 
 class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
@@ -53,9 +56,12 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
 
     var state = bloc.state;
 
-    var departDate = bloc.state.manageBookingResponse?.currentStartDate;//filterCubit.state.departDaconst te;
-    var returnDate = bloc.state.manageBookingResponse?.currentEndDate;//filterCubit.state.returnDate;
-    const isRoundTrip = true;// filterCubit.state.flightType == FlightType.round;
+    var departDate = bloc.state.manageBookingResponse
+        ?.currentStartDate; //filterCubit.state.departDaconst te;
+    var returnDate = bloc.state.manageBookingResponse
+        ?.currentEndDate; //filterCubit.state.returnDate;
+    const isRoundTrip =
+        true; // filterCubit.state.flightType == FlightType.round;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,8 +73,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
           children: [
             Expanded(
               child: Text(
-                state.manageBookingResponse?.result?.departureAirportName ??
-                    '',
+                state.manageBookingResponse?.result?.departureAirportName ?? '',
                 style: k18SemiBold.copyWith(
                   color: Styles.kPrimaryColor,
                 ),
@@ -84,8 +89,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
             ),
             Expanded(
               child: Text(
-                state.manageBookingResponse?.result?.arrivalAirportName ??
-                    '',
+                state.manageBookingResponse?.result?.arrivalAirportName ?? '',
                 style: k18SemiBold.copyWith(
                   color: Styles.kPrimaryColor,
                 ),
@@ -158,47 +162,26 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                     Expanded(
                       child: PagedVerticalCalendar(
                         invisibleMonthsThreshold: 12,
-                        minDate: DateTime(DateTime.now().year,
-                            DateTime.now().month, 1)
+                        minDate: DateTime(
+                                DateTime.now().year, DateTime.now().month, 1)
                             .removeTime(),
                         maxDate: DateTime.now()
                             .add(const Duration(days: 365))
                             .removeTime(),
                         initialDate: departDate?.removeTime() ??
                             DateTime.now().removeTime(),
-
                         startWeekWithSunday: true,
                         onDayPressed: (value) async {
                           final isBefore = value.isBefore(DateTime.now());
                           if (isBefore) return;
                           if (isRoundTrip) {
-                            if (departDate == null) {
-                              context.read<FilterCubit>().updateDate(
-                                  departDate: value, returnDate: null);
-                            } else if (returnDate == null) {
-                              if (value.isBefore(departDate)) {
-                                context.read<FilterCubit>().updateDate(
-                                    departDate: value,
-                                    returnDate: departDate);
-                              } else {
-                                context.read<FilterCubit>().updateDate(
-                                    departDate: departDate,
-                                    returnDate: value);
-                              }
-                            } else {
-                              //updateStartDate
-
-                              //.watch<ManageBookingCubit>().updateStartDate(value);
-
 
                               setState(() {
                                 bloc.updateStartDate(value);
                               });
 
 
-                              //context.read<FilterCubit>().updateDate(
-                              //  departDate: value, returnDate: null);
-                            }
+
                           } else {
                             context.read<FilterCubit>().updateDate(
                                 departDate: value, returnDate: null);
@@ -219,7 +202,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                         },
                         dayBuilder: (context, date) {
                           final inRange =
-                          isInRange(date, departDate, returnDate);
+                              isInRange(date, departDate, returnDate);
                           //final sameMonth = AppDateUtils.sameMonth(
                           //  date, priceState.loadingDate);
                           //final event = prices.firstWhereOrNull(
@@ -245,8 +228,8 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                                     color: inRange
                                         ? Colors.white
                                         : isBefore
-                                        ? Styles.kBorderColor
-                                        : null,
+                                            ? Styles.kBorderColor
+                                            : null,
                                   ),
                                 ),
                               ],
@@ -289,11 +272,17 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                         ),
                         kHorizontalSpacer,
                         Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
+                          child: (bloc.state.loadingDatesData == true) ? const AppLoading() :  ElevatedButton(
+                            onPressed: () async {
+                              //                context.router.push(const SelectChangeFlightRoute());
+                              var response =
+                                  await bloc.getAvailableFlights(null, null);
 
-                              bloc.getAvailableFlights(null,null);
-
+                              if (response == true) {
+                                context.router.push(
+                                  const SelectChangeFlightRoute(),
+                                );
+                              }
                             },
                             child: const Text("Apply"),
                           ),
