@@ -64,6 +64,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 MaterialStateProperty.resolveWith(getColor),
                             value: state.checkedDeparture,
                             onChanged: (bool? value) {
+
                               bloc?.setCheckDeparture(value ?? false);
                             },
                           ),
@@ -290,7 +291,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ElevatedButton(
-                        onPressed: (state.checkedDeparture && state.checkReturn)  != true ? null : () async {
+                        onPressed: (state.checkedDeparture || state.checkReturn)  != true ? null : () async {
                           //   context.router.replaceAll([const NavigationRoute()]);
                           bool? check = await showDialog(
                             context: context,

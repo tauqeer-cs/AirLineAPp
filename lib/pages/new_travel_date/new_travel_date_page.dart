@@ -19,7 +19,7 @@ class NewTravelDatesPage extends StatelessWidget {
       appBar: AppAppBar(
         centerTitle: true,
         title: 'Change Flight',
-        height: 80.h,
+        height: 60.h,
         overrideInnerHeight: true,
       ),
       body: Padding(

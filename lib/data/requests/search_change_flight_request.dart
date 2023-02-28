@@ -18,8 +18,28 @@ class SearchChangeFlightRequest {
   }
 
   static SearchChangeFlightRequest  makeRequestObject(
-  {required String pnr, required String lastName, required DateTime startDate, required DateTime endDate}) {
+  {required String pnr, required String lastName, required DateTime? startDate, required DateTime? endDate}) {
 
+    if(endDate == null) {
+      return SearchChangeFlightRequest(
+          searchFlightRequest:SearchFlightRequest(
+            pNR: pnr,
+            lastName: lastName,
+            departDate: '${startDate!.toIso8601String()}Z',
+            returnDate: null,
+          )
+      );
+    }
+    else if(startDate == null) {
+      return SearchChangeFlightRequest(
+          searchFlightRequest:SearchFlightRequest(
+            pNR: pnr,
+            lastName: lastName,
+            departDate: null,
+            returnDate: '${endDate.toIso8601String()}Z',
+          )
+      );
+    }
     return SearchChangeFlightRequest(
       searchFlightRequest:SearchFlightRequest(
         pNR: pnr,

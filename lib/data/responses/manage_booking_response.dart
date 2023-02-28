@@ -21,9 +21,14 @@ class ManageBookingResponse {
   }
 
   DateTime? get currentEndDate {
+
     if (customSelected) {
       return newReturnDateSelected;
     } else if (newReturnDateSelected == null) {
+      if(result?.flightSegments?.first.inbound?.isEmpty ?? true) {
+        return null;
+
+      }
       return result?.flightSegments?.first.inbound?.first.departureDateTime;
     }
 
@@ -34,6 +39,11 @@ class ManageBookingResponse {
     return result?.flightSegments
         ?.first.inbound?.isNotEmpty ?? false;
 
+  }
+
+  bool get isOneWay {
+    return  result?.flightSegments
+        ?.first.inbound?.isEmpty ?? true;
   }
 
   ManageBookingResponse({this.result, this.success, this.message});

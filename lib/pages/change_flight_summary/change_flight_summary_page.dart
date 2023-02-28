@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../blocs/manage_booking/manage_booking_cubit.dart';
-import '../../theme/spacer.dart';
 import '../../widgets/app_app_bar.dart';
 
 class ChangeFlightSummaryPage extends StatelessWidget {
@@ -16,7 +15,7 @@ class ChangeFlightSummaryPage extends StatelessWidget {
       appBar: AppAppBar(
         centerTitle: true,
         title: 'Change Flight',
-        height: 80.h,
+        height: 60.h,
         overrideInnerHeight: true,
       ),
       body: BlocConsumer<ManageBookingCubit, ManageBookingState>(

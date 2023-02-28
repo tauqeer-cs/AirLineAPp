@@ -22,9 +22,8 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ConfirmationView extends StatefulWidget {
-  const ConfirmationView({Key? key,required this.isChangeFlight}) : super(key: key);
+  const ConfirmationView({Key? key,}) : super(key: key);
 
-  final bool isChangeFlight;
 
   @override
   State<ConfirmationView> createState() => _ConfirmationViewState();

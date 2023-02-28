@@ -37,9 +37,89 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
+  Future<void> reloadDataForConfirmation() async {
+    var tempKey = 'MWJC8Q';
+
+    emit(
+      state.copyWith(
+        loadingSummary: true,
+      ),
+    );
+
+    try {
+      final verifyResponse = await _repository.getBookingInfo(
+        ManageBookingRequest(
+            pnr: 1 == 1 ? tempKey : state.pnrEntered,
+            lastname: 1 == 1 ? 'Ahmed' : state.lastName),
+      );
+
+      emit(
+        state.copyWith(
+          blocState: BlocState.finished,
+          manageBookingResponse: verifyResponse,
+          loadingSummary: false,
+        ),
+      );
+      return;
+
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+          loadingSummary: false,
+        ),
+      );
+      return;
+
+
+    }
+  }
+
   updateStartDate(DateTime date) async {
     var newBookingObject = state.manageBookingResponse;
+    if(state.manageBookingResponse?.isTwoWay == true && state.checkedDeparture == false && state.checkReturn == true) {
 
+      newBookingObject?.customSelected = true;
+
+      newBookingObject?.newStartDateSelected = null;
+      newBookingObject?.newReturnDateSelected = date;
+
+      emit(
+        state.copyWith(
+            blocState: BlocState.finished,
+            manageBookingResponse: newBookingObject),
+      );
+
+    }
+    else if(state.manageBookingResponse?.isTwoWay == true && state.checkedDeparture == true && state.checkReturn == false) {
+      newBookingObject?.customSelected = true;
+      newBookingObject?.newReturnDateSelected = null;
+
+      newBookingObject?.newStartDateSelected = date;
+
+      emit(
+        state.copyWith(
+            blocState: BlocState.finished,
+            manageBookingResponse: newBookingObject),
+      );
+      return;
+    }
+    else
+      if(state.manageBookingResponse?.isOneWay ?? true ) {
+      newBookingObject?.customSelected = true;
+      newBookingObject?.newReturnDateSelected = null;
+
+      newBookingObject?.newStartDateSelected = date;
+
+      emit(
+        state.copyWith(
+            blocState: BlocState.finished,
+            manageBookingResponse: newBookingObject),
+      );
+      return;
+
+    }
     if (newBookingObject?.customSelected == true) {
       newBookingObject?.customSelected = false;
       newBookingObject?.newReturnDateSelected = date;
@@ -76,6 +156,23 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           endDate: state.manageBookingResponse?.newReturnDateSelected ??
               DateTime.now().add(const Duration(days: 17)));
 
+      if((state.manageBookingResponse!.isOneWay ?? false) || state.checkedDeparture) {
+        request = SearchChangeFlightRequest.makeRequestObject(
+            pnr: state.pnrEntered ?? '',
+            lastName: state.lastName ?? '',
+            startDate: state.manageBookingResponse?.newStartDateSelected ??
+                DateTime.now().add(const Duration(days: 7)),
+            endDate: null);
+      }
+      else if(state.checkReturn){
+        request = SearchChangeFlightRequest.makeRequestObject(
+            pnr: state.pnrEntered ?? '',
+            lastName: state.lastName ?? '',
+            startDate: null,
+            endDate: state.manageBookingResponse?.newReturnDateSelected ??
+                DateTime.now().add(const Duration(days: 17)));
+      }
+
       emit(
         state.copyWith(
           loadingDatesData: true,
@@ -99,7 +196,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       );
       return false;
     }
-
   }
 
   Future<bool?> getBookingInformation(
@@ -109,7 +205,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     //   var tempKey = 'EAT6GA';
     //var tempKey = 'STY1VX';
     //var tempKey = 'SS5G2M';
-    var tempKey = 'U6M6US';
+    var tempKey = 'MWJC8Q';
+
+  //  var tempKey = '4H1I6Q';
 
     try {
       final verifyResponse = await _repository.getBookingInfo(
@@ -134,8 +232,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             message: ErrorUtils.getErrorMessage(e, st),
             blocState: BlocState.failed,
             isLoadingInfo: false,
-            dataLoaded: false
-        ),
+            dataLoaded: false),
       );
       return false;
     }
@@ -207,6 +304,67 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             ),
           ]);
 
+
+      if(state.manageBookingResponse?.isOneWay ?? false) {
+
+        request = ChangeFlightRequest(
+            pNR: state.pnrEntered,
+            lastName: state.lastName,
+            isReturn: false,
+            departDate: departureDate,
+            returnDate: null,
+            inboundFares: [
+
+            ],
+            outboundFares: [
+              OutboundFares(
+                lFID: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+                fBCode: state.selectedDepartureFlight?.fbCode ?? '',
+              ),
+            ]);
+
+      }
+      else if(state.checkedDeparture == true && state.checkReturn == false){
+        request = ChangeFlightRequest(
+            pNR: state.pnrEntered,
+            lastName: state.lastName,
+            isReturn: true,
+            departDate: departureDate,
+            returnDate: null,
+            inboundFares: [
+
+            ],
+            outboundFares: [
+              OutboundFares(
+                lFID: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+                fBCode: state.selectedDepartureFlight?.fbCode ?? '',
+              ),
+            ]);
+
+      }
+      else if(state.checkedDeparture == false && state.checkReturn == true){
+
+        request = ChangeFlightRequest(
+            pNR: state.pnrEntered,
+            lastName: state.lastName,
+            isReturn: true,
+            departDate: null,
+            returnDate: returnDate,
+            inboundFares: [
+              OutboundFares(
+                lFID: state.selectedReturnFlight?.lfid?.toInt() ?? 0,
+                fBCode: state.selectedReturnFlight?.fbCode ?? '',
+              ),
+            ],
+            outboundFares: [
+
+            ]);
+
+
+
+      }
+
+
       emit(
         state.copyWith(
           loadingSelectingFlight: true,
@@ -241,7 +399,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       //
       emit(
         state.copyWith(
-
           loadingCheckoutPayment: true,
         ),
       );
@@ -273,10 +430,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         data: formData,
       );
 
-
       emit(
         state.copyWith(
-
           loadingCheckoutPayment: false,
         ),
       );
@@ -286,7 +441,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     } catch (e, st) {
       emit(
         state.copyWith(
-
           loadingCheckoutPayment: false,
         ),
       );
@@ -322,5 +476,17 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     */
 
     print('');
+  }
+
+  void resetData() {
+
+
+    emit(
+      state.copyWith(
+        checkedDeparture: false,
+        checkReturn: false,
+
+      ),
+    );
   }
 }

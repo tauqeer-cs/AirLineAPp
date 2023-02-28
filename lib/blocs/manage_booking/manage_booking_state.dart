@@ -12,6 +12,8 @@ class ManageBookingState extends Equatable {
   final FlightResponse? flightSearchResponse;
 
 
+  final bool loadingSummary;
+
   final bool loadingDatesData;
   final bool loadingSelectingFlight;
   final bool loadingCheckoutPayment;
@@ -28,6 +30,7 @@ class ManageBookingState extends Equatable {
   const ManageBookingState({
     this.blocState = BlocState.initial,
     this.message = "",
+    this.loadingSummary = false,
     this.loadingSelectingFlight = false,
     this.loadingCheckoutPayment = false,
     this.selectedDepartureFlight,
@@ -43,8 +46,9 @@ class ManageBookingState extends Equatable {
     this.lastName,
     this.changeFlightResponse,
     this.flightSearchResponse,
-    this.loadingDatesData = false,
+    this.loadingDatesData = false
   });
+
 
   @override
   List<Object?> get props => [
@@ -65,6 +69,7 @@ class ManageBookingState extends Equatable {
         loadingDatesData,
         loadingSelectingFlight,
         loadingCheckoutPayment,
+        loadingSummary
       ];
 
   ManageBookingState copyWith(
@@ -80,6 +85,7 @@ class ManageBookingState extends Equatable {
       bool? checkReturn,
       bool? loadingCheckoutPayment,
       String? lastName,
+      bool? loadingSummary,
       FlightResponse? flightSearchResponse,
       InboundOutboundSegment? selectedDepartureFlight,
       InboundOutboundSegment? selectedReturnFlight,
@@ -87,7 +93,8 @@ class ManageBookingState extends Equatable {
       bool removeSelectedReturn = false,
       bool? loadingDatesData,
       bool? loadingSelectingFlight,
-      CRP.ChangeFlightRequestResponse? changeFlightResponse}) {
+      CRP.ChangeFlightRequestResponse? changeFlightResponse
+      }) {
     return ManageBookingState(
       message: message ?? this.message,
       blocState: blocState ?? this.blocState,
@@ -114,6 +121,7 @@ class ManageBookingState extends Equatable {
           : selectedReturnFlight ?? this.selectedReturnFlight,
       changeFlightResponse: changeFlightResponse ?? this.changeFlightResponse,
       loadingDatesData: loadingDatesData ?? this.loadingDatesData,
+      loadingSummary: loadingSummary ?? this.loadingSummary,
 
 
     );

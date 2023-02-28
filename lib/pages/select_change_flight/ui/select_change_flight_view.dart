@@ -167,46 +167,54 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
   Column buildFlights(ManageBookingState state) {
     return Column(
       children: [
-        ChooseFlightSegment(
-          title: "Depart",
-          subtitle:
-              state.manageBookingResponse?.result?.departureToDestinationCode ??
-                  '',
-          dateTitle: AppDateUtils.formatFullDate(state
-              .flightSearchResponse
-              ?.searchFlightResponse
-              ?.flightResult
-              ?.outboundSegment
-              ?.first
-              .departureDate),
-          segments: state.flightSearchResponse?.searchFlightResponse
-                  ?.flightResult?.outboundSegment ??
-              [],
-          isDeparture: true,
-          changeFlight: true,
-        ),
-        kVerticalSpacer,
-        Visibility(
-          //visible: state.filterState?.flightType == FlightType.round,
-          child: ChooseFlightSegment(
-            title: "Return",
+
+        if(state.checkedDeparture == true) ... [
+          ChooseFlightSegment(
+            title: "Depart",
             subtitle:
-                state.manageBookingResponse?.result?.returnToDestinationCode ??
-                    '',
+            state.manageBookingResponse?.result?.departureToDestinationCode ??
+                '',
             dateTitle: AppDateUtils.formatFullDate(state
                 .flightSearchResponse
                 ?.searchFlightResponse
                 ?.flightResult
-                ?.inboundSegment
+                ?.outboundSegment
                 ?.first
                 .departureDate),
             segments: state.flightSearchResponse?.searchFlightResponse
-                    ?.flightResult?.inboundSegment ??
+                ?.flightResult?.outboundSegment ??
                 [],
-            isDeparture: false,
+            isDeparture: true,
             changeFlight: true,
           ),
-        ),
+
+        ],
+        kVerticalSpacer,
+
+        if((state.manageBookingResponse?.isTwoWay ?? true) && state.checkReturn == true) ... [
+          Visibility(
+            //visible: state.filterState?.flightType == FlightType.round,
+            child: ChooseFlightSegment(
+              title: "Return",
+              subtitle:
+              state.manageBookingResponse?.result?.returnToDestinationCode ??
+                  '',
+              dateTitle: AppDateUtils.formatFullDate(state
+                  .flightSearchResponse
+                  ?.searchFlightResponse
+                  ?.flightResult
+                  ?.inboundSegment
+                  ?.first
+                  .departureDate),
+              segments: state.flightSearchResponse?.searchFlightResponse
+                  ?.flightResult?.inboundSegment ??
+                  [],
+              isDeparture: false,
+              changeFlight: true,
+            ),
+          ),
+        ],
+
       ],
     );
   }

@@ -33,7 +33,6 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
     if (start == null) return false;
     // if only end is null only the start should be highlighted
     if (end == null) return date == start;
-    // if both start and end aren't null check if date false in the range
     return ((date == start || date.isAfter(start)) &&
         (date == end || date.isBefore(end)));
   }
@@ -49,6 +48,8 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
     );
   }
 
+  bool loadDate = false;
+
   @override
   Widget build(BuildContext context) {
     //final filterCubit = context.watch<FilterCubit>();
@@ -60,8 +61,21 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
         ?.currentStartDate; //filterCubit.state.departDaconst te;
     var returnDate = bloc.state.manageBookingResponse
         ?.currentEndDate; //filterCubit.state.returnDate;
-    const isRoundTrip =
-        true; // filterCubit.state.flightType == FlightType.round;
+    bool isRoundTrip = bloc.state.manageBookingResponse?.isTwoWay ??
+        false; // filterCubit.state.flightType == FlightType.round;
+
+    if(state.checkedDeparture) {
+      isRoundTrip = false;
+      returnDate = null;
+
+    }
+    else if(state.checkReturn) {
+      isRoundTrip = false;
+      departDate = returnDate;
+      returnDate = null;
+
+
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,7 +138,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                               ),
                             ),
                           ),
-                          const Visibility(
+                          Visibility(
                             visible: isRoundTrip,
                             child: Icon(Icons.chevron_right),
                           ),
@@ -175,16 +189,15 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           final isBefore = value.isBefore(DateTime.now());
                           if (isBefore) return;
                           if (isRoundTrip) {
-
-                              setState(() {
-                                bloc.updateStartDate(value);
-                              });
-
-
-
+                            setState(() {
+                              bloc.updateStartDate(value);
+                            });
                           } else {
-                            context.read<FilterCubit>().updateDate(
-                                departDate: value, returnDate: null);
+                            setState(() {
+                              bloc.updateStartDate(value);
+                            });
+
+
                           }
                         },
                         onPaginationCompleted: (direction) {},
@@ -207,7 +220,9 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           //  date, priceState.loadingDate);
                           //final event = prices.firstWhereOrNull(
                           //        (event) => isSameDay(event.date, date));
-                          final isBefore = date.isBefore(DateTime.now());
+                          final isBefore = date.isBefore(
+                            DateTime.now(),
+                          );
                           return Container(
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
@@ -271,22 +286,42 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           ),
                         ),
                         kHorizontalSpacer,
-                        Expanded(
-                          child: (bloc.state.loadingDatesData == true) ? const AppLoading() :  ElevatedButton(
-                            onPressed: () async {
-                              //                context.router.push(const SelectChangeFlightRoute());
-                              var response =
-                                  await bloc.getAvailableFlights(null, null);
-
-                              if (response == true) {
-                                context.router.push(
-                                  const SelectChangeFlightRoute(),
-                                );
-                              }
-                            },
-                            child: const Text("Apply"),
+                        if (loadDate) ...[
+                          const Expanded(
+                            child: AppLoading(),
                           ),
-                        ),
+                        ] else ...[
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                //                context.router.push(const SelectChangeFlightRoute());
+
+                                setState(() {
+                                  loadDate = true;
+                                });
+
+                                var response =
+                                    await bloc.getAvailableFlights(null, null);
+
+                                if (response == true) {
+                                  setState(() {
+                                    loadDate = false;
+                                  });
+                                  context.router.push(
+                                    const SelectChangeFlightRoute(),
+                                  );
+                                } else {
+                                  setState(() {
+                                    loadDate = false;
+                                  });
+
+                                  print('');
+                                }
+                              },
+                              child: const Text("Apply"),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),

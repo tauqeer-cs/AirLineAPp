@@ -139,9 +139,7 @@ class BookingsView extends StatelessWidget {
       final value = _fbKey.currentState!.value;
       final code = value["bookingNumber"];
       final lastName = value["lastName"];
-
       var flag = await bloc?.getBookingInformation(lastName, code);
-
       if(flag == true) {
         context.router.push(
           ManageBookingDetailsRoute(),
