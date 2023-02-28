@@ -15,9 +15,6 @@ PODS:
   - Firebase/Crashlytics (10.2.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 10.2.0)
-  - Firebase/Messaging (10.2.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 10.2.0)
   - Firebase/Performance (10.2.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 10.2.0)
@@ -33,10 +30,6 @@ PODS:
     - Flutter
   - firebase_crashlytics (3.0.6):
     - Firebase/Crashlytics (= 10.2.0)
-    - firebase_core
-    - Flutter
-  - firebase_messaging (14.1.1):
-    - Firebase/Messaging (= 10.2.0)
     - firebase_core
     - Flutter
   - firebase_performance (0.9.0-6):
@@ -85,15 +78,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - PromisesObjC (~> 2.1)
-  - FirebaseMessaging (10.2.0):
-    - FirebaseCore (~> 10.0)
-    - FirebaseInstallations (~> 10.0)
-    - GoogleDataTransport (~> 9.2)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GoogleUtilities/Reachability (~> 7.8)
-    - GoogleUtilities/UserDefaults (~> 7.8)
-    - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebasePerformance (10.2.0):
     - FirebaseCore (~> 10.0)
     - FirebaseInstallations (~> 10.0)
@@ -122,8 +106,6 @@ PODS:
     - InsiderHybrid (= 1.4.0)
     - InsiderMobile (= 12.5.4)
   - flutter_keyboard_visibility (0.0.1):
-    - Flutter
-  - flutter_local_notifications (0.0.1):
     - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
@@ -229,14 +211,12 @@ DEPENDENCIES:
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
-  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_insider (from `.symlinks/plugins/flutter_insider/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
-  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
@@ -264,7 +244,6 @@ SPEC REPOS:
     - FirebaseCoreInternal
     - FirebaseCrashlytics
     - FirebaseInstallations
-    - FirebaseMessaging
     - FirebasePerformance
     - FirebaseRemoteConfig
     - FMDB
@@ -289,8 +268,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_crashlytics:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
-  firebase_messaging:
-    :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_performance:
     :path: ".symlinks/plugins/firebase_performance/ios"
   firebase_remote_config:
@@ -303,8 +280,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_insider/ios"
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
-  flutter_local_notifications:
-    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_pdfview:
@@ -342,7 +317,6 @@ SPEC CHECKSUMS:
   firebase_analytics: f58660932fa1d373ced20b098ada23fe0ed1f55b
   firebase_core: db1432de826785171029b7c1a26e5b22ce1dd477
   firebase_crashlytics: 70150805355d1e11e2fbbfa379fc9e776d05e5ad
-  firebase_messaging: 5babce6fa9ce1e0c63a854dabba227f23dc68b1b
   firebase_performance: 892af6cec04661bde4c546baf9b8ec6de0b6ea58
   firebase_remote_config: 2b96deea3f044fac2ebfffb6735fb4fc8477419a
   FirebaseABTesting: 8cb5cc4e395c8dce8a2820a6a329020ead56fe2f
@@ -351,14 +325,12 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: e463f41bb935cd049505bf7e9a5bdd7dcea90df6
   FirebaseCrashlytics: df7406152189d48346deafb716806d7bd9ebb573
   FirebaseInstallations: 935bc4abb6f7a035cab7a0c31cb777b2be3dd254
-  FirebaseMessaging: cc9f40f5b7494680f3844d08e517e92aa4e8d9f7
   FirebasePerformance: 4bf9f8cba078b4a699b40062100fd717e034568d
   FirebaseRemoteConfig: 5bdeadd64a042dad0f6a38fee7e017818240c3d2
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_inappwebview: d0abb4b8dc48fb687c4cedf1a96f1cc0943cb5a6
   flutter_insider: 211fcc0ed2f7cf02ac3fe4892621479e89f693c4
   flutter_keyboard_visibility: 22e501aaa030f15e6b90b4b5df5afafab3066396
-  flutter_local_notifications: 43fdfcbc97270d5e385684c868967778cd755bb4
   flutter_native_splash: 01c5881f2f9327abf57e7428f59e2cecf1c9d16d
   flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
   flutter_secure_storage: f829953ba5820430076bf4f947641ab11b25df9b

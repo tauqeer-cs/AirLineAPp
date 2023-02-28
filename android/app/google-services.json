@@ -39,10 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "123907775175-bivo2dhhblqctua0t4id894je4o7kf0k.apps.googleusercontent.com",
+              "client_id": "123907775175-8m64vbprtb12sgb3frsto0ecrg40bbmn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.myairline.mobileapp.dev"
+                "bundle_id": "com.myairline.mobileapp.uat"
               }
             }
           ]
@@ -83,10 +83,10 @@
               "client_type": 3
             },
             {
-              "client_id": "123907775175-bivo2dhhblqctua0t4id894je4o7kf0k.apps.googleusercontent.com",
+              "client_id": "123907775175-8m64vbprtb12sgb3frsto0ecrg40bbmn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.myairline.mobileapp.dev"
+                "bundle_id": "com.myairline.mobileapp.uat"
               }
             }
           ]
@@ -101,6 +101,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "123907775175-9cbn7aal7do64055r49f156qvvio6olg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myairline.mobileapp.uat",
+            "certificate_hash": "b08fee94bd8469bf4a2edb140006eecc136949d9"
+          }
+        },
         {
           "client_id": "123907775175-3o0bgo5fhv71e3ghsdccgm9kuh6d0nfs.apps.googleusercontent.com",
           "client_type": 3
@@ -119,10 +127,10 @@
               "client_type": 3
             },
             {
-              "client_id": "123907775175-bivo2dhhblqctua0t4id894je4o7kf0k.apps.googleusercontent.com",
+              "client_id": "123907775175-8m64vbprtb12sgb3frsto0ecrg40bbmn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.myairline.mobileapp.dev"
+                "bundle_id": "com.myairline.mobileapp.uat"
               }
             }
           ]

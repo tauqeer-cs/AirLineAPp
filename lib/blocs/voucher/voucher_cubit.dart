@@ -25,14 +25,12 @@ class VoucherCubit extends Cubit<VoucherState> {
 
   getAvailablePromotions(String token) async {
     state.flightToken = token;
-
     final response = await _repository.getPromoInfo(Token(token: token));
     if (response.statusCode == 200) {
       emit(state.copyWith(
         redemptionOption: response.value!.lmsRedemptionOption,
         promoReady: true,
       ));
-
       return;
     } else {
       emit(state.copyWith(
@@ -53,7 +51,6 @@ class VoucherCubit extends Cubit<VoucherState> {
   addVoucher(VoucherRequest voucherRequest) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-
       final response = await _repository.addVoucher(voucherRequest);
       FlutterInsider.Instance.tagEvent(
         InsiderConstants.promoCodeApplied,
@@ -68,9 +65,9 @@ class VoucherCubit extends Cubit<VoucherState> {
       emit(
         state.copyWith(
           blocState: BlocState.finished,
-          response: response,
-          appliedVoucher: voucherRequest.insertVoucher,
-          insertedVoucher: voucherRequest.voucherPins.firstOrNull,
+          response: () => response,
+          appliedVoucher: () => voucherRequest.insertVoucher,
+          insertedVoucher: () => voucherRequest.voucherPins.firstOrNull,
         ),
       );
     } catch (e, st) {
@@ -78,8 +75,32 @@ class VoucherCubit extends Cubit<VoucherState> {
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
-          response: const VoucherResponse(),
-          appliedVoucher: "",
+          response: () => VoucherResponse(),
+          appliedVoucher: () => "",
+        ),
+      );
+    }
+  }
+
+  removeVoucher(VoucherRequest voucherRequest) async {
+    emit(state.copyWith(blocState: BlocState.loading));
+    try {
+      await _repository.removeVoucher(voucherRequest);
+      emit(
+        state.copyWith(
+          blocState: BlocState.finished,
+          response: () => null,
+          appliedVoucher: () => null,
+          insertedVoucher: () => null,
+        ),
+      );
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+          response: () => const VoucherResponse(),
+          appliedVoucher: () => "",
         ),
       );
     }

@@ -62,7 +62,7 @@ class HomeItems extends Equatable {
   final String? style;
   final String? title;
   final int? id;
-  final double? price;
+  final dynamic? price;
   final String? name;
   final String? link;
   final String? key;

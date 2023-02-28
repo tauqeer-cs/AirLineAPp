@@ -82,8 +82,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   Future initInsider() async {
     if (!mounted) return;
     // Call in async method.
-    await FlutterInsider.Instance.init(AppFlavor.insiderPartnerName,
-        AppFlavor.insiderAppGroup, userInsiderCallBack);
+    await FlutterInsider.Instance.init(
+      AppFlavor.insiderPartnerName,
+      AppFlavor.insiderAppGroup,
+      userInsiderCallBack,
+    );
     // This is an utility method, if you want to handle the push permission in iOS own your own you can omit the following method.
     try {
       await FlutterInsider.Instance.visitHomePage();

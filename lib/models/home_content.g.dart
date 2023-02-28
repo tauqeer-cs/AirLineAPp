@@ -50,7 +50,7 @@ HomeItems _$HomeItemsFromJson(Map<String, dynamic> json) => HomeItems(
       from: json['from'] as String?,
       to: json['to'] as String?,
       image: json['image'] as String?,
-      price: (json['price'] as num?)?.toDouble(),
+      price: json['price'],
       img: json['img'] as String?,
       style: json['style'] as String?,
       title: json['title'] as String?,

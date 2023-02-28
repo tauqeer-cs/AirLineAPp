@@ -46,12 +46,11 @@ class HomeBanner extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: FittedBox(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: AppImage(
-                          imageUrl: e.img,
-                        ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: AppImage(
+                        imageUrl: e.img,
+                        boxFit: BoxFit.fill,
                       ),
                     ),
                   ),

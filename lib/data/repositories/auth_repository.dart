@@ -111,7 +111,7 @@ class AuthenticationRepository {
     final requests = OauthRequest(
       token: googleAuth.idToken,
       platform: "GOOGLE",
-      fcmToken: FCMNotification.token,
+      //fcmToken: FCMNotification.token,
     );
     final response = await _provider.oauthSignIn(requests);
     setCurrentUser(response);
@@ -131,7 +131,7 @@ class AuthenticationRepository {
     final requests = OauthRequest(
       token: appleCredential.authorizationCode,
       platform: "APPLE",
-      fcmToken: FCMNotification.token,
+      //fcmToken: FCMNotification.token,
     );
     final response = await _provider.oauthSignIn(requests);
     setCurrentUser(response);

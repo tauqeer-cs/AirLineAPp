@@ -14,6 +14,7 @@ import 'package:app/utils/string_utils.dart';
 
 class BundleSection extends StatelessWidget {
   final bool isDeparture;
+
   const BundleSection({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
@@ -34,7 +35,9 @@ class BundleSection extends StatelessWidget {
             ),
           ),
           kVerticalSpacer,
-           PassengerSelector(isDeparture: isDeparture,),
+          PassengerSelector(
+            isDeparture: isDeparture,
+          ),
           kVerticalSpacer,
           buildBundleCards(bundles, isDeparture),
         ],
@@ -95,46 +98,57 @@ class NewBundleCard extends StatelessWidget {
         elevation: 2,
         child: Stack(
           children: [
-            ListTile(
-              contentPadding:
-                  const EdgeInsets.only(top: 15, right: 50, left: 15),
-              leading: Radio<InboundBundle?>(
-                value: inboundBundle,
-                groupValue: bundle,
-                onChanged: (value) {
-                  context
-                      .read<SearchFlightCubit>()
-                      .addBundleToPerson(selectedPerson, value, isDeparture);
-                },
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
                 children: [
-                  Text(
-                    inboundBundle?.bundle?.description?.capitalize() ??
-                        "No Bundle Service",
-                    style: kHugeHeavy,
+                  Radio<InboundBundle?>(
+                    value: inboundBundle,
+                    groupValue: bundle,
+                    onChanged: (value) {
+                      context.read<SearchFlightCubit>().addBundleToPerson(
+                          selectedPerson, value, isDeparture);
+                    },
                   ),
-                  ...inboundBundle?.detail?.bundleServiceDetails
-                          ?.map((e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: Text(e.description?.capitalize() ?? ""),
-                              ))
-                          .toList() ??
-                      []
-                ],
-              ),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    inboundBundle?.bundle?.currencyCode ?? "MYR",
-                    style: kMediumHeavy,
+                  Expanded(
+                    flex: 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          inboundBundle?.bundle?.description?.capitalize() ??
+                              "No Bundle Service",
+                          style: kHugeHeavy,
+                        ),
+                        kVerticalSpacerSmall,
+                        ...inboundBundle?.detail?.bundleServiceDetails
+                                ?.map((e) => Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 2.0),
+                                      child: Text(
+                                          "- ${e.description?.capitalize()}"),
+                                    ))
+                                .toList() ??
+                            []
+                      ],
+                    ),
                   ),
-                  Text(
-                    NumberUtils.formatNumber(
-                        inboundBundle?.bundle?.finalAmount.toDouble()),
-                    style: kHugeHeavy,
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          inboundBundle?.bundle?.currencyCode ?? "MYR",
+                          style: kMediumHeavy,
+                        ),
+                        Text(
+                          NumberUtils.formatNumber(
+                              inboundBundle?.bundle?.finalAmount.toDouble()),
+                          style: kHugeHeavy,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -529,8 +529,6 @@ class FlightSSR extends Equatable {
   final BundleGroupSeat? sportGroup;
   final BundleGroupSeat? insuranceGroup;
 
-
-
   //
   //
 
@@ -543,7 +541,6 @@ class FlightSSR extends Equatable {
     this.wheelChairGroup,
     this.sportGroup,
     this.insuranceGroup,
-
   });
 }
 
@@ -592,8 +589,7 @@ class InboundBundle extends Equatable {
   const InboundBundle({this.bundle, this.detail});
 
   Bound toBound({bool sports = false}) {
-
-    if(sports){
+    if (sports) {
       return Bound(
         name: bundle?.description?.toLowerCase(),
         servicesType: "Sports",
@@ -616,18 +612,19 @@ class InboundBundle extends Equatable {
 
 @JsonSerializable(includeIfNull: false)
 class Bundle extends Equatable {
-  Bound toBound({bool sports = false,bool isInsurance = false}) {
-    if(isInsurance) {
+  Bound toBound({bool sports = false, bool isInsurance = false}) {
+    if (isInsurance) {
       return Bound(
         name: description?.toLowerCase(),
         servicesType: "Insurance",
         logicalFlightId: logicalFlightID,
         quantity: 1,
-        price: amount == null ? 0 : (amount! + (applicableTaxes!.first.taxAmount ?? 0)),
+        price: amount == null
+            ? 0
+            : (amount! + (applicableTaxes!.first.taxAmount ?? 0)),
         serviceId: serviceID,
       );
-    }
-    else if(sports) {
+    } else if (sports) {
       return Bound(
         name: description?.toLowerCase(),
         servicesType: "Sport",
@@ -638,7 +635,9 @@ class Bundle extends Equatable {
     }
     return Bound(
       name: description?.toLowerCase(),
-      servicesType: "BAGGAGE",
+      servicesType: description?.contains("Wheelchair") ?? false
+          ? "WheelChair"
+          : "BAGGAGE",
       price: finalAmount,
       logicalFlightId: logicalFlightID,
       quantity: 1,
@@ -741,18 +740,17 @@ class Bundle extends Equatable {
     this.serviceType,
   });
 
-  num get getTotalTaxes{
-    if(applicableTaxes?.isEmpty ?? true) return 0;
+  num get getTotalTaxes {
+    if (applicableTaxes?.isEmpty ?? true) return 0;
     num totalTax = 0;
     for (var element in applicableTaxes!) {
-      totalTax = totalTax +  (element.amountToApply ?? 0);
+      totalTax = totalTax + (element.amountToApply ?? 0);
     }
     return totalTax;
   }
 
   num get finalAmount => (amount ?? 0) + getTotalTaxes;
 }
-
 
 @JsonSerializable(includeIfNull: false)
 class Detail extends Equatable {
