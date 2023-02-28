@@ -22,6 +22,8 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 
+
+
   String camelCase() {
     return split(' ').map((e) {
       if (e.contains("(")) {
@@ -75,4 +77,13 @@ extension StringNullExtension on String? {
   bool get isEmptyOrNull => this?.isEmpty ?? true;
 
   String? get returnNullIfEmpty => (this?.isEmpty ?? true) ? null : this;
+
+  String? get nullIfEmpty {
+    if (this?.isEmpty ?? true) return null;
+    return this;
+  }
+
+  String get setNoneIfNullOrEmpty{
+    return nullIfEmpty ?? "none";
+  }
 }

@@ -27,6 +27,7 @@ import 'package:app/pages/delete_account/delete_account_page.dart';
 import 'package:app/pages/edit_profile/edit_profile.dart';
 import 'package:app/pages/forget_password/forget_password_page.dart';
 import 'package:app/pages/home/home_page.dart';
+import 'package:app/pages/home_detail/home_detail_page.dart';
 import 'package:app/pages/inapp_webview/in_app_webview_page.dart';
 import 'package:app/pages/navigation/navigation_page.dart';
 import 'package:app/pages/search_result/search_result_page.dart';
@@ -63,6 +64,7 @@ part 'app_router.gr.dart';
     AutoRoute(page: SearchResultPage, path: "/flight"),
     AutoRoute(page: ChangeSearchPage, path: "/change-search"),
     AutoRoute(page: WelcomePage, path: "/welcome"),
+    AutoRoute(page: HomeDetailPage, path: "/:url"),
     AutoRoute(page: WebViewPage, path: "/webview"),
     AutoRoute(page: InAppWebViewPage, path: "/in-app-webview"),
     AutoRoute(page: BundlePage, path: "/flight/addon/selection-bundle"),

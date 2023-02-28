@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
- platform :ios, '13.1'
+platform :ios, '13.1'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -29,6 +29,8 @@ flutter_ios_podfile_setup
 
 target 'Runner' do
   use_frameworks!
+  inherit! :search_paths
+  
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
@@ -38,4 +40,18 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
   end
+end
+
+target 'InsiderNotificationContent' do
+  use_frameworks!
+  inherit! :search_paths
+  # Pods for InsiderNotificationContent
+  pod "InsiderMobileAdvancedNotification"
+end
+
+target 'InsiderNotificationService' do
+  use_frameworks!
+  inherit! :search_paths
+  # Pods for InsiderNotificationService
+  pod "InsiderMobileAdvancedNotification"
 end

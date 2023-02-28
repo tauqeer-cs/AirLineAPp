@@ -50,12 +50,14 @@ HomeItems _$HomeItemsFromJson(Map<String, dynamic> json) => HomeItems(
       from: json['from'] as String?,
       to: json['to'] as String?,
       image: json['image'] as String?,
-      price: (json['price'] as num?)?.toDouble(),
+      price: json['price'],
       img: json['img'] as String?,
       style: json['style'] as String?,
       title: json['title'] as String?,
+      mimg: json['mimg'] as String?,
       id: json['id'] as int?,
       link: json['link'] as String?,
+      key: json['key'] as String?,
       name: json['name'] as String?,
     );
 
@@ -73,11 +75,13 @@ Map<String, dynamic> _$HomeItemsToJson(HomeItems instance) {
   writeNotNull('from', instance.from);
   writeNotNull('to', instance.to);
   writeNotNull('img', instance.img);
+  writeNotNull('mimg', instance.mimg);
   writeNotNull('style', instance.style);
   writeNotNull('title', instance.title);
   writeNotNull('id', instance.id);
   writeNotNull('price', instance.price);
   writeNotNull('name', instance.name);
   writeNotNull('link', instance.link);
+  writeNotNull('key', instance.key);
   return val;
 }

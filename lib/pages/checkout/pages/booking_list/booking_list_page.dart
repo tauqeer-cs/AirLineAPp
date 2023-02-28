@@ -25,8 +25,7 @@ class BookingListPage extends StatelessWidget {
               (e) => Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
                 child: InkWell(
-                  onTap: () => context.router.push(
-                      BookingConfirmationRoute(bookingId: e.bookingId ?? "")),
+                  onTap: (){},
                   child: AppCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

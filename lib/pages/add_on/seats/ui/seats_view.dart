@@ -26,6 +26,7 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
 
   final bool autoScrollToBottom = false;
 
+
   @override
   void dispose() {
     scrollController.dispose(); // dispose the controller

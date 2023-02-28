@@ -20,6 +20,9 @@ class BookingSummary extends StatelessWidget {
     final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
             ?.firstOrNull?.discountAmount ??
         0;
+
+    int? redeemAmount = context.watch<VoucherCubit>().state.selectedRedeemOption?.redemptionAmount ?? 0;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -31,7 +34,7 @@ class BookingSummary extends StatelessWidget {
           isDense: false,
           amount: booking.getFinalPriceDisplay +
               (filterState?.numberPerson.getTotal() ?? 0) -
-              discount,
+              discount - redeemAmount,
         ),
         kVerticalSpacer,
       ],

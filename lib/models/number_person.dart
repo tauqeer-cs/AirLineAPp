@@ -103,11 +103,18 @@ class NumberPerson extends Equatable {
     return total;
   }
 
-
   num getTotalBaggagePartial(bool isDeparture) {
     num total = 0;
     for (var element in persons) {
       total = total + element.getPartialPriceBaggage(isDeparture);
+    }
+    return total;
+  }
+
+  num getTotalWheelChairPartial(bool isDeparture) {
+    num total = 0;
+    for (var element in persons) {
+      total = total + element.getPartialWheelChair(isDeparture);
     }
     return total;
   }
@@ -118,14 +125,11 @@ class NumberPerson extends Equatable {
       //here
       total = total + element.getPartialPriceSports(isDeparture);
     }
-    if(total == 0.0) {
-
+    if (total == 0.0) {
       return null;
-
     }
     return total;
   }
-
 
   String toBeautify() {
     List<String> texts = [];
@@ -170,8 +174,10 @@ class Person extends Equatable {
   final Bundle? returnBaggage;
   final Bundle? departureSports;
   final Bundle? returnSports;
-   final Bundle? insuranceGroup;
-
+  final Bundle? departureWheelChair;
+  final Bundle? returnWheelChair;
+  final Bundle? insuranceGroup;
+  final bool? useWheelChair;
   final int? numberOrder;
   final Passenger? passenger;
 
@@ -183,23 +189,24 @@ class Person extends Equatable {
     this.returnBundle,
     this.departureSeats,
     this.returnSeats,
+    this.departureWheelChair,
+    this.returnWheelChair,
     this.departureMeal = const [],
     this.returnMeal = const [],
     this.departureBaggage,
     this.returnBaggage,
     this.numberOrder,
     this.passenger,
+    this.useWheelChair,
     this.departureSports,
     this.returnSports,
     this.insuranceGroup,
-
   });
 
   static const adult = Person(
     peopleType: PeopleType.adult,
     numberOrder: 1,
   );
-
 
   @override
   // TODO: implement props
@@ -286,6 +293,12 @@ class Person extends Equatable {
       inboundSSR.add(returnBaggage!.toBound());
     }
 
+    if (departureWheelChair?.toBound() != null) {
+      outboundSSR.add(departureWheelChair!.toBound());
+    }
+    if (returnWheelChair?.toBound() != null) {
+      inboundSSR.add(returnWheelChair!.toBound());
+    }
 
     if (departureSports?.toBound(sports: true) != null) {
       outboundSSR.add(departureSports!.toBound(sports: true));
@@ -296,9 +309,6 @@ class Person extends Equatable {
     }
 
     //if(this.)
-
-
-
 
     final outboundSeat = departureSeats?.toOutbound(outboundRows);
     final inboundSeat = returnSeats?.toOutbound(inboundRows);
@@ -326,7 +336,8 @@ class Person extends Equatable {
         getTotalPriceMeal() +
         getTotalPriceBaggage() +
         getTotalPriceSports() +
-        getInsurancePrice();
+        getInsurancePrice() +
+        getTotalPriceWheelChair();
     return totalPrice;
   }
 
@@ -385,9 +396,14 @@ class Person extends Equatable {
 
   num getTotalPriceSports() {
     num totalPrice = 0;
-    //here
 
     totalPrice = getPartialPriceSports(false) + getPartialPriceSports(true);
+    return totalPrice;
+  }
+
+  num getTotalPriceWheelChair() {
+    num totalPrice = 0;
+    totalPrice = getPartialWheelChair(false) + getPartialWheelChair(true);
     return totalPrice;
   }
 
@@ -397,7 +413,6 @@ class Person extends Equatable {
     totalPrice = getInsuranceTotalPrice();
 
     return totalPrice;
-
   }
 
   num getPartialPriceBaggage(bool isDeparture) {
@@ -411,18 +426,21 @@ class Person extends Equatable {
     num totalPrice = isDeparture
         ? departureSports?.finalAmount ?? 0
         : returnSports?.finalAmount ?? 0;
+    return totalPrice;
+  }
 
+  num getPartialWheelChair(bool isDeparture) {
+    num totalPrice = isDeparture
+        ? departureWheelChair?.finalAmount ?? 0
+        : returnWheelChair?.finalAmount ?? 0;
     return totalPrice;
   }
 
   num getInsuranceTotalPrice() {
-
     num totalPrice = insuranceGroup?.finalAmount ?? 0;
 
     return totalPrice;
   }
-
-
 
   bool isWithInfant(NumberPerson? numberPerson) {
     if (peopleType == PeopleType.adult &&
@@ -444,6 +462,8 @@ class Person extends Equatable {
     Bundle? Function()? returnBaggage,
     Bundle? Function()? departureSports,
     Bundle? Function()? returnSports,
+    Bundle? Function()? departureWheelChair,
+    Bundle? Function()? returnWheelChair,
     int? numberOrder,
     Bundle? insurance,
     bool insuranceEmpty = false,
@@ -465,8 +485,13 @@ class Person extends Equatable {
       departureSports:
           departureSports != null ? departureSports() : this.departureSports,
       returnSports: returnSports != null ? returnSports() : this.returnSports,
+      departureWheelChair: departureWheelChair != null
+          ? departureWheelChair()
+          : this.departureWheelChair,
+      returnWheelChair:
+          returnWheelChair != null ? returnWheelChair() : this.returnWheelChair,
       numberOrder: numberOrder ?? this.numberOrder,
-    insuranceGroup: insuranceEmpty ? (null) : insurance ?? insuranceGroup,
+      insuranceGroup: insuranceEmpty ? (null) : insurance ?? insuranceGroup,
     );
   }
 
@@ -509,13 +534,12 @@ class Person extends Equatable {
       case PeopleType.child:
         return DateTime(now.year - 12, now.month, now.day);
       case PeopleType.infant:
-        return DateTime(now.year - 2, now.month, now.day).add(const Duration(days: 1));
+        final start = DateTime(now.year - 2, now.month, now.day+1);
+        return start;
       default:
         return now;
     }
   }
-
-
 }
 
 enum PeopleType {
@@ -534,7 +558,6 @@ extension PeopleTypeToString on PeopleType {
   }
 }
 
-
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
 List<String> availableRelations = [
@@ -545,4 +568,12 @@ List<String> availableRelations = [
   "Others"
 ];
 
-List<String> availableTitleAll = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri","Mstr.", "Miss"];
+List<String> availableTitleAll = [
+  "Mr.",
+  "Mrs.",
+  "Ms.",
+  "Tun",
+  "Tan Sri",
+  "Mstr.",
+  "Miss"
+];

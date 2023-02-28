@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_flavor.dart';
+import 'package:app/app/app_logger.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/book_request.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
@@ -77,6 +78,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         paymentRedirect: response.data,
       ));
     } catch (e, st) {
+      logger.e(e);
       emit(
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st),

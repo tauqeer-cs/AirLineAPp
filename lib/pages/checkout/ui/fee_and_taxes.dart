@@ -6,6 +6,7 @@ import 'package:app/pages/checkout/ui/fares_and_bundles.dart';
 import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/pages/checkout/ui/meals_fee.dart';
 import 'package:app/pages/checkout/ui/seats_fee.dart';
+import 'package:app/pages/checkout/ui/wheelchair_fee.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -34,20 +35,16 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
 
     final booking = context.watch<BookingCubit>().state;
-    var discountPercent = booking.selectedDeparture!.discountPCT;
+    var discountPercent = booking.selectedDeparture?.discountPCT;
 
     var discountTotal = 0;
 
-    if(filter?.promoCode != null && discountPercent != null && (discountPercent > 0) ) {
-
-      print('discountTotal');
-
-    }
-
+    if (filter?.promoCode != null &&
+        discountPercent != null &&
+        (discountPercent > 0)) {}
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
         Visibility(
           visible: !isPaymentPage,
@@ -76,7 +73,9 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 ),
                 kHorizontalSpacerSmall,
                 Icon(
-                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                  isExpand
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
                 ),
                 const Spacer(),
                 MoneyWidgetSmall(
@@ -131,29 +130,31 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             isDeparture: widget.isDeparture,
           ),
         ),
-
         Visibility(
           visible: (filter?.numberPerson
-              .getTotalSportsPartial(widget.isDeparture) ??
+              .getTotalWheelChairPartial(widget.isDeparture) ??
               0) >
               0,
+          child: WheelChairFee(
+            isDeparture: widget.isDeparture,
+          ),
+        ),
+        Visibility(
+          visible:
+              (filter?.numberPerson.getTotalSportsPartial(widget.isDeparture) ??
+                      0) >
+                  0,
           child: BaggageFee(
             isDeparture: widget.isDeparture,
             isSports: true,
           ),
         ),
-        if(widget.isDeparture) ... [
+        if (widget.isDeparture) ...[
           Visibility(
-            visible: (filter?.numberPerson
-                .getTotalInsurance() ??
-                0) >
-                0,
-            child: const InsuranceFee(
-            ),
+            visible: (filter?.numberPerson.getTotalInsurance() ?? 0) > 0,
+            child: const InsuranceFee(),
           ),
-
         ],
-
         kVerticalSpacerBig,
       ],
     );

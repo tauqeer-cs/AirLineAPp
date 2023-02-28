@@ -7,12 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../models/confirmation_model.dart';
 
 class ConfirmationBaggage extends StatelessWidget {
-
   final bool boolIsSports;
 
   final bool isInsurance;
 
-   const ConfirmationBaggage({Key? key,this.boolIsSports = false, this.isInsurance = false}) : super(key: key);
+  const ConfirmationBaggage(
+      {Key? key, this.boolIsSports = false, this.isInsurance = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +24,13 @@ class ConfirmationBaggage extends StatelessWidget {
         ?.value
         ?.baggageDetail;
 
-    SportsEquipmentDetail ? sportsEquipmentDetail;
+    SportsEquipmentDetail? sportsEquipmentDetail;
 
-    InsuranceDetails ? insuranceDetails;
+    InsuranceDetails? insuranceDetails;
 
     bool hideView = false;
 
-    if(boolIsSports) {
+    if (boolIsSports) {
       sportsEquipmentDetail = context
           .watch<ConfirmationCubit>()
           .state
@@ -37,114 +38,102 @@ class ConfirmationBaggage extends StatelessWidget {
           ?.value
           ?.sportEquipmentDetail;
 
-
-      if(sportsEquipmentDetail!.totalAmount!.toInt() == 0){
+      if (sportsEquipmentDetail!.totalAmount!.toInt() == 0) {
         hideView = true;
       }
-
-      print('');
-
-    }
-    else if(isInsurance){
-
-
-
+    } else if (isInsurance) {
       insuranceDetails = context
           .watch<ConfirmationCubit>()
           .state
           .confirmationModel
           ?.value
           ?.insuranceSSRDetail;
-      if(insuranceDetails!.totalAmount!.toInt() == 0){
+      if (insuranceDetails!.totalAmount!.toInt() == 0) {
         hideView = true;
       }
-
-
-    }
-    else {
+    } else {
       hideView = (baggage?.baggages ?? []).isEmpty;
-
     }
-    return hideView ? Container() : Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-             Text(
-               titleText(),
-              style: kHugeSemiBold,
-            ),
-            const Spacer(),
-            MoneyWidget(
-              amount: amount(sportsEquipmentDetail, baggage,insuranceDetails),
-              isDense: true, isNormalMYR: true,
-            ),
-          ],
-        ),
-        if(isInsurance) ... [
-          kVerticalSpacerSmall,
-          ...(insuranceDetails?.insuranceSSRs ?? [])
-              .map((e) => Column(
+    return hideView
+        ? Container()
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
-               Text(e.insuranceSSRName ?? 'Insurance'),
+              Row(
+                children: [
+                  Text(
+                    titleText(),
+                    style: kHugeSemiBold,
+                  ),
+                  const Spacer(),
+                  MoneyWidget(
+                    amount: amount(
+                        sportsEquipmentDetail, baggage, insuranceDetails),
+                    isDense: true,
+                    isNormalMYR: true,
+                  ),
+                ],
+              ),
+              if (isInsurance) ...[
+                kVerticalSpacerSmall,
+                ...(insuranceDetails?.insuranceSSRs ?? [])
+                    .map((e) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "${e.titleToShow} ${e.givenName} ${e.surName}"),
+                            Text(e.insuranceSSRName ?? 'Insurance'),
+                            kVerticalSpacerSmall,
+                          ],
+                        ))
+                    .toList(),
+              ] else if (boolIsSports) ...[
+                kVerticalSpacerSmall,
+                ...(sportsEquipmentDetail?.sportEquipments ?? [])
+                    .map((e) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "${e.titleToShow} ${e.givenName} ${e.surName}"),
+                            Text("${e.sportEquipmentName}"),
+                            kVerticalSpacerSmall,
+                          ],
+                        ))
+                    .toList(),
+              ] else ...[
+                kVerticalSpacerSmall,
+                ...(baggage?.baggages ?? [])
+                    .map((e) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                "${e.titleToShow} ${e.givenName} ${e.surName}"),
+                            Text("${e.baggageName}"),
+                            kVerticalSpacerSmall,
+                          ],
+                        ))
+                    .toList(),
+              ],
               kVerticalSpacerSmall,
             ],
-          ))
-              .toList(),
-        ]
-        else if(boolIsSports) ... [
-          kVerticalSpacerSmall,
-          ...(sportsEquipmentDetail?.sportEquipments ?? [])
-              .map((e) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
-              Text("${e.sportEquipmentName}"),
-              kVerticalSpacerSmall,
-            ],
-          ))
-              .toList(),
-
-        ] else  ... [
-          kVerticalSpacerSmall,
-          ...(baggage?.baggages ?? [])
-              .map((e) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
-              Text("${e.baggageName}"),
-              kVerticalSpacerSmall,
-            ],
-          ))
-              .toList(),
-
-        ],
-        kVerticalSpacerSmall,
-      ],
-    );
+          );
   }
 
-  num? amount(SportsEquipmentDetail? sportsEquipmentDetail, BaggageDetail? baggage,InsuranceDetails? insuranceDetails) {
-
-    if(boolIsSports){
-
+  num? amount(SportsEquipmentDetail? sportsEquipmentDetail,
+      BaggageDetail? baggage, InsuranceDetails? insuranceDetails) {
+    if (boolIsSports) {
       return sportsEquipmentDetail?.totalAmount;
-
-    }else if(isInsurance){
+    } else if (isInsurance) {
       return insuranceDetails?.totalAmount;
     }
 
     return baggage?.totalAmount;
   }
 
-  String titleText()  {
-    if(boolIsSports) {
+  String titleText() {
+    if (boolIsSports) {
       return 'Sport Equipment';
-    }
-    else if(isInsurance) {
-
+    } else if (isInsurance) {
       return 'Insurance';
     }
     return "Baggage";

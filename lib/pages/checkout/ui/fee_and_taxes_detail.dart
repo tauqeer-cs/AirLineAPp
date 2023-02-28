@@ -33,6 +33,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
     final infantOutbound =
         verifyResponse?.flightSSR?.infantGroup?.outbound?.firstOrNull;
     final infant = isDeparture ? infantOutbound : infantInbound;
+    print("infant is ${infant?.toJson()}");
     if (taxes?.isEmpty ?? true) return const SizedBox();
     num discountTotal = 0;
 
@@ -50,9 +51,6 @@ class FeeAndTaxesDetail extends StatelessWidget {
 
         discountTotal = a! - b!;
 
-        print('');
-
-        print('discountTotal');
       }
     }
 
@@ -122,7 +120,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                     ),
                     kHorizontalSpacerMini,
                     MoneyWidgetSmall(
-                        amount: infant?.amount ?? segment?.infantPricePerPax,
+                        amount: infant?.finalAmount ?? segment?.infantPricePerPax,
                         isDense: true),
                   ],
                 ),

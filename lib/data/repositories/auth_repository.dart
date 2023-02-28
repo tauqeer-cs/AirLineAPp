@@ -5,6 +5,7 @@ import 'package:app/app/app_flavor.dart';
 import 'package:app/app/app_logger.dart';
 import 'package:app/data/api.dart';
 import 'package:app/data/provider/auth_provider.dart';
+import 'package:app/data/repositories/insider_repository.dart';
 import 'package:app/data/requests/login_request.dart';
 import 'package:app/data/requests/oauth_request.dart';
 import 'package:app/data/requests/resend_email_request.dart';
@@ -14,6 +15,7 @@ import 'package:app/data/responses/common_response.dart';
 import 'package:app/models/user.dart';
 import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/security_utils.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -28,6 +30,7 @@ class AuthenticationRepository {
   final _controller = StreamController<User>();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn.standard();
+  final InsiderRepository insiderRepository = InsiderRepository();
 
   static final AuthProvider _provider = AuthProvider(
     Api.client,
@@ -88,6 +91,7 @@ class AuthenticationRepository {
     final user = await _provider.emailLogin(loginRequest);
     if(user.isAccountVerified ?? false){
       storeAccessToken(user.token);
+      //insiderRepository.loginUser(user);
       setCurrentUser(user);
     }else{
       sendEmail(ResendEmailRequest(email: user.email));
@@ -107,7 +111,7 @@ class AuthenticationRepository {
     final requests = OauthRequest(
       token: googleAuth.idToken,
       platform: "GOOGLE",
-      fcmToken: FCMNotification.token,
+      //fcmToken: FCMNotification.token,
     );
     final response = await _provider.oauthSignIn(requests);
     setCurrentUser(response);
@@ -127,7 +131,7 @@ class AuthenticationRepository {
     final requests = OauthRequest(
       token: appleCredential.authorizationCode,
       platform: "APPLE",
-      fcmToken: FCMNotification.token,
+      //fcmToken: FCMNotification.token,
     );
     final response = await _provider.oauthSignIn(requests);
     setCurrentUser(response);
@@ -166,6 +170,7 @@ class AuthenticationRepository {
   }
 
   void setCurrentUser(User user) async {
+    UserInsider.instance.registerStandardEvent(InsiderConstants.loginCompleted);
     var box = Hive.box<User>(userBoxName);
     logger.i("saved user ${user.toJson()}");
     await box.clear();
@@ -188,6 +193,8 @@ class AuthenticationRepository {
     disconnectGoogleAccount();
     deleteAccessToken();
     deleteCurrentUser();
+    insiderRepository.logoutUser();
+
   }
 
   Future<void> disconnectGoogleAccount() async {

@@ -3,19 +3,33 @@ import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/add_on/seats/ui/seats_view.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class SeatsPage extends StatelessWidget {
+class SeatsPage extends StatefulWidget {
   final bool isDeparture;
 
   const SeatsPage({Key? key, this.isDeparture = true}) : super(key: key);
+
+  @override
+  State<SeatsPage> createState() => _SeatsPageState();
+}
+
+class _SeatsPageState extends State<SeatsPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +61,7 @@ class SeatsPage extends StatelessWidget {
             builder: (context, state) {
               return blocBuilderWrapper(
                 blocState: state.blocState,
-                finishedBuilder: SeatsView(isDeparture: isDeparture),
+                finishedBuilder: SeatsView(isDeparture: widget.isDeparture),
               );
             },
           ),

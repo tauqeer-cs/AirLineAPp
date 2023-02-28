@@ -45,6 +45,18 @@ class _$AppRouter extends RootStackRouter {
         child: const WelcomePage(),
       );
     },
+    HomeDetailRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<HomeDetailRouteArgs>(
+          orElse: () => HomeDetailRouteArgs(url: pathParams.getString('url')));
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: HomeDetailPage(
+          key: args.key,
+          url: args.url,
+        ),
+      );
+    },
     WebViewRoute.name: (routeData) {
       final args = routeData.argsAs<WebViewRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -345,6 +357,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/welcome',
         ),
         RouteConfig(
+          HomeDetailRoute.name,
+          path: '/:url',
+        ),
+        RouteConfig(
           WebViewRoute.name,
           path: '/webview',
         ),
@@ -539,6 +555,41 @@ class WelcomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'WelcomeRoute';
+}
+
+/// generated route for
+/// [HomeDetailPage]
+class HomeDetailRoute extends PageRouteInfo<HomeDetailRouteArgs> {
+  HomeDetailRoute({
+    Key? key,
+    required String url,
+  }) : super(
+          HomeDetailRoute.name,
+          path: '/:url',
+          args: HomeDetailRouteArgs(
+            key: key,
+            url: url,
+          ),
+          rawPathParams: {'url': url},
+        );
+
+  static const String name = 'HomeDetailRoute';
+}
+
+class HomeDetailRouteArgs {
+  const HomeDetailRouteArgs({
+    this.key,
+    required this.url,
+  });
+
+  final Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'HomeDetailRouteArgs{key: $key, url: $url}';
+  }
 }
 
 /// generated route for

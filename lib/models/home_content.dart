@@ -59,12 +59,14 @@ class HomeItems extends Equatable {
   final String? from;
   final String? to;
   final String? img;
+  final String? mimg;
   final String? style;
   final String? title;
   final int? id;
-  final double? price;
+  final dynamic? price;
   final String? name;
   final String? link;
+  final String? key;
 
   const HomeItems({
     this.description,
@@ -75,8 +77,10 @@ class HomeItems extends Equatable {
     this.img,
     this.style,
     this.title,
+    this.mimg,
     this.id,
     this.link,
+    this.key,
     this.name,
   });
 
@@ -94,7 +98,9 @@ class HomeItems extends Equatable {
         img,
         style,
         title,
+        key,
         id,
+        mimg,
         name,
         link,
         from,

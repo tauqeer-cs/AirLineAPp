@@ -38,6 +38,30 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
+  addWheelChairToPerson(
+      Person? person, Bundle? departureWheelChair, Bundle? returnWheelChair) {
+    final persons =
+        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+    final selected = persons.indexWhere((element) => element == person);
+    if (selected >= 0) {
+      final person = persons[selected];
+      final newPerson = person.copyWith(
+        departureWheelChair: () => departureWheelChair,
+        returnWheelChair: () => returnWheelChair,
+      );
+      persons.removeAt(selected);
+      persons.insert(selected, newPerson);
+      final newNumberPerson = NumberPerson(persons: persons);
+      final filterState =
+          state.filterState?.copyWith(numberPerson: newNumberPerson);
+      emit(
+        state.copyWith(
+            filterState: filterState,
+            message: "${DateTime.now().millisecondsSinceEpoch}"),
+      );
+    }
+  }
+
   bool addSeatToPerson(Person? person, Seats? seat, bool isDeparture) {
     try {
       final persons =
@@ -194,8 +218,6 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     state.filterState!.numberPerson.persons[i] = state
         .filterState!.numberPerson.persons[i]
         .copyWith(insurance: insurance);
-
-    print('object');
   }
 
   void removeInsuranceAll() {

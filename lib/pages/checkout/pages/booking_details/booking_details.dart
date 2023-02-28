@@ -13,6 +13,7 @@ import 'package:app/pages/auth/ui/login_form.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
@@ -21,6 +22,7 @@ import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +49,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     if (!isLoggedIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
     }
+    FlutterInsider.Instance.itemAddedToCart(UserInsider.of(context).generateProduct());
+    UserInsider.of(context).registerPurchasedAddOn();
     temporarySummaryRequest();
   }
 
@@ -256,9 +260,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
-                  print(context.router.currentUrl);
                   if (context.router.currentUrl == '/booking-details') {
-                    //
+
 
                     context.router.push(const PaymentRoute());
 

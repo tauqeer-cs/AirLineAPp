@@ -7,7 +7,7 @@ class AppImage extends StatelessWidget {
   final Color? color;
   final double? borderRadius;
   final BoxFit? boxFit;
-  final double? height;
+  final double? height, width;
 
   const AppImage({
     Key? key,
@@ -16,6 +16,7 @@ class AppImage extends StatelessWidget {
     this.borderRadius,
     this.boxFit,
     this.height,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -28,9 +29,13 @@ class AppImage extends StatelessWidget {
               imageUrl: imageUrl!,
               color: color,
               height: height,
+              width: width,
               fit: boxFit ?? BoxFit.cover,
               colorBlendMode: BlendMode.darken,
-              placeholder: (context, url) => const AppLoading(),
+              placeholder: (context, url) => AspectRatio(
+                aspectRatio: 16/9,
+                child: AppLoading(),
+              ),
               errorWidget: (context, url, error) =>
                   AppDefaultImage(color: color),
             ),

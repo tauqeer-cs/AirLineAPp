@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
+import 'package:app/pages/home/ui/dynamic_home_banner.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/pages/home/ui/home_deal_grid.dart';
 import 'package:app/theme/spacer.dart';
@@ -34,7 +35,7 @@ class DealsView extends StatelessWidget {
                   case "3D Carousel Banner":
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: HomeBanner(content: e),
+                      child: DynamicHomeBanner(content: e),
                     );
                   case "Flight Deals":
                     return Padding(
@@ -47,7 +48,7 @@ class DealsView extends StatelessWidget {
                 return const SizedBox();
               }).toList(),
             ),
-            failedBuilder: AppErrorScreen(message: state.message),
+            failedBuilder: SizedBox(),
           );
         },
       ),

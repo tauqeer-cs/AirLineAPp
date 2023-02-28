@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
+import 'package:app/pages/home/ui/dynamic_home_banner.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/widgets/app_app_bar.dart';
@@ -49,14 +50,7 @@ class HomeView extends StatelessWidget {
           ),
         ),
         kVerticalSpacer,
-        Padding(
-          padding: kPageHorizontalPaddingBig,
-          child: Text(
-            "Ongoing Promotions",
-            style: kLargeRegular.copyWith(color: Styles.kTextColor),
-          ),
-        ),
-        kVerticalSpacerSmall,
+
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return blocBuilderWrapper(
@@ -65,9 +59,22 @@ class HomeView extends StatelessWidget {
                 children: state.contents.map((e) {
                   switch (e.name) {
                     case "3D Carousel Banner":
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: HomeBanner(content: e),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: kPageHorizontalPaddingBig,
+                            child: Text(
+                              "Ongoing Promotions",
+                              style: kLargeRegular.copyWith(color: Styles.kTextColor),
+                            ),
+                          ),
+                          kVerticalSpacerSmall,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: DynamicHomeBanner(content: e),
+                          ),
+                        ],
                       );
                     /* case "Flight Deals":
                       return Padding(
@@ -80,7 +87,7 @@ class HomeView extends StatelessWidget {
                   return const SizedBox();
                 }).toList(),
               ),
-              failedBuilder: AppErrorScreen(message: state.message),
+              failedBuilder: SizedBox(),
             );
           },
         ),
