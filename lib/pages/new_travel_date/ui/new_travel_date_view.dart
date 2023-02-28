@@ -64,7 +64,10 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
     bool isRoundTrip = bloc.state.manageBookingResponse?.isTwoWay ??
         false; // filterCubit.state.flightType == FlightType.round;
 
-    if(state.checkedDeparture) {
+    if(state.checkedDeparture && state.checkReturn) {
+
+    }
+    else if(state.checkedDeparture) {
       isRoundTrip = false;
       returnDate = null;
 

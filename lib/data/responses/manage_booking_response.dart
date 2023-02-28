@@ -11,6 +11,10 @@ class ManageBookingResponse {
   DateTime? newStartDateSelected;
   DateTime? newReturnDateSelected;
 
+  num? get previousFirstBundleFart {
+    return result?.passengersWithSSR?.first.fareAndBundleDetail?.totalAmount;
+  }
+
   DateTime? get currentStartDate {
     if (customSelected) {
       return newStartDateSelected;
@@ -184,6 +188,8 @@ class Result {
         : null;
     if (json['passengersWithSSR'] != null) {
       passengersWithSSR = <PassengersWithSSR>[];
+      var cc = json['passengersWithSSR'];
+
       json['passengersWithSSR'].forEach((v) {
         passengersWithSSR!.add(PassengersWithSSR.fromJson(v));
       });
@@ -274,7 +280,7 @@ class Result {
 }
 
 class PassengersWithSSR {
-  int? personOrgID;
+  num? personOrgID;
   Passenger? passengers;
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;
@@ -356,7 +362,7 @@ class PassengersWithSSR {
 }
 
 class CompanyTaxInvoice {
-  int? superPNRID;
+  num? superPNRID;
   String? companyName;
   String? companyAddress;
   String? country;
@@ -366,10 +372,10 @@ class CompanyTaxInvoice {
   String? emailAddress;
   bool? isTaxInvoiceSent;
   String? lastGeneratedDate;
-  int? createdByID;
+  num? createdByID;
   String? createdDate;
   String? createdDateUTC;
-  int? modifiedByID;
+  num? modifiedByID;
   String? modifiedDate;
   String? modifiedDateUTC;
 
@@ -433,8 +439,8 @@ class CompanyTaxInvoice {
 }
 
 class WheelChairDetail {
-  int? wheelChairCount;
-  int? totalAmount;
+  num? wheelChairCount;
+  num? totalAmount;
 
   //List<Null>? wheelChairs;
 

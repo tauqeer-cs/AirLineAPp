@@ -28,7 +28,7 @@ class Result {
   FlightVerifyResponse? flightVerifyResponse;
   ChangeFlightRequest? changeFlightRequest;
   ChangeFlightResponse? changeFlightResponse;
-  int? orderID;
+  num? orderID;
   String? token;
   String? verifyExpiredDateTime;
   bool? success;
@@ -86,7 +86,7 @@ class Result {
 }
 
 class FareTypes {
-  int? fareTypeID;
+  num? fareTypeID;
   String? fareTypeName;
   bool? filterRemove;
   List<FareInfos>? fareInfos;
@@ -120,36 +120,36 @@ class FareTypes {
 
 class FareInfos {
 //  List<Null>? returnFlightSegmentDetails;
-  int? fareID;
+  num? fareID;
   String? fcCode;
   String? fbCode;
-  double? baseFareAmtNoTaxes;
-  double? baseFareAmt;
-  double? fareAmtNoTaxes;
-  double? fareAmt;
-  int? baseFareAmtInclTax;
-  int? fareAmtInclTax;
+  num? baseFareAmtNoTaxes;
+  num? baseFareAmt;
+  num? fareAmtNoTaxes;
+  num? fareAmt;
+  num? baseFareAmtInclTax;
+  num? fareAmtInclTax;
   bool? pvtFare;
-  int? ptcid;
+  num? ptcid;
   String? cabin;
-  int? seatsAvailable;
-  int? infantSeatsAvailable;
-  int? fareScheduleID;
-  int? promotionID;
-  int? roundTrip;
-  double? displayFareAmt;
-  double? displayTaxSum;
+  num? seatsAvailable;
+  num? infantSeatsAvailable;
+  num? fareScheduleID;
+  num? promotionID;
+  num? roundTrip;
+  num? displayFareAmt;
+  num? displayTaxSum;
   bool? specialMarketed;
   bool? waitList;
   bool? spaceAvailable;
   bool? positiveSpace;
-  int? promotionCatID;
-  int? commissionAmount;
-  int? promotionAmount;
+  num? promotionCatID;
+  num? commissionAmount;
+  num? promotionAmount;
   List<ApplicableTaxDetails>? applicableTaxDetails;
   String? bundleCode;
   String? originalCurrency;
-  int? exchangeRate;
+  num? exchangeRate;
   String? exchangeDate;
 
   FareInfos(
@@ -280,10 +280,10 @@ class FareInfos {
 }
 
 class ApplicableTaxDetails {
-  int? taxID;
-  double? amt;
-  int? initiatingTaxID;
-  int? commissionAmount;
+  num? taxID;
+  num? amt;
+  num? initiatingTaxID;
+  num? commissionAmount;
 
   ApplicableTaxDetails(
       {this.taxID, this.amt, this.initiatingTaxID, this.commissionAmount});
@@ -306,7 +306,7 @@ class ApplicableTaxDetails {
 }
 
 class FlightLegDetails {
-  int? pfid;
+  num? pfid;
   String? departureDate;
 
   FlightLegDetails({this.pfid, this.departureDate});
@@ -380,8 +380,8 @@ class ChangeFlightRequest {
 }
 
 class Fares {
-  int? lfid;
-  int? pfid;
+  num? lfid;
+  num? pfid;
   String? fbCode;
 
   Fares({this.lfid, this.pfid, this.fbCode});
@@ -403,8 +403,8 @@ class Fares {
 
 class ChangeFlightResponse {
   bool? success;
-  double? totalReservationAmount;
-  int? changeFee;
+  num? totalReservationAmount;
+  num? changeFee;
   String? currency;
   String? session;
 

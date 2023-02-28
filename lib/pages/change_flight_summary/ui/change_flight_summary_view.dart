@@ -32,9 +32,9 @@ class ChangeFlightSummaryView extends StatelessWidget {
         state?.changeFlightResponse;
 
     var flightSectionGoing = state?.changeFlightResponse?.result
-        ?.flightVerifyResponse?.result?.flightSegments?.last;
-    var flightSectionBack = state?.changeFlightResponse?.result
         ?.flightVerifyResponse?.result?.flightSegments?.first;
+    var flightSectionBack = state?.changeFlightResponse?.result
+        ?.flightVerifyResponse?.result?.flightSegments?.last;
 
     return SizedBox(
       height: double.infinity,
@@ -92,262 +92,258 @@ class ChangeFlightSummaryView extends StatelessWidget {
                       height: 16,
                     ),
 
-AppCard(
-                        edgeInsets: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                width: double.infinity,
-                                height: 4,
-                              ),
-
-                              if((bloc?.state.checkedDeparture == true)) ... [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 16),
-                                  child:  Row(
-                                    children: [
-                                      Text(
-                                        'Departure',
-                                        style: kMediumHeavy.copyWith(
-                                            color: Styles.kPrimaryColor),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        flightSectionGoing?.departureDateToShow ??
-                                            '',
-                                        style: kMediumMedium.copyWith(
-                                            color: Styles.kTextColor),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                //],
-
-                                //flightSectionGoing
-
-                                Text(
-                                  state?.manageBookingResponse?.result
-                                      ?.departureToDestinationCode ??
-                                      '',
-                                  style: kMediumSemiBold.copyWith(
-                                      color: Styles.kTextColor),
-                                ),
-                                kVerticalSpacerMini,
-                                Row(
+                    AppCard(
+                      edgeInsets: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: double.infinity,
+                              height: 4,
+                            ),
+                            if ((bloc?.state.checkedDeparture == true)) ...[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 16),
+                                child: Row(
                                   children: [
-                                    Expanded(
-                                      flex: 4,
-                                      child: FlightInto(
-                                        label: 'Depart',
-                                        timeString: flightSectionGoing
-                                            ?.departureDateToTwoLine ??
-                                            '',
-                                        location: state?.manageBookingResponse
-                                            ?.result?.departureAirportName ??
-                                            '',
-                                      ),
+                                    Text(
+                                      'Departure',
+                                      style: kMediumHeavy.copyWith(
+                                          color: Styles.kPrimaryColor),
                                     ),
-                                    Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                      child: Expanded(
-                                        flex: 3,
-                                        child: PlaneWithTime(
-                                          time: state?.manageBookingResponse?.result
-                                              ?.journeyTimeInHourMin ??
-                                              '',
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 4,
-                                      child: FlightInto(
-                                        label: 'Arrive',
-                                        timeString: flightSectionGoing
-                                            ?.arrivalDateToTwoLine ??
-                                            '',
-                                        location: state?.manageBookingResponse
-                                            ?.result?.arrivalAirportName ??
-                                            '',
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
+                                    const Spacer(),
+                                    Text(
+                                      flightSectionGoing?.departureDateToShow ??
+                                          '',
+                                      style: kMediumMedium.copyWith(
+                                          color: Styles.kTextColor),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  child: Divider(),
-                                ),
-                                ],
+                              ),
 
+                              //],
 
+                              //flightSectionGoing
 
-                              if((bloc?.state.manageBookingResponse?.isTwoWay ?? false) && (bloc?.state.checkReturn == true)) ... [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    const SizedBox(
-                                      width: double.infinity,
-                                      height: 4,
+                              Text(
+                                state?.manageBookingResponse?.result
+                                        ?.departureToDestinationCode ??
+                                    '',
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                              kVerticalSpacerMini,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: FlightInto(
+                                      label: 'Depart',
+                                      timeString: flightSectionGoing
+                                              ?.departureDateToTwoLine ??
+                                          '',
+                                      location: state?.manageBookingResponse
+                                              ?.result?.departureAirportName ??
+                                          '',
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Return',
-                                            style: kMediumHeavy.copyWith(
-                                                color: Styles.kPrimaryColor),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            flightSectionBack
-                                                ?.departureDateToShow ??
-                                                '',
-                                            style: kMediumMedium.copyWith(
-                                                color: Styles.kTextColor),
-                                          ),
-                                        ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4),
+                                    child: Expanded(
+                                      flex: 3,
+                                      child: PlaneWithTime(
+                                        time: state
+                                                ?.manageBookingResponse
+                                                ?.result
+                                                ?.journeyTimeInHourMin ??
+                                            '',
                                       ),
                                     ),
-                                    Text(
-                                      state?.manageBookingResponse?.result
-                                          ?.returnToDestinationCode ??
+                                  ),
+                                  Expanded(
+                                    flex: 4,
+                                    child: FlightInto(
+                                      label: 'Arrive',
+                                      timeString: flightSectionGoing
+                                              ?.arrivalDateToTwoLine ??
                                           '',
-                                      style: kMediumSemiBold.copyWith(
-                                          color: Styles.kTextColor),
+                                      location: state?.manageBookingResponse
+                                              ?.result?.arrivalAirportName ??
+                                          '',
                                     ),
-                                    kVerticalSpacerMini,
-                                    Row(
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Divider(),
+                              ),
+                            ],
+                            if ((bloc?.state.manageBookingResponse?.isTwoWay ??
+                                    false) &&
+                                (bloc?.state.checkReturn == true)) ...[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const SizedBox(
+                                    width: double.infinity,
+                                    height: 4,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: Row(
                                       children: [
-                                        Expanded(
-                                          flex: 4,
-                                          child: FlightInto(
-                                            label: 'Depart',
-                                            timeString: flightSectionBack
-                                                ?.departureDateToTwoLine ??
-                                                '',
-                                            location: state
-                                                ?.manageBookingResponse
-                                                ?.result
-                                                ?.returnDepartureAirportName ??
-                                                '',
-                                          ),
+                                        Text(
+                                          'Return',
+                                          style: kMediumHeavy.copyWith(
+                                              color: Styles.kPrimaryColor),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 4),
-                                          child: Expanded(
-                                            flex: 3,
-                                            child: PlaneWithTime(
-                                              time: state
-                                                  ?.manageBookingResponse
-                                                  ?.result
-                                                  ?.returnJourneyTimeInHourMin ??
-                                                  '',
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 4,
-                                          child: FlightInto(
-                                            label: 'Arrive',
-                                            timeString: flightSectionBack
-                                                ?.arrivalDateToTwoLine ??
-                                                '',
-                                            location: state
-                                                ?.manageBookingResponse
-                                                ?.result
-                                                ?.returnArrivalAirportName ??
-                                                '',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
+                                        const Spacer(),
+                                        Text(
+                                          flightSectionBack
+                                                  ?.departureDateToShow ??
+                                              '',
+                                          style: kMediumMedium.copyWith(
+                                              color: Styles.kTextColor),
                                         ),
                                       ],
                                     ),
-                                    kVerticalSpacerSmall,
-                                  ],
-                                ),
-                              ],
-
+                                  ),
+                                  Text(
+                                    state?.manageBookingResponse?.result
+                                            ?.returnToDestinationCode ??
+                                        '',
+                                    style: kMediumSemiBold.copyWith(
+                                        color: Styles.kTextColor),
+                                  ),
+                                  kVerticalSpacerMini,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 4,
+                                        child: FlightInto(
+                                          label: 'Depart',
+                                          timeString: flightSectionBack
+                                                  ?.departureDateToTwoLine ??
+                                              '',
+                                          location: state
+                                                  ?.manageBookingResponse
+                                                  ?.result
+                                                  ?.returnDepartureAirportName ??
+                                              '',
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
+                                        child: Expanded(
+                                          flex: 3,
+                                          child: PlaneWithTime(
+                                            time: state
+                                                    ?.manageBookingResponse
+                                                    ?.result
+                                                    ?.returnJourneyTimeInHourMin ??
+                                                '',
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 4,
+                                        child: FlightInto(
+                                          label: 'Arrive',
+                                          timeString: flightSectionBack
+                                                  ?.arrivalDateToTwoLine ??
+                                              '',
+                                          location: state
+                                                  ?.manageBookingResponse
+                                                  ?.result
+                                                  ?.returnArrivalAirportName ??
+                                              '',
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                    ],
+                                  ),
+                                  kVerticalSpacerSmall,
+                                ],
+                              ),
                             ],
-                          ),
+                          ],
                         ),
                       ),
-
-
+                    ),
 
                     const SizedBox(
                       height: 16,
                     ),
 
-                      AppCard(
-                        edgeInsets: EdgeInsets.zero,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Summary',
-                                    style: kLargeHeavy,
+                    AppCard(
+                      edgeInsets: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  'Summary',
+                                  style: kLargeHeavy,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  changeFlightRequestResponse
+                                          ?.result
+                                          ?.changeFlightResponse
+                                          ?.totalReservationAmountString ??
+                                      '',
+                                  style: kLargeHeavy.copyWith(
+                                    color: Styles.kPrimaryColor,
                                   ),
-                                  const Spacer(),
-                                  Text(
-                                    changeFlightRequestResponse
-                                        ?.result
-                                        ?.changeFlightResponse
-                                        ?.totalReservationAmountString ??
-                                        '',
-                                    style: kLargeHeavy.copyWith(
-                                      color: Styles.kPrimaryColor,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Flight Change',
-                                    style: kMediumHeavy,
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Flight Change',
+                                  style: kMediumHeavy,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  changeFlightRequestResponse
+                                          ?.result
+                                          ?.changeFlightResponse
+                                          ?.flightChangAmountString ??
+                                      '',
+                                  style: kMediumHeavy.copyWith(
+                                    color: Styles.kPrimaryColor,
                                   ),
-                                  const Spacer(),
-                                  Text(
-                                    changeFlightRequestResponse
-                                        ?.result
-                                        ?.changeFlightResponse
-                                        ?.flightChangAmountString ??
-                                        '',
-                                    style: kMediumHeavy.copyWith(
-                                      color: Styles.kPrimaryColor,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-
+                    ),
 
                     const SizedBox(
                       height: 40,
@@ -371,9 +367,9 @@ AppCard(
                   children: [
                     BookingSummary(
                       labelToShow: 'Total Amount Due',
-                      totalAmountToShow: changeFlightRequestResponse?.result
-                              ?.changeFlightResponse?.totalReservationAmount ??
-                          0.0,
+                      totalAmountToShow: changeFlightRequestResponse
+                          ?.result?.changeFlightResponse?.totalReservationAmount
+                          ?.toDouble(),
                     ),
                     (bloc?.state.loadingCheckoutPayment == true)
                         ? const AppLoading()

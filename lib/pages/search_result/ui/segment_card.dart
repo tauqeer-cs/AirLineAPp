@@ -35,6 +35,7 @@ class SegmentCard extends StatelessWidget {
         : context.watch<BookingCubit>().state.selectedReturn;
     ManageBookingCubit? bloc;
 
+
     if (changeFlight) {
       bloc = context.watch<ManageBookingCubit>();
       selected = null;

@@ -150,6 +150,11 @@ class InboundOutboundSegment extends Equatable {
 
   final num? changeFlightAmount;
 
+   num calculateDifference(num firstFare) {
+
+     return firstFare - (totalSegmentFareAmt ?? 0.0);
+
+  }
   final String? fbCode;
 
   const InboundOutboundSegment({

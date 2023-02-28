@@ -38,8 +38,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   Future<void> reloadDataForConfirmation() async {
-    var tempKey = 'MWJC8Q';
-
+//https://mya-api.alphareds.com/api/mobile/v1/checkout/managebookingdetail?pnr=61USNM&lastname=TESTTWO
     emit(
       state.copyWith(
         loadingSummary: true,
@@ -156,7 +155,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           endDate: state.manageBookingResponse?.newReturnDateSelected ??
               DateTime.now().add(const Duration(days: 17)));
 
-      if((state.manageBookingResponse!.isOneWay ?? false) || state.checkedDeparture) {
+      if(state.checkedDeparture && state.checkReturn){
+
+      }
+      else if((state.manageBookingResponse!.isOneWay ?? false) || state.checkedDeparture) {
         request = SearchChangeFlightRequest.makeRequestObject(
             pnr: state.pnrEntered ?? '',
             lastName: state.lastName ?? '',
@@ -205,7 +207,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     //   var tempKey = 'EAT6GA';
     //var tempKey = 'STY1VX';
     //var tempKey = 'SS5G2M';
-    var tempKey = 'MWJC8Q';
+    //var tempKey = 'MWJC8Q';
 
   //  var tempKey = '4H1I6Q';
 
@@ -375,6 +377,20 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ChangingFlightRequest(changeFlightRequest: request),
       );
 
+      if(response.result?.changeFlightResponse == null && (response.message?.isNotEmpty ?? false)) {
+        emit(
+          state.copyWith(
+            loadingSelectingFlight: false,
+
+          ),
+        );
+
+        throw Exception(response.message);
+
+
+        return false;
+
+      }
       emit(
         state.copyWith(
           changeFlightResponse: response,
@@ -442,6 +458,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(
           loadingCheckoutPayment: false,
+
         ),
       );
       return null;
