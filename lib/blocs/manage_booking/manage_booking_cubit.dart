@@ -49,8 +49,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     try {
       final verifyResponse = await _repository.getBookingInfo(
         ManageBookingRequest(
-            pnr: 1 == 1 ? tempKey : state.pnrEntered,
-            lastname: 1 == 1 ? 'Ahmed' : state.lastName),
+            pnr: state.pnrEntered,
+            lastname:  state.lastName),
       );
 
       emit(
@@ -212,8 +212,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     try {
       final verifyResponse = await _repository.getBookingInfo(
         ManageBookingRequest(
-            pnr: 1 == 1 ? tempKey : bookingReference,
-            lastname: 1 == 1 ? 'Ahmed' : lastName),
+            pnr: bookingReference,
+            lastname:  lastName),
       );
 
       emit(
@@ -222,8 +222,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             dataLoaded: true,
             manageBookingResponse: verifyResponse,
             isLoadingInfo: false,
-            pnrEntered: 1 == 1 ? tempKey : bookingReference,
-            lastName: 1 == 1 ? 'Ahmed' : lastName),
+            pnrEntered:  bookingReference,
+            lastName: lastName),
       );
       return true;
     } catch (e, st) {
