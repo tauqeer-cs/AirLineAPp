@@ -19,7 +19,7 @@ class ChangeSearchPage extends StatelessWidget {
       create: (context) => PriceRangeCubit(),
       child: Scaffold(
         appBar: AppAppBar(
-          title: "Your Trip Starts Here",
+          title: "Change Search",
           height: 100.h,
           flexibleWidget: AppBookingStep(
             passedSteps: const [BookingStep.flights],
@@ -31,7 +31,7 @@ class ChangeSearchPage extends StatelessWidget {
           ),
         ),
         body: const Padding(
-          padding: kPagePadding,
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: SearchFlightWidget(
             isHome: false,
           ),

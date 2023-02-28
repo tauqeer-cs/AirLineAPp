@@ -5,6 +5,7 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppBookingStep extends StatefulWidget {
   final List<BookingStep> passedSteps;
@@ -65,15 +66,27 @@ class _AppBookingStepState extends State<AppBookingStep> {
                 onTap: () {
                   widget.onTopStepTaped(index);
                 },
-                child: Text(
-                  step.message,
-                  style: selected
-                      ? kMediumHeavy.copyWith(fontWeight: FontWeight.w900)
-                      : kMediumMedium.copyWith(
-                          color: selected
-                              ? Styles.kTextColor
-                              : Styles.kInactiveColor,
-                        ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FaIcon(
+                      step.iconData,
+                      color:
+                          selected ? Styles.kTextColor : Styles.kInactiveColor,
+                      size: 14,
+                    ),
+                    SizedBox(height: 2,),
+                    Text(
+                      step.message,
+                      style: selected
+                          ? kMediumHeavy.copyWith(fontWeight: FontWeight.w900)
+                          : kMediumMedium.copyWith(
+                              color: selected
+                                  ? Styles.kTextColor
+                                  : Styles.kInactiveColor,
+                            ),
+                    ),
+                  ],
                 ),
               ),
             );
@@ -136,12 +149,13 @@ class _AppBookingStepState extends State<AppBookingStep> {
 }
 
 enum BookingStep {
-  flights("Flights"),
-  addOn("Add-On"),
-  bookingDetails("Booking Details"),
-  payment("Summary & Payment");
+  flights("Flights", FontAwesomeIcons.plane),
+  addOn("Add-On", FontAwesomeIcons.briefcase),
+  bookingDetails("Booking Details", FontAwesomeIcons.clipboardList),
+  payment("Summary & Payment", Icons.monetization_on);
 
-  const BookingStep(this.message);
+  const BookingStep(this.message, this.iconData);
 
   final String message;
+  final IconData iconData;
 }

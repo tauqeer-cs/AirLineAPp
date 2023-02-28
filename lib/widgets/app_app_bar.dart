@@ -91,7 +91,6 @@ class AppScaffold extends StatelessWidget {
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool canBack, centerTitle;
-
   final Widget? child;
   final Function()? onAction;
   final double? height;
@@ -156,7 +155,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: flexibleWidget,
         ),
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
         title: Container(
           padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 0),
           child: child ??

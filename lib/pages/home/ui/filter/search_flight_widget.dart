@@ -26,11 +26,10 @@ class SearchFlightWidget extends StatelessWidget {
         kVerticalSpacerSmall,
         const AirportWidget(isOrigin: false),
         kVerticalSpacerSmall,
-        const PassengersWidget(),
-        kVerticalSpacerSmall,
         const CalendarWidget(),
         kVerticalSpacerSmall,
-
+        const PassengersWidget(),
+        kVerticalSpacerSmall,
         if(ConstantUtils.showPromoTextField) ... [
           AppInputText(
             name: "promoFlight",
