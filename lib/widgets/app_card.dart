@@ -5,7 +5,8 @@ class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsets? edgeInsets;
   final bool isHighlighted;
-  const AppCard({Key? key, required this.child, this.edgeInsets, this.isHighlighted = false, this.customColor}) : super(key: key);
+  final double? borderRadius;
+  const AppCard({Key? key, required this.child, this.edgeInsets, this.isHighlighted = false, this.customColor, this.borderRadius}) : super(key: key);
 
   final Color? customColor;
 
@@ -16,7 +17,7 @@ class AppCard extends StatelessWidget {
       padding: edgeInsets ?? const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: customColor ?? Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(borderRadius ?? 15),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),

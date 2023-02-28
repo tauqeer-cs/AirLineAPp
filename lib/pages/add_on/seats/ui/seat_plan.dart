@@ -82,28 +82,32 @@ class SeatPlan extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Expanded(flex: 1, child: SizedBox()),
-                            ArrowSVG(
-                              assetName:
-                                  'assets/images/svg/seats_arrow_left.svg',
-                              color: mapColor?[row.seats?.first.serviceId] ??
-                                  Colors.purpleAccent,
+                            Expanded(
+                              flex: 1,
+                              child: ArrowSVG(
+                                assetName:
+                                    'assets/images/svg/seats_arrow_left.svg',
+                                color: mapColor?[row.seats?.first.serviceId] ??
+                                    Colors.purpleAccent,
+                              ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 35),
+                            Expanded(
+                              flex: 3,
                               child: bundle?.finalAmount == null
-                                  ? Text("No Data")
+                                  ? Center(child: Text("No Data", style: kLargeHeavy,))
                                   : SeatPrice(
                                       amount: bundle?.finalAmount ?? 0,
                                       currency: row.seats?.first.seatPriceOffers
                                           ?.firstOrNull?.currency,
                                     ),
                             ),
-                            ArrowSVG(
-                              assetName:
-                                  'assets/images/svg/seats_arrow_right.svg',
-                              color: mapColor?[row.seats?.first.serviceId] ??
-                                  Colors.purpleAccent,
+                            Expanded(
+                              child: ArrowSVG(
+                                assetName:
+                                    'assets/images/svg/seats_arrow_right.svg',
+                                color: mapColor?[row.seats?.first.serviceId] ??
+                                    Colors.purpleAccent,
+                              ),
                             ),
                             const Expanded(flex: 1, child: SizedBox()),
                           ],

@@ -51,6 +51,7 @@ class MealsSection extends StatelessWidget {
           kVerticalSpacer,
           PassengerSelector(
             isDeparture: isDeparture,
+            addonType: AddonType.meal,
           ),
           kVerticalSpacer,
           isFlightUnderAnHour

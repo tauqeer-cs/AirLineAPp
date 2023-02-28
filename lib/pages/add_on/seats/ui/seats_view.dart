@@ -9,12 +9,14 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/theme/theme.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SeatsView extends StatefulWidget {
   final bool isDeparture;
+
   const SeatsView({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
@@ -25,7 +27,6 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
   final scrollController = ScrollController();
 
   final bool autoScrollToBottom = false;
-
 
   @override
   void dispose() {
@@ -46,24 +47,61 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
             shrinkWrap: true,
             children: [
               kVerticalSpacer,
-              FlightDetailWidget(isDeparture: widget.isDeparture),
+              Padding(
+                padding: kPageHorizontalPadding,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Seat",
+                        style: kHeaderHeavy.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: OutlinedButton(
+                        child: const FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text("Summary"),
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               kVerticalSpacer,
-              SeatsSection(isDeparture: widget.isDeparture,moveToTop: (){
-                if (scrollController.hasClients) {
-                  scrollController.animateTo(50,
-                      duration: const Duration(seconds: 1), curve: Curves.linear);
-                }
-              },
-              moveToBottom: (){
-                if(autoScrollToBottom) {
+              FlightDetailWidget(isDeparture: widget.isDeparture),
+              kVerticalSpacerSmall,
+              Padding(
+                padding: kPageHorizontalPadding,
+                child: Text(
+                    "1. Your seat will automatically be assigned during check-in if no seat is selected."),
+              ),
+              kVerticalSpacer,
+              SeatsSection(
+                isDeparture: widget.isDeparture,
+                moveToTop: () {
                   if (scrollController.hasClients) {
-                    scrollController.animateTo(scrollController.position.maxScrollExtent,
-                        duration: const Duration(seconds: 3), curve: Curves.linear);
+                    scrollController.animateTo(50,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.linear);
                   }
-                }
-
-
-              },),
+                },
+                moveToBottom: () {
+                  if (autoScrollToBottom) {
+                    if (scrollController.hasClients) {
+                      scrollController.animateTo(
+                          scrollController.position.maxScrollExtent,
+                          duration: const Duration(seconds: 3),
+                          curve: Curves.linear);
+                    }
+                  }
+                },
+              ),
               kVerticalSpacer,
               Stack(
                 children: [
@@ -121,6 +159,7 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
 class ContinueButton extends StatelessWidget {
   final FlightType? flightType;
   final bool isDeparture;
+
   const ContinueButton({
     Key? key,
     required this.flightType,

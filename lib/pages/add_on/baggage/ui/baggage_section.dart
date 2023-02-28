@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_notice.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
@@ -45,6 +46,7 @@ class BaggageSection extends StatelessWidget {
           kVerticalSpacer,
           PassengerSelector(
             isDeparture: isDeparture,
+            addonType: AddonType.baggage,
           ),
           kVerticalSpacer,
           buildBaggageCards(baggages, isDeparture),
