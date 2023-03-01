@@ -8,6 +8,7 @@ import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -17,6 +18,7 @@ import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
+import '../../home/ui/filter/search_flight_widget.dart';
 import '../bloc/bookings_cubit.dart';
 
 class BookingsView extends StatelessWidget {
@@ -72,7 +74,13 @@ class BookingsView extends StatelessWidget {
                             AppInputTextWithBorder(
                               name: "bookingNumber",
                               hintText: "Booking Reference Number",
-                              validators: [
+                                maxLength: 6,
+                                inputFormatters: [
+                                  UpperCaseTextFormatter(),
+                                  FilteringTextInputFormatter.allow(RegExp("[A-Za-z0-9\']")),
+                                ],
+
+                                validators: [
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.minLength(6,
                                     errorText:

@@ -39,11 +39,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           return true;
         }
       } else if (state.checkReturn == true && state.checkedDeparture == false) {
-        if (state.selectedDepartureFlight != null) {
+        if (state.selectedReturnFlight != null) {
           return true;
         }
       } else if (state.checkReturn == false && state.checkedDeparture == true) {
-        if (state.selectedReturnFlight != null) {
+        if (state.selectedDepartureFlight != null) {
           return true;
         }
       }

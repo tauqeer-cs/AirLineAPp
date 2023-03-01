@@ -40,7 +40,7 @@ class ChangeFlightSummaryView extends StatelessWidget {
       height: double.infinity,
       child: Column(
         children: [
-          Expanded(
+           Expanded(
             child: Padding(
               padding: kPageHorizontalPadding,
               child: SingleChildScrollView(
@@ -49,7 +49,7 @@ class ChangeFlightSummaryView extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    Row(
+Row(
                       children: [
                         BookingReferenceLabel(
                           refText: bloc?.state.pnrEntered,
@@ -92,7 +92,7 @@ class ChangeFlightSummaryView extends StatelessWidget {
                       height: 16,
                     ),
 
-                    AppCard(
+                     AppCard(
                       edgeInsets: EdgeInsets.zero,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -151,11 +151,11 @@ class ChangeFlightSummaryView extends StatelessWidget {
                                           '',
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    child: Expanded(
-                                      flex: 3,
+                                  Expanded(
+                                    flex: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
                                       child: PlaneWithTime(
                                         time: state
                                                 ?.manageBookingResponse
@@ -245,11 +245,11 @@ class ChangeFlightSummaryView extends StatelessWidget {
                                               '',
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        child: Expanded(
-                                          flex: 3,
+                                      Expanded(
+                                        flex: 3,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4),
                                           child: PlaneWithTime(
                                             time: state
                                                     ?.manageBookingResponse
