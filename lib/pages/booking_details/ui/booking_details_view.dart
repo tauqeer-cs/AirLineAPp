@@ -42,7 +42,7 @@ class ManageBookingDetailsView extends StatelessWidget {
       builder: (context, state) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
 
             BookingReferenceLabel(refText: state.pnrEntered,),
