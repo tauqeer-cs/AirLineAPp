@@ -31,18 +31,44 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
+  bool get showChangeButton {
+    if (state.manageBookingResponse!.isTwoWay) {
+      if (state.checkReturn == true && state.checkedDeparture == true) {
+        if (state.selectedDepartureFlight != null &&
+            state.selectedReturnFlight != null) {
+          return true;
+        }
+      } else if (state.checkReturn == true && state.checkedDeparture == false) {
+        if (state.selectedDepartureFlight != null) {
+          return true;
+        }
+      } else if (state.checkReturn == false && state.checkedDeparture == true) {
+        if (state.selectedReturnFlight != null) {
+          return true;
+        }
+      }
+    } else {
+      if (state.selectedDepartureFlight != null) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   void selectedReturnFlight(InboundOutboundSegment segment) {
     emit(
-      state.copyWith(selectedReturnFlight: segment),
+      state.copyWith(
+          selectedReturnFlight: segment,
+          message: '',
+          blocState: BlocState.initial),
     );
   }
 
   Future<void> reloadDataForConfirmation() async {
-//https://mya-api.alphareds.com/api/mobile/v1/checkout/managebookingdetail?pnr=61USNM&lastname=TESTTWO
     emit(
       state.copyWith(
-        loadingSummary: true,
-      ),
+          loadingSummary: true, message: '', blocState: BlocState.initial),
     );
 
     try {
@@ -81,9 +107,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       newBookingObject?.newReturnDateSelected = date;
 
       emit(
-        state.copyWith(
-            blocState: BlocState.finished,
-            manageBookingResponse: newBookingObject),
+        state.copyWith(message: '', manageBookingResponse: newBookingObject),
       );
     } else if (state.manageBookingResponse?.isTwoWay == true &&
         state.checkedDeparture == true &&
@@ -95,6 +119,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
+            message: '',
             blocState: BlocState.finished,
             manageBookingResponse: newBookingObject),
       );
@@ -106,9 +131,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       newBookingObject?.newStartDateSelected = date;
 
       emit(
-        state.copyWith(
-            blocState: BlocState.finished,
-            manageBookingResponse: newBookingObject),
+        state.copyWith(message: '', manageBookingResponse: newBookingObject),
       );
       return;
     }
@@ -117,9 +140,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       newBookingObject?.newReturnDateSelected = date;
 
       emit(
-        state.copyWith(
-            blocState: BlocState.finished,
-            manageBookingResponse: newBookingObject),
+        state.copyWith(message: '', manageBookingResponse: newBookingObject),
       );
       return;
     }
@@ -129,9 +150,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     newBookingObject?.newStartDateSelected = date;
 
     emit(
-      state.copyWith(
-          blocState: BlocState.finished,
-          manageBookingResponse: newBookingObject),
+      state.copyWith(message: '', manageBookingResponse: newBookingObject),
     );
   }
 
@@ -168,6 +187,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
+          message: '',
           loadingDatesData: true,
         ),
       );
@@ -193,7 +213,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   Future<bool?> getBookingInformation(
       String lastName, String bookingReference) async {
-    emit(state.copyWith(isLoadingInfo: true));
+    emit(state.copyWith(
+      isLoadingInfo: true,
+      message: '',
+    ));
 
     //   var tempKey = 'EAT6GA';
     //var tempKey = 'STY1VX';
@@ -231,28 +254,28 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   void setCheckDeparture(bool value) {
     emit(
-      state.copyWith(checkedDeparture: value),
+      state.copyWith(
+        checkedDeparture: value,
+        message: '',
+      ),
     );
   }
 
   void setCheckReturn(bool value) {
     emit(
-      state.copyWith(checkReturn: value),
+      state.copyWith(checkReturn: value,
+        message: '',
+      ),
     );
   }
 
   void setDepartureFlight(InboundOutboundSegment segment) {
-    //emit(
-    //       state.copyWith(
-    //         selectedDepartureFlight: segment
-    //       ),
-    //     );
 
     var number = state.manageBookingResponse!.result!.passengersWithSSR;
 
     state.copyWith(selectedDepartureFlight: segment);
     emit(
-      state.copyWith(selectedDepartureFlight: segment),
+      state.copyWith(selectedDepartureFlight: segment,message: '',),
     );
   }
 
@@ -345,8 +368,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(
           loadingSelectingFlight: true,
-          blocState: BlocState.failed,
-
+          blocState: BlocState.initial,
+          message: ''
         ),
       );
 
@@ -360,11 +383,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           state.copyWith(
             loadingSelectingFlight: false,
             message: response.message,
-
           ),
         );
 
-//        throw Exception(response.message);
 
         return false;
       }
@@ -393,6 +414,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(
           loadingCheckoutPayment: true,
+          message: ''
         ),
       );
 

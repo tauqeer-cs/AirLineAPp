@@ -129,35 +129,40 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
             ),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: SummaryContainer(
-            child: Padding(
-              padding: kPagePadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  //const BookingSummary(),
-                  (bloc?.state.loadingSelectingFlight == true)
-                      ? const AppLoading()
-                      : ElevatedButton(
-                          onPressed: () async {
-                            var flag = await bloc?.changeFlight();
-                            if (flag == true) {
-                              context.router.push(
-                                const ChangeFlightSummaryRoute(),
-                              );
-                            }
-                          },
-                          child: const Text("Continue"),
-                        ),
-                ],
-              ),
-            ),
-          ),
-        ),
+
+
+         if(bloc?.showChangeButton ?? false) ... [
+           Positioned(
+             bottom: 0,
+             left: 0,
+             right: 0,
+             child: SummaryContainer(
+               child: Padding(
+                 padding: kPagePadding,
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.end,
+                   children: [
+                     //const BookingSummary(),
+                     (bloc?.state.loadingSelectingFlight == true)
+                         ? const AppLoading()
+                         : ElevatedButton(
+                       onPressed: () async {
+                         var flag = await bloc?.changeFlight();
+                         if (flag == true) {
+                           context.router.push(
+                             const ChangeFlightSummaryRoute(),
+                           );
+                         }
+                       },
+                       child: const Text("Continue"),
+                     ),
+                   ],
+                 ),
+               ),
+             ),
+           ),
+         ],
+
       ],
     );
   }
