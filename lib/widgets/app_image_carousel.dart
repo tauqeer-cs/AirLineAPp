@@ -6,6 +6,7 @@ class AppImageCarousel extends StatefulWidget {
   final double aspectRatio;
   final CarouselController? controller;
   final double viewPort;
+  final double? height;
   final bool showIndicator;
   final bool autoPlay;
   final bool infiniteScroll;
@@ -15,6 +16,7 @@ class AppImageCarousel extends StatefulWidget {
     Key? key,
     required this.items,
     this.controller,
+    this.height,
     this.viewPort = 1,
     this.aspectRatio = 16 / 9,
     required this.showIndicator,
@@ -60,6 +62,7 @@ class _AppImageCarouselState extends State<AppImageCarousel> {
                   aspectRatio: widget.aspectRatio,
                   enableInfiniteScroll: widget.infiniteScroll,
                   enlargeCenterPage: false,
+                  height: widget.height,
                   onPageChanged: (index, reason) {
                     // setState(() {
                     //   _current = index;
