@@ -19,7 +19,7 @@ def print_work_item(work_item):
             work_item.fields["System.Title"],
         )
     )
-token = 'abkh2ehdqp5imbq6meo276pq3m3ckkbhjkiyi3sj5pijiepfnd4a'
+token = 'kbuacdcm3dznv4yqvjovhqpxwf6kpjo5y6i7ilwu456xok43pxxa'
 url = 'https://dev.azure.com/alphareds'
 # Create a connection to the org
 credentials = BasicAuthentication('', token)
