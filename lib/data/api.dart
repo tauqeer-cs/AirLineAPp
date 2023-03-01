@@ -17,8 +17,8 @@ class Api {
   static final Api _instance = Api._internal();
 
   final Dio _dio = Dio(BaseOptions(
-      connectTimeout: 45 * 1000, // 10 seconds
-      receiveTimeout: 45 * 1000 // 10 seconds
+      connectTimeout: 90 * 1000, // 10 seconds
+      receiveTimeout: 90 * 1000 // 10 seconds
 
   ));
 
