@@ -5,6 +5,7 @@ import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 
@@ -24,6 +25,7 @@ class HomeBanner extends StatelessWidget {
           child: AppImageCarousel(
             showArrow: true,
             showIndicator: true,
+            aspectRatio: 848/400,
             infiniteScroll: true,
             autoPlay: (content.items ?? []).length > 1,
             items: (content.items ?? []).map(
@@ -50,8 +52,8 @@ class HomeBanner extends StatelessWidget {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: AppImage(
-                        imageUrl: e.img,
-                        boxFit: BoxFit.fill,
+                        imageUrl: e.mimg,
+                        boxFit: BoxFit.cover,
                       ),
                     ),
                   ),
