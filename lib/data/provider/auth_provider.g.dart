@@ -91,6 +91,27 @@ class _AuthProvider implements AuthProvider {
   }
 
   @override
+  Future<void> checkToken() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'token',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    return null;
+  }
+
+  @override
   Future<void> sendEmail(emailRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

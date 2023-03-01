@@ -45,8 +45,16 @@ class AuthenticationRepository {
 
   AuthenticationRepository._internal();
 
-  init() {
-    _controller.add(getCurrentUser());
+  init() async {
+    try{
+      if(getAccessToken()?.isNotEmpty ?? false){
+        await _provider.checkToken();
+      }
+      _controller.add(getCurrentUser());
+    }catch(e){
+      logout();
+      logger.e("Error on check token");
+    }
   }
 
   Stream<User> get user async* {
@@ -148,7 +156,7 @@ class AuthenticationRepository {
     //return await _storage.write(key: accessTokenKey, value: value);
   }
 
-  Future<String?> getAccessToken() async {
+  String? getAccessToken()  {
     var box = Hive.box<String>(tokenBoxName);
     var token = box.isNotEmpty ? box.getAt(0) : "";
     //logger.i("loaded user ${user?.toJson()}");
@@ -189,13 +197,16 @@ class AuthenticationRepository {
     return user ?? User.empty;
   }
 
+
+
   void logout() async {
     disconnectGoogleAccount();
     deleteAccessToken();
     deleteCurrentUser();
     insiderRepository.logoutUser();
-
   }
+
+
 
   Future<void> disconnectGoogleAccount() async {
     if(Platform.isAndroid){

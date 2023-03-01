@@ -71,8 +71,23 @@ class _DynamicHomeBannerState extends State<DynamicHomeBanner> {
                 },
                 itemBuilder: (context, index) {
                   final e = widget.content.items![index];
-                  return AppImage(
-                    imageUrl: e.mimg,
+                  return InkWell(
+                    onTap: (){
+                      FlutterInsider.Instance.tagEvent(
+                        InsiderConstants.promotionDetailPageView,
+                      )
+                          .addParameterWithString(
+                        "promotion_title",
+                        e.name.setNoneIfNullOrEmpty,
+                      )
+                          .build();
+                      if(e.link == null) return;
+                      final url = Uri.parse(e.link!);
+                      context.router.push(HomeDetailRoute(url: url.path));
+                    },
+                    child: AppImage(
+                      imageUrl: e.mimg,
+                    ),
                   );
                 },
               ),
