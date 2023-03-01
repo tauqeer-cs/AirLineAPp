@@ -25,6 +25,9 @@ abstract class AuthProvider {
   @POST('user/sign-up')
   Future<User> signup(@Body() SignupRequest signupRequest);
 
+  @GET('token')
+  Future<void> checkToken();
+
   @POST('user/resendverifyemail')
   Future<void> sendEmail(@Body() ResendEmailRequest emailRequest);
 

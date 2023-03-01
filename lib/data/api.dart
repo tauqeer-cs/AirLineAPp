@@ -103,7 +103,7 @@ class MyInterceptor extends Interceptor {
     ///used if API request is using access token
     ///
 
-    String? accessTokenData = await _repository.getAccessToken();
+    String? accessTokenData = _repository.getAccessToken();
 
     String? accessToken =
     options.baseUrl.contains(AppFlavor.paymentRedirectUrl) ||
@@ -176,7 +176,7 @@ class MyInterceptor extends Interceptor {
       Map<String, dynamic> errors = {
         'message': "Your token is invalid, please login again"
       };
-      //_repository.deleteCurrentUser();
+      //_repository.logout();
       throw ErrorResponse.fromJson(errors);
     } else if (err.response?.data is Map) {
       Map<String, dynamic> data = err.response!.data;
