@@ -82,9 +82,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                             ),
                           ),
                           onPressed: () {
-
                             Navigator.pop(context);
-
                           },
                         ),
                       ),
@@ -141,20 +139,20 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const BookingSummary(),
-                  (bloc?.state.loadingSelectingFlight == true) ? const AppLoading() : ElevatedButton(
-                    onPressed:  () async {
-
-                      var flag = await bloc?.changeFlight();
-                      if (flag == true) {
-                        context.router.push(
-                          const ChangeFlightSummaryRoute(),
-                        );
-                      }
-
-                    },
-                    child: const Text("Continue"),
-                  ),
+                  //const BookingSummary(),
+                  (bloc?.state.loadingSelectingFlight == true)
+                      ? const AppLoading()
+                      : ElevatedButton(
+                          onPressed: () async {
+                            var flag = await bloc?.changeFlight();
+                            if (flag == true) {
+                              context.router.push(
+                                const ChangeFlightSummaryRoute(),
+                              );
+                            }
+                          },
+                          child: const Text("Continue"),
+                        ),
                 ],
               ),
             ),
@@ -167,12 +165,11 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
   Column buildFlights(ManageBookingState state) {
     return Column(
       children: [
-
-        if(state.checkedDeparture == true) ... [
+        if (state.checkedDeparture == true) ...[
           ChooseFlightSegment(
             title: "Depart",
-            subtitle:
-            state.manageBookingResponse?.result?.departureToDestinationCode ??
+            subtitle: state.manageBookingResponse?.result
+                    ?.departureToDestinationCode ??
                 '',
             dateTitle: AppDateUtils.formatFullDate(state
                 .flightSearchResponse
@@ -182,22 +179,21 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 ?.first
                 .departureDate),
             segments: state.flightSearchResponse?.searchFlightResponse
-                ?.flightResult?.outboundSegment ??
+                    ?.flightResult?.outboundSegment ??
                 [],
             isDeparture: true,
             changeFlight: true,
           ),
-
         ],
         kVerticalSpacer,
-
-        if((state.manageBookingResponse?.isTwoWay ?? true) && state.checkReturn == true) ... [
+        if ((state.manageBookingResponse?.isTwoWay ?? true) &&
+            state.checkReturn == true) ...[
           Visibility(
             //visible: state.filterState?.flightType == FlightType.round,
             child: ChooseFlightSegment(
               title: "Return",
-              subtitle:
-              state.manageBookingResponse?.result?.returnToDestinationCode ??
+              subtitle: state
+                      .manageBookingResponse?.result?.returnToDestinationCode ??
                   '',
               dateTitle: AppDateUtils.formatFullDate(state
                   .flightSearchResponse
@@ -207,14 +203,13 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ?.first
                   .departureDate),
               segments: state.flightSearchResponse?.searchFlightResponse
-                  ?.flightResult?.inboundSegment ??
+                      ?.flightResult?.inboundSegment ??
                   [],
               isDeparture: false,
               changeFlight: true,
             ),
           ),
         ],
-
       ],
     );
   }

@@ -47,9 +47,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     try {
       final verifyResponse = await _repository.getBookingInfo(
-        ManageBookingRequest(
-            pnr: state.pnrEntered,
-            lastname:  state.lastName),
+        ManageBookingRequest(pnr: state.pnrEntered, lastname: state.lastName),
       );
 
       emit(
@@ -60,7 +58,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ),
       );
       return;
-
     } catch (e, st) {
       emit(
         state.copyWith(
@@ -70,15 +67,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ),
       );
       return;
-
-
     }
   }
 
   updateStartDate(DateTime date) async {
     var newBookingObject = state.manageBookingResponse;
-    if(state.manageBookingResponse?.isTwoWay == true && state.checkedDeparture == false && state.checkReturn == true) {
-
+    if (state.manageBookingResponse?.isTwoWay == true &&
+        state.checkedDeparture == false &&
+        state.checkReturn == true) {
       newBookingObject?.customSelected = true;
 
       newBookingObject?.newStartDateSelected = null;
@@ -89,9 +85,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             blocState: BlocState.finished,
             manageBookingResponse: newBookingObject),
       );
-
-    }
-    else if(state.manageBookingResponse?.isTwoWay == true && state.checkedDeparture == true && state.checkReturn == false) {
+    } else if (state.manageBookingResponse?.isTwoWay == true &&
+        state.checkedDeparture == true &&
+        state.checkReturn == false) {
       newBookingObject?.customSelected = true;
       newBookingObject?.newReturnDateSelected = null;
 
@@ -103,9 +99,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             manageBookingResponse: newBookingObject),
       );
       return;
-    }
-    else
-      if(state.manageBookingResponse?.isOneWay ?? true ) {
+    } else if (state.manageBookingResponse?.isOneWay ?? true) {
       newBookingObject?.customSelected = true;
       newBookingObject?.newReturnDateSelected = null;
 
@@ -117,7 +111,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             manageBookingResponse: newBookingObject),
       );
       return;
-
     }
     if (newBookingObject?.customSelected == true) {
       newBookingObject?.customSelected = false;
@@ -155,18 +148,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           endDate: state.manageBookingResponse?.newReturnDateSelected ??
               DateTime.now().add(const Duration(days: 17)));
 
-      if(state.checkedDeparture && state.checkReturn){
-
-      }
-      else if((state.manageBookingResponse!.isOneWay ?? false) || state.checkedDeparture) {
+      if (state.checkedDeparture && state.checkReturn) {
+      } else if ((state.manageBookingResponse!.isOneWay ?? false) ||
+          state.checkedDeparture) {
         request = SearchChangeFlightRequest.makeRequestObject(
             pnr: state.pnrEntered ?? '',
             lastName: state.lastName ?? '',
             startDate: state.manageBookingResponse?.newStartDateSelected ??
                 DateTime.now().add(const Duration(days: 7)),
             endDate: null);
-      }
-      else if(state.checkReturn){
+      } else if (state.checkReturn) {
         request = SearchChangeFlightRequest.makeRequestObject(
             pnr: state.pnrEntered ?? '',
             lastName: state.lastName ?? '',
@@ -209,13 +200,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     //var tempKey = 'SS5G2M';
     //var tempKey = 'MWJC8Q';
 
-  //  var tempKey = '4H1I6Q';
+    //  var tempKey = '4H1I6Q';
 
     try {
       final verifyResponse = await _repository.getBookingInfo(
-        ManageBookingRequest(
-            pnr: bookingReference,
-            lastname:  lastName),
+        ManageBookingRequest(pnr: bookingReference, lastname: lastName),
       );
 
       emit(
@@ -224,7 +213,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             dataLoaded: true,
             manageBookingResponse: verifyResponse,
             isLoadingInfo: false,
-            pnrEntered:  bookingReference,
+            pnrEntered: bookingReference,
             lastName: lastName),
       );
       return true;
@@ -259,6 +248,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     //       ),
     //     );
 
+    var number = state.manageBookingResponse!.result!.passengersWithSSR;
+
     state.copyWith(selectedDepartureFlight: segment);
     emit(
       state.copyWith(selectedDepartureFlight: segment),
@@ -267,6 +258,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   void setReturnFlight(InboundOutboundSegment segment) {
     state.copyWith(selectedReturnFlight: segment);
+
     emit(
       state.copyWith(selectedReturnFlight: segment),
     );
@@ -306,46 +298,35 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             ),
           ]);
 
-
-      if(state.manageBookingResponse?.isOneWay ?? false) {
-
+      if (state.manageBookingResponse?.isOneWay ?? false) {
         request = ChangeFlightRequest(
             pNR: state.pnrEntered,
             lastName: state.lastName,
             isReturn: false,
             departDate: departureDate,
             returnDate: null,
-            inboundFares: [
-
-            ],
+            inboundFares: [],
             outboundFares: [
               OutboundFares(
                 lFID: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
                 fBCode: state.selectedDepartureFlight?.fbCode ?? '',
               ),
             ]);
-
-      }
-      else if(state.checkedDeparture == true && state.checkReturn == false){
+      } else if (state.checkedDeparture == true && state.checkReturn == false) {
         request = ChangeFlightRequest(
             pNR: state.pnrEntered,
             lastName: state.lastName,
             isReturn: true,
             departDate: departureDate,
             returnDate: null,
-            inboundFares: [
-
-            ],
+            inboundFares: [],
             outboundFares: [
               OutboundFares(
                 lFID: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
                 fBCode: state.selectedDepartureFlight?.fbCode ?? '',
               ),
             ]);
-
-      }
-      else if(state.checkedDeparture == false && state.checkReturn == true){
-
+      } else if (state.checkedDeparture == false && state.checkReturn == true) {
         request = ChangeFlightRequest(
             pNR: state.pnrEntered,
             lastName: state.lastName,
@@ -358,18 +339,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
                 fBCode: state.selectedReturnFlight?.fbCode ?? '',
               ),
             ],
-            outboundFares: [
-
-            ]);
-
-
-
+            outboundFares: []);
       }
-
 
       emit(
         state.copyWith(
           loadingSelectingFlight: true,
+          blocState: BlocState.failed,
+
         ),
       );
 
@@ -377,19 +354,19 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ChangingFlightRequest(changeFlightRequest: request),
       );
 
-      if(response.result?.changeFlightResponse == null && (response.message?.isNotEmpty ?? false)) {
+      if (response.result?.changeFlightResponse == null &&
+          (response.message?.isNotEmpty ?? false)) {
         emit(
           state.copyWith(
             loadingSelectingFlight: false,
+            message: response.message,
 
           ),
         );
 
-        throw Exception(response.message);
-
+//        throw Exception(response.message);
 
         return false;
-
       }
       emit(
         state.copyWith(
@@ -458,7 +435,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(
           loadingCheckoutPayment: false,
-
         ),
       );
       return null;
@@ -496,13 +472,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   void resetData() {
-
-
     emit(
       state.copyWith(
         checkedDeparture: false,
         checkReturn: false,
-
       ),
     );
   }
