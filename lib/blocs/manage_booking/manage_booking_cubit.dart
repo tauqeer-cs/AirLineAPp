@@ -236,6 +236,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             dataLoaded: true,
             manageBookingResponse: verifyResponse,
             isLoadingInfo: false,
+            checkedDeparture: false,
+            checkReturn: false,
             pnrEntered: bookingReference,
             lastName: lastName),
       );
@@ -263,19 +265,22 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   void setCheckReturn(bool value) {
     emit(
-      state.copyWith(checkReturn: value,
+      state.copyWith(
+        checkReturn: value,
         message: '',
       ),
     );
   }
 
   void setDepartureFlight(InboundOutboundSegment segment) {
-
     var number = state.manageBookingResponse!.result!.passengersWithSSR;
 
     state.copyWith(selectedDepartureFlight: segment);
     emit(
-      state.copyWith(selectedDepartureFlight: segment,message: '',),
+      state.copyWith(
+        selectedDepartureFlight: segment,
+        message: '',
+      ),
     );
   }
 
@@ -367,10 +372,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
-          loadingSelectingFlight: true,
-          blocState: BlocState.initial,
-          message: ''
-        ),
+            loadingSelectingFlight: true,
+            blocState: BlocState.initial,
+            message: ''),
       );
 
       var response = await _repository.changeFlight(
@@ -385,7 +389,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             message: response.message,
           ),
         );
-
 
         return false;
       }
@@ -412,10 +415,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     try {
       //
       emit(
-        state.copyWith(
-          loadingCheckoutPayment: true,
-          message: ''
-        ),
+        state.copyWith(loadingCheckoutPayment: true, message: ''),
       );
 
       var request = MmbCheckoutRequest(

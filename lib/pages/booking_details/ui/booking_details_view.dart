@@ -47,7 +47,7 @@ class ManageBookingDetailsView extends StatelessWidget {
 
             BookingReferenceLabel(refText: state.pnrEntered,),
             kVerticalSpacer,
-            AppCard(
+        AppCard(
               edgeInsets: EdgeInsets.zero,
               child: Padding(
                 padding:
@@ -105,7 +105,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     color: Styles.kTextColor),
                               ),
                               kVerticalSpacerMini,
-                              Row(
+                               Row(
                                 children: [
                                   Expanded(
                                     flex: 4,
@@ -119,11 +119,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                                           '',
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    child: Expanded(
-                                      flex: 3,
+                                  Expanded(
+                                    flex: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
                                       child: PlaneWithTime(
                                         time: state
                                                 .manageBookingResponse
@@ -161,7 +161,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: Divider(),
                     ),
-                    if (state.manageBookingResponse?.isTwoWay ?? false) ...[
+                    if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
                       Row(
                         children: [
                           Padding(
@@ -230,11 +230,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             '',
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Expanded(
-                                        flex: 3,
+                                    Expanded(
+                                      flex: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 4),
                                         child: PlaneWithTime(
                                           time: state
                                                   .manageBookingResponse
