@@ -299,6 +299,15 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                               onPressed: () async {
                                 //                context.router.push(const SelectChangeFlightRoute());
 
+                                await showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const NoFlightsFound();
+                                  },
+                                );
+
+                                return;
+
                                 setState(() {
                                   loadDate = true;
                                 });
@@ -337,3 +346,101 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
     );
   }
 }
+
+
+class NoFlightsFound extends StatelessWidget {
+  const NoFlightsFound({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Flight Change Requirements",
+            textAlign: TextAlign.center,
+            style: k18Heavy.copyWith(color: Styles.kTextColor),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: const Icon(Icons.close),
+          ),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: Text(
+              "Flight ticket changes are subject to the following rules:",
+              style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              "• You may not change flights if your departure time is less than 48 hours from now.\n"
+                  "• Your flight destination must be identical to the original.\n"
+                  "• Your new fare cannot be lower than the original fare.\n"
+                  "• Meals are subject to availability and the change must be made more than 24 hours before the flight.\n"
+                  "• If you're travelling for longer than your travel insurance's coverage period, please ensure you are fully covered for the entire trip. Reach out to customer care to extend your coverage.\n"
+                  "• Your baggage will be transferred over to the new flight.\n"
+                  "• You may upgrade your baggage upon your flight change.",
+              style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              "Proceed with flight change?",
+              style: kMediumRegular.copyWith(color: Styles.kTextColor),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }, //isLoading ? null :
+                    child: const Text("NO"),
+                    /*
+                      * isLoading
+                          ? const AppLoading(
+                        size: 20,
+                      )*/
+                  ),
+                ),
+                kHorizontalSpacerSmall,
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text("Yes"),
+                    onPressed: () async {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+    ;
+  }
+}
+
+
