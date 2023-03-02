@@ -123,6 +123,17 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SpecialRoute.name: (routeData) {
+      final args = routeData.argsAs<SpecialRouteArgs>(
+          orElse: () => const SpecialRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SpecialPage(
+          key: args.key,
+          isDeparture: args.isDeparture,
+        ),
+      );
+    },
     SelectBundleRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -383,6 +394,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           BaggageRoute.name,
           path: '/flight/addon/selection-baggage',
+        ),
+        RouteConfig(
+          SpecialRoute.name,
+          path: '/flight/addon/selection-special',
         ),
         RouteConfig(
           SelectBundleRoute.name,
@@ -803,6 +818,40 @@ class BaggageRouteArgs {
   @override
   String toString() {
     return 'BaggageRouteArgs{key: $key, isDeparture: $isDeparture}';
+  }
+}
+
+/// generated route for
+/// [SpecialPage]
+class SpecialRoute extends PageRouteInfo<SpecialRouteArgs> {
+  SpecialRoute({
+    Key? key,
+    bool isDeparture = true,
+  }) : super(
+          SpecialRoute.name,
+          path: '/flight/addon/selection-special',
+          args: SpecialRouteArgs(
+            key: key,
+            isDeparture: isDeparture,
+          ),
+        );
+
+  static const String name = 'SpecialRoute';
+}
+
+class SpecialRouteArgs {
+  const SpecialRouteArgs({
+    this.key,
+    this.isDeparture = true,
+  });
+
+  final Key? key;
+
+  final bool isDeparture;
+
+  @override
+  String toString() {
+    return 'SpecialRouteArgs{key: $key, isDeparture: $isDeparture}';
   }
 }
 

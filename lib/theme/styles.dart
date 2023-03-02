@@ -32,6 +32,9 @@ class Styles {
 
   static Color get kSubTextColor => const Color.fromRGBO(102, 102, 102, 1);
 
+  static Color get kBlueColor => const Color.fromRGBO(51, 102, 204, 1);
+
+
   static Color get kBorderActionColor => const Color.fromRGBO(112, 112, 112, 1);
 
   static Color get kOrangeColor => const Color.fromRGBO(243, 110, 56, 1);

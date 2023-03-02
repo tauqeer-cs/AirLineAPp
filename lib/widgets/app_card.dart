@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
-  final EdgeInsets? edgeInsets;
+  final EdgeInsets? edgeInsets, margin;
   final bool isHighlighted;
   final double? borderRadius;
-  const AppCard({Key? key, required this.child, this.edgeInsets, this.isHighlighted = false, this.customColor, this.borderRadius}) : super(key: key);
+  const AppCard({Key? key, required this.child, this.edgeInsets, this.isHighlighted = false, this.customColor, this.borderRadius, this.margin}) : super(key: key);
 
   final Color? customColor;
 
@@ -14,6 +14,7 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin ?? EdgeInsets.zero,
       padding: edgeInsets ?? const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: customColor ?? Theme.of(context).cardColor,

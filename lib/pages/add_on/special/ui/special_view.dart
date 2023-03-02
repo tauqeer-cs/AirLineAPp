@@ -2,8 +2,8 @@ import 'package:app/app/app_router.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/models/number_person.dart';
-import 'package:app/pages/add_on/baggage/ui/baggage_section.dart';
-import 'package:app/pages/add_on/baggage/ui/baggage_subtotal.dart';
+import 'package:app/pages/add_on/meals/ui/meals_section.dart';
+import 'package:app/pages/add_on/meals/ui/meals_subtotal.dart';
 import 'package:app/pages/add_on/seats/ui/seats_view.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
@@ -12,33 +12,22 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
-import 'package:app/utils/user_insider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_insider/flutter_insider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BaggageView extends StatefulWidget {
+class SpecialView extends StatefulWidget {
   final bool isDeparture;
 
-  const BaggageView({Key? key, this.isDeparture = true}) : super(key: key);
+  const SpecialView({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
-  State<BaggageView> createState() => _BaggageViewState();
+  State<SpecialView> createState() => _SpecialViewState();
 }
 
-class _BaggageViewState extends State<BaggageView>
-    with TickerProviderStateMixin {
+class _SpecialViewState extends State<SpecialView> {
   final scrollController = ScrollController();
   bool isScrollable = false;
-  final bool autoScrollToBottom = false;
-
-  @override
-  void dispose() {
-    scrollController.dispose(); // dispose the controller
-    super.dispose();
-  }
 
   void afterBuild() {
     if (scrollController.hasClients) {
@@ -55,7 +44,7 @@ class _BaggageViewState extends State<BaggageView>
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
     return BlocProvider(
       create: (context) =>
-          IsDepartureCubit()..changeDeparture(widget.isDeparture),
+      IsDepartureCubit()..changeDeparture(widget.isDeparture),
       child: Stack(
         children: [
           SummaryContainerListener(
@@ -65,31 +54,14 @@ class _BaggageViewState extends State<BaggageView>
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                TitleSummaryHeader(title: "Baggage"),
+                TitleSummaryHeader(title: "Meal"),
                 kVerticalSpacer,
-                FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.baggage,),
-                kVerticalSpacer,
-                BaggageSection(
+                FlightDetailWidget(
                   isDeparture: widget.isDeparture,
-                  moveToTop: () {
-                    if (scrollController.hasClients) {
-                      scrollController.animateTo(50,
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.linear);
-                    }
-                  },
-                  moveToBottom: () {
-                    if(autoScrollToBottom) {
-                      if (scrollController.hasClients) {
-                        scrollController.animateTo(
-                            scrollController.position.maxScrollExtent,
-                            duration: const Duration(seconds: 3),
-                            curve: Curves.linear);
-                      }
-                    }
-
-                  },
+                  addonType: AddonType.meal,
                 ),
+                kVerticalSpacer,
+                MealsSection(isDeparture: widget.isDeparture),
                 kVerticalSpacer,
                 Stack(
                   children: [
@@ -106,7 +78,7 @@ class _BaggageViewState extends State<BaggageView>
                           );
                         },
                         backgroundColor: Styles.kPrimaryColor,
-                        child: const FaIcon(FontAwesomeIcons.angleUp, size: 25,),
+                        child: const Icon(Icons.keyboard_arrow_up),
                       ),
                     )
                   ],
@@ -120,7 +92,7 @@ class _BaggageViewState extends State<BaggageView>
             bottom: 0,
             left: 0,
             right: 0,
-            child: BaggageSubtotal(
+            child: MealsSubtotal(
               isDeparture: widget.isDeparture,
               child: SummaryContainer(
                 child: Padding(
@@ -160,10 +132,9 @@ class ContinueButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         if (flightType == FlightType.round && isDeparture) {
-          context.router.push(BaggageRoute(isDeparture: false));
+          context.router.push(MealsRoute(isDeparture: false));
         } else {
-          context.router.push(const BookingDetailsRoute());
-          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
+          context.router.push(BaggageRoute());
         }
       },
       child: const Text("Continue"),

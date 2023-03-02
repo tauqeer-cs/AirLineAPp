@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BaggageSection extends StatelessWidget {
   final bool isDeparture;
@@ -36,14 +37,6 @@ class BaggageSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Baggage",
-            style: kGiantHeavy.copyWith(
-              color: Styles.kOrangeColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          kVerticalSpacer,
           PassengerSelector(
             isDeparture: isDeparture,
             addonType: AddonType.baggage,
@@ -51,7 +44,7 @@ class BaggageSection extends StatelessWidget {
           kVerticalSpacer,
           buildBaggageCards(baggages, isDeparture),
           kVerticalSpacer,
-           BaggageNotice(),
+          BaggageNotice(),
           kVerticalSpacer,
         ],
       ),
@@ -117,7 +110,6 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
         : focusedPerson?.returnBaggage;
     return InkWell(
       onTap: () async {
-
         /*
         context.read<SearchFlightCubit>().addBaggageToPerson(
             selectedPerson, widget.selectedBaggage, widget.isDeparture);
@@ -129,8 +121,6 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                 ? null
                 : widget.selectedBaggage,
             widget.isDeparture);
-
-
 
         if (responseFlag) {
           var nextIndex = persons?.persons.indexOf(selectedPerson!);
@@ -166,12 +156,14 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
       },
       child: AppCard(
         edgeInsets: EdgeInsets.zero,
+        margin: EdgeInsets.only(bottom: 12),
+        borderRadius: 12,
         child: Stack(
           children: [
             ListTile(
               contentPadding: const EdgeInsets.only(
                 top: 20,
-                right: 50,
+                right: 40,
                 left: 15,
                 bottom: 20,
               ),
@@ -180,6 +172,7 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                 children: [
                   IgnorePointer(
                     child: Radio<Bundle?>(
+                      activeColor: Styles.kPrimaryColor,
                       value: widget.selectedBaggage.serviceID == 0
                           ? null
                           : widget.selectedBaggage,
@@ -200,21 +193,27 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                   ),
                 ],
               ),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.selectedBaggage.currencyCode ?? "MYR",
-                    style: kMediumHeavy,
-                  ),
-                  Text(
-                    NumberUtils.formatNumber(
-                      widget.selectedBaggage.finalAmount.toDouble(),
+              trailing: SizedBox(
+                width: 65,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.selectedBaggage.currencyCode ?? "MYR",
+                      style: kMediumHeavy,
                     ),
-                    style: kHugeHeavy,
-                  ),
-                ],
+                    Flexible(
+                      child: Text(
+                        NumberUtils.formatNumber(
+                          widget.selectedBaggage.finalAmount.toDouble(),
+                        ),
+                        style: kHugeHeavy,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -222,10 +221,10 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
               top: 0,
               bottom: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                padding: const EdgeInsets.symmetric(vertical: 0.0),
                 child: Center(
                   child: Image.asset(
-                    "assets/images/design/icoLuggage.png",
+                    "assets/images/design/icoLuggage20.png",
                     color: Styles.kSubTextColor,
                   ),
                 ),

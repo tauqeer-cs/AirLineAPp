@@ -59,6 +59,12 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       passenger: json['passenger'] == null
           ? null
           : Passenger.fromJson(json['passenger'] as Map<String, dynamic>),
+      departureInsurance: json['departureInsurance'] == null
+          ? null
+          : Bundle.fromJson(json['departureInsurance'] as Map<String, dynamic>),
+      returnInsurance: json['returnInsurance'] == null
+          ? null
+          : Bundle.fromJson(json['returnInsurance'] as Map<String, dynamic>),
       useWheelChair: json['useWheelChair'] as bool?,
       departureSports: json['departureSports'] == null
           ? null
@@ -93,6 +99,8 @@ Map<String, dynamic> _$PersonToJson(Person instance) {
   writeNotNull('returnSports', instance.returnSports);
   writeNotNull('departureWheelChair', instance.departureWheelChair);
   writeNotNull('returnWheelChair', instance.returnWheelChair);
+  writeNotNull('departureInsurance', instance.departureInsurance);
+  writeNotNull('returnInsurance', instance.returnInsurance);
   writeNotNull('insuranceGroup', instance.insuranceGroup);
   writeNotNull('useWheelChair', instance.useWheelChair);
   writeNotNull('numberOrder', instance.numberOrder);

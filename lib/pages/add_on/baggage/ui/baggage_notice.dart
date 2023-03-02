@@ -43,27 +43,9 @@ class _BaggageNoticeState extends State<BaggageNotice> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text("Carry-on Baggage", style: kGiantSemiBold),
-          ),
-          kVerticalSpacer,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Html(
-              data: carryNotice?.content ?? "",
-              style: HtmlStyle.htmlStyle(),
-            ),
-          ),
-          kVerticalSpacer,
-          Divider(
-            height: 1,
-            color: Styles.kDisabledButton,
-          ),
-          kVerticalSpacer,
           if (hideSportsEquipment) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -78,10 +60,14 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                         style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
                       ),
                     ),
-                    Icon(
-                      isExpand
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        isExpand
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        size: 25,
+                      ),
                     ),
                   ],
                 ),
@@ -96,11 +82,12 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   RichText(
                     text: TextSpan(
                       text:
-                          'You may purchase baggage allowance for any sports equipment that you may want to bring on board. For more information about what counts as sports baggage, ',
-                      style: kMediumRegular.copyWith(color: Styles.kDartBlack),
+                          'You may purchase baggage allowance for any sports equipment that does not exceed a certain size. Please read our ',
+                      style: kMediumRegular.copyWith(
+                          color: Styles.kTextColor, height: 20 / 14),
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'please read our FAQ.',
+                          text: 'FAQ ',
                           style: kMediumRegular.copyWith(
                             color: Styles.kPrimaryColor,
                             decoration: TextDecoration.underline,
@@ -111,22 +98,68 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                                   'https://www.myairline.my/fares-fees');
                             },
                         ),
+                        TextSpan(
+                          text: 'for more information.',
+                          style: kMediumRegular.copyWith(
+                              color: Styles.kTextColor, height: 20 / 14),
+                        ),
                       ],
                     ),
                   ),
                   kVerticalSpacerSmall,
                   const SportsEquipmentCard(),
+
                 ],
               ),
             ),
-            const SizedBox(
-              height: 4,
-            ),
+            kVerticalSpacer,
             Divider(
               height: 1,
               color: Styles.kDisabledButton,
             ),
           ],
+          kVerticalSpacer,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            child: Text(
+              "Carry-on Baggage",
+              style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
+            ),
+          ),
+          kVerticalSpacer,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: Html(
+              data: carryNotice?.content ?? "",
+              style: HtmlStyle.htmlStyle(overrideColor: Styles.kTextColor),
+            ),
+          ),
+          kVerticalSpacer,
+          Divider(
+            height: 1,
+            color: Styles.kDisabledButton,
+          ),
+          kVerticalSpacer,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            child: Text(
+              "Oversized Item",
+              style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
+            ),
+          ),
+          kVerticalSpacer,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: Html(
+              data: oversizedNotice?.content ?? "",
+              style: HtmlStyle.htmlStyle(overrideColor: Styles.kTextColor),
+            ),
+          ),
+          kVerticalSpacer,
+          Divider(
+            height: 1,
+            color: Styles.kDisabledButton,
+          ),
         ],
       ),
     );
@@ -178,11 +211,9 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       lastPersonUser = selectedPerson;
     }
-
     final bookingState = context.watch<BookingCubit>().state;
     final baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
     final baggageGroup1 = bookingState.verifyResponse?.flightSSR?.baggageGroup;
-
     var squareDesign = true;
 
     final baggage =
@@ -212,7 +243,6 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                   ? null
                                   : currentItem,
                               isDeparture);
-
                     },
                     child: squareDesign
                         ? AppCard(
@@ -231,7 +261,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                     children: [
                                       IgnorePointer(
                                         child: Radio<Bundle?>(
-                                          activeColor: Styles.kBorderColor,
+                                          activeColor: Styles.kActiveColor,
                                           value: selectedItem ==
                                                   currentItem.serviceID!.toInt()
                                               ? currentItem
@@ -350,9 +380,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                             ),
                           ),
                   ),
-                  kVerticalSpacer,
                 ],
-                kVerticalSpacer,
               ],
             ),
           ],
