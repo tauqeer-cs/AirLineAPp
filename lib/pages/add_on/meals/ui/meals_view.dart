@@ -1,8 +1,10 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/meals/ui/meals_section.dart';
 import 'package:app/pages/add_on/meals/ui/meals_subtotal.dart';
+import 'package:app/pages/add_on/seats/ui/seats_view.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -16,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MealsView extends StatefulWidget {
   final bool isDeparture;
+
   const MealsView({Key? key, this.isDeparture = true}) : super(key: key);
 
   @override
@@ -34,7 +37,6 @@ class _MealsViewState extends State<MealsView> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
@@ -52,7 +54,12 @@ class _MealsViewState extends State<MealsView> {
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                FlightDetailWidget(isDeparture: widget.isDeparture),
+                TitleSummaryHeader(title: "Meal"),
+                kVerticalSpacer,
+                FlightDetailWidget(
+                  isDeparture: widget.isDeparture,
+                  addonType: AddonType.meal,
+                ),
                 kVerticalSpacer,
                 MealsSection(isDeparture: widget.isDeparture),
                 kVerticalSpacer,
@@ -113,6 +120,7 @@ class _MealsViewState extends State<MealsView> {
 class ContinueButton extends StatelessWidget {
   final FlightType? flightType;
   final bool isDeparture;
+
   const ContinueButton({
     Key? key,
     required this.flightType,

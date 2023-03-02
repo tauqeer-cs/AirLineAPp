@@ -41,14 +41,6 @@ class MealsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Meals",
-            style: kGiantHeavy.copyWith(
-              color: Styles.kOrangeColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          kVerticalSpacer,
           PassengerSelector(
             isDeparture: isDeparture,
             addonType: AddonType.meal,
@@ -121,8 +113,9 @@ class NewMealCard extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                kVerticalSpacer,
                 Center(
                   child: SizedBox(
                     width: 200,
@@ -138,12 +131,14 @@ class NewMealCard extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: 20.w),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      kVerticalSpacer,
                       Text(
                         meal.description ?? "",
-                        style: kLargeHeavy,
+                        style: kHugeRegular,
                       ),
+                      kVerticalSpacer,
                       Text(
                         "${meal.currencyCode ?? "MYR"} ${NumberUtils.formatNumber(meal.finalAmount.toDouble())}",
                         style:
@@ -223,16 +218,17 @@ class InputWithPlusMinus extends StatelessWidget {
                   onPressed: number > 0
                       ? () => handler(context, person, false, isDeparture)
                       : null,
-                  child: const Icon(
+                  child: Icon(
                     Icons.remove,
                     size: 20,
+                    color: number == 0 ? Styles.kBorderColor : Styles.kPrimaryColor,
                   ),
                 ),
               ),
               Expanded(
                 child: Text(
                   number.toString(),
-                  style: kLargeHeavy.copyWith(color: Styles.kSubTextColor),
+                  style: kGiantSemiBold.copyWith(color: Styles.kSubTextColor),
                   textAlign: TextAlign.center,
                 ),
               ),

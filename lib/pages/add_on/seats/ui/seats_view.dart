@@ -1,5 +1,6 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/seats/ui/seat_subtotal.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
 import 'package:app/pages/add_on/seats/ui/seats_section.dart';
@@ -47,34 +48,9 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
             shrinkWrap: true,
             children: [
               kVerticalSpacer,
-              Padding(
-                padding: kPageHorizontalPadding,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Seat",
-                        style: kHeaderHeavy.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: OutlinedButton(
-                        child: const FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text("Summary"),
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              TitleSummaryHeader(title: "Seat"),
               kVerticalSpacer,
-              FlightDetailWidget(isDeparture: widget.isDeparture),
+              FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.seat),
               kVerticalSpacerSmall,
               Padding(
                 padding: kPageHorizontalPadding,
@@ -152,6 +128,43 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
           ),
         ),
       ],
+    );
+  }
+}
+
+class TitleSummaryHeader extends StatelessWidget {
+  final String title;
+  const TitleSummaryHeader({
+    Key? key, required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: kPageHorizontalPadding,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
+              title,
+              style: kHeaderHeavy.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: OutlinedButton(
+              child: const FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text("Summary"),
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

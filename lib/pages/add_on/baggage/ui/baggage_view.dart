@@ -1,6 +1,7 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_section.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_subtotal.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
@@ -62,7 +63,7 @@ class _BaggageViewState extends State<BaggageView>
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                FlightDetailWidget(isDeparture: widget.isDeparture),
+                FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.baggage,),
                 kVerticalSpacer,
                 BaggageSection(
                   isDeparture: widget.isDeparture,

@@ -1,19 +1,26 @@
 import 'package:app/app/app_bloc_helper.dart';
+import 'package:app/app/app_router.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FlightDetailWidget extends StatelessWidget {
   final bool isDeparture;
+  final AddonType addonType;
 
   const FlightDetailWidget({
     Key? key,
     this.isDeparture = true,
+    required this.addonType,
   }) : super(key: key);
 
   @override
@@ -32,7 +39,7 @@ class FlightDetailWidget extends StatelessWidget {
                 //   style: kHugeSemiBold.copyWith(color: Styles.kDarkBgColor),
                 // ),
                 // kVerticalSpacer,
-                flightSideBySide(state),
+                flightSideBySide(state, context),
                 //kVerticalSpacer,
                 //flightDate(state),
               ],
@@ -43,7 +50,7 @@ class FlightDetailWidget extends StatelessWidget {
     );
   }
 
-  Widget flightSideBySide(SearchFlightState state) {
+  Widget flightSideBySide(SearchFlightState state, BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       clipBehavior: Clip.antiAlias,
@@ -55,23 +62,39 @@ class FlightDetailWidget extends StatelessWidget {
             final bool isActive =
                 ((isDeparture && index == 0) || (!isDeparture && index != 0));
             return Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 15),
-                decoration: BoxDecoration(
-                  color: isActive ? Styles.kPrimaryColor : Colors.white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      index==0 ? "DEP" : "RET",
-                      style: kGiantHeavy.copyWith(
-                          color: isActive ? Colors.white : null),
-                    ),
-                    state.filterState
-                            ?.beautifyWithRow(index!=0, isActive) ??
-                        SizedBox(),
-                  ],
+              child: InkWell(
+                onTap: () {
+                  if (isActive) return;
+                  if (index == 0) {
+                    context.router.pop();
+                    return;
+                  }
+                  goNextRoute(
+                    flightType:
+                        state.filterState?.flightType ?? FlightType.oneWay,
+                    addonType: addonType,
+                    isDeparture: isDeparture,
+                    context: context,
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+                  decoration: BoxDecoration(
+                    color: isActive ? Styles.kPrimaryColor : Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        index == 0 ? "DEP" : "RET",
+                        style: kGiantHeavy.copyWith(
+                            color: isActive ? Colors.white : null),
+                      ),
+                      state.filterState
+                              ?.beautifyWithRow(index != 0, isActive) ??
+                          SizedBox(),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -115,5 +138,48 @@ class FlightDetailWidget extends StatelessWidget {
           : state.filterState?.returnDate),
       style: kLargeHeavy.copyWith(color: Styles.kSubTextColor),
     );
+  }
+
+  static goNextRoute({
+    required FlightType flightType,
+    required AddonType addonType,
+    required bool isDeparture,
+    required BuildContext context,
+  }) {
+    final isRoundTrip = flightType == FlightType.round;
+    switch (addonType) {
+      case AddonType.bundle:
+        if (flightType == FlightType.round && isDeparture) {
+          context.router.push(BundleRoute(isDeparture: false));
+        } else {
+          context.router.push(SeatsRoute());
+        }
+        break;
+      case AddonType.seat:
+        if (isRoundTrip && isDeparture) {
+          context.router.push(SeatsRoute(isDeparture: false));
+        } else {
+          context.router.push(MealsRoute());
+        }
+        break;
+      case AddonType.meal:
+        if (isRoundTrip && isDeparture) {
+          context.router.push(MealsRoute(isDeparture: false));
+        } else {
+          context.router.push(BaggageRoute());
+        }
+        break;
+      case AddonType.baggage:
+        if (isRoundTrip && isDeparture) {
+          context.router.push(BaggageRoute(isDeparture: false));
+        } else {
+          context.router.push(const BookingDetailsRoute());
+          FlutterInsider.Instance.visitProductDetailPage(
+              UserInsider.of(context).generateProduct());
+        }
+        break;
+      case AddonType.special:
+        break;
+    }
   }
 }

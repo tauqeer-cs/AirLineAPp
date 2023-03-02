@@ -1,5 +1,6 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/bundle/ui/bundle_section.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
@@ -45,7 +46,7 @@ class _BundleViewState extends State<BundleView> {
             shrinkWrap: true,
             children: [
               kVerticalSpacer,
-              FlightDetailWidget(isDeparture: widget.isDeparture),
+              FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.bundle,),
               kVerticalSpacer,
               BundleSection(isDeparture: widget.isDeparture),
               kVerticalSpacer,
