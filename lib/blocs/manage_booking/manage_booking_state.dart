@@ -10,7 +10,7 @@ class ManageBookingState extends Equatable {
   final ManageBookingResponse? manageBookingResponse;
   final String? pnrEntered;
   final FlightResponse? flightSearchResponse;
-
+  final String? flightMessageError;
 
   final bool loadingSummary;
 
@@ -46,9 +46,9 @@ class ManageBookingState extends Equatable {
     this.lastName,
     this.changeFlightResponse,
     this.flightSearchResponse,
-    this.loadingDatesData = false
+    this.loadingDatesData = false,
+    this.flightMessageError,
   });
-
 
   @override
   List<Object?> get props => [
@@ -69,7 +69,8 @@ class ManageBookingState extends Equatable {
         loadingDatesData,
         loadingSelectingFlight,
         loadingCheckoutPayment,
-        loadingSummary
+        loadingSummary,
+        flightMessageError
       ];
 
   ManageBookingState copyWith(
@@ -92,9 +93,9 @@ class ManageBookingState extends Equatable {
       bool removeSelectedDeparture = false,
       bool removeSelectedReturn = false,
       bool? loadingDatesData,
+      String? flightMessageError,
       bool? loadingSelectingFlight,
-      CRP.ChangeFlightRequestResponse? changeFlightResponse
-      }) {
+      CRP.ChangeFlightRequestResponse? changeFlightResponse}) {
     return ManageBookingState(
       message: message ?? this.message,
       blocState: blocState ?? this.blocState,
@@ -122,8 +123,7 @@ class ManageBookingState extends Equatable {
       changeFlightResponse: changeFlightResponse ?? this.changeFlightResponse,
       loadingDatesData: loadingDatesData ?? this.loadingDatesData,
       loadingSummary: loadingSummary ?? this.loadingSummary,
-
-
+      flightMessageError: flightMessageError ?? this.flightMessageError,
     );
   }
 }

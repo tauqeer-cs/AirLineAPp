@@ -20,6 +20,7 @@ import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
 import '../../home/ui/filter/search_flight_widget.dart';
+import '../../new_travel_date/ui/new_travel_date_view.dart';
 import '../bloc/bookings_cubit.dart';
 
 class BookingsView extends StatelessWidget {
@@ -42,6 +43,7 @@ class BookingsView extends StatelessWidget {
             );
           }
         }
+
       },
       builder: (context, state) {
         return GestureDetector(

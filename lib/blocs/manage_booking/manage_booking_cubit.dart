@@ -20,8 +20,8 @@ part 'manage_booking_state.dart';
 class ManageBookingCubit extends Cubit<ManageBookingState> {
   ManageBookingCubit()
       : super(
-          const ManageBookingState(),
-        );
+    const ManageBookingState(),
+  );
 
   final _repository = ManageBookingRepository();
 
@@ -157,8 +157,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
 //getAvailableFlights
 
-  Future<bool?> getAvailableFlights(
-      DateTime? startDate, DateTime? endDate) async {
+  Future<bool?> getAvailableFlights(DateTime? startDate,
+      DateTime? endDate) async {
     try {
       var request = SearchChangeFlightRequest.makeRequestObject(
           pnr: state.pnrEntered ?? '',
@@ -168,8 +168,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           endDate: state.manageBookingResponse?.newReturnDateSelected ??
               DateTime.now().add(const Duration(days: 17)));
 
-      if (state.checkedDeparture && state.checkReturn) {
-      } else if ((state.manageBookingResponse!.isOneWay ?? false) ||
+      if (state.checkedDeparture && state.checkReturn) {} else
+      if ((state.manageBookingResponse!.isOneWay ?? false) ||
           state.checkedDeparture) {
         request = SearchChangeFlightRequest.makeRequestObject(
             pnr: state.pnrEntered ?? '',
@@ -185,11 +185,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             endDate: state.manageBookingResponse?.newReturnDateSelected ??
                 DateTime.now().add(const Duration(days: 17)));
       }
+      //setFlightDates
 
       emit(
         state.copyWith(
           message: '',
           loadingDatesData: true,
+          flightMessageError: null
         ),
       );
 
@@ -204,18 +206,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       return true;
     } catch (e, st) {
-      state.copyWith(
-        message: ErrorUtils.getErrorMessage(e, st),
-        loadingDatesData: false,
-        blocState: BlocState.failed,
 
+      state.copyWith(
+          loadingDatesData: false,
+          flightMessageError: ErrorUtils.getErrorMessage(e, st)
       );
+
       return false;
     }
   }
 
-  Future<bool?> getBookingInformation(
-      String lastName, String bookingReference) async {
+  Future<bool?> getBookingInformation(String lastName,
+      String bookingReference) async {
     emit(state.copyWith(
       isLoadingInfo: true,
       message: '',
@@ -306,9 +308,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   Future<bool?> changeFlight() async {
     try {
       var departureDate =
-          '${state.selectedDepartureFlight?.departureDate?.toIso8601String() ?? ''}Z'; //  ';
+          '${state.selectedDepartureFlight?.departureDate?.toIso8601String() ??
+          ''}Z'; //  ';
       var returnDate =
-          '${state.selectedReturnFlight?.departureDate?.toIso8601String() ?? ''}Z'; //  ';
+          '${state.selectedReturnFlight?.departureDate?.toIso8601String() ??
+          ''}Z'; //  ';
 
       var request = ChangeFlightRequest(
           pNR: state.pnrEntered,
@@ -507,5 +511,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         checkReturn: false,
       ),
     );
+  }
+
+  void setFlightDates() {
+    var newBookingObject = state.manageBookingResponse;
+
+    newBookingObject?.newReturnDateSelected = null;
+    newBookingObject?.newStartDateSelected = null;
+    emit(
+      state.copyWith(message: '', manageBookingResponse: newBookingObject),
+    );
+
   }
 }

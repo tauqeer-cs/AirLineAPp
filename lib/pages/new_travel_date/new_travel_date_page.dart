@@ -28,6 +28,8 @@ class NewTravelDatesPage extends StatelessWidget {
         child: BlocConsumer<ManageBookingCubit, ManageBookingState>(
           listener: (context, state) async {
 
+            print('');
+
           },
           builder: (context, state) {
             return const SelectNewTravelDatesView();
