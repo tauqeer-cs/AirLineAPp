@@ -173,17 +173,16 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                     Expanded(
                       child: PagedVerticalCalendar(
                         invisibleMonthsThreshold: 12,
-                        minDate: DateTime(
-                                DateTime.now().year, DateTime.now().month, 1)
-                            .removeTime(),
-                        maxDate: DateTime.now()
-                            .add(const Duration(days: 365))
-                            .removeTime(),
+                        minDate: bloc.minDate,
+                        maxDate: bloc.maxDate,
                         initialDate: departDate?.removeTime() ??
                             DateTime.now().removeTime(),
                         startWeekWithSunday: true,
                         onDayPressed: (value) async {
-                          final isBefore = value.isBefore(DateTime.now());
+                          final isBefore = value.isBefore(
+                            bloc.minDate ?? DateTime.now(),
+                          );
+
                           if (isBefore) return;
                           if (isRoundTrip) {
                             setState(() {
@@ -216,7 +215,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           //final event = prices.firstWhereOrNull(
                           //        (event) => isSameDay(event.date, date));
                           final isBefore = date.isBefore(
-                            DateTime.now(),
+                           bloc.minDate ?? DateTime.now(),
                           );
                           return Container(
                             padding: const EdgeInsets.all(4),

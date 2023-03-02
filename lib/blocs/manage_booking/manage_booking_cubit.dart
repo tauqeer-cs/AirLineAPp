@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:paged_vertical_calendar/utils/date_utils.dart';
 import '../../app/app_bloc_helper.dart';
 import '../../app/app_flavor.dart';
 import '../../data/repositories/manage_book_repository.dart';
@@ -20,10 +21,54 @@ part 'manage_booking_state.dart';
 class ManageBookingCubit extends Cubit<ManageBookingState> {
   ManageBookingCubit()
       : super(
-    const ManageBookingState(),
-  );
+          const ManageBookingState(),
+        );
 
   final _repository = ManageBookingRepository();
+
+  DateTime get minDate {
+    var ccc = state.manageBookingResponse;
+    print('');
+    if (ccc?.isTwoWay ?? false) {
+      if (state.checkedDeparture == true && state.checkReturn == false) {
+        return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+            .removeTime();
+      } else if (state.checkedDeparture == false && state.checkReturn == true) {
+        return ccc?.currentStartDate?.removeTime().add(
+                  const Duration(days: 1),
+                ) ??
+            DateTime.now();
+      }
+    }
+    return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).removeTime();
+  }
+
+  DateTime get maxDate {
+    var ccc = state.manageBookingResponse;
+    print('');
+    if (ccc?.isTwoWay ?? false) {
+      if (state.checkedDeparture == true && state.checkReturn == false) {
+
+        return ccc?.currentEndDate?.removeTime().add(
+          const Duration(days: -1),
+        ) ??
+            DateTime.now();
+
+
+      } else if (state.checkedDeparture == false && state.checkReturn == true) {
+
+        return DateTime.now()
+            .add(const Duration(days: 365))
+            .removeTime();
+      }
+
+
+    }
+    return DateTime.now()
+        .add(const Duration(days: 365))
+        .removeTime();
+  }
+
 
   void selectedDepartureFlight(InboundOutboundSegment segment) {
     emit(
@@ -90,7 +135,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           loadingSummary: false,
-
         ),
       );
       return;
@@ -157,8 +201,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
 //getAvailableFlights
 
-  Future<bool?> getAvailableFlights(DateTime? startDate,
-      DateTime? endDate) async {
+  Future<bool?> getAvailableFlights(
+      DateTime? startDate, DateTime? endDate) async {
     try {
       var request = SearchChangeFlightRequest.makeRequestObject(
           pnr: state.pnrEntered ?? '',
@@ -168,8 +212,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           endDate: state.manageBookingResponse?.newReturnDateSelected ??
               DateTime.now().add(const Duration(days: 17)));
 
-      if (state.checkedDeparture && state.checkReturn) {} else
-      if ((state.manageBookingResponse!.isOneWay ?? false) ||
+      if (state.checkedDeparture && state.checkReturn) {
+      } else if ((state.manageBookingResponse!.isOneWay ?? false) ||
           state.checkedDeparture) {
         request = SearchChangeFlightRequest.makeRequestObject(
             pnr: state.pnrEntered ?? '',
@@ -189,10 +233,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
-          message: '',
-          loadingDatesData: true,
-          flightMessageError: null
-        ),
+            message: '', loadingDatesData: true, flightMessageError: null),
       );
 
       var response = await _repository.getAvailableFlights(request);
@@ -206,18 +247,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       return true;
     } catch (e, st) {
-
       state.copyWith(
           loadingDatesData: false,
-          flightMessageError: ErrorUtils.getErrorMessage(e, st)
-      );
+          flightMessageError: ErrorUtils.getErrorMessage(e, st));
 
       return false;
     }
   }
 
-  Future<bool?> getBookingInformation(String lastName,
-      String bookingReference) async {
+  Future<bool?> getBookingInformation(
+      String lastName, String bookingReference) async {
     emit(state.copyWith(
       isLoadingInfo: true,
       message: '',
@@ -308,11 +347,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   Future<bool?> changeFlight() async {
     try {
       var departureDate =
-          '${state.selectedDepartureFlight?.departureDate?.toIso8601String() ??
-          ''}Z'; //  ';
+          '${state.selectedDepartureFlight?.departureDate?.toIso8601String() ?? ''}Z'; //  ';
       var returnDate =
-          '${state.selectedReturnFlight?.departureDate?.toIso8601String() ??
-          ''}Z'; //  ';
+          '${state.selectedReturnFlight?.departureDate?.toIso8601String() ?? ''}Z'; //  ';
 
       var request = ChangeFlightRequest(
           pNR: state.pnrEntered,
@@ -420,7 +457,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     }
   }
 
-  Future<String?> checkOutForPayment() async {
+  String get currentToken {
+    return state.changeFlightResponse?.result?.token ?? '';
+  }
+
+  Future<String?> checkOutForPayment(String? voucher) async {
     try {
       //
       emit(
@@ -429,7 +470,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       var request = MmbCheckoutRequest(
         superPNRNo: '',
-        insertVoucher: '',
+        insertVoucher: voucher ?? '',
         paymentDetail: PaymentDetail(
           frontendUrl: AppFlavor.paymentRedirectUrl,
           promoCode: '',
@@ -438,7 +479,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           totalAmount: state.changeFlightResponse?.result?.changeFlightResponse
               ?.totalReservationAmount,
         ),
-        token: state.changeFlightResponse?.result?.token,
+        token: currentToken,
       );
 
       //MmbCheckoutRequest
@@ -521,6 +562,5 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     emit(
       state.copyWith(message: '', manageBookingResponse: newBookingObject),
     );
-
   }
 }

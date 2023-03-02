@@ -75,7 +75,7 @@ class VoucherCubit extends Cubit<VoucherState> {
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
-          response: () => VoucherResponse(),
+          response: () => const VoucherResponse(),
           appliedVoucher: () => "",
         ),
       );

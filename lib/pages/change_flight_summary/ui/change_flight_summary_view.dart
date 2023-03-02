@@ -2,29 +2,54 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import '../../../app/app_bloc_helper.dart';
 import '../../../app/app_router.dart';
+import '../../../blocs/booking/booking_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../blocs/voucher/voucher_cubit.dart';
+import '../../../data/requests/voucher_request.dart';
 import '../../../data/responses/change_flight_response.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
+import '../../../utils/constant_utils.dart';
 import '../../../utils/date_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../booking_details/ui/booking_details_view.dart';
+import '../../checkout/pages/payment/ui/voucher_ui.dart';
 import '../../search_result/ui/booking_summary.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
+import 'package:collection/collection.dart';
 
 class ChangeFlightSummaryView extends StatelessWidget {
   ChangeFlightSummaryView({Key? key}) : super(key: key);
 
   ManageBookingCubit? bloc;
+  final _fbKey = GlobalKey<FormBuilderState>();
+
+  void removeVoucher(String currentToken, BuildContext context) {
+    _fbKey.currentState!.reset();
+    final token = currentToken;
+    final voucherRequest = VoucherRequest(
+      token: token,
+    );
+    context.read<VoucherCubit>().removeVoucher(voucherRequest);
+  }
 
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
     var state = bloc?.state;
+    var voucherBloc = context.watch<VoucherCubit>();
+
+    var voucherState = voucherBloc.state;
+
+    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
+            ?.firstOrNull?.discountAmount ??
+        0.0;
 
     var departureDate = state?.changeFlightResponse?.result
         ?.flightVerifyResponse?.result?.flightSegments?.last.departureDate;
@@ -36,11 +61,20 @@ class ChangeFlightSummaryView extends StatelessWidget {
     var flightSectionBack = state?.changeFlightResponse?.result
         ?.flightVerifyResponse?.result?.flightSegments?.last;
 
+    void removeVoucher(String currentToken, BuildContext context) {
+      _fbKey.currentState!.reset();
+      final token = currentToken;
+      final voucherRequest = VoucherRequest(
+        token: token,
+      );
+      context.read<VoucherCubit>().removeVoucher(voucherRequest);
+    }
+
     return SizedBox(
       height: double.infinity,
       child: Column(
         children: [
-           Expanded(
+          Expanded(
             child: Padding(
               padding: kPageHorizontalPadding,
               child: SingleChildScrollView(
@@ -49,7 +83,7 @@ class ChangeFlightSummaryView extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-Row(
+                    Row(
                       children: [
                         BookingReferenceLabel(
                           refText: bloc?.state.pnrEntered,
@@ -92,7 +126,7 @@ Row(
                       height: 16,
                     ),
 
-                     AppCard(
+                    AppCard(
                       edgeInsets: EdgeInsets.zero,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -351,7 +385,62 @@ Row(
                     const SizedBox(
                       height: 16,
                     ),
-//
+
+                    VoucherCodeUi(
+                      readOnly: false,
+                      blocState: voucherState.blocState,
+                      voucherCodeInitial:
+                          voucherState.insertedVoucher?.voucherCode ?? '',
+                      state: voucherState,
+                      onRemoveTapped: () {
+                        if (voucherState.response != null) {
+                          removeVoucher(bloc?.currentToken ?? '', context);
+                        } else {
+                          _fbKey.currentState!.reset();
+                        }
+                      },
+                      onButtonTapped: voucherState.blocState ==
+                              BlocState.loading
+                          // || bookingState.superPnrNo != null
+                          ? null
+                          : (voucherState.response != null)
+                              ? () => removeVoucher(
+                                  bloc?.currentToken ?? '', context)
+                              : () {
+                                  if (_fbKey.currentState!.saveAndValidate()) {
+                                    if (ConstantUtils.showPinInVoucher) {
+                                      final value = _fbKey.currentState!.value;
+                                      final voucher = value["voucherCode"];
+                                      final pin = value["voucherPin"];
+                                      final voucherPin = InsertVoucherPIN(
+                                        voucherCode: voucher,
+                                        voucherPin: pin,
+                                      );
+                                      final token = bloc?.currentToken ?? '';
+                                      final voucherRequest = VoucherRequest(
+                                        voucherPins: [voucherPin],
+                                        token: token,
+                                      );
+                                      context
+                                          .read<VoucherCubit>()
+                                          .addVoucher(voucherRequest);
+                                    } else {
+                                      final value = _fbKey.currentState!.value;
+                                      final voucher = value["voucherCode"];
+                                      final token = bloc?.currentToken ?? '';
+                                      final voucherRequest = VoucherRequest(
+                                        insertVoucher: voucher,
+                                        token: token,
+                                      );
+                                      context
+                                          .read<VoucherCubit>()
+                                          .addVoucher(voucherRequest);
+                                    }
+                                  }
+                                },
+                      fbKey: _fbKey,
+                    ),
+
                     ///
                   ],
                 ),
@@ -367,16 +456,20 @@ Row(
                   children: [
                     BookingSummary(
                       labelToShow: 'Total Amount Due',
-                      totalAmountToShow: changeFlightRequestResponse
-                          ?.result?.changeFlightResponse?.totalReservationAmount
-                          ?.toDouble(),
+                      totalAmountToShow: calculateMoneyToShow(
+                          changeFlightRequestResponse, discount),
                     ),
                     (bloc?.state.loadingCheckoutPayment == true)
                         ? const AppLoading()
                         : ElevatedButton(
                             onPressed: () async {
+                              final voucher = context
+                                  .read<VoucherCubit>()
+                                  .state
+                                  .appliedVoucher;
+
                               var redirectUrl =
-                                  await bloc?.checkOutForPayment();
+                                  await bloc?.checkOutForPayment(voucher);
 
                               if (redirectUrl != null) {
                                 final result = await context.router.push(
@@ -444,5 +537,19 @@ Row(
         ],
       ),
     );
+  }
+
+  double? calculateMoneyToShow(
+      ChangeFlightRequestResponse? changeFlightRequestResponse,
+      num calculateMoneyToShow) {
+    try {
+      return (changeFlightRequestResponse
+                  ?.result?.changeFlightResponse?.totalReservationAmount
+                  ?.toDouble() ??
+              0.0) -
+          calculateMoneyToShow.toDouble();
+    } catch (e) {
+      return 0.0;
+    }
   }
 }

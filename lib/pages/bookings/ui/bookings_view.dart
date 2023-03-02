@@ -16,6 +16,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../app/app_bloc_helper.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../blocs/voucher/voucher_cubit.dart';
 import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
@@ -162,10 +163,18 @@ class BookingsView extends StatelessWidget {
       var flag =
           await bloc?.getBookingInformation(lastName.trim(), code.trim().toUpperCase());
       if (flag == true) {
-        context.router.push(
-          ManageBookingDetailsRoute(),
-        );
+        moveToNext(context);
+
+
       }
     }
+  }
+
+  void moveToNext(BuildContext context) {
+    context.read<VoucherCubit>().resetState();
+
+    context.router.push(
+      ManageBookingDetailsRoute(),
+    );
   }
 }
