@@ -4,6 +4,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
+import 'package:app/utils/utils.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,17 +35,15 @@ class BookingsView extends StatelessWidget {
     return BlocConsumer<ManageBookingCubit, ManageBookingState>(
       listener: (context, state) {
         if (state.blocState == BlocState.failed) {
-          if(state.message.isNotEmpty) {
+          if (state.message.isNotEmpty) {
             Toast.of(context).show(
               success: false,
               message: state.message,
             );
           }
-
         }
       },
       builder: (context, state) {
-
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: SafeArea(
@@ -74,13 +73,16 @@ class BookingsView extends StatelessWidget {
                             AppInputTextWithBorder(
                               name: "bookingNumber",
                               hintText: "Booking Reference Number",
-                                maxLength: 6,
-                                inputFormatters: [
-                                  UpperCaseTextFormatter(),
-                                  FilteringTextInputFormatter.allow(RegExp("[A-Za-z0-9\']")),
-                                ],
+                              maxLength: 6,
 
-                                validators: [
+                              /*inputFormatters: [
+                                UpperCaseTextFormatter(),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[A-Za-z0-9\']")),
+                              ],
+                              */
+
+                              validators: [
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.minLength(6,
                                     errorText:
@@ -107,7 +109,10 @@ class BookingsView extends StatelessWidget {
                                           onPressed: () {
                                             onManageBooking(context);
                                           },
-                                          child: const Text('Add on Services',textAlign: TextAlign.center,),
+                                          child: const Text(
+                                            'Add on Services',
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
                                       ),
                                       kHorizontalSpacer,
@@ -148,10 +153,13 @@ class BookingsView extends StatelessWidget {
   onChangeFlightTapped(BuildContext context) async {
     if (_fbKey.currentState!.saveAndValidate()) {
       final value = _fbKey.currentState!.value;
-      final code = value["bookingNumber"];
-      final lastName = value["lastName"];
-      var flag = await bloc?.getBookingInformation(lastName, code);
-      if(flag == true) {
+
+      String code = value["bookingNumber"];
+      String lastName = value["lastName"];
+
+      var flag =
+          await bloc?.getBookingInformation(lastName.trim(), code.trim().toUpperCase());
+      if (flag == true) {
         context.router.push(
           ManageBookingDetailsRoute(),
         );

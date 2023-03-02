@@ -136,11 +136,11 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                                 '',
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 4),
-                                          child: Expanded(
-                                            flex: 3,
+                                        Expanded(
+                                          flex: 3,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4),
                                             child: PlaneWithTime(
                                               time: bloc
                                                       .state
@@ -190,7 +190,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                             Row(
                               children: [
                                 true
-                                    ? SizedBox(
+                                    ? const SizedBox(
                                         width: 16,
                                       )
                                     : Padding(
@@ -267,11 +267,11 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                                   '',
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            child: Expanded(
-                                              flex: 3,
+                                          Expanded(
+                                            flex: 3,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 4),
                                               child: PlaneWithTime(
                                                 time: bloc
                                                         .state

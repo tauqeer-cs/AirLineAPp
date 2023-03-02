@@ -39,7 +39,7 @@ class ChangeFlightConfirmationPage extends StatelessWidget {
       body: BlocConsumer<ManageBookingCubit, ManageBookingState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return ChangeFlightConfirmationView();
+          return const ChangeFlightConfirmationView();
         },
       ),
     );

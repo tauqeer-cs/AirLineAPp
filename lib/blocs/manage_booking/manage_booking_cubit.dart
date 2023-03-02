@@ -90,6 +90,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           loadingSummary: false,
+
         ),
       );
       return;
@@ -206,6 +207,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       state.copyWith(
         message: ErrorUtils.getErrorMessage(e, st),
         loadingDatesData: false,
+        blocState: BlocState.failed,
+
       );
       return false;
     }
@@ -385,9 +388,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           (response.message?.isNotEmpty ?? false)) {
         emit(
           state.copyWith(
-            loadingSelectingFlight: false,
-            message: response.message,
-          ),
+              loadingSelectingFlight: false,
+              message: response.message,
+              blocState: BlocState.failed),
         );
 
         return false;
@@ -405,6 +408,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.copyWith(
           isLoadingInfo: false,
           loadingSelectingFlight: false,
+          blocState: BlocState.failed,
+          message: ErrorUtils.getErrorMessage(e, st),
         ),
       );
       return false;
@@ -457,6 +462,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(
           loadingCheckoutPayment: false,
+          blocState: BlocState.failed,
+          message: ErrorUtils.getErrorMessage(e, st),
         ),
       );
       return null;
