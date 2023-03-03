@@ -86,6 +86,7 @@ SSRItemType _$SSRItemTypeFromJson(Map<String, dynamic> json) => SSRItemType(
       id: json['id'] as int?,
       name: json['name'] as String?,
       content: json['content'] as String?,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$SSRItemTypeToJson(SSRItemType instance) {
@@ -101,6 +102,7 @@ Map<String, dynamic> _$SSRItemTypeToJson(SSRItemType instance) {
   writeNotNull('image', instance.image);
   writeNotNull('id', instance.id);
   writeNotNull('name', instance.name);
+  writeNotNull('description', instance.description);
   writeNotNull('content', instance.content);
   return val;
 }

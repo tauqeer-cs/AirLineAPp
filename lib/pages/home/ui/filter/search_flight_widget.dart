@@ -30,7 +30,6 @@ class SearchFlightWidget extends StatelessWidget {
         kVerticalSpacerSmall,
         const CalendarWidget(),
         kVerticalSpacerSmall,
-
         if(ConstantUtils.showPromoTextField) ... [
           AppInputText(
             name: "promoFlight",

@@ -112,6 +112,8 @@ class NewMealCard extends StatelessWidget {
         isDeparture ? focusedPerson?.departureMeal : focusedPerson?.returnMeal;
     final length = meals?.where((element) => element == meal).length;
     final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
+    final cmsDetail = cmsMeals.firstWhereOrNull((element) => element.code == meal.codeType);
+    print("cmsDetail $cmsDetail");
     //const mealSoldOut = false;
     return AppCard(
       edgeInsets: EdgeInsets.zero,
@@ -127,10 +129,7 @@ class NewMealCard extends StatelessWidget {
                     width: 200,
                     height: 150,
                     child: AppImage(
-                      imageUrl: cmsMeals
-                          .firstWhereOrNull(
-                              (element) => element.code == meal.codeType)
-                          ?.image,
+                      imageUrl: cmsDetail?.image,
                     ),
                   ),
                 ),
@@ -143,6 +142,7 @@ class NewMealCard extends StatelessWidget {
                         meal.description ?? "",
                         style: kLargeHeavy,
                       ),
+                      Text(cmsDetail?.description ?? "", textAlign: TextAlign.center,),
                       Text(
                         "${meal.currencyCode ?? "MYR"} ${NumberUtils.formatNumber(meal.finalAmount.toDouble())}",
                         style:
