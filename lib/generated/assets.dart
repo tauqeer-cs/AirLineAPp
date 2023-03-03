@@ -14,8 +14,10 @@ class Assets {
   static const String designIcoSport2 = 'assets/images/design/icoSport2.png';
   static const String designIcoSports = 'assets/images/design/icoSports.png';
   static const String designIcoSports2 = 'assets/images/design/icoSports2.png';
+  static const String designIconVisa = 'assets/images/design/icon_visa.png';
   static const String designPackage = 'assets/images/design/package.png';
   static const String designPlane = 'assets/images/design/plane.png';
+  static const String designRedPlane = 'assets/images/design/red-plane.png';
   static const String designSignupBg = 'assets/images/design/signup_bg.png';
   static const String designSkycloud = 'assets/images/design/skycloud.png';
   static const String designWave = 'assets/images/design/wave.png';

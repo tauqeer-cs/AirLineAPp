@@ -17,6 +17,7 @@ FlightResponse _$FlightResponseFromJson(Map<String, dynamic> json) =>
           : SearchFlightResponse.fromJson(
               json['searchFlightResponse'] as Map<String, dynamic>),
       orderID: json['orderID'] as num?,
+      isVisaCampaign: json['isVisaCampaign'] as bool?,
       success: json['success'] as bool?,
     );
 
@@ -33,6 +34,7 @@ Map<String, dynamic> _$FlightResponseToJson(FlightResponse instance) {
   writeNotNull('searchFlightResponse', instance.searchFlightResponse);
   writeNotNull('orderID', instance.orderID);
   writeNotNull('success', instance.success);
+  writeNotNull('isVisaCampaign', instance.isVisaCampaign);
   return val;
 }
 

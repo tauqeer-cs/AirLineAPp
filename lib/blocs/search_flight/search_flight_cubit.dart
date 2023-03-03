@@ -191,6 +191,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
           blocState: BlocState.finished,
           filterState: filterState,
           flights: airports.searchFlightResponse,
+          visaPromo: airports.isVisaCampaign,
         ),
       );
     } catch (e, st) {
