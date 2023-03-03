@@ -134,17 +134,20 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                   Expanded(
                     child: PagedVerticalCalendar(
                       invisibleMonthsThreshold: 12,
-                      minDate: DateTime(DateTime.now().year, DateTime.now().month, 1).removeTime(),
-                      maxDate: DateTime.now().add(const Duration(days: 365)).removeTime(),
-                      initialDate: departDate?.removeTime() ?? DateTime.now().removeTime(),
-                      /*onMonthLoaded: (year, month) {
-                        if(RemoteConfigRepository.fetchPriceRange){
-                          context.read<PriceRangeCubit>().getPrices(
-                            filterCubit.state,
-                            startFilter: DateTime(year, month, 1),
-                          );
-                        }
-                      },*/
+                      minDate:
+                          DateTime(DateTime.now().year, DateTime.now().month, 1)
+                              .removeTime(),
+                      maxDate: DateTime.now()
+                          .add(const Duration(days: 365))
+                          .removeTime(),
+                      initialDate: departDate?.removeTime() ??
+                          DateTime.now().removeTime(),
+                      onMonthLoaded: (year, month) {
+                        context.read<PriceRangeCubit>().getPrices(
+                              filterCubit.state,
+                              startFilter: DateTime(year, month, 1),
+                            );
+                      },
                       startWeekWithSunday: true,
                       onDayPressed: (value) async {
                         final isBefore = value.isBefore(DateTime.now());
@@ -242,7 +245,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                                 child: Text(
                                                   "MYR",
                                                   style:
-                                                      kExtraSmallHeavy.copyWith(
+                                                      kExtraSmallMedium.copyWith(
                                                     color: inRange
                                                         ? Colors.white
                                                         : null,
@@ -259,7 +262,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                                             : event.departPrice,
                                                   ),
                                                   style:
-                                                      kSmallSemiBold.copyWith(
+                                                      kSmallMedium.copyWith(
                                                     color: inRange
                                                         ? Colors.white
                                                         : null,
