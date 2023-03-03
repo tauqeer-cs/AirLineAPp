@@ -38,6 +38,7 @@ import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import 'blocs/manage_booking/manage_booking_cubit.dart';
 import 'widgets/dialogs/app_confirmation_dialog.dart';
 
 final appRouter = AppRouter();
@@ -254,6 +255,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => CmsSsrCubit()),
         BlocProvider(create: (_) => ProfileCubit()),
+        BlocProvider(
+          create: (context) => ManageBookingCubit(),
+        ),
         BlocProvider(create: (_) => SummaryContainerCubit()),
         BlocProvider(
             create: (_) =>

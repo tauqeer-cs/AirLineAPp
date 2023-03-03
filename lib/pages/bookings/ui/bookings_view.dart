@@ -4,76 +4,140 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
-import 'package:app/widgets/containers/grey_card.dart';
-import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:app/utils/utils.dart';
+import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../app/app_bloc_helper.dart';
+import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../blocs/voucher/voucher_cubit.dart';
+import '../../../widgets/app_input_border_text.dart';
+import '../../../widgets/app_loading_screen.dart';
+import '../../../widgets/app_toast.dart';
+import '../../home/ui/filter/search_flight_widget.dart';
+import '../../new_travel_date/ui/new_travel_date_view.dart';
+import '../bloc/bookings_cubit.dart';
+
 class BookingsView extends StatelessWidget {
-  const BookingsView({Key? key}) : super(key: key);
+  BookingsView({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
+
+  ManageBookingCubit? bloc;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
-      child: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+    bloc = context.watch<ManageBookingCubit>();
+
+    return BlocConsumer<ManageBookingCubit, ManageBookingState>(
+      listener: (context, state) {
+        if (state.blocState == BlocState.failed) {
+          if (state.message.isNotEmpty) {
+            Toast.of(context).show(
+              success: false,
+              message: state.message,
+            );
+          }
+        }
+
+      },
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: SafeArea(
             child: FormBuilder(
               key: _fbKey,
-              child: GreyCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    kVerticalSpacer,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 0.0, horizontal: 0),
-                      child: Text("Manage My Booking", style: kGiantHeavy),
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.9,
+                  child: AppCard(
+                    roundedInBottom: true,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            kVerticalSpacer,
+                            kVerticalSpacer,
+                            const Text("Manage My Booking", style: kGiantHeavy),
+                            kVerticalSpacerMini,
+                            Text(
+                              "Please enter your flight details to view and manage your booking.",
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kSubTextColor),
+                            ),
+                            kVerticalSpacer,
+                            AppInputTextWithBorder(
+                              name: "bookingNumber",
+                              hintText: "Booking Reference Number",
+                              maxLength: 6,
+
+                              /*inputFormatters: [
+                                UpperCaseTextFormatter(),
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[A-Za-z0-9\']")),
+                              ],
+                              */
+
+                              validators: [
+                                FormBuilderValidators.required(),
+                                FormBuilderValidators.minLength(6,
+                                    errorText:
+                                        "Booking number has to be 6 alphanumeric characters"),
+                                FormBuilderValidators.maxLength(6,
+                                    errorText:
+                                        "Booking number has to be 6 alphanumeric characters"),
+                              ],
+                            ),
+                            kVerticalSpacer,
+                            AppInputTextWithBorder(
+                              name: "lastName",
+                              hintText: "Surname / Last Name",
+                              validators: [FormBuilderValidators.required()],
+                            ),
+                            kVerticalSpacer,
+                            kVerticalSpacer,
+                            state.isLoadingInfo
+                                ? const AppLoading()
+                                : Row(
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            onManageBooking(context);
+                                          },
+                                          child: const Text(
+                                            'Add on Services',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                      kHorizontalSpacer,
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            onChangeFlightTapped(context);
+                                          },
+                                          child: const Text('Change flight'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                          ],
+                        ),
+                      ),
                     ),
-                    kVerticalSpacerMini,
-                    Text(
-                      "Please enter your flight details to view and manage your booking.",
-                      style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                    ),
-                    kVerticalSpacer,
-                    AppInputText(
-                      name: "bookingNumber",
-                      hintText: "Booking Reference Number",
-                      validators: [
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.minLength(6,
-                            errorText:
-                                "Booking number has to be 6 alphanumeric characters"),
-                        FormBuilderValidators.maxLength(6,
-                            errorText:
-                            "Booking number has to be 6 alphanumeric characters"),
-                      ],
-                    ),
-                    kVerticalSpacerSmall,
-                    AppInputText(
-                      name: "lastName",
-                      hintText: "Surname / Last Name",
-                      validators: [FormBuilderValidators.required()],
-                    ),
-                    kVerticalSpacer,
-                    ElevatedButton(
-                        onPressed: () {
-                          onManageBooking(context);
-                        },
-                        child: const Text("Manage Booking"))
-                  ],
-                ),
-              ),
+                  )),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -86,7 +150,31 @@ class BookingsView extends StatelessWidget {
           "${AppFlavor.thirdPartyUrl}/en/manage?confirmationNumber=$code&bookingLastName=$lastName";
       //context.router.push(InAppWebViewRoute(url: url));
       SecurityUtils.tryLaunch(url);
-
     }
+  }
+
+  onChangeFlightTapped(BuildContext context) async {
+    if (_fbKey.currentState!.saveAndValidate()) {
+      final value = _fbKey.currentState!.value;
+
+      String code = value["bookingNumber"];
+      String lastName = value["lastName"];
+
+      var flag =
+          await bloc?.getBookingInformation(lastName.trim(), code.trim().toUpperCase());
+      if (flag == true) {
+        moveToNext(context);
+
+
+      }
+    }
+  }
+
+  void moveToNext(BuildContext context) {
+    context.read<VoucherCubit>().resetState();
+
+    context.router.push(
+      ManageBookingDetailsRoute(),
+    );
   }
 }

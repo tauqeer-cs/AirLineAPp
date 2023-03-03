@@ -28,14 +28,17 @@ class ChooseFlightSegment extends StatefulWidget {
   final List<InboundOutboundSegment> segments;
   final bool isDeparture;
 
-  const ChooseFlightSegment({
-    Key? key,
-    required this.title,
-    required this.subtitle,
-    required this.dateTitle,
-    required this.segments,
-    required this.isDeparture,
-  }) : super(key: key);
+  final bool changeFlight;
+
+  const ChooseFlightSegment(
+      {Key? key,
+      required this.title,
+      required this.subtitle,
+      required this.dateTitle,
+      required this.segments,
+      required this.isDeparture,
+      this.changeFlight = false})
+      : super(key: key);
 
   @override
   State<ChooseFlightSegment> createState() => _ChooseFlightSegmentState();
@@ -90,8 +93,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                     ),
                     Text(
                       "Sort by",
-                      style:
-                          kSmallRegular.copyWith(color: Styles.kBorderColor),
+                      style: kSmallRegular.copyWith(color: Styles.kBorderColor),
                     ),
                     Text(
                       selectedSort.toString(),
@@ -104,21 +106,27 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
           ],
         ),
         kVerticalSpacerBig,
-        Text(widget.dateTitle, style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
+        Text(widget.dateTitle,
+            style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
         sortedSegment.isEmpty
             ? const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Center(
+                padding: EdgeInsets.all(20.0),
+                child: Center(
                   child: Text(
                     "No flight available for this date",
                     style: kHugeSemiBold,
                   ),
                 ),
-            )
+              )
             : Column(
                 children: sortedSegment
-                    .map((e) => SegmentCard(
-                        segment: e, isDeparture: widget.isDeparture))
+                    .map(
+                      (e) => SegmentCard(
+                        segment: e,
+                        isDeparture: widget.isDeparture,
+                        changeFlight: widget.changeFlight,
+                      ),
+                    )
                     .toList(),
               ),
       ],
@@ -158,12 +166,17 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
             (a, b) => a.getTotalPriceDisplay.compareTo(b.getTotalPriceDisplay));
         break;
       case SortFlight.earliest:
-        list.sort((a, b) => (a.departureDate ?? DateTime.now())
-            .compareTo(b.departureDate ?? DateTime.now()));
+        list.sort(
+          (a, b) => (a.departureDate ?? DateTime.now()).compareTo(
+            b.departureDate ?? DateTime.now(),
+          ),
+        );
         break;
       case SortFlight.fastest:
-        list.sort((a, b) => (a.segmentDetail?.flightTime ?? 0)
-            .compareTo(b.segmentDetail?.flightTime ?? 0));
+        list.sort(
+          (a, b) => (a.segmentDetail?.flightTime ?? 0)
+              .compareTo(b.segmentDetail?.flightTime ?? 0),
+        );
         break;
     }
     return list;

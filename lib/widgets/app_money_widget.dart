@@ -9,11 +9,14 @@ class MoneyWidget extends StatelessWidget {
   final String? currency;
   final bool isNegative;
 
+  final bool showPlus;
+
   const MoneyWidget({
     Key? key,
     this.amount,
     this.isDense = true,
     this.currency,
+    this.showPlus = false,
     this.isNegative = false,
     this.isNormalMYR = false,
   }) : super(key: key);
@@ -27,7 +30,7 @@ class MoneyWidget extends StatelessWidget {
           isDense ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Text(
-          "${isNegative ? "- " : ""}${currency ?? 'MYR'} ",
+          "${isNegative ? "- " : ""}${showPlus ? "+ " : ""}${currency ?? 'MYR'} ",
           style: kMediumHeavy.copyWith(
             height: isNormalMYR ? null : 1.5,
             fontSize: isDense

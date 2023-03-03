@@ -10,7 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../widgets/containers/app_expanded_section.dart';
 
 class PaymentInfo extends StatefulWidget {
-  const PaymentInfo({Key? key}) : super(key: key);
+  final bool isChange;
+  final List<PaymentOrder>? paymentOrders;
+
+  const PaymentInfo({Key? key,  this.isChange = false,this.paymentOrders}) : super(key: key);
 
   @override
   State<PaymentInfo> createState() => _PaymentInfoState();
@@ -21,12 +24,23 @@ class _PaymentInfoState extends State<PaymentInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final payments = context
-        .watch<ConfirmationCubit>()
-        .state
-        .confirmationModel
-        ?.value
-        ?.paymentOrders;
+    List<PaymentOrder>? payments = [];
+
+    if(widget.isChange) {
+
+      payments  = widget.paymentOrders;
+
+    }
+    else {
+      payments  = context
+          .watch<ConfirmationCubit>()
+          .state
+          .confirmationModel
+          ?.value
+          ?.paymentOrders;
+    }
+
+
     return AppCard(
       child: Column(
         children: [
@@ -86,7 +100,7 @@ class PaymentDetail extends StatelessWidget {
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content:
-                '${paymentOrder.paymentMethodCode}    ${paymentOrder.cardOption}',
+                '${paymentOrder.paymentMethodCode ?? ''}    ${paymentOrder.cardOption}',
             makeBoldAll: true,
 
           ),

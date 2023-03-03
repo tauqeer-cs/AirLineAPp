@@ -21,15 +21,6 @@ class HomeView extends StatelessWidget {
         const NotificationsWidget(),
         kVerticalSpacer,
         const AppLogoWidget(),
-        // Padding(
-        //   padding: kPageHorizontalPaddingBig,
-        //   child: Text(
-        //     "Hi Guest, \nLet's Fly",
-        //     style: kGiantSemiBold.copyWith(color: Colors.white),
-        //   ),
-        // ),
-        // kVerticalSpacer,
-        // NotificationsWidget(),
         Container(
           padding: const EdgeInsets.all(24),
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),

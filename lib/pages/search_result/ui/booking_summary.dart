@@ -10,7 +10,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 
 class BookingSummary extends StatelessWidget {
-  const BookingSummary({Key? key}) : super(key: key);
+  final String? labelToShow;
+
+  final double? totalAmountToShow;
+
+  const BookingSummary({Key? key, this.labelToShow, this.totalAmountToShow}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +31,12 @@ class BookingSummary extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          "Your total booking",
+          labelToShow ?? "Your total booking",
           style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
         ),
          MoneyWidget(
           isDense: false,
-          amount: booking.getFinalPriceDisplay +
+          amount: totalAmountToShow ?? booking.getFinalPriceDisplay +
               (filterState?.numberPerson.getTotal() ?? 0) -
               discount - redeemAmount,
         ),

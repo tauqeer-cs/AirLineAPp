@@ -22,6 +22,7 @@ class DiscountSummary extends StatelessWidget {
     }
     return Visibility(
       visible: discount!=0 || redeemAmount != null,
+
       child: Transform.translate(
         offset: const Offset(0,20),
         child: Container(

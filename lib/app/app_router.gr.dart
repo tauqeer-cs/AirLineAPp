@@ -254,6 +254,42 @@ class _$AppRouter extends RootStackRouter {
         child: const MoreOptionsPage(),
       );
     },
+    ManageBookingDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<ManageBookingDetailsRouteArgs>(
+          orElse: () => const ManageBookingDetailsRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ManageBookingDetailsPage(key: args.key),
+      );
+    },
+    NewTravelDatesRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const NewTravelDatesPage(),
+      );
+    },
+    SelectChangeFlightRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SelectChangeFlightPage(),
+      );
+    },
+    ChangeFlightSummaryRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ChangeFlightSummaryPage(),
+      );
+    },
+    ChangeFlightConfirmationRoute.name: (routeData) {
+      final args = routeData.argsAs<ChangeFlightConfirmationRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ChangeFlightConfirmationPage(
+          key: args.key,
+          bookingId: args.bookingId,
+        ),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -482,6 +518,26 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           MoreOptionsRoute.name,
           path: '/more-options',
+        ),
+        RouteConfig(
+          ManageBookingDetailsRoute.name,
+          path: '/manage-booking-details',
+        ),
+        RouteConfig(
+          NewTravelDatesRoute.name,
+          path: '/new-travel-dates',
+        ),
+        RouteConfig(
+          SelectChangeFlightRoute.name,
+          path: '/select-change-flight',
+        ),
+        RouteConfig(
+          ChangeFlightSummaryRoute.name,
+          path: '/change-flight-summary',
+        ),
+        RouteConfig(
+          ChangeFlightConfirmationRoute.name,
+          path: '/change-flight-confirmation',
         ),
       ];
 }
@@ -1091,6 +1147,102 @@ class MoreOptionsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MoreOptionsRoute';
+}
+
+/// generated route for
+/// [ManageBookingDetailsPage]
+class ManageBookingDetailsRoute
+    extends PageRouteInfo<ManageBookingDetailsRouteArgs> {
+  ManageBookingDetailsRoute({Key? key})
+      : super(
+          ManageBookingDetailsRoute.name,
+          path: '/manage-booking-details',
+          args: ManageBookingDetailsRouteArgs(key: key),
+        );
+
+  static const String name = 'ManageBookingDetailsRoute';
+}
+
+class ManageBookingDetailsRouteArgs {
+  const ManageBookingDetailsRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'ManageBookingDetailsRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [NewTravelDatesPage]
+class NewTravelDatesRoute extends PageRouteInfo<void> {
+  const NewTravelDatesRoute()
+      : super(
+          NewTravelDatesRoute.name,
+          path: '/new-travel-dates',
+        );
+
+  static const String name = 'NewTravelDatesRoute';
+}
+
+/// generated route for
+/// [SelectChangeFlightPage]
+class SelectChangeFlightRoute extends PageRouteInfo<void> {
+  const SelectChangeFlightRoute()
+      : super(
+          SelectChangeFlightRoute.name,
+          path: '/select-change-flight',
+        );
+
+  static const String name = 'SelectChangeFlightRoute';
+}
+
+/// generated route for
+/// [ChangeFlightSummaryPage]
+class ChangeFlightSummaryRoute extends PageRouteInfo<void> {
+  const ChangeFlightSummaryRoute()
+      : super(
+          ChangeFlightSummaryRoute.name,
+          path: '/change-flight-summary',
+        );
+
+  static const String name = 'ChangeFlightSummaryRoute';
+}
+
+/// generated route for
+/// [ChangeFlightConfirmationPage]
+class ChangeFlightConfirmationRoute
+    extends PageRouteInfo<ChangeFlightConfirmationRouteArgs> {
+  ChangeFlightConfirmationRoute({
+    Key? key,
+    required String bookingId,
+  }) : super(
+          ChangeFlightConfirmationRoute.name,
+          path: '/change-flight-confirmation',
+          args: ChangeFlightConfirmationRouteArgs(
+            key: key,
+            bookingId: bookingId,
+          ),
+        );
+
+  static const String name = 'ChangeFlightConfirmationRoute';
+}
+
+class ChangeFlightConfirmationRouteArgs {
+  const ChangeFlightConfirmationRouteArgs({
+    this.key,
+    required this.bookingId,
+  });
+
+  final Key? key;
+
+  final String bookingId;
+
+  @override
+  String toString() {
+    return 'ChangeFlightConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
+  }
 }
 
 /// generated route for

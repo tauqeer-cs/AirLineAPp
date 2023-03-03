@@ -54,10 +54,5 @@ class ProfileRepository {
     return await _provider.deleteUserCard(card);
   }
 
-  //
-
-
-  //
-  //
 
 }

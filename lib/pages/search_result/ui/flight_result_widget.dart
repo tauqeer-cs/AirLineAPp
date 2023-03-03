@@ -40,17 +40,14 @@ class FlightResultWidget extends StatelessWidget {
                     BlocBuilder<BookingCubit, BookingState>(
                       builder: (context, state) {
                         return Visibility(
-                          visible: !state.isVerify,
+                          //visible: !state.isVerify,
                           child: Expanded(
                             flex: 2,
                             child: OutlinedButton(
                               child:
                                   const FittedBox(child: Text("Change Search")),
                               onPressed: () {
-                                context
-                                    .read<SummaryContainerCubit>()
-                                    .changeVisibility(true);
-                                context.router.push(const ChangeSearchRoute());
+
                               },
                             ),
                           ),

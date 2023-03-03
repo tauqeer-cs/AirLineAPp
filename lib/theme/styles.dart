@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/gradient_rect_slider_track_shape.dart';
 import 'theme.dart';
 
+
 class Styles {
   static Color get kPrimaryColor => const Color.fromRGBO(227, 30, 51, 1);
 
