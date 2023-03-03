@@ -31,7 +31,6 @@ class BaggageView extends StatefulWidget {
 class _BaggageViewState extends State<BaggageView>
     with TickerProviderStateMixin {
   final scrollController = ScrollController();
-  bool isScrollable = false;
   final bool autoScrollToBottom = false;
 
   @override
@@ -40,17 +39,9 @@ class _BaggageViewState extends State<BaggageView>
     super.dispose();
   }
 
-  void afterBuild() {
-    if (scrollController.hasClients) {
-      setState(() {
-        isScrollable = scrollController.position.extentAfter > 0;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
     final flightType =
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
     return BlocProvider(
@@ -162,8 +153,7 @@ class ContinueButton extends StatelessWidget {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(BaggageRoute(isDeparture: false));
         } else {
-          context.router.push(const BookingDetailsRoute());
-          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
+          context.router.push(SpecialRoute());
         }
       },
       child: const Text("Continue"),

@@ -5,6 +5,8 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/meals/ui/meals_section.dart';
 import 'package:app/pages/add_on/meals/ui/meals_subtotal.dart';
 import 'package:app/pages/add_on/seats/ui/seats_view.dart';
+import 'package:app/pages/add_on/special/ui/special_addon_subtotal.dart';
+import 'package:app/pages/add_on/special/ui/wheelchair_section.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -12,9 +14,11 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/utils/user_insider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_insider/flutter_insider.dart';
 
 class SpecialView extends StatefulWidget {
   final bool isDeparture;
@@ -27,19 +31,10 @@ class SpecialView extends StatefulWidget {
 
 class _SpecialViewState extends State<SpecialView> {
   final scrollController = ScrollController();
-  bool isScrollable = false;
 
-  void afterBuild() {
-    if (scrollController.hasClients) {
-      setState(() {
-        isScrollable = scrollController.position.extentAfter > 0;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
     final flightType =
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
     return BlocProvider(
@@ -54,14 +49,14 @@ class _SpecialViewState extends State<SpecialView> {
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                TitleSummaryHeader(title: "Meal"),
+                const TitleSummaryHeader(title: "Special Add-On"),
                 kVerticalSpacer,
                 FlightDetailWidget(
                   isDeparture: widget.isDeparture,
                   addonType: AddonType.meal,
                 ),
                 kVerticalSpacer,
-                MealsSection(isDeparture: widget.isDeparture),
+                WheelchairSection(isDeparture: widget.isDeparture),
                 kVerticalSpacer,
                 Stack(
                   children: [
@@ -92,7 +87,7 @@ class _SpecialViewState extends State<SpecialView> {
             bottom: 0,
             left: 0,
             right: 0,
-            child: MealsSubtotal(
+            child: SpecialAddonSubtotal(
               isDeparture: widget.isDeparture,
               child: SummaryContainer(
                 child: Padding(
@@ -132,9 +127,10 @@ class ContinueButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         if (flightType == FlightType.round && isDeparture) {
-          context.router.push(MealsRoute(isDeparture: false));
+          context.router.push(SpecialRoute(isDeparture: false));
         } else {
-          context.router.push(BaggageRoute());
+          context.router.push(const BookingDetailsRoute());
+          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
         }
       },
       child: const Text("Continue"),

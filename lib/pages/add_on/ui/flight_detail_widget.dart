@@ -173,12 +173,17 @@ class FlightDetailWidget extends StatelessWidget {
         if (isRoundTrip && isDeparture) {
           context.router.push(BaggageRoute(isDeparture: false));
         } else {
+          context.router.push(SpecialRoute());
+        }
+        break;
+      case AddonType.special:
+        if (isRoundTrip && isDeparture) {
+          context.router.push(SpecialRoute(isDeparture: false));
+        } else {
           context.router.push(const BookingDetailsRoute());
           FlutterInsider.Instance.visitProductDetailPage(
               UserInsider.of(context).generateProduct());
         }
-        break;
-      case AddonType.special:
         break;
     }
   }

@@ -195,6 +195,8 @@ class Person extends Equatable {
   final Bundle? returnSports;
   final Bundle? departureWheelChair;
   final Bundle? returnWheelChair;
+  final String? departureOkId;
+  final String? returnOkId;
   final Bundle? departureInsurance;
   final Bundle? returnInsurance;
   final Bundle? insuranceGroup;
@@ -217,6 +219,8 @@ class Person extends Equatable {
     this.numberOrder,
     this.passenger,
     this.departureInsurance,
+    this.departureOkId,
+    this.returnOkId,
     this.returnInsurance,
     this.useWheelChair,
     this.departureSports,
@@ -523,6 +527,8 @@ class Person extends Equatable {
     Bundle? Function()? returnSports,
     Bundle? Function()? departureWheelChair,
     Bundle? Function()? returnWheelChair,
+    String? Function()? departureOkId,
+    String? Function()? returnOkId,
     int? numberOrder,
     Bundle? insurance,
     bool insuranceEmpty = false,
@@ -549,6 +555,9 @@ class Person extends Equatable {
           : this.departureWheelChair,
       returnWheelChair:
           returnWheelChair != null ? returnWheelChair() : this.returnWheelChair,
+      departureOkId:
+          departureOkId != null ? departureOkId() : this.departureOkId,
+      returnOkId: returnOkId != null ? returnOkId() : this.returnOkId,
       numberOrder: numberOrder ?? this.numberOrder,
       insuranceGroup: insuranceEmpty ? (null) : insurance ?? insuranceGroup,
     );
