@@ -4,10 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'cms_flight.g.dart';
 
 @JsonSerializable()
-class CMSFlight extends Equatable{
+class CMSFlight extends Equatable {
   final int? id;
   final String? name;
   final List<SharedSetting>? items;
+
   const CMSFlight({this.id, this.name, this.items});
 
   @override
@@ -20,7 +21,7 @@ class CMSFlight extends Equatable{
 }
 
 @JsonSerializable()
-class SharedSetting  extends Equatable{
+class SharedSetting extends Equatable {
   final int? id;
   final String? name;
   final List<SSRItem>? items;
@@ -38,7 +39,7 @@ class SharedSetting  extends Equatable{
 }
 
 @JsonSerializable()
-class SSRItem  extends Equatable{
+class SSRItem extends Equatable {
   final int? id;
   final String? name;
   final List<SSRItemType>? items;
@@ -56,18 +57,26 @@ class SSRItem  extends Equatable{
 }
 
 @JsonSerializable()
-class SSRItemType extends Equatable{
+class SSRItemType extends Equatable {
   final String? code;
   final String? image;
   final int? id;
   final String? name;
+  final String? description;
+
   final String? content;
 
-
-  const SSRItemType({this.code, this.image, this.id, this.name, this.content});
+  const SSRItemType({
+    this.code,
+    this.image,
+    this.id,
+    this.name,
+    this.content,
+    this.description,
+  });
 
   @override
-  List<Object?> get props => [code, image, id, name, content];
+  List<Object?> get props => [code, image, id, name, content,description];
 
   factory SSRItemType.fromJson(Map<String, dynamic> json) =>
       _$SSRItemTypeFromJson(json);

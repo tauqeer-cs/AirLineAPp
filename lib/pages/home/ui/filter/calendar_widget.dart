@@ -1,6 +1,7 @@
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/filter/calendar_sheet_vertical.dart';
+import 'package:app/pages/home/ui/filter/please_select_place.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/date_utils.dart';
@@ -32,10 +33,28 @@ class CalendarWidget extends StatelessWidget {
     );
   }
 
+  _showPlaceNeedToBeSelected(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+      builder: (_) => PleaseSelectPlace(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final departDate = context.watch<FilterCubit>().state.departDate;
-    final returnDate = context.watch<FilterCubit>().state.returnDate;
+    final filterState = context.watch<FilterCubit>().state;
+    final departDate = filterState.departDate;
+    final returnDate = filterState.returnDate;
+    final origin = filterState.origin;
+    final destination = filterState.destination;
     final List<String> texts = [];
     if (departDate != null) {
       final dateText = AppDateUtils.formatDateWithoutLocale(departDate);
@@ -50,7 +69,9 @@ class CalendarWidget extends StatelessWidget {
     }*/
 
     return InkWell(
-      onTap: () => _onCalendarPick(context),
+      onTap: origin == null || destination == null
+          ? () => _showPlaceNeedToBeSelected(context)
+          : () => _onCalendarPick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<String>(
           value: texts.isEmpty ? null : texts.join(" to "),

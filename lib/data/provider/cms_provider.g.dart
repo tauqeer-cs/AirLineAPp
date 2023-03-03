@@ -77,7 +77,7 @@ class _CMSProvider implements CMSProvider {
   @override
   Future<CMSFlight> getSSRContent(
     key, {
-    query = "content,image,code",
+    query = "content,image,title,description,code",
     deep = "6",
   }) async {
     const _extra = <String, dynamic>{};
