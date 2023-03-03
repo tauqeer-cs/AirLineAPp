@@ -29,6 +29,7 @@ class _MealsViewState extends State<MealsView> {
   final scrollController = ScrollController();
 
 
+
   @override
   Widget build(BuildContext context) {
     final flightType =

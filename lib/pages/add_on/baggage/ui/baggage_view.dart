@@ -39,7 +39,6 @@ class _BaggageViewState extends State<BaggageView>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final flightType =
