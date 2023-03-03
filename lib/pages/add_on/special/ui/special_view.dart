@@ -53,7 +53,7 @@ class _SpecialViewState extends State<SpecialView> {
                 kVerticalSpacer,
                 FlightDetailWidget(
                   isDeparture: widget.isDeparture,
-                  addonType: AddonType.meal,
+                  addonType: AddonType.special,
                 ),
                 kVerticalSpacer,
                 WheelchairSection(isDeparture: widget.isDeparture),
