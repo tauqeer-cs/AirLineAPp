@@ -8,14 +8,12 @@ import 'package:share_plus/share_plus.dart';
 import '../../widgets/app_app_bar.dart';
 
 class ManageBookingDetailsPage extends StatelessWidget {
-   ManageBookingDetailsPage({Key? key}) : super(key: key);
+  ManageBookingDetailsPage({Key? key}) : super(key: key);
   ScreenshotController screenshotController = ScreenshotController();
 
   onShare() async {
-
-    final directory = (await getApplicationDocumentsDirectory())
-        .path;
-     String fileName = "${DateTime.now().microsecondsSinceEpoch.toString()}.jpg";
+    final directory = (await getApplicationDocumentsDirectory()).path;
+    String fileName = "${DateTime.now().microsecondsSinceEpoch.toString()}.jpg";
     await screenshotController.captureAndSave(directory, fileName: fileName);
 
     Share.shareXFiles([XFile('$directory/$fileName')]);
@@ -32,16 +30,15 @@ class ManageBookingDetailsPage extends StatelessWidget {
           height: 60.h,
           overrideInnerHeight: true,
         ),
-        body:  Padding(
+        body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ManageBookingDetailsView(onSharedTapped: () {
-
-            onShare();
-
-          },),
+          child: ManageBookingDetailsView(
+            onSharedTapped: () {
+              onShare();
+            },
+          ),
         ),
       ),
     );
-
   }
 }
