@@ -28,12 +28,15 @@ class ChooseFlightSegment extends StatefulWidget {
   final List<InboundOutboundSegment> segments;
   final bool isDeparture;
 
+  final bool visaPromo;
+
   final bool changeFlight;
 
   const ChooseFlightSegment(
       {Key? key,
       required this.title,
-      required this.subtitle,
+        required this.visaPromo,
+        required this.subtitle,
       required this.dateTitle,
       required this.segments,
       required this.isDeparture,
@@ -125,6 +128,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                         segment: e,
                         isDeparture: widget.isDeparture,
                         changeFlight: widget.changeFlight,
+                          showVisa :  widget.visaPromo,
                       ),
                     )
                     .toList(),

@@ -12,10 +12,13 @@ class FlightResponse extends Equatable {
   final num? orderID;
   final bool? success;
 
+  final bool? isVisaCampaign;
+
   const FlightResponse(
       {this.searchFlightRequest,
       this.searchFlightResponse,
       this.orderID,
+        this.isVisaCampaign,
       this.success});
 
   factory FlightResponse.fromJson(Map<String, dynamic> json) =>

@@ -20,10 +20,13 @@ class SegmentCard extends StatelessWidget {
   final bool isDeparture;
   final bool changeFlight;
 
+  final bool showVisa;
+
   const SegmentCard(
       {Key? key,
       required this.segment,
       required this.isDeparture,
+        required this.showVisa,
       this.changeFlight = false})
       : super(key: key);
 
@@ -89,22 +92,24 @@ class SegmentCard extends StatelessWidget {
                           ),
                         ),
                         kHorizontalSpacer,
-                        Visibility(
-                          visible: segment.discountPCT != null &&
-                              segment.discountPCT! > 0,
-                          replacement: Image.asset(
-                            "assets/images/icons/iconFlight.png",
-                            width: 32,
-                            height: 32,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: Styles.kPrimaryColor,
-                            child: Text(
-                              "-${segment.discountPCT}%",
-                              style: kTinyHeavy.copyWith(color: Colors.white),
+
+
+
+
+                          Visibility(
+                            visible: segment.discountPCT != null &&
+                                segment.discountPCT! > 0,
+                            replacement: Image.asset(
+                              "assets/images/icons/iconFlight.png",
+                              width: 32,
+                              height: 32,
                             ),
+                            child: buildCircleAvatar(),
                           ),
-                        ),
+
+
+
+
                         kHorizontalSpacer,
                         Expanded(
                           child: SegmentHeader(
@@ -247,6 +252,32 @@ class SegmentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget buildCircleAvatar() {
+    if(showVisa){
+      return  Column(
+        children: [
+          Image.asset(
+            "assets/images/icons/iconFlight.png",
+            width: 32,
+            height: 32,
+          ),
+          Image.asset(
+            "assets/images/icons/visa.png",
+            width: 32,
+            height: 23,
+          ),
+        ],
+      );
+    }
+    return CircleAvatar(
+                            backgroundColor: Styles.kPrimaryColor,
+                            child: Text(
+                              "-${segment.discountPCT}%",
+                              style: kTinyHeavy.copyWith(color: Colors.white),
+                            ),
+                          );
   }
 
   bool isHighlighted(InboundOutboundSegment? selected, bool isVerify) {

@@ -69,8 +69,8 @@ class FlightResultWidget extends StatelessWidget {
                   builder: (context, bookState) {
                     return blocBuilderWrapper(
                       blocState: bookState.blocState,
-                      finishedBuilder: buildFlights(state, bookState),
-                      initialBuilder: buildFlights(state, bookState),
+                      finishedBuilder: buildFlights(state, bookState,),
+                      initialBuilder: buildFlights(state, bookState,),
                       loadingBuilder: const BookingLoader(),
                     );
                   },
@@ -106,6 +106,7 @@ class FlightResultWidget extends StatelessWidget {
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
           isDeparture: true,
+          visaPromo: state.isVisaPromo ?? false,
         ),
         kVerticalSpacer,
         Visibility(
@@ -119,6 +120,7 @@ class FlightResultWidget extends StatelessWidget {
                 ? [bookState.selectedReturn!]
                 : state.flights?.flightResult?.inboundSegment ?? [],
             isDeparture: false,
+            visaPromo: state.isVisaPromo ?? false,
           ),
         ),
       ],

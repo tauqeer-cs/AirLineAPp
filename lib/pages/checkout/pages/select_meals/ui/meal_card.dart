@@ -40,6 +40,7 @@ class MealCard extends StatelessWidget {
         isDeparture ? focusedPerson?.departureMeal : focusedPerson?.returnMeal;
     final length = meals?.where((element) => element == meal).length;
     final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
+    final cmsDetail = cmsMeals.firstWhereOrNull((element) => element.code == meal.codeType);
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: AppCard(
@@ -49,7 +50,7 @@ class MealCard extends StatelessWidget {
               width: 100,
               height: 100,
               child: AppImage(
-                imageUrl: cmsMeals.firstWhereOrNull((element) => element.code == meal.codeType)?.image,
+                imageUrl: cmsDetail?.image,
               ),
             ),
             kHorizontalSpacer,
@@ -57,6 +58,8 @@ class MealCard extends StatelessWidget {
               child: Column(
                 children: [
                   Text(meal.description ?? "", textAlign: TextAlign.center,),
+                  kVerticalSpacerSmall,
+                  Text(cmsDetail?.description ?? "", textAlign: TextAlign.center,),
                   InputWithPlusMinus(
                     number: length ?? 0,
                     handler: changeNumber,

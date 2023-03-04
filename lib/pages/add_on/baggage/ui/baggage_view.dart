@@ -37,17 +37,8 @@ class _BaggageViewState extends State<BaggageView>
     super.dispose();
   }
 
-  void afterBuild() {
-    if (scrollController.hasClients) {
-      setState(() {
-        isScrollable = scrollController.position.extentAfter > 0;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
     final flightType =
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
     return BlocProvider(
