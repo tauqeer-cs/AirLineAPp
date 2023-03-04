@@ -521,6 +521,7 @@ Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
           : DateTime.parse(json['updatedDepartureDateTime'] as String),
       segmentOrder: json['segmentOrder'] as String?,
       createdById: json['createdById'] as num?,
+      isChangeAllowed: json['isChangeAllowed'] as bool?,
       createdDate: json['createdDate'] == null
           ? null
           : DateTime.parse(json['createdDate'] as String),
@@ -570,6 +571,7 @@ Map<String, dynamic> _$BoundToJson(Bound instance) {
   writeNotNull(
       'departureDateTime', instance.departureDateTime?.toIso8601String());
   writeNotNull('eTicket', instance.eTicket);
+  writeNotNull('isChangeAllowed', instance.isChangeAllowed);
   writeNotNull('duration', instance.duration);
   writeNotNull('elapsedTime', instance.elapsedTime);
   writeNotNull('flightNumber', instance.flightNumber);
