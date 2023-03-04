@@ -18,7 +18,7 @@ class HomeDetailView extends StatelessWidget {
           blocState: state.blocState,
           failedBuilder: AppErrorScreen(message: state.message),
           finishedBuilder: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
                 Html(
@@ -26,7 +26,7 @@ class HomeDetailView extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () => context.router.pop(),
-                    child: Text("Search Flight")),
+                    child: const Text("Search Flight")),
                 kVerticalSpacer,
               ],
             ),
