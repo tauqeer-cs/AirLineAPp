@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-import '../../theme/spacer.dart';
-import '../../theme/styles.dart';
-import '../../theme/typography.dart';
 import '../../widgets/app_app_bar.dart';
 import '../../widgets/app_loading_screen.dart';
 

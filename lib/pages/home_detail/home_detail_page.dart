@@ -22,7 +22,7 @@ class HomeDetailPage extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
         ),
-        body: HomeDetailView(),
+        body: const HomeDetailView(),
       ),
     );
   }

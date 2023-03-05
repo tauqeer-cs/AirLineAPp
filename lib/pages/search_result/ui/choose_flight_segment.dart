@@ -1,4 +1,3 @@
-import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/search_result/ui/segment_card.dart';
 import 'package:app/pages/search_result/ui/sort_sheet.dart';
@@ -7,7 +6,6 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum SortFlight {
@@ -52,7 +50,6 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
 
   @override
   Widget build(BuildContext context) {
-    final isVerify = context.watch<BookingCubit>().state.isVerify;
     final sortedSegment = List<InboundOutboundSegment>.from(widget.segments);
     sort(sortedSegment);
     return Column(

@@ -11,6 +11,7 @@ import '../../../utils/date_utils.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../search_result/ui/booking_summary.dart';
 import '../../search_result/ui/choose_flight_segment.dart';
+import '../../search_result/ui/summary_container_listener.dart';
 import 'booking_refrence_label.dart';
 
 class SelectChangeFlightView extends StatefulWidget {
@@ -26,13 +27,14 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
     super.initState();
   }
 
+  final scrollController = ScrollController();
+
   @override
   void dispose() {
     scrollController.dispose(); // dispose the controller
     super.dispose();
   }
 
-  final scrollController = ScrollController();
   bool isScrollable = false;
 
   void afterBuild() {
@@ -53,11 +55,12 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
 
     return Stack(
       children: [
-        SingleChildScrollView(
+        SummaryContainerListener(
+          scrollController: scrollController,
           child: Padding(
             padding: kPageHorizontalPadding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              controller: scrollController,
               children: [
                 kVerticalSpacer,
 
@@ -129,40 +132,43 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
             ),
           ),
         ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: SummaryContainer(
+            child: Padding(
+              padding: kPagePadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                   BookingSummary(
+                    isChangeFlight: true,
+                    totalAmountToShow:
+                        bloc?.totalAmountToShowInChangeFlight ,
+                  ),
+                  (bloc?.state.loadingSelectingFlight == true)
+                      ? const AppLoading()
+                      : ElevatedButton(
+                          onPressed: () async {
+                            if (bloc?.showChangeButton == false) {
+                              return;
+                            }
 
-
-         if(bloc?.showChangeButton ?? false) ... [
-           Positioned(
-             bottom: 0,
-             left: 0,
-             right: 0,
-             child: SummaryContainer(
-               child: Padding(
-                 padding: kPagePadding,
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.end,
-                   children: [
-                     //const BookingSummary(),
-                     (bloc?.state.loadingSelectingFlight == true)
-                         ? const AppLoading()
-                         : ElevatedButton(
-                       onPressed: () async {
-                         var flag = await bloc?.changeFlight();
-                         if (flag == true) {
-                           context.router.push(
-                             const ChangeFlightSummaryRoute(),
-                           );
-                         }
-                       },
-                       child: const Text("Continue"),
-                     ),
-                   ],
-                 ),
-               ),
-             ),
-           ),
-         ],
-
+                            var flag = await bloc?.changeFlight();
+                            if (flag == true) {
+                              context.router.push(
+                                const ChangeFlightSummaryRoute(),
+                              );
+                            }
+                          },
+                          child: const Text("Continue"),
+                        ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -183,9 +189,11 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 ?.outboundSegment
                 ?.first
                 .departureDate),
-            segments: state.flightSearchResponse?.searchFlightResponse
-                    ?.flightResult?.outboundSegment ??
-                [],
+            segments: state.selectedDepartureFlight != null
+                ? [state.selectedDepartureFlight!]
+                : state.flightSearchResponse?.searchFlightResponse?.flightResult
+                        ?.outboundSegment ??
+                    [],
             isDeparture: true,
             changeFlight: true,
             visaPromo: false,
@@ -208,9 +216,11 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ?.inboundSegment
                   ?.first
                   .departureDate),
-              segments: state.flightSearchResponse?.searchFlightResponse
-                      ?.flightResult?.inboundSegment ??
-                  [],
+              segments: state.selectedReturnFlight != null
+                  ? [state.selectedReturnFlight!]
+                  : state.flightSearchResponse?.searchFlightResponse
+                          ?.flightResult?.inboundSegment ??
+                      [],
               isDeparture: false,
               changeFlight: true,
               visaPromo: false,

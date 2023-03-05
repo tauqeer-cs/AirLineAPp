@@ -118,11 +118,11 @@ class AvailableOptions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['redemptionName'] = this.redemptionName;
-    data['redemptionPoint'] = this.redemptionPoint;
-    data['redemptionAmount'] = this.redemptionAmount;
-    data['redemptionCode'] = this.redemptionCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['redemptionName'] = redemptionName;
+    data['redemptionPoint'] = redemptionPoint;
+    data['redemptionAmount'] = redemptionAmount;
+    data['redemptionCode'] = redemptionCode;
     return data;
   }
 }

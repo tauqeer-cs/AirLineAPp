@@ -2,7 +2,6 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/data/responses/voucher_response.dart';
-import 'package:app/localizations/localizations_util.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:bloc/bloc.dart';

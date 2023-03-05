@@ -48,7 +48,7 @@ class UserInsider {
     }
     final filterState = context!.read<FilterCubit>().state;
     final filter =
-        context!.read<SearchFlightCubit>().state.filterState ?? FilterState();
+        context!.read<SearchFlightCubit>().state.filterState ?? const FilterState();
     final bookingState = context!.read<BookingCubit>().state;
     FlutterInsiderProduct insiderProduct =
         FlutterInsider.Instance.createNewProduct(

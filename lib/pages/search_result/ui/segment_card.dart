@@ -151,7 +151,7 @@ class SegmentCard extends StatelessWidget {
                                 ),
                                 MoneyWidget(
                                   amount:
-                                      changeFlight ? segment.changeFlightAmount : segment.totalSegmentFareAmtWithInfantSSR,
+                                      changeFlight ? segment.changeFlightAmountToShow : segment.totalSegmentFareAmtWithInfantSSR,
                                   isDense: true,
                                   showPlus : changeFlight
                                 ),
@@ -256,19 +256,10 @@ class SegmentCard extends StatelessWidget {
 
   Widget buildCircleAvatar() {
     if(showVisa){
-      return  Column(
-        children: [
-          Image.asset(
-            "assets/images/icons/iconFlight.png",
-            width: 32,
-            height: 32,
-          ),
-          Image.asset(
-            "assets/images/icons/visa.png",
-            width: 32,
-            height: 23,
-          ),
-        ],
+      return  Image.asset(
+        "assets/images/icons/visa.png",
+        width: 32,
+        height: 32,
       );
     }
     return CircleAvatar(

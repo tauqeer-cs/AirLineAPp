@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
@@ -14,9 +15,11 @@ import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
 import '../../models/pay_redirection.dart';
 import '../../utils/error_utils.dart';
-import '../../data/responses/change_flight_response.dart' as CRP;
+import '../../data/responses/change_flight_response.dart';
 
 part 'manage_booking_state.dart';
+
+part 'manage_booking_cubit.g.dart';
 
 class ManageBookingCubit extends Cubit<ManageBookingState> {
   ManageBookingCubit()
@@ -28,10 +31,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   DateTime get minDate {
     var ccc = state.manageBookingResponse;
-    print('');
+
     if (ccc?.isTwoWay ?? false) {
       if (state.checkedDeparture == true && state.checkReturn == false) {
-        return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+        return DateTime(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day)
             .removeTime();
       } else if (state.checkedDeparture == false && state.checkReturn == true) {
         return ccc?.currentStartDate?.removeTime().add(
@@ -40,40 +44,66 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             DateTime.now();
       }
     }
-    return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).removeTime();
+    return DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day)
+        .removeTime();
   }
 
   DateTime get maxDate {
     var ccc = state.manageBookingResponse;
-    print('');
     if (ccc?.isTwoWay ?? false) {
       if (state.checkedDeparture == true && state.checkReturn == false) {
-
         return ccc?.currentEndDate?.removeTime().add(
-          const Duration(days: -1),
-        ) ??
+                  const Duration(days: -1),
+                ) ??
             DateTime.now();
-
-
       } else if (state.checkedDeparture == false && state.checkReturn == true) {
-
-        return DateTime.now()
-            .add(const Duration(days: 365))
-            .removeTime();
+        return DateTime.now().add(const Duration(days: 365)).removeTime();
       }
-
-
     }
-    return DateTime.now()
-        .add(const Duration(days: 365))
-        .removeTime();
+    return DateTime.now().add(const Duration(days: 365)).removeTime();
   }
-
 
   void selectedDepartureFlight(InboundOutboundSegment segment) {
     emit(
       state.copyWith(selectedDepartureFlight: segment),
     );
+  }
+
+  bool isWithinTwoYears(DateTime date) {
+    DateTime now = DateTime.now();
+    Duration difference = now.difference(date);
+    return difference.inDays < 365 * 2;
+  }
+
+  double? get totalAmountToShowInChangeFlight {
+    num totalChange = 0.0;
+
+    var currentIterter = state.manageBookingResponse?.result?.passengersWithSSR;
+
+    int multiplier = 0;
+
+    for (PassengersWithSSR currentItem in currentIterter ?? []) {
+      if(!isWithinTwoYears(currentItem.passengers?.dob ?? DateTime.now())){
+        multiplier++;
+
+      }
+
+    }
+
+    if (state.selectedDepartureFlight != null) {
+      totalChange =
+          (state.selectedDepartureFlight?.changeFlightAmountToShow ?? 0.0) *
+              multiplier;
+    }
+
+    if (state.selectedReturnFlight != null) {
+      totalChange =
+          totalChange + (state.selectedReturnFlight?.changeFlightAmountToShow ?? 0.0) *
+              multiplier;
+    }
+
+    return totalChange.toDouble();
   }
 
   bool get showChangeButton {
@@ -154,6 +184,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(message: '', manageBookingResponse: newBookingObject),
       );
+      return;
     } else if (state.manageBookingResponse?.isTwoWay == true &&
         state.checkedDeparture == true &&
         state.checkReturn == false) {
@@ -180,7 +211,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       );
       return;
     }
-    if (newBookingObject?.customSelected == true) {
+    if (newBookingObject?.customSelected == true &&
+        newBookingObject?.newStartDateSelected != null) {
       newBookingObject?.customSelected = false;
       newBookingObject?.newReturnDateSelected = date;
 
@@ -201,7 +233,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
 //getAvailableFlights
 
-  Future<bool?> getAvailableFlights(
+  Future<String?> getAvailableFlights(
       DateTime? startDate, DateTime? endDate) async {
     try {
       var request = SearchChangeFlightRequest.makeRequestObject(
@@ -213,7 +245,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
               DateTime.now().add(const Duration(days: 17)));
 
       if (state.checkedDeparture && state.checkReturn) {
-      } else if ((state.manageBookingResponse!.isOneWay ?? false) ||
+      } else if ((state.manageBookingResponse!.isOneWay) ||
           state.checkedDeparture) {
         request = SearchChangeFlightRequest.makeRequestObject(
             pnr: state.pnrEntered ?? '',
@@ -233,7 +265,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
-            message: '', loadingDatesData: true, flightMessageError: null),
+          message: '',
+          loadingDatesData: true,
+        ),
       );
 
       var response = await _repository.getAvailableFlights(request);
@@ -242,16 +276,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.copyWith(
           flightSearchResponse: response,
           loadingDatesData: false,
+          removeSelectedReturn: true,
+          removeSelectedDeparture: true,
         ),
       );
 
-      return true;
+      return null;
     } catch (e, st) {
       state.copyWith(
-          loadingDatesData: false,
-          flightMessageError: ErrorUtils.getErrorMessage(e, st));
+        loadingDatesData: false,
+      );
 
-      return false;
+      return ErrorUtils.getErrorMessage(e, st, dontShowError: true);
     }
   }
 
@@ -317,9 +353,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   void setDepartureFlight(InboundOutboundSegment segment) {
-    var number = state.manageBookingResponse!.result!.passengersWithSSR;
-
-    state.copyWith(selectedDepartureFlight: segment);
     emit(
       state.copyWith(
         selectedDepartureFlight: segment,
@@ -337,11 +370,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   void removeDepartureFlight(InboundOutboundSegment segment) {
-    state.copyWith(removeSelectedDeparture: true);
+    //state.copyWithN;
+    //emit(state.copyWithNull(selectedDeparture: true));
+
+    emit(
+      state.copyWithNull(selectedDepartureFlight: true),
+    );
+
+    //
   }
 
   void removeReturnFlight(InboundOutboundSegment segment) {
-    state.copyWith(removeSelectedReturn: true);
+    emit(state.copyWithNull(selectedReturnFlight: true));
   }
 
   Future<bool?> changeFlight() async {
@@ -522,7 +562,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       paymentRedirect: response.data,
     ));*/
 
-    print('');
 
     /*
         var bookRequest = BookRequest(
@@ -542,7 +581,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
     */
 
-    print('');
   }
 
   void resetData() {
@@ -559,8 +597,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     newBookingObject?.newReturnDateSelected = null;
     newBookingObject?.newStartDateSelected = null;
+    //: true);
+    //
     emit(
-      state.copyWith(message: '', manageBookingResponse: newBookingObject),
+      state.copyWith(
+        message: '',
+        manageBookingResponse: newBookingObject,
+      ),
     );
   }
 }

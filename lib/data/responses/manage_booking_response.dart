@@ -16,7 +16,7 @@ class ManageBookingResponse {
   }
 
   DateTime? get currentStartDate {
-    if (customSelected) {
+    if (customSelected && newStartDateSelected != null) {
       return newStartDateSelected;
     } else if (newStartDateSelected == null) {
       return result?.flightSegments?.first.outbound?.first.departureDateTime;
@@ -26,9 +26,13 @@ class ManageBookingResponse {
 
   DateTime? get currentEndDate {
 
-    if (customSelected) {
+    if (customSelected && newReturnDateSelected != null) {
       return newReturnDateSelected;
-    } else if (newReturnDateSelected == null) {
+    }
+    if (customSelected && newReturnDateSelected == null) {
+      return null;
+    }
+    else if (newReturnDateSelected == null) {
       if(result?.flightSegments?.first.inbound?.isEmpty ?? true) {
         return null;
 
@@ -188,7 +192,6 @@ class Result {
         : null;
     if (json['passengersWithSSR'] != null) {
       passengersWithSSR = <PassengersWithSSR>[];
-      var cc = json['passengersWithSSR'];
 
       json['passengersWithSSR'].forEach((v) {
         passengersWithSSR!.add(PassengersWithSSR.fromJson(v));
@@ -331,7 +334,7 @@ class PassengersWithSSR {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    ;
+
     data['personOrgID'] = personOrgID;
     if (passengers != null) {
       data['passengers'] = passengers!.toJson();

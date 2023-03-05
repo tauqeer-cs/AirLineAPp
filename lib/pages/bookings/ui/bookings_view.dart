@@ -4,7 +4,6 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
-import 'package:app/utils/utils.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,9 +19,6 @@ import '../../../blocs/voucher/voucher_cubit.dart';
 import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
-import '../../home/ui/filter/search_flight_widget.dart';
-import '../../new_travel_date/ui/new_travel_date_view.dart';
-import '../bloc/bookings_cubit.dart';
 
 class BookingsView extends StatelessWidget {
   BookingsView({Key? key}) : super(key: key);

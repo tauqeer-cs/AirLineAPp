@@ -126,7 +126,7 @@ class MoreOptionsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
@@ -138,7 +138,7 @@ class MoreOptionsPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 52,),
+                const SizedBox(height: 52,),
 
               ],
             ),

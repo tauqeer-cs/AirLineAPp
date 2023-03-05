@@ -3,11 +3,10 @@ import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/requests/update_password_request.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
 
 class ValidateEmailCubit extends Cubit<GenericState> {
-  ValidateEmailCubit() : super(GenericState());
+  ValidateEmailCubit() : super(const GenericState());
   final AuthenticationRepository _authenticationRepository =
       AuthenticationRepository();
 

@@ -32,7 +32,7 @@ class AppImage extends StatelessWidget {
               width: width,
               fit: boxFit ?? BoxFit.cover,
               colorBlendMode: BlendMode.darken,
-              placeholder: (context, url) => AspectRatio(
+              placeholder: (context, url) => const AspectRatio(
                 aspectRatio: 16/12,
                 child: AppLoading(),
               ),

@@ -6,11 +6,7 @@ import 'package:app/models/user.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_insider/src/user.dart';
-import 'package:flutter_insider/src/product.dart';
-import 'package:flutter_insider/enum/InsiderGender.dart';
-import 'package:flutter_insider/enum/InsiderCallbackAction.dart';
-import 'package:flutter_insider/enum/ContentOptimizerDataType.dart';
-import 'package:flutter_insider/src/event.dart';
+
 import 'package:flutter_insider/src/identifiers.dart';
 
 class InsiderRepository {

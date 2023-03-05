@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
@@ -15,9 +14,7 @@ import '../../../theme/typography.dart';
 import '../../../utils/date_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_loading_screen.dart';
-import '../../home/bloc/filter_cubit.dart';
-import '../../home/ui/filter/calendar_sheet_vertical.dart';
-import '../../home/ui/filter/search_flight_widget.dart';
+
 
 class SelectNewTravelDatesView extends StatefulWidget {
   const SelectNewTravelDatesView({Key? key}) : super(key: key);
@@ -137,7 +134,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           ),
                           Visibility(
                             visible: isRoundTrip,
-                            child: Icon(Icons.chevron_right),
+                            child: const Icon(Icons.chevron_right),
                           ),
                           Visibility(
                             visible: isRoundTrip,
@@ -179,8 +176,9 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                             DateTime.now().removeTime(),
                         startWeekWithSunday: true,
                         onDayPressed: (value) async {
+
                           final isBefore = value.isBefore(
-                            bloc.minDate ?? DateTime.now(),
+                            bloc.minDate
                           );
 
                           if (isBefore) return;
@@ -210,12 +208,9 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                         dayBuilder: (context, date) {
                           final inRange =
                               isInRange(date, departDate, returnDate);
-                          //final sameMonth = AppDateUtils.sameMonth(
-                          //  date, priceState.loadingDate);
-                          //final event = prices.firstWhereOrNull(
-                          //        (event) => isSameDay(event.date, date));
+
                           final isBefore = date.isBefore(
-                           bloc.minDate ?? DateTime.now(),
+                           bloc.minDate
                           );
                           return Container(
                             padding: const EdgeInsets.all(4),
@@ -300,10 +295,10 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                                   loadDate = true;
                                 });
 
-                                var response =
+                                String? response =
                                     await bloc.getAvailableFlights(null, null);
 
-                                if (response == true) {
+                                if (response == null) {
                                   setState(() {
                                     loadDate = false;
                                   });
@@ -316,7 +311,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return  NoFlightsFound(
-                                        message: bloc.state.flightMessageError ?? 'Not able to find flight',
+                                        message: response ,
                                       );
                                     },
                                   );
@@ -325,7 +320,6 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                                     loadDate = false;
                                   });
 
-                                  print('');
                                 }
                               },
                               child: const Text("Apply"),
@@ -382,6 +376,7 @@ class NoFlightsFound extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
               message,
+              textAlign: TextAlign.center,
               style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -410,6 +405,6 @@ class NoFlightsFound extends StatelessWidget {
         ],
       ),
     );
-    ;
+
   }
 }

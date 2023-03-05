@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../app/app_bloc_helper.dart';
+import '../../../app/app_flavor.dart';
 import '../../../app/app_router.dart';
 import '../../../blocs/booking/booking_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
@@ -41,6 +42,11 @@ class ChangeFlightSummaryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+    var one = AppFlavor.appFlavor == Flavor.staging;
+    var twp = AppFlavor.appFlavor == Flavor.uat;
+
     bloc = context.watch<ManageBookingCubit>();
     var state = bloc?.state;
     var voucherBloc = context.watch<VoucherCubit>();
@@ -386,62 +392,67 @@ class ChangeFlightSummaryView extends StatelessWidget {
                       height: 16,
                     ),
 
-                    VoucherCodeUi(
-                      readOnly: false,
-                      blocState: voucherState.blocState,
-                      voucherCodeInitial:
+                      if(AppFlavor.appFlavor == Flavor.staging) ... [
+                        VoucherCodeUi(
+                          readOnly: false,
+                          blocState: voucherState.blocState,
+                          voucherCodeInitial:
                           voucherState.insertedVoucher?.voucherCode ?? '',
-                      state: voucherState,
-                      onRemoveTapped: () {
-                        if (voucherState.response != null) {
-                          removeVoucher(bloc?.currentToken ?? '', context);
-                        } else {
-                          _fbKey.currentState!.reset();
-                        }
-                      },
-                      onButtonTapped: voucherState.blocState ==
+                          state: voucherState,
+                          onRemoveTapped: () {
+                            if (voucherState.response != null) {
+                              removeVoucher(bloc?.currentToken ?? '', context);
+                            } else {
+                              _fbKey.currentState!.reset();
+                            }
+                          },
+                          onButtonTapped: voucherState.blocState ==
                               BlocState.loading
                           // || bookingState.superPnrNo != null
-                          ? null
-                          : (voucherState.response != null)
+                              ? null
+                              : (voucherState.response != null)
                               ? () => removeVoucher(
-                                  bloc?.currentToken ?? '', context)
+                              bloc?.currentToken ?? '', context)
                               : () {
-                                  if (_fbKey.currentState!.saveAndValidate()) {
-                                    if (ConstantUtils.showPinInVoucher) {
-                                      final value = _fbKey.currentState!.value;
-                                      final voucher = value["voucherCode"];
-                                      final pin = value["voucherPin"];
-                                      final voucherPin = InsertVoucherPIN(
-                                        voucherCode: voucher,
-                                        voucherPin: pin,
-                                      );
-                                      final token = bloc?.currentToken ?? '';
-                                      final voucherRequest = VoucherRequest(
-                                        voucherPins: [voucherPin],
-                                        token: token,
-                                      );
-                                      context
-                                          .read<VoucherCubit>()
-                                          .addVoucher(voucherRequest);
-                                    } else {
-                                      final value = _fbKey.currentState!.value;
-                                      final voucher = value["voucherCode"];
-                                      final token = bloc?.currentToken ?? '';
-                                      final voucherRequest = VoucherRequest(
-                                        insertVoucher: voucher,
-                                        token: token,
-                                      );
-                                      context
-                                          .read<VoucherCubit>()
-                                          .addVoucher(voucherRequest);
-                                    }
-                                  }
-                                },
-                      fbKey: _fbKey,
-                    ),
+                            if (_fbKey.currentState!.saveAndValidate()) {
+                              if (ConstantUtils.showPinInVoucher) {
+                                final value = _fbKey.currentState!.value;
+                                final voucher = value["voucherCode"];
+                                final pin = value["voucherPin"];
+                                final voucherPin = InsertVoucherPIN(
+                                  voucherCode: voucher,
+                                  voucherPin: pin,
+                                );
+                                final token = bloc?.currentToken ?? '';
+                                final voucherRequest = VoucherRequest(
+                                  voucherPins: [voucherPin],
+                                  token: token,
+                                );
+                                context
+                                    .read<VoucherCubit>()
+                                    .addVoucher(voucherRequest);
+                              } else {
+                                final value = _fbKey.currentState!.value;
+                                final voucher = value["voucherCode"];
+                                final token = bloc?.currentToken ?? '';
+                                final voucherRequest = VoucherRequest(
+                                  insertVoucher: voucher,
+                                  token: token,
+                                );
+                                context
+                                    .read<VoucherCubit>()
+                                    .addVoucher(voucherRequest);
+                              }
+                            }
+                          },
+                          fbKey: _fbKey,
+                        ),
+                      ],
 
-                    ///
+
+
+
+
                   ],
                 ),
               ),

@@ -5,7 +5,6 @@ import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 
@@ -48,7 +47,7 @@ class HomeBanner extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: AppImage(
                         imageUrl: e.mimg,

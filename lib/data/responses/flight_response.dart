@@ -153,7 +153,13 @@ class InboundOutboundSegment extends Equatable {
 
   final num? changeFlightAmount;
 
-   num calculateDifference(num firstFare) {
+
+  num? get changeFlightAmountToShow {
+
+    return changeFlightAmount;
+  }
+
+  num calculateDifference(num firstFare) {
 
      return firstFare - (totalSegmentFareAmt ?? 0.0);
 

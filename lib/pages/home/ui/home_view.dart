@@ -2,9 +2,7 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/home/ui/dynamic_home_banner.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/pages/home/ui/home_banner.dart';
 import 'package:app/widgets/app_app_bar.dart';
-import 'package:app/widgets/app_error_screen.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,7 +76,7 @@ class HomeView extends StatelessWidget {
                   return const SizedBox();
                 }).toList(),
               ),
-              failedBuilder: SizedBox(),
+              failedBuilder: const SizedBox(),
             );
           },
         ),

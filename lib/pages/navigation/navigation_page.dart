@@ -1,7 +1,5 @@
-import 'package:app/app.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
-import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/error_utils.dart';

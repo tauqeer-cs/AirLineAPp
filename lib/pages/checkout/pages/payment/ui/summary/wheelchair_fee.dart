@@ -1,5 +1,4 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
-import 'package:app/pages/checkout/pages/payment/ui/summary/baggage_fee_detail.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/wheelchair_fee_detail.dart';
@@ -29,7 +28,7 @@ class _WheelchairFeePaymentState extends State<WheelchairFeePayment> {
       children: [
         kVerticalSpacer,
         PriceRow(
-          child1: Text("WheelChair", style: k18Heavy),
+          child1: const Text("WheelChair", style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
             isSports: widget.isSports,

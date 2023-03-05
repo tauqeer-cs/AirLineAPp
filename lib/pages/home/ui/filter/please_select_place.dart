@@ -18,13 +18,13 @@ class PleaseSelectPlace extends StatelessWidget {
     return SizedBox(
       height: 350,
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             AppCardCalendar(
               child: Row(
                 children: [
-                  Expanded(
+                  const Expanded(
                     child: Center(
                       child: AutoSizeText(
                         "Departure Date",
@@ -39,7 +39,7 @@ class PleaseSelectPlace extends StatelessWidget {
                   ),
                   Visibility(
                     visible: isRoundTrip,
-                    child: Expanded(
+                    child: const Expanded(
                       child: Center(
                         child: AutoSizeText(
                             maxLines: 1,
@@ -52,11 +52,11 @@ class PleaseSelectPlace extends StatelessWidget {
               ),
             ),
             kVerticalSpacerSmall,
-            AppDividerWidget(),
+            const AppDividerWidget(),
             kVerticalSpacerSmall,
-            Text("Please select the departure airport and destination airport first."),
+            const Text("Please select the departure airport and destination airport first."),
             kVerticalSpacerSmall,
-            AppDividerWidget(),
+            const AppDividerWidget(),
           ],
         ),
       ),

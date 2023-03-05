@@ -26,7 +26,7 @@ class ChangeFlightRequestResponse {
 
 class Result {
   FlightVerifyResponse? flightVerifyResponse;
-  ChangeFlightRequest? changeFlightRequest;
+  ChangeFlightRequestObject? changeFlightRequest;
   ChangeFlightResponse? changeFlightResponse;
   num? orderID;
   String? token;
@@ -51,7 +51,7 @@ class Result {
         ? FlightVerifyResponse.fromJson(json['flightVerifyResponse'])
         : null;
     changeFlightRequest = json['changeFlightRequest'] != null
-        ? ChangeFlightRequest.fromJson(json['changeFlightRequest'])
+        ? ChangeFlightRequestObject.fromJson(json['changeFlightRequest'])
         : null;
     changeFlightResponse = json['changeFlightResponse'] != null
         ? ChangeFlightResponse.fromJson(json['changeFlightResponse'])
@@ -324,7 +324,7 @@ class FlightLegDetails {
   }
 }
 
-class ChangeFlightRequest {
+class ChangeFlightRequestObject {
   String? pnr;
   String? lastName;
   bool? isReturn;
@@ -333,7 +333,7 @@ class ChangeFlightRequest {
   List<Fares>? outboundFares;
   List<Fares>? inboundFares;
 
-  ChangeFlightRequest(
+  ChangeFlightRequestObject(
       {this.pnr,
       this.lastName,
       this.isReturn,
@@ -342,7 +342,7 @@ class ChangeFlightRequest {
       this.outboundFares,
       this.inboundFares});
 
-  ChangeFlightRequest.fromJson(Map<String, dynamic> json) {
+  ChangeFlightRequestObject.fromJson(Map<String, dynamic> json) {
     pnr = json['pnr'];
     lastName = json['lastName'];
     isReturn = json['isReturn'];

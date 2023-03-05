@@ -2,16 +2,12 @@ import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../../app/app_router.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
-import '../../search_result/ui/choose_flight_segment.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 
 class ManageBookingDetailsView extends StatelessWidget {

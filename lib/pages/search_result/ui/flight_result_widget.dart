@@ -1,14 +1,11 @@
 import 'package:app/app/app_bloc_helper.dart';
-import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/pages/search_result/ui/choose_flight_segment.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
