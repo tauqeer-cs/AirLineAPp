@@ -1,5 +1,7 @@
 import 'package:app/widgets/app_card.dart';
+import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,10 +42,11 @@ class ManageBookingDetailsView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-
-            BookingReferenceLabel(refText: state.pnrEntered,),
+            BookingReferenceLabel(
+              refText: state.pnrEntered,
+            ),
             kVerticalSpacer,
-        AppCard(
+            AppCard(
               edgeInsets: EdgeInsets.zero,
               child: Padding(
                 padding:
@@ -60,7 +63,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 MaterialStateProperty.resolveWith(getColor),
                             value: state.checkedDeparture,
                             onChanged: (bool? value) {
-
                               bloc?.setCheckDeparture(value ?? false);
                             },
                           ),
@@ -101,7 +103,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     color: Styles.kTextColor),
                               ),
                               kVerticalSpacerMini,
-                               Row(
+                              Row(
                                 children: [
                                   Expanded(
                                     flex: 4,
@@ -272,7 +274,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: OutlinedButton(
-                        onPressed:  () {
+                        onPressed: () {
                           onSharedTapped();
                         }, //isLoading ? null :
                         child: const Text("Share"),
@@ -287,21 +289,30 @@ class ManageBookingDetailsView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ElevatedButton(
-                        onPressed: (state.checkedDeparture || state.checkReturn)  != true ? null : () async {
-                          //   context.router.replaceAll([const NavigationRoute()]);
-                          bool? check = await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const AlertWarningBeforeProceed();
-                            },
-                          );
-
-                          if (check == true) {
-                            context.router.push(
-                              const NewTravelDatesRoute(),
-                            );
-                          }
-                        },
+                        onPressed:
+                            (state.checkedDeparture || state.checkReturn) !=
+                                    true
+                                ? null
+                                : () async {
+                                    //   context.router.replaceAll([const NavigationRoute()]);
+                                    final allowedChange = isAllowedToContinue(state);
+                                    print("is allow change $allowedChange");
+                                    if(!allowedChange){
+                                      Toast.of(context).show(success: false, message: "Sorry, your flight cannot be changed less than 48 hours before its scheduled departure time");
+                                      return;
+                                    }
+                                    bool? check = await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return const AlertWarningBeforeProceed();
+                                      },
+                                    );
+                                    if (check == true) {
+                                      context.router.push(
+                                        const NewTravelDatesRoute(),
+                                      );
+                                    }
+                                  },
                         child: const Text('Change Flight'),
                       ),
                     ),
@@ -324,6 +335,22 @@ class ManageBookingDetailsView extends StatelessWidget {
         );
       },
     );
+  }
+
+  bool isAllowedToContinue(ManageBookingState manageBookingState) {
+    if (manageBookingState.checkedDeparture &&
+        !(manageBookingState.manageBookingResponse?.result?.flightSegments
+                ?.firstOrNull?.outbound?.firstOrNull?.isChangeAllowed ??
+            true)) {
+      return false;
+    }
+    if (manageBookingState.checkReturn &&
+        !(manageBookingState.manageBookingResponse?.result?.flightSegments
+                ?.firstOrNull?.inbound?.firstOrNull?.isChangeAllowed ??
+            true)) {
+      return false;
+    }
+    return true;
   }
 }
 
