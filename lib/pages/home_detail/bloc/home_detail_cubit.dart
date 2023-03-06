@@ -20,6 +20,7 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
       final contentId = routes.firstWhereOrNull(
           (element) => url.replaceAll("/", "")==element.urlSegment);
       if (contentId?.key == null) {
+        await Future.delayed(Duration(milliseconds: 300));
         emit(
           state.copyWith(
               message: "The page is not found", blocState: BlocState.failed),

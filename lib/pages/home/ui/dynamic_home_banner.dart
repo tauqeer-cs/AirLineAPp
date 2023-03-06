@@ -83,7 +83,8 @@ class _DynamicHomeBannerState extends State<DynamicHomeBanner> {
                           .build();
                       if(e.link == null) return;
                       final url = Uri.parse(e.link!);
-                      context.router.push(HomeDetailRoute(url: url.path));
+                      print("url send is ${url.toString()}");
+                      context.router.push(HomeDetailRoute(url: url.toString()));
                     },
                     child: AppImage(
                       imageUrl: e.mimg,
