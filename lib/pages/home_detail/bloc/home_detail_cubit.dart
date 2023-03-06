@@ -17,7 +17,7 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
   getContents(String url, List<CMSRoute> routes) async {
     try {
       final contentId = routes.firstWhereOrNull(
-          (element) => url.contains(element.urlSegment ?? ""));
+          (element) => url.replaceAll("/", "")==element.urlSegment);
       if (contentId?.key == null) {
         emit(
           state.copyWith(

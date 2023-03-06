@@ -88,18 +88,18 @@ class Styles {
       ),
       scaffoldBackgroundColor: isLight ? Colors.white : kDarkBgColor,
       scrollbarTheme: const ScrollbarThemeData(),
-      sliderTheme: SliderThemeData(
-        trackShape: GradientRectSliderTrackShape(
-          gradient: gradient,
-          darkenInactive: true,
-        ),
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-        inactiveTrackColor: Colors.grey,
-        thumbColor: kTextColor,
-        trackHeight: 5,
-        overlayShape: SliderComponentShape.noOverlay,
-        disabledInactiveTrackColor: Colors.grey,
-      ),
+      // sliderTheme: SliderThemeData(
+      //   trackShape: GradientRectSliderTrackShape(
+      //     gradient: gradient,
+      //     darkenInactive: true,
+      //   ),
+      //   thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+      //   inactiveTrackColor: Colors.grey,
+      //   thumbColor: kTextColor,
+      //   trackHeight: 5,
+      //   overlayShape: SliderComponentShape.noOverlay,
+      //   disabledInactiveTrackColor: Colors.grey,
+      // ),
       toggleableActiveColor: kPrimaryColor,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
