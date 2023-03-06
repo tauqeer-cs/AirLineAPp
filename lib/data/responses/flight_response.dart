@@ -159,6 +159,11 @@ class InboundOutboundSegment extends Equatable {
     return changeFlightAmount;
   }
 
+  num changeFlightAmountToShowPerPax(num noPeople) {
+
+    return (changeFlightAmount ?? 0.0) / noPeople;
+  }
+
   num calculateDifference(num firstFare) {
 
      return firstFare - (totalSegmentFareAmt ?? 0.0);

@@ -12,6 +12,7 @@ import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../blocs/voucher/voucher_cubit.dart';
 import '../../../data/requests/voucher_request.dart';
 import '../../../data/responses/change_flight_response.dart';
+import '../../../data/responses/manage_booking_response.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
@@ -42,11 +43,6 @@ class ChangeFlightSummaryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-    var one = AppFlavor.appFlavor == Flavor.staging;
-    var twp = AppFlavor.appFlavor == Flavor.uat;
-
     bloc = context.watch<ManageBookingCubit>();
     var state = bloc?.state;
     var voucherBloc = context.watch<VoucherCubit>();
@@ -127,11 +123,9 @@ class ChangeFlightSummaryView extends StatelessWidget {
                         ),
                       ],
                     ),
-
                     const SizedBox(
                       height: 16,
                     ),
-
                     AppCard(
                       edgeInsets: EdgeInsets.zero,
                       child: Padding(
@@ -326,11 +320,9 @@ class ChangeFlightSummaryView extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(
                       height: 16,
                     ),
-
                     AppCard(
                       edgeInsets: EdgeInsets.zero,
                       child: Padding(
@@ -361,6 +353,108 @@ class ChangeFlightSummaryView extends StatelessWidget {
                             const SizedBox(
                               height: 8,
                             ),
+                            /*for (PassengersWithSSR currentPassenget
+                                in bloc?.passengersWithSSRNotBaby ?? []) ...[
+                              //currentPassenget.passengers.givenName ?? '';
+
+                              Row(
+                                children: [
+                                  Text(
+                                    currentPassenget.passengers?.givenName ??
+                                        '',
+                                    style: kMediumHeavy,
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    (bloc?.onePersonTotalToShow ?? 0.0)
+                                        .toStringAsFixed(2),
+                                    style: kMediumHeavy.copyWith(
+                                      color: Styles.kPrimaryColor,
+                                    ),
+                                  )
+                                ],
+                              ),
+
+                              if (state?.selectedDepartureFlight != null) ...[
+                                kVerticalSpacerMini,
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Departing Flight Change',
+                                      style: kSmallRegular,
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      (state?.selectedDepartureFlight
+                                                  ?.changeFlightAmountToShowPerPax(
+                                                      bloc?.passengerCount ??
+                                                          0.0) ??
+                                              0.0)
+                                          .toStringAsFixed(2),
+                                      style: kSmallRegular.copyWith(
+                                        color: Styles.kPrimaryColor,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Departure Flight Change Fee',
+                                      style: kSmallRegular,
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      bloc?.changeFeePerPerson ?? '',
+                                      style: kSmallRegular.copyWith(
+                                        color: Styles.kPrimaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              if (state?.selectedReturnFlight != null) ...[
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Return Flight Change',
+                                      style: kSmallRegular,
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      (state?.selectedReturnFlight
+                                                  ?.changeFlightAmountToShowPerPax(
+                                                      bloc?.passengerCount ??
+                                                          0.0) ??
+                                              0.0)
+                                          .toStringAsFixed(2),
+                                      style: kSmallRegular.copyWith(
+                                        color: Styles.kPrimaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Return Flight Change Fee',
+                                      style: kSmallRegular,
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      bloc?.changeFeePerPerson ?? '',
+                                      style: kSmallRegular.copyWith(
+                                        color: Styles.kPrimaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+
+                              kVerticalSpacerSmall,
+                            ],*/
+
+
                             Row(
                               children: [
                                 const Text(
@@ -384,75 +478,71 @@ class ChangeFlightSummaryView extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(
                       height: 40,
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-
-                      if(AppFlavor.appFlavor == Flavor.staging) ... [
-                        VoucherCodeUi(
-                          readOnly: false,
-                          blocState: voucherState.blocState,
-                          voucherCodeInitial:
-                          voucherState.insertedVoucher?.voucherCode ?? '',
-                          state: voucherState,
-                          onRemoveTapped: () {
-                            if (voucherState.response != null) {
-                              removeVoucher(bloc?.currentToken ?? '', context);
-                            } else {
-                              _fbKey.currentState!.reset();
-                            }
-                          },
-                          onButtonTapped: voucherState.blocState ==
-                              BlocState.loading
-                          // || bookingState.superPnrNo != null
-                              ? null
-                              : (voucherState.response != null)
-                              ? () => removeVoucher(
-                              bloc?.currentToken ?? '', context)
-                              : () {
-                            if (_fbKey.currentState!.saveAndValidate()) {
-                              if (ConstantUtils.showPinInVoucher) {
-                                final value = _fbKey.currentState!.value;
-                                final voucher = value["voucherCode"];
-                                final pin = value["voucherPin"];
-                                final voucherPin = InsertVoucherPIN(
-                                  voucherCode: voucher,
-                                  voucherPin: pin,
-                                );
-                                final token = bloc?.currentToken ?? '';
-                                final voucherRequest = VoucherRequest(
-                                  voucherPins: [voucherPin],
-                                  token: token,
-                                );
-                                context
-                                    .read<VoucherCubit>()
-                                    .addVoucher(voucherRequest);
-                              } else {
-                                final value = _fbKey.currentState!.value;
-                                final voucher = value["voucherCode"];
-                                final token = bloc?.currentToken ?? '';
-                                final voucherRequest = VoucherRequest(
-                                  insertVoucher: voucher,
-                                  token: token,
-                                );
-                                context
-                                    .read<VoucherCubit>()
-                                    .addVoucher(voucherRequest);
-                              }
-                            }
-                          },
-                          fbKey: _fbKey,
-                        ),
-                      ],
-
-
-
-
-
+                    if (AppFlavor.appFlavor == Flavor.staging) ...[
+                      VoucherCodeUi(
+                        readOnly: false,
+                        blocState: voucherState.blocState,
+                        voucherCodeInitial:
+                            voucherState.insertedVoucher?.voucherCode ?? '',
+                        state: voucherState,
+                        onRemoveTapped: () {
+                          if (voucherState.response != null) {
+                            removeVoucher(bloc?.currentToken ?? '', context);
+                          } else {
+                            _fbKey.currentState!.reset();
+                          }
+                        },
+                        onButtonTapped: voucherState.blocState ==
+                                BlocState.loading
+                            // || bookingState.superPnrNo != null
+                            ? null
+                            : (voucherState.response != null)
+                                ? () => removeVoucher(
+                                    bloc?.currentToken ?? '', context)
+                                : () {
+                                    if (_fbKey.currentState!
+                                        .saveAndValidate()) {
+                                      if (ConstantUtils.showPinInVoucher) {
+                                        final value =
+                                            _fbKey.currentState!.value;
+                                        final voucher = value["voucherCode"];
+                                        final pin = value["voucherPin"];
+                                        final voucherPin = InsertVoucherPIN(
+                                          voucherCode: voucher,
+                                          voucherPin: pin,
+                                        );
+                                        final token = bloc?.currentToken ?? '';
+                                        final voucherRequest = VoucherRequest(
+                                          voucherPins: [voucherPin],
+                                          token: token,
+                                        );
+                                        context
+                                            .read<VoucherCubit>()
+                                            .addVoucher(voucherRequest);
+                                      } else {
+                                        final value =
+                                            _fbKey.currentState!.value;
+                                        final voucher = value["voucherCode"];
+                                        final token = bloc?.currentToken ?? '';
+                                        final voucherRequest = VoucherRequest(
+                                          insertVoucher: voucher,
+                                          token: token,
+                                        );
+                                        context
+                                            .read<VoucherCubit>()
+                                            .addVoucher(voucherRequest);
+                                      }
+                                    }
+                                  },
+                        fbKey: _fbKey,
+                      ),
+                    ],
                   ],
                 ),
               ),

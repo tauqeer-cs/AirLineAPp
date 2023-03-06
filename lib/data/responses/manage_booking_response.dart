@@ -75,6 +75,8 @@ class ManageBookingResponse {
 class Result {
   BookingContact? bookingContact;
   List<PassengersWithSSR>? passengersWithSSR;
+
+
   List<PaymentOrder>? paymentOrders;
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;

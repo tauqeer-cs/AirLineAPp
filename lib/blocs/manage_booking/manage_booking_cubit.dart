@@ -64,6 +64,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return DateTime.now().add(const Duration(days: 365)).removeTime();
   }
 
+  String get changeFeePerPerson {
+
+    return '80.0';
+
+  }
+
   void selectedDepartureFlight(InboundOutboundSegment segment) {
     emit(
       state.copyWith(selectedDepartureFlight: segment),
@@ -75,6 +81,35 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     Duration difference = now.difference(date);
     return difference.inDays < 365 * 2;
   }
+
+  double get passengerCount {
+
+    return passengersWithSSRNotBaby.length.toDouble();
+
+  }
+
+  double get onePersonTotalToShow {
+
+    if(state.changeFlightResponse?.result?.changeFlightResponse?.totalReservationAmount == 0.0) {
+      return 0.0;
+    }
+    return (state.changeFlightResponse?.result?.changeFlightResponse?.totalReservationAmount ?? 0.0) / passengerCount;
+
+  }
+  List<PassengersWithSSR> get passengersWithSSRNotBaby {
+    var currentIterter = state.manageBookingResponse?.result?.passengersWithSSR;
+    List<PassengersWithSSR> result = [];
+
+    for (PassengersWithSSR currentItem in currentIterter ?? []) {
+      if(!isWithinTwoYears(currentItem.passengers?.dob ?? DateTime.now())){
+        result.add(currentItem);
+      }
+    }
+    return result;
+
+  }
+
+
 
   double? get totalAmountToShowInChangeFlight {
     num totalChange = 0.0;
@@ -90,6 +125,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       }
 
     }
+
+    multiplier = 1;
 
     if (state.selectedDepartureFlight != null) {
       totalChange =
