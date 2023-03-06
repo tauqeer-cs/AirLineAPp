@@ -18,7 +18,7 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
     try {
       print("list of routes $routes");
       final contentId = routes.firstWhereOrNull(
-          (element) => url.contains(element.urlSegment ?? ""));
+          (element) => url.replaceAll("/", "")==element.urlSegment);
       if (contentId?.key == null) {
         emit(
           state.copyWith(
