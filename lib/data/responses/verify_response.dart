@@ -233,6 +233,9 @@ class FlightSegments extends Equatable {
       this.flightLegDetails});
 
 
+  DateTime get departureDateObject {
+    return DateTime.parse(departureDate ?? '');
+  }
    String get departureDateToShow {
 
      if(departureDate == null){

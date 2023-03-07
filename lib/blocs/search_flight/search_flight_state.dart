@@ -35,4 +35,8 @@ class SearchFlightState extends Equatable {
 
   @override
   List<Object?> get props => [flights, blocState, message, filterState,isVisaPromo];
+
+  void reloadView() {}
+
+
 }

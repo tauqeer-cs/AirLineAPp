@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../blocs/profile/profile_cubit.dart';
+
 class JosKeys {
   static final gKeysAuth = GlobalKey<FormBuilderState>();
   static final gKeysSearch = GlobalKey<FormBuilderState>();
@@ -30,12 +32,17 @@ class LoginForm extends StatelessWidget {
   final String formPasswordLoginName;
   final bool showContinueButton;
 
-  onLogin(BuildContext context) {
+  onLogin(BuildContext context) async {
     if (fbKey.currentState!.saveAndValidate()) {
       final value = fbKey.currentState!.value;
       final email = value[formEmailLoginName];
       final password = value[formPasswordLoginName];
-      context.read<LoginCubit>().logInWithCredentials(email, password);
+      await context.read<LoginCubit>().logInWithCredentialsFromPopUp(email, password);
+
+      context.read<ProfileCubit>().getProfile();
+
+      await context.read<LoginCubit>().changeStatus();
+
     }
   }
 
@@ -124,7 +131,9 @@ class LoginForm extends StatelessWidget {
           ),
           kVerticalSpacer,
           OutlinedButton(
-            onPressed: () => context.router.push(const SignupWrapperRoute()),
+            onPressed: () => context.router.push(
+              const SignupWrapperRoute(),
+            ),
             child: const Text("Create Account"),
           )
         ],

@@ -16,8 +16,11 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
 
   getContents(String url, List<CMSRoute> routes) async {
     try {
-      final contentId = routes.firstWhereOrNull(
+      var contentId = routes.firstWhereOrNull(
           (element) => url.replaceAll("/", "")==element.urlSegment);
+      ///promo-landing-page
+    //  contentId = 'promo-landing-page';
+
       if (contentId?.key == null) {
         emit(
           state.copyWith(
