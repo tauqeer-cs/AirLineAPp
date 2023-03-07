@@ -65,9 +65,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   String get changeFeePerPerson {
-
     return '80.0';
-
   }
 
   void selectedDepartureFlight(InboundOutboundSegment segment) {
@@ -83,33 +81,61 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   double get passengerCount {
-
     return passengersWithSSRNotBaby.length.toDouble();
-
   }
 
-  double get onePersonTotalToShow {
+  String onePersonTotalToShowDepart(String personName) {
+    if (state.changeFlightResponse?.result?.changeFlightResponse
+            ?.flightBreakDown?.departDetail?.flightPaxNameList !=
+        null) {
+      var object = state.changeFlightResponse?.result?.changeFlightResponse
+          ?.flightBreakDown?.departDetail!.flightPaxNameList!
+          .firstWhere((e) =>
+              ('${e.givenName ?? ''} ${e.surname ?? ''}').toLowerCase() ==
+              personName.toLowerCase());
 
-    if(state.changeFlightResponse?.result?.changeFlightResponse?.totalReservationAmount == 0.0) {
-      return 0.0;
+      if (object != null) {
+        return (object.changeAmount ?? 0.0).toDouble().toStringAsFixed(2);
+      }
     }
-    return (state.changeFlightResponse?.result?.changeFlightResponse?.totalReservationAmount ?? 0.0) / passengerCount;
 
+    return '0.0';
   }
+
+  String  onePersonTotalToShowReturn(String personName) {
+    if (state.changeFlightResponse?.result?.changeFlightResponse
+        ?.flightBreakDown?.returnDetail?.flightPaxNameList !=
+        null) {
+      var object = state.changeFlightResponse?.result?.changeFlightResponse
+          ?.flightBreakDown?.returnDetail!.flightPaxNameList!
+          .firstWhere((e) =>
+      ('${e.givenName ?? ''} ${e.surname ?? ''}').toLowerCase() ==
+          personName.toLowerCase());
+
+      if (object != null) {
+        return (object.changeAmount ?? 0.0).toStringAsFixed(2);
+      }
+    }
+
+    return '0.0';
+  }
+
+  String onePersonTotalToShow(String personName) {
+
+    return (double.parse(onePersonTotalToShowDepart(personName)) + double.parse(onePersonTotalToShowReturn(personName))).toStringAsFixed(2);
+  }
+
   List<PassengersWithSSR> get passengersWithSSRNotBaby {
     var currentIterter = state.manageBookingResponse?.result?.passengersWithSSR;
     List<PassengersWithSSR> result = [];
 
     for (PassengersWithSSR currentItem in currentIterter ?? []) {
-      if(!isWithinTwoYears(currentItem.passengers?.dob ?? DateTime.now())){
+      if (!isWithinTwoYears(currentItem.passengers?.dob ?? DateTime.now())) {
         result.add(currentItem);
       }
     }
     return result;
-
   }
-
-
 
   double? get totalAmountToShowInChangeFlight {
     num totalChange = 0.0;
@@ -119,11 +145,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     int multiplier = 0;
 
     for (PassengersWithSSR currentItem in currentIterter ?? []) {
-      if(!isWithinTwoYears(currentItem.passengers?.dob ?? DateTime.now())){
+      if (!isWithinTwoYears(currentItem.passengers?.dob ?? DateTime.now())) {
         multiplier++;
-
       }
-
     }
 
     multiplier = 1;
@@ -135,8 +159,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     }
 
     if (state.selectedReturnFlight != null) {
-      totalChange =
-          totalChange + (state.selectedReturnFlight?.changeFlightAmountToShow ?? 0.0) *
+      totalChange = totalChange +
+          (state.selectedReturnFlight?.changeFlightAmountToShow ?? 0.0) *
               multiplier;
     }
 
@@ -599,7 +623,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       paymentRedirect: response.data,
     ));*/
 
-
     /*
         var bookRequest = BookRequest(
       token: state.changeFlightResponse?.result?.token,
@@ -617,7 +640,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       flightSummaryPNRRequest: flightSummaryPnrRequestNew,
     );
     */
-
   }
 
   void resetData() {
@@ -634,7 +656,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     newBookingObject?.newReturnDateSelected = null;
     newBookingObject?.newStartDateSelected = null;
-    //: true);
+    newBookingObject?.customSelected = false;
+
     //
     emit(
       state.copyWith(

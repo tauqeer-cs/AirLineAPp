@@ -11,6 +11,7 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
+import 'flight_data.dart';
 
 class ManageBookingDetailsView extends StatelessWidget {
   final VoidCallback onSharedTapped;
@@ -68,88 +69,31 @@ class ManageBookingDetailsView extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const SizedBox(
-                                width: double.infinity,
-                                height: 4,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 16),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Departure',
-                                      style: kMediumHeavy.copyWith(
-                                          color: Styles.kPrimaryColor),
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      state.manageBookingResponse?.result
-                                              ?.departureDateToShow ??
-                                          '',
-                                      style: kMediumMedium.copyWith(
-                                          color: Styles.kTextColor),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                state.manageBookingResponse?.result
-                                        ?.departureToDestinationCode ??
-                                    '',
-                                style: kMediumSemiBold.copyWith(
-                                    color: Styles.kTextColor),
-                              ),
-                              kVerticalSpacerMini,
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 4,
-                                    child: FlightInto(
-                                      label: 'Depart',
-                                      timeString: state.manageBookingResponse
-                                              ?.result?.departureDateWithTime ??
-                                          '',
-                                      location: state.manageBookingResponse
-                                              ?.result?.departureAirportName ??
-                                          '',
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: PlaneWithTime(
-                                        time: state
-                                                .manageBookingResponse
-                                                ?.result
-                                                ?.journeyTimeInHourMin ??
-                                            '',
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 4,
-                                    child: FlightInto(
-                                      label: 'Arrive',
-                                      timeString: state.manageBookingResponse
-                                              ?.result?.arrivalDateWithTime ??
-                                          '',
-                                      location: state.manageBookingResponse
-                                              ?.result?.arrivalAirportName ??
-                                          '',
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                ],
-                              ),
-                              kVerticalSpacerSmall,
-                            ],
+                          child: FlightDataInfo(
+                            headingLabel: 'Departure',
+                            dateToShow: state.manageBookingResponse?.result
+                                    ?.departureDateToShow ??
+                                '',
+                            departureToDestinationCode: state
+                                    .manageBookingResponse
+                                    ?.result
+                                    ?.departureToDestinationCode ??
+                                '',
+                            departureDateWithTime: state.manageBookingResponse
+                                    ?.result?.departureDateWithTime ??
+                                '',
+                            departureAirportName: state.manageBookingResponse
+                                    ?.result?.departureAirportName ??
+                                '',
+                            journeyTimeInHourMin: state.manageBookingResponse
+                                    ?.result?.journeyTimeInHourMin ??
+                                '',
+                            arrivalDateWithTime: state.manageBookingResponse
+                                    ?.result?.arrivalDateWithTime ??
+                                '',
+                            arrivalAirportName: state.manageBookingResponse
+                                    ?.result?.arrivalAirportName ??
+                                '',
                           ),
                         ),
                       ],
@@ -160,6 +104,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                       child: Divider(),
                     ),
                     if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
+
                       Row(
                         children: [
                           Padding(
@@ -175,96 +120,35 @@ class ManageBookingDetailsView extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const SizedBox(
-                                  width: double.infinity,
-                                  height: 4,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 16),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Return',
-                                        style: kMediumHeavy.copyWith(
-                                            color: Styles.kPrimaryColor),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        state.manageBookingResponse?.result
-                                                ?.returnDepartureDateToShow ??
-                                            '',
-                                        style: kMediumMedium.copyWith(
-                                            color: Styles.kTextColor),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Text(
-                                  state.manageBookingResponse?.result
-                                          ?.returnToDestinationCode ??
-                                      '',
-                                  style: kMediumSemiBold.copyWith(
-                                      color: Styles.kTextColor),
-                                ),
-                                kVerticalSpacerMini,
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 4,
-                                      child: FlightInto(
-                                        label: 'Depart',
-                                        timeString: state
-                                                .manageBookingResponse
-                                                ?.result
-                                                ?.returnDepartureDateWithTime ??
-                                            '',
-                                        location: state
-                                                .manageBookingResponse
-                                                ?.result
-                                                ?.returnDepartureAirportName ??
-                                            '',
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        child: PlaneWithTime(
-                                          time: state
-                                                  .manageBookingResponse
-                                                  ?.result
-                                                  ?.returnJourneyTimeInHourMin ??
-                                              '',
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 4,
-                                      child: FlightInto(
-                                        label: 'Arrive',
-                                        timeString: state
-                                                .manageBookingResponse
-                                                ?.result
-                                                ?.returnArrivalDateWithTime ??
-                                            '',
-                                        location: state
-                                                .manageBookingResponse
-                                                ?.result
-                                                ?.returnArrivalAirportName ??
-                                            '',
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                  ],
-                                ),
-                                kVerticalSpacerSmall,
-                              ],
+                            child: FlightDataInfo(
+                              headingLabel: 'Return',
+                              dateToShow: state.manageBookingResponse?.result
+                                  ?.returnDepartureDateToShow ??
+                                  '',
+                              departureToDestinationCode: state.manageBookingResponse
+                                  ?.result?.returnToDestinationCode ??
+                                  '',
+                              departureDateWithTime: state
+                                  .manageBookingResponse
+                                  ?.result
+                                  ?.returnDepartureDateWithTime ??
+                                  '',
+                              departureAirportName: state
+                                  .manageBookingResponse
+                                  ?.result
+                                  ?.returnDepartureAirportName ??
+                                  '',
+                              journeyTimeInHourMin: state
+                                  .manageBookingResponse
+                                  ?.result
+                                  ?.returnJourneyTimeInHourMin ??
+                                  '',
+                              arrivalDateWithTime: state .manageBookingResponse ?.result ?.returnArrivalDateWithTime ?? '',
+                              arrivalAirportName: state
+                                  .manageBookingResponse
+                                  ?.result
+                                  ?.returnArrivalAirportName ??
+                                  '',
                             ),
                           ),
                         ],
@@ -295,10 +179,14 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 ? null
                                 : () async {
                                     //   context.router.replaceAll([const NavigationRoute()]);
-                                    final allowedChange = isAllowedToContinue(state);
+                                    final allowedChange =
+                                        isAllowedToContinue(state);
                                     print("is allow change $allowedChange");
-                                    if(!allowedChange){
-                                      Toast.of(context).show(success: false, message: "Sorry, your flight cannot be changed less than 48 hours before its scheduled departure time");
+                                    if (!allowedChange) {
+                                      Toast.of(context).show(
+                                          success: false,
+                                          message:
+                                              "Sorry, your flight cannot be changed less than 48 hours before its scheduled departure time");
                                       return;
                                     }
                                     bool? check = await showDialog(
@@ -307,6 +195,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         return const AlertWarningBeforeProceed();
                                       },
                                     );
+                                    //customSelected
+                                    bloc?.setFlightDates();
+
                                     if (check == true) {
                                       context.router.push(
                                         const NewTravelDatesRoute(),

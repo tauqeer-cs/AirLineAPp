@@ -10,6 +10,7 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../widgets/app_card.dart';
 import '../../booking_details/ui/booking_details_view.dart';
+import '../../booking_details/ui/flight_data.dart';
 import '../../checkout/pages/booking_confirmation/ui/payment_info.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 
@@ -38,7 +39,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: SingleChildScrollView(
               child: Column(
-                 crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 16,
@@ -77,105 +78,47 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                       ),
                                     ),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    const SizedBox(
-                                      width: double.infinity,
-                                      height: 4,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Departure',
-                                            style: kMediumHeavy.copyWith(
-                                                color: Styles.kPrimaryColor),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            bloc
-                                                    .state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.departureDateToShow ??
-                                                '',
-                                            style: kMediumMedium.copyWith(
-                                                color: Styles.kTextColor),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      bloc.state.manageBookingResponse?.result
-                                              ?.departureToDestinationCode ??
-                                          '',
-                                      style: kMediumSemiBold.copyWith(
-                                          color: Styles.kTextColor),
-                                    ),
-                                    kVerticalSpacerMini,
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 4,
-                                          child: FlightInto(
-                                            label: 'Depart',
-                                            timeString: bloc
-                                                    .state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.departureDateWithTime ??
-                                                '',
-                                            location: bloc
-                                                    .state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.departureAirportName ??
-                                                '',
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 3,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            child: PlaneWithTime(
-                                              time: bloc
-                                                      .state
-                                                      .manageBookingResponse
-                                                      ?.result
-                                                      ?.journeyTimeInHourMin ??
-                                                  '',
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 4,
-                                          child: FlightInto(
-                                            label: 'Arrive',
-                                            timeString: bloc
-                                                    .state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.arrivalDateWithTime ??
-                                                '',
-                                            location: bloc
-                                                    .state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.arrivalAirportName ??
-                                                '',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                      ],
-                                    ),
-                                    kVerticalSpacerSmall,
-                                  ],
+                                child: FlightDataInfo(
+                                  headingLabel: 'Departure',
+                                  dateToShow: bloc.state.manageBookingResponse
+                                          ?.result?.departureDateToShow ??
+                                      '',
+                                  departureToDestinationCode: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.departureToDestinationCode ??
+                                      '',
+                                  departureDateWithTime: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.departureDateWithTime ??
+                                      '',
+                                  departureAirportName: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.departureAirportName ??
+                                      '',
+                                  journeyTimeInHourMin: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.journeyTimeInHourMin ??
+                                      '',
+                                  arrivalDateWithTime: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.arrivalDateWithTime ??
+                                      '',
+                                  arrivalAirportName: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.arrivalAirportName ??
+                                      '',
                                 ),
                               ),
                             ],
@@ -207,106 +150,49 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                         ),
                                       ),
                                 Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      const SizedBox(
-                                        width: double.infinity,
-                                        height: 4,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 16),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              'Return',
-                                              style: kMediumHeavy.copyWith(
-                                                  color: Styles.kPrimaryColor),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              bloc
-                                                      .state
-                                                      .manageBookingResponse
-                                                      ?.result
-                                                      ?.returnDepartureDateToShow ??
-                                                  '',
-                                              style: kMediumMedium.copyWith(
-                                                  color: Styles.kTextColor),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Text(
-                                        bloc.state.manageBookingResponse?.result
-                                                ?.returnToDestinationCode ??
-                                            '',
-                                        style: kMediumSemiBold.copyWith(
-                                            color: Styles.kTextColor),
-                                      ),
-                                      kVerticalSpacerMini,
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 4,
-                                            child: FlightInto(
-                                              label: 'Depart',
-                                              timeString: bloc
-                                                      .state
-                                                      .manageBookingResponse
-                                                      ?.result
-                                                      ?.returnDepartureDateWithTime ??
-                                                  '',
-                                              location: bloc
-                                                      .state
-                                                      .manageBookingResponse
-                                                      ?.result
-                                                      ?.returnDepartureAirportName ??
-                                                  '',
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 3,
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 4),
-                                              child: PlaneWithTime(
-                                                time: bloc
-                                                        .state
-                                                        .manageBookingResponse
-                                                        ?.result
-                                                        ?.returnJourneyTimeInHourMin ??
-                                                    '',
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 4,
-                                            child: FlightInto(
-                                              label: 'Arrive',
-                                              timeString: bloc
-                                                      .state
-                                                      .manageBookingResponse
-                                                      ?.result
-                                                      ?.returnArrivalDateWithTime ??
-                                                  '',
-                                              location: bloc
-                                                      .state
-                                                      .manageBookingResponse
-                                                      ?.result
-                                                      ?.returnArrivalAirportName ??
-                                                  '',
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                        ],
-                                      ),
-                                      kVerticalSpacerSmall,
-                                    ],
+                                  child: FlightDataInfo(
+                                    headingLabel: 'Return',
+                                    dateToShow: bloc
+                                            .state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.returnDepartureDateToShow ??
+                                        '',
+                                    departureToDestinationCode: bloc.state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.returnToDestinationCode ??
+                                        '',
+                                    departureDateWithTime: bloc
+                                            .state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.returnDepartureDateWithTime ??
+                                        '',
+                                    departureAirportName: bloc
+                                            .state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.returnDepartureAirportName ??
+                                        '',
+                                    journeyTimeInHourMin: bloc
+                                            .state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.returnJourneyTimeInHourMin ??
+                                        '',
+                                    arrivalDateWithTime: bloc
+                                            .state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.returnArrivalDateWithTime ??
+                                        '',
+                                    arrivalAirportName: bloc
+                                            .state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.returnArrivalAirportName ??
+                                        '',
                                   ),
                                 ),
                               ],
@@ -356,8 +242,8 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                   ),
                   PaymentInfo(
                     isChange: true,
-                    paymentOrders: bloc
-                        .state.manageBookingResponse?.result?.paymentOrders,
+                    paymentOrders:
+                        bloc.state.manageBookingResponse?.result?.paymentOrders,
                   ),
                 ],
               ),

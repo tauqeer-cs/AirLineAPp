@@ -1264,6 +1264,26 @@ class Passenger extends Equatable {
   final DateTime? passportExpiryDate;
   final String? titleCode;
 
+  bool get isWithinTwoYears {
+    DateTime now = DateTime.now();
+    Duration difference = now.difference(dob ?? DateTime.now());
+    return difference.inDays < 365 * 2;
+  }
+
+  String get fullName {
+    if(givenName != null && surname != null) {
+      return '$givenName $surname';
+    }
+    else if(givenName != null) {
+      return '$givenName';
+    }
+    else if(surname != null) {
+      return '$surname';
+    }
+    return '';
+
+  }
+
   String? get titleToShow {
     if (titleCode != null) {
       return titleCode!.capitalize();

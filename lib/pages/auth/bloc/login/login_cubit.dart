@@ -33,6 +33,25 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
+  Future<bool?> logInWithCredentialsFromPopUp(String userName, String password) async {
+    emit(state.copyWith(blocState: BlocState.loading));
+    try {
+      final loginRequest = LoginRequest(userName: userName, password: password);
+      await _authenticationRepository.loginWithEmail(loginRequest);
+     // emit(state.copyWith(blocState: BlocState.finished));
+      return true;
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+        ),
+      );
+      return false;
+
+    }
+  }
+
   Future<void> logInWithGoogle() async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
@@ -66,5 +85,9 @@ class LoginCubit extends Cubit<LoginState> {
 
   logout() async {
     _authenticationRepository.logout();
+  }
+
+  changeStatus() {
+     emit(state.copyWith(blocState: BlocState.finished));
   }
 }

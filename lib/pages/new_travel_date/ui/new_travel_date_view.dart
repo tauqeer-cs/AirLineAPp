@@ -172,8 +172,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                         invisibleMonthsThreshold: 12,
                         minDate: bloc.minDate,
                         maxDate: bloc.maxDate,
-                        initialDate: departDate?.removeTime() ??
-                            DateTime.now().removeTime(),
+                        initialDate: initialDate(departDate,),
                         startWeekWithSunday: true,
                         onDayPressed: (value) async {
 
@@ -336,6 +335,12 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
         ),
       ],
     );
+  }
+
+  DateTime initialDate(DateTime? departDate,) {
+
+    return departDate?.removeTime() ??
+                          DateTime.now().removeTime();
   }
 }
 
