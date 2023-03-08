@@ -1,7 +1,5 @@
 part of 'manage_booking_cubit.dart';
 
-
-
 @CopyWith(copyWithNull: true)
 class ManageBookingState extends Equatable {
   final BlocState blocState;
@@ -23,6 +21,9 @@ class ManageBookingState extends Equatable {
 
   final ChangeFlightRequestResponse? changeFlightResponse;
 
+  final String? superPnrNo;
+  final int? orderId;
+
   final InboundOutboundSegment? selectedDepartureFlight;
   final InboundOutboundSegment? selectedReturnFlight;
 
@@ -37,6 +38,7 @@ class ManageBookingState extends Equatable {
     this.loadingSelectingFlight = false,
     this.loadingCheckoutPayment = false,
     this.selectedDepartureFlight,
+    this.orderId,
     this.selectedReturnFlight,
     this.isRememberMe = true,
     this.isManageOpen = true,
@@ -44,6 +46,7 @@ class ManageBookingState extends Equatable {
     this.dataLoaded = false,
     this.manageBookingResponse,
     this.pnrEntered,
+    this.superPnrNo,
     this.checkedDeparture = false,
     this.checkReturn = false,
     this.lastName,
@@ -73,6 +76,8 @@ class ManageBookingState extends Equatable {
         loadingSelectingFlight,
         loadingCheckoutPayment,
         loadingSummary,
+        superPnrNo,
+        orderId,
         flightMessageError
       ];
 
@@ -98,7 +103,8 @@ class ManageBookingState extends Equatable {
       bool? loadingDatesData,
       String flightMessageError = '',
       bool? loadingSelectingFlight,
-
+      String? superPnrNo,
+      int? orderId,
       ChangeFlightRequestResponse? changeFlightResponse}) {
     return ManageBookingState(
       message: message ?? this.message,
@@ -107,6 +113,7 @@ class ManageBookingState extends Equatable {
       isManageOpen: isManageOpen ?? this.isManageOpen,
       loadingSelectingFlight:
           loadingSelectingFlight ?? this.loadingSelectingFlight,
+      superPnrNo: superPnrNo ?? this.superPnrNo,
       isLoadingInfo: isLoadingInfo ?? this.isLoadingInfo,
       dataLoaded: dataLoaded ?? this.dataLoaded,
       manageBookingResponse:
@@ -128,12 +135,10 @@ class ManageBookingState extends Equatable {
       loadingDatesData: loadingDatesData ?? this.loadingDatesData,
       loadingSummary: loadingSummary ?? this.loadingSummary,
       flightMessageError: flightMessageError,
-
+      orderId: orderId ?? this.orderId,
     );
   }
 }
-
-
 
 /*
 extension $ManageBookingStateCopyWith on BookingState {

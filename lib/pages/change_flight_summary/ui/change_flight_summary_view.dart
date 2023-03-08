@@ -521,13 +521,14 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 );
 
                                 if (result != null && result is String) {
-                                  bloc?.reloadDataForConfirmation();
 
                                   final urlParsed = Uri.parse(result);
                                   var query = urlParsed.queryParametersAll;
                                   String? status = query['status']?.first;
                                   String? superPNR = query['superPNR']?.first;
                                   if (status != "FAIL") {
+                                    bloc?.reloadDataForConfirmation();
+
                                     if (true) {
                                       //mounted
                                       /*final filter = context

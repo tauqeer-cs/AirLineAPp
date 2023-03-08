@@ -15,7 +15,9 @@ import '../../checkout/pages/booking_confirmation/ui/payment_info.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 
 class ChangeFlightConfirmationView extends StatelessWidget {
-  const ChangeFlightConfirmationView({Key? key}) : super(key: key);
+  const ChangeFlightConfirmationView({Key? key, required this.onShare}) : super(key: key);
+
+  final VoidCallback onShare;
 
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -203,7 +205,8 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: OutlinedButton(
                               onPressed: () {
-                                // onSharedTapped();
+                                 onSharedTapped();
+
                               }, //isLoading ? null :
                               child: const Text("Share"),
                               /*
@@ -249,5 +252,9 @@ class ChangeFlightConfirmationView extends StatelessWidget {
               ),
             ),
           );
+  }
+
+  void onSharedTapped() {
+    onShare();
   }
 }

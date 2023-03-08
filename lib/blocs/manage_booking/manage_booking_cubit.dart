@@ -379,6 +379,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             isLoadingInfo: false,
             checkedDeparture: false,
             checkReturn: false,
+            superPnrNo: '',
+            orderId: 0,
             pnrEntered: bookingReference,
             lastName: lastName),
       );
@@ -570,8 +572,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       );
 
       var request = MmbCheckoutRequest(
-        superPNRNo: '',
+        superPNRNo: state.superPnrNo ?? '',
         insertVoucher: voucher ?? '',
+        orderId: state.orderId ?? 0,
         paymentDetail: PaymentDetail(
           frontendUrl: AppFlavor.paymentRedirectUrl,
           promoCode: '',
@@ -586,7 +589,20 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       //MmbCheckoutRequest
       //loadingCheckoutPayment
       PayRedirectionValue response = await _repository.checkOutFlight(request);
+      String? superNo;
+      int? orderId;
 
+      if(response.value?.superPnrNo != null) {
+        superNo = response.value?.superPnrNo;
+
+      }
+
+
+      if(response.value?.orderId != null) {
+        orderId = response.value?.orderId;
+
+
+      }
       //loadingCheckoutPayment
       FormData formData = FormData.fromMap(
           response.value?.paymentRedirectData?.redirectMap() ?? {});
@@ -599,6 +615,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(
           loadingCheckoutPayment: false,
+          orderId: orderId,
+          superPnrNo: superNo,
+          message: ''
         ),
       );
       return 1 == 1

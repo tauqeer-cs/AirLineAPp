@@ -29,18 +29,25 @@ class ChangeFlightConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppAppBar(
-        centerTitle: true,
-        title: 'Change Flight Confirmation',
-        height: 60.h,
-        overrideInnerHeight: true,
-      ),
-      body: BlocConsumer<ManageBookingCubit, ManageBookingState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return const ChangeFlightConfirmationView();
-        },
+    return Screenshot(
+      controller: screenshotController,
+      child: Scaffold(
+        appBar: AppAppBar(
+          centerTitle: true,
+          title: 'Change Flight Confirmation',
+          height: 60.h,
+          overrideInnerHeight: true,
+        ),
+        body: BlocConsumer<ManageBookingCubit, ManageBookingState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return  ChangeFlightConfirmationView(onShare: () {
+
+              onShare();
+
+            },);
+          },
+        ),
       ),
     );
   }

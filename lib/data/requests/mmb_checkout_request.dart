@@ -6,9 +6,12 @@ class MmbCheckoutRequest {
   String? token;
   String? insertVoucher;
   String? superPNRNo;
+  num? orderId;
+
+
 
   MmbCheckoutRequest(
-      {this.paymentDetail, this.token, this.insertVoucher, this.superPNRNo});
+      {this.paymentDetail, this.token, this.insertVoucher, this.superPNRNo,this.orderId});
 
   MmbCheckoutRequest.fromJson(Map<String, dynamic> json) {
     paymentDetail = json['PaymentDetail'] != null
@@ -17,6 +20,8 @@ class MmbCheckoutRequest {
     token = json['Token'];
     insertVoucher = json['InsertVoucher'];
     superPNRNo = json['SuperPNRNo'];
+    orderId = json['orderID'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +32,8 @@ class MmbCheckoutRequest {
     data['Token'] = token;
     data['InsertVoucher'] = insertVoucher;
     data['SuperPNRNo'] = superPNRNo;
+    data['orderID'] = orderId;
+
     return data;
   }
 }
