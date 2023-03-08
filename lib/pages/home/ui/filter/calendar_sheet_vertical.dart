@@ -204,7 +204,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             (event) => isSameDay(event.date, date));
                         final isBefore = date.isBefore(DateTime.now());
                         return Container(
-                          padding: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
                             color: inRange
                                 ? Styles.kPrimaryColor
@@ -243,25 +243,25 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                               Flexible(
                                                 child: Text(
                                                   "MYR",
-                                                  style:
-                                                      kExtraSmallMedium.copyWith(
-                                                    color: inRange
-                                                        ? Colors.white
-                                                        : null,
-                                                  ),
+                                                  style: kExtraSmallMedium
+                                                      .copyWith(
+                                                          color: inRange
+                                                              ? Colors.white
+                                                              : null,
+                                                          fontSize: 6),
                                                 ),
                                               ),
                                               Flexible(
                                                 child: Text(
-                                                  NumberUtils.formatNum(
+                                                  NumberUtils
+                                                      .formatNumberNoTrailing(
                                                     departDate == null
                                                         ? event.departPrice
                                                         : returnDate == null
                                                             ? event.returnPrice
                                                             : event.departPrice,
                                                   ),
-                                                  style:
-                                                      kSmallMedium.copyWith(
+                                                  style: kLargeHeavy.copyWith(
                                                     color: inRange
                                                         ? Colors.white
                                                         : null,

@@ -18,9 +18,6 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
     try {
       var contentId = routes.firstWhereOrNull(
           (element) => url.replaceAll("/", "")==element.urlSegment);
-      ///promo-landing-page
-    //  contentId = 'promo-landing-page';
-
       if (contentId?.key == null) {
         await Future.delayed(Duration(milliseconds: 300));
         emit(
