@@ -94,8 +94,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     var returnDate = state?.changeFlightResponse?.result?.flightVerifyResponse
         ?.result?.flightSegments?.first.departureDate;
 
-
-
     ChangeFlightRequestResponse? changeFlightRequestResponse =
         state?.changeFlightResponse;
 
@@ -113,19 +111,12 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             ?.flightVerifyResponse?.result?.flightSegments?.last;
         flightSectionBack = state?.changeFlightResponse?.result
             ?.flightVerifyResponse?.result?.flightSegments?.first;
-
-
-
-
-      }
-      else {
-
-         departureDate = state?.changeFlightResponse?.result
+      } else {
+        departureDate = state?.changeFlightResponse?.result
             ?.flightVerifyResponse?.result?.flightSegments?.first.departureDate;
 
-         returnDate = state?.changeFlightResponse?.result?.flightVerifyResponse
+        returnDate = state?.changeFlightResponse?.result?.flightVerifyResponse
             ?.result?.flightSegments?.last.departureDate;
-
       }
     }
 
@@ -171,13 +162,13 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Column(
-                      crossAxisAlignment : CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (bloc?.state.checkedDeparture == true &&
                                   bloc?.state.checkReturn == true) ...[
                                 Text(
                                   '${AppDateUtils.formatFullDate(
-                                    DateTime.parse(departureDate ?? '') ,
+                                    DateTime.parse(departureDate ?? ''),
                                   )} -',
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
@@ -478,7 +469,45 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               },
                     fbKey: _fbKey,
                   ),
+                  const SizedBox(
+                    height: 16,
+                  ),
                 ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //.png
+                      Image.asset("assets/images/design/disclaimer.png",width: 30,height: 30,),
+                      SizedBox(width: 2,),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            style: kMediumRegular.copyWith(
+                              color: Styles.kTextColor,
+                            ),
+                            children: [
+                              const TextSpan(
+                                  text:
+                                      'Changed your flight? Remember to upgrade your insurance coverage by contacting our '),
+                              TextSpan(
+                                text: 'Live Chat Agent',
+                                style: TextStyle(
+                                  color: Styles.kPrimaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                  text:
+                                      '. After clicking \'Continue\', any changes made to the flight are final.'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 200,
                 ),
@@ -521,7 +550,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 );
 
                                 if (result != null && result is String) {
-
                                   final urlParsed = Uri.parse(result);
                                   var query = urlParsed.queryParametersAll;
                                   String? status = query['status']?.first;
@@ -699,11 +727,12 @@ class PersonDeparture extends StatelessWidget {
         if (bloc.state.checkedDeparture) ...[
           Row(
             children: [
-              Text(
-                data(true),
-                style: kSmallRegular,
+              Expanded(
+                child: Text(
+                  data(true),
+                  style: kSmallRegular,
+                ),
               ),
-              const Spacer(),
               Text(
                 buildStringAsFixed(true),
                 style: kSmallRegular.copyWith(
@@ -717,11 +746,12 @@ class PersonDeparture extends StatelessWidget {
         if (bloc.state.checkReturn) ...[
           Row(
             children: [
-              Text(
-                data(false),
-                style: kSmallRegular,
+              Expanded(
+                child: Text(
+                  data(false),
+                  style: kSmallRegular,
+                ),
               ),
-              const Spacer(),
               Text(
                 buildStringAsFixed(false),
                 style: kSmallRegular.copyWith(

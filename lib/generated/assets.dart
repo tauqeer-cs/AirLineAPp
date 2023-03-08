@@ -5,6 +5,7 @@ class Assets {
   static const String designAuthBg = 'assets/images/design/auth_bg.png';
   static const String designBaggageSmall = 'assets/images/design/baggageSmall.png';
   static const String designBgsky = 'assets/images/design/bgsky.png';
+  static const String designDisclaimer = 'assets/images/design/disclaimer.png';
   static const String designGridBackground = 'assets/images/design/gridBackground.png';
   static const String designHomeBg = 'assets/images/design/home_bg.png';
   static const String designIcoAccount = 'assets/images/design/icoAccount.png';
