@@ -39,7 +39,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             .removeTime();
       } else if (state.checkedDeparture == false && state.checkReturn == true) {
         return ccc?.currentStartDate?.removeTime().add(
-                  const Duration(days: 1),
+                  const Duration(days: 0),
                 ) ??
             DateTime.now();
       }
@@ -54,7 +54,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     if (ccc?.isTwoWay ?? false) {
       if (state.checkedDeparture == true && state.checkReturn == false) {
         return ccc?.currentEndDate?.removeTime().add(
-                  const Duration(days: -1),
+                  const Duration(days: 0),
                 ) ??
             DateTime.now();
       } else if (state.checkedDeparture == false && state.checkReturn == true) {
