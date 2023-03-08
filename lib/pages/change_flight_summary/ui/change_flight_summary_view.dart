@@ -90,6 +90,12 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
 
     var departureDate = state?.changeFlightResponse?.result
         ?.flightVerifyResponse?.result?.flightSegments?.last.departureDate;
+
+    var returnDate = state?.changeFlightResponse?.result?.flightVerifyResponse
+        ?.result?.flightSegments?.first.departureDate;
+
+
+
     ChangeFlightRequestResponse? changeFlightRequestResponse =
         state?.changeFlightResponse;
 
@@ -107,6 +113,19 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             ?.flightVerifyResponse?.result?.flightSegments?.last;
         flightSectionBack = state?.changeFlightResponse?.result
             ?.flightVerifyResponse?.result?.flightSegments?.first;
+
+
+
+
+      }
+      else {
+
+         departureDate = state?.changeFlightResponse?.result
+            ?.flightVerifyResponse?.result?.flightSegments?.first.departureDate;
+
+         returnDate = state?.changeFlightResponse?.result?.flightVerifyResponse
+            ?.result?.flightSegments?.last.departureDate;
+
       }
     }
 
@@ -151,13 +170,41 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            AppDateUtils.formatFullDate(
-                                DateTime.parse(departureDate ?? '')),
-                            style: kSmallRegular.copyWith(
-                              color: Styles.kTextColor,
-                              height: 1.5,
-                            ),
+                          Column(
+                      crossAxisAlignment : CrossAxisAlignment.start,
+                            children: [
+                              if (bloc?.state.checkedDeparture == true &&
+                                  bloc?.state.checkReturn == true) ...[
+                                Text(
+                                  '${AppDateUtils.formatFullDate(
+                                    DateTime.parse(departureDate ?? '') ,
+                                  )} -',
+                                  style: kSmallRegular.copyWith(
+                                    color: Styles.kTextColor,
+                                    height: 1.5,
+                                  ),
+                                ),
+                                Text(
+                                  AppDateUtils.formatFullDate(
+                                    DateTime.parse(returnDate ?? ''),
+                                  ),
+                                  style: kSmallRegular.copyWith(
+                                    color: Styles.kTextColor,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ] else ...[
+                                Text(
+                                  AppDateUtils.formatFullDate(
+                                    DateTime.parse(departureDate ?? ''),
+                                  ),
+                                  style: kSmallRegular.copyWith(
+                                    color: Styles.kTextColor,
+                                    height: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                           const SizedBox(width: 8),
                           Icon(
@@ -288,14 +335,12 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           PersonHeader(
                               currentPerson: currentPerson, bloc: bloc),
                           kVerticalSpacerMini,
-                            PersonDeparture(
-                              changeFlightRequestResponse:
-                                  changeFlightRequestResponse!,
-                              currentPerson: currentPerson,
-                              bloc: bloc!,
-                            ),
-
-
+                          PersonDeparture(
+                            changeFlightRequestResponse:
+                                changeFlightRequestResponse!,
+                            currentPerson: currentPerson,
+                            bloc: bloc!,
+                          ),
                           kVerticalSpacerSmall,
                         ],
                         kVerticalSpacerSmall,
@@ -639,13 +684,12 @@ class PersonDeparture extends StatelessWidget {
   final PassengersWithSSRFareBreakDown currentPerson;
   final ManageBookingCubit bloc;
 
-
-  const PersonDeparture(
-      {Key? key,
-      required this.changeFlightRequestResponse,
-      required this.currentPerson,
-      required this.bloc,})
-      : super(key: key);
+  const PersonDeparture({
+    Key? key,
+    required this.changeFlightRequestResponse,
+    required this.currentPerson,
+    required this.bloc,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -946,11 +990,9 @@ class PersonDeparture extends StatelessWidget {
         //insuranceDepart
         if ((currentPerson.wheelChairDepart != null) ||
             (currentPerson.wheelChairReturn != null)) ...[
-
-
-              SizedBox(height: 4,),
-
-
+          SizedBox(
+            height: 4,
+          ),
           if (currentPerson.wheelChairDepart != null) ...[
             const SizedBox(
               height: 4,

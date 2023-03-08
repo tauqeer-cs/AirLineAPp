@@ -21,7 +21,7 @@ class ChangeFlightSummaryPage extends StatelessWidget {
       body: BlocConsumer<ManageBookingCubit, ManageBookingState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return  ChangeFlightSummaryView();
+          return  const ChangeFlightSummaryView();
         },
       ),
     );
