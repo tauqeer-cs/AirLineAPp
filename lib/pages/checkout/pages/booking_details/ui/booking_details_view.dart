@@ -329,10 +329,11 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       final persons = state.filterState?.numberPerson;
       final value = BookingDetailsView.fbKey.currentState!.value;
 
-      /*
       String? companyName = value[formNameCompanyName];
       String? emailCompany;
+
       if ((companyName ?? '').isNotEmpty) {
+
         emailCompany = value[formNameCompanyEmailAddress];
 
         if ((emailCompany ?? '').isEmpty) {
@@ -341,8 +342,8 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               errorText: 'Email address is mandatory for company Tax Invoice.');
           return;
         }
+
       }
-      */
 
       List<Passenger> passengers = [];
       for (Person person in (persons?.persons ?? [])) {
@@ -407,7 +408,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           country: value[formNameCompanyCountry],
           state: value[formNameCompanyState],
           city: value[formNameCompanyCity],
-          emailAddress: value[formNameCompanyEmailAddress],
+          emailAddress: (companyName ?? '').isNotEmpty ? value[formNameCompanyEmailAddress] : null,
           postCode: value[formNameCompanyPostCode],
         ),
         emergencyContact: EmergencyContact(

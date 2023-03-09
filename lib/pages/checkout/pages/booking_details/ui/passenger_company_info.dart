@@ -43,12 +43,11 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
     emailAddress = contact?.emailAddress;
     postCode = contact?.postCode;
 
-    /*if(emailAddress == null){
+    if(emailAddress == null){
       final localContact = context.read<LocalUserBloc>().state;
       final profile = context.read<ProfileCubit>().state.profile?.userProfile;
       emailAddress = profile?.emailShow ?? localContact.contactEmail.trim();
-    }*/
-
+    }
 
 
   }
