@@ -44,7 +44,7 @@ class CalendarWidget extends StatelessWidget {
           top: Radius.circular(16),
         ),
       ),
-      builder: (_) => PleaseSelectPlace(),
+      builder: (_) => const PleaseSelectPlace(),
     );
   }
 

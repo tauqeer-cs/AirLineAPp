@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../blocs/profile/profile_cubit.dart';
 import '../../../../../theme/theme.dart';
 
 class PassengerCompanyInfo extends StatefulWidget {
@@ -39,8 +40,14 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
     address = contact?.companyAddress;
     state = contact?.state;
     city = contact?.city;
-    postCode = contact?.postCode;
     emailAddress = contact?.emailAddress;
+    postCode = contact?.postCode;
+    if(emailAddress == null){
+      final localContact = context.read<LocalUserBloc>().state;
+      final profile = context.read<ProfileCubit>().state.profile?.userProfile;
+      emailAddress = profile?.emailShow ?? localContact.contactEmail.trim();
+    }
+
   }
 
   @override

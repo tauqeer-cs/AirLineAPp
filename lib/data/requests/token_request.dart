@@ -31,18 +31,18 @@ class RedeemPointsResponse {
       {this.value,  this.statusCode});
 
   RedeemPointsResponse.fromJson(Map<String, dynamic> json) {
-    value = json['value'] != null ? new Value.fromJson(json['value']) : null;
+    value = json['value'] != null ? Value.fromJson(json['value']) : null;
 
     statusCode = json['statusCode'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.value != null) {
-      data['value'] = this.value!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (value != null) {
+      data['value'] = value!.toJson();
     }
 
-    data['statusCode'] = this.statusCode;
+    data['statusCode'] = statusCode;
     return data;
   }
 }

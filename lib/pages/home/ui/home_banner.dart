@@ -5,7 +5,6 @@ import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_image_carousel.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 
@@ -30,7 +29,6 @@ class HomeBanner extends StatelessWidget {
             autoPlay: (content.items ?? []).length > 1,
             items: (content.items ?? []).map(
               (e) {
-                print("content is ${e.key}");
                 return InkWell(
                   onTap: () {
                     FlutterInsider.Instance.tagEvent(
@@ -43,13 +41,14 @@ class HomeBanner extends StatelessWidget {
                         .build();
                     if(e.link == null) return;
                     final url = Uri.parse(e.link!);
-                    context.router.push(HomeDetailRoute(url: url.path));
+                    print("url send is ${url.toString()}");
+                    context.router.push(HomeDetailRoute(url: url.toString()));
                     /*context.router.push(WebViewRoute(
                         url: e.link ?? "", title: e.name ?? 'Promotion'));*/
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: AppImage(
                         imageUrl: e.mimg,

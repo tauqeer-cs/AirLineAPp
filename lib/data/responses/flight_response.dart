@@ -12,10 +12,13 @@ class FlightResponse extends Equatable {
   final num? orderID;
   final bool? success;
 
+  final bool? isVisaCampaign;
+
   const FlightResponse(
       {this.searchFlightRequest,
       this.searchFlightResponse,
       this.orderID,
+        this.isVisaCampaign,
       this.success});
 
   factory FlightResponse.fromJson(Map<String, dynamic> json) =>
@@ -148,6 +151,24 @@ class InboundOutboundSegment extends Equatable {
   final num? beforeDiscountTotalAmtWithInfantSSR;
   final num? discountPCT;
 
+  final num? changeFlightAmount;
+
+
+  num? get changeFlightAmountToShow {
+
+    return changeFlightAmount;
+  }
+
+  num changeFlightAmountToShowPerPax(num noPeople) {
+
+    return (changeFlightAmount ?? 0.0) / noPeople;
+  }
+
+  num calculateDifference(num firstFare) {
+
+     return firstFare - (totalSegmentFareAmt ?? 0.0);
+
+  }
   final String? fbCode;
 
   const InboundOutboundSegment({
@@ -172,6 +193,7 @@ class InboundOutboundSegment extends Equatable {
     this.legCount,
     this.international,
     this.flightLegDetails,
+    this.changeFlightAmount,
   });
 
   num get getTotalPrice => totalSegmentFareAmt ?? 0;
@@ -222,7 +244,8 @@ class SegmentDetail extends Equatable {
         flySaturday,
         flySunday,
         aircraftDescription,
-        deiDisclosure
+        deiDisclosure,
+   // changeFlightAmount
       ];
 
   final num? lfid;

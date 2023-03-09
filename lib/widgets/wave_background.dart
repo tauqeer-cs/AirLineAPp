@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 class WaveBackground extends StatelessWidget {
   final Widget child;
+  final Color? color;
 
-  const WaveBackground({Key? key, required this.child}) : super(key: key);
+   const WaveBackground({Key? key, required this.child,this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          color: Styles.kPrimaryColor,
+          color: color ?? Styles.kPrimaryColor,
         ),
         Positioned.fill(
           child: Image.asset(

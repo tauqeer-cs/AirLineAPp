@@ -16,10 +16,10 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
 
   getContents(String url, List<CMSRoute> routes) async {
     try {
-      print("list of routes $routes");
-      final contentId = routes.firstWhereOrNull(
-          (element) => url.contains(element.urlSegment ?? ""));
+      var contentId = routes.firstWhereOrNull(
+          (element) => url.replaceAll("/", "")==element.urlSegment);
       if (contentId?.key == null) {
+        await Future.delayed(Duration(milliseconds: 300));
         emit(
           state.copyWith(
               message: "The page is not found", blocState: BlocState.failed),

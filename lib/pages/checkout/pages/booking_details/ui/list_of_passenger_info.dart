@@ -11,7 +11,7 @@ class ListOfPassengerInfo extends StatelessWidget {
 
   final VoidCallback onInsuranceChanged;
 
-  const ListOfPassengerInfo({super.key,required this.onInsuranceChanged});
+  const  ListOfPassengerInfo({super.key,required this.onInsuranceChanged});
 
   @override
   Widget build(BuildContext context) {

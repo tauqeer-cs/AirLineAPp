@@ -8,7 +8,8 @@ import '../app/app_logger.dart';
 import '../models/error_response.dart';
 
 class ErrorUtils {
-  static String getErrorMessage(Object e, StackTrace? st) {
+  static String getErrorMessage(Object e, StackTrace? st,
+      {bool dontShowError = false}) {
     logger.e(e);
     logger.e(st);
     FirebaseCrashlytics.instance.recordError(e, st);
@@ -21,6 +22,9 @@ class ErrorUtils {
       message = e.message;
     } else {
       message = "Unknown Error";
+    }
+    if (dontShowError) {
+      return message;
     }
     Fluttertoast.showToast(
         msg: message,

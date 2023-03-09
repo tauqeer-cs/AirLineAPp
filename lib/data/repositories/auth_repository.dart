@@ -13,7 +13,6 @@ import 'package:app/data/requests/signup_request.dart';
 import 'package:app/data/requests/update_password_request.dart';
 import 'package:app/data/responses/common_response.dart';
 import 'package:app/models/user.dart';
-import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/security_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:google_sign_in/google_sign_in.dart';

@@ -3,7 +3,6 @@ import 'package:app/data/repositories/flight_repository.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/data/responses/verify_response.dart';
-import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
@@ -269,6 +268,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
           blocState: BlocState.finished,
           filterState: filterState,
           flights: airports.searchFlightResponse,
+          visaPromo: airports.isVisaCampaign,
         ),
       );
     } catch (e, st) {

@@ -10,7 +10,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 
 class BookingSummary extends StatelessWidget {
-  const BookingSummary({Key? key}) : super(key: key);
+  final String? labelToShow;
+
+  final bool isChangeFlight;
+
+  final double? totalAmountToShow;
+
+  const BookingSummary(
+      {Key? key,
+      this.labelToShow,
+      this.totalAmountToShow,
+      this.isChangeFlight = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +32,27 @@ class BookingSummary extends StatelessWidget {
             ?.firstOrNull?.discountAmount ??
         0;
 
-    int? redeemAmount = context.watch<VoucherCubit>().state.selectedRedeemOption?.redemptionAmount ?? 0;
+    int? redeemAmount = context
+            .watch<VoucherCubit>()
+            .state
+            .selectedRedeemOption
+            ?.redemptionAmount ??
+        0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          "Your total booking",
+          labelToShow ?? "Your total booking",
           style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
         ),
-         MoneyWidget(
+        MoneyWidget(
           isDense: false,
-          amount: booking.getFinalPriceDisplay +
-              (filterState?.numberPerson.getTotal() ?? 0) -
-              discount - redeemAmount,
+          amount: totalAmountToShow ??
+              booking.getFinalPriceDisplay +
+                  (filterState?.numberPerson.getTotal() ?? 0) -
+                  discount -
+                  redeemAmount,
         ),
         kVerticalSpacer,
       ],
@@ -45,7 +63,9 @@ class BookingSummary extends StatelessWidget {
 class SummaryContainer extends StatelessWidget {
   final Widget child;
   final bool? overrideExpand;
-  const SummaryContainer({Key? key, required this.child, this.overrideExpand}) : super(key: key);
+
+  const SummaryContainer({Key? key, required this.child, this.overrideExpand})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

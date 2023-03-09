@@ -1,6 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_logger.dart';
-import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -205,7 +204,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             (event) => isSameDay(event.date, date));
                         final isBefore = date.isBefore(DateTime.now());
                         return Container(
-                          padding: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
                             color: inRange
                                 ? Styles.kPrimaryColor
@@ -244,25 +243,25 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                               Flexible(
                                                 child: Text(
                                                   "MYR",
-                                                  style:
-                                                      kExtraSmallMedium.copyWith(
-                                                    color: inRange
-                                                        ? Colors.white
-                                                        : null,
-                                                  ),
+                                                  style: kExtraSmallMedium
+                                                      .copyWith(
+                                                          color: inRange
+                                                              ? Colors.white
+                                                              : null,
+                                                          fontSize: 6),
                                                 ),
                                               ),
                                               Flexible(
                                                 child: Text(
-                                                  NumberUtils.formatNum(
+                                                  NumberUtils
+                                                      .formatNumberNoTrailing(
                                                     departDate == null
                                                         ? event.departPrice
                                                         : returnDate == null
                                                             ? event.returnPrice
                                                             : event.departPrice,
                                                   ),
-                                                  style:
-                                                      kSmallMedium.copyWith(
+                                                  style: kLargeHeavy.copyWith(
                                                     color: inRange
                                                         ? Colors.white
                                                         : null,

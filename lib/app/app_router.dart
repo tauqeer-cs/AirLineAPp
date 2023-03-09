@@ -38,9 +38,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/personal_info/personal_info_page.dart';
 
+import '../pages/booking_details/booking_details_page.dart';
+import '../pages/change_flight_confirmation/change_flght_confirmation_page.dart';
+import '../pages/change_flight_summary/change_flight_summary_page.dart';
 import '../pages/friends_family/friend_family_page.dart';
 import '../pages/member_cards/member_cards_page.dart';
 import '../pages/more_info/more_info_page.dart';
+import '../pages/new_travel_date/new_travel_date_page.dart';
+import '../pages/select_change_flight/select_change_flight_page.dart';
 
 part 'app_router.gr.dart';
 
@@ -100,10 +105,13 @@ part 'app_router.gr.dart';
     AutoRoute(page: FriendsFamilyPage, path: "/friends-family"),
     AutoRoute(page: MemberCardsPage, path: "/member-cards"),
     AutoRoute(page: MoreOptionsPage, path: "/more-options"),
+    AutoRoute(page: ManageBookingDetailsPage, path: "/manage-booking-details"),
+    AutoRoute(page: NewTravelDatesPage, path: "/new-travel-dates"),
+    AutoRoute(page: SelectChangeFlightPage, path: "/select-change-flight"),
+    AutoRoute(page: ChangeFlightSummaryPage, path: "/change-flight-summary"),
+    AutoRoute(page: ChangeFlightConfirmationPage, path: "/change-flight-confirmation"),
 
-
-    //
-
+//
   ],
 )
 class AppRouter extends _$AppRouter {}

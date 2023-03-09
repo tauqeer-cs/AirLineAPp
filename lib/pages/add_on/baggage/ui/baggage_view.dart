@@ -148,11 +148,16 @@ class ContinueButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(BaggageRoute(isDeparture: false));
         } else {
-          context.router.push(SpecialRoute());
+
+          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
+          var response = await context.router.push(const BookingDetailsRoute());
+          if(response == true) {
+            context.router.push(const BookingDetailsRoute());
+          }
         }
       },
       child: const Text("Continue"),

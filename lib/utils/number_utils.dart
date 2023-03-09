@@ -12,6 +12,11 @@ class NumberUtils {
     return numberFormat.format(number ?? 0);
   }
 
+  static String formatNumberNoTrailing(num? number) {
+    NumberFormat numberFormat = NumberFormat("#,##0", "en_US");
+    return numberFormat.format(number ?? 0);
+  }
+
   static String formatLotDigit(double? number) {
     NumberFormat numberFormat = NumberFormat("#,##0.0000000000", "en_US");
     final string = numberFormat.format(number ?? 0);

@@ -5,6 +5,7 @@ class Assets {
   static const String designAuthBg = 'assets/images/design/auth_bg.png';
   static const String designBaggageSmall = 'assets/images/design/baggageSmall.png';
   static const String designBgsky = 'assets/images/design/bgsky.png';
+  static const String designDisclaimer = 'assets/images/design/disclaimer.png';
   static const String designGridBackground = 'assets/images/design/gridBackground.png';
   static const String designHomeBg = 'assets/images/design/home_bg.png';
   static const String designIcoAccount = 'assets/images/design/icoAccount.png';
@@ -14,8 +15,10 @@ class Assets {
   static const String designIcoSport2 = 'assets/images/design/icoSport2.png';
   static const String designIcoSports = 'assets/images/design/icoSports.png';
   static const String designIcoSports2 = 'assets/images/design/icoSports2.png';
+  static const String designIconVisa = 'assets/images/design/icon_visa.png';
   static const String designPackage = 'assets/images/design/package.png';
   static const String designPlane = 'assets/images/design/plane.png';
+  static const String designRedPlane = 'assets/images/design/red-plane.png';
   static const String designSignupBg = 'assets/images/design/signup_bg.png';
   static const String designSkycloud = 'assets/images/design/skycloud.png';
   static const String designWave = 'assets/images/design/wave.png';
@@ -30,10 +33,13 @@ class Assets {
   static const String fontsEncodeSansSemiBold = 'assets/fonts/EncodeSans-SemiBold.ttf';
   static const String fontsEncodeSansThin = 'assets/fonts/EncodeSans-Thin.ttf';
   static const String fontsMyFlutterApp = 'assets/fonts/MyFlutterApp.ttf';
+  static const String iconsIcoFlightBlack = 'assets/images/icons/icoFlightBlack.png';
   static const String iconsIconFamily = 'assets/images/icons/iconFamily.png';
   static const String iconsIconFlight = 'assets/images/icons/iconFlight.png';
   static const String iconsIconInfo = 'assets/images/icons/iconInfo.png';
   static const String iconsIconLogout = 'assets/images/icons/iconLogout.png';
+  static const String iconsIconMoreInfo = 'assets/images/icons/iconMoreInfo.png';
+  static const String iconsIconNoFlight = 'assets/images/icons/iconNoFlight.png';
   static const String iconsIconPayment = 'assets/images/icons/iconPayment.png';
   static const String iconsIconPref = 'assets/images/icons/iconPref.png';
   static const String iconsIconSetting = 'assets/images/icons/iconSetting.png';
@@ -54,10 +60,6 @@ class Assets {
   static const String nativeLogoNew = 'assets/images/native/logo_new.png';
   static const String nativeLogoNewWhite = 'assets/images/native/logo_new_white.png';
   static const String nativeLogoWhite = 'assets/images/native/logo_white.png';
-  static const String pdfsGIMYAirlineTravelDomesticSOB20221222 = 'assets/pdfs/GI_MYAirline_TravelDomestic_SOB_20221222.pdf';
-  static const String pdfsInsurancerequirementsBRSCY20221228 = 'assets/pdfs/InsurancerequirementsBRS-CY20221228.pdf';
-  static const String pdfsMYTravelShieldDomesticPDS = 'assets/pdfs/MYTravelShieldDomestic_PDS.pdf';
-  static const String pdfsMYTravelShieldDomesticPolicyWording = 'assets/pdfs/MYTravelShieldDomestic_PolicyWording.pdf';
   static const String svgSeatsArrowLeft = 'assets/images/svg/seats_arrow_left.svg';
   static const String svgSeatsArrowRight = 'assets/images/svg/seats_arrow_right.svg';
 

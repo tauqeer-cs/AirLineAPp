@@ -16,13 +16,15 @@ class HomeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final availableRoutes = context.watch<RoutesCubit>().state.routes;
+    final finalUrl = Uri.parse(url);
+
     return BlocProvider(
-      create: (context) => HomeDetailCubit()..getContents(url, availableRoutes),
+      create: (context) => HomeDetailCubit()..getContents(finalUrl.path, availableRoutes),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
         ),
-        body: HomeDetailView(),
+        body: HomeDetailView(url: finalUrl.toString()),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets/gradient_rect_slider_track_shape.dart';
 import 'theme.dart';
 
+
 class Styles {
   static Color get kPrimaryColor => const Color.fromRGBO(227, 30, 51, 1);
 
@@ -91,18 +92,18 @@ class Styles {
       ),
       scaffoldBackgroundColor: isLight ? Colors.white : kDarkBgColor,
       scrollbarTheme: const ScrollbarThemeData(),
-      sliderTheme: SliderThemeData(
-        trackShape: GradientRectSliderTrackShape(
-          gradient: gradient,
-          darkenInactive: true,
-        ),
-        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-        inactiveTrackColor: Colors.grey,
-        thumbColor: kTextColor,
-        trackHeight: 5,
-        overlayShape: SliderComponentShape.noOverlay,
-        disabledInactiveTrackColor: Colors.grey,
-      ),
+      // sliderTheme: SliderThemeData(
+      //   trackShape: GradientRectSliderTrackShape(
+      //     gradient: gradient,
+      //     darkenInactive: true,
+      //   ),
+      //   thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+      //   inactiveTrackColor: Colors.grey,
+      //   thumbColor: kTextColor,
+      //   trackHeight: 5,
+      //   overlayShape: SliderComponentShape.noOverlay,
+      //   disabledInactiveTrackColor: Colors.grey,
+      // ),
       toggleableActiveColor: kPrimaryColor,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(

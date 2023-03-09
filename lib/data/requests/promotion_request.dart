@@ -32,18 +32,18 @@ class Result {
   Result({this.value, this.formatters, this.contentTypes, this.statusCode});
 
   Result.fromJson(Map<String, dynamic> json) {
-    value = json['value'] != null ? new Value.fromJson(json['value']) : null;
+    value = json['value'] != null ? Value.fromJson(json['value']) : null;
 
     statusCode = json['statusCode'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.value != null) {
-      data['value'] = this.value!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (value != null) {
+      data['value'] = value!.toJson();
     }
 
-    data['statusCode'] = this.statusCode;
+    data['statusCode'] = statusCode;
     return data;
   }
 }
@@ -57,15 +57,15 @@ class Value {
   Value.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     lmsRedemptionOption = json['lmsRedemptionOption'] != null
-        ? new LmsRedemptionOption.fromJson(json['lmsRedemptionOption'])
+        ? LmsRedemptionOption.fromJson(json['lmsRedemptionOption'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.lmsRedemptionOption != null) {
-      data['lmsRedemptionOption'] = this.lmsRedemptionOption!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    if (lmsRedemptionOption != null) {
+      data['lmsRedemptionOption'] = lmsRedemptionOption!.toJson();
     }
     return data;
   }
@@ -82,17 +82,17 @@ class LmsRedemptionOption {
     if (json['availableOptions'] != null) {
       availableOptions = <AvailableOptions>[];
       json['availableOptions'].forEach((v) {
-        availableOptions!.add(new AvailableOptions.fromJson(v));
+        availableOptions!.add(AvailableOptions.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pid'] = this.pid;
-    if (this.availableOptions != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pid'] = pid;
+    if (availableOptions != null) {
       data['availableOptions'] =
-          this.availableOptions!.map((v) => v.toJson()).toList();
+          availableOptions!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -118,11 +118,11 @@ class AvailableOptions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['redemptionName'] = this.redemptionName;
-    data['redemptionPoint'] = this.redemptionPoint;
-    data['redemptionAmount'] = this.redemptionAmount;
-    data['redemptionCode'] = this.redemptionCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['redemptionName'] = redemptionName;
+    data['redemptionPoint'] = redemptionPoint;
+    data['redemptionAmount'] = redemptionAmount;
+    data['redemptionCode'] = redemptionCode;
     return data;
   }
 }

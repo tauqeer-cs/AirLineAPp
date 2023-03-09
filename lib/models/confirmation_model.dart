@@ -81,8 +81,8 @@ class Value extends Equatable {
         seatDetail,
         mealDetail,
         baggageDetail,
-    sportEquipmentDetail,
-    insuranceSSRDetail,
+        sportEquipmentDetail,
+        insuranceSSRDetail,
         flightSegments,
         bookingContact,
       ];
@@ -140,30 +140,33 @@ class BookingContact extends Equatable {
 
   Map<String, dynamic> toJson() => _$BookingContactToJson(this);
 
-  const BookingContact({
-    this.superPNRID,
-    this.userId,
-    this.titleCode,
-    this.givenName,
-    this.surname,
-    this.email,
-    this.phone1,
-    this.phone1LocationCode,
-    this.dob,
-    this.nationality,
-    this.passportExpiryDate,
-    this.emergencyGivenName,
-    this.emergencySurname,
-    this.emergencyEmail,
-    this.emergencyPhone,
-    this.emergencyPhoneCode,
-    this.createdById,
-    this.createdDate,
-    this.createdDateUTC,
-    this.modifiedById,
-    this.modifiedDate,
-    this.modifiedDateUTC,
-  });
+  const BookingContact(
+      {this.superPNRID,
+      this.userId,
+      this.titleCode,
+      this.givenName,
+      this.surname,
+      this.email,
+      this.phone1,
+      this.phone1LocationCode,
+      this.dob,
+      this.nationality,
+      this.passportExpiryDate,
+      this.emergencyGivenName,
+      this.emergencySurname,
+      this.emergencyEmail,
+      this.emergencyPhone,
+      this.emergencyPhoneCode,
+      this.createdById,
+      this.createdDate,
+      this.createdDateUTC,
+      this.modifiedById,
+      this.modifiedDate,
+      this.modifiedDateUTC,
+      this.addressCountryCode,
+      this.emergencyRelationship,
+      this.fullName,
+      this.acceptNewsAndPromotionByEmail});
 
   final num? superPNRID;
   final num? userId;
@@ -189,6 +192,11 @@ class BookingContact extends Equatable {
   final DateTime? modifiedDate;
   final DateTime? modifiedDateUTC;
 
+  final String? addressCountryCode;
+  final String? emergencyRelationship;
+  final String? fullName;
+  final bool? acceptNewsAndPromotionByEmail;
+
   BookingContact copyWith({
     num? superPNRID,
     num? userId,
@@ -212,6 +220,10 @@ class BookingContact extends Equatable {
     num? modifiedById,
     DateTime? modifiedDate,
     DateTime? modifiedDateUTC,
+    String? addressCountryCode,
+    String? emergencyRelationship,
+    String? fullName,
+    bool? acceptNewsAndPromotionByEmail,
   }) =>
       BookingContact(
         superPNRID: superPNRID ?? this.superPNRID,
@@ -236,6 +248,12 @@ class BookingContact extends Equatable {
         modifiedById: modifiedById ?? this.modifiedById,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         modifiedDateUTC: modifiedDateUTC ?? this.modifiedDateUTC,
+        addressCountryCode: addressCountryCode ?? this.addressCountryCode,
+        emergencyRelationship:
+            emergencyRelationship ?? this.emergencyRelationship,
+        fullName: fullName ?? this.fullName,
+        acceptNewsAndPromotionByEmail:
+            acceptNewsAndPromotionByEmail ?? this.acceptNewsAndPromotionByEmail,
       );
 
   @override
@@ -263,6 +281,10 @@ class BookingContact extends Equatable {
         modifiedById,
         modifiedDate,
         modifiedDateUTC,
+        addressCountryCode,
+        emergencyRelationship,
+        fullName,
+        acceptNewsAndPromotionByEmail
       ];
 }
 
@@ -276,6 +298,7 @@ class BaggageDetail extends Equatable {
   const BaggageDetail({
     this.totalAmount,
     this.baggages,
+    this.baggageCount,
   });
 
   @override
@@ -286,14 +309,14 @@ class BaggageDetail extends Equatable {
 
   final num? totalAmount;
   final List<Baggage>? baggages;
+  final num? baggageCount;
 
-  BaggageDetail copyWith({
-    num? totalAmount,
-    List<Baggage>? baggages,
-  }) =>
+  BaggageDetail copyWith(
+          {num? totalAmount, List<Baggage>? baggages, num? baggageCount}) =>
       BaggageDetail(
         totalAmount: totalAmount ?? this.totalAmount,
         baggages: baggages ?? this.baggages,
+        baggageCount: baggageCount ?? this.baggageCount,
       );
 }
 
@@ -330,10 +353,9 @@ class Baggage extends Equatable {
         departReturn,
         sportEquipmentName,
       ];
+
   String? get titleToShow {
-
-    if(title != null) {
-
+    if (title != null) {
       return title!.capitalize();
     }
     return null;
@@ -351,7 +373,6 @@ class Baggage extends Equatable {
   final String? seatPosition;
   final String? sportEquipmentName;
   final String? insuranceSSRName;
-
 
   Baggage copyWith({
     String? surName,
@@ -377,7 +398,7 @@ class Baggage extends Equatable {
         departReturn: departReturn ?? this.departReturn,
         seatPosition: seatPosition ?? this.seatPosition,
         sportEquipmentName: sportEquipmentName ?? this.sportEquipmentName,
-        insuranceSSRName : insuranceName ?? insuranceSSRName,
+        insuranceSSRName: insuranceName ?? insuranceSSRName,
       );
 }
 
@@ -388,27 +409,25 @@ class FareAndBundleDetail extends Equatable {
 
   Map<String, dynamic> toJson() => _$FareAndBundleDetailToJson(this);
 
-  const FareAndBundleDetail({
-    this.totalAmount,
-    this.fareAndBundles,
-  });
+  const FareAndBundleDetail(
+      {this.totalAmount, this.fareAndBundles, this.fareAndBundleCount});
 
   @override
-  List<Object?> get props => [
-        totalAmount,
-        fareAndBundles,
-      ];
+  List<Object?> get props => [totalAmount, fareAndBundles, fareAndBundleCount];
 
   final num? totalAmount;
+  final num? fareAndBundleCount;
+
   final List<FareAndBundle>? fareAndBundles;
 
-  FareAndBundleDetail copyWith({
-    num? totalAmount,
-    List<FareAndBundle>? fareAndBundles,
-  }) =>
+  FareAndBundleDetail copyWith(
+          {num? totalAmount,
+          List<FareAndBundle>? fareAndBundles,
+          num? fareAndBundleCount}) =>
       FareAndBundleDetail(
         totalAmount: totalAmount ?? this.totalAmount,
         fareAndBundles: fareAndBundles ?? this.fareAndBundles,
+        fareAndBundleCount: fareAndBundleCount ?? this.fareAndBundleCount,
       );
 }
 
@@ -443,13 +462,12 @@ class FareAndBundle extends Equatable {
   final String? surName;
   final String? givenName;
   final String? title;
-   String? get titleToShow {
 
-     if(title != null) {
-
-       return title!.capitalize();
-     }
-     return null;
+  String? get titleToShow {
+    if (title != null) {
+      return title!.capitalize();
+    }
+    return null;
   }
 
   final num? fareAmount;
@@ -844,6 +862,7 @@ class Bound extends Equatable {
     this.updatedDepartureDateTime,
     this.segmentOrder,
     this.createdById,
+    this.isChangeAllowed,
     this.createdDate,
     this.createdDateUTC,
     this.modifiedById,
@@ -865,6 +884,7 @@ class Bound extends Equatable {
         arrivalAirportLocationCode,
         arrivalAirportLocationName,
         arrivalAirportTerminalId,
+        isChangeAllowed,
         arrivalDateTime,
         connectionInd,
         departureAirportLocationCode,
@@ -917,6 +937,7 @@ class Bound extends Equatable {
   final String? departureAirportTerminalId;
   final DateTime? departureDateTime;
   final bool? eTicket;
+  final bool? isChangeAllowed;
   final num? duration;
   final num? elapsedTime;
   final num? flightNumber;
@@ -962,6 +983,7 @@ class Bound extends Equatable {
     String? departureAirportTerminalId,
     DateTime? departureDateTime,
     bool? eTicket,
+    bool? isChangeAllowed,
     num? duration,
     num? elapsedTime,
     num? flightNumber,
@@ -990,6 +1012,7 @@ class Bound extends Equatable {
       Bound(
         flightSegmentId: flightSegmentId ?? this.flightSegmentId,
         bookingId: bookingId ?? this.bookingId,
+        isChangeAllowed: isChangeAllowed ?? this.isChangeAllowed,
         airlineCode: airlineCode ?? this.airlineCode,
         fareBasisCode: fareBasisCode ?? this.fareBasisCode,
         cabinTypeCode: cabinTypeCode ?? this.cabinTypeCode,
@@ -1052,35 +1075,35 @@ class MealDetail extends Equatable {
   const MealDetail({
     this.totalAmount,
     this.meals,
+    this.mealCount,
   });
 
   bool get noMealsSelected {
-
-    for(Meal currentItem in meals ?? []) {
-      if((currentItem.mealList ?? []).isNotEmpty){
+    for (Meal currentItem in meals ?? []) {
+      if ((currentItem.mealList ?? []).isNotEmpty) {
         return false;
       }
     }
     return true;
-
   }
+
   @override
   List<Object?> get props => [
         totalAmount,
         meals,
+        mealCount,
       ];
 
   final num? totalAmount;
+  final num? mealCount;
+
   final List<Meal>? meals;
 
-  MealDetail copyWith({
-    num? totalAmount,
-    List<Meal>? meals,
-  }) =>
+  MealDetail copyWith({num? totalAmount, List<Meal>? meals, num? mealCount}) =>
       MealDetail(
-        totalAmount: totalAmount ?? this.totalAmount,
-        meals: meals ?? this.meals,
-      );
+          totalAmount: totalAmount ?? this.totalAmount,
+          meals: meals ?? this.meals,
+          mealCount: mealCount ?? this.mealCount);
 }
 
 @JsonSerializable()
@@ -1108,10 +1131,9 @@ class Meal extends Equatable {
   final String? givenName;
   final String? title;
   final List<MealList>? mealList;
+
   String? get titleToShow {
-
-    if(title != null) {
-
+    if (title != null) {
       return title!.capitalize();
     }
     return null;
@@ -1241,10 +1263,29 @@ class Passenger extends Equatable {
   final String? passport;
   final DateTime? passportExpiryDate;
   final String? titleCode;
+
+  bool get isWithinTwoYears {
+    DateTime now = DateTime.now();
+    Duration difference = now.difference(dob ?? DateTime.now());
+    return difference.inDays < 365 * 2;
+  }
+
+  String get fullName {
+    if(givenName != null && surname != null) {
+      return '$givenName $surname';
+    }
+    else if(givenName != null) {
+      return '$givenName';
+    }
+    else if(surname != null) {
+      return '$surname';
+    }
+    return '';
+
+  }
+
   String? get titleToShow {
-
-    if(titleCode != null) {
-
+    if (titleCode != null) {
       return titleCode!.capitalize();
     }
     return null;
@@ -1326,6 +1367,7 @@ class PaymentOrder extends Equatable {
     this.modifiedById,
     this.modifiedDate,
     this.modifiedDateUTC,
+    this.cardNumber,
   });
 
   @override
@@ -1348,6 +1390,7 @@ class PaymentOrder extends Equatable {
         modifiedById,
         modifiedDate,
         modifiedDateUTC,
+        cardNumber,
       ];
 
   final num? paymentId;
@@ -1357,6 +1400,7 @@ class PaymentOrder extends Equatable {
   final String? paymentStatusCode;
   final String? requeryStatusCode;
   final String? cardOption;
+  final String? cardNumber;
   final String? currencyCode;
   final num? paymentAmount;
   final bool? hasError;
@@ -1377,6 +1421,7 @@ class PaymentOrder extends Equatable {
     String? paymentStatusCode,
     String? requeryStatusCode,
     String? currencyCode,
+    String? cardNumber,
     num? paymentAmount,
     String? cardOption,
     bool? hasError,
@@ -1408,6 +1453,7 @@ class PaymentOrder extends Equatable {
         modifiedById: modifiedById ?? this.modifiedById,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         modifiedDateUTC: modifiedDateUTC ?? this.modifiedDateUTC,
+        cardNumber: cardNumber ?? this.cardNumber,
       );
 }
 
@@ -1421,13 +1467,17 @@ class SeatDetail extends Equatable {
   const SeatDetail({
     this.totalAmount,
     this.seats,
+    this.seatCount,
   });
 
   @override
   List<Object?> get props => [
         totalAmount,
         seats,
+        seatCount,
       ];
+
+  final num? seatCount;
 
   final num? totalAmount;
   final List<Baggage>? seats;
@@ -1435,10 +1485,12 @@ class SeatDetail extends Equatable {
   SeatDetail copyWith({
     num? totalAmount,
     List<Baggage>? seats,
+    num? seatCount,
   }) =>
       SeatDetail(
         totalAmount: totalAmount ?? this.totalAmount,
         seats: seats ?? this.seats,
+        seatCount: seatCount ?? this.seatCount,
       );
 }
 
@@ -1699,24 +1751,29 @@ class SportsEquipmentDetail extends Equatable {
   const SportsEquipmentDetail({
     this.totalAmount,
     this.sportEquipments,
+    this.sportEquipmentCount,
   });
 
   @override
   List<Object?> get props => [
         totalAmount,
-    sportEquipments,
+        sportEquipments,
+        sportEquipmentCount,
       ];
 
   final num? totalAmount;
+  final num? sportEquipmentCount;
   final List<Baggage>? sportEquipments;
 
   SportsEquipmentDetail copyWith({
     num? totalAmount,
     List<Baggage>? sportEquipments,
+    num? sportEquipmentCount,
   }) =>
       SportsEquipmentDetail(
         totalAmount: totalAmount ?? this.totalAmount,
         sportEquipments: sportEquipments ?? this.sportEquipments,
+        sportEquipmentCount: sportEquipmentCount ?? this.sportEquipmentCount,
       );
 }
 
@@ -1727,27 +1784,23 @@ class InsuranceDetails extends Equatable {
 
   Map<String, dynamic> toJson() => _$InsuranceDetailsToJson(this);
 
-  const InsuranceDetails({
-    this.totalAmount,
-    this.insuranceSSRs,
-  });
+  const InsuranceDetails(
+      {this.totalAmount, this.insuranceSSRs, this.insuranceSSRCount});
 
   @override
-  List<Object?> get props => [
-    totalAmount,
-    insuranceSSRs,
-  ];
+  List<Object?> get props => [totalAmount, insuranceSSRs, insuranceSSRCount];
 
   final num? totalAmount;
   final List<Baggage>? insuranceSSRs;
+  final num? insuranceSSRCount;
 
-  InsuranceDetails copyWith({
-    num? totalAmount,
-    List<Baggage>? insuranceSSRs,
-  }) =>
+  InsuranceDetails copyWith(
+          {num? totalAmount,
+          List<Baggage>? insuranceSSRs,
+          num? insuranceSSRCount}) =>
       InsuranceDetails(
         totalAmount: totalAmount ?? this.totalAmount,
         insuranceSSRs: insuranceSSRs ?? this.insuranceSSRs,
+        insuranceSSRCount: insuranceSSRCount ?? this.insuranceSSRCount,
       );
 }
-

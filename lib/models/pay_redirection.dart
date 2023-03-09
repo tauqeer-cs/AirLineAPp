@@ -30,6 +30,8 @@ class PayRedirection extends Equatable {
     this.orderId,
     this.verifyExpiredDateTime,
     this.success,
+    this.isInvalidMemberID,
+    this.fromCache,
   });
 
   @override
@@ -39,6 +41,8 @@ class PayRedirection extends Equatable {
         orderId,
         verifyExpiredDateTime,
         success,
+    isInvalidMemberID,
+    fromCache
       ];
 
   final PaymentRedirectData? paymentRedirectData;
@@ -49,12 +53,19 @@ class PayRedirection extends Equatable {
   final DateTime? verifyExpiredDateTime;
   final bool? success;
 
+  final bool? isInvalidMemberID;
+  final bool? fromCache;
+
+
+
   PayRedirection copyWith({
     PaymentRedirectData? paymentRedirectData,
     String? superPnrNo,
     int? orderId,
     DateTime? verifyExpiredDateTime,
     bool? success,
+    bool? isInvalidMemberID,
+     bool? fromCache,
   }) =>
       PayRedirection(
         paymentRedirectData: paymentRedirectData ?? this.paymentRedirectData,
@@ -63,6 +74,9 @@ class PayRedirection extends Equatable {
         verifyExpiredDateTime:
             verifyExpiredDateTime ?? this.verifyExpiredDateTime,
         success: success ?? this.success,
+        isInvalidMemberID: isInvalidMemberID ?? this.isInvalidMemberID,
+        fromCache: fromCache ?? this.fromCache,
+
       );
 
   factory PayRedirection.fromJson(Map<String, dynamic> json) =>

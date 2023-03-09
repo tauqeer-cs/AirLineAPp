@@ -61,7 +61,7 @@ class _SeatRowState extends State<SeatRow> {
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
-          print("widget seats ${widget.seats.toJson()}");
+          if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
           if (otherSelected) return;
@@ -102,7 +102,7 @@ class _SeatRowState extends State<SeatRow> {
             decoration: BoxDecoration(
               color: (widget.seats.isSeatAvailable ?? false) &&
                       !isBlockChild(focusedPerson, persons)
-                  ? (mapColor ?? {})[widget.seats.serviceId] ?? Colors.purpleAccent
+                  ? (mapColor ?? {})[widget.seats.serviceId] ?? Colors.grey
                   : Colors.grey,
               borderRadius: BorderRadius.circular(8),
             ),

@@ -139,6 +139,11 @@ BookingContact _$BookingContactFromJson(Map<String, dynamic> json) =>
       modifiedDateUTC: json['modifiedDateUTC'] == null
           ? null
           : DateTime.parse(json['modifiedDateUTC'] as String),
+      addressCountryCode: json['addressCountryCode'] as String?,
+      emergencyRelationship: json['emergencyRelationship'] as String?,
+      fullName: json['fullName'] as String?,
+      acceptNewsAndPromotionByEmail:
+          json['acceptNewsAndPromotionByEmail'] as bool?,
     );
 
 Map<String, dynamic> _$BookingContactToJson(BookingContact instance) {
@@ -173,6 +178,11 @@ Map<String, dynamic> _$BookingContactToJson(BookingContact instance) {
   writeNotNull('modifiedById', instance.modifiedById);
   writeNotNull('modifiedDate', instance.modifiedDate?.toIso8601String());
   writeNotNull('modifiedDateUTC', instance.modifiedDateUTC?.toIso8601String());
+  writeNotNull('addressCountryCode', instance.addressCountryCode);
+  writeNotNull('emergencyRelationship', instance.emergencyRelationship);
+  writeNotNull('fullName', instance.fullName);
+  writeNotNull(
+      'acceptNewsAndPromotionByEmail', instance.acceptNewsAndPromotionByEmail);
   return val;
 }
 
@@ -182,6 +192,7 @@ BaggageDetail _$BaggageDetailFromJson(Map<String, dynamic> json) =>
       baggages: (json['baggages'] as List<dynamic>?)
           ?.map((e) => Baggage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      baggageCount: json['baggageCount'] as num?,
     );
 
 Map<String, dynamic> _$BaggageDetailToJson(BaggageDetail instance) {
@@ -195,6 +206,7 @@ Map<String, dynamic> _$BaggageDetailToJson(BaggageDetail instance) {
 
   writeNotNull('totalAmount', instance.totalAmount);
   writeNotNull('baggages', instance.baggages);
+  writeNotNull('baggageCount', instance.baggageCount);
   return val;
 }
 
@@ -241,6 +253,7 @@ FareAndBundleDetail _$FareAndBundleDetailFromJson(Map<String, dynamic> json) =>
       fareAndBundles: (json['fareAndBundles'] as List<dynamic>?)
           ?.map((e) => FareAndBundle.fromJson(e as Map<String, dynamic>))
           .toList(),
+      fareAndBundleCount: json['fareAndBundleCount'] as num?,
     );
 
 Map<String, dynamic> _$FareAndBundleDetailToJson(FareAndBundleDetail instance) {
@@ -253,6 +266,7 @@ Map<String, dynamic> _$FareAndBundleDetailToJson(FareAndBundleDetail instance) {
   }
 
   writeNotNull('totalAmount', instance.totalAmount);
+  writeNotNull('fareAndBundleCount', instance.fareAndBundleCount);
   writeNotNull('fareAndBundles', instance.fareAndBundles);
   return val;
 }
@@ -507,6 +521,7 @@ Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
           : DateTime.parse(json['updatedDepartureDateTime'] as String),
       segmentOrder: json['segmentOrder'] as String?,
       createdById: json['createdById'] as num?,
+      isChangeAllowed: json['isChangeAllowed'] as bool?,
       createdDate: json['createdDate'] == null
           ? null
           : DateTime.parse(json['createdDate'] as String),
@@ -556,6 +571,7 @@ Map<String, dynamic> _$BoundToJson(Bound instance) {
   writeNotNull(
       'departureDateTime', instance.departureDateTime?.toIso8601String());
   writeNotNull('eTicket', instance.eTicket);
+  writeNotNull('isChangeAllowed', instance.isChangeAllowed);
   writeNotNull('duration', instance.duration);
   writeNotNull('elapsedTime', instance.elapsedTime);
   writeNotNull('flightNumber', instance.flightNumber);
@@ -590,6 +606,7 @@ MealDetail _$MealDetailFromJson(Map<String, dynamic> json) => MealDetail(
       meals: (json['meals'] as List<dynamic>?)
           ?.map((e) => Meal.fromJson(e as Map<String, dynamic>))
           .toList(),
+      mealCount: json['mealCount'] as num?,
     );
 
 Map<String, dynamic> _$MealDetailToJson(MealDetail instance) {
@@ -602,6 +619,7 @@ Map<String, dynamic> _$MealDetailToJson(MealDetail instance) {
   }
 
   writeNotNull('totalAmount', instance.totalAmount);
+  writeNotNull('mealCount', instance.mealCount);
   writeNotNull('meals', instance.meals);
   return val;
 }
@@ -749,6 +767,7 @@ PaymentOrder _$PaymentOrderFromJson(Map<String, dynamic> json) => PaymentOrder(
       modifiedDateUTC: json['modifiedDateUTC'] == null
           ? null
           : DateTime.parse(json['modifiedDateUTC'] as String),
+      cardNumber: json['cardNumber'] as String?,
     );
 
 Map<String, dynamic> _$PaymentOrderToJson(PaymentOrder instance) {
@@ -767,6 +786,7 @@ Map<String, dynamic> _$PaymentOrderToJson(PaymentOrder instance) {
   writeNotNull('paymentStatusCode', instance.paymentStatusCode);
   writeNotNull('requeryStatusCode', instance.requeryStatusCode);
   writeNotNull('cardOption', instance.cardOption);
+  writeNotNull('cardNumber', instance.cardNumber);
   writeNotNull('currencyCode', instance.currencyCode);
   writeNotNull('paymentAmount', instance.paymentAmount);
   writeNotNull('hasError', instance.hasError);
@@ -786,6 +806,7 @@ SeatDetail _$SeatDetailFromJson(Map<String, dynamic> json) => SeatDetail(
       seats: (json['seats'] as List<dynamic>?)
           ?.map((e) => Baggage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      seatCount: json['seatCount'] as num?,
     );
 
 Map<String, dynamic> _$SeatDetailToJson(SeatDetail instance) {
@@ -797,6 +818,7 @@ Map<String, dynamic> _$SeatDetailToJson(SeatDetail instance) {
     }
   }
 
+  writeNotNull('seatCount', instance.seatCount);
   writeNotNull('totalAmount', instance.totalAmount);
   writeNotNull('seats', instance.seats);
   return val;
@@ -944,6 +966,7 @@ SportsEquipmentDetail _$SportsEquipmentDetailFromJson(
       sportEquipments: (json['sportEquipments'] as List<dynamic>?)
           ?.map((e) => Baggage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      sportEquipmentCount: json['sportEquipmentCount'] as num?,
     );
 
 Map<String, dynamic> _$SportsEquipmentDetailToJson(
@@ -957,6 +980,7 @@ Map<String, dynamic> _$SportsEquipmentDetailToJson(
   }
 
   writeNotNull('totalAmount', instance.totalAmount);
+  writeNotNull('sportEquipmentCount', instance.sportEquipmentCount);
   writeNotNull('sportEquipments', instance.sportEquipments);
   return val;
 }
@@ -967,6 +991,7 @@ InsuranceDetails _$InsuranceDetailsFromJson(Map<String, dynamic> json) =>
       insuranceSSRs: (json['insuranceSSRs'] as List<dynamic>?)
           ?.map((e) => Baggage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      insuranceSSRCount: json['insuranceSSRCount'] as num?,
     );
 
 Map<String, dynamic> _$InsuranceDetailsToJson(InsuranceDetails instance) {
@@ -980,5 +1005,6 @@ Map<String, dynamic> _$InsuranceDetailsToJson(InsuranceDetails instance) {
 
   writeNotNull('totalAmount', instance.totalAmount);
   writeNotNull('insuranceSSRs', instance.insuranceSSRs);
+  writeNotNull('insuranceSSRCount', instance.insuranceSSRCount);
   return val;
 }

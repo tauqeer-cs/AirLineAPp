@@ -1,3 +1,4 @@
+import 'package:app/app.dart';
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
@@ -41,13 +42,32 @@ class BookingDetailsPage extends StatefulWidget {
 }
 
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
+
+  
+  void isLoggedInPopUp()  {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+       var response = await showLoginDialog();
+        if(response == true){
+
+          await Future.delayed(const Duration(seconds: 2));
+          appRouter.pop(true);
+
+        }
+      });
+
+
+  }
+
+
   @override
   void initState() {
     super.initState();
     final isLoggedIn =
         context.read<AuthBloc>().state.status == AppStatus.authenticated;
     if (!isLoggedIn) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => showLoginDialog());
+
+      isLoggedInPopUp();
+
     }
     FlutterInsider.Instance.itemAddedToCart(UserInsider.of(context).generateProduct());
     UserInsider.of(context).registerPurchasedAddOn();
@@ -187,9 +207,14 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     onFinished: () {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
-                      Navigator.of(dialogContext).pop();
+
                       Toast.of(context)
                           .show(message: "Welcome back", success: true);
+
+//                      callBack();
+
+                      Navigator.of(dialogContext).pop(true);
+
                     },
                   );
                 },
@@ -313,7 +338,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   },
                 ),
               ),
-              body: const BookingDetailsView(),
+              body: BookingDetailsView(),
             ),
           ),
         ),

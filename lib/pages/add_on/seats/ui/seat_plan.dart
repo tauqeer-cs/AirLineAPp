@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
@@ -70,11 +72,15 @@ class SeatPlan extends StatelessWidget {
                 previousRow?.seats?.first.serviceId;
             final bundle = legends.firstWhereOrNull(
                 (element) => element.serviceID == row.seats?.first.serviceId);
+            if(bundle?.finalAmount==null){
+              log("final amount ${bundle?.toJson()}");
+            }
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Column(
                 children: [
-                  if (isSeatSeparated)
+                  kVerticalSpacerSmall,
+                  if (isSeatSeparated && bundle!=null)
                     Column(
                       children: [
                         kVerticalSpacerSmall,
