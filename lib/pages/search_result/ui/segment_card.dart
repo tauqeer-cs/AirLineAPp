@@ -255,13 +255,15 @@ class SegmentCard extends StatelessWidget {
   }
 
   Widget buildCircleAvatar() {
-    if(showVisa){
+
+    /*if(showVisa){
       return  Image.asset(
         "assets/images/icons/visa.png",
         width: 32,
         height: 32,
       );
-    }
+    }*/
+
     return CircleAvatar(
                             backgroundColor: Styles.kPrimaryColor,
                             child: Text(
