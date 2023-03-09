@@ -19,6 +19,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../../../models/switch_setting.dart';
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/ui_utils.dart';
+import '../../../../../utils/validator_utils.dart';
 import '../../../../../widgets/settings_wrapper.dart';
 import 'insurance_terms.dart';
 
@@ -327,6 +328,23 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           ?.rows;
       final persons = state.filterState?.numberPerson;
       final value = BookingDetailsView.fbKey.currentState!.value;
+
+      String? companyName = value[formNameCompanyName];
+      String? emailCompany;
+
+      if ((companyName ?? '').isNotEmpty) {
+
+        emailCompany = value[formNameCompanyEmailAddress];
+
+        if ((emailCompany ?? '').isEmpty) {
+          BookingDetailsView.fbKey.currentState!.invalidateField(
+              name: formNameCompanyEmailAddress,
+              errorText: 'Email address is mandatory for company Tax Invoice.');
+          return;
+        }
+
+      }
+
       List<Passenger> passengers = [];
       for (Person person in (persons?.persons ?? [])) {
         final passenger = person.toPassenger(
@@ -390,7 +408,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           country: value[formNameCompanyCountry],
           state: value[formNameCompanyState],
           city: value[formNameCompanyCity],
-          emailAddress: value[formNameCompanyEmailAddress],
+          emailAddress: (companyName ?? '').isNotEmpty ? value[formNameCompanyEmailAddress] : null,
           postCode: value[formNameCompanyPostCode],
         ),
         emergencyContact: EmergencyContact(
