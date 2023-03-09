@@ -70,9 +70,16 @@ class SeatPlan extends StatelessWidget {
             Rows? previousRow = index == 0 ? null : rows?[index - 1];
             bool isSeatSeparated = row.seats?.first.serviceId !=
                 previousRow?.seats?.first.serviceId;
-            final bundle = legends.firstWhereOrNull(
-                (element) => element.serviceID == row.seats?.first.serviceId);
-            if(bundle?.finalAmount==null){
+            Bundle? bundle;
+            for (Seats seat in row.seats ?? []) {
+              bundle = legends.firstWhereOrNull(
+                  (element) => element.serviceID == seat.serviceId);
+              if (bundle?.finalAmount != null && bundle?.finalAmount != 0) break;
+            }
+
+            // final bundle = legends.firstWhereOrNull(
+            //     (element) => element.serviceID == row.seats?.first.serviceId);
+            if (bundle?.finalAmount == null) {
               log("final amount ${bundle?.toJson()}");
             }
             return Padding(
@@ -80,7 +87,7 @@ class SeatPlan extends StatelessWidget {
               child: Column(
                 children: [
                   kVerticalSpacerSmall,
-                  if (isSeatSeparated && bundle!=null)
+                  if (isSeatSeparated && bundle != null)
                     Column(
                       children: [
                         kVerticalSpacerSmall,
