@@ -8,6 +8,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 
@@ -110,19 +111,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                         )
                       ],
                     ),
-                      Icons.filter_alt_rounded,
-                      color: Styles.kBorderColor,
-                      size: 25,
-                    ),
-                    Text(
-                      "Sort by",
-                      style: kSmallRegular.copyWith(color: Styles.kBorderColor),
-                    ),
-                    Text(
-                      selectedSort.toString(),
-                      style: kSmallHeavy,
-                    )
-                  ],
+                  ),
                 ),
               ),
             ),
