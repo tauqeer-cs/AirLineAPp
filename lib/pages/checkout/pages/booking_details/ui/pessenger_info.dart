@@ -270,7 +270,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 kVerticalSpacerMini,
                 AppInputText(
                   name: rewardKey,
-                  hintText: "MYReward Member ID (Optional)",
+                  hintText: 'To earn points, enter your MYRewards ID',
                   inputFormatters: [AppFormUtils.onlyNumber()],
                   textInputType: TextInputType.number,
                 ),
