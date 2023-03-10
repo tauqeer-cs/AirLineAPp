@@ -159,7 +159,7 @@ class SegmentCard extends StatelessWidget {
                                   visible: segment.discountPCT != null &&
                                       segment.discountPCT! > 0,
                                   child: Text(
-                                    "RM ${segment.beforeDiscountTotalAmt}",
+                                    "MYR ${segment.beforeDiscountTotalAmt}",
                                     style: kSmallRegular.copyWith(
                                         decoration: TextDecoration.lineThrough),
                                   ),
