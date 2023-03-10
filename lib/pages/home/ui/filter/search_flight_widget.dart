@@ -34,7 +34,7 @@ class SearchFlightWidget extends StatelessWidget {
           AppInputText(
             name: "promoFlight",
             onChanged: (value)=>context.read<FilterCubit>().updatePromoCode(value),
-            hintText: "Promo Code",
+            hintText: 'Promo Code e.g. VISA5',
             //inputFormatters: [
             //     UpperCaseTextFormatter(),
             //   ]
