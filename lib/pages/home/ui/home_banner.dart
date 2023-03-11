@@ -41,7 +41,6 @@ class HomeBanner extends StatelessWidget {
                         .build();
                     if(e.link == null) return;
                     final url = Uri.parse(e.link!);
-                    print("url send is ${url.toString()}");
                     context.router.push(HomeDetailRoute(url: url.toString()));
                     /*context.router.push(WebViewRoute(
                         url: e.link ?? "", title: e.name ?? 'Promotion'));*/

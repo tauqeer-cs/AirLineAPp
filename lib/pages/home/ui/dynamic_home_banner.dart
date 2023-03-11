@@ -5,7 +5,6 @@ import 'package:app/models/home_content.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_image.dart';
-import 'package:app/widgets/app_image_carousel.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ import '../../../theme/theme.dart';
 class DynamicHomeBanner extends StatefulWidget {
   final HomeContent content;
 
-  DynamicHomeBanner({Key? key, required this.content}) : super(key: key);
+  const DynamicHomeBanner({Key? key, required this.content}) : super(key: key);
 
   @override
   State<DynamicHomeBanner> createState() => _DynamicHomeBannerState();
@@ -33,7 +32,7 @@ class _DynamicHomeBannerState extends State<DynamicHomeBanner> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 6), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 6), (Timer timer) {
       if (_currentPage < (widget.content.items?.length ?? 0)) {
         _currentPage++;
       } else {
@@ -41,7 +40,7 @@ class _DynamicHomeBannerState extends State<DynamicHomeBanner> {
       }
       _pageController.animateToPage(
         _currentPage,
-        duration: Duration(milliseconds: 350),
+        duration: const Duration(milliseconds: 350),
         curve: Curves.easeIn,
       );
     });
@@ -83,7 +82,6 @@ class _DynamicHomeBannerState extends State<DynamicHomeBanner> {
                           .build();
                       if(e.link == null) return;
                       final url = Uri.parse(e.link!);
-                      print("url send is ${url.toString()}");
                       context.router.push(HomeDetailRoute(url: url.toString()));
                     },
                     child: AppImage(
@@ -103,7 +101,7 @@ class _DynamicHomeBannerState extends State<DynamicHomeBanner> {
                         _currentPage++;
 
                         _pageController.previousPage(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.linear,
                         );
                       },
@@ -124,7 +122,7 @@ class _DynamicHomeBannerState extends State<DynamicHomeBanner> {
                       onTap: () {
                         _currentPage--;
                         _pageController.nextPage(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.linear,
                         );
                       },

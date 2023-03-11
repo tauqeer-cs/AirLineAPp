@@ -16,7 +16,6 @@ import 'app/app_bloc_observer.dart';
 import 'app/app_logger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'data/repositories/auth_repository.dart';
-import 'firebase_options.dart';
 
 main() async {
   AppFlavor.appFlavor = Flavor.staging;

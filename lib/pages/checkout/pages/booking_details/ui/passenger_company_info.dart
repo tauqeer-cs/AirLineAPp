@@ -1,5 +1,4 @@
 import 'package:app/blocs/local_user/local_user_bloc.dart';
-import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';

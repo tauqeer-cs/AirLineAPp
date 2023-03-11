@@ -1,6 +1,3 @@
-import 'package:app/data/requests/search_flight_request.dart';
-import 'package:app/data/responses/flight_response.dart';
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:json_annotation/json_annotation.dart';

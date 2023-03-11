@@ -1,6 +1,5 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
-import 'package:app/localizations/localizations_util.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/baggage_fee.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/fares_and_bundles.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/fee_and_taxes_detail.dart';

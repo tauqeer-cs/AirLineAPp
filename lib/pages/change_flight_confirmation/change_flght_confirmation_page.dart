@@ -8,7 +8,6 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../widgets/app_app_bar.dart';
-import '../change_flight_summary/ui/change_flight_summary_view.dart';
 
 class ChangeFlightConfirmationPage extends StatelessWidget {
   final String bookingId;

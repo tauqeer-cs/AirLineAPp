@@ -109,7 +109,7 @@ class SeatPlan extends StatelessWidget {
                               child: bundle?.finalAmount == null
                                   ? Center(child: Text("No Data", style: kLargeHeavy,))
                                   : SeatPrice(
-                                      amount: bundle?.finalAmount ?? 0,
+                                      amount: bundle.finalAmount,
                                       currency: row.seats?.first.seatPriceOffers
                                           ?.firstOrNull?.currency,
                                     ),

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -7,12 +6,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../app/app_bloc_helper.dart';
 import '../../../app/app_flavor.dart';
 import '../../../app/app_router.dart';
-import '../../../blocs/booking/booking_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../blocs/voucher/voucher_cubit.dart';
 import '../../../data/requests/voucher_request.dart';
 import '../../../data/responses/change_flight_response.dart';
-import '../../../data/responses/manage_booking_response.dart';
 import '../../../models/confirmation_model.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
@@ -21,7 +18,6 @@ import '../../../utils/constant_utils.dart';
 import '../../../utils/date_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_loading_screen.dart';
-import '../../booking_details/ui/booking_details_view.dart';
 import '../../booking_details/ui/flight_data.dart';
 import '../../checkout/pages/payment/ui/voucher_ui.dart';
 import '../../search_result/ui/booking_summary.dart';
@@ -480,7 +476,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     children: [
                       //.png
                       Image.asset("assets/images/design/disclaimer.png",width: 30,height: 30,),
-                      SizedBox(width: 2,),
+                      const SizedBox(width: 2,),
                       Expanded(
                         child: RichText(
                           text: TextSpan(
@@ -498,7 +494,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              TextSpan(
+                              const TextSpan(
                                   text:
                                       '. After clicking \'Continue\', any changes made to the flight are final.'),
                             ],
@@ -1021,7 +1017,7 @@ class PersonDeparture extends StatelessWidget {
         //insuranceDepart
         if ((currentPerson.wheelChairDepart != null) ||
             (currentPerson.wheelChairReturn != null)) ...[
-          SizedBox(
+          const SizedBox(
             height: 4,
           ),
           if (currentPerson.wheelChairDepart != null) ...[
@@ -1050,7 +1046,7 @@ class PersonDeparture extends StatelessWidget {
           if ((currentPerson.wheelChairReturn != null)) ...[
             Row(
               children: [
-                Text(
+                const Text(
                   'Wheel Chair',
                   style: kSmallRegular,
                 ),

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
-import 'package:app/localizations/localizations_util.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/theme/theme.dart';

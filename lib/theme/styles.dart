@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../widgets/gradient_rect_slider_track_shape.dart';
 import 'theme.dart';
 
 

@@ -1,6 +1,5 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
-import 'package:app/localizations/localizations_util.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/models/switch_setting.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
@@ -12,14 +11,12 @@ import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/form_utils.dart';
-import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:app/widgets/settings_wrapper.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -35,7 +32,6 @@ import '../../../../../models/profile.dart';
 import '../../../../../utils/constant_utils.dart';
 import '../../../../../utils/ui_utils.dart';
 import '../../../../../widgets/app_divider_widget.dart';
-import '../../../../../widgets/pdf_viewer.dart';
 
 class PassengerInfo extends StatefulWidget {
   final Person person;

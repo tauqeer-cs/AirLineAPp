@@ -7,7 +7,6 @@ import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:app/utils/security_utils.dart';
-import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_toast.dart';

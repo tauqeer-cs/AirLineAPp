@@ -11,7 +11,7 @@ import 'package:meta/meta.dart';
 part 'home_detail_state.dart';
 
 class HomeDetailCubit extends Cubit<HomeDetailState> {
-  HomeDetailCubit() : super(HomeDetailState());
+  HomeDetailCubit() : super(const HomeDetailState());
   final _repository = CMSRepository();
 
   getContents(String url, List<CMSRoute> routes) async {
@@ -19,7 +19,7 @@ class HomeDetailCubit extends Cubit<HomeDetailState> {
       var contentId = routes.firstWhereOrNull(
           (element) => url.replaceAll("/", "")==element.urlSegment);
       if (contentId?.key == null) {
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         emit(
           state.copyWith(
               message: "The page is not found", blocState: BlocState.failed),

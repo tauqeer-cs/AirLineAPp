@@ -1,13 +1,10 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../blocs/booking/booking_cubit.dart';
 import '../../../../blocs/is_departure/is_departure_cubit.dart';
@@ -17,12 +14,11 @@ import '../../../../models/number_person.dart';
 import '../../../../utils/number_utils.dart';
 import '../../../../utils/security_utils.dart';
 import '../../../../widgets/app_card.dart';
-import '../../../../widgets/app_money_widget.dart';
 import '../../../../widgets/containers/app_expanded_section.dart';
 import '../../../checkout/bloc/selected_person_cubit.dart';
 
 class BaggageNotice extends StatefulWidget {
-  BaggageNotice({Key? key}) : super(key: key);
+  const BaggageNotice({Key? key}) : super(key: key);
 
   @override
   State<BaggageNotice> createState() => _BaggageNoticeState();
