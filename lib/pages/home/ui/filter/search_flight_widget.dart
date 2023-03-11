@@ -57,7 +57,7 @@ class SearchFlightWidget extends StatelessWidget {
               ),
               onChanged: (value) =>
                   context.read<FilterCubit>().updatePromoCode(value),
-              hintText: "Promo Code",
+              hintText: "Promo Code e.g. VISA5",
               //inputFormatters: [
               //     UpperCaseTextFormatter(),
               //   ]

@@ -8,6 +8,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/repositories/remote_config_repository.dart';
+
 class NavigationPage extends StatefulWidget {
   const NavigationPage({Key? key}) : super(key: key);
 
@@ -24,7 +26,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   initDialogSystem() async{
     try{
-      //await RemoteConfigRepository.versionChecking();
+      await RemoteConfigRepository.versionChecking();
       if(mounted) {
         WidgetUtils.appUpdateDialog(context);
       }
