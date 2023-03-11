@@ -24,7 +24,7 @@ class InsiderRepository {
     FlutterInsiderIdentifiers identifiers = FlutterInsiderIdentifiers();
     identifiers.addEmail(user.email.nullIfEmpty ?? "none");
     await currentUser?.login(identifiers, insiderIDResult: (insiderID) {
-      logger.d("[INSIDER][login][insiderIDResult]:" + insiderID);
+      logger.d("[INSIDER][login][insiderIDResult]: $insiderID");
       logger.d("identifiers is ${identifiers.identifiers}");
     });
   }

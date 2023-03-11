@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../app/app_bloc_helper.dart';
 import '../../../../../blocs/settings/settings_cubit.dart';
 import '../../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../../data/responses/promotions_response.dart';
 import '../../../../../theme/spacer.dart';
 import '../../../../../theme/styles.dart';
 import '../../../../../theme/typography.dart';
-import '../../../../../utils/constant_utils.dart';
 import '../../../../../widgets/app_card.dart';
 import '../../../../../widgets/app_loading_screen.dart';
 

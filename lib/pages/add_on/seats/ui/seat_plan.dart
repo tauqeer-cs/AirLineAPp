@@ -97,10 +97,10 @@ class SeatPlan extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 35),
-                              child: bundle?.finalAmount == null
-                                  ? Text("No Data")
+                              child: bundle.finalAmount == null
+                                  ? const Text("No Data")
                                   : SeatPrice(
-                                      amount: bundle?.finalAmount ?? 0,
+                                      amount: bundle.finalAmount,
                                       currency: row.seats?.first.seatPriceOffers
                                           ?.firstOrNull?.currency,
                                     ),

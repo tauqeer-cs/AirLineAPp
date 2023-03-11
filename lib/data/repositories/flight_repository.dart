@@ -17,7 +17,6 @@ import 'package:app/models/confirmation_model.dart';
 import 'package:app/models/pay_redirection.dart';
 import 'package:app/models/search_date_range.dart';
 
-import '../requests/promotion_request.dart';
 import '../requests/token_request.dart';
 import '../responses/promotions_response.dart';
 

@@ -27,13 +27,13 @@ class InsiderNotificationModel extends Equatable{
 
   @override
   // TODO: implement props
-  List<Object?> get props => [this.badge,
-    this.imageUrl,
-    this.source,
-    this.title,
-    this.message,
-    this.mutableContent,
-    this.threadId,];
+  List<Object?> get props => [badge,
+    imageUrl,
+    source,
+    title,
+    message,
+    mutableContent,
+    threadId,];
 
   factory InsiderNotificationModel.fromJson(Map<String, dynamic> json) => _$InsiderNotificationModelFromJson(json);
   Map<String, dynamic> toJson() => _$InsiderNotificationModelToJson(this);
@@ -63,14 +63,14 @@ class Channel extends Equatable{
 
   @override
   // TODO: implement props
-  List<Object?> get props => [this.channelName,
-    this.importance,
-    this.ledColor,
-    this.sound,
-    this.id,
-    this.isBadgeEnabled,
-    this.isVibrationEnabled,
-    this.isVisibleOnLockScreen,];
+  List<Object?> get props => [channelName,
+    importance,
+    ledColor,
+    sound,
+    id,
+    isBadgeEnabled,
+    isVibrationEnabled,
+    isVisibleOnLockScreen,];
 
   factory Channel.fromJson(Map<String, dynamic> json) => _$ChannelFromJson(json);
   Map<String, dynamic> toJson() => _$ChannelToJson(this);

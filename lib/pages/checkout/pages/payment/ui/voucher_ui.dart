@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -112,7 +111,7 @@ class VoucherCodeUi extends StatelessWidget {
                           ),
                           failedBuilder: const SizedBox(),
                           finishedBuilder: state.response == null
-                              ? SizedBox()
+                              ? const SizedBox()
                               : Image.asset(
                             "assets/images/icons/iconVoucher.png",
                             width: 15,
@@ -157,7 +156,7 @@ class VoucherCodeUi extends StatelessWidget {
                           ),
                           failedBuilder: const SizedBox(),
                           finishedBuilder: state.response == null
-                              ? SizedBox()
+                              ? const SizedBox()
                               : Image.asset(
                             "assets/images/icons/iconVoucher.png",
                             width: 15,
@@ -170,15 +169,15 @@ class VoucherCodeUi extends StatelessWidget {
                 InkWell(
                   onTap: onRemoveTapped,
                   child: Container(
-                    padding: EdgeInsets.all(3),
-                    margin: EdgeInsets.only(left: 6),
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    ),
+                    padding: const EdgeInsets.all(3),
+                    margin: const EdgeInsets.only(left: 6),
                     decoration: BoxDecoration(
                       color: Styles.kPrimaryColor,
                       shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
                     ),
                   ),
                 ),

@@ -19,7 +19,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../../../models/switch_setting.dart';
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/ui_utils.dart';
-import '../../../../../utils/validator_utils.dart';
 import '../../../../../widgets/settings_wrapper.dart';
 import 'insurance_terms.dart';
 

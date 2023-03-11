@@ -122,7 +122,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
 
   bool isTwelveYearsAgo(DateTime dob) {
 
-    var twelveYearsAgo = DateTime.now().subtract(Duration(days: 365 * 12)).subtract(const Duration(days: 3));
+    var twelveYearsAgo = DateTime.now().subtract(const Duration(days: 365 * 12)).subtract(const Duration(days: 3));
     return dob.isBefore(twelveYearsAgo);
   }
   

@@ -6,7 +6,7 @@ class SummaryState extends Equatable {
   final BlocState blocState;
   final String message;
 
-  SummaryState({
+  const SummaryState({
     this.summaryResponse,
     this.summaryRequest,
     this.blocState = BlocState.initial,

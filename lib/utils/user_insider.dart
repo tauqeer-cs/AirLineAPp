@@ -3,7 +3,6 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
-import 'package:app/utils/fcm_notifications.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_insider/src/product.dart';
-import 'package:flutter_insider/enum/InsiderGender.dart';
-import 'package:flutter_insider/enum/InsiderCallbackAction.dart';
-import 'package:flutter_insider/enum/ContentOptimizerDataType.dart';
 import 'package:flutter_insider/src/event.dart';
-import 'package:flutter_insider/src/identifiers.dart';
 
 class UserInsider {
   BuildContext? context;

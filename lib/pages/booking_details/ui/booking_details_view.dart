@@ -181,7 +181,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     //   context.router.replaceAll([const NavigationRoute()]);
                                     final allowedChange =
                                         isAllowedToContinue(state);
-                                    print("is allow change $allowedChange");
                                     if (!allowedChange) {
                                       Toast.of(context).show(
                                           success: false,
@@ -418,6 +417,5 @@ class AlertWarningBeforeProceed extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

@@ -32,7 +32,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../blocs/settings/settings_cubit.dart';
 import '../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../theme/theme.dart';
-import '../../../../utils/constant_utils.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   const BookingDetailsPage({super.key});
@@ -338,7 +337,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   },
                 ),
               ),
-              body: BookingDetailsView(),
+              body: const BookingDetailsView(),
             ),
           ),
         ),

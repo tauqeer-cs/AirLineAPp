@@ -2,7 +2,6 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/wheelchair_fee_detail.dart';
-import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
 import 'package:flutter/material.dart';

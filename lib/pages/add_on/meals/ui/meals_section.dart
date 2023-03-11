@@ -113,7 +113,6 @@ class NewMealCard extends StatelessWidget {
     final length = meals?.where((element) => element == meal).length;
     final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
     final cmsDetail = cmsMeals.firstWhereOrNull((element) => element.code == meal.codeType);
-    print("cmsDetail $cmsDetail");
     //const mealSoldOut = false;
     return AppCard(
       edgeInsets: EdgeInsets.zero,

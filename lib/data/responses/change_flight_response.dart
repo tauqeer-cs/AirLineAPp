@@ -1,5 +1,4 @@
 import 'package:app/data/responses/verify_response.dart';
-import 'package:app/localizations/localizations_util.dart';
 
 import 'package:app/models/confirmation_model.dart';
 
@@ -432,7 +431,6 @@ class ChangeFlightResponse {
         : null;
     changeFlightMessage = json['changeFlightMessage'];
     isReturn = json['isReturn'];
-    print('');
   }
 }
 

@@ -1,4 +1,3 @@
-import 'package:app/models/home_content.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

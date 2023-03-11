@@ -1,6 +1,5 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
-import 'package:app/blocs/settings/settings_cubit.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/pages/checkout/pages/payment/ui/redeem_voucher.dart';
@@ -8,8 +7,6 @@ import 'package:app/pages/checkout/pages/payment/ui/voucher_ui.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
-import 'package:app/widgets/app_card.dart';
-import 'package:app/widgets/app_loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';

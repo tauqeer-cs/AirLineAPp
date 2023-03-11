@@ -1,9 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../utils/security_utils.dart';
 import '../../../../../utils/ui_utils.dart';
-import '../../../../../widgets/pdf_viewer.dart';
 
 class InsuranceTerms extends StatelessWidget {
   const InsuranceTerms({

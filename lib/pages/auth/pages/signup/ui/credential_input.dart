@@ -3,7 +3,6 @@ import 'package:app/blocs/validate_email/validate_email_cubit.dart';
 import 'package:app/models/country.dart';
 import 'package:app/pages/auth/bloc/signup/signup_cubit.dart';
 import 'package:app/pages/auth/pages/signup/ui/form_header.dart';
-import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_loading_screen.dart';
@@ -58,11 +57,11 @@ class CredentialInput extends StatelessWidget {
                             visible: state.blocState == BlocState.loading,
                             child: Positioned.fill(
                               child: Container(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 color: Colors.black.withOpacity(0.3),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
+                                  children: const [
                                     AppLoading(
                                       size: 25,
                                     ),

@@ -21,10 +21,10 @@ class CustomSegmentControl extends StatefulWidget {
         required this.textTwo});
 
   @override
-  _CustomSegmentControlState createState() => _CustomSegmentControlState();
+  CustomSegmentControlState createState() => CustomSegmentControlState();
 }
 
-class _CustomSegmentControlState extends State<CustomSegmentControl> {
+class CustomSegmentControlState extends State<CustomSegmentControl> {
   bool _isSelectedOption1 = true;
 
   //                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),

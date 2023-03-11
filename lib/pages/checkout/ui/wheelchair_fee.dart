@@ -1,5 +1,4 @@
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
-import 'package:app/pages/checkout/ui/baggage_fee_detail.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/wheelchair_fee_detail.dart';
 import 'package:app/widgets/app_money_widget.dart';
@@ -41,7 +40,7 @@ class _WheelChairFeeState extends State<WheelChairFee> {
             padding: const EdgeInsets.all(8),
             child: Row(
               children: [
-                Text(
+                const Text(
                   "- WheelChair",
                   style: kMediumRegular,
                 ),

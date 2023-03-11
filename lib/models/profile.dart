@@ -1,4 +1,3 @@
-import 'package:app/models/number_person.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';

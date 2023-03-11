@@ -15,7 +15,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_insider/flutter_insider.dart';
 
 class SignupAccountPage extends StatefulWidget {
   const SignupAccountPage({Key? key}) : super(key: key);
