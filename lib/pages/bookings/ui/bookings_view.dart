@@ -31,12 +31,14 @@ class BookingsView extends StatelessWidget {
     return BlocConsumer<ManageBookingCubit, ManageBookingState>(
       listener: (context, state) {
         if (state.blocState == BlocState.failed) {
+
           if (state.message.isNotEmpty) {
             Toast.of(context).show(
               success: false,
               message: state.message,
             );
           }
+
         }
 
       },
