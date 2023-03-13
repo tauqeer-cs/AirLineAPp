@@ -45,92 +45,90 @@ class BookingsView extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: SafeArea(
-            child: FormBuilder(
-              key: _fbKey,
-              child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.9,
-                  child: AppCard(
-                    roundedInBottom: true,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            kVerticalSpacer,
-                            kVerticalSpacer,
-                            const Text("Manage My Booking", style: kGiantHeavy),
-                            kVerticalSpacerMini,
-                            Text(
-                              "Please enter your flight details to view and manage your booking.",
-                              style: kMediumRegular.copyWith(
-                                  color: Styles.kSubTextColor),
-                            ),
-                            kVerticalSpacer,
-                            AppInputTextWithBorder(
-                              name: "bookingNumber",
-                              hintText: "Booking Reference Number",
-                              maxLength: 6,
+          child: FormBuilder(
+            key: _fbKey,
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height / 1.9,
+                child: AppCard(
+                  roundedInBottom: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          kVerticalSpacer,
+                          kVerticalSpacer,
+                          const Text("Manage My Booking", style: kGiantHeavy),
+                          kVerticalSpacerMini,
+                          Text(
+                            'Online check-in opens 72 hours before departure',
+                            style: kMediumRegular.copyWith(
+                                color: Styles.kSubTextColor),
+                          ),
+                          kVerticalSpacer,
+                          AppInputTextWithBorder(
+                            name: "bookingNumber",
+                            hintText: "Booking Reference Number",
+                            maxLength: 6,
 
-                              /*inputFormatters: [
-                                UpperCaseTextFormatter(),
-                                FilteringTextInputFormatter.allow(
-                                    RegExp("[A-Za-z0-9\']")),
-                              ],
-                              */
+                            /*inputFormatters: [
+                              UpperCaseTextFormatter(),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[A-Za-z0-9\']")),
+                            ],
+                            */
 
-                              validators: [
-                                FormBuilderValidators.required(),
-                                FormBuilderValidators.minLength(6,
-                                    errorText:
-                                        "Booking number has to be 6 alphanumeric characters"),
-                                FormBuilderValidators.maxLength(6,
-                                    errorText:
-                                        "Booking number has to be 6 alphanumeric characters"),
-                              ],
-                            ),
-                            kVerticalSpacer,
-                            AppInputTextWithBorder(
-                              name: "lastName",
-                              hintText: "Surname / Last Name",
-                              validators: [FormBuilderValidators.required()],
-                            ),
-                            kVerticalSpacer,
-                            kVerticalSpacer,
-                            state.isLoadingInfo
-                                ? const AppLoading()
-                                : Row(
-                                    children: [
-                                      Expanded(
-                                        child: OutlinedButton(
-                                          onPressed: () {
-                                            onManageBooking(context);
-                                          },
-                                          child: const Text(
-                                            'Add on Services',
-                                            textAlign: TextAlign.center,
-                                          ),
+                            validators: [
+                              FormBuilderValidators.required(),
+                              FormBuilderValidators.minLength(6,
+                                  errorText:
+                                      "Booking number has to be 6 alphanumeric characters"),
+                              FormBuilderValidators.maxLength(6,
+                                  errorText:
+                                      "Booking number has to be 6 alphanumeric characters"),
+                            ],
+                          ),
+                          kVerticalSpacer,
+                          AppInputTextWithBorder(
+                            name: "lastName",
+                            hintText: "Surname / Last Name",
+                            validators: [FormBuilderValidators.required()],
+                          ),
+                          kVerticalSpacer,
+                          kVerticalSpacer,
+                          state.isLoadingInfo
+                              ? const AppLoading()
+                              : Row(
+                                  children: [
+                                    Expanded(
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          onManageBooking(context);
+                                        },
+                                        child: const Text(
+                                          'Add on Services',
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
-                                      kHorizontalSpacer,
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            onChangeFlightTapped(context);
-                                          },
-                                          child: const Text('Change flight'),
-                                        ),
+                                    ),
+                                    kHorizontalSpacer,
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          onChangeFlightTapped(context);
+                                        },
+                                        child: const Text('Change flight'),
                                       ),
-                                    ],
-                                  ),
-                          ],
-                        ),
+                                    ),
+                                  ],
+                                ),
+                        ],
                       ),
                     ),
-                  )),
-            ),
+                  ),
+                )),
           ),
         );
       },
