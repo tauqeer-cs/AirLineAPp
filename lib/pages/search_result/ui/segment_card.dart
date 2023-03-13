@@ -257,9 +257,8 @@ class SegmentCard extends StatelessWidget {
   Widget buildCircleAvatar() {
     if(showVisa){
       return  Image.asset(
-        "assets/images/icons/visa.png",
-        width: 32,
-        height: 32,
+        "assets/images/icons/visa2.png",
+        width: 40,
       );
     }
 
