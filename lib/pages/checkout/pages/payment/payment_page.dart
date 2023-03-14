@@ -105,7 +105,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 duration: 900,
                                 expiredTime: DateTime.now()
                                     .toUtc()
-                                    .add(const Duration(seconds: 900)),
+                                    .add(const Duration(seconds: 900),),
                               ),
                             );
                         FlutterInsider.Instance.visitCartPage(

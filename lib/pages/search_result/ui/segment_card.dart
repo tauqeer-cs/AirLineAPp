@@ -26,7 +26,7 @@ class SegmentCard extends StatelessWidget {
       {Key? key,
       required this.segment,
       required this.isDeparture,
-        required this.showVisa,
+      required this.showVisa,
       this.changeFlight = false})
       : super(key: key);
 
@@ -38,19 +38,16 @@ class SegmentCard extends StatelessWidget {
         : context.watch<BookingCubit>().state.selectedReturn;
     ManageBookingCubit? bloc;
 
-
     if (changeFlight) {
       bloc = context.watch<ManageBookingCubit>();
       selected = null;
       if (isDeparture) {
-        if(segment.lfid == bloc.state.selectedDepartureFlight?.lfid) {
+        if (segment.lfid == bloc.state.selectedDepartureFlight?.lfid) {
           selected = bloc.state.selectedDepartureFlight;
         }
-
       } else {
-        if(segment.lfid == bloc.state.selectedReturnFlight?.lfid) {
+        if (segment.lfid == bloc.state.selectedReturnFlight?.lfid) {
           selected = bloc.state.selectedReturnFlight;
-
         }
       }
     }
@@ -92,10 +89,17 @@ class SegmentCard extends StatelessWidget {
                           ),
                         ),
                         kHorizontalSpacer,
+                        if (showVisa) ...[
+                          ClipOval(
+                            child: Image.asset(
+                              "assets/images/icons/visa3.png",
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
 
-
-
-
+                        ] else ...[
                           Visibility(
                             visible: segment.discountPCT != null &&
                                 segment.discountPCT! > 0,
@@ -106,10 +110,7 @@ class SegmentCard extends StatelessWidget {
                             ),
                             child: buildCircleAvatar(),
                           ),
-
-
-
-
+                        ],
                         kHorizontalSpacer,
                         Expanded(
                           child: SegmentHeader(
@@ -150,11 +151,12 @@ class SegmentCard extends StatelessWidget {
                                   style: kTinyHeavy,
                                 ),
                                 MoneyWidget(
-                                  amount:
-                                      changeFlight ? segment.changeFlightAmountToShow : segment.totalSegmentFareAmtWithInfantSSR,
-                                  isDense: true,
-                                  showPlus : changeFlight
-                                ),
+                                    amount: changeFlight
+                                        ? segment.changeFlightAmountToShow
+                                        : segment
+                                            .totalSegmentFareAmtWithInfantSSR,
+                                    isDense: true,
+                                    showPlus: changeFlight),
                                 Visibility(
                                   visible: segment.discountPCT != null &&
                                       segment.discountPCT! > 0,
@@ -186,7 +188,7 @@ class SegmentCard extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    if(!changeFlight){
+                    if (!changeFlight) {
                       context
                           .read<SummaryContainerCubit>()
                           .changeVisibility(true);
@@ -255,29 +257,20 @@ class SegmentCard extends StatelessWidget {
   }
 
   Widget buildCircleAvatar() {
-    if(showVisa){
-      return  Image.asset(
-        "assets/images/icons/visa2.png",
-        width: 40,
-      );
-    }
-
     return CircleAvatar(
-                            backgroundColor: Styles.kPrimaryColor,
-                            child: Text(
-                              "-${segment.discountPCT}%",
-                              style: kTinyHeavy.copyWith(color: Colors.white),
-                            ),
-                          );
+      backgroundColor: Styles.kPrimaryColor,
+      child: Text(
+        "-${segment.discountPCT}%",
+        style: kTinyHeavy.copyWith(color: Colors.white),
+      ),
+    );
   }
 
   bool isHighlighted(InboundOutboundSegment? selected, bool isVerify) {
-
-    if(changeFlight) {
+    if (changeFlight) {
       return selected == segment;
     }
-    return  selected == segment && !isVerify && false;
-
+    return selected == segment && !isVerify && false;
   }
 }
 

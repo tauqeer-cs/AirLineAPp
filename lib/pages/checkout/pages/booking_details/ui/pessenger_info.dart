@@ -264,13 +264,16 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   },
                 ),
                 kVerticalSpacerMini,
-                AppInputText(
-                  name: rewardKey,
-                  hintText: 'To earn points, enter your MYRewards ID',
-                  inputFormatters: [AppFormUtils.onlyNumber()],
-                  textInputType: TextInputType.number,
-                ),
-                kVerticalSpacerMini,
+                if(widget.person.peopleType != PeopleType.infant) ... [
+                  AppInputText(
+                    name: rewardKey,
+                    hintText: 'To earn points, enter your MYRewards ID',
+                    inputFormatters: [AppFormUtils.onlyNumber()],
+                    textInputType: TextInputType.number,
+                  ),
+                  kVerticalSpacerMini,
+               ],
+
                 Visibility(
                   visible: (notice?.content?.isNotEmpty ?? false) &&
                       isUnder16 &&
