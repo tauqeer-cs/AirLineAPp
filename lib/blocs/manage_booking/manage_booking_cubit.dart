@@ -388,7 +388,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     } catch (e, st) {
       emit(
         state.copyWith(
-            message: ErrorUtils.getErrorMessage(e, st),
+            message: ErrorUtils.getErrorMessage(e, st,dontShowError: true),
             blocState: BlocState.failed,
             isLoadingInfo: false,
             dataLoaded: false),

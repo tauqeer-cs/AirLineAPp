@@ -120,7 +120,12 @@ class _PaymentPageState extends State<PaymentPage> {
                           var query = urlParsed.queryParametersAll;
                           String? status = query['status']?.first;
                           String? superPNR = query['superPNR']?.first;
-                          if (status != "FAIL") {
+                          if(status == 'VISAFAIL'){
+                            if (mounted) {
+                              Toast.of(context).show(message: 'Oops sorry, this promo is not applicable for you cardtype.');
+                            }
+                          }
+                          else if (status != "FAIL") {
                             if (mounted) {
                               final filter = context
                                   .read<SearchFlightCubit>()
