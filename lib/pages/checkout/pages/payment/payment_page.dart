@@ -122,7 +122,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           String? superPNR = query['superPNR']?.first;
                           if(status == 'VISAFAIL'){
                             if (mounted) {
-                              Toast.of(context).show(message: 'Oops sorry, this promo is not applicable for you cardtype.');
+                              Toast.of(context).show(message: 'Oops sorry, this promo is not applicable for your card type.');
                             }
                           }
                           else if (status != "FAIL") {
