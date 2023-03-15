@@ -4,6 +4,7 @@ import 'package:app/pages/check_in/ui/check_in_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widgets/wrapper/auth_wrapper.dart';
 
 class CheckInPage extends StatelessWidget {
   const CheckInPage({Key? key}) : super(key: key);
@@ -14,12 +15,16 @@ class CheckInPage extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: BlocProvider(
         create: (context) => CheckInCubit(),
-        child: const WaveBackground(
+        child:  WaveBackground(
           color: Colors.white,
           child: Scaffold(
             backgroundColor: Colors.transparent,
-
-            body: SafeArea(child: CheckInView()),
+            body: SafeArea(
+              child: AuthWrapper(
+                authChild: Container(),
+                child: const CheckInView(),
+              ),
+            ),
           ),
         ),
       ),
