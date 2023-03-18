@@ -19,11 +19,11 @@ class AppFlavor {
   static String get title {
     switch (appFlavor) {
       case Flavor.staging:
-        return 'MyAirline - Staging';
+        return 'MYAirline - Staging';
       case Flavor.uat:
-        return 'MyAirline - UAT';
+        return 'MYAirline - UAT';
       default:
-        return 'MyAirline';
+        return 'MYAirline';
     }
   }
 
