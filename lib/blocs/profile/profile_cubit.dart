@@ -20,7 +20,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(const ProfileState());
   }
 
-  List<FriendsFamily> friendFamily(Person person,DateTime departureDate) {
+  List<FriendsFamily> friendFamily(Person person,DateTime departureDate,PeopleType type) {
     if (state.profile?.userProfile?.friendsAndFamily != null) {
 
       //person.
@@ -28,6 +28,42 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       var check = state.profile!.userProfile!.friendsAndFamily!.where((element) => element.dobDate!.difference(limitDate).inDays > 1).toList();
 
+      if(type == PeopleType.adult) {
+       return check.where((ff) {
+          DateTime? dob = ff.dobDate;
+          if (dob == null) {
+            return false;
+          }
+          DateTime now = DateTime.now();
+          DateTime twelveYearsAgo = DateTime(now.year - 12, now.month, now.day);
+          return dob.isBefore(twelveYearsAgo);
+        }).toList();
+      }
+      else if(type == PeopleType.child){
+
+        return check.where((ff) {
+          DateTime? dob = ff.dobDate;
+          if (dob == null) {
+            return false;
+          }
+          DateTime now = DateTime.now();
+          DateTime twoYearsAgo = DateTime(now.year - 2, now.month, now.day);
+          DateTime twelveYearsAgo = DateTime(now.year - 12, now.month, now.day);
+          return dob.isAfter(twelveYearsAgo) && dob.isBefore(twoYearsAgo);
+        }).toList();
+
+      }
+      else if(type == PeopleType.infant){
+        return check.where((ff) {
+          DateTime? dob = ff.dobDate;
+          if (dob == null) {
+            return false;
+          }
+          DateTime now = DateTime.now();
+          DateTime twoYearsAgo = DateTime(now.year - 2, now.month, now.day);
+          return dob.isAfter(twoYearsAgo);
+        }).toList();
+      }
       return check;
     }
     return [];

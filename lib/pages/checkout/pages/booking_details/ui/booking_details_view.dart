@@ -341,7 +341,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               errorText: 'Email address is mandatory for company Tax Invoice.');
           return;
         }
-
       }
 
       List<Passenger> passengers = [];

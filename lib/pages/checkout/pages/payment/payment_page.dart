@@ -105,7 +105,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 duration: 900,
                                 expiredTime: DateTime.now()
                                     .toUtc()
-                                    .add(const Duration(seconds: 900)),
+                                    .add(const Duration(seconds: 900),),
                               ),
                             );
                         FlutterInsider.Instance.visitCartPage(
@@ -122,7 +122,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           String? superPNR = query['superPNR']?.first;
                           if(status == 'VISAFAIL'){
                             if (mounted) {
-                              Toast.of(context).show(message: 'Oops sorry, this promo is not applicable for you cardtype.');
+                              Toast.of(context).show(message: 'Oops sorry, this promo is not applicable for your card type.');
                             }
                           }
                           else if (status != "FAIL") {

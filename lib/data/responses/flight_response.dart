@@ -18,7 +18,7 @@ class FlightResponse extends Equatable {
       {this.searchFlightRequest,
       this.searchFlightResponse,
       this.orderID,
-        this.isVisaCampaign,
+      this.isVisaCampaign,
       this.success});
 
   factory FlightResponse.fromJson(Map<String, dynamic> json) =>
@@ -63,13 +63,23 @@ class FlightResult extends Equatable {
         requestedIataNumber,
         requestedInventoryFilterMethod,
         taxDetails,
-
-    requestedPromotionalCode
+        requestedPromotionalCode,
+        isInboundNotAvailable,
+        isOutboundNotAvailable,
+        outboundNotAvailableMessage,
+        inboundNotAvailableMessage,
       ];
 
   final List<InboundOutboundSegment>? inboundSegment;
   final List<InboundOutboundSegment>? outboundSegment;
   final bool? commissionIncluded;
+
+  final String? outboundNotAvailableMessage;
+  final String? inboundNotAvailableMessage;
+
+  final bool? isOutboundNotAvailable;
+  final bool? isInboundNotAvailable;
+
   final List<LegDetails>? legDetails;
   final num? requestReservationChannel;
   final num? requestedCorporationID;
@@ -95,6 +105,10 @@ class FlightResult extends Equatable {
     this.requestedInventoryFilterMethod,
     this.taxDetails,
     this.requestedPromotionalCode,
+    this.isOutboundNotAvailable,
+    this.isInboundNotAvailable,
+    this.outboundNotAvailableMessage,
+    this.inboundNotAvailableMessage,
   });
 
   factory FlightResult.fromJson(Map<String, dynamic> json) =>
@@ -153,22 +167,18 @@ class InboundOutboundSegment extends Equatable {
 
   final num? changeFlightAmount;
 
-
   num? get changeFlightAmountToShow {
-
     return changeFlightAmount;
   }
 
   num changeFlightAmountToShowPerPax(num noPeople) {
-
     return (changeFlightAmount ?? 0.0) / noPeople;
   }
 
   num calculateDifference(num firstFare) {
-
-     return firstFare - (totalSegmentFareAmt ?? 0.0);
-
+    return firstFare - (totalSegmentFareAmt ?? 0.0);
   }
+
   final String? fbCode;
 
   const InboundOutboundSegment({
@@ -245,7 +255,7 @@ class SegmentDetail extends Equatable {
         flySunday,
         aircraftDescription,
         deiDisclosure,
-   // changeFlightAmount
+        // changeFlightAmount
       ];
 
   final num? lfid;

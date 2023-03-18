@@ -43,6 +43,8 @@ abstract class _$ManageBookingStateCWProxy {
 
   ManageBookingState message(String message);
 
+  ManageBookingState orderId(int? orderId);
+
   ManageBookingState pnrEntered(String? pnrEntered);
 
   ManageBookingState selectedDepartureFlight(
@@ -50,6 +52,8 @@ abstract class _$ManageBookingStateCWProxy {
 
   ManageBookingState selectedReturnFlight(
       InboundOutboundSegment? selectedReturnFlight);
+
+  ManageBookingState superPnrNo(String? superPnrNo);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ManageBookingState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -75,9 +79,11 @@ abstract class _$ManageBookingStateCWProxy {
     bool? loadingSummary,
     ManageBookingResponse? manageBookingResponse,
     String? message,
+    int? orderId,
     String? pnrEntered,
     InboundOutboundSegment? selectedDepartureFlight,
     InboundOutboundSegment? selectedReturnFlight,
+    String? superPnrNo,
   });
 }
 
@@ -93,7 +99,7 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
 
   @override
   ManageBookingState changeFlightResponse(
-      ChangeFlightRequestResponse? changeFlightResponse) =>
+          ChangeFlightRequestResponse? changeFlightResponse) =>
       this(changeFlightResponse: changeFlightResponse);
 
   @override
@@ -157,6 +163,9 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
   ManageBookingState message(String message) => this(message: message);
 
   @override
+  ManageBookingState orderId(int? orderId) => this(orderId: orderId);
+
+  @override
   ManageBookingState pnrEntered(String? pnrEntered) =>
       this(pnrEntered: pnrEntered);
 
@@ -169,6 +178,10 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
   ManageBookingState selectedReturnFlight(
           InboundOutboundSegment? selectedReturnFlight) =>
       this(selectedReturnFlight: selectedReturnFlight);
+
+  @override
+  ManageBookingState superPnrNo(String? superPnrNo) =>
+      this(superPnrNo: superPnrNo);
 
   @override
 
@@ -196,9 +209,11 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
     Object? loadingSummary = const $CopyWithPlaceholder(),
     Object? manageBookingResponse = const $CopyWithPlaceholder(),
     Object? message = const $CopyWithPlaceholder(),
+    Object? orderId = const $CopyWithPlaceholder(),
     Object? pnrEntered = const $CopyWithPlaceholder(),
     Object? selectedDepartureFlight = const $CopyWithPlaceholder(),
     Object? selectedReturnFlight = const $CopyWithPlaceholder(),
+    Object? superPnrNo = const $CopyWithPlaceholder(),
   }) {
     return ManageBookingState(
       blocState: blocState == const $CopyWithPlaceholder() || blocState == null
@@ -283,6 +298,10 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
           ? _value.message
           // ignore: cast_nullable_to_non_nullable
           : message as String,
+      orderId: orderId == const $CopyWithPlaceholder()
+          ? _value.orderId
+          // ignore: cast_nullable_to_non_nullable
+          : orderId as int?,
       pnrEntered: pnrEntered == const $CopyWithPlaceholder()
           ? _value.pnrEntered
           // ignore: cast_nullable_to_non_nullable
@@ -296,6 +315,10 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
           ? _value.selectedReturnFlight
           // ignore: cast_nullable_to_non_nullable
           : selectedReturnFlight as InboundOutboundSegment?,
+      superPnrNo: superPnrNo == const $CopyWithPlaceholder()
+          ? _value.superPnrNo
+          // ignore: cast_nullable_to_non_nullable
+          : superPnrNo as String?,
     );
   }
 }
@@ -317,9 +340,11 @@ extension $ManageBookingStateCopyWith on ManageBookingState {
     bool flightSearchResponse = false,
     bool lastName = false,
     bool manageBookingResponse = false,
+    bool orderId = false,
     bool pnrEntered = false,
     bool selectedDepartureFlight = false,
     bool selectedReturnFlight = false,
+    bool superPnrNo = false,
   }) {
     return ManageBookingState(
       blocState: blocState,
@@ -342,11 +367,13 @@ extension $ManageBookingStateCopyWith on ManageBookingState {
       manageBookingResponse:
           manageBookingResponse == true ? null : this.manageBookingResponse,
       message: message,
+      orderId: orderId == true ? null : this.orderId,
       pnrEntered: pnrEntered == true ? null : this.pnrEntered,
       selectedDepartureFlight:
           selectedDepartureFlight == true ? null : this.selectedDepartureFlight,
       selectedReturnFlight:
           selectedReturnFlight == true ? null : this.selectedReturnFlight,
+      superPnrNo: superPnrNo == true ? null : this.superPnrNo,
     );
   }
 }
