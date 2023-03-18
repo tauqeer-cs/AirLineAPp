@@ -160,7 +160,9 @@ class TitleSummaryHeader extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: Text("Summary"),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.router.push(SummaryRoute());
+              },
             ),
           ),
         ],

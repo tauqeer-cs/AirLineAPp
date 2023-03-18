@@ -95,3 +95,46 @@ class MoneyWidgetSmall extends StatelessWidget {
     );
   }
 }
+
+class MoneyWidgetCustom extends StatelessWidget {
+  final num? amount;
+  final String? currency;
+  final bool isNegative;
+  final double? myrSize, amountSize;
+  final Color? textColor;
+  final FontWeight? fontWeight;
+  const MoneyWidgetCustom({
+    Key? key,
+    this.amount,
+    this.currency,
+    this.isNegative = false, this.myrSize, this.amountSize, this.textColor, this.fontWeight,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "${isNegative ? "- " : ""}${currency ?? 'MYR'} ",
+          style: kMediumRegular.copyWith(
+            fontSize: myrSize ?? 14,
+            color: textColor,
+              fontWeight: fontWeight
+          ),
+        ),
+        kHorizontalSpacerMini,
+        AutoSizeText(
+          NumberUtils.formatNumber(amount?.toDouble()),
+          style: kMediumRegular.copyWith(
+            fontSize: myrSize ?? 14,
+            color: textColor,
+            fontWeight: fontWeight
+          ),
+          maxLines: 1,
+        ),
+      ],
+    );
+  }
+}

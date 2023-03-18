@@ -284,23 +284,28 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                       ),
                                     ],
                                   ),
-                                  trailing: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        currentItem.currencyCode ?? 'MYR',
-                                        style: kMediumHeavy,
-                                      ),
-                                      Text(
-                                        NumberUtils.formatNumber(
-                                          (currentItem.amount ?? 0.0)
-                                              .toDouble(),
+                                  trailing: Container(
+                                    constraints: BoxConstraints(
+                                      minWidth: 60
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          currentItem.currencyCode ?? 'MYR',
+                                          style: kMediumHeavy,
                                         ),
-                                        style: kHugeHeavy,
-                                      ),
-                                    ],
+                                        Text(
+                                          NumberUtils.formatNumber(
+                                            (currentItem.amount ?? 0.0)
+                                                .toDouble(),
+                                          ),
+                                          style: kHugeHeavy,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Positioned(

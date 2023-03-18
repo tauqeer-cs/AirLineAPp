@@ -134,6 +134,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SummaryRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SummaryPage(),
+      );
+    },
     SelectBundleRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -434,6 +440,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           SpecialRoute.name,
           path: '/flight/addon/selection-special',
+        ),
+        RouteConfig(
+          SummaryRoute.name,
+          path: '/flight/addon/summary',
         ),
         RouteConfig(
           SelectBundleRoute.name,
@@ -909,6 +919,18 @@ class SpecialRouteArgs {
   String toString() {
     return 'SpecialRouteArgs{key: $key, isDeparture: $isDeparture}';
   }
+}
+
+/// generated route for
+/// [SummaryPage]
+class SummaryRoute extends PageRouteInfo<void> {
+  const SummaryRoute()
+      : super(
+          SummaryRoute.name,
+          path: '/flight/addon/summary',
+        );
+
+  static const String name = 'SummaryRoute';
 }
 
 /// generated route for

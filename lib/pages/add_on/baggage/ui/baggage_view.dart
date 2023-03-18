@@ -152,12 +152,7 @@ class ContinueButton extends StatelessWidget {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(BaggageRoute(isDeparture: false));
         } else {
-
-          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
-          var response = await context.router.push(const BookingDetailsRoute());
-          if(response == true) {
-            context.router.push(const BookingDetailsRoute());
-          }
+          context.router.push(SpecialRoute(isDeparture: true));
         }
       },
       child: const Text("Continue"),

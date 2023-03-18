@@ -50,7 +50,7 @@ class WheelchairSection extends StatelessWidget {
         children: [
           PassengerSelector(
             isDeparture: isDeparture,
-            addonType: AddonType.meal,
+            addonType: AddonType.special,
           ),
           kVerticalSpacer,
           AppCard(

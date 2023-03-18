@@ -62,6 +62,8 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       departureInsurance: json['departureInsurance'] == null
           ? null
           : Bundle.fromJson(json['departureInsurance'] as Map<String, dynamic>),
+      departureOkId: json['departureOkId'] as String?,
+      returnOkId: json['returnOkId'] as String?,
       returnInsurance: json['returnInsurance'] == null
           ? null
           : Bundle.fromJson(json['returnInsurance'] as Map<String, dynamic>),
@@ -99,6 +101,8 @@ Map<String, dynamic> _$PersonToJson(Person instance) {
   writeNotNull('returnSports', instance.returnSports);
   writeNotNull('departureWheelChair', instance.departureWheelChair);
   writeNotNull('returnWheelChair', instance.returnWheelChair);
+  writeNotNull('departureOkId', instance.departureOkId);
+  writeNotNull('returnOkId', instance.returnOkId);
   writeNotNull('departureInsurance', instance.departureInsurance);
   writeNotNull('returnInsurance', instance.returnInsurance);
   writeNotNull('insuranceGroup', instance.insuranceGroup);
