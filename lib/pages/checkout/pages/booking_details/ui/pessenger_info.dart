@@ -1,4 +1,5 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/custom_packages/dropdown_search/src/properties/dropdown_decorator_props.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/models/switch_setting.dart';
@@ -168,276 +169,280 @@ class _PassengerInfoState extends State<PassengerInfo> {
             ],
           ),
         ),
-        kVerticalSpacerSmall,
+        kVerticalSpacer,
         AutofillGroup(
-          child: GreyCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppInputText(
-                  name: firstNameKey,
-                  hintText: "First Name/Given Name",
-                  initialValue: passengerInfo?.firstName,
-                  validators: [FormBuilderValidators.required()],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ShadowInput(
+                name: titleKey,
+                validators: [FormBuilderValidators.required()],
+                textEditingController: titleController,
+                child: AppDropDown<String>(
+                  items: widget.person.peopleType == PeopleType.adult
+                      ? availableTitle
+                      : availableTitleChild,
+                  dropdownDecoration: Styles.getDefaultFieldDecoration(),
+                  defaultValue: defaultTitle,
+                  sheetTitle: "Title",
                   onChanged: (value) {
-                    context
-                        .read<InfoCubit>()
-                        .updateMap(widget.person.toString(), value ?? "");
-
-                    if (insuranceSelected && value == 'EXTRA') {
-                      widget.insuranceSelected(false, currentInsuranceBundlde!);
-                      insuranceSelected = false;
-                      setState(() {
-                        isNameExtra = true;
-                      });
-                    } else if (value == 'EXTRA') {
-                      setState(() {
-                        isNameExtra = true;
-                      });
-                    } else {
-                      setState(() {
-                        isNameExtra = false;
-                      });
-                    }
+                    titleController.text = value ?? "";
                   },
                 ),
-                kVerticalSpacerMini,
-                AppInputText(
-                  name: lastNameKey,
-                  hintText: "Last Name / Surname",
-                  initialValue: passengerInfo?.lastName,
-                  validators: [
-                    FormBuilderValidators.required(),
-                  ],
-                ),
-                ShadowInput(
-                  name: titleKey,
-                  validators: [FormBuilderValidators.required()],
-                  textEditingController: titleController,
-                  child: AppDropDown<String>(
-                    items: widget.person.peopleType == PeopleType.adult
-                        ? availableTitle
-                        : availableTitleChild,
-                    defaultValue: defaultTitle,
-                    sheetTitle: "Title",
-                    onChanged: (value) {
-                      titleController.text = value ?? "";
-                    },
-                  ),
-                ),
-                kVerticalSpacerMini,
-                ShadowInput(
-                  textEditingController: nationalityController,
-                  name: countryKey,
-                  child: AppCountriesDropdown(
-                    hintText: "Country",
-                    isPhoneCode: false,
-                    onChanged: (value) {
-                      nationalityController.text = value?.countryCode2 ?? "";
-                    },
-                  ),
-                ),
-                FormBuilderDateTimePicker(
-                  key: dateKey,
-                  name: dobKey,
-                  firstDate: widget.person.dateLimitStart(filter.departDate),
-                  lastDate: widget.person.peopleType == PeopleType.infant
-                      ? infantDOBlimit(DateTime.now())
-                      : widget.person.dateLimitEnd(filter.departDate),
-                  initialValue: passengerInfo?.dob,
-                  format: DateFormat("dd MMM yyyy"),
-                  initialDate: widget.person.peopleType == PeopleType.infant
-                      ? infantDOBlimit(DateTime.now())
-                      : widget.person.dateLimitEnd(filter.departDate),
-                  initialEntryMode: DatePickerEntryMode.calendar,
-                  decoration: const InputDecoration(hintText: "Date of Birth"),
-                  inputType: InputType.date,
-                  validator: FormBuilderValidators.required(),
-                  onChanged: (date) {
-                    if (date == null) return;
+              ),
+              kVerticalSpacerSmall,
+              AppInputText(
+                name: firstNameKey,
+                hintText: "First Name/Given Name",
+                initialValue: passengerInfo?.firstName,
+                validators: [FormBuilderValidators.required()],
+                onChanged: (value) {
+                  context
+                      .read<InfoCubit>()
+                      .updateMap(widget.person.toString(), value ?? "");
+
+                  if (insuranceSelected && value == 'EXTRA') {
+                    widget.insuranceSelected(false, currentInsuranceBundlde!);
+                    insuranceSelected = false;
                     setState(() {
-                      isUnder16 = AppDateUtils.isUnder16(
-                        date,
-                        filter.departDate ?? DateTime.now(),
-                      );
+                      isNameExtra = true;
                     });
+                  } else if (value == 'EXTRA') {
+                    setState(() {
+                      isNameExtra = true;
+                    });
+                  } else {
+                    setState(() {
+                      isNameExtra = false;
+                    });
+                  }
+                },
+              ),
+              kVerticalSpacerSmall,
+              AppInputText(
+                name: lastNameKey,
+                hintText: "Last Name / Surname",
+                initialValue: passengerInfo?.lastName,
+                validators: [
+                  FormBuilderValidators.required(),
+                ],
+              ),
+              kVerticalSpacerSmall,
+              ShadowInput(
+                textEditingController: nationalityController,
+                name: countryKey,
+                child: AppCountriesDropdown(
+                  hintText: "Country",
+                  dropdownDecoration: Styles.getDefaultFieldDecoration(),
+                  isPhoneCode: false,
+                  onChanged: (value) {
+                    nationalityController.text = value?.countryCode2 ?? "";
                   },
                 ),
+              ),
+              kVerticalSpacerSmall,
+              FormBuilderDateTimePicker(
+                key: dateKey,
+                name: dobKey,
+                firstDate: widget.person.dateLimitStart(filter.departDate),
+                lastDate: widget.person.peopleType == PeopleType.infant
+                    ? infantDOBlimit(DateTime.now())
+                    : widget.person.dateLimitEnd(filter.departDate),
+                initialValue: passengerInfo?.dob,
+                format: DateFormat("dd MMM yyyy"),
+                initialDate: widget.person.peopleType == PeopleType.infant
+                    ? infantDOBlimit(DateTime.now())
+                    : widget.person.dateLimitEnd(filter.departDate),
+                initialEntryMode: DatePickerEntryMode.calendar,
+                decoration: const InputDecoration(
+                  hintText: "Date of Birth",
+                ),
+                inputType: InputType.date,
+                validator: FormBuilderValidators.required(),
+                onChanged: (date) {
+                  if (date == null) return;
+                  setState(() {
+                    isUnder16 = AppDateUtils.isUnder16(
+                      date,
+                      filter.departDate ?? DateTime.now(),
+                    );
+                  });
+                },
+              ),
+              kVerticalSpacerSmall,
+              if (widget.person.peopleType != PeopleType.infant) ...[
+                AppInputText(
+                  name: rewardKey,
+                  hintText: 'To earn points, enter your MYRewards ID',
+                  inputFormatters: [AppFormUtils.onlyNumber()],
+                  textInputType: TextInputType.number,
+                ),
                 kVerticalSpacerMini,
-                if (widget.person.peopleType != PeopleType.infant) ...[
-                  AppInputText(
-                    name: rewardKey,
-                    hintText: 'To earn points, enter your MYRewards ID',
-                    inputFormatters: [AppFormUtils.onlyNumber()],
-                    textInputType: TextInputType.number,
+              ],
+              Visibility(
+                visible: (notice?.content?.isNotEmpty ?? false) &&
+                    isUnder16 &&
+                    (widget.person.peopleType == PeopleType.adult) &&
+                    (filter.numberPerson.numberOfAdult == 1),
+                child: Container(
+                  margin: const EdgeInsets.only(top: 12),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                  width: 500.w,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFECBBC0),
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  kVerticalSpacerMini,
-                ],
-                Visibility(
-                  visible: (notice?.content?.isNotEmpty ?? false) &&
-                      isUnder16 &&
-                      (widget.person.peopleType == PeopleType.adult) &&
-                      (filter.numberPerson.numberOfAdult == 1),
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 12),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-                    width: 500.w,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFECBBC0),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Checkbox(
-                          value: true,
-                          onChanged: (_) {},
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        Expanded(
-                          child: Html(
-                            data: notice?.content ?? "",
-                            style: HtmlStyle.htmlStyle(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: visible(),
-                  child: FormBuilderCheckbox(
-                    name: "${widget.person.toString()}$formNameWheelChair",
-                    contentPadding: EdgeInsets.zero,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.zero,
-                      border: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      focusedErrorBorder: InputBorder.none,
-                    ),
-                    title: const Text(
-                        'Tick this box and check-in at the airport counter to receive a wheelchair'),
-                    onChanged: (value) {
-                      if (value ?? false) {
-                        updateWheelChair(
-                            context, departureWheelChair, returnWheelChair);
-                      } else {
-                        context.read<SearchFlightCubit>().addWheelChairToPerson(
-                              widget.person,
-                              null,
-                              null,
-                            );
-                      }
-                      setState(() {
-                        isWheelChairChecked = value ?? false;
-                      });
-                    },
-                  ),
-                ),
-                Visibility(
-                  visible: isWheelChairChecked,
-                  child: AppInputText(
-                    name: "${widget.person.toString()}$formNameOkIdNumber",
-                    hintText: "Disabled ID Card No (Optional)",
-                    onChanged: (id) {
-                      okId = id;
-                      updateWheelChair(
-                          context, departureWheelChair, returnWheelChair);
-                    },
-                  ),
-                ),
-                Visibility(
-                  visible: widget.person.peopleType == PeopleType.infant,
-                  child: BlocBuilder<InfoCubit, Map<String, String>>(
-                    builder: (context, state) {
-                      final adultName =
-                          state["Adult ${widget.person.numberOrder}"];
-                      final string =
-                          adultName ?? "Adult ${widget.person.numberOrder}";
-                      return Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                                color: Styles.kBorderColor.withOpacity(0.3)),
-                          ),
-                        ),
-                        child: Text(
-                          "Travel With $string",
-                          style: kSmallSemiBold,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                if (!isNameExtra) ...[
-                  if (insuranceGroup != null) ...[
-                    if (insuranceGroup.outbound!.isNotEmpty) ...[
-                      Visibility(
-                        visible: visible(),
-                        child: SettingsWrapper(
-                          settingType: AvailableSetting.insurance,
-                          child: FormBuilderCheckbox(
-                            name:
-                                "${widget.person.toString()}$formNameInsurance",
-                            contentPadding: EdgeInsets.zero,
-                            initialValue: insuranceSelected,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.zero,
-                              border: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              focusedErrorBorder: InputBorder.none,
-                            ),
-                            title: RichText(
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  const TextSpan(text: 'I want '),
-                                  makeClickableTextSpan(context,
-                                      text: 'MY${' Travel Shield'}',
-                                      pdfName:
-                                          'https://booking.myairline.my/insurance/travel_protection.pdf',
-                                      pdfIsLink: true),
-                                  makeClickableTextSpan(context,
-                                      text:
-                                          ": MYR ${travelProtectionRate(insuranceGroup.outbound!)}",
-                                      makeNormalTextBol: true),
-                                ],
-                              ),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                insuranceSelected = value ?? false;
-                              });
-
-                              if (value == true) {
-                                widget.insuranceSelected(
-                                    true, currentInsuranceBundlde!);
-                              } else {
-                                widget.insuranceSelected(
-                                    false, currentInsuranceBundlde!);
-                              }
-                            },
-                          ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Checkbox(
+                        value: true,
+                        onChanged: (_) {},
+                        materialTapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      Expanded(
+                        child: Html(
+                          data: notice?.content ?? "",
+                          style: HtmlStyle.htmlStyle(),
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+              Visibility(
+                visible:false,
+                child: FormBuilderCheckbox(
+                  name: "${widget.person.toString()}$formNameWheelChair",
+                  contentPadding: EdgeInsets.zero,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.zero,
+                    border: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                  ),
+                  title: const Text(
+                      'Tick this box and check-in at the airport counter to receive a wheelchair'),
+                  onChanged: (value) {
+                    if (value ?? false) {
+                      updateWheelChair(
+                          context, departureWheelChair, returnWheelChair);
+                    } else {
+                      context.read<SearchFlightCubit>().addWheelChairToPerson(
+                            widget.person,
+                            null,
+                            null,
+                          );
+                    }
+                    setState(() {
+                      isWheelChairChecked = value ?? false;
+                    });
+                  },
+                ),
+              ),
+              Visibility(
+                visible: isWheelChairChecked,
+                child: AppInputText(
+                  name: "${widget.person.toString()}$formNameOkIdNumber",
+                  hintText: "Disabled ID Card No (Optional)",
+                  onChanged: (id) {
+                    okId = id;
+                    updateWheelChair(
+                        context, departureWheelChair, returnWheelChair);
+                  },
+                ),
+              ),
+              Visibility(
+                visible: widget.person.peopleType == PeopleType.infant,
+                child: BlocBuilder<InfoCubit, Map<String, String>>(
+                  builder: (context, state) {
+                    final adultName =
+                        state["Adult ${widget.person.numberOrder}"];
+                    final string =
+                        adultName ?? "Adult ${widget.person.numberOrder}";
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                              color: Styles.kBorderColor.withOpacity(0.3)),
+                        ),
+                      ),
+                      child: Text(
+                        "Travel With $string",
+                        style: kSmallSemiBold,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              if (!isNameExtra) ...[
+                if (insuranceGroup != null) ...[
+                  if (insuranceGroup.outbound!.isNotEmpty) ...[
+                    Visibility(
+                      visible: false,
+                      child: SettingsWrapper(
+                        settingType: AvailableSetting.insurance,
+                        child: FormBuilderCheckbox(
+                          name:
+                              "${widget.person.toString()}$formNameInsurance",
+                          contentPadding: EdgeInsets.zero,
+                          initialValue: insuranceSelected,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                const TextSpan(text: 'I want '),
+                                makeClickableTextSpan(context,
+                                    text: 'MY${' Travel Shield'}',
+                                    pdfName:
+                                        'https://booking.myairline.my/insurance/travel_protection.pdf',
+                                    pdfIsLink: true),
+                                makeClickableTextSpan(context,
+                                    text:
+                                        ": MYR ${travelProtectionRate(insuranceGroup.outbound!)}",
+                                    makeNormalTextBol: true),
+                              ],
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              insuranceSelected = value ?? false;
+                            });
+
+                            if (value == true) {
+                              widget.insuranceSelected(
+                                  true, currentInsuranceBundlde!);
+                            } else {
+                              widget.insuranceSelected(
+                                  false, currentInsuranceBundlde!);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                   ],
-                ]
-              ],
-            ),
+                ],
+              ]
+            ],
           ),
         ),
       ],
