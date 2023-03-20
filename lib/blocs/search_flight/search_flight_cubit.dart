@@ -316,7 +316,6 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
         return true;
       }
     }
-
     return false;
   }
 }

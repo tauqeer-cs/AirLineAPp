@@ -284,39 +284,33 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
-                  if (context.router.currentUrl == '/booking-details') {
-
-
-                    context.router.push(const PaymentRoute());
-
-                    if (context.read<SettingsCubit>().state.switchSetting.myReward ?? false) {
-                      var token = context
-                          .read<SummaryCubit>()
-                          .state
-                          .summaryRequest!
-                          .token;
-
-                      context.read<VoucherCubit>().state.copyWith(
-                          flightToken: context
-                              .read<SummaryCubit>()
-                              .state
-                              .summaryRequest!
-                              .token);
-
-                      context
-                          .read<VoucherCubit>()
-                          .getAvailablePromotions(token);
-                    }
-
-                  }
-
+                  context.router.push(const InsuranceRoute());
+                  // if (context.router.currentUrl == '/booking-details') {
+                  //   context.router.push(const PaymentRoute());
+                  //   if (context.read<SettingsCubit>().state.switchSetting.myReward ?? false) {
+                  //     var token = context
+                  //         .read<SummaryCubit>()
+                  //         .state
+                  //         .summaryRequest!
+                  //         .token;
+                  //     context.read<VoucherCubit>().state.copyWith(
+                  //         flightToken: context
+                  //             .read<SummaryCubit>()
+                  //             .state
+                  //             .summaryRequest!
+                  //             .token);
+                  //     context
+                  //         .read<VoucherCubit>()
+                  //         .getAvailablePromotions(token);
+                  //   }
+                  // }
                   //VoucherCubit
                 },
               );
             },
             child: Scaffold(
               appBar: AppAppBar(
-                title: "Your Trip Starts Here",
+                title: "You Are Almost There",
                 height: 100.h,
                 flexibleWidget: AppBookingStep(
                   passedSteps: const [

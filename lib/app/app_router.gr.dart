@@ -170,6 +170,12 @@ class _$AppRouter extends RootStackRouter {
         child: const BookingDetailsPage(),
       );
     },
+    InsuranceRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const InsurancePage(),
+      );
+    },
     CheckoutRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -464,6 +470,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           BookingDetailsRoute.name,
           path: '/booking-details',
+        ),
+        RouteConfig(
+          InsuranceRoute.name,
+          path: '/insurance_page',
         ),
         RouteConfig(
           CheckoutRoute.name,
@@ -991,6 +1001,18 @@ class BookingDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BookingDetailsRoute';
+}
+
+/// generated route for
+/// [InsurancePage]
+class InsuranceRoute extends PageRouteInfo<void> {
+  const InsuranceRoute()
+      : super(
+          InsuranceRoute.name,
+          path: '/insurance_page',
+        );
+
+  static const String name = 'InsuranceRoute';
 }
 
 /// generated route for

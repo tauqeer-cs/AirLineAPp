@@ -69,13 +69,24 @@ class _AppBookingStepState extends State<AppBookingStep> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FaIcon(
-                      step.iconData,
-                      color:
-                          selected ? Styles.kTextColor : Styles.kInactiveColor,
-                      size: 14,
+                    step == BookingStep.insurance
+                        ? Image.asset(
+                            selected
+                                ? "assets/images/icons/insurance.png"
+                                : "assets/images/icons/insurance_inactive.png",
+                            width: 16,
+                            height: 16,
+                          )
+                        : FaIcon(
+                            step.iconData,
+                            color: selected
+                                ? Styles.kTextColor
+                                : Styles.kInactiveColor,
+                            size: 14,
+                          ),
+                    SizedBox(
+                      height: 2,
                     ),
-                    SizedBox(height: 2,),
                     Text(
                       step.message,
                       style: selected
@@ -152,6 +163,7 @@ enum BookingStep {
   flights("Flights", FontAwesomeIcons.plane),
   addOn("Add-On", FontAwesomeIcons.briefcase),
   bookingDetails("Booking Details", FontAwesomeIcons.clipboardList),
+  insurance("Insurance", FontAwesomeIcons.planeDeparture),
   payment("Summary & Payment", Icons.monetization_on);
 
   const BookingStep(this.message, this.iconData);

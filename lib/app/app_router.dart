@@ -18,6 +18,7 @@ import 'package:app/pages/checkout/pages/booking_confirmation/booking_confirmati
 import 'package:app/pages/checkout/pages/booking_details/booking_details.dart';
 import 'package:app/pages/checkout/pages/booking_list/booking_list_page.dart';
 import 'package:app/pages/checkout/pages/checkout/checkout_page.dart';
+import 'package:app/pages/checkout/pages/insurance/insurance_page.dart';
 import 'package:app/pages/checkout/pages/payment/payment_page.dart';
 import 'package:app/pages/checkout/pages/select_baggage/select_baggage_page.dart';
 import 'package:app/pages/checkout/pages/select_bundle/select_bundle_page.dart';
@@ -85,6 +86,7 @@ part 'app_router.gr.dart';
     AutoRoute(page: SelectMealsPage, path: "/flight/addon/meal"),
     AutoRoute(page: SelectBaggagePage, path: "/flight/addon/baggage"),
     AutoRoute(page: BookingDetailsPage, path: "/booking-details"),
+    AutoRoute(page: InsurancePage, path: "/insurance_page"),
     AutoRoute(page: CheckoutPage, path: "/checkout"),
     AutoRoute(page: PaymentPage, path: "/payment"),
     AutoRoute(page: BookingListPage, path: "/booking-list"),
