@@ -92,9 +92,9 @@ class SegmentCard extends StatelessWidget {
                         if (showVisa) ...[
                           ClipOval(
                             child: Image.asset(
-                              "assets/images/icons/visa3.png",
-                              width: 40,
-                              height: 40,
+                              "assets/images/icons/iconFlight.png",
+                              width: 32,
+                              height: 32,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -122,28 +122,33 @@ class SegmentCard extends StatelessWidget {
                     ),
                     kVerticalSpacer,
                     const AppDividerWidget(),
-                    Transform.translate(
-                      offset: const Offset(0, 20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 7,
-                            child: Align(
+                    if (showVisa) ... [
+                      Transform.translate(
+                        offset: const Offset(0, 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Align(
                               alignment: Alignment.centerLeft,
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  "Direct flight - ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
-                                  style: kSmallMedium,
+                              child: Text(
+                                "Direct flight\n${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
+                                style: kSmallMedium,
+                              ),
+                            ),
+                            const Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: ClipOval(
+                                child: Image.asset(
+                                  "assets/images/icons/icoVisa.png",
+                                  width: 32,
+                                  height: 32,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                          ),
-                          kHorizontalSpacer,
-                          Expanded(
-                            flex: 5,
-                            child: Column(
+                            const Spacer(),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
@@ -154,7 +159,7 @@ class SegmentCard extends StatelessWidget {
                                     amount: changeFlight
                                         ? segment.changeFlightAmountToShow
                                         : segment
-                                            .totalSegmentFareAmtWithInfantSSR,
+                                        .totalSegmentFareAmtWithInfantSSR,
                                     isDense: true,
                                     showPlus: changeFlight),
                                 Visibility(
@@ -168,10 +173,62 @@ class SegmentCard extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                    ] else ... [
+                      Transform.translate(
+                        offset: const Offset(0, 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 7,
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    "Direct flight - ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
+                                    style: kSmallMedium,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            kHorizontalSpacer,
+                            Expanded(
+                              flex: 5,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "from",
+                                    style: kTinyHeavy,
+                                  ),
+                                  MoneyWidget(
+                                      amount: changeFlight
+                                          ? segment.changeFlightAmountToShow
+                                          : segment
+                                          .totalSegmentFareAmtWithInfantSSR,
+                                      isDense: true,
+                                      showPlus: changeFlight),
+                                  Visibility(
+                                    visible: segment.discountPCT != null &&
+                                        segment.discountPCT! > 0,
+                                    child: Text(
+                                      "MYR ${segment.beforeDiscountTotalAmt}",
+                                      style: kSmallRegular.copyWith(
+                                          decoration: TextDecoration.lineThrough),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    ],
                     FlightDetail(isDeparture: isDeparture, segment: segment),
                     kVerticalSpacerSmall,
                   ],
