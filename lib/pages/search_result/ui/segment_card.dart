@@ -168,7 +168,9 @@ class SegmentCard extends StatelessWidget {
                                   child: Text(
                                     "MYR ${segment.beforeDiscountTotalAmt}",
                                     style: kSmallRegular.copyWith(
-                                        decoration: TextDecoration.lineThrough),
+                                        decoration: TextDecoration.lineThrough,
+                                      decorationThickness: 3,
+                                    ),
                                   ),
                                 ),
                               ],
