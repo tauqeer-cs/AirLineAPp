@@ -66,6 +66,11 @@ class _PassengerContactState extends State<PassengerContact> {
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
     emailController.text = email ?? '';
     emailController.addListener(() {});
+    if((email ?? '').isNotEmpty){
+      updateEmail(context, email);
+
+    }
+
   }
 
   @override
@@ -188,12 +193,7 @@ class _PassengerContactState extends State<PassengerContact> {
                     }
                   }
                 }
-                final request = context.read<LocalUserBloc>().state;
-                final newRequest =
-                    request.copyWith(contactEmail: value?.trim());
-                context
-                    .read<LocalUserBloc>()
-                    .add(UpdateEmailContact(newRequest.contactEmail));
+               updateEmail(context, value);
               },
             ),
             kVerticalSpacerSmall,
@@ -206,5 +206,14 @@ class _PassengerContactState extends State<PassengerContact> {
         ),
       ],
     );
+  }
+
+  void updateEmail(BuildContext context, String? value) {
+    final request = context.read<LocalUserBloc>().state;
+    final newRequest =
+        request.copyWith(contactEmail: value?.trim());
+    context
+        .read<LocalUserBloc>()
+        .add(UpdateEmailContact(newRequest.contactEmail));
   }
 }
