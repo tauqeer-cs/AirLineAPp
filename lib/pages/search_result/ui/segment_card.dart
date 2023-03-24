@@ -156,6 +156,7 @@ class SegmentCard extends StatelessWidget {
                                   style: kTinyHeavy,
                                 ),
                                 MoneyWidget(
+                                  currency: segment.currentToShow,
                                     amount: changeFlight
                                         ? segment.changeFlightAmountToShow
                                         : segment
@@ -166,7 +167,7 @@ class SegmentCard extends StatelessWidget {
                                   visible: segment.discountPCT != null &&
                                       segment.discountPCT! > 0,
                                   child: Text(
-                                    "MYR ${segment.beforeDiscountTotalAmt}",
+                                    " ${segment.currentToShow} ${segment.beforeDiscountTotalAmt}",
                                     style: kSmallRegular.copyWith(
                                         decoration: TextDecoration.lineThrough,
                                       decorationThickness: 3,
@@ -208,6 +209,7 @@ class SegmentCard extends StatelessWidget {
                                     style: kTinyHeavy,
                                   ),
                                   MoneyWidget(
+                                    currency: segment.currentToShow,
                                       amount: changeFlight
                                           ? segment.changeFlightAmountToShow
                                           : segment
@@ -218,7 +220,7 @@ class SegmentCard extends StatelessWidget {
                                     visible: segment.discountPCT != null &&
                                         segment.discountPCT! > 0,
                                     child: Text(
-                                      "MYR ${segment.beforeDiscountTotalAmt}",
+                                      "${segment.currentToShow} ${segment.beforeDiscountTotalAmt}",
                                       style: kSmallRegular.copyWith(
                                           decoration: TextDecoration.lineThrough),
                                     ),

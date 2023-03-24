@@ -79,9 +79,9 @@ class AvailableRedeemOptions {
   int? redemptionAmount;
   String? redemptionCode;
 
-  String get redeemAmountString {
+  String redeemAmountString(String currency) {
 
-    return 'MYR $redemptionAmount off';
+    return '$currency $redemptionAmount off';
 
   }
   AvailableRedeemOptions(

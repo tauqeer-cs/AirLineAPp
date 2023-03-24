@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import '../../../../../blocs/search_flight/search_flight_cubit.dart';
 import '../../../../../models/switch_setting.dart';
 import '../../../../../utils/constant_utils.dart';
 import '../../../../../widgets/settings_wrapper.dart';
@@ -30,6 +31,8 @@ class RewardAndDiscount extends StatelessWidget {
     final state = bloc.state;
     final bookingState = context.read<BookingCubit>().state;
 
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     return Padding(
       padding: kPageHorizontalPadding,
       child: Column(
@@ -42,6 +45,7 @@ class RewardAndDiscount extends StatelessWidget {
           SettingsWrapper(
             settingType: AvailableSetting.myReward,
             child: RedeemVoucherView(
+              currency: currency,
               promoReady: promoReady,
             ),
           ),

@@ -10,8 +10,9 @@ import '../../../theme/theme.dart';
 
 class MealsFee extends StatefulWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const MealsFee({Key? key, required this.isDeparture}) : super(key: key);
+  const MealsFee({Key? key, required this.isDeparture, this.currency}) : super(key: key);
 
   @override
   State<MealsFee> createState() => _MealsFeeState();
@@ -46,6 +47,7 @@ class _MealsFeeState extends State<MealsFee> {
                 ),
                 const Spacer(),
                 MoneyWidgetSmall(
+                  currency: widget.currency,
                     amount: filter?.numberPerson
                         .getTotalMealPartial(widget.isDeparture)),
               ],

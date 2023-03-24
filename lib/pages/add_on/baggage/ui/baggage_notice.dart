@@ -180,7 +180,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     final baggageGroup1 = bookingState.verifyResponse?.flightSSR?.baggageGroup;
 
     var squareDesign = true;
-
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
     final baggage =
         isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Container(
@@ -260,7 +260,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        currentItem.currencyCode ?? 'MYR',
+                                        currentItem.currencyCode ?? currency,
                                         style: kMediumHeavy,
                                       ),
                                       Text(

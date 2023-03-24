@@ -10,8 +10,9 @@ import '../../../theme/theme.dart';
 
 class SeatsFee extends StatefulWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const SeatsFee({Key? key, required this.isDeparture}) : super(key: key);
+  const SeatsFee({Key? key, required this.isDeparture, this.currency}) : super(key: key);
 
   @override
   State<SeatsFee> createState() => _SeatsFeeState();
@@ -47,6 +48,7 @@ class _SeatsFeeState extends State<SeatsFee> {
                 ),
                 const Spacer(),
                 MoneyWidgetSmall(
+                  currency: widget.currency,
                     amount: filter?.numberPerson
                         .getTotalSeatsPartial(widget.isDeparture)),
               ],

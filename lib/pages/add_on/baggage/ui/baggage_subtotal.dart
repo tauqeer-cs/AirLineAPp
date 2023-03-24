@@ -19,6 +19,8 @@ class BaggageSubtotal extends StatelessWidget {
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bool isExpand = context.watch<SummaryContainerCubit>().state;
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
 
     return Visibility(
       visible: isExpand,
@@ -45,7 +47,7 @@ class BaggageSubtotal extends StatelessWidget {
                     style: kLargeRegular.copyWith(color: Colors.white),
                   ),
                   Text(
-                    "MYR ${NumberUtils.formatNum(filter?.numberPerson.getTotalBaggagePartial(isDeparture))}",
+                    "$currency ${NumberUtils.formatNum(filter?.numberPerson.getTotalBaggagePartial(isDeparture))}",
                     style: kLargeHeavy.copyWith(color: Colors.white),
                   ),
                 ],

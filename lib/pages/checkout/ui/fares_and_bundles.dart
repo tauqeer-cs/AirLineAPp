@@ -10,7 +10,10 @@ import '../../../theme/theme.dart';
 
 class FaresAndBundles extends StatefulWidget {
   final bool isDeparture;
-  const FaresAndBundles({Key? key, required this.isDeparture}) : super(key: key);
+  final String? currency;
+
+  const FaresAndBundles({Key? key, required this.isDeparture, this.currency})
+      : super(key: key);
 
   @override
   State<FaresAndBundles> createState() => _FaresAndBundlesState();
@@ -41,17 +44,25 @@ class _FaresAndBundlesState extends State<FaresAndBundles> {
                 ),
                 kHorizontalSpacerSmall,
                 Icon(
-                  isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                  isExpand
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
                 ),
                 const Spacer(),
-                MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBundlesPartial(widget.isDeparture)),
+                MoneyWidgetSmall(
+                    currency: widget.currency,
+                    amount: filter?.numberPerson
+                        .getTotalBundlesPartial(widget.isDeparture)),
               ],
             ),
           ),
         ),
         ExpandedSection(
           expand: isExpand,
-          child: FaresAndBundlesDetail(isDeparture: widget.isDeparture),
+          child: FaresAndBundlesDetail(
+            isDeparture: widget.isDeparture,
+            currency: widget.currency,
+          ),
         ),
       ],
     );

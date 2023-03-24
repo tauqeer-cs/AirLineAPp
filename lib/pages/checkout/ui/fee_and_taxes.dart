@@ -38,6 +38,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     var discountPercent = booking.selectedDeparture?.discountPCT;
 
     var discountTotal = 0;
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     if (filter?.promoCode != null &&
         discountPercent != null &&
@@ -79,6 +80,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 ),
                 const Spacer(),
                 MoneyWidgetSmall(
+                  currency: currency,
                   amount: widget.isDeparture
                       ? bookingTotal.selectedDeparture?.getTotalPriceDisplay
                       : bookingTotal.selectedReturn?.getTotalPriceDisplay,
@@ -90,6 +92,8 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
         ExpandedSection(
           expand: isExpand,
           child: FeeAndTaxesDetail(
+            currency: currency,
+
             isDeparture: widget.isDeparture,
           ),
         ),
@@ -101,6 +105,8 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
               0,
           child: FaresAndBundles(
             isDeparture: widget.isDeparture,
+            currency: currency,
+
           ),
         ),
         Visibility(
@@ -110,6 +116,8 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                   0,
           child: SeatsFee(
             isDeparture: widget.isDeparture,
+            currency: currency,
+
           ),
         ),
         Visibility(
@@ -118,6 +126,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                       0) >
                   0,
           child: MealsFee(
+            currency: currency,
             isDeparture: widget.isDeparture,
           ),
         ),
@@ -127,6 +136,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                   0) >
               0,
           child: BaggageFee(
+            currency: currency,
             isDeparture: widget.isDeparture,
           ),
         ),
@@ -137,6 +147,8 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
               0,
           child: WheelChairFee(
             isDeparture: widget.isDeparture,
+            currency: currency,
+
           ),
         ),
         Visibility(
@@ -147,12 +159,15 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
           child: BaggageFee(
             isDeparture: widget.isDeparture,
             isSports: true,
+            currency: currency,
           ),
         ),
         if (widget.isDeparture) ...[
           Visibility(
             visible: (filter?.numberPerson.getTotalInsurance() ?? 0) > 0,
-            child: const InsuranceFee(),
+            child:  InsuranceFee(
+              currency: currency,
+            ),
           ),
         ],
         kVerticalSpacerBig,

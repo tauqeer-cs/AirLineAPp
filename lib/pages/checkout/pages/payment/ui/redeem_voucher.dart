@@ -13,7 +13,9 @@ import '../../../../../widgets/app_loading_screen.dart';
 class RedeemVoucherView extends StatelessWidget {
   final bool promoReady;
 
-  const RedeemVoucherView({Key? key, required this.promoReady})
+  final String? currency;
+
+  const RedeemVoucherView({Key? key, required this.promoReady,this.currency})
       : super(key: key);
 
   @override
@@ -69,7 +71,7 @@ class RedeemVoucherView extends StatelessWidget {
                                 bloc.selectedItem(currenteItem);
                               }),
                           Text(
-                            currenteItem.redeemAmountString,
+                            currenteItem.redeemAmountString(currency ?? 'MYR'),
                             style: kMediumMedium,
                           ),
                           Expanded(

@@ -12,8 +12,9 @@ import '../../../utils/constant_utils.dart';
 
 class FeeAndTaxesDetail extends StatelessWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const FeeAndTaxesDetail({Key? key, required this.isDeparture})
+  const FeeAndTaxesDetail({Key? key, required this.isDeparture, this.currency})
       : super(key: key);
 
   @override
@@ -67,7 +68,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
               ),
               Align(
                   child: MoneyWidgetSmall(
-                      amount: info?.baseFareAmt, isDense: true)),
+                      amount: info?.baseFareAmt, isDense: true,currency: currency,)),
             ],
           ),
         ),
@@ -92,7 +93,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                               color: Styles.kSubTextColor),
                         ),
                         kHorizontalSpacerMini,
-                        MoneyWidgetSmall(amount: e.amt, isDense: true),
+                        MoneyWidgetSmall(amount: e.amt, isDense: true,currency: currency,),
                       ],
                     ),
                   ],
@@ -119,6 +120,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                     ),
                     kHorizontalSpacerMini,
                     MoneyWidgetSmall(
+                      currency: currency,
                         amount: infant?.finalAmount ?? segment?.infantPricePerPax,
                         isDense: true),
                   ],
@@ -142,6 +144,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                     amount: discountTotal,
                     isDense: true,
                     isNegative: true,
+                    currency: currency,
                   ),
                 ],
               ),

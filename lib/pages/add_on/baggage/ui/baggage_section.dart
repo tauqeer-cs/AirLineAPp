@@ -113,6 +113,8 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
     final baggage = widget.isDeparture
         ? focusedPerson?.departureBaggage
         : focusedPerson?.returnBaggage;
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     return InkWell(
       onTap: () async {
 
@@ -203,7 +205,7 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    widget.selectedBaggage.currencyCode ?? "MYR",
+                    widget.selectedBaggage.currencyCode ?? currency,
                     style: kMediumHeavy,
                   ),
                   Text(

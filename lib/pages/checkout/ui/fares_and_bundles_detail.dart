@@ -8,8 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FaresAndBundlesDetail extends StatelessWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const FaresAndBundlesDetail({Key? key, required this.isDeparture})
+  const FaresAndBundlesDetail({Key? key, required this.isDeparture, this.currency})
       : super(key: key);
 
   @override
@@ -36,9 +37,10 @@ class FaresAndBundlesDetail extends StatelessWidget {
                           ),
                         ),
                         MoneyWidgetSmall(
+
                           amount: bundle?.bundle?.finalAmount,
                           isDense: true,
-                          currency: bundle?.bundle?.currencyCode,
+                          currency: bundle?.bundle?.currencyCode ?? currency,
                         ),
                       ],
                     ),

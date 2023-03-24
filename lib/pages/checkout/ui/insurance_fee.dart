@@ -15,8 +15,10 @@ import '../pages/payment/ui/summary/price_row.dart';
 
 class InsuranceFee extends StatefulWidget {
 
+  final String? currency;
 
-  const InsuranceFee({Key? key})
+
+  const InsuranceFee({Key? key,this.currency})
       : super(key: key);
 
   @override
@@ -57,7 +59,8 @@ class _InsuranceFeeState extends State<InsuranceFee> {
 
                   MoneyWidgetSmall(
                     amount: filter?.numberPerson
-                        .getTotalInsurance(),),
+                        .getTotalInsurance(),
+                  currency: widget.currency,),
 
 
 

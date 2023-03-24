@@ -17,6 +17,8 @@ class DiscountSummary extends StatelessWidget {
     final voucherState = context.watch<VoucherCubit>().state;
     final discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount ?? 0;
     int? redeemAmount = context.watch<VoucherCubit>().state.selectedRedeemOption?.redemptionAmount;
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     if(redeemAmount == 0) {
       redeemAmount = null;
     }
@@ -49,6 +51,7 @@ class DiscountSummary extends StatelessWidget {
                     Text("Voucher", style: kMediumRegular.copyWith(color: Styles.kSubTextColor),),
                     const Spacer(),
                     MoneyWidgetSmall(
+                      currency: currency,
                       isDense: false,
                       amount: discount,
                       isNegative: true,
@@ -64,6 +67,7 @@ class DiscountSummary extends StatelessWidget {
                     const Spacer(),
                     MoneyWidgetSmall(
                       isDense: false,
+                      currency: currency,
                       amount: redeemAmount,
                       isNegative: true,
                     ),

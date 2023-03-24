@@ -25,6 +25,8 @@ class BookingSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final booking = context.watch<BookingCubit>().state;
     final voucherState = context.watch<VoucherCubit>().state;
@@ -48,6 +50,7 @@ class BookingSummary extends StatelessWidget {
         ),
         MoneyWidget(
           isDense: false,
+          currency: currency,
           amount: totalAmountToShow ??
               booking.getFinalPriceDisplay +
                   (filterState?.numberPerson.getTotal() ?? 0) -

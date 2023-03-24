@@ -14,8 +14,9 @@ class BaggageFee extends StatefulWidget {
   final bool isSports;
 
   final bool isInsurance;
+  final String? currency;
 
-  const BaggageFee({Key? key, required this.isDeparture, this.isSports = false,  this.isInsurance = false})
+  const BaggageFee({Key? key, required this.isDeparture, this.isSports = false,  this.isInsurance = false, this.currency})
       : super(key: key);
 
   @override
@@ -55,16 +56,19 @@ class _BaggageFeeState extends State<BaggageFee> {
                 const Spacer(),
                 if(widget.isSports) ... [
                   MoneyWidgetSmall(
+                      currency: widget.currency,
                       amount: filter?.numberPerson
                           .getTotalSportsPartial(widget.isDeparture)),
                 ]
                 else if(widget.isInsurance) ... [
                   MoneyWidgetSmall(
+                    currency: widget.currency,
                       amount: filter?.numberPerson
                           .getTotalInsurance(),),
                 ]
                 else ... [
                   MoneyWidgetSmall(
+                    currency: widget.currency,
                       amount: filter?.numberPerson
                           .getTotalBaggagePartial(widget.isDeparture)),
                 ],

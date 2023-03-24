@@ -10,10 +10,11 @@ import '../../../theme/theme.dart';
 
 class WheelChairFee extends StatefulWidget {
   final bool isDeparture;
+  final String? currency;
 
   const WheelChairFee({
     Key? key,
-    required this.isDeparture,
+    required this.isDeparture, this.currency,
   }) : super(key: key);
 
   @override
@@ -52,6 +53,7 @@ class _WheelChairFeeState extends State<WheelChairFee> {
                 ),
                 const Spacer(),
                 MoneyWidgetSmall(
+                  currency: widget.currency,
                     amount: filter?.numberPerson
                         .getTotalWheelChairPartial(widget.isDeparture)),
               ],

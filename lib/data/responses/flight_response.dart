@@ -12,6 +12,13 @@ class FlightResponse extends Equatable {
   final num? orderID;
   final bool? success;
 
+  String get currency {
+    if(searchFlightResponse?.flightResult?.inboundSegment?.first.currency != null) {
+      return  searchFlightResponse?.flightResult?.inboundSegment?.first.currentToShow ?? 'MYR';
+    }
+    return 'MYR';
+  }
+
   final bool? isVisaCampaign;
 
   const FlightResponse(
@@ -184,6 +191,9 @@ class InboundOutboundSegment extends Equatable {
 
   final String? currency;
 
+  String get currentToShow {
+    return currency ?? 'MYR';
+  }
 
   const InboundOutboundSegment({
     this.totalSegmentFareAmtWithInfantSSR,
