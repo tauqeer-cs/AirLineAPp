@@ -142,6 +142,7 @@ class InboundOutboundSegment extends Equatable {
         beforeDiscountTotalAmtWithInfantSSR,
         fbCode,
         discountPCT,
+    currency,
       ];
 
   final SegmentDetail? segmentDetail;
@@ -181,6 +182,9 @@ class InboundOutboundSegment extends Equatable {
 
   final String? fbCode;
 
+  final String? currency;
+
+
   const InboundOutboundSegment({
     this.totalSegmentFareAmtWithInfantSSR,
     this.beforeDiscountTotalAmt,
@@ -204,6 +208,7 @@ class InboundOutboundSegment extends Equatable {
     this.international,
     this.flightLegDetails,
     this.changeFlightAmount,
+    this.currency = 'MYR',
   });
 
   num get getTotalPrice => totalSegmentFareAmt ?? 0;
