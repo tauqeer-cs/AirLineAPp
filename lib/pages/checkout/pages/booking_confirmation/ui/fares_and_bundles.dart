@@ -16,6 +16,10 @@ class FaresAndBundles extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.fareAndBundleDetail;
+
+
+    var currency = fares?.currencyToShow ?? 'MYR';
+
     return Column(
       children: [
         Row(
@@ -29,6 +33,7 @@ class FaresAndBundles extends StatelessWidget {
               amount: fares?.totalAmount,
               isDense: true,
               isNormalMYR: true,
+              currency: currency,
             ),
           ],
         ),

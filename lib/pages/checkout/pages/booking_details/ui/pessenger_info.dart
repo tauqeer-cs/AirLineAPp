@@ -128,6 +128,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
     final returnWheelChair = filter.flightType == FlightType.oneWay
         ? null
         : wheelChairGroup?.inbound;
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,7 +414,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                       pdfIsLink: true),
                                   makeClickableTextSpan(context,
                                       text:
-                                          ": MYR ${travelProtectionRate(insuranceGroup.outbound!)}",
+                                          ": $currency ${travelProtectionRate(insuranceGroup.outbound!)}",
                                       makeNormalTextBol: true),
                                 ],
                               ),

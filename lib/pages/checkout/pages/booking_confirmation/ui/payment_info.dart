@@ -74,7 +74,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
               children: [
                 kVerticalSpacerSmall,
                 ...(payments ?? [])
-                    .map((f) => PaymentDetail(paymentOrder: f))
+                    .map((f) => PaymentDetail(paymentOrder: f, changeFlight: widget.isChange,))
                     .toList(),
               ],
             ),
@@ -88,10 +88,28 @@ class _PaymentInfoState extends State<PaymentInfo> {
 class PaymentDetail extends StatelessWidget {
   final PaymentOrder paymentOrder;
 
-  const PaymentDetail({Key? key, required this.paymentOrder}) : super(key: key);
+  final bool changeFlight;
+
+  const PaymentDetail({Key? key, required this.paymentOrder, required this.changeFlight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var currency = 'MYR';
+    if(changeFlight) {
+      print('');
+    }
+    else {
+      currency = context
+          .watch<ConfirmationCubit>()
+          .state
+          .confirmationModel
+          ?.value
+          ?.fareAndBundleDetail
+          ?.currencyToShow ??
+          'MYR';
+    }
+
+
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -130,7 +148,7 @@ class PaymentDetail extends StatelessWidget {
 
               Expanded(child: Container(),),
 
-              Text(paymentOrder.currencyCode! + NumberUtils.formatNum(paymentOrder.paymentAmount), style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+              Text(paymentOrder.currencyCode ?? currency + NumberUtils.formatNum(paymentOrder.paymentAmount), style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
 
 
               Expanded(

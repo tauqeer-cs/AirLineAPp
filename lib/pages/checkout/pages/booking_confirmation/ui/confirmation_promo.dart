@@ -15,6 +15,14 @@ class ConfirmationPromo extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.superPNROrder;
+    var currency = context
+        .watch<ConfirmationCubit>()
+        .state
+        .confirmationModel
+        ?.value
+        ?.fareAndBundleDetail
+        ?.currencyToShow ??
+        'MYR';
     return Visibility(
       visible: pnrOrder?.voucherDiscountAmt!=null && pnrOrder!.voucherDiscountAmt! >0,
       child: Column(
@@ -31,6 +39,7 @@ class ConfirmationPromo extends StatelessWidget {
                 amount: pnrOrder?.voucherDiscountAmt,
                 isDense: true,
                 isNegative: true,
+                currency: currency,
               ),
             ],
           ),

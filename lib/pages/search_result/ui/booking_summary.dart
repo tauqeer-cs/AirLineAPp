@@ -14,18 +14,21 @@ class BookingSummary extends StatelessWidget {
 
   final bool isChangeFlight;
 
+  final String? changeFlightCurrency;
+
   final double? totalAmountToShow;
 
   const BookingSummary(
       {Key? key,
       this.labelToShow,
       this.totalAmountToShow,
-      this.isChangeFlight = false})
+      this.isChangeFlight = false,
+      this.changeFlightCurrency})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final booking = context.watch<BookingCubit>().state;
@@ -33,6 +36,7 @@ class BookingSummary extends StatelessWidget {
     final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
             ?.firstOrNull?.discountAmount ??
         0;
+
 
     int? redeemAmount = context
             .watch<VoucherCubit>()
@@ -50,8 +54,8 @@ class BookingSummary extends StatelessWidget {
         ),
         MoneyWidget(
           isDense: false,
-          currency: currency,
-          amount: totalAmountToShow ??
+          currency: isChangeFlight ? (changeFlightCurrency ?? 'MYR') : currency,
+          amount:totalAmountToShow ??
               booking.getFinalPriceDisplay +
                   (filterState?.numberPerson.getTotal() ?? 0) -
                   discount -

@@ -524,8 +524,10 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   children: [
                     BookingSummary(
                       labelToShow: 'Total Amount Due',
+                      isChangeFlight: true,
                       totalAmountToShow: calculateMoneyToShow(
                           changeFlightRequestResponse, discount),
+                      changeFlightCurrency: changeFlightRequestResponse?.result?.changeFlightResponse?.currency ?? 'MYR' ,
                     ),
                     (bloc?.state.loadingCheckoutPayment == true)
                         ? const AppLoading()

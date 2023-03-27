@@ -15,6 +15,17 @@ class ConfirmationMeals extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.mealDetail;
+
+    var currency = context
+        .watch<ConfirmationCubit>()
+        .state
+        .confirmationModel
+        ?.value
+        ?.fareAndBundleDetail
+        ?.currencyToShow ??
+        'MYR';
+
+
     return (meals?.noMealsSelected ?? false) ? Container() : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,6 +40,7 @@ class ConfirmationMeals extends StatelessWidget {
               amount: meals?.totalAmount,
               isDense: true,
               isNormalMYR: true,
+              currency: currency,
             ),
           ],
         ),

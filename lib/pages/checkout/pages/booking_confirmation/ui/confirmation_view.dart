@@ -50,6 +50,8 @@ class _ConfirmationViewState extends State<ConfirmationView> {
   @override
   Widget build(BuildContext context) {
     final confirmationDetail = context.watch<ConfirmationCubit>().state;
+    final currencyToShow = context.watch<ConfirmationCubit>().state.confirmationModel?.value?.fareAndBundleDetail?.currencyToShow ?? 'MYR';
+
     return SingleChildScrollView(
       child: Screenshot(
         controller: screenshotController,
@@ -123,6 +125,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                                   0),
                           isDense: false,
                           isNormalMYR: true,
+                          currency: currencyToShow,
                         ),
                       ],
                     ),

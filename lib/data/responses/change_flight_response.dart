@@ -386,9 +386,19 @@ class ChangeFlightResponse {
   String? changeFlightMessage;
   bool? isReturn;
 
+  String get currencyToShow {
+
+    if(currency != null){
+
+      return currency ?? 'MYR';
+    }
+
+    return 'MYR';
+
+  }
   String get totalReservationAmountString {
     if (totalReservationAmount != null) {
-      return 'MYR ${totalReservationAmount!.toStringAsFixed(2)}';
+      return '$currencyToShow ${totalReservationAmount!.toStringAsFixed(2)}';
     }
 
     return '';
@@ -396,7 +406,7 @@ class ChangeFlightResponse {
 
   String get flightChangAmountString {
     if (totalReservationAmount != null) {
-      return 'MYR ${changeFee!.toStringAsFixed(2)}';
+      return '$currencyToShow ${changeFee!.toStringAsFixed(2)}';
     }
 
     return '';

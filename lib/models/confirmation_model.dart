@@ -419,6 +419,13 @@ class FareAndBundleDetail extends Equatable {
 
   final List<FareAndBundle>? fareAndBundles;
 
+  String get currencyToShow {
+
+    if((fareAndBundles ?? []).isNotEmpty ){
+      return fareAndBundles!.first.currency ?? 'MYR';
+    }
+    return 'MYR';
+  }
   FareAndBundleDetail copyWith(
           {num? totalAmount,
           List<FareAndBundle>? fareAndBundles,

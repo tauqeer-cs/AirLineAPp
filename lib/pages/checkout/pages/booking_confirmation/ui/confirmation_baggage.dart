@@ -29,7 +29,14 @@ class ConfirmationBaggage extends StatelessWidget {
     InsuranceDetails? insuranceDetails;
 
     bool hideView = false;
-
+    var currency = context
+        .watch<ConfirmationCubit>()
+        .state
+        .confirmationModel
+        ?.value
+        ?.fareAndBundleDetail
+        ?.currencyToShow ??
+        'MYR';
     if (boolIsSports) {
       sportsEquipmentDetail = context
           .watch<ConfirmationCubit>()
@@ -71,6 +78,7 @@ class ConfirmationBaggage extends StatelessWidget {
                         sportsEquipmentDetail, baggage, insuranceDetails),
                     isDense: true,
                     isNormalMYR: true,
+                    currency: currency,
                   ),
                 ],
               ),
