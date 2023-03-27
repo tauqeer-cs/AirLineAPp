@@ -177,10 +177,10 @@ extension $SummaryResponseCopyWith on SummaryResponse {
 
 SummaryResponse _$SummaryResponseFromJson(Map<String, dynamic> json) =>
     SummaryResponse(
-      flightSummaryPnrResult: json['flightSummaryPnrResult'] == null
+      flightSummaryPnrResult: json['flightSummaryPNRResult'] == null
           ? null
           : FlightSummaryPnrResult.fromJson(
-              json['flightSummaryPnrResult'] as Map<String, dynamic>),
+              json['flightSummaryPNRResult'] as Map<String, dynamic>),
       orderId: json['orderId'] as num?,
       verifyExpiredDateTime: json['verifyExpiredDateTime'] == null
           ? null
@@ -201,7 +201,7 @@ Map<String, dynamic> _$SummaryResponseToJson(SummaryResponse instance) {
     }
   }
 
-  writeNotNull('flightSummaryPnrResult', instance.flightSummaryPnrResult);
+  writeNotNull('flightSummaryPNRResult', instance.flightSummaryPnrResult);
   writeNotNull('orderId', instance.orderId);
   writeNotNull('verifyExpiredDateTime',
       instance.verifyExpiredDateTime?.toIso8601String());

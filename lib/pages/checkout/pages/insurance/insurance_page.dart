@@ -4,6 +4,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
+import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/ui/insurance_view.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
@@ -28,6 +29,7 @@ class InsurancePage extends StatefulWidget {
 class _InsurancePageState extends State<InsurancePage> {
   @override
   Widget build(BuildContext context) {
+    final passengers = context.watch<SummaryCubit>().state.summaryRequest?.flightSummaryPNRRequest.passengers ?? [];
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
@@ -36,6 +38,7 @@ class _InsurancePageState extends State<InsurancePage> {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => InfoCubit()),
+            BlocProvider(create: (context) => InsuranceCubit()..init(passengers)),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
             listener: (context, state) {

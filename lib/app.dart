@@ -208,6 +208,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
       } */
       else if (durationRemaining == 0) {
+        return;
         FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
         showDialog(
           context: currentContext,

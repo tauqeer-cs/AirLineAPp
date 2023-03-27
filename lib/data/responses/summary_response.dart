@@ -18,6 +18,7 @@ class SummaryResponse extends Equatable {
     this.fromCache,
   });
 
+  @JsonKey(name: 'flightSummaryPNRResult')
   final FlightSummaryPnrResult? flightSummaryPnrResult;
   final num? orderId;
   final DateTime? verifyExpiredDateTime;

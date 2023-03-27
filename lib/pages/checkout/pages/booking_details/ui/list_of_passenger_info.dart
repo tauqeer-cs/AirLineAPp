@@ -41,6 +41,26 @@ class ListOfPassengerInfo extends StatelessWidget {
               RowBulletNumbering(
                   title:
                       "Once your booking is confirmed, you are not allowed to make any changes"),
+              Visibility(
+                visible: (persons?.numberOfInfant??0)>0 || (persons?.numberOfChildren??0)>0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kVerticalSpacer,
+                    Text(
+                      "Travelling with kids?",
+                      style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
+                    ),
+                    kVerticalSpacerSmall,
+                    Text(
+                      "Rows 1, 12 and 14 are emergency exit seats and cannot be assigned to a child.",
+                      style: kMediumMedium.copyWith(color: Styles.kSubTextColor),
+
+                    ),
+                    kVerticalSpacerSmall,
+                  ],
+                ),
+              ),
             ],
           ),
         ),

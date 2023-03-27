@@ -9,11 +9,38 @@ part 'insurance_state.dart';
 class InsuranceCubit extends Cubit<InsuranceState> {
   InsuranceCubit() : super(InsuranceState());
 
+  init(List<Passenger> passengers) {
+    emit(state.copyWith(
+      passengers: passengers,
+    ));
+  }
+
+  selectPassenger(int index) {
+    emit(state.copyWith(selectedPassenger: index));
+  }
+
+  changeInsuranceType(InsuranceType insuranceType, Bound? insurance) {
+    if(insuranceType == state.insuranceType) return;
+    switch (insuranceType) {
+      case InsuranceType.all:
+        updateInsuranceToAllPassenger(insurance);
+        break;
+      case InsuranceType.selected:
+        removeAllInsurance(insurance);
+        updateInsuranceToPassenger(0, insurance);
+        break;
+      case InsuranceType.none:
+        removeAllInsurance(insurance);
+        break;
+    }
+  }
+
   updateInsuranceToPassenger(int index, Bound? insurance) {
-    final newPassenger = state.passengers[index].copyWith(
+    final newList = List<Passenger>.from(state.passengers);
+
+    final newPassenger = newList[index].copyWith(
       ssr: Ssr(outbound: insurance == null ? [] : [insurance]),
     );
-    final newList = List<Passenger>.from(state.passengers);
     newList.removeAt(index);
     newList.insert(index, newPassenger);
     emit(state.copyWith(
@@ -30,13 +57,14 @@ class InsuranceCubit extends Cubit<InsuranceState> {
       );
       newList.add(newPassenger);
     }
+    print("update to all");
     emit(state.copyWith(
       passengers: newList,
-      insuranceType: InsuranceType.selected,
+      insuranceType: InsuranceType.all,
     ));
   }
 
-  removeInsurance(Bound? insurance) {
+  removeAllInsurance(Bound? insurance) {
     final newList = List<Passenger>.from([]);
     for (var element in state.passengers) {
       final newPassenger = element.copyWith(

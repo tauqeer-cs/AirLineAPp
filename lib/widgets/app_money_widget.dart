@@ -102,18 +102,19 @@ class MoneyWidgetCustom extends StatelessWidget {
   final bool isNegative;
   final double? myrSize, amountSize;
   final Color? textColor;
+  final MainAxisAlignment? mainAxisAlignment;
   final FontWeight? fontWeight;
   const MoneyWidgetCustom({
     Key? key,
     this.amount,
     this.currency,
-    this.isNegative = false, this.myrSize, this.amountSize, this.textColor, this.fontWeight,
+    this.isNegative = false, this.myrSize, this.amountSize, this.textColor, this.fontWeight, this.mainAxisAlignment,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
