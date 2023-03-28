@@ -38,34 +38,27 @@ class AppDropDown<T> extends StatelessWidget {
       selectedItem: defaultValue,
       dropdownDecoratorProps: dropdownDecoration ?? DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-          // border: OutlineInputBorder(
-          //   borderSide: BorderSide(color: Styles.kSubTextColor),
-          //   borderRadius: BorderRadius.circular(5),
-          // ),
-          // enabledBorder: OutlineInputBorder(
-          //   borderSide: BorderSide(color: Styles.kSubTextColor),
-          //   borderRadius: BorderRadius.circular(5),
-          // ),
-          // focusedBorder: OutlineInputBorder(
-          //   borderSide: BorderSide(color: Styles.kSubTextColor),
-          //   borderRadius: BorderRadius.circular(5),
-          // ),
-          // errorBorder: OutlineInputBorder(
-          //   borderSide: const BorderSide(color: Colors.red),
-          //   borderRadius: BorderRadius.circular(5),
-          // ),
-          // focusedErrorBorder: OutlineInputBorder(
-          //   borderSide: const BorderSide(color: Colors.red),
-          //   borderRadius: BorderRadius.circular(5),
-          // ),
-          // disabledBorder: OutlineInputBorder(
-          //   borderSide:
-          //       BorderSide(color: Styles.kSubTextColor.withOpacity(0.3)),
-          //   borderRadius: BorderRadius.circular(5),
-          // ),
-          // hintStyle: kTinySemiBold.copyWith(
-          //   color: const Color.fromRGBO(43, 45, 66, 1),
-          // ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Styles.kBorderColor),
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Styles.kBorderColor),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Styles.kBorderColor),
+          ),
+          errorBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          disabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
+          ),
+          hintStyle: kTinySemiBold.copyWith(
+            color: const Color.fromRGBO(43, 45, 66, 1),
+          ),
           hintText: sheetTitle,
           contentPadding: isMinimalism
               ? EdgeInsets.zero

@@ -2,6 +2,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/theme/theme.dart';
@@ -37,6 +38,8 @@ class BundleSection extends StatelessWidget {
           kVerticalSpacer,
           PassengerSelector(
             isDeparture: isDeparture,
+            addonType: AddonType.baggage,
+
           ),
           kVerticalSpacer,
           buildBundleCards(bundles, isDeparture),

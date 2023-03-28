@@ -24,21 +24,47 @@ class FilterState extends Equatable {
   });
 
   bool get isValid =>
-      numberPerson != NumberPerson.empty && destination != null && origin != null &&
-          departDate != null &&
-          (returnDate != null || flightType == FlightType.oneWay);
+      numberPerson != NumberPerson.empty &&
+      destination != null &&
+      origin != null &&
+      departDate != null &&
+      (returnDate != null || flightType == FlightType.oneWay);
 
-  String get beautify=>"${origin?.name?.camelCase()} To ${destination?.name?.camelCase()}";
-  String get beautifyReverse=>"${destination?.name?.camelCase()} To ${origin?.name?.camelCase()}";
-  String get beautifyShort=>"${origin?.code} To ${destination?.code}";
-  String get beautifyCode=>"${origin?.code}-${destination?.code}";
+  String get beautify =>
+      "${origin?.name?.camelCase()} To ${destination?.name?.camelCase()}";
 
-  String get routeShort=>"${origin?.code}-${destination?.code}";
+  String get beautifyReverse =>
+      "${destination?.name?.camelCase()} To ${origin?.name?.camelCase()}";
 
-  String get beautifyReverseShort=>"${destination?.code} To ${origin?.code}";
+  String get beautifyShort => "${origin?.code} To ${destination?.code}";
+
+  Widget beautifyWithRow(bool isReverse, bool isActive) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        kVerticalSpacerMini,
+        Text(
+          isReverse ? destination?.code ?? "" : origin?.code ?? "",
+          style: kLargeRegular.copyWith(color: isActive ? Colors.white : null),
+        ),
+        FaIcon(FontAwesomeIcons.plane,color: isActive ? Colors.white : Styles.kBorderColor),
+        Text(
+          isReverse ? origin?.code ?? "" : destination?.code ?? "",
+          style: kLargeRegular.copyWith(color: isActive ? Colors.white : null),
+        ),
+        kVerticalSpacerMini,
+      ],
+    );
+  }
+
+  String get beautifyCode => "${origin?.code}-${destination?.code}";
+
+  String get routeShort => "${origin?.code}-${destination?.code}";
+
+  String get beautifyReverseShort => "${destination?.code} To ${origin?.code}";
+
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         blocState,
         message,
         flightType,

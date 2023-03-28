@@ -198,6 +198,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       BookingStep.flights,
                       BookingStep.addOn,
                       BookingStep.bookingDetails,
+                      BookingStep.insurance,
                       BookingStep.payment
                     ],
                     onTopStepTaped: (int index) {

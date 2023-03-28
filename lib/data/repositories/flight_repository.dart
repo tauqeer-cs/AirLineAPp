@@ -5,6 +5,7 @@ import 'package:app/data/requests/book_request.dart';
 import 'package:app/data/requests/reverify_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/requests/summary_request.dart';
+import 'package:app/data/requests/update_insurance_request.dart';
 import 'package:app/data/requests/verify_request.dart';
 import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/data/responses/airports_response.dart';
@@ -69,6 +70,10 @@ class FlightRepository {
 
   Future<SummaryResponse> summaryFlight(SummaryRequest summaryRequest) async {
     return await _provider.summaryFlight(summaryRequest);
+  }
+
+  Future<SummaryResponse> updateInsurance(InsuranceRequest insuranceRequest) async {
+    return await _provider.updateInsurance(insuranceRequest);
   }
 
   Future<PayRedirectionValue> bookFlight(BookRequest bookRequest) async {

@@ -69,6 +69,16 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    WebViewSimpleRoute.name: (routeData) {
+      final args = routeData.argsAs<WebViewSimpleRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: WebViewSimplePage(
+          key: args.key,
+          url: args.url,
+        ),
+      );
+    },
     InAppWebViewRoute.name: (routeData) {
       final args = routeData.argsAs<InAppWebViewRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -123,6 +133,23 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SpecialRoute.name: (routeData) {
+      final args = routeData.argsAs<SpecialRouteArgs>(
+          orElse: () => const SpecialRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: SpecialPage(
+          key: args.key,
+          isDeparture: args.isDeparture,
+        ),
+      );
+    },
+    SummaryRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const SummaryPage(),
+      );
+    },
     SelectBundleRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -151,6 +178,12 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const BookingDetailsPage(),
+      );
+    },
+    InsuranceRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const InsurancePage(),
       );
     },
     CheckoutRoute.name: (routeData) {
@@ -401,6 +434,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/webview',
         ),
         RouteConfig(
+          WebViewSimpleRoute.name,
+          path: '/webview-simple',
+        ),
+        RouteConfig(
           InAppWebViewRoute.name,
           path: '/in-app-webview',
         ),
@@ -421,6 +458,14 @@ class _$AppRouter extends RootStackRouter {
           path: '/flight/addon/selection-baggage',
         ),
         RouteConfig(
+          SpecialRoute.name,
+          path: '/flight/addon/selection-special',
+        ),
+        RouteConfig(
+          SummaryRoute.name,
+          path: '/flight/addon/summary',
+        ),
+        RouteConfig(
           SelectBundleRoute.name,
           path: '/flight/addon/bundle',
         ),
@@ -439,6 +484,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           BookingDetailsRoute.name,
           path: '/booking-details',
+        ),
+        RouteConfig(
+          InsuranceRoute.name,
+          path: '/insurance_page',
         ),
         RouteConfig(
           CheckoutRoute.name,
@@ -693,6 +742,40 @@ class WebViewRouteArgs {
 }
 
 /// generated route for
+/// [WebViewSimplePage]
+class WebViewSimpleRoute extends PageRouteInfo<WebViewSimpleRouteArgs> {
+  WebViewSimpleRoute({
+    Key? key,
+    required String url,
+  }) : super(
+          WebViewSimpleRoute.name,
+          path: '/webview-simple',
+          args: WebViewSimpleRouteArgs(
+            key: key,
+            url: url,
+          ),
+        );
+
+  static const String name = 'WebViewSimpleRoute';
+}
+
+class WebViewSimpleRouteArgs {
+  const WebViewSimpleRouteArgs({
+    this.key,
+    required this.url,
+  });
+
+  final Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'WebViewSimpleRouteArgs{key: $key, url: $url}';
+  }
+}
+
+/// generated route for
 /// [InAppWebViewPage]
 class InAppWebViewRoute extends PageRouteInfo<InAppWebViewRouteArgs> {
   InAppWebViewRoute({
@@ -863,6 +946,52 @@ class BaggageRouteArgs {
 }
 
 /// generated route for
+/// [SpecialPage]
+class SpecialRoute extends PageRouteInfo<SpecialRouteArgs> {
+  SpecialRoute({
+    Key? key,
+    bool isDeparture = true,
+  }) : super(
+          SpecialRoute.name,
+          path: '/flight/addon/selection-special',
+          args: SpecialRouteArgs(
+            key: key,
+            isDeparture: isDeparture,
+          ),
+        );
+
+  static const String name = 'SpecialRoute';
+}
+
+class SpecialRouteArgs {
+  const SpecialRouteArgs({
+    this.key,
+    this.isDeparture = true,
+  });
+
+  final Key? key;
+
+  final bool isDeparture;
+
+  @override
+  String toString() {
+    return 'SpecialRouteArgs{key: $key, isDeparture: $isDeparture}';
+  }
+}
+
+/// generated route for
+/// [SummaryPage]
+class SummaryRoute extends PageRouteInfo<void> {
+  const SummaryRoute()
+      : super(
+          SummaryRoute.name,
+          path: '/flight/addon/summary',
+        );
+
+  static const String name = 'SummaryRoute';
+}
+
+/// generated route for
 /// [SelectBundlePage]
 class SelectBundleRoute extends PageRouteInfo<void> {
   const SelectBundleRoute()
@@ -920,6 +1049,18 @@ class BookingDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BookingDetailsRoute';
+}
+
+/// generated route for
+/// [InsurancePage]
+class InsuranceRoute extends PageRouteInfo<void> {
+  const InsuranceRoute()
+      : super(
+          InsuranceRoute.name,
+          path: '/insurance_page',
+        );
+
+  static const String name = 'InsuranceRoute';
 }
 
 /// generated route for

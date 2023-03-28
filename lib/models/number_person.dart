@@ -28,6 +28,25 @@ class NumberPerson extends Equatable {
       ..removeWhere((element) => element == null);
   }
 
+  Person? getPersonBySeat(Seats seat, bool isDeparture) {
+    if (isDeparture) {
+      return persons
+          .firstWhereOrNull((element) => element.departureSeats == seat);
+    }
+    return persons.firstWhereOrNull((element) => element.returnSeats == seat);
+  }
+
+  int getPersonIndexBySeat(Seats seat, bool isDeparture) {
+    final person = getPersonBySeat(seat, isDeparture);
+    if (person == null) return 0 + 1;
+    return persons.indexOf(person) + 1;
+  }
+
+  int getPersonIndex(Person? person) {
+    if (person == null) return 0 + 1;
+    return persons.indexOf(person) + 1;
+  }
+
   int get numberOfAdult =>
       persons.where((element) => element.peopleType == PeopleType.adult).length;
 
@@ -176,12 +195,14 @@ class Person extends Equatable {
   final Bundle? returnSports;
   final Bundle? departureWheelChair;
   final Bundle? returnWheelChair;
+  final String? departureOkId;
+  final String? returnOkId;
+  final Bundle? departureInsurance;
+  final Bundle? returnInsurance;
   final Bundle? insuranceGroup;
   final bool? useWheelChair;
   final int? numberOrder;
   final Passenger? passenger;
-
-  //here
 
   const Person({
     this.peopleType,
@@ -197,6 +218,10 @@ class Person extends Equatable {
     this.returnBaggage,
     this.numberOrder,
     this.passenger,
+    this.departureInsurance,
+    this.departureOkId,
+    this.returnOkId,
+    this.returnInsurance,
     this.useWheelChair,
     this.departureSports,
     this.returnSports,
@@ -257,9 +282,6 @@ class Person extends Equatable {
       inboundSSR.add(returnBundle!.toBound());
     }
 
-    //    this.insuranceGroup,
-
-    //meal
     final departureMeal = groupedMeal(true);
     final returnMeal = groupedMeal(false);
 
@@ -450,6 +472,47 @@ class Person extends Equatable {
     return false;
   }
 
+  String getPersonSelectorText(
+      bool isActive, bool isDeparture, AddonType addonType,
+      {List<Rows> rows = const []}) {
+    if (isActive) return "Selecting";
+    switch (addonType) {
+      case AddonType.seat:
+        if (isDeparture && departureSeats == null) return "No seat selected";
+        if (!isDeparture && returnSeats == null) return "No seat selected";
+        final seats = isDeparture ? departureSeats : returnSeats;
+        final row =
+            rows.firstWhereOrNull((element) => element.rowId == seats?.rowId);
+        return '${seats?.seatColumn}${row?.rowNumber}';
+      case AddonType.meal:
+        if (isDeparture && departureMeal.isEmpty) return "No meal selected";
+        if (!isDeparture && returnMeal.isEmpty) return "No meal selected";
+        final meals = isDeparture ? departureMeal : returnMeal;
+        return '${meals.length} ${meals.length > 1 ? " meals" : "meals"}';
+      case AddonType.baggage:
+        if (isDeparture && departureBaggage == null) {
+          return "No baggage selected";
+        }
+        if (!isDeparture && returnBaggage == null) return "No baggage selected";
+        final baggage = isDeparture ? departureBaggage : returnBaggage;
+        return '${baggage?.description}';
+      case AddonType.special:
+        int number = 0;
+        if (isDeparture && departureWheelChair != null) number = number + 1;
+        if (!isDeparture && returnWheelChair != null) number = number + 1;
+        if (isDeparture && departureInsurance != null) number = number + 1;
+        if (!isDeparture && returnInsurance != null) number = number + 1;
+        return "$number ${number > 1 ? 'items' : 'item'} selected";
+      case AddonType.bundle:
+        if (isDeparture && departureBundle == null) {
+          return "No bundle selected";
+        }
+        if (!isDeparture && returnBundle == null) return "No bundle selected";
+        final bundle = isDeparture ? departureBundle : returnBundle;
+        return '${bundle?.detail?.bundleDescription}';
+    }
+  }
+
   Person copyWith({
     PeopleType? peopleType,
     InboundBundle? Function()? departureBundle,
@@ -464,6 +527,8 @@ class Person extends Equatable {
     Bundle? Function()? returnSports,
     Bundle? Function()? departureWheelChair,
     Bundle? Function()? returnWheelChair,
+    String? Function()? departureOkId,
+    String? Function()? returnOkId,
     int? numberOrder,
     Bundle? insurance,
     bool insuranceEmpty = false,
@@ -490,6 +555,9 @@ class Person extends Equatable {
           : this.departureWheelChair,
       returnWheelChair:
           returnWheelChair != null ? returnWheelChair() : this.returnWheelChair,
+      departureOkId:
+          departureOkId != null ? departureOkId() : this.departureOkId,
+      returnOkId: returnOkId != null ? returnOkId() : this.returnOkId,
       numberOrder: numberOrder ?? this.numberOrder,
       insuranceGroup: insuranceEmpty ? (null) : insurance ?? insuranceGroup,
     );
@@ -504,10 +572,14 @@ class Person extends Equatable {
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
 
-  String generateText(NumberPerson? numberPerson) {
+  String toStringShort() {
+    return "${(peopleType?.name[0].capitalize()) ?? ""}$numberOrder";
+  }
+
+  String generateText(NumberPerson? numberPerson, {String? separator}) {
     if (peopleType == PeopleType.adult &&
         ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))) {
-      return "${peopleType?.name.capitalize() ?? ""} $numberOrder + ${PeopleType.infant.name.capitalize()} $numberOrder";
+      return "${peopleType?.name.capitalize() ?? ""} $numberOrder ${separator ?? "+ "}${PeopleType.infant.name.capitalize()} $numberOrder";
     }
     return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
   }
@@ -534,12 +606,20 @@ class Person extends Equatable {
       case PeopleType.child:
         return DateTime(now.year - 12, now.month, now.day);
       case PeopleType.infant:
-        final start = DateTime(now.year - 2, now.month, now.day+1);
+        final start = DateTime(now.year - 2, now.month, now.day + 1);
         return start;
       default:
         return now;
     }
   }
+}
+
+enum AddonType {
+  bundle,
+  seat,
+  meal,
+  baggage,
+  special;
 }
 
 enum PeopleType {

@@ -1,4 +1,6 @@
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
+import 'package:app/models/number_person.dart';
+import 'package:app/pages/add_on/seats/ui/selected_seats.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/add_on/seats/ui/seat_legend.dart';
 import 'package:app/pages/add_on/seats/ui/seat_plan.dart';
@@ -12,7 +14,9 @@ class SeatsSection extends StatelessWidget {
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
 
-   const SeatsSection({Key? key, this.isDeparture = true,this.moveToTop,this.moveToBottom}) : super(key: key);
+  const SeatsSection(
+      {Key? key, this.isDeparture = true, this.moveToTop, this.moveToBottom})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +27,11 @@ class SeatsSection extends StatelessWidget {
         children: [
           Padding(
             padding: kPageHorizontalPadding,
-            child: Text(
-              "Seats",
-              style: kGiantHeavy.copyWith(
-                color: Styles.kOrangeColor,
-                fontWeight: FontWeight.bold,
-              ),
+            child: PassengerSelector(
+              isDeparture: isDeparture,
+              isSeatSelection: true,
+              addonType: AddonType.seat,
             ),
-          ),
-          kVerticalSpacer,
-           Padding(
-            padding: kPageHorizontalPadding,
-            child: PassengerSelector(isDeparture: isDeparture,isSeatSelection: true,),
           ),
           kVerticalSpacerSmall,
           const Padding(
@@ -42,13 +39,16 @@ class SeatsSection extends StatelessWidget {
             child: SeatsLegend(),
           ),
           kVerticalSpacer,
-           SeatPlan(moveToTop: (){
-             moveToTop?.call();
-           },moveToBottom: (){
-
-             moveToBottom?.call();
-
-           },),
+          SelectedSeats(isDeparture: isDeparture),
+          kVerticalSpacer,
+          SeatPlan(
+            moveToTop: () {
+              moveToTop?.call();
+            },
+            moveToBottom: () {
+              moveToBottom?.call();
+            },
+          ),
           kVerticalSpacer,
           const SeatRemove(),
         ],
