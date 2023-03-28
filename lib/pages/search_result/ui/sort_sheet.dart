@@ -31,6 +31,7 @@ class _SortSheetState extends State<SortSheet> {
         children: SortFlight.values
             .map(
               (e) => ListTile(
+                dense: true,
                 title: Text(e.toString()),
                 trailing: Visibility(
                   visible: e == selectedSort,

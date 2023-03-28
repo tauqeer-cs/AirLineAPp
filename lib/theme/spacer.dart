@@ -16,7 +16,7 @@ const kSummaryContainerSpacing = SizedBox(height: 110);
 const kSummaryContainerSpacingBig = SizedBox(height: 350);
 
 const kPagePadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
-const kPageHorizontalPadding = EdgeInsets.symmetric(horizontal: 16);
+  const kPageHorizontalPadding = EdgeInsets.symmetric(horizontal: 16);
 const kPageHorizontalPaddingBig = EdgeInsets.symmetric(horizontal: 24);
 
 const kCardPadding = EdgeInsets.all(8);

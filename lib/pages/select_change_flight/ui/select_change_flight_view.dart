@@ -1,3 +1,4 @@
+import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,7 +127,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 160,
                 ),
               ],
             ),
@@ -142,10 +143,9 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                   BookingSummary(
+                  BookingSummary(
                     isChangeFlight: true,
-                    totalAmountToShow:
-                        bloc?.totalAmountToShowInChangeFlight ,
+                    totalAmountToShow: bloc?.totalAmountToShowInChangeFlight,
                   ),
                   (bloc?.state.loadingSelectingFlight == true)
                       ? const AppLoading()
@@ -177,55 +177,219 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
     return Column(
       children: [
         if (state.checkedDeparture == true) ...[
-          ChooseFlightSegment(
-            title: "Depart",
-            subtitle: state.manageBookingResponse?.result
-                    ?.departureToDestinationCode ??
-                '',
-            dateTitle: AppDateUtils.formatFullDate(state
-                .flightSearchResponse
-                ?.searchFlightResponse
-                ?.flightResult
-                ?.outboundSegment
-                ?.first
-                .departureDate),
-            segments: state.selectedDepartureFlight != null
-                ? [state.selectedDepartureFlight!]
-                : state.flightSearchResponse?.searchFlightResponse?.flightResult
-                        ?.outboundSegment ??
-                    [],
-            isDeparture: true,
-            changeFlight: true,
-            visaPromo: false,
-          ),
-        ],
-        kVerticalSpacer,
-        if ((state.manageBookingResponse?.isTwoWay ?? true) &&
-            state.checkReturn == true) ...[
-          Visibility(
-            //visible: state.filterState?.flightType == FlightType.round,
-            child: ChooseFlightSegment(
-              title: "Return",
-              subtitle: state
-                      .manageBookingResponse?.result?.returnToDestinationCode ??
+
+          if (state.flightSearchResponse?.searchFlightResponse?.flightResult
+              ?.isOutboundNotAvailable ==
+              true) ...[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kVerticalSpacer,
+                Row(
+                  children: [
+                    Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Styles.kDividerColor,
+                          borderRadius: const BorderRadius.horizontal(
+                            right: Radius.circular(50),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Return', style: k18Heavy),
+                            Text(
+                                state.manageBookingResponse?.result
+                                    ?.departureToDestinationCode ??
+                                    '',
+                                style: kLargeRegular),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                  ],
+                ),
+                kVerticalSpacerBig,
+                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newStartDateSelected ?? DateTime.now()),
+                    style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
+                kVerticalSpacerBig,
+                AppCard(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(state.flightSearchResponse?.searchFlightResponse
+                            ?.flightResult?.outboundNotAvailableMessage ??
+                            ''),
+                        kVerticalSpacerSmall,
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: ElevatedButton(
+                                onPressed: () {
+
+                                  Navigator.pop(context);
+
+                                },
+                                child: const Text('Back'),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ] else ... [
+            ChooseFlightSegment(
+              title: "Depart",
+              subtitle: state.manageBookingResponse?.result
+                  ?.departureToDestinationCode ??
                   '',
               dateTitle: AppDateUtils.formatFullDate(state
                   .flightSearchResponse
                   ?.searchFlightResponse
                   ?.flightResult
-                  ?.inboundSegment
+                  ?.outboundSegment
                   ?.first
                   .departureDate),
-              segments: state.selectedReturnFlight != null
-                  ? [state.selectedReturnFlight!]
-                  : state.flightSearchResponse?.searchFlightResponse
-                          ?.flightResult?.inboundSegment ??
-                      [],
-              isDeparture: false,
+              segments: state.selectedDepartureFlight != null
+                  ? [state.selectedDepartureFlight!]
+                  : state.flightSearchResponse?.searchFlightResponse?.flightResult
+                  ?.outboundSegment ??
+                  [],
+              isDeparture: true,
               changeFlight: true,
               visaPromo: false,
             ),
-          ),
+          ],
+
+        ],
+        kVerticalSpacer,
+        if ((state.manageBookingResponse?.isTwoWay ?? true) &&
+            state.checkReturn == true) ...[
+          if (state.flightSearchResponse?.searchFlightResponse?.flightResult
+                  ?.isInboundNotAvailable ==
+              true) ...[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kVerticalSpacer,
+                Row(
+                  children: [
+                    Transform.translate(
+                      offset: const Offset(-16, 0),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Styles.kDividerColor,
+                          borderRadius: const BorderRadius.horizontal(
+                            right: Radius.circular(50),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Return', style: k18Heavy),
+                            Text(
+                                state.manageBookingResponse?.result
+                                        ?.returnToDestinationCode ??
+                                    '',
+                                style: kLargeRegular),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Spacer(
+                      flex: 1,
+                    ),
+                  ],
+                ),
+                kVerticalSpacerBig,
+                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newReturnDateSelected ?? DateTime.now()),
+                    style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
+                kVerticalSpacerBig,
+                AppCard(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(state.flightSearchResponse?.searchFlightResponse
+                                ?.flightResult?.inboundNotAvailableMessage ??
+                            ''),
+                        kVerticalSpacerSmall,
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: ElevatedButton(
+                                onPressed: () {
+
+                                  Navigator.pop(context);
+
+                                },
+                                child: const Text('Back'),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ] else ...[
+            Visibility(
+              //visible: state.filterState?.flightType == FlightType.round,
+              child: ChooseFlightSegment(
+                title: "Return",
+                subtitle: state.manageBookingResponse?.result
+                        ?.returnToDestinationCode ??
+                    '',
+                dateTitle: AppDateUtils.formatFullDate(state
+                    .flightSearchResponse
+                    ?.searchFlightResponse
+                    ?.flightResult
+                    ?.inboundSegment
+                    ?.first
+                    .departureDate),
+                segments: state.selectedReturnFlight != null
+                    ? [state.selectedReturnFlight!]
+                    : state.flightSearchResponse?.searchFlightResponse
+                            ?.flightResult?.inboundSegment ??
+                        [],
+                isDeparture: false,
+                changeFlight: true,
+                visaPromo: false,
+              ),
+            ),
+          ],
         ],
       ],
     );

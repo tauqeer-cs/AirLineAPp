@@ -37,7 +37,6 @@ class BaggagePage extends StatelessWidget {
               }
               else {
                 context.router.popUntilRouteWithName(SeatsRoute.name);
-
               }
 
             },

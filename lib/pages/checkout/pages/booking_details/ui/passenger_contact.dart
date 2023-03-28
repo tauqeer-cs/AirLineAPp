@@ -10,7 +10,6 @@ import 'package:app/utils/security_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_toast.dart';
-import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +66,11 @@ class _PassengerContactState extends State<PassengerContact> {
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
     emailController.text = email ?? '';
     emailController.addListener(() {});
+    if((email ?? '').isNotEmpty){
+      updateEmail(context, email);
+
+    }
+
   }
 
   @override
@@ -85,13 +89,11 @@ class _PassengerContactState extends State<PassengerContact> {
               TextSpan(
                 text:
                     "Please ensure you get these details right. We'll email you your travel itinerary and notify you of any important changes to your booking. ",
-                style: kMediumRegular.copyWith(
-                    color: Styles.kSubTextColor, height: 1.5),
+                style: kMediumRegular.copyWith(color:Styles.kTextColor,height: 1.5),
               ),
               TextSpan(
                 text: "\nYour info will be collected in line with our",
-                style: kMediumHeavy.copyWith(
-                    color: Styles.kSubTextColor, height: 1.5),
+                style: kMediumHeavy.copyWith(color:Styles.kTextColor,height: 1.5),
               ),
               TextSpan(
                 recognizer: TapGestureRecognizer()
@@ -105,107 +107,113 @@ class _PassengerContactState extends State<PassengerContact> {
                     }
                   },
                 text: "\nPrivacy Policy.",
-                style: kMediumHeavy.copyWith(
-                    color: Styles.kPrimaryColor, height: 1.5),
+                style: kMediumHeavy.copyWith(color:Styles.kTextColor,height: 1.5),
               ),
             ],
           ),
           textAlign: TextAlign.left,
         ),
         kVerticalSpacerSmall,
-        GreyCard(
-          child: Column(
-            children: [
-              AppInputText(
-                name: formNameContactFirstName,
-                hintText: "First Name / Given Name",
-                validators: [FormBuilderValidators.required()],
-                initialValue: profile?.firstName ?? firstName,
+        Column(
+          children: [
+            AppInputText(
+              name: formNameContactFirstName,
+              hintText: "First Name / Given Name",
+              validators: [FormBuilderValidators.required()],
+              initialValue: profile?.firstName ?? firstName,
+              onChanged: (value) {
+                final request = context.read<LocalUserBloc>().state;
+                final newRequest = request.copyWith(contactFullName: value);
+                context.read<LocalUserBloc>().add(UpdateData(newRequest));
+              },
+            ),
+            kVerticalSpacerSmall,
+            AppInputText(
+              name: formNameContactLastName,
+              hintText: "Last Name / Surname",
+              validators: [FormBuilderValidators.required()],
+              initialValue: profile?.lastName ?? lastName,
+              onChanged: (value) {
+                final request = context.read<LocalUserBloc>().state;
+                final newRequest = request.copyWith(comment: value);
+                context.read<LocalUserBloc>().add(UpdateData(newRequest));
+              },
+            ),
+            kVerticalSpacerSmall,
+            ShadowInput(
+              textEditingController: nationalityController,
+              name: formNameContactPhoneCode,
+              child: AppCountriesDropdown(
+                hintText: "Phone Code",
+                isPhoneCode: true,
+                dropdownDecoration: Styles.getDefaultFieldDecoration(),
+                initialCountryCode: profile?.phoneCode ?? phoneCode,
                 onChanged: (value) {
-                  final request = context.read<LocalUserBloc>().state;
-                  final newRequest = request.copyWith(contactFullName: value);
-                  context.read<LocalUserBloc>().add(UpdateData(newRequest));
-                },
-              ),
-              AppInputText(
-                name: formNameContactLastName,
-                hintText: "Last Name / Surname",
-                validators: [FormBuilderValidators.required()],
-                initialValue: profile?.lastName ?? lastName,
-                onChanged: (value) {
-                  final request = context.read<LocalUserBloc>().state;
-                  final newRequest = request.copyWith(comment: value);
-                  context.read<LocalUserBloc>().add(UpdateData(newRequest));
-                },
-              ),
-              ShadowInput(
-                textEditingController: nationalityController,
-                name: formNameContactPhoneCode,
-                child: AppCountriesDropdown(
-                  hintText: "Phone Code",
-                  isPhoneCode: true,
-                  initialCountryCode: profile?.phoneCode ?? phoneCode,
-                  onChanged: (value) {
-                    nationalityController.text = value?.phoneCode ?? "";
-                    final request = context.read<LocalUserBloc>().state;
-                    final newRequest =
-                        request.copyWith(contactPhoneCode: value?.phoneCode);
-                    context.read<LocalUserBloc>().add(UpdateData(newRequest));
-                  },
-                ),
-              ),
-              AppInputText(
-                name: formNameContactPhoneNumber,
-                initialValue: profile?.phoneNumber ?? phoneNumber,
-                textInputType: TextInputType.number,
-                hintText: "Phone Number",
-                validators: [FormBuilderValidators.required()],
-                onChanged: (value) {
+                  nationalityController.text = value?.phoneCode ?? "";
                   final request = context.read<LocalUserBloc>().state;
                   final newRequest =
-                      request.copyWith(contactPhoneNumber: value);
+                      request.copyWith(contactPhoneCode: value?.phoneCode);
                   context.read<LocalUserBloc>().add(UpdateData(newRequest));
                 },
               ),
-              AppInputText(
-                name: formNameContactEmail,
-                hintText: "Email Address",
-                textInputType: TextInputType.emailAddress,
-                validators: [
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.email(),
-                ],
-                //initialValue: profile?.email ?? email,
-                textEditingController: emailController,
-                onChanged: (value) {
-                  if (value != null) {
-                    if (!alreadySpaceRemoved) {
-                      if (value.contains(' ')) {
-                        if (alreadySpaceRemoved) {
-                          return;
-                        } else {
-                          removeEmptyFromEmail(value);
-                        }
+            ),
+            kVerticalSpacerSmall,
+            AppInputText(
+              name: formNameContactPhoneNumber,
+              initialValue: profile?.phoneNumber ?? phoneNumber,
+              textInputType: TextInputType.number,
+              hintText: "Phone Number",
+              validators: [FormBuilderValidators.required()],
+              onChanged: (value) {
+                final request = context.read<LocalUserBloc>().state;
+                final newRequest = request.copyWith(contactPhoneNumber: value);
+                context.read<LocalUserBloc>().add(UpdateData(newRequest));
+              },
+            ),
+            kVerticalSpacerSmall,
+            AppInputText(
+              name: formNameContactEmail,
+              hintText: "Email Address",
+              textInputType: TextInputType.emailAddress,
+              validators: [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.email(),
+              ],
+              //initialValue: profile?.email ?? email,
+              textEditingController: emailController,
+              onChanged: (value) {
+                if (value != null) {
+                  if (!alreadySpaceRemoved) {
+                    if (value.contains(' ')) {
+                      if (alreadySpaceRemoved) {
+                        return;
+                      } else {
+                        removeEmptyFromEmail(value);
                       }
                     }
                   }
-                  final request = context.read<LocalUserBloc>().state;
-                  final newRequest =
-                      request.copyWith(contactEmail: value?.trim());
-                  context
-                      .read<LocalUserBloc>()
-                      .add(UpdateEmailContact(newRequest.contactEmail));
-                },
-              ),
-              FormBuilderCheckbox(
-                name: formNameContactReceiveEmail,
-                title: const Text(
-                    "I wish to receive news and promotions from MYAirline by email."),
-              ),
-            ],
-          ),
+                }
+               updateEmail(context, value);
+              },
+            ),
+            kVerticalSpacerSmall,
+            FormBuilderCheckbox(
+              name: formNameContactReceiveEmail,
+              title: const Text(
+                  "I wish to receive news and promotions from MYAirline by email."),
+            ),
+          ],
         ),
       ],
     );
+  }
+
+  void updateEmail(BuildContext context, String? value) {
+    final request = context.read<LocalUserBloc>().state;
+    final newRequest =
+        request.copyWith(contactEmail: value?.trim());
+    context
+        .read<LocalUserBloc>()
+        .add(UpdateEmailContact(newRequest.contactEmail));
   }
 }

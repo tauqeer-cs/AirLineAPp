@@ -96,6 +96,7 @@ class LoginForm extends StatelessWidget {
               ],
             ),
           ),
+          kVerticalSpacerSmall,
           AppInputText(
             isRequired: false,
             textInputType: TextInputType.emailAddress,

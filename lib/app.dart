@@ -63,6 +63,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     const SelectBaggageRoute().path,
     const BookingDetailsRoute().path,
     const CheckoutRoute().path,
+    const InsuranceRoute().path,
     const PaymentRoute().path,
   ];
 
@@ -207,6 +208,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
       } */
       else if (durationRemaining == 0) {
+        return;
         FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
         showDialog(
           context: currentContext,

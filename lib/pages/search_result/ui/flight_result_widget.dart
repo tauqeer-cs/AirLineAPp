@@ -45,13 +45,14 @@ class FlightResultWidget extends StatelessWidget {
                           child: Expanded(
                             flex: 2,
                             child: OutlinedButton(
-                              child:
-                                  const FittedBox(child: Text("Change Search")),
+                              child: const FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text("Edit flight"),
+                              ),
                               onPressed: () {
                                 context
                                     .read<SummaryContainerCubit>()
                                     .changeVisibility(true);
-
                                 context.router.push(const ChangeSearchRoute());
                               },
                             ),
@@ -74,14 +75,8 @@ class FlightResultWidget extends StatelessWidget {
                   builder: (context, bookState) {
                     return blocBuilderWrapper(
                       blocState: bookState.blocState,
-                      finishedBuilder: buildFlights(
-                        state,
-                        bookState,
-                      ),
-                      initialBuilder: buildFlights(
-                        state,
-                        bookState,
-                      ),
+                      finishedBuilder: buildFlights(state, bookState,),
+                      initialBuilder: buildFlights(state, bookState,),
                       loadingBuilder: const BookingLoader(),
                     );
                   },
@@ -90,7 +85,7 @@ class FlightResultWidget extends StatelessWidget {
                 Visibility(
                   visible: false,
                   replacement: Text(
-                    "All fares are calculated based on a one-way flight for a single adult passenger. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                    "All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
                   child: Text(
@@ -110,7 +105,7 @@ class FlightResultWidget extends StatelessWidget {
     return Column(
       children: [
         ChooseFlightSegment(
-          title: "Depart",
+          title: "Departure",
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
           segments: bookState.selectedDeparture != null

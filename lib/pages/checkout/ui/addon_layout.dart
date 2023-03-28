@@ -21,7 +21,7 @@ class AddonLayout extends StatelessWidget {
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
     final booking = context.watch<BookingCubit>().state;
     final tabs = <Widget>[];
-    tabs.add(buildTabTitle(booking.selectedDeparture, "Depart", false));
+    tabs.add(buildTabTitle(booking.selectedDeparture, "Departure", false));
     if (booking.selectedReturn != null) {
       tabs.add(buildTabTitle(booking.selectedReturn, "Return", true));
     }
