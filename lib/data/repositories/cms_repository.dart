@@ -7,6 +7,8 @@ import 'package:app/data/responses/home_response.dart';
 import 'package:app/models/cms_flight.dart';
 import 'package:app/models/cms_route.dart';
 
+import '../responses/agent_sign_up_cms.dart';
+
 class CMSRepository {
 
   static final CMSRepository _instance = CMSRepository._internal();
@@ -53,4 +55,10 @@ class CMSRepository {
     await getCMSToken();
     return await _provider.getContentDetail(id);
   }
+
+  Future<AgentSignUpCms> agentSignUp(String id) async {
+    await getCMSToken();
+    return await _provider.getAgentSignUp(id);
+  }
+
 }
