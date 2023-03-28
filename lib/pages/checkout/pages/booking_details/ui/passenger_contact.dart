@@ -17,6 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../widgets/pdf_viewer.dart';
+
 class PassengerContact extends StatefulWidget {
   const PassengerContact({
     Key? key,
@@ -99,8 +101,16 @@ class _PassengerContactState extends State<PassengerContact> {
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
                     try {
-                      SecurityUtils.tryLaunch(
-                          'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PdfViewer(
+                            title: 'Privacy Policy',
+                            fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
+                            pdfIsLink: true,
+                          ),
+                        ),
+                      );
                     } catch (e, st) {
                       Toast.of(context).show(message: "Cannot Launch url");
                       ErrorUtils.getErrorMessage(e, st);
