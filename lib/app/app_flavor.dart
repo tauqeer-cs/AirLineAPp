@@ -133,9 +133,9 @@ class AppFlavor {
     final isAndroid = Platform.isAndroid;
     switch (appFlavor) {
       case Flavor.staging:
-        return isAndroid ? '' : 'group.com.myairline.mobileapp';
+        return isAndroid ? '' : 'group.com.myairline.mobileapp.uat';
       case Flavor.uat:
-        return isAndroid ? '' : 'group.com.myairline.mobileapp';
+        return isAndroid ? '' : 'group.com.myairline.mobileapp.uat';
       default:
         return isAndroid ? '' : 'group.com.myairline.mobileapp';
     }

@@ -1,64 +1,46 @@
-#import "NotificationViewController.h"
-#import <UserNotificationsUI/UserNotificationsUI.h>
-#import <InsiderMobileAdvancedNotification/iCarousel.h>
+
+//
+// NotificationViewController.swift
+// InsiderNotificationContent
+//
+// Created by Insider on 17.08.2020.
+// Copyright © 2020 Insider. All rights reserved.
+//
+
+#import "NotificationService.h"
 #import <InsiderMobileAdvancedNotification/InsiderPushNotification.h>
 
-@interface NotificationViewController () <UNNotificationContentExtension, iCarouselDelegate, iCarouselDataSource>
-@property (nonatomic, weak) IBOutlet iCarousel *carousel;
+@interface NotificationService ()
+
+@property (nonatomic, strong) void (^contentHandler)(UNNotificationContent *contentToDeliver);
+@property (nonatomic, strong) UNMutableNotificationContent *bestAttemptContent;
+
 @end
 
+// FIXME: Please change with your app group.
+static NSString *APP_GROUP = @"group.com.myairline.mobileapp.uat";
 
-static NSString *APP_GROUP = @"group.com.myairline.mobileapp";
+@implementation NotificationService
 
-@implementation NotificationViewController
-
-@synthesize carousel;
-
--(void)viewDidLoad {
-    [super viewDidLoad];
+-(void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
+    self.contentHandler = contentHandler;
+    self.bestAttemptContent = [request.content mutableCopy];
+        
+    // MARK: You can customize these.
+    NSString *nextButtonText = @">>";
+    NSString *goToAppText = @"Launch App";
+    
+    [InsiderPushNotification showInsiderRichPush:request appGroup:APP_GROUP nextButtonText:nextButtonText goToAppText:goToAppText success:^(UNNotificationAttachment *attachment) {
+        if (attachment) {
+            self.bestAttemptContent.attachments = [NSArray arrayWithObject:attachment];
+        }
+        
+        self.contentHandler(self.bestAttemptContent);
+    }];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    [InsiderPushNotification setTimeAttribution];
-}
-
--(void)didReceiveNotification:(UNNotification *)notification {
-    [InsiderPushNotification interactivePushLoad:APP_GROUP superView:self.view notification:notification];
-   
-    carousel.type = iCarouselTypeRotary;
-    [carousel reloadData];
-   
-    [InsiderPushNotification interactivePushDidReceiveNotification];
-}
-
--(NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel {
-    return [InsiderPushNotification getNumberOfSlide];
-}
-
--(UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view {
-    return [InsiderPushNotification getSlide:index reusingView:view superView:self.view];
-}
-
--(void)dealloc {
-    carousel.delegate = nil;
-    carousel.dataSource = nil;
-}
-
--(CGFloat)carouselItemWidth:(iCarousel *)carousel {
-    return [InsiderPushNotification getItemWidth];
-}
-
--(void)didReceiveNotificationResponse:(UNNotificationResponse *)response
-                     completionHandler:(void (^)(UNNotificationContentExtensionResponseOption option))completion {
-    if ([response.actionIdentifier isEqualToString:@"insider_int_push_next"]){
-        [carousel scrollToItemAtIndex:[InsiderPushNotification didReceiveNotificationResponse:[carousel currentItemIndex]] animated:true];
-       
-        completion(UNNotificationContentExtensionResponseOptionDoNotDismiss);
-    } else {
-        [InsiderPushNotification logPlaceholderClick:response];
-       
-        completion(UNNotificationContentExtensionResponseOptionDismissAndForwardAction);
-    }
+-(void)serviceExtensionTimeWillExpire {
+    self.contentHandler(self.bestAttemptContent);
 }
 
 @end
