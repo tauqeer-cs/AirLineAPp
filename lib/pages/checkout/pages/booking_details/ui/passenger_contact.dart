@@ -103,7 +103,7 @@ class _PassengerContactState extends State<PassengerContact> {
                   ..onTap = () async {
                     try {
                       SecurityUtils.tryLaunch(
-                          "https://myacontents.blob.core.windows.net/myacontents/odxgmbdo/myairline_privacy-policy.pdf");
+                          "https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf");
                     } catch (e, st) {
                       Toast.of(context).show(message: "Cannot Launch url");
                       ErrorUtils.getErrorMessage(e, st);
