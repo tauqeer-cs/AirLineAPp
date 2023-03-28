@@ -85,7 +85,7 @@ class MoreOptionsPage extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => const PdfViewer(
                                   title: 'Privacy Policy',
-                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
+                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
