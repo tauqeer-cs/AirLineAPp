@@ -4,6 +4,7 @@ import 'package:app/data/requests/update_insurance_request.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/ui/available_insurance.dart';
+import 'package:app/pages/checkout/pages/insurance/ui/insurance_terms.dart';
 import 'package:app/pages/checkout/pages/insurance/ui/zurich_container.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
@@ -46,6 +47,7 @@ class _InsuranceViewState extends State<InsuranceView> {
               ZurichContainer(),
               kVerticalSpacer,
               AvailableInsurance(),
+              InsuranceTerms(),
               kSummaryContainerSpacing,
               kSummaryContainerSpacing,
             ],

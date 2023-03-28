@@ -53,36 +53,39 @@ class AppInputText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderTextField(
-      controller: textEditingController,
-      name: name,
-      focusNode: focusNode,
-      validator: FormBuilderValidators.compose(validators ?? []),
-      obscureText: isObstructedText,
-      minLines: minLines ?? 1,
-      maxLines: maxLines ?? 1,
-      keyboardType: textInputType,
-      maxLength: maxLength,
-      style:
-          isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
-      decoration: inputDecoration ?? InputDecoration(
-        hintText: hintText ?? "",
-        border: isHidden ? InputBorder.none : null,
-        errorBorder: isHidden ? InputBorder.none : null,
-        enabledBorder: isHidden ? InputBorder.none : null,
-        disabledBorder: isHidden ? InputBorder.none : null,
-        focusedBorder: isHidden ? InputBorder.none : null,
-        focusedErrorBorder: isHidden ? InputBorder.none : null,
-        prefix: prefix,
-        suffix: suffix,
-        counterText: "",
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: FormBuilderTextField(
+        controller: textEditingController,
+        name: name,
+        focusNode: focusNode,
+        validator: FormBuilderValidators.compose(validators ?? []),
+        obscureText: isObstructedText,
+        minLines: minLines ?? 1,
+        maxLines: maxLines ?? 1,
+        keyboardType: textInputType,
+        maxLength: maxLength,
+        style:
+            isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
+        decoration: inputDecoration ?? InputDecoration(
+          hintText: hintText ?? "",
+          border: isHidden ? InputBorder.none : null,
+          errorBorder: isHidden ? InputBorder.none : null,
+          enabledBorder: isHidden ? InputBorder.none : null,
+          disabledBorder: isHidden ? InputBorder.none : null,
+          focusedBorder: isHidden ? InputBorder.none : null,
+          focusedErrorBorder: isHidden ? InputBorder.none : null,
+          prefix: prefix,
+          suffix: suffix,
+          counterText: "",
 
+        ),
+        inputFormatters: inputFormatters,
+        onChanged: onChanged,
+        readOnly: readOnly,
+        initialValue: initialValue,
+        autofillHints: autofillHints != null ? [autofillHints!] : null,
       ),
-      inputFormatters: inputFormatters,
-      onChanged: onChanged,
-      readOnly: readOnly,
-      initialValue: initialValue,
-      autofillHints: autofillHints != null ? [autofillHints!] : null,
     );
   }
 }

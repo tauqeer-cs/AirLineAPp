@@ -149,20 +149,21 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   onTap: () async {
                     await onFamilyButtonTapped(profileBloc, filter, context);
                   },
-                  child: Row(
-                    children: [
-                      Text(
-                        "Friends & Family",
-                        style: kLargeMedium.copyWith(
-                          color: Styles.kOrangeColor,
-                          fontWeight: FontWeight.bold,
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    color: Styles.kDividerColor,
+                    child: Row(
+                      children: [
+                        Text(
+                          "Friends & Family",
+                          style: kMediumMedium.copyWith(),
                         ),
-                      ),
-                      Icon(
-                        Icons.chevron_right,
-                        color: Styles.kOrangeColor,
-                      ),
-                    ],
+                        kHorizontalSpacerMini,
+                        Icon(
+                          Icons.keyboard_arrow_down_sharp,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
