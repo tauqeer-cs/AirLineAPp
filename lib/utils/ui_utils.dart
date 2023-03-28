@@ -1,3 +1,5 @@
+import 'package:app/theme/styles.dart';
+import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -61,11 +63,9 @@ TextSpan makeClickableTextSpan(context,
         }
       },
     text: text,
-    style: (pdfName == null && webViewLink == null && callBackAction == null && makeNormalTextBol == false) ? null : TextStyle(
-      decoration: makeNormalTextBol ? null : TextDecoration.underline,
-      decorationColor: Colors.grey.shade900,
-      fontWeight: FontWeight.w700,
-
-    ),
+    style: kMediumHeavy.copyWith(
+        color: Styles.kBlueColor,
+        decoration: TextDecoration.underline,
+        fontWeight: FontWeight.w700),
   );
 }

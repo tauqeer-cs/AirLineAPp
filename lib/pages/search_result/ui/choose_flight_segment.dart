@@ -1,4 +1,4 @@
-import 'package:app/blocs/booking/booking_cubit.dart';
+import 'package:app/app/app_router.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/search_result/ui/segment_card.dart';
@@ -7,6 +7,8 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,8 +39,8 @@ class ChooseFlightSegment extends StatefulWidget {
   const ChooseFlightSegment(
       {Key? key,
       required this.title,
-        required this.visaPromo,
-        required this.subtitle,
+      required this.visaPromo,
+      required this.subtitle,
       required this.dateTitle,
       required this.segments,
       required this.isDeparture,
@@ -128,7 +130,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
             JustTheTooltip(
               triggerMode: TooltipTriggerMode.tap,
               preferredDirection: AxisDirection.up,
-              backgroundColor: Color.fromRGBO(237,242,244,1),
+              backgroundColor: Color.fromRGBO(237, 242, 244, 1),
               margin: EdgeInsets.all(16),
               child: Icon(
                 Icons.info,
@@ -136,9 +138,25 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
               ),
               content: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  "All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
-                  style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                child: RichText(
+                  text: TextSpan(
+                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            'All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our ',
+                      ),
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()..onTap = (){
+                          context.router.push(
+                            WebViewSimpleRoute(url: "/fares-fees"),
+                          );
+                        },
+                        style: kMediumMedium.copyWith(color: Styles.kPrimaryColor),
+                        text: 'Fare Rules.',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -179,7 +197,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                         segment: e,
                         isDeparture: widget.isDeparture,
                         changeFlight: widget.changeFlight,
-                          showVisa :  widget.visaPromo,
+                        showVisa: widget.visaPromo,
                       ),
                     )
                     .toList(),

@@ -69,6 +69,16 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    WebViewSimpleRoute.name: (routeData) {
+      final args = routeData.argsAs<WebViewSimpleRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: WebViewSimplePage(
+          key: args.key,
+          url: args.url,
+        ),
+      );
+    },
     InAppWebViewRoute.name: (routeData) {
       final args = routeData.argsAs<InAppWebViewRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -424,6 +434,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/webview',
         ),
         RouteConfig(
+          WebViewSimpleRoute.name,
+          path: '/webview-simple',
+        ),
+        RouteConfig(
           InAppWebViewRoute.name,
           path: '/in-app-webview',
         ),
@@ -724,6 +738,40 @@ class WebViewRouteArgs {
   @override
   String toString() {
     return 'WebViewRouteArgs{key: $key, url: $url, title: $title, htmlContent: $htmlContent}';
+  }
+}
+
+/// generated route for
+/// [WebViewSimplePage]
+class WebViewSimpleRoute extends PageRouteInfo<WebViewSimpleRouteArgs> {
+  WebViewSimpleRoute({
+    Key? key,
+    required String url,
+  }) : super(
+          WebViewSimpleRoute.name,
+          path: '/webview-simple',
+          args: WebViewSimpleRouteArgs(
+            key: key,
+            url: url,
+          ),
+        );
+
+  static const String name = 'WebViewSimpleRoute';
+}
+
+class WebViewSimpleRouteArgs {
+  const WebViewSimpleRouteArgs({
+    this.key,
+    required this.url,
+  });
+
+  final Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'WebViewSimpleRouteArgs{key: $key, url: $url}';
   }
 }
 
