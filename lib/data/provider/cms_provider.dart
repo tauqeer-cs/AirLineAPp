@@ -6,6 +6,9 @@ import 'package:app/models/cms_route.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../responses/agent_sign_up_cms.dart';
+import '../responses/common_response.dart';
+
 part 'cms_provider.g.dart';
 
 @RestApi()
@@ -27,10 +30,22 @@ abstract class CMSProvider {
     @Query("deep") String? deep = "6",
   });
 
+
+  @GET('shared/get')
+  Future<AgentSignUpCms> getAgentSignUp(@Query("key") String key, {
+    @Query("query") String? query = "tnC,agreement",
+    @Query("deep") String? deep = "6",
+  });
+
+
+
+
   @GET('shared/detail')
   Future<HomeDetail> getContentDetail(@Query("key") String key, {
     @Query("query") String? query = "content,showBookNow"
   });
+
+
 
   @GET('auth/gettoken')
   Future<TokenResponse> getToken();

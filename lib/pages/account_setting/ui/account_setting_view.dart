@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/data/requests/update_password_request.dart';
@@ -13,15 +15,49 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../app/app_flavor.dart';
+import '../../../blocs/profile/profile_cubit.dart';
+import '../../../data/api.dart';
+import '../../../data/provider/profile_provider.dart';
 import '../../../theme/theme.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter/widgets.dart';
 
 class AccountSettingView extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
 
   const AccountSettingView({Key? key}) : super(key: key);
 
+  void selectImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final xFile = XFile(pickedFile.path);
+      final file = File(xFile.path);
+
+      var _provider = ProfileProvider(
+        Api.client,
+        baseUrl: '${AppFlavor.baseUrlApi}/v1/',
+      );
+
+      _provider.uploadProfilePicture(file);
+
+      // Do something with the converted File object
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    String? currency = context
+        .watch<ProfileCubit>()
+        .state
+        .profile
+        ?.userProfile
+        ?.profileImageURL;
+
     return FormBuilder(
       key: _fbKey,
       child: SingleChildScrollView(
@@ -29,6 +65,19 @@ class AccountSettingView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
+            /*if (currency != null) ...[
+              Image.memory(base64Decode(currency ?? '')),
+            ] else ...[
+              TextButton(
+                onPressed: () {
+                  selectImage();
+                },
+                child: const Text('Select Image'),
+              ),
+            ],*/
+
+
             const FormHeader(
               title: "Change Password",
               graySubText: true,

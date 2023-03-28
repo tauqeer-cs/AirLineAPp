@@ -23,7 +23,8 @@ class InsuranceTerms extends StatelessWidget {
             makeClickableTextSpan(context,text: 'Terms and Conditions',pdfName: 'https://booking.myairline.my/insurance/term_and_conditions.pdf',pdfIsLink: true),
             makeClickableTextSpan(context,text: ' of MY Travel Shield and agree to the processing of my Personal Data in accordance with the '),
             makeClickableTextSpan(context,text: 'Data Privacy Notice.',webViewLink: 'https://www.zurich.com.my/pdpa'),
-
+//https://booking.myairline.my/insurance/product_disclosure.pdf
+          //https://booking.myairline.my/insurance/term_and_conditions.pdf
           ],
         ),
       ),

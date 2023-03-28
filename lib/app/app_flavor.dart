@@ -124,7 +124,7 @@ class AppFlavor {
       case Flavor.staging:
         return isAndroid ? '' : 'group.com.myairline.mobileapp';
       case Flavor.uat:
-        return isAndroid ? '' : 'group.com.myairline.mobileapp';
+        return isAndroid ? '' : 'group.com.myairline.mobileapp.uat';
       default:
         return isAndroid ? '' : 'group.com.myairline.mobileapp';
     }

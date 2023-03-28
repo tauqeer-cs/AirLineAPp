@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:app/utils/date_utils.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
@@ -42,6 +46,8 @@ class UserProfile extends Equatable {
   final String? email;
   final int? memberPoint;
 
+  final String? profileImageURL;
+
 
   String? get emailShow {
     if (email == null) {
@@ -80,6 +86,7 @@ class UserProfile extends Equatable {
     List<FriendsFamily>? friendsAndFamily,
     List<MemberCard>? memberCards,
     int? memberPoint,
+    String? profileImageURL,
   }) {
     return UserProfile(
       title: title ?? this.title,
@@ -103,6 +110,8 @@ class UserProfile extends Equatable {
       friendsAndFamily: friendsAndFamily ?? this.friendsAndFamily,
       memberCards: memberCards ?? this.memberCards,
       memberPoint: memberPoint ?? this.memberPoint,
+      profileImageURL: profileImageURL ?? this.profileImageURL,
+
 
     );
   }
@@ -128,7 +137,8 @@ class UserProfile extends Equatable {
     this.emergencyContact,
     this.friendsAndFamily,
     this.memberCards,
-    this.memberPoint
+    this.memberPoint,
+    this.profileImageURL
   });
 
   @override
@@ -154,7 +164,8 @@ class UserProfile extends Equatable {
         email,
         friendsAndFamily,
         memberCards,
-        memberPoint
+        memberPoint,
+        profileImageURL
       ];
 
   factory UserProfile.fromJson(Map<String, dynamic> json) =>

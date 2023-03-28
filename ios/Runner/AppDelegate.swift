@@ -23,7 +23,7 @@ import Flutter
 
       if let bundleIdentifier = Bundle.main.bundleIdentifier {
           print("Bundle Identifier: \(bundleIdentifier)")
-          Insider.initWithLaunchOptions(launchOptions, partnerName: bundleIdentifier == "com.myairline.mobileapp.uat" ? "myairlineuat" : "myairline" , appGroup: appGroup)
+          Insider.initWithLaunchOptions(launchOptions, partnerName: bundleIdentifier == "com.myairline.mobileapp.uat" ? "myairlineuat" : "myairline" , appGroup: bundleIdentifier == "com.myairline.mobileapp.uat" ? appGroupUat : appGroup)
           Insider.register(withQuietPermission: false)
       }
       
@@ -34,4 +34,14 @@ import Flutter
       
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+    
+
+    
+    
+ 
+
+    
+    
+    
+    
 }

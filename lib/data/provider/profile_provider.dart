@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:app/data/responses/common_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -31,4 +34,13 @@ abstract class ProfileProvider {
   @POST('user/user-delete-card')
   Future<CommonResponse> deleteUserCard(@Body() DeleteCardReuquest profile);
 
+
+
+  @POST('user/updateprofilepicture')
+  Future<CommonResponse> uploadProfilePicture(@Part() File file);
+
+
+
 }
+
+
