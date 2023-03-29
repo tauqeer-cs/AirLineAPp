@@ -2,9 +2,13 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/models/airports.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
+import 'package:app/theme/spacer.dart';
+import 'package:app/theme/theme.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 part 'filter_state.dart';
 
@@ -47,12 +51,15 @@ class FilterCubit extends Cubit<FilterState> {
           break;
       }
       persons.add(person);
+      persons.sort((a, b) => (a.peopleType?.code ?? "").compareTo(b.peopleType?.code ?? ""));
+
     } else {
       final index =
           persons.lastIndexWhere((element) => element.peopleType == type);
       persons.removeAt(index);
     }
     final newNumberPerson = NumberPerson(persons: persons);
+    print("person is ${numberPerson.persons}");
     emit(state.copyWith(numberPerson: newNumberPerson ,promoCode: state.promoCode));
   }
 

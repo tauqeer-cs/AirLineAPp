@@ -149,7 +149,9 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                       },
                       startWeekWithSunday: true,
                       onDayPressed: (value) async {
-                        final isBefore = value.isBefore(DateTime.now());
+                        final now = DateTime.now();
+
+                        final isBefore = value.isBefore(DateTime(now.year, now.month, now.day, 0, 0, 0));
                         if (isBefore) return;
                         if (isRoundTrip) {
                           if (departDate == null) {
@@ -198,11 +200,12 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                       },
                       dayBuilder: (context, date) {
                         final inRange = isInRange(date, departDate, returnDate);
+                        final now = DateTime.now();
                         final sameMonth = AppDateUtils.sameMonth(
                             date, priceState.loadingDate);
                         final event = prices.firstWhereOrNull(
                             (event) => isSameDay(event.date, date));
-                        final isBefore = date.isBefore(DateTime.now());
+                        final isBefore = date.isBefore(DateTime(now.year, now.month, now.day, 0, 0, 0));
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(

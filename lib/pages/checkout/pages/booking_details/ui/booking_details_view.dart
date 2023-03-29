@@ -131,7 +131,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         const BookingDetailsHeader(),
                         kVerticalSpacer,
                         const CardSummary(showFees: false),
-                        kVerticalSpacer,
+                        kVerticalSpacerSmall,
                         ListOfPassengerInfo(
                           onInsuranceChanged: () {
                             rebuild();
@@ -341,7 +341,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
               errorText: 'Email address is mandatory for company Tax Invoice.');
           return;
         }
-
       }
 
       List<Passenger> passengers = [];

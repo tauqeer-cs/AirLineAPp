@@ -6,21 +6,26 @@ class AppCard extends StatelessWidget {
   final EdgeInsets? edgeInsets;
   final bool isHighlighted;
   final bool roundedInBottom;
+  final EdgeInsets? margin;
+  final double? borderRadius;
 
-  const AppCard(
-      {Key? key,
-      required this.child,
-      this.edgeInsets,
-      this.isHighlighted = false,
-      this.customColor,
-      this.roundedInBottom = false,})
-      : super(key: key);
+  const AppCard({
+    Key? key,
+    required this.child,
+    this.edgeInsets,
+    this.isHighlighted = false,
+    this.customColor,
+    this.roundedInBottom = false,
+    this.margin,
+    this.borderRadius,
+  }) : super(key: key);
 
   final Color? customColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin ?? EdgeInsets.zero,
       padding: edgeInsets ?? const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: customColor ?? Theme.of(context).cardColor,
@@ -29,7 +34,7 @@ class AppCard extends StatelessWidget {
                 bottomLeft: Radius.circular(30.0),
                 bottomRight: Radius.circular(30.0),
               )
-            : BorderRadius.circular(15),
+            : BorderRadius.circular(borderRadius ?? 15),
         boxShadow: [
           1 == 1
               ? BoxShadow(

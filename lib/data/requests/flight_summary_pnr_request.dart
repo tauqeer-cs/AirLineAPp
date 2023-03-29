@@ -350,21 +350,31 @@ class Passenger extends HiveObject with EquatableMixin {
 
 
   String? get ifPassengerHasInsuranceName {
-
     if(ssr != null) {
       if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
         var outBound = ssr!.outbound!;
         var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
-
         if(object.isNotEmpty){
           return object.first.name;
         }
-
         return null;
       }
     }
     return null;
 
+  }
+  Bound? get getInsurance {
+    if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+        if(object.isNotEmpty){
+          return object.first;
+        }
+        return null;
+      }
+    }
+    return null;
   }
   String? get ifPassengerHasInsurance {
 
@@ -372,11 +382,9 @@ class Passenger extends HiveObject with EquatableMixin {
       if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
         var outBound = ssr!.outbound!;
         var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
-
         if(object.isNotEmpty){
          return object.first.price!.toDouble().toStringAsFixed(2);
         }
-
         return null;
       }
     }

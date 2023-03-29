@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
+import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/card_summary.dart';
 import 'package:app/pages/checkout/pages/payment/bloc/payment_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/discount_summary.dart';
@@ -28,6 +29,8 @@ class _PaymentViewState extends State<PaymentView> {
 
   @override
   Widget build(BuildContext context) {
+    final summaryResponse = context.watch<SummaryCubit>().state.summaryResponse;
+
     final widgets = <Widget>[
       Padding(
         padding: kPageHorizontalPadding,
@@ -54,7 +57,9 @@ class _PaymentViewState extends State<PaymentView> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               kVerticalSpacer,
-              const BookingSummary(),
+              BookingSummary(
+                totalAmountToShow: summaryResponse?.flightSummaryPnrResult?.summaryAmount?.toDouble() ?? 0,
+              ),
               kVerticalSpacer,
               ElevatedButton(
                 onPressed: () => onBook(context),
@@ -76,6 +81,8 @@ class _PaymentViewState extends State<PaymentView> {
   onBook(BuildContext context) {
     final bookingState = context.read<BookingCubit>().state;
     final filterState = context.read<SearchFlightCubit>().state.filterState;
+    final summaryResponse = context.read<SummaryCubit>().state.summaryResponse;
+
     final voucher = context.read<VoucherCubit>().state.appliedVoucher;
     final token = bookingState.verifyResponse?.token;
     final pnrRequest = bookingState.summaryRequest?.flightSummaryPNRRequest;
@@ -90,10 +97,8 @@ class _PaymentViewState extends State<PaymentView> {
     context.read<PaymentCubit>().pay(
           flightSummaryPnrRequest: pnrRequest,
           token: token,
-          total: bookingState.getFinalPrice +
-              (filterState?.numberPerson.getTotal() ?? 0),
-          totalNeedPaid: bookingState.getFinalPrice +
-              (filterState?.numberPerson.getTotal() ?? 0),
+          total: summaryResponse?.flightSummaryPnrResult?.summaryAmount ??0,
+          totalNeedPaid: summaryResponse?.flightSummaryPnrResult?.summaryAmount ??0,
           promoCode: voucher,
       redeemCodeToSend: redeemCodeToSend
         );

@@ -1,7 +1,8 @@
+import 'package:app/custom_packages/dropdown_search/src/properties/dropdown_decorator_props.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'theme.dart';
 
+import 'theme.dart';
 
 class Styles {
   static Color get kPrimaryColor => const Color.fromRGBO(227, 30, 51, 1);
@@ -18,6 +19,8 @@ class Styles {
 
   static Color get kBorderColor => const Color.fromRGBO(141, 153, 174, 1);
 
+  static Color get kActiveGrey => const Color.fromRGBO(137, 137, 137, 1);
+
   static Color get kContainerColor => const Color(0xC5EEEEEE);
 
   static Color get kTextLightThemeColor => const Color(0xFF4B4B4B);
@@ -31,6 +34,10 @@ class Styles {
   static Color get kTextColor => const Color.fromRGBO(43, 45, 66, 1);
 
   static Color get kSubTextColor => const Color.fromRGBO(102, 102, 102, 1);
+
+  static Color get kBlueColor => const Color.fromRGBO(51, 102, 204, 1);
+
+  static Color get kZurichColor => const Color.fromRGBO(0, 118, 190, 1);
 
   static Color get kBorderActionColor => const Color.fromRGBO(112, 112, 112, 1);
 
@@ -215,24 +222,43 @@ class Styles {
         border: const UnderlineInputBorder(),
         prefixIconColor: isLight ? kTextColor : Colors.white,
         suffixIconColor: isLight ? kTextColor : Colors.white,
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: kBorderColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: kBorderColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
         ),
-        errorBorder: const UnderlineInputBorder(
+        errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
         ),
-        focusedErrorBorder: const UnderlineInputBorder(
+        focusedErrorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
         ),
-        disabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: kBorderColor.withOpacity(0.3)),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kBorderColor.withOpacity(0.3),
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
         ),
         filled: false,
         labelStyle: kSmallSemiBold.copyWith(
-          color: isLight ? kTextColor : kLightBgColor,
+          color: isLight
+              ? kSubTextColor.withOpacity(0.5)
+              : kLightBgColor.withOpacity(0.5),
         ),
         errorStyle: kSmallSemiBold.copyWith(
           color: isLight ? Colors.red : kLightBgColor,
@@ -356,6 +382,45 @@ class Styles {
       ).apply(
         bodyColor: isLight ? kTextColor : kLightBgColor,
         displayColor: isLight ? kTextColor : kLightBgColor,
+      ),
+    );
+  }
+
+  static DropDownDecoratorProps getDefaultFieldDecoration(){
+    return DropDownDecoratorProps(
+      dropdownSearchDecoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Styles.kBorderColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Styles.kBorderColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Styles.kBorderColor.withOpacity(0.3),
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
       ),
     );
   }

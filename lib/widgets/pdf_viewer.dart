@@ -126,7 +126,7 @@ class _PdfViewerState extends State<PdfViewer> {
       appBar: AppAppBar(
         centerTitle: true,
         title: widget.title,
-        height: 80.h,
+        height: 60.h,
       ),
       body:  buildPdfView()
       );

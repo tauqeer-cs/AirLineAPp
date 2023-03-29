@@ -88,6 +88,11 @@ FlightResult _$FlightResultFromJson(Map<String, dynamic> json) => FlightResult(
           ?.map((e) => TaxDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
       requestedPromotionalCode: json['requestedPromotionalCode'] as String?,
+      isOutboundNotAvailable: json['isOutboundNotAvailable'] as bool?,
+      isInboundNotAvailable: json['isInboundNotAvailable'] as bool?,
+      outboundNotAvailableMessage:
+          json['outboundNotAvailableMessage'] as String?,
+      inboundNotAvailableMessage: json['inboundNotAvailableMessage'] as String?,
     );
 
 Map<String, dynamic> _$FlightResultToJson(FlightResult instance) {
@@ -102,6 +107,12 @@ Map<String, dynamic> _$FlightResultToJson(FlightResult instance) {
   writeNotNull('inboundSegment', instance.inboundSegment);
   writeNotNull('outboundSegment', instance.outboundSegment);
   writeNotNull('commissionIncluded', instance.commissionIncluded);
+  writeNotNull(
+      'outboundNotAvailableMessage', instance.outboundNotAvailableMessage);
+  writeNotNull(
+      'inboundNotAvailableMessage', instance.inboundNotAvailableMessage);
+  writeNotNull('isOutboundNotAvailable', instance.isOutboundNotAvailable);
+  writeNotNull('isInboundNotAvailable', instance.isInboundNotAvailable);
   writeNotNull('legDetails', instance.legDetails);
   writeNotNull('requestReservationChannel', instance.requestReservationChannel);
   writeNotNull('requestedCorporationID', instance.requestedCorporationID);

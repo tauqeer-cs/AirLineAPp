@@ -2,6 +2,7 @@ import 'package:app/data/requests/book_request.dart';
 import 'package:app/data/requests/reverify_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/requests/summary_request.dart';
+import 'package:app/data/requests/update_insurance_request.dart';
 import 'package:app/data/requests/verify_request.dart';
 import 'package:app/data/requests/voucher_request.dart';
 import 'package:app/data/responses/airports_response.dart';
@@ -45,6 +46,9 @@ abstract class FlightProvider {
 
   @POST('checkout/summaryflight')
   Future<SummaryResponse> summaryFlight(@Body() SummaryRequest summaryRequest);
+
+  @POST('checkout/updateinsuranceflight')
+  Future<SummaryResponse> updateInsurance(@Body() InsuranceRequest insuranceRequest);
 
   @POST('checkout/bookflight')
   Future<PayRedirectionValue> bookFlight(@Body() BookRequest bookRequest);

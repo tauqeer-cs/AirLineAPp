@@ -38,6 +38,7 @@ import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import 'blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import 'blocs/manage_booking/manage_booking_cubit.dart';
 import 'widgets/dialogs/app_confirmation_dialog.dart';
 
@@ -63,6 +64,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     const SelectBaggageRoute().path,
     const BookingDetailsRoute().path,
     const CheckoutRoute().path,
+    const InsuranceRoute().path,
     const PaymentRoute().path,
   ];
 
@@ -207,6 +209,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
       } */
       else if (durationRemaining == 0) {
+        return;
         FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
         showDialog(
           context: currentContext,
@@ -254,6 +257,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (context) => VoucherCubit()),
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => CmsSsrCubit()),
+        BlocProvider(create: (_) => AgentSignUpCubit()),
         BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(
           create: (context) => ManageBookingCubit(),
@@ -313,6 +317,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             listener: (context, state) {
               context.read<HomeCubit>().getContents(state.routes);
               context.read<CmsSsrCubit>().getCmsSSR(state.routes);
+              context.read<AgentSignUpCubit>().getAgentSignUp(state.routes);
+
             },
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(

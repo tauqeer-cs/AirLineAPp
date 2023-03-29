@@ -11,17 +11,17 @@ import 'package:collection/collection.dart';
 
 class BookingSummary extends StatelessWidget {
   final String? labelToShow;
-
   final bool isChangeFlight;
-
   final double? totalAmountToShow;
+  final double additionalNumber;
 
-  const BookingSummary(
-      {Key? key,
-      this.labelToShow,
-      this.totalAmountToShow,
-      this.isChangeFlight = false})
-      : super(key: key);
+  const BookingSummary({
+    Key? key,
+    this.labelToShow,
+    this.totalAmountToShow,
+    this.isChangeFlight = false,
+    this.additionalNumber = 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class BookingSummary extends StatelessWidget {
               booking.getFinalPriceDisplay +
                   (filterState?.numberPerson.getTotal() ?? 0) -
                   discount -
-                  redeemAmount,
+                  redeemAmount + additionalNumber,
         ),
         kVerticalSpacer,
       ],

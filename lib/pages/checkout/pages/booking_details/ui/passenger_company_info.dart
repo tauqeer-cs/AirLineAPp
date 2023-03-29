@@ -30,11 +30,12 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
   String? emailAddress;
   bool isExpand = false;
 
+  TextEditingController emailController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    final contact =
-        true ? null : context.read<LocalUserBloc>().state.companyTaxInvoice;
+    final contact = context.read<LocalUserBloc>().state.companyTaxInvoice;
     name = contact?.companyName;
     address = contact?.companyAddress;
     state = contact?.state;
@@ -42,13 +43,17 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
     emailAddress = contact?.emailAddress;
     postCode = contact?.postCode;
 
-    if(emailAddress == null){
-      final localContact = context.read<LocalUserBloc>().state;
-      final profile = context.read<ProfileCubit>().state.profile?.userProfile;
-      emailAddress = profile?.emailShow ?? localContact.contactEmail.trim();
+
+
+
+  }
+
+  void fillEmail() {
+     if( (emailController.text ?? '').isEmpty){
+      final request = context.read<LocalUserBloc>().state;
+      emailController.text = request.contactEmail;
+
     }
-
-
   }
 
   @override
@@ -113,6 +118,13 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     context
                         .read<LocalUserBloc>()
                         .add(UpdateCompany(newRequest));
+
+                    if((value ?? '').isNotEmpty){
+                      //if((emailAddress ?? '').isEmpty){
+                        fillEmail();
+                     // }
+                    }
+
                   },
                 ),
                 kVerticalSpacer,
@@ -180,9 +192,11 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 AppInputText(
                   name: formNameCompanyEmailAddress,
                   hintText: "Email Address",
-                  initialValue: emailAddress,
+                  textEditingController: emailController,
                   validators: [FormBuilderValidators.email()],
                   onChanged: (value) {
+                    emailAddress = value;
+
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
                     final newRequest = request?.copyWith(emailAddress: value);

@@ -34,7 +34,7 @@ class AppDateUtils {
 
   static String formatFullDateWithTime(DateTime? dateTime) {
     if (dateTime == null) return "Invalid Date";
-    final dateFormat = DateFormat("EEEE dd MMMM yyyy hh:mm a");
+    final dateFormat = DateFormat("EEE dd MMM yyyy, hh:mm a");
     String formattedDate = dateFormat.format(dateTime);
     return formattedDate;
   }
