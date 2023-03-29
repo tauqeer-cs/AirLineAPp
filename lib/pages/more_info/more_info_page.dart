@@ -1,9 +1,11 @@
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/pdf_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../theme/styles.dart';
 import '../../theme/typography.dart';
 import '../../widgets/app_app_bar.dart';
@@ -14,6 +16,9 @@ class MoreOptionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final agentCms = context.watch<AgentSignUpCubit>().state.agentCms;
+
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: const AppLoadingScreen(message: 'Updating'),
@@ -53,9 +58,9 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PdfViewer(
+                                builder: (context) =>  PdfViewer(
                                   title: 'Conditions of Carriage',
-                                  fileName: 'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
+                                  fileName: agentCms?.tnC ?? 'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
@@ -80,7 +85,7 @@ class MoreOptionsPage extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => const PdfViewer(
                                   title: 'Privacy Policy',
-                                  fileName: 'https://myacontents.blob.core.windows.net/myacontents/odxgmbdo/myairline_privacy-policy.pdf',
+                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
@@ -105,7 +110,7 @@ class MoreOptionsPage extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => const PdfViewer(
                                   title: 'Terms of Use',
-                                  fileName: 'https://myacontents.blob.core.windows.net/myacontents/kbyjsapq/myairline_term-of-use_final.pdf',
+                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),

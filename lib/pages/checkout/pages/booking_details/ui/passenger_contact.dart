@@ -17,6 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../widgets/pdf_viewer.dart';
+
 class PassengerContact extends StatefulWidget {
   const PassengerContact({
     Key? key,
@@ -66,11 +68,9 @@ class _PassengerContactState extends State<PassengerContact> {
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
     emailController.text = email ?? '';
     emailController.addListener(() {});
-    if((email ?? '').isNotEmpty){
+    if ((email ?? '').isNotEmpty) {
       updateEmail(context, email);
-
     }
-
   }
 
   @override
@@ -89,25 +89,36 @@ class _PassengerContactState extends State<PassengerContact> {
               TextSpan(
                 text:
                     "Please ensure you get these details right. We'll email you your travel itinerary and notify you of any important changes to your booking. ",
-                style: kMediumRegular.copyWith(color:Styles.kTextColor,height: 1.5),
+                style: kMediumRegular.copyWith(
+                    color: Styles.kTextColor, height: 1.5),
               ),
               TextSpan(
                 text: "\nYour info will be collected in line with our",
-                style: kMediumHeavy.copyWith(color:Styles.kTextColor,height: 1.5),
+                style: kMediumHeavy.copyWith(
+                    color: Styles.kTextColor, height: 1.5),
               ),
               TextSpan(
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
                     try {
-                      SecurityUtils.tryLaunch(
-                          "https://myacontents.blob.core.windows.net/myacontents/odxgmbdo/myairline_privacy-policy.pdf");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PdfViewer(
+                            title: 'Privacy Policy',
+                            fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
+                            pdfIsLink: true,
+                          ),
+                        ),
+                      );
                     } catch (e, st) {
                       Toast.of(context).show(message: "Cannot Launch url");
                       ErrorUtils.getErrorMessage(e, st);
                     }
                   },
                 text: "\nPrivacy Policy.",
-                style: kMediumHeavy.copyWith(color:Styles.kTextColor,height: 1.5),
+                style: kMediumHeavy.copyWith(
+                    color: Styles.kTextColor, height: 1.5),
               ),
             ],
           ),
@@ -193,7 +204,7 @@ class _PassengerContactState extends State<PassengerContact> {
                     }
                   }
                 }
-               updateEmail(context, value);
+                updateEmail(context, value);
               },
             ),
             kVerticalSpacerSmall,
@@ -210,8 +221,7 @@ class _PassengerContactState extends State<PassengerContact> {
 
   void updateEmail(BuildContext context, String? value) {
     final request = context.read<LocalUserBloc>().state;
-    final newRequest =
-        request.copyWith(contactEmail: value?.trim());
+    final newRequest = request.copyWith(contactEmail: value?.trim());
     context
         .read<LocalUserBloc>()
         .add(UpdateEmailContact(newRequest.contactEmail));
