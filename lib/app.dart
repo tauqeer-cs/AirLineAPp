@@ -144,6 +144,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         superPnr != null &&
         currentContext != null) {
       if (durationRemaining == 0) {
+        return;
         FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
         showDialog(
           context: currentContext,
@@ -215,7 +216,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           barrierDismissible: false,
           builder: (context) {
             return WillPopScope(
-              onWillPop: () async => false,
+              onWillPop: () async => true,
               child: AppConfirmationDialog(
                 showCloseButton: false,
                 title: "Your session is expired, please retry your search!",
