@@ -18,6 +18,7 @@ import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:app/widgets/settings_wrapper.dart';
 import 'package:collection/collection.dart';
+import 'package:datepicker_dropdown/datepicker_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -242,6 +243,37 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 ),
               ),
               kVerticalSpacerSmall,
+              DropdownDatePicker(
+                locale: "en",
+                inputDecoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                    helperText: '',
+                    contentPadding: const EdgeInsets.all(8),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))), // optional
+                isDropdownHideUnderline: true, // optional
+                isFormValidator: true, // optional
+                startYear: 1900, // optional
+                endYear: 2020, // optional
+                width: 10, // optional
+                // selectedDay: 14, // optional
+                selectedMonth: 10, // optional
+                selectedYear: 1993, // optional
+                onChangedDay: (value) => print('onChangedDay: $value'),
+                onChangedMonth: (value) => print('onChangedMonth: $value'),
+                onChangedYear: (value) => print('onChangedYear: $value'),
+                //boxDecoration: BoxDecoration(
+                // border: Border.all(color: Colors.grey, width: 1.0)), // optional
+                // showDay: false,// optional
+                // dayFlex: 2,// optional
+                // locale: "zh_CN",// optional
+                // hintDay: 'Day', // optional
+                // hintMonth: 'Month', // optional
+                // hintYear: 'Year', // optional
+                // hintTextStyle: TextStyle(color: Colors.grey), // optional
+              ),
               FormBuilderDateTimePicker(
                 key: dateKey,
                 name: dobKey,
