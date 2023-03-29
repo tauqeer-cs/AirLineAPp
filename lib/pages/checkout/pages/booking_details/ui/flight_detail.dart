@@ -121,7 +121,7 @@ class _FlightDetailState extends State<FlightDetail> {
                       "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
                 ),
                 Visibility(
-                  visible: widget.showFees,
+                  visible: true,
                   child: BlocProvider(
                     create: (context) => IsPaymentPageCubit(true),
                     child: FeeAndTaxesPayment(isDeparture: widget.isDeparture),

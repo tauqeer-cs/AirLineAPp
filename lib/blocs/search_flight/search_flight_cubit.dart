@@ -44,6 +44,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     required bool isDeparture,
     String? okId,
   }) {
+    print("available wheelchair is ${wheelChairs.length}");
     final persons =
         List<Person>.from(state.filterState?.numberPerson.persons ?? []);
     Bundle? wheelChair;
@@ -52,10 +53,13 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }else{
       wheelChair = wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHR");
     }
+    wheelChair ??= wheelChairs.first;
+
     final selected = persons.indexWhere((element) {
       return element == person;
     });
     if (selected >= 0) {
+      print("selected is more than 0 $wheelChair");
       final person = persons[selected];
       late Person newPerson;
       if (isDeparture) {

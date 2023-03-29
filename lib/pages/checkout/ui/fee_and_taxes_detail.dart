@@ -4,16 +4,17 @@ import 'package:app/data/responses/flight_response.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:collection/collection.dart';
 
 import '../../../utils/constant_utils.dart';
 
 class FeeAndTaxesDetail extends StatelessWidget {
   final bool isDeparture;
+  final double? padding;
 
-  const FeeAndTaxesDetail({Key? key, required this.isDeparture})
+  const FeeAndTaxesDetail({Key? key, required this.isDeparture, this.padding})
       : super(key: key);
 
   @override
@@ -49,15 +50,18 @@ class FeeAndTaxesDetail extends StatelessWidget {
             bookingCubit.selectedDeparture!.totalSegmentFareAmtWithInfantSSR;
 
         discountTotal = a! - b!;
-
       }
     }
 
     return Column(
       children: [
         kVerticalSpacerMini,
-        AppDividerWidget(color: Styles.kDisabledButton),
+        Visibility(
+          visible: padding !=0,
+          child: AppDividerWidget(color: Styles.kDisabledButton),
+        ),
         PriceContainer(
+          padding: padding,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -74,6 +78,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
         ...taxes!
             .map(
               (e) => PriceContainer(
+                padding: padding,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -103,6 +108,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
         Visibility(
           visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,
           child: PriceContainer(
+            padding: padding,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -119,7 +125,8 @@ class FeeAndTaxesDetail extends StatelessWidget {
                     ),
                     kHorizontalSpacerMini,
                     MoneyWidgetSmall(
-                        amount: infant?.finalAmount ?? segment?.infantPricePerPax,
+                        amount:
+                            infant?.finalAmount ?? segment?.infantPricePerPax,
                         isDense: true),
                   ],
                 ),
@@ -131,6 +138,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
           Visibility(
             visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,
             child: PriceContainer(
+              padding: padding,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -155,13 +163,15 @@ class FeeAndTaxesDetail extends StatelessWidget {
 
 class PriceContainer extends StatelessWidget {
   final Widget child;
+  final double? padding;
 
-  const PriceContainer({Key? key, required this.child}) : super(key: key);
+  const PriceContainer({Key? key, required this.child, this.padding})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+      padding: EdgeInsets.symmetric(vertical: 7, horizontal: padding ?? 15),
       child: child,
     );
   }

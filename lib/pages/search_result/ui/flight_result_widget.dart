@@ -28,6 +28,7 @@ class FlightResultWidget extends StatelessWidget {
             child: Column(
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       flex: 4,
@@ -43,11 +44,11 @@ class FlightResultWidget extends StatelessWidget {
                         return Visibility(
                           //visible: !state.isVerify,
                           child: Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: OutlinedButton(
                               child: const FittedBox(
                                 fit: BoxFit.scaleDown,
-                                child: Text("Edit flight"),
+                                child: Text("Change Search"),
                               ),
                               onPressed: () {
                                 context
@@ -107,7 +108,7 @@ class FlightResultWidget extends StatelessWidget {
         ChooseFlightSegment(
           title: "Departure",
           subtitle: state.filterState?.beautifyShort ?? "",
-          dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
+          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate),
           segments: bookState.selectedDeparture != null
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
@@ -121,7 +122,7 @@ class FlightResultWidget extends StatelessWidget {
             title: "Return",
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
-                AppDateUtils.formatFullDate(state.filterState?.returnDate),
+                AppDateUtils.formatHalfDate(state.filterState?.returnDate),
             segments: bookState.selectedReturn != null
                 ? [bookState.selectedReturn!]
                 : state.flights?.flightResult?.inboundSegment ?? [],
