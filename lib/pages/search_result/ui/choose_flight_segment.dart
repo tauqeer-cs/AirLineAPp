@@ -147,12 +147,14 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                             'All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our ',
                       ),
                       TextSpan(
-                        recognizer: TapGestureRecognizer()..onTap = (){
-                          context.router.push(
-                            WebViewSimpleRoute(url: "/fares-fees"),
-                          );
-                        },
-                        style: kMediumMedium.copyWith(color: Styles.kPrimaryColor),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.router.push(
+                              WebViewSimpleRoute(url: "/fares-fees"),
+                            );
+                          },
+                        style:
+                            kMediumMedium.copyWith(color: Styles.kPrimaryColor),
                         text: 'Fare Rules.',
                       ),
                     ],
@@ -211,8 +213,10 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      builder: (_) =>
-          SortSheet(defaultValue: selectedSort, onChanged: onChangeSort),
+      builder: (_) => SortSheet(
+        defaultValue: selectedSort,
+        onChanged: onChangeSort,
+      ),
       constraints: BoxConstraints(
         maxWidth: 0.92.sw,
       ),

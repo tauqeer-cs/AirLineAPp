@@ -364,7 +364,7 @@ class SegmentHeader extends StatelessWidget {
           style: kLargeHeavy,
         ),
         Text(
-          "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'Depart' : 'Arrival'}",
+          "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'Departure' : 'Arrival'}",
           style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
         )
       ],
