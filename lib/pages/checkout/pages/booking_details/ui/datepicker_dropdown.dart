@@ -1,8 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
-
-library datepicker_dropdown;
-
 import 'package:flutter/material.dart';
+
+enum SupportedLocale { en, my }
 
 /// Defines widgets which are to used as DropDown Date Picker.
 // ignore: must_be_immutable
@@ -100,15 +98,7 @@ class DropdownDatePicker extends StatefulWidget {
   ///Default [isDropdownHideUnderline] = false. Wrap with DropdownHideUnderline for the dropdown to hide the underline.
   final bool isDropdownHideUnderline;
 
-  /// locale
-  ///
-  /// default `en`
-  ///
-  /// support `zh_CN`
-  ///
-  /// support `it_IT`
-  /// support fr_FR
-  final String locale;
+  final SupportedLocale locale;
 
   /// default true
   bool showYear;
@@ -125,7 +115,7 @@ class DropdownDatePicker extends StatefulWidget {
   int yearFlex;
 
   DropdownDatePicker({
-    Key? key,
+    super.key,
     this.textStyle,
     this.boxDecoration,
     this.inputDecoration,
@@ -149,7 +139,7 @@ class DropdownDatePicker extends StatefulWidget {
     this.selectedDay,
     this.selectedMonth,
     this.selectedYear,
-    this.locale = 'en',
+    this.locale = SupportedLocale.en,
     this.showDay = true,
     this.showMonth = true,
     this.showYear = true,
@@ -160,8 +150,7 @@ class DropdownDatePicker extends StatefulWidget {
     this.endMonth,
     this.startDate,
     this.endDate,
-  })  : assert(["en", "zh_CN", "it_IT", "tr", 'fr_FR'].contains(locale)),
-        super(key: key);
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -173,68 +162,109 @@ class _DropdownDatePickerState extends State<DropdownDatePicker> {
   var dayselVal = '';
   var yearselVal = '';
   int daysIn = 32;
-  late List listdates = [];
-  late List listyears = [];
-  late List<dynamic> listMonths = [];
+  late List<int> listdates = [];
+  late List<int> listyears = [];
+  late List<int> listMonths = [];
 
   @override
   void initState() {
     super.initState();
+    print("end year is ${widget.endYear} start year ${widget.startYear}");
+    print("end month is ${widget.endMonth} start month ${widget.startMonth}");
+    print("end date is ${widget.endMonth} start date ${widget.startDate}");
+
     dayselVal = widget.selectedDay != null ? widget.selectedDay.toString() : '';
     monthselVal =
         widget.selectedMonth != null ? widget.selectedMonth.toString() : '';
     yearselVal =
         widget.selectedYear != null ? widget.selectedYear.toString() : '';
-    listdates = Iterable<int>.generate(daysIn).skip(1).toList();
     listyears =
         Iterable<int>.generate((widget.endYear ?? DateTime.now().year) + 1)
             .skip(widget.startYear ?? 1900)
             .toList()
             .reversed
             .toList();
+    adjustDates();
+    adjustMonths();
+  }
 
-    if(widget.startDate!=null){
-      listdates.removeRange(0, widget.startDate!);
-    }
-    if(widget.endDate!=null){
-      listdates.removeRange(0, widget.startDate!);
-    }
-    if(widget.startDate!=null){
-      listdates.removeRange(0, widget.startDate!);
-    }
-    if(widget.startDate!=null){
-      listdates.removeRange(0, widget.startDate!);
-    }
+  bool get isStartYearSelected => yearselVal == widget.startYear.toString();
 
-    if (widget.locale == "zh_CN") {
-      listMonths = listMonths_zh_CN;
-    } else if (widget.locale == "it_IT") {
-      listMonths = listMonths_it_IT;
-    } else if (widget.locale == "tr") {
-      listMonths = listMonths_tr;
-    } else if (widget.locale == "fr_FR") {
-      listMonths = listMonths_fr_FR;
+  bool get isStartMonthSelected => monthselVal == widget.startMonth.toString();
+
+  bool get isEndYearSelected => yearselVal == widget.endYear.toString();
+
+  bool get isEndMonthSelected => monthselVal == widget.endMonth.toString();
+
+  adjustDates() {
+    print("adjust dates");
+    if (widget.startDate != null &&
+        isStartYearSelected &&
+        isStartMonthSelected) {
+      listdates.removeRange(0, widget.startDate!);
+    } else if (widget.endDate != null &&
+        isEndYearSelected &&
+        isEndMonthSelected) {
+      listdates.removeRange(daysInMonth, widget.endDate!);
     } else {
-      listMonths = listMonths_en;
+      print("repopulate date");
+      repopulateDate();
     }
+  }
+
+  adjustMonths() {
+    print("adjust months $isEndYearSelected");
+    if (widget.startMonth != null && isStartYearSelected) {
+      listMonths.removeRange(0, widget.startMonth!);
+    } else if (widget.endMonth != null && isEndYearSelected) {
+      print("end year is true");
+      listMonths.removeRange(widget.endMonth!, 12);
+    } else {
+      repopulateMonth();
+    }
+  }
+
+  repopulateDate() {
+    if(yearselVal == '' || monthselVal == ''){
+      listdates = [];
+      return;
+    }
+    listdates = Iterable<int>.generate(daysInMonth).skip(1).toList();
+  }
+
+  repopulateMonth() {
+    if(yearselVal == ''){
+      listdates = [];
+      return;
+    }
+    listMonths = Iterable<int>.generate(13).skip(1).toList();
   }
 
   ///Month selection dropdown function
   monthSelected(value) {
     widget.onChangedMonth!(value);
     monthselVal = value;
-    int days = daysInMonth(
-        yearselVal == '' ? DateTime.now().year : int.parse(yearselVal),
-        int.parse(value));
-    listdates = Iterable<int>.generate(days + 1).skip(1).toList();
-    checkDates(days);
+    adjustDates();
+    checkDates(daysInMonth);
     update();
   }
 
   ///check dates for selected month and year
   void checkDates(days) {
+    print("month selected is $monthselVal");
+    if(monthselVal == ''){
+      print("month is empty in check dates");
+      dayselVal = '';
+      widget.onChangedDay!('');
+      update();
+      return;
+    }
     if (dayselVal != '') {
       if (int.parse(dayselVal) > days) {
+        dayselVal = '';
+        widget.onChangedDay!('');
+        update();
+      } else if (!listdates.contains(int.parse(dayselVal))) {
         dayselVal = '';
         widget.onChangedDay!('');
         update();
@@ -242,11 +272,27 @@ class _DropdownDatePickerState extends State<DropdownDatePicker> {
     }
   }
 
+  ///check months for selected year
+  void checkMonths() {
+    if (monthselVal != '') {
+      if (listMonths.contains(int.parse(monthselVal))) {
+        monthselVal = '';
+        widget.onChangedMonth!('');
+        update();
+      }
+    }
+  }
+
   ///find days in month and year
-  int daysInMonth(year, month) => DateTimeRange(
-          start: DateTime(year, month, 1), end: DateTime(year, month + 1))
-      .duration
-      .inDays;
+  int get daysInMonth {
+    if (yearselVal == '' || monthselVal == '') return 1;
+    final year = int.parse(yearselVal);
+    final month = int.parse(monthselVal);
+    return DateTimeRange(
+            start: DateTime(year, month, 1), end: DateTime(year, month + 1))
+        .duration
+        .inDays;
+  }
 
   ///day selection dropdown function
   daysSelected(value) {
@@ -259,15 +305,72 @@ class _DropdownDatePickerState extends State<DropdownDatePicker> {
   yearsSelected(value) {
     widget.onChangedYear!(value);
     yearselVal = value;
-    if (monthselVal != '') {
-      int days = daysInMonth(
-          yearselVal == '' ? DateTime.now().year : int.parse(yearselVal),
-          int.parse(monthselVal));
-      listdates = Iterable<int>.generate(days + 1).skip(1).toList();
-      checkDates(days);
-      update();
-    }
+    adjustMonths();
+    checkMonths();
+    adjustDates();
+    checkDates(daysInMonth);
     update();
+  }
+
+  String numberToName(int number) {
+    switch (widget.locale) {
+      case SupportedLocale.en:
+        switch (number) {
+          case 1:
+            return "January";
+          case 2:
+            return "February";
+          case 3:
+            return "March";
+          case 4:
+            return "April";
+          case 5:
+            return "May";
+          case 6:
+            return "June";
+          case 7:
+            return "July";
+          case 8:
+            return "August";
+          case 9:
+            return "September";
+          case 10:
+            return "October";
+          case 11:
+            return "November";
+          case 12:
+            return "December";
+        }
+        break;
+      case SupportedLocale.my:
+        switch (number) {
+          case 1:
+            return "January";
+          case 2:
+            return "February";
+          case 3:
+            return "March";
+          case 4:
+            return "April";
+          case 5:
+            return "May";
+          case 6:
+            return "June";
+          case 7:
+            return "July";
+          case 8:
+            return "August";
+          case 9:
+            return "September";
+          case 10:
+            return "October";
+          case 11:
+            return "November";
+          case 12:
+            return "December";
+        }
+    }
+    return "";
   }
 
   ///list of months , en
@@ -439,9 +542,9 @@ class _DropdownDatePickerState extends State<DropdownDatePicker> {
         },
         items: listMonths.map((item) {
           return DropdownMenuItem<String>(
-            value: item["id"].toString(),
+            value: item.toString(),
             child: Text(
-              item["value"].toString(),
+              numberToName(item),
               style: widget.textStyle ??
                   const TextStyle(
                       fontSize: 16,
