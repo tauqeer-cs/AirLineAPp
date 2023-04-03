@@ -1,6 +1,7 @@
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
 
+import '../../models/my_bookings.dart';
 import '../../models/pay_redirection.dart';
 import '../provider/manage_booking_provider.dart';
 import '../requests/change_flight_request.dart';
@@ -8,6 +9,7 @@ import '../requests/manage_booking_request.dart';
 import '../requests/mmb_checkout_request.dart';
 import '../requests/search_change_flight_request.dart';
 import '../responses/change_flight_response.dart';
+import '../responses/common_response.dart';
 import '../responses/flight_response.dart';
 import '../responses/manage_booking_response.dart';
 
@@ -24,13 +26,22 @@ class ManageBookingRepository {
     return _instance;
   }
 
+
   ManageBookingRepository._internal();
 
   Future<ManageBookingResponse> getBookingInfo(
       ManageBookingRequest request) async {
 
     final profile = await _provider.getBookingInfo(
-        request.pnr ?? '', request.lastname ?? '');
+        request.pnr ?? '', request.lastname ?? '','');
+    return profile;
+  }
+
+  Future<ManageBookingResponse> getBookingInfoForCheckIn(
+      ManageBookingRequest request,) async {
+
+    final profile = await _provider.getBookingInfo(
+        request.pnr ?? '', request.lastname ?? '','checkin');
     return profile;
   }
 
@@ -55,6 +66,12 @@ class ManageBookingRepository {
 
     final profile = await _provider.mmbcheckoutbooking(request);
      return profile;
+  }
+
+  Future<MyBookings> bookingListing() async {
+
+    final profile = await _provider.userBookingListing();
+    return profile;
   }
 
 

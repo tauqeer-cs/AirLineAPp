@@ -77,6 +77,7 @@ class Result {
   List<PassengersWithSSR>? passengersWithSSR;
 
 
+
   List<PaymentOrder>? paymentOrders;
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;
@@ -89,6 +90,8 @@ class Result {
   CompanyTaxInvoice? companyTaxInvoice;
   bool? isReturn;
   bool? success;
+
+  bool? isRequiredPassport;
 
   String get returnDepartureAirportName {
     return flightSegments?.first.inbound?.first.departureAirportLocationName ??
@@ -236,6 +239,8 @@ class Result {
         ? CompanyTaxInvoice.fromJson(json['companyTaxInvoice'])
         : null;
     isReturn = json['isReturn'];
+    isRequiredPassport = json['isRequiredPassport'];
+
     success = json['success'];
   }
 
@@ -279,6 +284,7 @@ class Result {
       data['companyTaxInvoice'] = companyTaxInvoice!.toJson();
     }
     data['isReturn'] = isReturn;
+
     data['success'] = success;
     return data;
   }
@@ -294,6 +300,9 @@ class PassengersWithSSR {
   WheelChairDetail? wheelChairDetail;
   SportsEquipmentDetail? sportEquipmentDetail;
   InsuranceDetails? insuranceSSRDetail;
+  CheckInStatusInOut? checkInStatusInOut;
+
+
 
   PassengersWithSSR(
       {this.personOrgID,
@@ -301,7 +310,9 @@ class PassengersWithSSR {
       this.fareAndBundleDetail,
       this.seatDetail,
       this.mealDetail,
-      this.baggageDetail,
+        this.checkInStatusInOut,
+
+        this.baggageDetail,
       this.wheelChairDetail,
       this.sportEquipmentDetail,
       this.insuranceSSRDetail});
@@ -313,6 +324,9 @@ class PassengersWithSSR {
         : null;
     fareAndBundleDetail = json['fareAndBundleDetail'] != null
         ? FareAndBundleDetail.fromJson(json['fareAndBundleDetail'])
+        : null;
+    checkInStatusInOut = json['checkInStatusInOut'] != null
+        ?  CheckInStatusInOut.fromJson(json['checkInStatusInOut'])
         : null;
     seatDetail = json['seatDetail'] != null
         ? SeatDetail.fromJson(json['seatDetail'])
@@ -362,6 +376,66 @@ class PassengersWithSSR {
     if (insuranceSSRDetail != null) {
       data['insuranceSSRDetail'] = insuranceSSRDetail!.toJson();
     }
+    return data;
+  }
+}
+
+class CheckInStatusInOut {
+  CheckInStatus? outboundCheckInStatus;
+  CheckInStatus? inboundCheckInStatus;
+
+  CheckInStatusInOut({this.outboundCheckInStatus, this.inboundCheckInStatus});
+
+  CheckInStatusInOut.fromJson(Map<String, dynamic> json) {
+    outboundCheckInStatus = json['outboundCheckInStatus'] != null
+        ? CheckInStatus.fromJson(json['outboundCheckInStatus'])
+        : null;
+    inboundCheckInStatus = json['inboundCheckInStatus'] != null
+        ? CheckInStatus.fromJson(json['inboundCheckInStatus'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (outboundCheckInStatus != null) {
+      data['outboundCheckInStatus'] = outboundCheckInStatus!.toJson();
+    }
+    if (inboundCheckInStatus != null) {
+      data['inboundCheckInStatus'] = inboundCheckInStatus!.toJson();
+    }
+    return data;
+  }
+}
+
+class CheckInStatus {
+  bool? allowCheckIn;
+
+  String? flightNumber;
+  String? departureStationCode;
+  String? inkPaxID;
+  String? checkInStatus;
+
+  CheckInStatus({this.allowCheckIn});
+
+  CheckInStatus.fromJson(Map<String, dynamic> json) {
+
+    allowCheckIn = json['allowCheckIn'];
+    flightNumber = json['flightNumber'];
+    departureStationCode = json['departureStationCode'];
+    inkPaxID = json['c'];
+    checkInStatus = json['checkInStatus'];
+
+
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['allowCheckIn'] = allowCheckIn;
+    data['flightNumber'] = flightNumber;
+    data['departureStationCode'] = departureStationCode;
+    data['inkPaxID'] = inkPaxID;
+    data['checkInStatus'] = checkInStatus;
+
     return data;
   }
 }

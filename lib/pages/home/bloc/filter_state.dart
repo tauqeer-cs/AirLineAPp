@@ -23,12 +23,16 @@ class FilterState extends Equatable {
     this.promoCode,
   });
 
-  bool get isValid =>
-      numberPerson != NumberPerson.empty &&
-      destination != null &&
-      origin != null &&
-      departDate != null &&
-      (returnDate != null || flightType == FlightType.oneWay);
+  bool get isValid {
+
+
+   return  (numberPerson != NumberPerson.empty && numberPerson.hasAdult) &&
+        destination != null &&
+        origin != null &&
+        departDate != null &&
+        (returnDate != null || flightType == FlightType.oneWay);
+  }
+
 
   String get beautify =>
       "${origin?.name?.camelCase()} To ${destination?.name?.camelCase()}";

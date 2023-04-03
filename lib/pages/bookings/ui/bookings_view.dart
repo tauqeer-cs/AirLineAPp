@@ -19,7 +19,7 @@ import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
 
 class BookingsView extends StatelessWidget {
-  BookingsView({Key? key}) : super(key: key);
+   BookingsView({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
 
   ManageBookingCubit? bloc;
@@ -38,9 +38,7 @@ class BookingsView extends StatelessWidget {
               message: state.message,
             );
           }
-
         }
-
       },
       builder: (context, state) {
         return GestureDetector(

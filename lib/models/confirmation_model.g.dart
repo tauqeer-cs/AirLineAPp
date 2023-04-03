@@ -535,6 +535,7 @@ Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
       modifiedDateUTC: json['modifiedDateUTC'] == null
           ? null
           : DateTime.parse(json['modifiedDateUTC'] as String),
+      isCheckInAllowed: json['isCheckInAllowed'] as bool?,
     );
 
 Map<String, dynamic> _$BoundToJson(Bound instance) {
@@ -572,6 +573,7 @@ Map<String, dynamic> _$BoundToJson(Bound instance) {
       'departureDateTime', instance.departureDateTime?.toIso8601String());
   writeNotNull('eTicket', instance.eTicket);
   writeNotNull('isChangeAllowed', instance.isChangeAllowed);
+  writeNotNull('isCheckInAllowed', instance.isCheckInAllowed);
   writeNotNull('duration', instance.duration);
   writeNotNull('elapsedTime', instance.elapsedTime);
   writeNotNull('flightNumber', instance.flightNumber);
@@ -705,6 +707,7 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       modifiedDateUTC: json['modifiedDateUTC'] == null
           ? null
           : DateTime.parse(json['modifiedDateUTC'] as String),
+      passportNumber: json['passportNumber'] as String?,
     );
 
 Map<String, dynamic> _$PassengerToJson(Passenger instance) {
@@ -735,6 +738,7 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
   writeNotNull('modifiedById', instance.modifiedById);
   writeNotNull('modifiedDate', instance.modifiedDate?.toIso8601String());
   writeNotNull('modifiedDateUTC', instance.modifiedDateUTC?.toIso8601String());
+  writeNotNull('passportNumber', instance.passportNumber);
   return val;
 }
 

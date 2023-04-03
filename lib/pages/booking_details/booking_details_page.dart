@@ -27,7 +27,7 @@ class ManageBookingDetailsPage extends StatelessWidget {
         appBar: AppAppBar(
           centerTitle: true,
           title: 'Manage Booking',
-          height: 60.h,
+          height: 80.h,
           overrideInnerHeight: true,
         ),
         body: Padding(

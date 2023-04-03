@@ -33,6 +33,10 @@ class PassengersSheetState extends State<PassengersSheet> {
       }
     }
     if (peopleType == PeopleType.adult && !isAdd) {
+      if(context.read<FilterCubit>().state.numberPerson.hasOneAdult ){
+        return;
+      }
+
       final numOfAdult =
           context.read<FilterCubit>().state.numberPerson.numberOfAdult;
       final numOfInfant =
@@ -40,7 +44,7 @@ class PassengersSheetState extends State<PassengersSheet> {
       if (numOfAdult <= numOfInfant) {
         Toast.of(context).show(
             success: false,
-            message: "Adult need have at least same with infant");
+            message: "Each infant must be accompanied by one adult.");
         return;
       }
     }
@@ -149,7 +153,7 @@ class InputWithPlusMinus extends StatelessWidget {
                             shape: const CircleBorder(),
                             padding: EdgeInsets.zero,
                             backgroundColor: Colors.transparent),
-                        onPressed: number > 0
+                        onPressed: (peopleType == PeopleType.adult ? (number > 1) : (number > 0))
                             ? () => handler(peopleType, false)
                             : null,
                         child: const Icon(

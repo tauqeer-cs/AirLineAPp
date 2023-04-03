@@ -323,6 +323,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    CheckInDetailsRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CheckInDetailsPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -587,6 +593,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           ChangeFlightConfirmationRoute.name,
           path: '/change-flight-confirmation',
+        ),
+        RouteConfig(
+          CheckInDetailsRoute.name,
+          path: '/check_in_details',
         ),
       ];
 }
@@ -1384,6 +1394,18 @@ class ChangeFlightConfirmationRouteArgs {
   String toString() {
     return 'ChangeFlightConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
   }
+}
+
+/// generated route for
+/// [CheckInDetailsPage]
+class CheckInDetailsRoute extends PageRouteInfo<void> {
+  const CheckInDetailsRoute()
+      : super(
+          CheckInDetailsRoute.name,
+          path: '/check_in_details',
+        );
+
+  static const String name = 'CheckInDetailsRoute';
 }
 
 /// generated route for
