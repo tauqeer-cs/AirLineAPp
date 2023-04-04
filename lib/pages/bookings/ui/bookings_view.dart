@@ -61,7 +61,7 @@ class BookingsView extends StatelessWidget {
                           children: [
                             kVerticalSpacer,
                             kVerticalSpacer,
-                            const Text("Manage My Booking", style: kGiantHeavy),
+                            const Text("Manage Booking", style: kGiantHeavy),
                             kVerticalSpacerMini,
                             Text(
                               "Please enter your flight details to view and manage your booking.",
