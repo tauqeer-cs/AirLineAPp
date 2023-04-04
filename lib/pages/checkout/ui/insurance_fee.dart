@@ -3,6 +3,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -126,14 +127,14 @@ class InsuranceFeeDetail extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          bundle?.applicableTaxes?.first.taxDescription ?? 'Taxes',
+                          bundle?.applicableTaxes?.firstOrNull?.taxDescription ?? 'Taxes',
                           style: kSmallRegular.copyWith(
                               color: Styles.kSubTextColor),
                         ),
                       ),
                       kHorizontalSpacerSmall,
                       MoneyWidgetSmall(
-                          amount: bundle?.applicableTaxes?.first.taxAmount ?? 0.0,
+                          amount: bundle?.applicableTaxes?.firstOrNull?.taxAmount ?? 0.0,
                           isDense: true,
                           currency: bundle?.currencyCode),
                     ],

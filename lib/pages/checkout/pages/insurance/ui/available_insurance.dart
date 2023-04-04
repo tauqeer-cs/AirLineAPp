@@ -6,6 +6,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +25,7 @@ class AvailableInsurance extends StatelessWidget {
     final insurances =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
     final selectedPassengers = insuranceCubit.selectedPassenger;
-    final firstInsurance = insurances.first;
+    final firstInsurance = insurances.firstOrNull;
     return Column(
       children: InsuranceType.values
           .map(
@@ -32,7 +33,7 @@ class AvailableInsurance extends StatelessWidget {
               onTap: () {
                 final bookingState = context.read<BookingCubit>().state;
                 final firstInsurance = bookingState
-                    .verifyResponse?.flightSSR?.insuranceGroup?.outbound?.first;
+                    .verifyResponse?.flightSSR?.insuranceGroup?.outbound?.firstOrNull;
                 if (firstInsurance == null) return;
                 print("first insurance not null $e");
                 context.read<InsuranceCubit>().changeInsuranceType(
