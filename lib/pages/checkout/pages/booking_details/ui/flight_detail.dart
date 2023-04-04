@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../theme/theme.dart';
+import 'fee_expanded/fee_and_taxes.dart';
 
 class FlightDetail extends StatefulWidget {
   final bool isDeparture;
@@ -51,82 +52,112 @@ class _FlightDetailState extends State<FlightDetail> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                isExpand = !isExpand;
-              });
-              context.read<SummaryContainerCubit>().changeVisibility(!isExpand);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Details",
-                  style: kSmallRegular.copyWith(
-                      color: const Color.fromRGBO(243, 110, 56, 1)),
-                ),
-                kHorizontalSpacerMini,
-                Icon(
-                  isExpand
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                  color: const Color.fromRGBO(243, 110, 56, 1),
-                ),
-              ],
+          Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: widget.showFees ? 0 : 15.0),
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  isExpand = !isExpand;
+                });
+                context
+                    .read<SummaryContainerCubit>()
+                    .changeVisibility(!isExpand);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Details",
+                    style: kSmallRegular.copyWith(
+                        color: const Color.fromRGBO(243, 110, 56, 1)),
+                  ),
+                  kHorizontalSpacerMini,
+                  Icon(
+                    isExpand
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    color: const Color.fromRGBO(243, 110, 56, 1),
+                  ),
+                ],
+              ),
             ),
           ),
+          kVerticalSpacer,
           ExpandedSection(
             expand: isExpand,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                kVerticalSpacer,
-                Row(
-                  children: [
-                    Expanded(
-                      child: BorderedLeftContainer(
-                        title: "Flight:",
-                        content: '${detail?.carrierCode}${detail?.flightNum}',
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: widget.showFees ? 0 : 15.0,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: BorderedLeftContainer(
+                          title: "Flight:",
+                          content: '${detail?.carrierCode}${detail?.flightNum}',
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: BorderedLeftContainer(
-                        title: "Aircraft:",
-                        content: '${detail?.aircraftDescription}',
+                      Expanded(
+                        child: BorderedLeftContainer(
+                          title: "Aircraft:",
+                          content: '${detail?.aircraftDescription}',
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 kVerticalSpacer,
                 // BorderedLeftContainer(
                 //   title: "Cabin:", content: '${info?.cabin}',
                 // ),
                 // kVerticalSpacer,
-                BorderedLeftContainer(
-                  title: "Duration:",
-                  content: NumberUtils.getTimeString(detail?.flightTime),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: widget.showFees ? 0 : 15.0),
+                  child: BorderedLeftContainer(
+                    title: "Duration:",
+                    content: NumberUtils.getTimeString(detail?.flightTime),
+                  ),
                 ),
                 kVerticalSpacer,
 
-                BorderedLeftContainer(
-                  title: "Departure:",
-                  content:
-                      "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: widget.showFees ? 0 : 15.0),
+                  child: BorderedLeftContainer(
+                    title: "Departure:",
+                    content:
+                        "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
+                  ),
                 ),
                 kVerticalSpacer,
-                BorderedLeftContainer(
-                  title: "Arrival:",
-                  content:
-                      "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: widget.showFees ? 0 : 15.0),
+                  child: BorderedLeftContainer(
+                    title: "Arrival:",
+                    content:
+                        "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
+                  ),
                 ),
+                kVerticalSpacer,
                 Visibility(
-                  visible: widget.showFees,
+                  visible: true,
                   child: BlocProvider(
                     create: (context) => IsPaymentPageCubit(true),
-                    child: FeeAndTaxesPayment(isDeparture: widget.isDeparture),
+                    child: widget.showFees
+                        ? FeeAndTaxesPayment(isDeparture: widget.isDeparture)
+                        : Container(
+                            padding: EdgeInsets.all(12),
+                            color: Color.fromRGBO(229, 229, 229, 0.53),
+                            child: FeeAndTaxes(isDeparture: true),
+                          ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -164,325 +195,3 @@ class BorderedLeftContainer extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

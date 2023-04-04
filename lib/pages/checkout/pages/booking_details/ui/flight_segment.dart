@@ -29,43 +29,53 @@ class FlightSegment extends StatelessWidget {
       width: 500.w,
       margin: const EdgeInsets.symmetric(vertical: 12),
       child: AppCard(
+        edgeInsets: showFees ? null : EdgeInsets.zero,
         child: Column(
           children: [
-            Row(children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Text(title, style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor)),
-                    // kVerticalSpacer,
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: subtitle,
-                            style: kLargeHeavy.copyWith(color: Styles.kTextColor),
+            Padding(
+              padding: EdgeInsets.all(showFees ? 0 : 15),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Text(title, style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor)),
+                        // kVerticalSpacer,
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: subtitle,
+                                style: kLargeHeavy.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      textAlign: TextAlign.left,
+                          textAlign: TextAlign.left,
+                        ),
+                        kVerticalSpacerMini,
+                        Text(
+                          dateTitle,
+                          style: kLargeRegular,
+                        ),
+                      ],
                     ),
-                    kVerticalSpacerMini,
-                    Text(
-                      dateTitle,
-                      style: kLargeRegular,
-                    ),
-
-                  ],
-                ),
+                  ),
+                  Text(
+                    title,
+                    style: kGiantHeavy.copyWith(
+                        color: Styles.kDisabledButton, fontSize: 32),
+                  )
+                ],
               ),
-              Text(
-                title,
-                style: kGiantHeavy.copyWith(
-                    color: Styles.kDisabledButton, fontSize: 32),
-              )
-            ]),
+            ),
             kVerticalSpacerSmall,
-            FlightDetail(isDeparture: isDeparture, segment: segments.first, showFees: showFees,),
+            FlightDetail(
+              isDeparture: isDeparture,
+              segment: segments.first,
+              showFees: showFees,
+            ),
           ],
         ),
       ),

@@ -1,18 +1,19 @@
 
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
+import 'package:app/theme/typography.dart';
+import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../blocs/booking/booking_cubit.dart';
-import '../../../theme/theme.dart';
-import '../../../widgets/app_divider_widget.dart';
-import '../pages/payment/ui/summary/fee_and_taxes_detail.dart';
-import '../pages/payment/ui/summary/money_widget_summary.dart';
-import '../pages/payment/ui/summary/price_row.dart';
+import '../../../../../../theme/theme.dart';
+import 'fee_and_taxes_detail.dart';
+
 
 class InsuranceFee extends StatefulWidget {
 
@@ -127,14 +128,14 @@ class InsuranceFeeDetail extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          bundle?.applicableTaxes?.firstOrNull?.taxDescription ?? 'Taxes',
+                          bundle?.applicableTaxes?.first.taxDescription ?? 'Taxes',
                           style: kSmallRegular.copyWith(
                               color: Styles.kSubTextColor),
                         ),
                       ),
                       kHorizontalSpacerSmall,
                       MoneyWidgetSmall(
-                          amount: bundle?.applicableTaxes?.firstOrNull?.taxAmount ?? 0.0,
+                          amount: bundle?.applicableTaxes?.first.taxAmount ?? 0.0,
                           isDense: true,
                           currency: bundle?.currencyCode),
                     ],

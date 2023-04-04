@@ -5,6 +5,7 @@ import 'package:app/models/number_person.dart';
 import 'package:app/models/switch_setting.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
+import 'package:app/pages/checkout/pages/booking_details/ui/datepicker_dropdown.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -242,6 +243,47 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 ),
               ),
               kVerticalSpacerSmall,
+              // DropdownDatePicker(
+              //   locale: SupportedLocale.en,
+              //   inputDecoration: InputDecoration(
+              //       enabledBorder: const OutlineInputBorder(
+              //         borderSide: BorderSide(color: Colors.grey, width: 1.0),
+              //       ),
+              //       helperText: '',
+              //       contentPadding: const EdgeInsets.all(8),
+              //       border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(10))), // optional
+              //   isDropdownHideUnderline: true, // optional
+              //   isFormValidator: false, // optional
+              //   startYear: widget.person.dateLimitStart(filter.departDate).year, // optional
+              //   endYear: widget.person.peopleType == PeopleType.infant
+              //       ? infantDOBlimit(DateTime.now()).year
+              //       : widget.person.dateLimitEnd(filter.departDate).year, //
+              //   startMonth: widget.person.dateLimitStart(filter.departDate).month, // optional
+              //   endMonth: widget.person.peopleType == PeopleType.infant
+              //       ? infantDOBlimit(DateTime.now()).month
+              //       : widget.person.dateLimitEnd(filter.departDate).month, //
+              //   startDate: widget.person.dateLimitStart(filter.departDate).day, // optional
+              //   endDate: widget.person.peopleType == PeopleType.infant
+              //       ? infantDOBlimit(DateTime.now()).day
+              //       : widget.person.dateLimitEnd(filter.departDate).day, //// optional
+              //   width: 10, // optional
+              //   // selectedDay: 14, // optional
+              //   //selectedMonth: 10, // optional
+              //   //selectedYear: 1993, // optional
+              //   onChangedDay: (value) => print('onChangedDay: $value'),
+              //   onChangedMonth: (value) => print('onChangedMonth: $value'),
+              //   onChangedYear: (value) => print('onChangedYear: $value'),
+              //   //boxDecoration: BoxDecoration(
+              //   // border: Border.all(color: Colors.grey, width: 1.0)), // optional
+              //   // showDay: false,// optional
+              //   // dayFlex: 2,// optional
+              //   // locale: "zh_CN",// optional
+              //   // hintDay: 'Day', // optional
+              //   // hintMonth: 'Month', // optional
+              //   // hintYear: 'Year', // optional
+              //   // hintTextStyle: TextStyle(color: Colors.grey), // optional
+              // ),
               FormBuilderDateTimePicker(
                 key: dateKey,
                 name: dobKey,
@@ -255,8 +297,9 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     ? infantDOBlimit(DateTime.now())
                     : widget.person.dateLimitEnd(filter.departDate),
                 initialEntryMode: DatePickerEntryMode.calendar,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Date of Birth",
+                  suffixIcon: Icon(Icons.calendar_month, color: Styles.kBorderColor,)
                 ),
                 inputType: InputType.date,
                 validator: FormBuilderValidators.required(),

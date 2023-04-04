@@ -2,13 +2,13 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/constant_utils.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../utils/constant_utils.dart';
 
 class FeeAndTaxesDetail extends StatelessWidget {
   final bool isDeparture;
@@ -55,11 +55,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
 
     return Column(
       children: [
-        kVerticalSpacerMini,
-        Visibility(
-          visible: padding !=0,
-          child: AppDividerWidget(color: Styles.kDisabledButton),
-        ),
+
         PriceContainer(
           padding: padding,
           child: Row(
