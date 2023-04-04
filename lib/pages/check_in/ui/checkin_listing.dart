@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
 import '../../../theme/spacer.dart';
@@ -20,12 +22,16 @@ class CheckingListing extends StatelessWidget {
 
   const CheckingListing({Key? key, required this.moveOn}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     CheckInCubit? bloc = context.watch<CheckInCubit>();
     if(bloc.state.listToCall == false){
       bloc.getBookingsListing();
     }
+
+
+
     return SafeArea(
       child: Container(
         color: Colors.white,
@@ -39,10 +45,14 @@ class CheckingListing extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0.0.w),
                 child: Text(
-                  "Manage My Booking",
+                  "My Booking",
                   style: kGiantHeavy.copyWith(color: Styles.kTextColor),
                 ),
               ),
+              kVerticalSpacerSmall,
+
+
+              const CustomSegmentControl(),
               kVerticalSpacerSmall,
 
               Text(
@@ -111,4 +121,92 @@ class CheckingListing extends StatelessWidget {
 
 
 
+}
+
+class CustomSegmentControl extends StatefulWidget {
+  const CustomSegmentControl({super.key});
+
+  @override
+  _CustomSegmentControlState createState() => _CustomSegmentControlState();
+}
+
+class _CustomSegmentControlState extends State<CustomSegmentControl> {
+  bool _isSelectedOption1 = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final optionWidth = (width - 4) / 2; // 4 = 2 * border width
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: Colors.red,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isSelectedOption1 = true;
+                });
+              },
+              child: Container(
+                width: optionWidth,
+                decoration: BoxDecoration(
+                  color: _isSelectedOption1 ? Colors.red : Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: Center(
+                  child: Text(
+                    'Option 1',
+                    style: TextStyle(
+                      color: _isSelectedOption1 ? Colors.white : Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isSelectedOption1 = false;
+                });
+              },
+              child: Container(
+                width: optionWidth,
+                decoration: BoxDecoration(
+                  color: !_isSelectedOption1 ? Colors.red : Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: Center(
+                  child: Text(
+                    'Option 2',
+                    style: TextStyle(
+                      color: !_isSelectedOption1 ? Colors.white : Styles.kPrimaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
