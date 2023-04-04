@@ -51,6 +51,8 @@ class Styles {
 
   static Color get kBlack => const Color.fromRGBO(0, 0, 0, 1);
 
+  static Color get kLinkColor => const Color.fromRGBO(0, 0, 228, 1);
+
 //  static Color get kSubTextColor => const Color.fromRGBO(102, 102, 102, 1);
   static Color get klightBackgroundColor => const Color.fromRGBO(0, 0, 0, 0.05);
 
@@ -224,7 +226,7 @@ class Styles {
         suffixIconColor: isLight ? kTextColor : Colors.white,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: kBorderColor),
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
         ),

@@ -17,6 +17,7 @@ class AppInputText extends StatelessWidget {
   final int? maxLines;
   final int? maxLength;
 
+  final bool fillDisabledColor;
   final Function(String?)? onChanged;
   final TextInputType? textInputType;
   final String? autofillHints;
@@ -48,6 +49,7 @@ class AppInputText extends StatelessWidget {
     this.textEditingController,
     this.focusNode,
     this.suffix,
+    this.fillDisabledColor = false,
     this.prefix, this.maxLength,
   }) : super(key: key);
 
@@ -78,6 +80,8 @@ class AppInputText extends StatelessWidget {
           prefix: prefix,
           suffix: suffix,
           counterText: "",
+          fillColor: fillDisabledColor ? Styles.kDisabledButton : Colors.transparent,
+          filled: true,
 
         ),
         inputFormatters: inputFormatters,

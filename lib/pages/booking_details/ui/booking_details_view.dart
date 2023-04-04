@@ -194,7 +194,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         return const AlertWarningBeforeProceed();
                                       },
                                     );
-                                    //customSelected
                                     bloc?.setFlightDates();
 
                                     if (check == true) {
@@ -332,6 +331,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),

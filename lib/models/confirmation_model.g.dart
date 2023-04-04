@@ -707,7 +707,6 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       modifiedDateUTC: json['modifiedDateUTC'] == null
           ? null
           : DateTime.parse(json['modifiedDateUTC'] as String),
-      passportNumber: json['passportNumber'] as String?,
     );
 
 Map<String, dynamic> _$PassengerToJson(Passenger instance) {
@@ -738,7 +737,7 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
   writeNotNull('modifiedById', instance.modifiedById);
   writeNotNull('modifiedDate', instance.modifiedDate?.toIso8601String());
   writeNotNull('modifiedDateUTC', instance.modifiedDateUTC?.toIso8601String());
-  writeNotNull('passportNumber', instance.passportNumber);
+
   return val;
 }
 

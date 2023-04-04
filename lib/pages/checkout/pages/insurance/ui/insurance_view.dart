@@ -46,7 +46,7 @@ class _InsuranceViewState extends State<InsuranceView> {
               kVerticalSpacer,
               ZurichContainer(),
               kVerticalSpacer,
-              AvailableInsurance(),
+              const AvailableInsurance(),
               InsuranceTerms(),
               kSummaryContainerSpacing,
               kSummaryContainerSpacing,

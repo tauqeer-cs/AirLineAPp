@@ -24,6 +24,7 @@ class AvailableInsurance extends StatelessWidget {
     final insurances =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
     final selectedPassengers = insuranceCubit.selectedPassenger;
+
     final firstInsurance = insurances.first;
     return Column(
       children: InsuranceType.values
