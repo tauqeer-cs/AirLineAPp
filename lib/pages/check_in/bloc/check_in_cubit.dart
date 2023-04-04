@@ -15,6 +15,15 @@ class CheckInCubit extends Cubit<CheckInState> {
 
   final _manageBookingRepository = ManageBookingRepository();
 
+
+  void showUpcoming(bool status){
+    emit(
+      state.copyWith(
+        showUpcoming: status,
+        message: '',
+      ),
+    );
+  }
   void setCheckDeparture(bool value) {
     emit(
       state.copyWith(
@@ -81,6 +90,7 @@ class CheckInCubit extends Cubit<CheckInState> {
       emit(
         state.copyWith(
           upcomingBookings: verifyResponse.upcomingBookings,
+          pastBookings: verifyResponse.pastBookings,
           blocState: BlocState.finished,
           isLoadingInfo: false,
             listToCall : true

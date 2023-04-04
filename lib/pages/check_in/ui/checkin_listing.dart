@@ -16,21 +16,16 @@ import 'check_in_view.dart';
 import 'flight_list_item.dart';
 
 class CheckingListing extends StatelessWidget {
-
   final VoidCallback moveOn;
 
-
   const CheckingListing({Key? key, required this.moveOn}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
     CheckInCubit? bloc = context.watch<CheckInCubit>();
-    if(bloc.state.listToCall == false){
+    if (bloc.state.listToCall == false) {
       bloc.getBookingsListing();
     }
-
-
 
     return SafeArea(
       child: Container(
@@ -50,25 +45,25 @@ class CheckingListing extends StatelessWidget {
                 ),
               ),
               kVerticalSpacerSmall,
-
-
-              const CustomSegmentControl(),
-              kVerticalSpacerSmall,
-
-              Text(
-                'Online check-in opens 72 hours before departure.',
-                style: kMediumRegular.copyWith(color: Styles.kTextColor),
+              CustomSegmentControl(
+                statusChange: (bool showUpcoming) {
+                  bloc.showUpcoming(showUpcoming);
+                },
               ),
-              kVerticalSpacer,
-              Expanded(
-                child: bloc.state.isLoadingInfo == true ? const Center(child: Padding(
-                  padding: EdgeInsets.only(bottom: 24),
-                  child: AppLoading(),
-                )) : Builder(
-                  builder: (context) => ListView.separated(
+              kVerticalSpacerSmall,
+              if (bloc.state.showUpcoming == false) ...[
+                Expanded(
+                  child: bloc.state.isLoadingInfo == true
+                      ? const Center(
+                          child: Padding(
+                          padding: EdgeInsets.only(bottom: 24),
+                          child: AppLoading(),
+                        ))
+                      : ListView.separated(
                     itemBuilder: (context, index) {
-                      if(bloc.state.loadingListDetailItem == true && bloc.state.bookingSelected?.pnr == bloc.state.upcomingBookings?[index].pnr) {
-
+                      if (bloc.state.loadingListDetailItem == true &&
+                          bloc.state.bookingSelected?.pnr ==
+                              bloc.state.upcomingBookings?[index].pnr) {
                         return const Padding(
                           padding: EdgeInsets.symmetric(vertical: 24),
                           child: AppLoading(),
@@ -76,33 +71,39 @@ class CheckingListing extends StatelessWidget {
                       }
 
                       return FlightListItem(
-                        dateToShow: bloc.state.upcomingBookings?[index].dateToShow ?? '',//
-                        flightCode: bloc.state.upcomingBookings?[index].pnr ?? '',
-                        departureLocation:
-                        bloc.state.upcomingBookings?[index].departureLocation ?? '',
-                        destinationLocation: bloc.state.upcomingBookings?[index].departureLocation ?? '',
+                        dateToShow: bloc.state.pastBookings?[index]
+                            .pastDateToShow ??
+                            '',
+                        flightCode:
+                        bloc.state.pastBookings?[index].pnr ?? '',
+                        departureLocation: bloc
+                            .state
+                            .pastBookings?[index]
+                            .pastDepartureLocation ??
+                            '',
+                        btnView: true,
+                        destinationLocation: bloc
+                            .state
+                            .pastBookings?[index]
+                            .pastReturnLocation ??
+                            '',
                         onCheckTapped: () async {
-
-                          if(bloc.state.loadingListDetailItem == true){
+                          if (bloc.state.loadingListDetailItem ==
+                              true) {
                             return;
-
                           }
                           var flag = await bloc.getBookingInformation(
-                             '',
-                              '',
-                            bookSelected: bloc.state.upcomingBookings?[index]
-                          );
+                              '', '',
+                              bookSelected:
+                              bloc.state.pastBookings?[index]);
 
                           if (flag == true) {
                             moveOn();
-
-                           // moveToNext(context);
                           }
                         },
                       );
-
                     },
-                    itemCount: bloc.state.upcomingBookings!.length,
+                    itemCount: bloc.state.pastBookings!.length,
                     separatorBuilder: (context, index) {
                       return SizedBox(
                         height: 8.h,
@@ -110,21 +111,89 @@ class CheckingListing extends StatelessWidget {
                     },
                   ),
                 ),
-              ),
+              ] else ...[
+                Text(
+                  'Online check-in opens 72 hours before departure.',
+                  style: kMediumRegular.copyWith(color: Styles.kTextColor),
+                ),
+                kVerticalSpacer,
+                Expanded(
+                  child: bloc.state.isLoadingInfo == true
+                      ? const Center(
+                          child: Padding(
+                          padding: EdgeInsets.only(bottom: 24),
+                          child: AppLoading(),
+                        ))
+                      : Builder(
+                          builder: (context) => ListView.separated(
+                            itemBuilder: (context, index) {
+                              if (bloc.state.loadingListDetailItem == true &&
+                                  bloc.state.bookingSelected?.pnr ==
+                                      bloc.state.upcomingBookings?[index].pnr) {
+                                return const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 24),
+                                  child: AppLoading(),
+                                );
+                              }
 
+                              return FlightListItem(
+                                dateToShow: bloc.state.upcomingBookings?[index]
+                                        .dateToShow ??
+                                    '',
+                                btnView: bloc.state.upcomingBookings?[index].isFullyCheckedIn == true,
+                                flightCode:
+                                    bloc.state.upcomingBookings?[index].pnr ??
+                                        '',
+                                departureLocation: bloc
+                                        .state
+                                        .upcomingBookings?[index]
+                                        .departureLocation ??
+                                    '',
+                                destinationLocation: bloc
+                                        .state
+                                        .upcomingBookings?[index]
+                                        .returnLocation ??
+                                    '',
+                                onCheckTapped: bloc.state.upcomingBookings?[index].allowCheckIn == false ? null :  () async {
+                                  if (bloc.state.loadingListDetailItem ==
+                                      true) {
+                                    return;
+                                  }
+                                  var flag = await bloc.getBookingInformation(
+                                      '', '',
+                                      bookSelected:
+                                          bloc.state.upcomingBookings?[index]);
+
+                                  if (flag == true) {
+                                    moveOn();
+
+                                    // moveToNext(context);
+                                  }
+                                },
+                              );
+                            },
+                            itemCount: bloc.state.upcomingBookings!.length,
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                height: 8.h,
+                              );
+                            },
+                          ),
+                        ),
+                ),
+              ],
             ],
           ),
         ),
       ),
     );
   }
-
-
-
 }
 
 class CustomSegmentControl extends StatefulWidget {
-  const CustomSegmentControl({super.key});
+  final Function(bool) statusChange;
+
+  const CustomSegmentControl({super.key, required this.statusChange});
 
   @override
   _CustomSegmentControlState createState() => _CustomSegmentControlState();
@@ -142,7 +211,7 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
-          color: Colors.red,
+          color: Styles.kPrimaryColor,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(20),
@@ -155,23 +224,27 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
                 setState(() {
                   _isSelectedOption1 = true;
                 });
+                widget.statusChange(_isSelectedOption1);
               },
               child: Container(
                 width: optionWidth,
                 decoration: BoxDecoration(
-                  color: _isSelectedOption1 ? Colors.red : Colors.white,
+                  color:
+                      _isSelectedOption1 ? Styles.kPrimaryColor : Colors.white,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     bottomLeft: Radius.circular(20),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Center(
                   child: Text(
-                    'Option 1',
-                    style: TextStyle(
-                      color: _isSelectedOption1 ? Colors.white : Colors.red,
-                    ),
+                    'Upcoming Bookings',
+                    style: kSmallSemiBold.copyWith(
+                        color: _isSelectedOption1
+                            ? Colors.white
+                            : Styles.kPrimaryColor),
                   ),
                 ),
               ),
@@ -183,23 +256,28 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
                 setState(() {
                   _isSelectedOption1 = false;
                 });
+
+                widget.statusChange(_isSelectedOption1);
               },
               child: Container(
                 width: optionWidth,
                 decoration: BoxDecoration(
-                  color: !_isSelectedOption1 ? Colors.red : Colors.white,
-                  borderRadius: BorderRadius.only(
+                  color:
+                      !_isSelectedOption1 ? Styles.kPrimaryColor : Colors.white,
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Center(
                   child: Text(
-                    'Option 2',
-                    style: TextStyle(
-                      color: !_isSelectedOption1 ? Colors.white : Styles.kPrimaryColor,
-                    ),
+                    'Past Bookings',
+                    style: kSmallSemiBold.copyWith(
+                        color: !_isSelectedOption1
+                            ? Colors.white
+                            : Styles.kPrimaryColor),
                   ),
                 ),
               ),

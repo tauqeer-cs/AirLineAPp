@@ -9,8 +9,17 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/security_utils.dart';
 
-class DgnInfoView extends StatelessWidget {
-  const DgnInfoView({Key? key}) : super(key: key);
+class DgnInfoView extends StatefulWidget {
+
+  final Function(bool) valueChanged;
+
+  const DgnInfoView({Key? key,required this.valueChanged}) : super(key: key);
+
+  @override
+  State<DgnInfoView> createState() => _DgnInfoViewState();
+}
+
+class _DgnInfoViewState extends State<DgnInfoView> {
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -22,6 +31,8 @@ class DgnInfoView extends StatelessWidget {
     }
     return Styles.kPrimaryColor;
   }
+  bool checked = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,25 +119,25 @@ class DgnInfoView extends StatelessWidget {
                   '''As part of the security requirements of Malaysia, you are required to enter your travel document personal details during the check-in process. Please ensure that the personal data you entered is updated and accurate.'''),
             ),
             kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'Sharp Objects\n& Weapons', 'iconKnife',
+            buildDoubleRow('iconFlamable', 'Sharp Objects\n& Weapons', 'iconBlunt',
                 'Explosives'),
             kVerticalSpacer,
             buildDoubleRow('iconKnife', 'Flammable\nSubstances', 'iconKnife',
                 'Blunt Objects\n& Instruments'),
             kVerticalSpacer,
             buildDoubleRow(
-                'iconKnife',
+                'iconMeals',
                 'Self-Heating\nMeals &\nReady-To-Eat\nMeals',
-                'iconKnife',
+                'iconBioHazard',
                 'Biohazards\n& Poisons'),
             kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'Chemicals\n& Corrosive\nMaterials',
-                'iconKnife', 'Compressed\nGases'),
+            buildDoubleRow('iconCorrosive', 'Chemicals\n& Corrosive\nMaterials',
+                'iconGas', 'Compressed\nGases'),
             kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'Batteries (more than\n160WH)',
-                'iconKnife', 'Firearms: Guns,\nStun Guns,\nReplica Guns'),
+            buildDoubleRow('iconBattery', 'Batteries\n(more than\n160WH)',
+                'iconFirearm', 'Firearms: Guns,\nStun Guns,\nReplica Guns'),
             kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'Live Plants\nand Flowers', 'iconKnife',
+            buildDoubleRow('iconFirearm', 'Live Plants\nand Flowers', 'iconDisablingDevice',
                 'Disabling Devices:\nTasers, Mace,\nPepper Spray'),
             kVerticalSpacer,
 
@@ -137,8 +148,12 @@ class DgnInfoView extends StatelessWidget {
                   checkColor: Colors.white,
                   fillColor:
                   MaterialStateProperty.resolveWith(getColor),
-                  value: true,
+                  value: checked,
                   onChanged: (bool? value) {
+                    setState(() {
+                      checked = value ?? false;
+                    });
+
                    // bloc?.setCheckDeparture(value ?? false);
                   },
                 ),
@@ -185,7 +200,10 @@ class DgnInfoView extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+
+                          Navigator.of(context).pop();
+
+
                       }, //isLoading ? null :
                       child: const Text('Back'),
                     ),
@@ -193,10 +211,13 @@ class DgnInfoView extends StatelessWidget {
                   kHorizontalSpacerSmall,
                   Expanded(
                     child: ElevatedButton(
-                      child: const Text('Continue'),
-                      onPressed: () async {
-                        Navigator.of(context).pop(true);
+                      onPressed: checked == false ? null : () async {
+                        if(checked){
+                          Navigator.of(context).pop(true);
+
+                        }
                       },
+                      child: const Text('Continue'),
                     ),
                   ),
                 ],

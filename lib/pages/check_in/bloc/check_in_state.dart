@@ -9,11 +9,14 @@ class CheckInState extends Equatable {
   final bool loadingListDetailItem;
   final UpcomingBookings? bookingSelected;
 
+  final bool showUpcoming;
+
   final bool checkedDeparture;
 
   final bool listToCall;
   final bool checkReturn;
   final List<UpcomingBookings>? upcomingBookings;
+  final List<UpcomingBookings>? pastBookings;
 
   final String? pnrEntered;
   final String? lastName;
@@ -21,6 +24,7 @@ class CheckInState extends Equatable {
   const CheckInState( {
     this.blocState = BlocState.initial,
     this.message = "",
+    this.pastBookings,
     this.isRememberMe = true,
     this.checkedDeparture = false,
     this.manageBookingResponse,
@@ -32,6 +36,8 @@ class CheckInState extends Equatable {
     this.bookingSelected,
     this.listToCall = false,
     this.checkReturn = false,
+    this.showUpcoming = true
+
   });
 
   @override
@@ -48,8 +54,9 @@ class CheckInState extends Equatable {
     bookingSelected,
     listToCall,
     checkedDeparture,
-    checkReturn
-
+    checkReturn,
+    showUpcoming,
+    pastBookings
       ];
 
   CheckInState copyWith(
@@ -65,7 +72,11 @@ class CheckInState extends Equatable {
         bool? listToCall,
         bool? checkedDeparture,
         bool? checkReturn,
-      List<UpcomingBookings>? upcomingBookings}) {
+        bool? showUpcoming,
+
+      List<UpcomingBookings>? upcomingBookings,
+        List<UpcomingBookings>? pastBookings
+      }) {
     return CheckInState(
       message: message ?? this.message,
       blocState: blocState ?? this.blocState,
@@ -81,7 +92,8 @@ class CheckInState extends Equatable {
       listToCall: listToCall ?? this.listToCall,
       checkedDeparture: checkedDeparture ?? this.checkedDeparture,
       checkReturn: checkReturn ?? this.checkReturn,
-
+      showUpcoming: showUpcoming ?? this.showUpcoming,
+      pastBookings: pastBookings ?? this.pastBookings,
     );
   }
 }

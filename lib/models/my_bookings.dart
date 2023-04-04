@@ -39,6 +39,8 @@ class UpcomingBookings {
   String? superPNRNo;
   String? lastName;
   bool? allowCheckIn;
+  bool? isFullyCheckedIn;
+
   OutboundFlight? outboundFlight;
   OutboundFlight? inboundFlight;
 
@@ -64,6 +66,24 @@ class UpcomingBookings {
 
   }
 
+  String get pastDateToShow {
+    var date = (DateTime.parse(outboundFlight?.departureDate ?? ''));
+    final formatter = DateFormat('E dd MMM yyyy h:mm a');
+    return formatter.format(date);
+    /*
+    if(departureToShow) {
+
+    }
+    var date = (DateTime.parse(inboundFlight?.departureDate ?? ''));
+    final formatter = DateFormat('E dd MMM yyyy h:mm a');
+    return formatter.format(date);
+*/
+  }
+
+  String get pastDepartureLocation {
+    return outboundFlight?.departLocation ?? '';
+  }
+
 
   String get departureLocation {
 
@@ -74,6 +94,10 @@ class UpcomingBookings {
     return inboundFlight?.departLocation ?? '';
   }
 
+  String get pastReturnLocation {
+      return outboundFlight?.arrivalLocation ?? '';
+
+  }
   String get returnLocation {
     if(departureToShow) {
       return outboundFlight?.arrivalLocation ?? '';
@@ -95,6 +119,8 @@ class UpcomingBookings {
     superPNRNo = json['superPNRNo'];
     lastName = json['lastName'];
     allowCheckIn = json['allowCheckIn'];
+    isFullyCheckedIn = json['isFullyCheckedIn'];
+
     outboundFlight = json['outboundFlight'] != null
         ? OutboundFlight.fromJson(json['outboundFlight'])
         : null;

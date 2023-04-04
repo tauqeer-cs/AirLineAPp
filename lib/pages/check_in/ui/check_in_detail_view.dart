@@ -308,13 +308,21 @@ class CheckInDetailView extends StatelessWidget {
               onPressed: () async {
 
                 bool? check = await showDialog(
-
-
                   context: context,
                   builder: (BuildContext context) {
-                    return const DgnInfoView();
+                    return  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: DgnInfoView(valueChanged: (bool value) {
+
+                      },),
+                    );
                   },
                 );
+
+                if(check == true){
+
+                  //true
+                }
 
               },
               child: const Text('Check-In'),
