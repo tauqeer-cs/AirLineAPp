@@ -5,15 +5,19 @@ import '../../models/my_bookings.dart';
 import '../../models/pay_redirection.dart';
 import '../provider/checkin_provider.dart';
 import '../provider/manage_booking_provider.dart';
+import '../requests/boarding_pass_request.dart';
 import '../requests/change_flight_request.dart';
 import '../requests/check_in_request.dart';
+import '../requests/get_boarding_pass_request.dart';
 import '../requests/manage_booking_request.dart';
 import '../requests/mmb_checkout_request.dart';
 import '../requests/search_change_flight_request.dart';
+import '../responses/boardingpass_passenger_response.dart';
 import '../responses/change_flight_response.dart';
 import '../responses/check_in_response.dart';
 
 import '../responses/flight_response.dart';
+import '../responses/get_boarding_pass_response.dart';
 import '../responses/manage_booking_response.dart';
 
 class CheckInRepository {
@@ -36,6 +40,20 @@ class CheckInRepository {
     final response = await _provider.checkInPassenger(request);
     return response;
   }
+
+  Future<BoardingpassPassengerResponse> getBoardingpassPassenger(GetBoardingPassPassengerRequest request) async {
+    final response = await _provider.getBoardingpassPassenger(request);
+    return response;
+  }
+
+
+  Future<BoardingpassResponse> getBoardingPass(BoardingPassRequest request) async {
+    final response = await _provider.getBoardingPass(request);
+    return response;
+  }
+
+
+
 
 
 }

@@ -146,7 +146,7 @@ const kHugeMedium = TextStyle(
   fontSize: 20 + modifier,
   fontWeight: FontWeight.w500,
 );
-const kHugeSemiBold = TextStyle(
+const  kHugeSemiBold = TextStyle(
   fontSize: 20 + modifier,
   fontWeight: FontWeight.w600,
 );

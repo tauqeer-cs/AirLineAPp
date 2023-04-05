@@ -329,6 +329,12 @@ class _$AppRouter extends RootStackRouter {
         child: const CheckInDetailsPage(),
       );
     },
+    CheckInBoardingPassRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CheckInBoardingPassPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -597,6 +603,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CheckInDetailsRoute.name,
           path: '/check_in_details',
+        ),
+        RouteConfig(
+          CheckInBoardingPassRoute.name,
+          path: '/check_in_boarding_pass',
         ),
       ];
 }
@@ -1406,6 +1416,18 @@ class CheckInDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CheckInDetailsRoute';
+}
+
+/// generated route for
+/// [CheckInBoardingPassPage]
+class CheckInBoardingPassRoute extends PageRouteInfo<void> {
+  const CheckInBoardingPassRoute()
+      : super(
+          CheckInBoardingPassRoute.name,
+          path: '/check_in_boarding_pass',
+        );
+
+  static const String name = 'CheckInBoardingPassRoute';
 }
 
 /// generated route for

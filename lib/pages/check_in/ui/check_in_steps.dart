@@ -10,10 +10,12 @@ import '../../../widgets/app_divider_widget.dart';
 class CheckInSteps extends StatefulWidget {
   final List<CheckInStep> passedSteps;
 
+  final bool isLast;
+
   final Function(int index) onTopStepTaped;
 
   const CheckInSteps(
-      {Key? key, required this.passedSteps, required this.onTopStepTaped})
+      {Key? key, required this.passedSteps, required this.onTopStepTaped,  this.isLast = false})
       : super(key: key);
 
   @override
@@ -102,7 +104,7 @@ class _CheckInStepsState extends State<CheckInSteps> {
               '0${index + 1}',
               style: kGiantHeavy.copyWith(
                 color:
-                    selected ? Styles.kPrimaryColor : Styles.kInactiveColor,
+                    selected ? Styles.kPrimaryColor : ( widget.isLast == true ? Styles.kTextColor : Styles.kInactiveColor),
               ),
               textAlign: TextAlign.center,
             ),
@@ -122,27 +124,38 @@ class _CheckInStepsState extends State<CheckInSteps> {
         if(index == 2) ... [
           ImageIcon(
             const AssetImage("assets/images/icons/planeCircle.png"),
-            color: selected ? Styles.kPrimaryColor : Styles.kInactiveColor,
+            color: selected ? Styles.kPrimaryColor : ( widget.isLast == true ? Styles.kTextColor : Styles.kInactiveColor),
 
           )
 
         ] else ... [
           Icon(
             step.iconData,
-            color: selected ? Styles.kPrimaryColor : Styles.kInactiveColor,
+            color: selected ? Styles.kPrimaryColor : ( widget.isLast == true ? Styles.kTextColor : Styles.kInactiveColor),
           ),
         ],
 
         const SizedBox(
           width: 4,
         ),
-        Text(
-          step.message,
-          style: kMediumHeavy.copyWith(
-            color: selected ? Styles.kPrimaryColor : Styles.kInactiveColor,
+        if(selected == false && widget.isLast == true) ... [
+          Text(
+            step.message,
+            style: kMediumRegular.copyWith(
+              color: selected ? Styles.kPrimaryColor : ( widget.isLast == true ? Styles.kTextColor : Styles.kInactiveColor),
+            ),
+            textAlign: TextAlign.left,
           ),
-          textAlign: TextAlign.left,
-        ),
+        ] else ... [
+          Text(
+            step.message,
+            style: kMediumHeavy.copyWith(
+              color: selected ? Styles.kPrimaryColor : ( widget.isLast == true ? Styles.kTextColor : Styles.kInactiveColor),
+            ),
+            textAlign: TextAlign.left,
+          ),
+        ],
+
       ],
     );
   }

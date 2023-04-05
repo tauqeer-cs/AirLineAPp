@@ -101,3 +101,37 @@ class OutboundBoardingPassPassenger {
     return data;
   }
 }
+
+class BoardingpassResponse {
+  String? pnr;
+  String? getBoardingPassBy;
+  List<String>? boardingPassURLs;
+  List<String>? boardingPassByteArrayList;
+  bool? success;
+
+  BoardingpassResponse(
+      {this.pnr,
+        this.getBoardingPassBy,
+        this.boardingPassURLs,
+        this.boardingPassByteArrayList,
+        this.success});
+
+  BoardingpassResponse.fromJson(Map<String, dynamic> json) {
+    pnr = json['pnr'];
+    getBoardingPassBy = json['getBoardingPassBy'];
+    boardingPassURLs = json['boardingPassURLs'].cast<String>();
+    boardingPassByteArrayList =
+        json['boardingPassByteArrayList'].cast<String>();
+    success = json['success'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pnr'] = pnr;
+    data['getBoardingPassBy'] = getBoardingPassBy;
+    data['boardingPassURLs'] = boardingPassURLs;
+    data['boardingPassByteArrayList'] = boardingPassByteArrayList;
+    data['success'] = success;
+    return data;
+  }
+}

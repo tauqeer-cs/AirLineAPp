@@ -1,19 +1,18 @@
 import 'package:app/widgets/app_card.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
-import '../../../models/number_person.dart';
+import '../../../app/app_router.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/form_utils.dart';
 import '../../../widgets/forms/app_input_text.dart';
 import '../../booking_details/ui/flight_data.dart';
-import '../../checkout/pages/booking_details/ui/pessenger_info.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 import '../bloc/check_in_cubit.dart';
 import 'check_in_steps.dart';
@@ -354,7 +353,16 @@ class CheckInDetailView extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () async {
+                bloc.getBoardingPassPassengers();
 
+                return;
+
+                //
+                context.router.push(
+                  const CheckInBoardingPassRoute(),
+                );
+
+                return;
                 bloc.changeFlight();
 
                 return;

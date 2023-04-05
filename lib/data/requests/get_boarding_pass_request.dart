@@ -1,16 +1,16 @@
-class GetBoardingPassRequest {
+class GetBoardingPassPassengerRequest {
   String? pNR;
   String? lastName;
   bool? getOutboundPassenger;
   bool? getInboundPassenger;
 
-  GetBoardingPassRequest(
+  GetBoardingPassPassengerRequest(
       {this.pNR,
         this.lastName,
         this.getOutboundPassenger,
         this.getInboundPassenger});
 
-  GetBoardingPassRequest.fromJson(Map<String, dynamic> json) {
+  GetBoardingPassPassengerRequest.fromJson(Map<String, dynamic> json) {
     pNR = json['PNR'];
     lastName = json['LastName'];
     getOutboundPassenger = json['GetOutboundPassenger'];

@@ -4,8 +4,11 @@ import 'package:equatable/equatable.dart';
 
 import '../../../data/repositories/checkin_repository.dart';
 import '../../../data/repositories/manage_book_repository.dart';
+import '../../../data/requests/boarding_pass_request.dart';
 import '../../../data/requests/check_in_request.dart';
+import '../../../data/requests/get_boarding_pass_request.dart';
 import '../../../data/requests/manage_booking_request.dart';
+import '../../../data/responses/boardingpass_passenger_response.dart';
 import '../../../data/responses/manage_booking_response.dart';
 import '../../../models/my_bookings.dart';
 import '../../../utils/error_utils.dart';
@@ -82,6 +85,51 @@ class CheckInCubit extends Cubit<CheckInState> {
   }
   */
 
+  //
+
+  Future<void> getBoardingPassPassengers() async {
+    //
+    var request = GetBoardingPassPassengerRequest(
+      pNR: state.pnrEntered,
+      lastName: state.lastName,
+      getInboundPassenger: false,
+      getOutboundPassenger: true
+    );
+
+    BoardingpassPassengerResponse? response = await _checkInRepository.getBoardingpassPassenger(request);
+
+    BoardingPassRequest request2 = BoardingPassRequest();
+    request2.pNR = state.pnrEntered;
+    request2.lastName = state.lastName;
+    request2.getBoardingPassBy = 'Download';
+    request2.boardingPassPax = [];
+
+    for(BoardingPassPassenger currentOne in response.outboundBoardingPassPassenger ?? []) {
+
+      var boardItem = BoardingPassPax(
+        lastName: currentOne.lastName,
+        logicalFlightKey: currentOne.logicalFlightKey,
+        personOrgId: currentOne.personOrgId
+      );
+
+      request2.boardingPassPax?.add(boardItem);
+
+    }
+
+    for(BoardingPassPassenger currentOne in response.inboundBoardingPassPassenger ?? []) {
+      var boardItem = BoardingPassPax(
+          lastName: currentOne.lastName,
+          logicalFlightKey: currentOne.logicalFlightKey,
+          personOrgId: currentOne.personOrgId
+      );
+      request2.boardingPassPax?.add(boardItem);
+    }
+
+    var filesResponse = await _checkInRepository.getBoardingPass(request2);
+
+    print('');
+
+  }
   Future<void> changeFlight() async {
     var request = CheckInRequest();
     request.lastName = state.lastName;
