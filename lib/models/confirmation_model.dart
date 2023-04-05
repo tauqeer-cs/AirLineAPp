@@ -868,6 +868,7 @@ class Bound extends Equatable {
     this.modifiedDate,
     this.modifiedDateUTC,
     this.isCheckInAllowed,
+    this.isFullyCheckedIn,
   });
 
   @override
@@ -917,6 +918,7 @@ class Bound extends Equatable {
         modifiedDate,
         modifiedDateUTC,
     isCheckInAllowed,
+    isFullyCheckedIn,
       ];
 
   final num? flightSegmentId;
@@ -940,6 +942,7 @@ class Bound extends Equatable {
   final bool? eTicket;
   final bool? isChangeAllowed;
   final bool? isCheckInAllowed;
+  final bool? isFullyCheckedIn;
   final num? duration;
   final num? elapsedTime;
   final num? flightNumber;
@@ -1011,6 +1014,7 @@ class Bound extends Equatable {
     DateTime? modifiedDate,
     DateTime? modifiedDateUTC,
     bool? isCheckInAllowed,
+    bool? isFullyCheckedIn,
   }) =>
       Bound(
         flightSegmentId: flightSegmentId ?? this.flightSegmentId,
@@ -1066,7 +1070,7 @@ class Bound extends Equatable {
         modifiedDate: modifiedDate ?? this.modifiedDate,
         modifiedDateUTC: modifiedDateUTC ?? this.modifiedDateUTC,
         isCheckInAllowed: isCheckInAllowed ?? this.isCheckInAllowed,
-
+        isFullyCheckedIn: isFullyCheckedIn ?? this.isFullyCheckedIn,
       );
 }
 

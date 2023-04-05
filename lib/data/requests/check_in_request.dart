@@ -82,9 +82,31 @@ class OutboundCheckInPassengerDetails {
     data['FlightNumber'] = flightNumber;
     data['DepartureStationCode'] = departureStationCode;
     data['InkPaxID'] = inkPaxID;
-    data['PassportNumber'] = passportNumber;
-    data['PassportExpiryDate'] = passportExpiryDate;
-    data['MemberID'] = memberID;
+
+    if(passportNumber == '') {
+      data['PassportNumber'] = null;
+
+    }
+    else {
+      data['PassportNumber'] = passportNumber;
+
+    }
+    if(passportExpiryDate == ''){
+      data['PassportExpiryDate'] = null;
+
+    }
+    else {
+      data['PassportExpiryDate'] = passportExpiryDate;
+
+    }
+    if(memberID == ''){
+      data['MemberID'] = null;
+
+    }
+    else {
+      data['MemberID'] = memberID;
+
+    }
     return data;
   }
 }

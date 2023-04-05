@@ -2,7 +2,9 @@ import 'package:app/app/app_bloc_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../data/repositories/checkin_repository.dart';
 import '../../../data/repositories/manage_book_repository.dart';
+import '../../../data/requests/check_in_request.dart';
 import '../../../data/requests/manage_booking_request.dart';
 import '../../../data/responses/manage_booking_response.dart';
 import '../../../models/my_bookings.dart';
@@ -11,12 +13,15 @@ import '../../../utils/error_utils.dart';
 part 'check_in_state.dart';
 
 class CheckInCubit extends Cubit<CheckInState> {
-  CheckInCubit() : super(const CheckInState());
+  CheckInCubit()
+      : super(
+          const CheckInState(),
+        );
 
   final _manageBookingRepository = ManageBookingRepository();
+  final _checkInRepository = CheckInRepository();
 
-
-  void showUpcoming(bool status){
+  void showUpcoming(bool status) {
     emit(
       state.copyWith(
         showUpcoming: status,
@@ -24,6 +29,7 @@ class CheckInCubit extends Cubit<CheckInState> {
       ),
     );
   }
+
   void setCheckDeparture(bool value) {
     emit(
       state.copyWith(
@@ -76,6 +82,52 @@ class CheckInCubit extends Cubit<CheckInState> {
   }
   */
 
+  Future<void> changeFlight() async {
+    var request = CheckInRequest();
+    request.lastName = state.lastName;
+    request.pNR = state.pnrEntered;
+    request.superPNRNo = state.manageBookingResponse?.result?.superPNR?.superPNRNo ?? '';
+    request.superPNRID = state.manageBookingResponse?.result?.superPNR?.superPNRID?.toInt();
+
+    if(state.checkedDeparture) {
+
+      request.outboundCheckInPassengerDetails = [];
+
+      for(PassengersWithSSR currentItem in state.manageBookingResponse?.result?.passengersWithSSR ?? []){
+        var currentOne = OutboundCheckInPassengerDetails(
+            flightNumber: currentItem.checkInStatusInOut?.outboundCheckInStatus?.flightNumber ?? '',
+            departureStationCode: currentItem.checkInStatusInOut?.outboundCheckInStatus?.departureStationCode ?? '',
+            inkPaxID: currentItem.checkInStatusInOut?.outboundCheckInStatus?.inkPaxID ?? '',
+            passportNumber: '',
+            passportExpiryDate: '',
+            memberID: currentItem.passengers?.myRewardMemberId ?? '1072'
+        );
+        request.outboundCheckInPassengerDetails?.add(currentOne);
+      }
+
+    }
+    else if(state.checkReturn){
+
+      request.inboundCheckInPassengerDetails = [];
+
+      for(PassengersWithSSR currentItem in state.manageBookingResponse?.result?.passengersWithSSR ?? []){
+        var currentOne = OutboundCheckInPassengerDetails(
+          flightNumber: currentItem.checkInStatusInOut?.inboundCheckInStatus?.flightNumber ?? '',
+          departureStationCode: currentItem.checkInStatusInOut?.inboundCheckInStatus?.departureStationCode ?? '',
+          inkPaxID: currentItem.checkInStatusInOut?.inboundCheckInStatus?.inkPaxID ?? '',
+          passportNumber: '',
+          passportExpiryDate: '',
+          memberID: currentItem.passengers?.myRewardMemberId ?? ''
+        );
+        request.inboundCheckInPassengerDetails?.add(currentOne);
+      }
+//      List<>? inboundCheckInPassengerDetails;
+
+    }
+
+    final verifyResponse = await _checkInRepository.checkInPassenger(request);
+
+  }
   Future<bool?> getBookingsListing() async {
     emit(
       state.copyWith(
@@ -89,12 +141,11 @@ class CheckInCubit extends Cubit<CheckInState> {
 
       emit(
         state.copyWith(
-          upcomingBookings: verifyResponse.upcomingBookings,
-          pastBookings: verifyResponse.pastBookings,
-          blocState: BlocState.finished,
-          isLoadingInfo: false,
-            listToCall : true
-        ),
+            upcomingBookings: verifyResponse.upcomingBookings,
+            pastBookings: verifyResponse.pastBookings,
+            blocState: BlocState.finished,
+            isLoadingInfo: false,
+            listToCall: true),
       );
       return true;
     } catch (e, st) {
@@ -119,7 +170,8 @@ class CheckInCubit extends Cubit<CheckInState> {
     );
 
     try {
-      final verifyResponse = await _manageBookingRepository.getBookingInfoForCheckIn(
+      final verifyResponse =
+          await _manageBookingRepository.getBookingInfoForCheckIn(
         ManageBookingRequest(
             pnr: bookSelected != null ? bookSelected.pnr : pnr,
             lastname: bookSelected != null ? bookSelected.lastName : lastName),
@@ -149,13 +201,13 @@ class CheckInCubit extends Cubit<CheckInState> {
 
   bool get showPassport {
     return state.manageBookingResponse?.result?.isRequiredPassport ?? false;
- }
+  }
 
   bool get isReturn {
     return state.manageBookingResponse?.result?.isReturn ?? false;
   }
 
-  /*
+/*
   bool get isReturn {
     return state.manageBookingResponse?.result?.isReturn ?? false;
   }*/

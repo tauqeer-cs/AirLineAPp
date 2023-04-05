@@ -75,6 +75,8 @@ class ManageBookingResponse {
 class Result {
   BookingContact? bookingContact;
   List<PassengersWithSSR>? passengersWithSSR;
+  SuperPNR? superPNR;
+  SuperPNROrder? superPNROrder;
 
 
 
@@ -92,6 +94,56 @@ class Result {
   bool? success;
 
   bool? isRequiredPassport;
+
+  bool get outboundCheckingAllowed {
+
+    if(flightSegments != null) {
+      if(flightSegments!.first.outbound != null) {
+        if(flightSegments!.first.outbound!.first.isFullyCheckedIn == false){
+          if(flightSegments!.first.outbound!.first.isCheckInAllowed == true) {
+
+            var departureTime = flightSegments!.first.outbound!.first.departureDateTime ?? DateTime.now().add(const Duration(minutes: 1));
+
+            return true;
+
+            var now = DateTime.now();
+
+            if(DateTime.now().isBefore(departureTime)){
+              return true;
+            }
+            return false;
+          }
+        }
+      }
+    }
+    print('');
+    return false;
+   }
+
+  bool get inboundCheckingAllowed {
+
+    if(flightSegments != null) {
+      if(flightSegments!.first.inbound != null) {
+        if(flightSegments!.first.inbound!.first.isFullyCheckedIn == false){
+          if(flightSegments!.first.inbound!.first.isCheckInAllowed == true) {
+
+            var departureTime = flightSegments!.first.inbound!.first.departureDateTime ?? DateTime.now().add(const Duration(minutes: 1));
+
+            return true;
+
+            var now = DateTime.now();
+
+            if(DateTime.now().isBefore(departureTime)){
+              return true;
+            }
+            return false;
+          }
+        }
+      }
+    }
+    print('');
+    return false;
+  }
 
   String get returnDepartureAirportName {
     return flightSegments?.first.inbound?.first.departureAirportLocationName ??
@@ -192,6 +244,13 @@ class Result {
       this.success});
 
   Result.fromJson(Map<String, dynamic> json) {
+    superPNR = json['superPNR'] != null
+        ? SuperPNR.fromJson(json['superPNR'])
+        : null;
+    superPNROrder = json['superPNROrder'] != null
+        ? SuperPNROrder.fromJson(json['superPNROrder'])
+        : null;
+
     bookingContact = json['bookingContact'] != null
         ? BookingContact.fromJson(json['bookingContact'])
         : null;
@@ -422,7 +481,7 @@ class CheckInStatus {
     allowCheckIn = json['allowCheckIn'];
     flightNumber = json['flightNumber'];
     departureStationCode = json['departureStationCode'];
-    inkPaxID = json['c'];
+    inkPaxID = json['inkPaxID'];
     checkInStatus = json['checkInStatus'];
 
 

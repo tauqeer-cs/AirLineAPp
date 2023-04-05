@@ -2,6 +2,7 @@ import 'package:app/widgets/app_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
@@ -33,10 +34,14 @@ class CheckInDetailView extends StatelessWidget {
     return Styles.kPrimaryColor;
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
     var state = bloc.state;
+
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -47,8 +52,8 @@ class CheckInDetailView extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const BookingReferenceLabel(
-              refText: 'XAS200',
+            BookingReferenceLabel(
+              refText: state.pnrEntered,
             ),
             SizedBox(
               width: double.infinity,
@@ -76,17 +81,39 @@ class CheckInDetailView extends StatelessWidget {
               edgeInsets: const EdgeInsets.only(right: 15, top: 15, bottom: 15),
               child: Row(
                 children: [
-                  Checkbox(
-                    checkColor: Colors.white,
-                    fillColor: MaterialStateProperty.resolveWith(getColor),
-                    value: state.checkedDeparture,
-                    onChanged: (bool? value) {
-                      bloc.setCheckDeparture(value ?? false);
-                    },
-                  ),
+
+                  if(state.manageBookingResponse?.result?.outboundCheckingAllowed == false) ... [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: SizedBox(
+                        width: Checkbox.width,
+                        height: Checkbox.width,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Styles.kDisabledGrey,
+                              width: 1.6,
+                            ),
+                            borderRadius: BorderRadius.circular(2.0),
+                          ),
+                        ),
+                      ),
+                    )
+                  ] else ... [
+                    Checkbox(
+                      checkColor: Colors.white,
+                      fillColor: MaterialStateProperty.resolveWith( getColor),
+                      value: state.checkedDeparture,
+                      onChanged: (bool? value) {
+                        bloc.setCheckDeparture(value ?? false);
+                      },
+                    ),
+                  ],
+
                   Expanded(
                     child: FlightDataInfo(
                       headingLabel: 'Departure',
+                      disabledView: state.manageBookingResponse?.result?.outboundCheckingAllowed == false,
                       dateToShow: state.manageBookingResponse?.result
                               ?.departureDateToShow ??
                           '',
@@ -115,48 +142,69 @@ class CheckInDetailView extends StatelessWidget {
             ),
             kVerticalSpacerSmall,
             if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
-              AppCard(
-                edgeInsets:
-                    const EdgeInsets.only(right: 15, top: 15, bottom: 15),
-                child: Row(
-                  children: [
-                    Checkbox(
-                      checkColor: Colors.white,
-                      fillColor: MaterialStateProperty.resolveWith(getColor),
-                      value: state.checkReturn,
-                      onChanged: (bool? value) {
-                        bloc.setCheckReturn(value ?? false);
-                      },
-                    ),
-                    Expanded(
-                      child: FlightDataInfo(
-                        headingLabel: 'Return',
-                        dateToShow: state.manageBookingResponse?.result
-                                ?.returnDepartureDateToShow ??
-                            '',
-                        departureToDestinationCode: state.manageBookingResponse
-                                ?.result?.returnToDestinationCode ??
-                            '',
-                        departureDateWithTime: state.manageBookingResponse
-                                ?.result?.returnDepartureDateWithTime ??
-                            '',
-                        departureAirportName: state.manageBookingResponse
-                                ?.result?.returnDepartureAirportName ??
-                            '',
-                        journeyTimeInHourMin: state.manageBookingResponse
-                                ?.result?.returnJourneyTimeInHourMin ??
-                            '',
-                        arrivalDateWithTime: state.manageBookingResponse?.result
-                                ?.returnArrivalDateWithTime ??
-                            '',
-                        arrivalAirportName: state.manageBookingResponse?.result
-                                ?.returnArrivalAirportName ??
-                            '',
+
+              if(state.manageBookingResponse?.result?.inboundCheckingAllowed == false) ... [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: SizedBox(
+                    width: Checkbox.width,
+                    height: Checkbox.width,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Styles.kDisabledGrey,
+                          width: 1.6,
+                        ),
+                        borderRadius: BorderRadius.circular(2.0),
                       ),
                     ),
-                  ],
+                  ),
+                )
+              ] else ... [
+                AppCard(
+                  edgeInsets:
+                  const EdgeInsets.only(right: 15, top: 15, bottom: 15),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        checkColor: Colors.white,
+                        fillColor: MaterialStateProperty.resolveWith(getColor),
+                        value: state.checkReturn,
+                        onChanged: (bool? value) {
+                          bloc.setCheckReturn(value ?? false);
+                        },
+                      ),
+                      Expanded(
+                        child: FlightDataInfo(
+                          headingLabel: 'Return',
+                          dateToShow: state.manageBookingResponse?.result
+                              ?.returnDepartureDateToShow ??
+                              '',
+                          departureToDestinationCode: state.manageBookingResponse
+                              ?.result?.returnToDestinationCode ??
+                              '',
+                          departureDateWithTime: state.manageBookingResponse
+                              ?.result?.returnDepartureDateWithTime ??
+                              '',
+                          departureAirportName: state.manageBookingResponse
+                              ?.result?.returnDepartureAirportName ??
+                              '',
+                          journeyTimeInHourMin: state.manageBookingResponse
+                              ?.result?.returnJourneyTimeInHourMin ??
+                              '',
+                          arrivalDateWithTime: state.manageBookingResponse?.result
+                              ?.returnArrivalDateWithTime ??
+                              '',
+                          arrivalAirportName: state.manageBookingResponse?.result
+                              ?.returnArrivalAirportName ??
+                              '',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
+
             ],
             kVerticalSpacer,
             Text(
@@ -307,9 +355,15 @@ class CheckInDetailView extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
 
+                bloc.changeFlight();
+
+                return;
+
                 bool? check = await showDialog(
                   context: context,
                   builder: (BuildContext context) {
+
+
                     return  Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: DgnInfoView(valueChanged: (bool value) {

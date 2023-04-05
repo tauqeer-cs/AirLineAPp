@@ -245,10 +245,12 @@ class ManageBookingDetailsView extends StatelessWidget {
 
 class PlaneWithTime extends StatelessWidget {
   final String time;
+  final bool showDisabled;
 
   const PlaneWithTime({
     Key? key,
     required this.time,
+   this.showDisabled = false,
   }) : super(key: key);
 
   @override
@@ -258,7 +260,7 @@ class PlaneWithTime extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/images/icons/icoFlightBlack.png",
+          showDisabled ? "assets/images/icons/icoFlightDisabled.png" : "assets/images/icons/icoFlightBlack.png",
           width: 32,
           height: 32,
         ),
@@ -268,7 +270,7 @@ class PlaneWithTime extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
           decoration: BoxDecoration(
-            color: Styles.kTextColor,
+            color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor,
             borderRadius: BorderRadius.circular(18.0),
           ),
           child: Text(
@@ -291,11 +293,14 @@ class FlightInto extends StatelessWidget {
   final String timeString;
   final String location;
 
+  final bool showDisabled;
+
   const FlightInto({
     Key? key,
     required this.label,
     required this.timeString,
     required this.location,
+    this.showDisabled = false,
   }) : super(key: key);
 
   @override
@@ -306,16 +311,16 @@ class FlightInto extends StatelessWidget {
       children: [
         Text(
           label,
-          style: kSmallHeavy.copyWith(color: Styles.kTextColor),
+          style: kSmallHeavy.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
         ),
         Text(
           timeString,
-          style: kSmallMedium.copyWith(color: Styles.kTextColor),
+          style: kSmallMedium.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
         ),
         Text(
           location,
           maxLines: 4,
-          style: kSmallMedium.copyWith(color: Styles.kTextColor),
+          style: kSmallMedium.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
 
           //icoFlightBlack
         ),
