@@ -214,7 +214,6 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                       onPressed: checked == false ? null : () async {
                         if(checked){
                           Navigator.of(context).pop(true);
-
                         }
                       },
                       child: const Text('Continue'),

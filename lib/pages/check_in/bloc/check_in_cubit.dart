@@ -87,7 +87,7 @@ class CheckInCubit extends Cubit<CheckInState> {
 
   //
 
-  Future<void> getBoardingPassPassengers() async {
+  Future<String?> getBoardingPassPassengers() async {
     //
     var request = GetBoardingPassPassengerRequest(
       pNR: state.pnrEntered,
@@ -126,6 +126,8 @@ class CheckInCubit extends Cubit<CheckInState> {
     }
 
     var filesResponse = await _checkInRepository.getBoardingPass(request2);
+
+    return filesResponse.boardingPassURLs?.first ?? '';
 
     print('');
 
