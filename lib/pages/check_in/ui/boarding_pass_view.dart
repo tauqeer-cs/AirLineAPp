@@ -57,7 +57,89 @@ class BoardingPassView extends StatelessWidget {
             ),
             kVerticalSpacer,
 
+            MyCheckbox(label: 'One',),
+
+
           ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+class MyCheckbox extends StatefulWidget {
+  final String label;
+
+  const MyCheckbox({Key? key, required this.label}) : super(key: key);
+
+  @override
+  _MyCheckboxState createState() => _MyCheckboxState();
+}
+
+class _MyCheckboxState extends State<MyCheckbox> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isChecked = !isChecked;
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: isChecked ? Styles.kPrimaryColor : Colors.white,
+          borderRadius: BorderRadius.circular(35),
+          border: Border.all(
+            color: isChecked ? Styles.kPrimaryColor : Colors.grey,
+            width: 1,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: isChecked
+                    ? Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child:  Icon(Icons.check, color: Styles.kPrimaryColor, size: 16),
+                )
+                    : Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                        color: Colors.grey,
+                        width: 1),
+                  ),
+                ),
+              ),
+              Text(
+                widget.label,
+                style:
+                kLargeMedium.copyWith(
+                  color: isChecked ? Colors.white : Styles.kPrimaryColor,
+                ),
+                //TextStyle(
+                  //
+                  //fontWeight: FontWeight.bold,
+                //),
+              ),
+            ],
+          ),
         ),
       ),
     );

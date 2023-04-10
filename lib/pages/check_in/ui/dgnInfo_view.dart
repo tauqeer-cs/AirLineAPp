@@ -224,6 +224,15 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                           if(checked){
                             bloc.checkInFlight();
 
+
+                            return;
+
+                            context.router.replaceAll([
+                              const NavigationRoute(),
+                              const CheckInBoardingPassRoute(),
+                            ]);
+
+                            //CheckInBoardingPassRoute
                             // Navigator.of(context).pop(true);
                           }
                         },

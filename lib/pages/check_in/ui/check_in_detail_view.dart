@@ -144,72 +144,74 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                 ),
                 kVerticalSpacerSmall,
                 if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
-                  if (state.manageBookingResponse?.result
-                          ?.inboundCheckingAllowed ==
-                      false) ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: SizedBox(
-                        width: Checkbox.width,
-                        height: Checkbox.width,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Styles.kDisabledGrey,
-                              width: 1.6,
+                  AppCard(
+                    edgeInsets:
+                    const EdgeInsets.only(right: 15, top: 15, bottom: 15),
+                    child: Row(
+                      children: [
+                        if (state.manageBookingResponse?.result
+                            ?.inboundCheckingAllowed ==
+                            false) ... [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                            child: SizedBox(
+                              width: Checkbox.width,
+                              height: Checkbox.width,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Styles.kDisabledGrey,
+                                    width: 1.6,
+                                  ),
+                                  borderRadius: BorderRadius.circular(2.0),
+                                ),
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(2.0),
                           ),
-                        ),
-                      ),
-                    )
-                  ] else ...[
-                    AppCard(
-                      edgeInsets:
-                          const EdgeInsets.only(right: 15, top: 15, bottom: 15),
-                      child: Row(
-                        children: [
+                        ] else ... [
                           Checkbox(
                             checkColor: Colors.white,
                             fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
+                            MaterialStateProperty.resolveWith(getColor),
                             value: state.checkReturn,
                             onChanged: (bool? value) {
                               bloc.setCheckReturn(value ?? false);
                             },
                           ),
-                          Expanded(
-                            child: FlightDataInfo(
-                              headingLabel: 'Return',
-                              dateToShow: state.manageBookingResponse?.result
-                                      ?.returnDepartureDateToShow ??
-                                  '',
-                              departureToDestinationCode: state
-                                      .manageBookingResponse
-                                      ?.result
-                                      ?.returnToDestinationCode ??
-                                  '',
-                              departureDateWithTime: state.manageBookingResponse
-                                      ?.result?.returnDepartureDateWithTime ??
-                                  '',
-                              departureAirportName: state.manageBookingResponse
-                                      ?.result?.returnDepartureAirportName ??
-                                  '',
-                              journeyTimeInHourMin: state.manageBookingResponse
-                                      ?.result?.returnJourneyTimeInHourMin ??
-                                  '',
-                              arrivalDateWithTime: state.manageBookingResponse
-                                      ?.result?.returnArrivalDateWithTime ??
-                                  '',
-                              arrivalAirportName: state.manageBookingResponse
-                                      ?.result?.returnArrivalAirportName ??
-                                  '',
-                            ),
-                          ),
                         ],
-                      ),
+                        Expanded(
+                          child: FlightDataInfo(
+                            headingLabel: 'Return',
+                            dateToShow: state.manageBookingResponse?.result
+                                ?.returnDepartureDateToShow ??
+                                '',
+                            departureToDestinationCode: state
+                                .manageBookingResponse
+                                ?.result
+                                ?.returnToDestinationCode ??
+                                '',
+                            departureDateWithTime: state.manageBookingResponse
+                                ?.result?.returnDepartureDateWithTime ??
+                                '',
+                            departureAirportName: state.manageBookingResponse
+                                ?.result?.returnDepartureAirportName ??
+                                '',
+                            journeyTimeInHourMin: state.manageBookingResponse
+                                ?.result?.returnJourneyTimeInHourMin ??
+                                '',
+                            arrivalDateWithTime: state.manageBookingResponse
+                                ?.result?.returnArrivalDateWithTime ??
+                                '',
+                            arrivalAirportName: state.manageBookingResponse
+                                ?.result?.returnArrivalAirportName ??
+                                '',
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+
+
                 ],
                 if (state.loadBoardingDate == true) ...[
                   const Padding(
@@ -310,7 +312,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           ),
                           kVerticalSpacerSmall,
                           Text(
-                            'Departing Flight',
+                            'Return Flight',
                             style: kMediumHeavy.copyWith(
                                 color: Styles.kPrimaryColor),
                           ),
@@ -355,9 +357,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                       String? check = await bloc
                                           .getBoardingPassPassengers(false);
 
-                                      //downloadFile(
-                                      ///  'https://myatempfolder.blob.core.windows.net/myatempfolder/XXT7NF-64335-20081.pdf',
-                                      // 'newFile.pdf');
+
                                     },
                                     child: const Text('Download'),
                                   ),
