@@ -28,6 +28,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/enum/InsiderCallbackAction.dart';
 import 'package:flutter_insider/flutter_insider.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -319,7 +321,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               context.read<HomeCubit>().getContents(state.routes);
               context.read<CmsSsrCubit>().getCmsSSR(state.routes);
               context.read<AgentSignUpCubit>().getAgentSignUp(state.routes);
-
             },
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(
@@ -336,33 +337,38 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             },
           ),
         ],
-        child: VersionBannerWidget(
-          child: ScreenUtilInit(
-            designSize: const Size(375, 812),
-            builder: (_, __) {
-              return MaterialApp.router(
-                routerDelegate: appRouter.delegate(
-                  navigatorObservers: () => [MyObserver()],
-                ),
-                localizationsDelegates: const [
-                  FormBuilderLocalizations.delegate,
-                ],
-                builder: (context, child) {
-                  final mediaQueryData = MediaQuery.of(context);
-                  final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
-                  return MediaQuery(
-                    data:
-                        MediaQuery.of(context).copyWith(textScaleFactor: scale),
-                    child: child!,
-                  );
-                },
-                debugShowCheckedModeBanner: false,
-                routeInformationParser: appRouter.defaultRouteParser(),
-                theme: Styles.theme(true),
-                darkTheme: Styles.theme(false),
-                themeMode: ThemeMode.light,
-              );
-            },
+        child: Phoenix(
+          child: VersionBannerWidget(
+            child: ScreenUtilInit(
+              designSize: const Size(375, 812),
+              builder: (_, __) {
+                return MaterialApp.router(
+                  routerDelegate: appRouter.delegate(
+                    navigatorObservers: () => [MyObserver()],
+                  ),
+                  localizationsDelegates: [
+                    FormBuilderLocalizations.delegate,
+                    EasyLocalization.of(context)!.delegate,
+                  ],
+                  supportedLocales: context.supportedLocales,
+                  builder: (context, child) {
+                    final mediaQueryData = MediaQuery.of(context);
+                    final scale =
+                        mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
+                    return MediaQuery(
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaleFactor: scale),
+                      child: child!,
+                    );
+                  },
+                  debugShowCheckedModeBanner: false,
+                  routeInformationParser: appRouter.defaultRouteParser(),
+                  theme: Styles.theme(true),
+                  darkTheme: Styles.theme(false),
+                  themeMode: ThemeMode.light,
+                );
+              },
+            ),
           ),
         ),
       ),

@@ -82,6 +82,8 @@ dependencies:
   firebase_remote_config: ^3.0.6
   version: ^3.0.2
   flutter_pdfview: ^1.2.5
+  easy_localization: ^3.0.1
+  flutter_phoenix: ^1.1.0
 
 
 dev_dependencies:
@@ -139,3 +141,4 @@ flutter:
     - assets/images/icons/
     - assets/images/svg/
     - assets/fonts/
+    - assets/translations/

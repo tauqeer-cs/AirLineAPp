@@ -1,7 +1,9 @@
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/pdf_viewer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -16,9 +18,8 @@ class MoreOptionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final agentCms = context.watch<AgentSignUpCubit>().state.agentCms;
-
+    final locale = context.locale.toString();
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: const AppLoadingScreen(message: 'Updating'),
@@ -58,9 +59,10 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  PdfViewer(
+                                builder: (context) => PdfViewer(
                                   title: 'Conditions of Carriage',
-                                  fileName: agentCms?.tnC ?? 'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
+                                  fileName: agentCms?.tnC ??
+                                      'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
@@ -76,21 +78,20 @@ class MoreOptionsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-
                         const Divider(),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const PdfViewer(
                                   title: 'Privacy Policy',
-                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
+                                  fileName:
+                                      'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
                             );
-
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8, top: 16),
@@ -104,13 +105,14 @@ class MoreOptionsPage extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const PdfViewer(
                                   title: 'Terms of Use',
-                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
+                                  fileName:
+                                      'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
@@ -126,7 +128,58 @@ class MoreOptionsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        //
+                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8, top: 16),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'language'.tr(),
+                                  style: kLargeMedium.copyWith(
+                                    color: Styles.kTextColor,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      context.loaderOverlay.show();
+                                      await context
+                                          .setLocale(const Locale('en'));
+                                      context.loaderOverlay.hide();
+                                      Phoenix.rebirth(context);
+                                    },
+                                    child: Text(
+                                      "EN",
+                                      style: TextStyle(
+                                          color: locale == "en"
+                                              ? Styles.kActiveColor
+                                              : Colors.black),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 24),
+                                  GestureDetector(
+                                      onTap: () async {
+                                        context.loaderOverlay.show();
+                                        await context
+                                            .setLocale(const Locale('th'));
+                                        context.loaderOverlay.hide();
+                                        Phoenix.rebirth(context);
+                                      },
+                                      child: Text(
+                                        "TH",
+                                        style: TextStyle(
+                                            color: locale == "th"
+                                                ? Styles.kActiveColor
+                                                : Colors.black),
+                                      ))
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -142,9 +195,7 @@ class MoreOptionsPage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-
-                const SizedBox(height: 52,),
-
+                const SizedBox(height: 52),
               ],
             ),
           ),
