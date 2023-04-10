@@ -578,6 +578,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
+
                       SizedBox(
                         height: 24.0,
                         width: 24.0,
@@ -690,6 +691,24 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             ),
           ),
         ),
+
+
+        Positioned(
+          bottom: 0,
+          right: 15,
+          child: FloatingActionButton(
+            onPressed: () {
+              scrollController.animateTo(
+                scrollController.position.minScrollExtent,
+                duration: const Duration(seconds: 1),
+                curve: Curves.fastOutSlowIn,
+              );
+            },
+            backgroundColor: Styles.kPrimaryColor,
+            child: const Icon(Icons.keyboard_arrow_up),
+          ),
+        ),
+
         Positioned(
           bottom: 0,
           left: 0,
