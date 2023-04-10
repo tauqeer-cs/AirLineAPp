@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../widgets/app_app_bar.dart';
 
 class CheckInDetailsPage extends StatelessWidget {
-  const CheckInDetailsPage({Key? key}) : super(key: key);
+  final bool isPast;
+
+  const CheckInDetailsPage({Key? key, required this.isPast}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +21,8 @@ class CheckInDetailsPage extends StatelessWidget {
           overrideInnerHeight: true,
         ),
         backgroundColor: Colors.white,
-        body: const SafeArea(
-          child: CheckInDetailView(),
+        body:  SafeArea(
+          child: CheckInDetailView(isPast:isPast,),
         ),
       ),
     );

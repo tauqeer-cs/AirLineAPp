@@ -4,12 +4,31 @@ class CheckInResponse {
   bool? outboundCheckInSuccess;
   bool? inboundCheckInSuccess;
   bool? success;
+  String? outboundCheckInErrorMessage;
+  String? inboundCheckInErrorMessage;
+
+  String get errorMessages {
+    if((outboundCheckInErrorMessage ?? '').isNotEmpty && (inboundCheckInErrorMessage ?? '').isNotEmpty) {
+
+      return '${outboundCheckInErrorMessage ?? ''}\n${inboundCheckInErrorMessage ?? ''}';
+    }
+    if((outboundCheckInErrorMessage ?? '').isNotEmpty){
+      return outboundCheckInErrorMessage ?? '';
+    }
+
+    if((inboundCheckInErrorMessage ?? '').isNotEmpty){
+      return inboundCheckInErrorMessage ?? '';
+    }
+    return '';
+  }
 
   CheckInResponse(
       {this.haveOutboundCheckIn,
         this.haveInboundCheckIn,
         this.outboundCheckInSuccess,
         this.inboundCheckInSuccess,
+        this.outboundCheckInErrorMessage,
+        this.inboundCheckInErrorMessage,
         this.success});
 
   CheckInResponse.fromJson(Map<String, dynamic> json) {
@@ -17,6 +36,9 @@ class CheckInResponse {
     haveInboundCheckIn = json['haveInboundCheckIn'];
     outboundCheckInSuccess = json['outboundCheckInSuccess'];
     inboundCheckInSuccess = json['inboundCheckInSuccess'];
+    outboundCheckInErrorMessage = json['outboundCheckInErrorMessage'];
+    inboundCheckInErrorMessage = json['inboundCheckInErrorMessage'];
+
     success = json['success'];
   }
 

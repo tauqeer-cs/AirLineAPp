@@ -13,12 +13,6 @@ import '../../widgets/wrapper/auth_wrapper.dart';
 class CheckInPage extends StatelessWidget {
   const CheckInPage({Key? key}) : super(key: key);
 
-  void moveToNext(BuildContext context) {
-
-    context.router.push(
-      const CheckInDetailsRoute(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +29,7 @@ class CheckInPage extends StatelessWidget {
             builder: (context, state) {
               return SafeArea(
                 child: AuthWrapper(
-                  authChild:  CheckingListing(moveOn: () {
-
-                    moveToNext(context);
-                    
-                  },),
+                  authChild:  CheckingListing(),
                   child: CheckInView(),
                 ),
               );

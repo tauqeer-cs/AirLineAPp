@@ -43,14 +43,15 @@ class _CheckInProvider implements CheckInProvider {
   }
 
   @override
-  Future<BoardingpassPassengerResponse> getBoardingpassPassenger(request) async {
+  Future<BoardingpassPassengerResponse> getBoardingpassPassenger(
+      request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<GetBoardingPassResponse>(Options(
+        _setStreamType<BoardingpassPassengerResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -74,7 +75,7 @@ class _CheckInProvider implements CheckInProvider {
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<GetBoardingPassResponse>(Options(
+        _setStreamType<BoardingpassResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,

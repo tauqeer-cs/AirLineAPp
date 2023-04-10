@@ -155,6 +155,35 @@ class Result {
         '';
   }
 
+  String get departureAirportToDestinationName {
+    return '${flightSegments?.first.outbound?.first.departureAirportLocationName ?? ''} to $arrivalAirportName -';
+  }
+
+  String get returnAirportToDestinationName {
+    return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} to $returnArrivalAirportName -';
+  }
+
+
+  String get departureAirportTime {
+    if(flightSegments?.first.outbound?.first.departureDateTime != null) {
+      return AppDateUtils.formatHalfDate(flightSegments?.first.outbound?.first.departureDateTime);
+    }
+    return '';
+    return flightSegments?.first.outbound?.first.departureDateTime.toString() ?? '';
+  }
+
+
+  String get returnAirportTime {
+    if(flightSegments?.first.outbound?.first.departureDateTime != null) {
+      return AppDateUtils.formatHalfDate(flightSegments?.first.inbound?.first.departureDateTime);
+    }
+    return '';
+    return flightSegments?.first.outbound?.first.departureDateTime.toString() ?? '';
+  }
+
+
+  //
+
   String get arrivalAirportName {
     return flightSegments?.first.outbound?.first.arrivalAirportLocationName ??
         '';
@@ -361,6 +390,8 @@ class PassengersWithSSR {
   InsuranceDetails? insuranceSSRDetail;
   CheckInStatusInOut? checkInStatusInOut;
 
+  bool? paxSelected;
+
 
 
   PassengersWithSSR(
@@ -370,7 +401,7 @@ class PassengersWithSSR {
       this.seatDetail,
       this.mealDetail,
         this.checkInStatusInOut,
-
+        this.paxSelected = false,
         this.baggageDetail,
       this.wheelChairDetail,
       this.sportEquipmentDetail,

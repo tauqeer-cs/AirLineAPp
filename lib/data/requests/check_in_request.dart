@@ -100,10 +100,13 @@ class OutboundCheckInPassengerDetails {
 
     }
     if(memberID == ''){
-      data['MemberID'] = null;
+      data['MemberID'] = 0;
 
     }
     else {
+      if(memberID == null){
+        data['MemberID'] = 0;
+      }
       data['MemberID'] = memberID;
 
     }

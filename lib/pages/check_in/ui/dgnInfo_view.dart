@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
@@ -8,6 +9,8 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/security_utils.dart';
+import '../../../widgets/app_loading_screen.dart';
+import '../bloc/check_in_cubit.dart';
 
 class DgnInfoView extends StatefulWidget {
 
@@ -36,6 +39,8 @@ class _DgnInfoViewState extends State<DgnInfoView> {
 
   @override
   Widget build(BuildContext context) {
+    var bloc = context.watch<CheckInCubit>();
+
     return AlertDialog(
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -154,6 +159,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                       checked = value ?? false;
                     });
 
+
                    // bloc?.setCheckDeparture(value ?? false);
                   },
                 ),
@@ -193,35 +199,42 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             ),
             kVerticalSpacer,
 
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
+            if(bloc.state.checkingInFlight == true) ... [
+              const AppLoading(),
+            ] else ... [
+              SizedBox(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {
 
                           Navigator.of(context).pop();
 
 
-                      }, //isLoading ? null :
-                      child: const Text('Back'),
+                        }, //isLoading ? null :
+                        child: const Text('Back'),
+                      ),
                     ),
-                  ),
-                  kHorizontalSpacerSmall,
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: checked == false ? null : () async {
-                        if(checked){
-                          Navigator.of(context).pop(true);
-                        }
-                      },
-                      child: const Text('Continue'),
+                    kHorizontalSpacerSmall,
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: checked == false ? null : () async {
+                          if(checked){
+                            bloc.checkInFlight();
+
+                            // Navigator.of(context).pop(true);
+                          }
+                        },
+                        child: const Text('Continue'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
+
           ],
         ),
       ),

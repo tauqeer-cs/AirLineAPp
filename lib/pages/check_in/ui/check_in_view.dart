@@ -99,7 +99,7 @@ class CheckInView extends StatelessWidget {
   void moveToNext(BuildContext context) {
 
     context.router.push(
-      const CheckInDetailsRoute(),
+       CheckInDetailsRoute(isPast: false),
     );
   }
 

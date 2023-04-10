@@ -324,9 +324,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     CheckInDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<CheckInDetailsRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const CheckInDetailsPage(),
+        child: CheckInDetailsPage(
+          key: args.key,
+          isPast: args.isPast,
+        ),
       );
     },
     CheckInBoardingPassRoute.name: (routeData) {
@@ -1408,14 +1412,36 @@ class ChangeFlightConfirmationRouteArgs {
 
 /// generated route for
 /// [CheckInDetailsPage]
-class CheckInDetailsRoute extends PageRouteInfo<void> {
-  const CheckInDetailsRoute()
-      : super(
+class CheckInDetailsRoute extends PageRouteInfo<CheckInDetailsRouteArgs> {
+  CheckInDetailsRoute({
+    Key? key,
+    required bool isPast,
+  }) : super(
           CheckInDetailsRoute.name,
           path: '/check_in_details',
+          args: CheckInDetailsRouteArgs(
+            key: key,
+            isPast: isPast,
+          ),
         );
 
   static const String name = 'CheckInDetailsRoute';
+}
+
+class CheckInDetailsRouteArgs {
+  const CheckInDetailsRouteArgs({
+    this.key,
+    required this.isPast,
+  });
+
+  final Key? key;
+
+  final bool isPast;
+
+  @override
+  String toString() {
+    return 'CheckInDetailsRouteArgs{key: $key, isPast: $isPast}';
+  }
 }
 
 /// generated route for
