@@ -25,6 +25,7 @@ import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/navigation_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -99,9 +100,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   userInsiderCallBack(int type, dynamic data) {
+    print("user insider callback");
     switch (type) {
       case InsiderCallbackAction.NOTIFICATION_OPEN:
         logger.d("[INSIDER][NOTIFICATION_OPEN]: $data");
+        final scheme = data["ins_dl_url_scheme"];
+        print("is String ${scheme !is String} ${scheme}");
+        if(scheme == null) return;
+        NavigationUtils.navigateMainPage(scheme);
         break;
       case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
         logger.d("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: $data");
