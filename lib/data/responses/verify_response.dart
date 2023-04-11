@@ -624,7 +624,7 @@ class Bundle extends Equatable {
         quantity: 1,
         price: amount == null
             ? 0
-            : (amount! + (applicableTaxes!.first.taxAmount ?? 0)),
+            : (amount! + (applicableTaxes!.firstOrNull?.taxAmount ?? 0)),
         serviceId: serviceID,
       );
     } else if (sports) {

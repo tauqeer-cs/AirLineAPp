@@ -53,7 +53,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }else{
       wheelChair = wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHR");
     }
-    wheelChair ??= wheelChairs.first;
+    wheelChair ??= wheelChairs.firstOrNull;
 
     final selected = persons.indexWhere((element) {
       return element == person;

@@ -1,11 +1,9 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
-import 'package:app/custom_packages/dropdown_search/src/properties/dropdown_decorator_props.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/models/switch_setting.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
-import 'package:app/pages/checkout/pages/booking_details/ui/datepicker_dropdown.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -14,7 +12,6 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/form_utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
-import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:app/widgets/settings_wrapper.dart';
@@ -605,13 +602,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
   }
 
   String travelProtectionRate(List<Bundle> outbound) {
-    currentInsuranceBundlde = outbound.first;
+    currentInsuranceBundlde = outbound.firstOrNull;
     var taxAmount = 0.0;
     if (currentInsuranceBundlde!.applicableTaxes != null) {
       taxAmount =
-          currentInsuranceBundlde!.applicableTaxes!.first.taxAmount!.toDouble();
+          currentInsuranceBundlde!.applicableTaxes!.firstOrNull?.taxAmount?.toDouble() ?? 0;
     }
-    return (taxAmount + outbound.first.amount!.toDouble()).toStringAsFixed(2);
+    return ((taxAmount + (outbound.firstOrNull?.amount! ?? 0)).toDouble()).toStringAsFixed(2);
   }
 }
 
