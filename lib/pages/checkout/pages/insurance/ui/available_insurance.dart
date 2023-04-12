@@ -80,7 +80,7 @@ class AvailableInsurance extends StatelessWidget {
                       ],
                     ),
                     Visibility(
-                      visible: e == selected,
+                      visible: e == selected && e!= InsuranceType.none,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 16.0),
                         child: Column(
