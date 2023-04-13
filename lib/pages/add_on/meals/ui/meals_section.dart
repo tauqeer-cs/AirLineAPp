@@ -6,6 +6,7 @@ import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
@@ -36,22 +37,26 @@ class MealsSection extends StatelessWidget {
         : state.filterState!.returnDate!.difference(DateTime.now()).inHours <=
             1;
 
-    return Padding(
-      padding: kPageHorizontalPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PassengerSelector(
-            isDeparture: isDeparture,
-            addonType: AddonType.meal,
-          ),
-          kVerticalSpacer,
-          isFlightUnderAnHour
-              ? const FlightUnderAnHour()
-              : isFlightOver24Hour
-                  ? const FlightWithin24Hour()
-                  : buildMealCards(meals, isDeparture),
-        ],
+    return Visibility(
+      visible: meals?.isNotEmpty ?? false,
+      replacement: EmptyAddon(),
+      child: Padding(
+        padding: kPageHorizontalPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PassengerSelector(
+              isDeparture: isDeparture,
+              addonType: AddonType.meal,
+            ),
+            kVerticalSpacer,
+            isFlightUnderAnHour
+                ? const FlightUnderAnHour()
+                : isFlightOver24Hour
+                    ? const FlightWithin24Hour()
+                    : buildMealCards(meals, isDeparture),
+          ],
+        ),
       ),
     );
   }

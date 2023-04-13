@@ -2,6 +2,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/ui/passenger_insurance_selector.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
@@ -26,132 +27,140 @@ class AvailableInsurance extends StatelessWidget {
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
     final selectedPassengers = insuranceCubit.selectedPassenger;
     final firstInsurance = insurances.firstOrNull;
-    return Column(
-      children: InsuranceType.values
-          .map(
-            (e) => InkWell(
-              onTap: () {
-                final bookingState = context.read<BookingCubit>().state;
-                final firstInsurance = bookingState
-                    .verifyResponse?.flightSSR?.insuranceGroup?.outbound?.firstOrNull;
-                if (firstInsurance == null) return;
-                print("first insurance not null $e");
-                context.read<InsuranceCubit>().changeInsuranceType(
-                    e, firstInsurance.toBound(isInsurance: true));
-              },
-              child: AppCard(
-                margin: EdgeInsets.only(bottom: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Theme(
-                          data: ThemeData(
-                            unselectedWidgetColor: Styles.kActiveGrey,
-                          ),
-                          child: IgnorePointer(
-                            ignoring: true,
-                            child: Radio<InsuranceType?>(
-                              value: e,
-                              visualDensity: const VisualDensity(
-                                horizontal: -2,
-                                vertical: -2,
+    return Visibility(
+      visible: insurances.isNotEmpty,
+      replacement: EmptyAddon(),
+      child: Column(
+        children: InsuranceType.values
+            .map(
+              (e) => InkWell(
+                onTap: () {
+                  final bookingState = context.read<BookingCubit>().state;
+                  final firstInsurance = bookingState
+                      .verifyResponse?.flightSSR?.insuranceGroup?.outbound?.firstOrNull;
+                  if (firstInsurance == null) return;
+                  print("first insurance not null $e");
+                  context.read<InsuranceCubit>().changeInsuranceType(
+                      e, firstInsurance.toBound(isInsurance: true));
+                },
+                child: AppCard(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Theme(
+                            data: ThemeData(
+                              unselectedWidgetColor: Styles.kActiveGrey,
+                            ),
+                            child: IgnorePointer(
+                              ignoring: true,
+                              child: Radio<InsuranceType?>(
+                                value: e,
+                                visualDensity: const VisualDensity(
+                                  horizontal: -2,
+                                  vertical: -2,
+                                ),
+                                activeColor: Styles.kActiveGrey,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                groupValue: selected,
+                                onChanged: (value) {},
                               ),
-                              activeColor: Styles.kActiveGrey,
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              groupValue: selected,
-                              onChanged: (value) {},
                             ),
                           ),
-                        ),
-                        kHorizontalSpacerSmall,
-                        Expanded(
-                          child: getTitle(e, firstInsurance, passengers.length),
-                        ),
-                        kHorizontalSpacerSmall,
-                        SizedBox(
-                          height: 56,
-                          width: 56,
-                          child: getAssets(e) == null
-                              ? SizedBox()
-                              : Image.asset(getAssets(e)!),
-                        ),
-                      ],
-                    ),
-                    Visibility(
-                      visible: e == selected && e!= InsuranceType.none,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        child: Column(
-                          children: [
-                            Visibility(
-                              visible: e == InsuranceType.selected,
-                              child: PassengerInsuranceSelector(),
-                            ),
-                            ...insurances.map(
-                              (e) {
-                                final bound = e.toBound(isInsurance: true);
-                                return InkWell(
-                                  onTap: () {
-                                    print("update insurance");
-                                    context.read<InsuranceCubit>().updateInsuranceToPassenger(selectedPassengers, bound);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                            color: Styles.kDisabledButton)),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          e.description ?? "",
-                                          style: kLargeHeavy,
-                                        ),
-                                        kVerticalSpacer,
-                                        MoneyWidgetCustom(
-                                          myrSize: 20,
-                                          amountSize: 20,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          textColor: Styles.kPrimaryColor,
-                                          amount: e.finalAmount,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        kVerticalSpacer,
-                                        IgnorePointer(
-                                          ignoring: true,
-                                          child: Radio<Bound?>(
-                                            value: bound,
-                                            visualDensity: const VisualDensity(
-                                              horizontal: -2,
-                                              vertical: -2,
-                                            ),
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize.shrinkWrap,
-                                            groupValue:
-                                                passengers[selectedPassengers]
-                                                    .getInsurance,
-                                            onChanged: (value) {},
+                          kHorizontalSpacerSmall,
+                          Expanded(
+                            child: getTitle(e, firstInsurance, passengers.length),
+                          ),
+                          kHorizontalSpacerSmall,
+                          SizedBox(
+                            height: 56,
+                            width: 56,
+                            child: getAssets(e) == null
+                                ? SizedBox()
+                                : Image.asset(getAssets(e)!),
+                          ),
+                        ],
+                      ),
+                      Visibility(
+                        visible: e == selected && e!= InsuranceType.none,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Column(
+                            children: [
+                              Visibility(
+                                visible: e == InsuranceType.selected,
+                                child: PassengerInsuranceSelector(),
+                              ),
+                              ...insurances.map(
+                                (e) {
+                                  final bound = e.toBound(isInsurance: true);
+                                  return InkWell(
+                                    onTap: () {
+                                      print("update insurance");
+                                      if(selected == InsuranceType.all){
+                                        context.read<InsuranceCubit>().updateInsuranceToAllPassenger(bound);
+                                      }else{
+                                        context.read<InsuranceCubit>().updateInsuranceToPassenger(selectedPassengers, bound);
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                              color: Styles.kDisabledButton)),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            e.description ?? "",
+                                            style: kLargeHeavy,
                                           ),
-                                        ),
-                                      ],
+                                          kVerticalSpacer,
+                                          MoneyWidgetCustom(
+                                            myrSize: 20,
+                                            amountSize: 20,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            textColor: Styles.kPrimaryColor,
+                                            amount: e.finalAmount,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          kVerticalSpacer,
+                                          IgnorePointer(
+                                            ignoring: true,
+                                            child: Radio<Bound?>(
+                                              value: bound,
+                                              visualDensity: const VisualDensity(
+                                                horizontal: -2,
+                                                vertical: -2,
+                                              ),
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize.shrinkWrap,
+                                              groupValue:
+                                                  passengers[selectedPassengers]
+                                                      .getInsurance,
+                                              onChanged: (value) {},
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ).toList()
-                          ],
+                                  );
+                                },
+                              ).toList()
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 

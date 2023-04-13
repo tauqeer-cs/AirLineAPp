@@ -618,7 +618,7 @@ class Bundle extends Equatable {
   Bound toBound({bool sports = false, bool isInsurance = false}) {
     if (isInsurance) {
       return Bound(
-        name: description?.toLowerCase(),
+        name: description,
         servicesType: "Insurance",
         logicalFlightId: logicalFlightID,
         quantity: 1,
