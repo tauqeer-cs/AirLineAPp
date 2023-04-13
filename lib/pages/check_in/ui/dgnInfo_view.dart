@@ -221,19 +221,15 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: checked == false ? null : () async {
-                          if(checked){
-                            bloc.checkInFlight();
+                          if(checked)  {
+                            //var check = await bloc.checkInFlight();
+                            //if(check == true) {
+                              context.router.replaceAll([
+                                const NavigationRoute(),
+                                const CheckInBoardingPassRoute(),
+                              ]);
+                            //}
 
-
-                            return;
-
-                            context.router.replaceAll([
-                              const NavigationRoute(),
-                              const CheckInBoardingPassRoute(),
-                            ]);
-
-                            //CheckInBoardingPassRoute
-                            // Navigator.of(context).pop(true);
                           }
                         },
                         child: const Text('Continue'),

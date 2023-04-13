@@ -168,72 +168,89 @@ class CheckInCubit extends Cubit<CheckInState> {
     );
   }
 
-  Future<String?> getBoardingPassPassengers(bool outbound) async {
-    var request = GetBoardingPassPassengerRequest(
-        pNR: state.pnrEntered,
-        lastName: state.lastName,
-        getInboundPassenger: false,
-        getOutboundPassenger: true);
+  Future<bool?> getBoardingPassPassengers(bool outbound,
+      {bool onlySelected = false}) async {
+    try {
+      var request = GetBoardingPassPassengerRequest(
+          pNR: state.pnrEntered,
+          lastName: state.lastName,
+          getInboundPassenger: false,
+          getOutboundPassenger: true);
 
-    BoardingPassRequest request2 = BoardingPassRequest();
-    request2.pNR = state.pnrEntered;
-    request2.lastName = state.lastName;
-    request2.getBoardingPassBy = 'Download';
-    request2.boardingPassPax = [];
+      BoardingPassRequest request2 = BoardingPassRequest();
+      request2.pNR = state.pnrEntered;
+      request2.lastName = state.lastName;
+      request2.getBoardingPassBy = 'Download';
+      request2.boardingPassPax = [];
 
-    /*
-    var boardItem = BoardingPassPax(
-        lastName: currentPass.lastName,
-        logicalFlightKey: currentPass.logicalFlightKey,
-        personOrgId: currentPass.personOrgId);
+      emit(
+        state.copyWith(isDownloading: true),
+      );
 
-    request2.boardingPassPax?.add(boardItem);*/
+      if (outbound) {
+        for (BoardingPassPassenger currentOne
+            in state.outboundBoardingPassPassenger ?? []) {
+          if (onlySelected == true && currentOne.checkedToDownload != true) {
+          } else {
+            var boardItem = BoardingPassPax(
+                lastName: currentOne.lastName,
+                logicalFlightKey: currentOne.logicalFlightKey,
+                personOrgId: currentOne.personOrgId);
+            request2.boardingPassPax?.add(boardItem);
 
-    if (outbound) {
-      for (BoardingPassPassenger currentOne
-          in state.outboundBoardingPassPassenger ?? []) {
-        var boardItem = BoardingPassPax(
-            lastName: currentOne.lastName,
-            logicalFlightKey: currentOne.logicalFlightKey,
-            personOrgId: currentOne.personOrgId);
-        request2.boardingPassPax?.add(boardItem);
+            var filesResponse =
+                await _checkInRepository.getBoardingPass(request2);
 
-        var filesResponse = await _checkInRepository.getBoardingPass(request2);
+            await FileUtils.downloadFile(
+                filesResponse.boardingPassURLs?.first ?? '',
+                makeFileName(state.pnrEntered ?? '',
+                    (currentOne.fullName ?? '').replaceAll(' ', '')));
+          }
+        }
+      } else {
+        for (BoardingPassPassenger currentOne
+            in state.inboundBoardingPassPassenger ?? []) {
+          if (onlySelected == true && currentOne.checkedToDownload != true) {
+          } else {
+            var boardItem = BoardingPassPax(
+                lastName: currentOne.lastName,
+                logicalFlightKey: currentOne.logicalFlightKey,
+                personOrgId: currentOne.personOrgId);
+            request2.boardingPassPax?.add(boardItem);
 
-        await FileUtils.downloadFile(
-            filesResponse.boardingPassURLs?.first ?? '',
-            makeFileName(state.pnrEntered ?? '',
-                (currentOne.fullName ?? '').replaceAll(' ', '')));
+            var filesResponse =
+                await _checkInRepository.getBoardingPass(request2);
 
+            await FileUtils.downloadFile(
+                filesResponse.boardingPassURLs?.first ?? '',
+                makeFileName(state.pnrEntered ?? '',
+                    (currentOne.fullName ?? '').replaceAll(' ', '')));
+          }
+        }
       }
-    } else {
-      for (BoardingPassPassenger currentOne
-          in state.inboundBoardingPassPassenger ?? []) {
-        var boardItem = BoardingPassPax(
-            lastName: currentOne.lastName,
-            logicalFlightKey: currentOne.logicalFlightKey,
-            personOrgId: currentOne.personOrgId);
-        request2.boardingPassPax?.add(boardItem);
 
-        var filesResponse = await _checkInRepository.getBoardingPass(request2);
-
-
-        await FileUtils.downloadFile(
-            filesResponse.boardingPassURLs?.first ?? '',
-            makeFileName(state.pnrEntered ?? '',
-                (currentOne.fullName ?? '').replaceAll(' ', '')));
-
-      }
+      emit(
+        state.copyWith(isDownloading: false),
+      );
+      return true;
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+            message: ErrorUtils.getErrorMessage(
+              e,
+              st,
+            ),
+            isDownloading: false),
+      );
+      return false;
     }
-
-
   }
 
   String makeFileName(String pnr, String name) {
     return '${pnr}_$name.pdf';
   }
 
-  Future<void> checkInFlight() async {
+  Future<dynamic> checkInFlight() async {
     var request = CheckInRequest();
     try {
       emit(
@@ -254,8 +271,6 @@ class CheckInCubit extends Cubit<CheckInState> {
 
         for (PassengersWithSSR currentItem
             in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
-
-
           var currentOne = OutboundCheckInPassengerDetails(
               flightNumber: currentItem.checkInStatusInOut
                       ?.outboundCheckInStatus?.flightNumber ??
@@ -270,13 +285,9 @@ class CheckInCubit extends Cubit<CheckInState> {
               passportExpiryDate: '',
               memberID: currentItem.passengers?.myRewardMemberId ?? '');
 
-          if(currentItem.paxSelected == true){
+          if (currentItem.paxSelected == true) {
             request.outboundCheckInPassengerDetails?.add(currentOne);
-
           }
-
-
-
         }
       } else if (state.checkReturn) {
         request.inboundCheckInPassengerDetails = [];
@@ -304,16 +315,16 @@ class CheckInCubit extends Cubit<CheckInState> {
           await _checkInRepository.checkInPassenger(request);
 
       if (verifyResponse.success == false) {
+        ErrorUtils.showErrorMessage(verifyResponse.errorMessages);
+
         emit(
-          state.copyWith(
-              message:
-                  ErrorUtils.showErrorMessage(verifyResponse.errorMessages),
-              blocState: BlocState.failed,
-              checkingInFlight: false),
+          state.copyWith(checkingInFlight: false),
         );
+
+        return false;
       }
 
-      return;
+      return true;
     } catch (e, st) {
       emit(
         state.copyWith(
@@ -324,7 +335,7 @@ class CheckInCubit extends Cubit<CheckInState> {
             blocState: BlocState.failed,
             checkingInFlight: false),
       );
-      return;
+      return false;
     }
   }
 
@@ -453,6 +464,47 @@ class CheckInCubit extends Cubit<CheckInState> {
         ),
       );
       return;
+    }
+  }
+
+  void updateStatusOfOutBoundCheckUserForDownload(
+      BoardingPassPassenger currentItem, bool value) {
+    var outbound = state.outboundBoardingPassPassenger;
+
+    int? index = outbound?.indexOf(currentItem);
+
+    if (index != null) {
+      BoardingPassPassenger? found = outbound?[index];
+      if (found != null) {
+        found.checkedToDownload = value;
+
+        emit(
+          state.copyWith(
+              loadBoardingDate: false, outboundBoardingPassPassenger: outbound),
+        );
+      }
+    }
+    //BoardingPassPassenger? found = outbound?.firstWhere((element) => element.fullName == currentItem.fullName && element.personOrgId == currentItem.personOrgId);
+
+    //
+  }
+
+  void updateStatusOfInBoundCheckUserForDownload(
+      BoardingPassPassenger currentItem, bool value) {
+    var inbound = state.inboundBoardingPassPassenger;
+
+    int? index = inbound?.indexOf(currentItem);
+
+    if (index != null) {
+      BoardingPassPassenger? found = inbound?[index];
+      if (found != null) {
+        found.checkedToDownload = value;
+
+        emit(
+          state.copyWith(
+              loadBoardingDate: false, inboundBoardingPassPassenger: inbound),
+        );
+      }
     }
   }
 

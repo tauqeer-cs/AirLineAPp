@@ -49,6 +49,7 @@ class BoardingPassPassenger {
   String? pnr;
   int? logicalFlightKey;
   int? personOrgId;
+  bool? checkedToDownload;
 
   BoardingPassPassenger(
       {this.fullName,
@@ -57,7 +58,9 @@ class BoardingPassPassenger {
         this.lastName,
         this.pnr,
         this.logicalFlightKey,
-        this.personOrgId});
+        this.personOrgId,
+      this.checkedToDownload = false
+      });
 
   BoardingPassPassenger.fromJson(Map<String, dynamic> json) {
     fullName = json['fullName'];
@@ -67,6 +70,7 @@ class BoardingPassPassenger {
     pnr = json['pnr'];
     logicalFlightKey = json['logicalFlightKey'];
     personOrgId = json['personOrgId'];
+
   }
 
   Map<String, dynamic> toJson() {

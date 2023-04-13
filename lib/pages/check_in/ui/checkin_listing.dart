@@ -95,6 +95,7 @@ class CheckingListing extends StatelessWidget {
                                       true) {
                                     return;
                                   }
+
                                   var flag = await bloc.getBookingInformation(
                                       '', '',
                                       bookSelected:
@@ -168,7 +169,8 @@ class CheckingListing extends StatelessWidget {
                               '',
                           onCheckTapped: bloc.state.upcomingBookings?[index]
                               .allowCheckIn ==
-                              false
+                              false && (bloc.state.upcomingBookings?[index].isFullyCheckedIn
+                               == false)
                               ? null
                               : () async {
                             if (bloc.state.loadingListDetailItem ==

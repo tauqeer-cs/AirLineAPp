@@ -15,6 +15,9 @@ class CheckInState extends Equatable {
 
   final bool checkedDeparture;
 
+
+  final bool isDownloading;
+
   final bool listToCall;
   final bool checkReturn;
   final List<UpcomingBookings>? upcomingBookings;
@@ -34,7 +37,7 @@ class CheckInState extends Equatable {
     this.pastBookings,
     this.isRememberMe = true,
     this.checkingInFlight = false,
-    this.checkedDeparture = false,
+    this.checkedDeparture = true,
     this.manageBookingResponse,
     this.pnrEntered,
     this.lastName,
@@ -48,6 +51,7 @@ class CheckInState extends Equatable {
     this.showUpcoming = true,
     this.outboundBoardingPassPassenger,
     this.inboundBoardingPassPassenger ,
+    this.isDownloading = false,
   });
 
   @override
@@ -67,6 +71,7 @@ class CheckInState extends Equatable {
     checkReturn,
     showUpcoming,
     pastBookings,
+    isDownloading,
     loadBoardingDate,
     outboundBoardingPassPassenger,
     inboundBoardingPassPassenger,
@@ -94,6 +99,7 @@ class CheckInState extends Equatable {
         List<UpcomingBookings>? pastBookings,
         List<BoardingPassPassenger>? outboundBoardingPassPassenger,
         List<BoardingPassPassenger>? inboundBoardingPassPassenger,
+        bool? isDownloading,
       }) {
     return CheckInState(
       message: message ?? this.message,
@@ -116,6 +122,7 @@ class CheckInState extends Equatable {
       loadBoardingDate: loadBoardingDate ?? this.loadBoardingDate,
       outboundBoardingPassPassenger: outboundBoardingPassPassenger ?? this.outboundBoardingPassPassenger,
       inboundBoardingPassPassenger: inboundBoardingPassPassenger ?? this.inboundBoardingPassPassenger,
+      isDownloading: isDownloading ?? this.isDownloading,
 
     );
   }

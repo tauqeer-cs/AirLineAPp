@@ -99,17 +99,13 @@ class OutboundCheckInPassengerDetails {
       data['PassportExpiryDate'] = passportExpiryDate;
 
     }
-    if(memberID == ''){
-      data['MemberID'] = 0;
-
+    if(memberID == '') {
+      data['MemberID'] = null;
     }
     else {
-      if(memberID == null){
-        data['MemberID'] = 0;
-      }
       data['MemberID'] = memberID;
-
     }
+
     return data;
   }
 }

@@ -1,6 +1,9 @@
+import 'package:app/widgets/app_loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../data/responses/boardingpass_passenger_response.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
@@ -15,6 +18,7 @@ class BoardingPassView extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
     var state = bloc.state;
+    bloc.loadBoardingDate();
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -57,8 +61,92 @@ class BoardingPassView extends StatelessWidget {
             ),
             kVerticalSpacer,
 
-            MyCheckbox(label: 'One',),
+            //loadBoardingDate
 
+            if (bloc.state.loadBoardingDate == true) ...[
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: AppLoading(),
+              ),
+            ] else ...[
+              if (state.checkedDeparture == true &&
+                  state.checkReturn == false) ...[
+                for (BoardingPassPassenger currentItem
+                    in state.outboundBoardingPassPassenger ?? []) ...[
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: MyCheckbox(
+                          label: currentItem.fullName ?? '',
+                          changed: (bool value) {
+                            bloc.updateStatusOfOutBoundCheckUserForDownload(
+                                currentItem, value);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ]
+              else if (state.checkedDeparture == false &&
+                  state.checkReturn == true) ...[
+                for (BoardingPassPassenger currentItem
+                in state.outboundBoardingPassPassenger ?? []) ...[
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: MyCheckbox(
+                          label: currentItem.fullName ?? '',
+                          changed: (bool value) {
+
+                            bloc.updateStatusOfInBoundCheckUserForDownload(
+                                currentItem, value);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ]
+            ],
+
+            if(state.isDownloading == true) ... [
+              const AppLoading(),
+            ] else ... [
+              kVerticalSpacer,
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }, //isLoading ? null :
+                child: const Text('Email'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  var departure = true;
+                  if(state.checkedDeparture == false &&
+                      state.checkReturn == true){
+                    departure = false;
+                  }
+
+                  var response = await bloc
+                      .getBoardingPassPassengers(departure,onlySelected: true);
+
+                  if(response == true) {
+                    Fluttertoast.showToast(
+                        msg: 'Files downloaded successfully',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.SNACKBAR,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+                },
+                child: const Text('Download'),
+              )
+            ],
 
           ],
         ),
@@ -67,13 +155,13 @@ class BoardingPassView extends StatelessWidget {
   }
 }
 
-
-
-
 class MyCheckbox extends StatefulWidget {
   final String label;
 
-  const MyCheckbox({Key? key, required this.label}) : super(key: key);
+  final Function(bool) changed;
+
+  const MyCheckbox({Key? key, required this.label, required this.changed})
+      : super(key: key);
 
   @override
   _MyCheckboxState createState() => _MyCheckboxState();
@@ -89,6 +177,8 @@ class _MyCheckboxState extends State<MyCheckbox> {
         setState(() {
           isChecked = !isChecked;
         });
+
+        widget.changed(isChecked);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -107,36 +197,30 @@ class _MyCheckboxState extends State<MyCheckbox> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: isChecked
                     ? Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child:  Icon(Icons.check, color: Styles.kPrimaryColor, size: 16),
-                )
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Icon(Icons.check,
+                            color: Styles.kPrimaryColor, size: 16),
+                      )
                     : Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                        color: Colors.grey,
-                        width: 1),
-                  ),
-                ),
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.grey, width: 1),
+                        ),
+                      ),
               ),
               Text(
                 widget.label,
-                style:
-                kLargeMedium.copyWith(
+                style: kLargeMedium.copyWith(
                   color: isChecked ? Colors.white : Styles.kPrimaryColor,
                 ),
-                //TextStyle(
-                  //
-                  //fontWeight: FontWeight.bold,
-                //),
               ),
             ],
           ),
