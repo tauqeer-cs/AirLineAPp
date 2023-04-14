@@ -52,7 +52,9 @@ class BoardingPassView extends StatelessWidget {
               ),
               textAlign: TextAlign.left,
             ),
+
             kVerticalSpacerSmall,
+
             Text(
               '''Your check-in has been confirmed. A copy of the boarding pass has been automatically sent to the registered contact person. You may also print, email and download the boarding pass individually below:''',
               style: kMediumMedium.copyWith(
@@ -60,9 +62,9 @@ class BoardingPassView extends StatelessWidget {
               ),
               textAlign: TextAlign.left,
             ),
+
             kVerticalSpacer,
 
-            //loadBoardingDate
 
             if (bloc.state.loadBoardingDate == true) ...[
               const Padding(
