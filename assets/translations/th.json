@@ -1,3 +1,5 @@
 {
-  "language": "ภาษา"
+  "language": "ภาษา",
+  "grayChangeFlight.roundTrip" : "ไป - กลับ",
+  "grayChangeFlight.oneWayTrip" : "การเดินทางทางเดียว"
 }
