@@ -37,7 +37,7 @@ class CheckInState extends Equatable {
     this.pastBookings,
     this.isRememberMe = true,
     this.checkingInFlight = false,
-    this.checkedDeparture = true,
+    this.checkedDeparture = false,
     this.manageBookingResponse,
     this.pnrEntered,
     this.lastName,

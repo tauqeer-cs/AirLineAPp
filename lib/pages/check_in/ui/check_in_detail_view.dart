@@ -33,7 +33,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
     var bloc = context.watch<CheckInCubit>();
 
     if (bloc.showCheckInButton == true) {
-      //bloc.loadBoardingDate();
+      bloc.loadBoardingDate();
     }
 
     return BlocBuilder<CheckInCubit, CheckInState>(
@@ -279,8 +279,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       //Navigator.of(context).pop(true);
-                                      //String? check =
-                                       await bloc
+                                      bool? check = await bloc
                                           .getBoardingPassPassengers(true);
 
                                       //downloadFile(
@@ -355,7 +354,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       //Navigator.of(context).pop(true);
-                                       var response = await bloc
+                                      bool? check = await bloc
                                           .getBoardingPassPassengers(false);
 
 
@@ -529,7 +528,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                 kVerticalSpacer,
                 if (widget.isPast == false) ...[
                   ElevatedButton(
-                    onPressed: bloc.showCheckIn != false
+                    onPressed: bloc.showCheckIn == false
                         ? null
                         : () async {
                             bool? check = await showDialog(
