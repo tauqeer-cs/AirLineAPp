@@ -49,8 +49,8 @@ class SeatsSection extends StatelessWidget {
               moveToBottom?.call();
             },
           ),
-          kVerticalSpacer,
-          const SeatRemove(),
+          // kVerticalSpacer,
+          // const SeatRemove(),
         ],
       ),
     );
