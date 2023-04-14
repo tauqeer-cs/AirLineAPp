@@ -42,4 +42,12 @@ abstract class CMSProvider {
     @Query("query") String? query = "tnC,agreement",
     @Query("deep") String? deep = "6",
   });
+
+  @GET('shared/get')
+  Future<AgentSignUpCms> getInsuranceName(@Query("key") String key, {
+    @Query("query") String? query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
+    @Query("deep") String? deep = "6",
+  });
+
+
 }

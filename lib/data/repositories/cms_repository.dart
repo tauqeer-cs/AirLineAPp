@@ -61,4 +61,9 @@ class CMSRepository {
     return await _provider.getAgentSignUp(id);
   }
 
+  Future<AgentSignUpCms> agenInsurance(String id) async {
+    await getCMSToken();
+    return await _provider.getInsuranceName(id);
+  }
+
 }

@@ -22,19 +22,39 @@ class AgentSignUpCubit extends Cubit<AgentSignUpState> {
       element.contentType?.alias ==
           "agentSignUp");
 
+      var universalSetting2 = cmsRoutes.firstWhereOrNull((element) =>
+      element.name ==
+          "Universal Shared Settings");
+
+      var universalSetting22 = universalSetting2?.items?.where((element) => element.contentType?.alias == 'sSR').toList();
+
+      String key = '';
+      if(universalSetting22?.isNotEmpty ?? true) {
+        key = universalSetting22!.first.key ?? '';
+
+      }
+      //InsuranceTypeSSR
+
       if (universalSetting == null) {
         emit(state.copyWith(
           blocState: BlocState.finished,
         ));
         return;
       }
-      final agentCms =
-      await _repository.agentSignUp(universalSetting.key ?? "");
+     // final agentCms =
+     // await _repository.agentSignUp(universalSetting.key ?? "");
+
+
+      if(key.isNotEmpty) {
+        final agentCms2 = await _repository.agenInsurance(key);
+      }
+
 
 
       emit(state.copyWith(
         blocState: BlocState.finished,
-      agentCms: agentCms),
+      //agentCms: agentCms
+      ),
       );
     } catch (e, st) {
       emit(
