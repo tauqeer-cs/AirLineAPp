@@ -18,7 +18,8 @@ class BoardingPassView extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
     var state = bloc.state;
-    bloc.loadBoardingDate();
+
+    bloc.loadBoardingDate(inside: true);
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -92,7 +93,7 @@ class BoardingPassView extends StatelessWidget {
               else if (state.checkedDeparture == false &&
                   state.checkReturn == true) ...[
                 for (BoardingPassPassenger currentItem
-                in state.outboundBoardingPassPassenger ?? []) ...[
+                in state.inboundBoardingPassPassenger ?? []) ...[
                   Column(
                     children: [
                       Padding(

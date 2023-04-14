@@ -424,7 +424,7 @@ class CheckInCubit extends Cubit<CheckInState> {
     return state.manageBookingResponse?.result?.isReturn ?? false;
   }
 
-  void loadBoardingDate() async {
+  void loadBoardingDate({bool inside = true}) async {
     if (state.inboundBoardingPassPassenger != null ||
         state.outboundBoardingPassPassenger != null) {
       return;
@@ -439,8 +439,8 @@ class CheckInCubit extends Cubit<CheckInState> {
       var request = GetBoardingPassPassengerRequest(
           pNR: state.pnrEntered,
           lastName: state.lastName,
-          getInboundPassenger: inBoundCheckInDoneForAnyUser,
-          getOutboundPassenger: outBoundCheckInDoneForAnyUser);
+          getInboundPassenger: inside ? state.checkReturn : inBoundCheckInDoneForAnyUser,
+          getOutboundPassenger: inside ? state.checkedDeparture : outBoundCheckInDoneForAnyUser);
 
       BoardingpassPassengerResponse? response =
           await _checkInRepository.getBoardingpassPassenger(request);
