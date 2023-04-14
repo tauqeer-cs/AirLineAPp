@@ -100,13 +100,12 @@ class SeatPlan extends StatelessWidget {
                               child: ArrowSVG(
                                 assetName:
                                     'assets/images/svg/seats_arrow_left.svg',
-                                color: mapColor?[row.seats?.first.serviceId] ??
-                                    Colors.purpleAccent,
+                                color: row.seats?.first.toColor,
                               ),
                             ),
                             Expanded(
                               flex: 3,
-                              child: bundle?.finalAmount == null
+                              child: bundle.finalAmount == null
                                   ? Center(child: Text("No Data", style: kLargeHeavy,))
                                   : SeatPrice(
                                       amount: bundle.finalAmount,
@@ -118,8 +117,7 @@ class SeatPlan extends StatelessWidget {
                               child: ArrowSVG(
                                 assetName:
                                     'assets/images/svg/seats_arrow_right.svg',
-                                color: mapColor?[row.seats?.first.serviceId] ??
-                                    Colors.purpleAccent,
+                                color: row.seats?.first.toColor,
                               ),
                             ),
                             const Expanded(flex: 1, child: SizedBox()),
