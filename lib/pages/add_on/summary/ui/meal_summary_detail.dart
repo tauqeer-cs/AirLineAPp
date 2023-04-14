@@ -92,7 +92,7 @@ class MealSummaryDetail extends StatelessWidget {
             ...meal.entries
                 .map(
                   (e) => Text(
-                    "${e.value.first.description} x${e.value.length}",
+                    "${e.value.first.description} ${e.value.length>1?'x ${e.value.length}':''}",
                     style:
                     kMediumRegular.copyWith(color: Styles.kActiveGrey),
                   ),

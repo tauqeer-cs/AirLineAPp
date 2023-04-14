@@ -122,7 +122,7 @@ class SeatSummaryDetail extends StatelessWidget {
                               e.generateText(numberOfPerson, separator: "& "),
                             ),
                             Text(
-                              "-${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                              "- ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
                               style:
                               kMediumRegular.copyWith(color: Styles.kActiveGrey),
                             ),

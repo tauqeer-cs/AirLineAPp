@@ -62,8 +62,8 @@ class _SeatRowState extends State<SeatRow> {
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
-          print("is selected $selected");
-          if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
+          print("is selected ${widget.seats.isSeatAvailable}");
+          //if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
           if(selected){

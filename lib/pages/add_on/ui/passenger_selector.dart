@@ -87,7 +87,7 @@ class PassengerSelector extends StatelessWidget {
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  person.generateText(numberOfPerson, separator: " "),
+                                  person.generateText(numberOfPerson, separator: "\n"),
                                   style: kMediumSemiBold.copyWith(
                                       color: isActive ? Colors.white : null),
                                 ),

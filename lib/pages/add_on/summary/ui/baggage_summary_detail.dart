@@ -100,7 +100,7 @@ class BaggageSummaryDetail extends StatelessWidget {
             Visibility(
               visible: baggage!=null,
               child: Text(
-                "-${baggage?.description}",
+                "- ${baggage?.description}",
                 style:
                 kMediumRegular.copyWith(color: Styles.kActiveGrey),
               ),

@@ -33,8 +33,9 @@ class FlightSegment extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(showFees ? 0 : 15),
+              padding: !showFees ? EdgeInsets.fromLTRB(15,15,15,5) : EdgeInsets.all(0),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: Column(
@@ -65,12 +66,11 @@ class FlightSegment extends StatelessWidget {
                   Text(
                     title,
                     style: kGiantHeavy.copyWith(
-                        color: Styles.kDisabledButton, fontSize: 32),
+                        color: Styles.kDisabledButton),
                   )
                 ],
               ),
             ),
-            kVerticalSpacerSmall,
             FlightDetail(
               isDeparture: isDeparture,
               segment: segments.first,
