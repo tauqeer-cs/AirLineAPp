@@ -1,4 +1,5 @@
 import 'package:app/models/profile.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -39,9 +40,9 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
         child: Column(
           children: [
             NameInput(
-              title: 'Full Name',
+              title: 'infoDetail.fullName'.tr(),
               subText:
-                  'Make sure your name is the same as it appears on your driver’s license or other government-issued ID.',
+                  'infoDetail.fullNameConfirm'.tr(),
               smallerSubText: true,
               greyMargin: 6,
               customGreyEdgeInsets: EdgeInsets.zero,
@@ -71,7 +72,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
             ),
             kVerticalSpacer,
             AddressInput(
-              title: 'Address',
+              title: 'infoDetail.address'.tr(),
               subText: '',
               hideSubText: true,
               greyMargin: 0,
@@ -103,7 +104,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child:  Text('infoDetail.cancel'.tr()),
             ),
             kVerticalSpacerSmall,
             ElevatedButton(
@@ -183,7 +184,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                   context.read<ProfileCubit>().updateProfile(userProfile);
                 }
               },
-              child: const Text("Save"),
+              child: const Text('infoDetail.save'),
             ),
             kVerticalSpacer,
           ],

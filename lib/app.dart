@@ -40,6 +40,7 @@ import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/date_symbol_data_file.dart';
 
 import 'blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import 'blocs/manage_booking/manage_booking_cubit.dart';
@@ -76,6 +77,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     initInsider();
+
+
   }
 
   @override

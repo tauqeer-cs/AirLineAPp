@@ -7,6 +7,7 @@ import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,7 @@ class AccountSettingPage extends StatelessWidget {
       create: (context) => UpdatePasswordCubit(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: 'Updating..'),
+        overlayWidget:  AppLoadingScreen(message: 'updating'.tr()),
         child: BlocListener<UpdatePasswordCubit, GenericState>(
           listener: (context, state) {
             blocListenerWrapper(
@@ -34,20 +35,20 @@ class AccountSettingPage extends StatelessWidget {
               onFinished: () {
                 context.loaderOverlay.hide();
                 context.router.pop();
-                Toast.of(context).show(message: "Your password is successfully updated", success: true);
+                Toast.of(context).show(message: 'successView.passwordUpdated'.tr(), success: true);
               },
             );
           },
           child: Scaffold(
             appBar: AppAppBar(
               centerTitle: true,
-              title: 'Account Settings',
+              title: 'personalInfo.accountSettings'.tr(),
               height: 40.h,
               overrideInnerHeight: true,
               child: Column(
                 children: [
                   Text(
-                    'Account Settings',
+                    'personalInfo.accountSettings'.tr(),
                     style: kHugeSemiBold.copyWith(color: Styles.kDartTeal),
                   ),
                 ],

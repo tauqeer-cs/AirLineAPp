@@ -93,7 +93,9 @@ class SignupAddressPage extends StatelessWidget {
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
-                          const AddressInput(),
+                           const AddressInput(
+
+                           ),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,

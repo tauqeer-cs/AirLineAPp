@@ -6,6 +6,7 @@ import 'package:app/utils/utils.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -29,8 +30,7 @@ class AddressInput extends StatelessWidget {
   const AddressInput(
       {Key? key,
       this.title,
-      this.subText =
-          "We will update you with offers that we have based on your address.",
+      this.subText,
       this.hideSubText = false,
       this.greyMargin = 8.0,
       this.customGreyEdgeInsets,
@@ -49,8 +49,8 @@ class AddressInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormHeader(
-          title: title ?? "What’s your address",
-          subtitle: subText,
+          title: title ?? 'signUp2.addressQuestion'.tr(),
+          subtitle: subText ?? 'signUp2.addressDesc'.tr(),
           noSpaceSubText: hideSubText,
         ),
         GreyCard(
@@ -61,7 +61,7 @@ class AddressInput extends StatelessWidget {
               AppInputText(
                 isRequired: false,
                 name: formNameAddress,
-                hintText: 'Address',
+                hintText: 'infoDetail.address'.tr(),
                 initialValue: selectedAddress,
                 inputFormatters: [
                   AppFormUtils.denyQuestionMark(),
@@ -72,7 +72,7 @@ class AddressInput extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppCountriesDropdown(
-                      hintText: "Country",
+                      hintText: 'infoDetail.country'.tr(),
                       isPhoneCode: false,
                       initialCountryCode: selectedCountry,
                       onChanged: (newCountry) {
@@ -88,7 +88,7 @@ class AddressInput extends StatelessWidget {
                     child: AppInputText(
                       isRequired: false,
                       name: formNameState,
-                      hintText: 'State',
+                      hintText: 'signUp2.state'.tr(),
                       initialValue: selectedState,
 
                     ),
@@ -102,7 +102,7 @@ class AddressInput extends StatelessWidget {
                     child: AppInputText(
                       isRequired: false,
                       name: formNameCity,
-                      hintText: 'City',
+                      hintText: 'signUp2.city'.tr(),
                       initialValue: selectedCity,
                       inputFormatters: [
                         AppFormUtils.onlyLetterAndSpace(),
@@ -114,7 +114,7 @@ class AddressInput extends StatelessWidget {
                     child: AppInputText(
                       isRequired: false,
                       name: formNamePostCode,
-                      hintText: 'Postal Code',
+                      hintText: 'signUp2.postalCode'.tr(),
                       initialValue: selectedPosCode,
                       inputFormatters: [
                         AppFormUtils.onlyNumber(),
@@ -129,7 +129,7 @@ class AddressInput extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.emailAddress,
                   name: formNameAddressEmail,
-                  hintText: 'Email',
+                  hintText: 'signUp1.email'.tr(),
                   validators: [
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),

@@ -6,6 +6,7 @@ import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/containers/glass_card.dart';
 import 'package:app/widgets/containers/version_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AuthView extends StatelessWidget {
@@ -41,7 +42,7 @@ class AuthView extends StatelessWidget {
 
                           },
                           child: Text(
-                            'More\nInfo',
+                            'profile.moreInfo'.tr(),
                             style:
                                 kSmallMedium.copyWith(color: Styles.kCanvasColor),
                             textAlign: TextAlign.center,
@@ -52,7 +53,7 @@ class AuthView extends StatelessWidget {
                   ),
                   kVerticalSpacer,
                   Text(
-                    "Welcome Back!",
+                    'auth.welcomeBack'.tr(),
                     style: kGiantRegular.copyWith(color: Colors.white),
                   ),
                 ],

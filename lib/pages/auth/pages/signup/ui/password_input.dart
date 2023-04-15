@@ -4,6 +4,7 @@ import 'package:app/utils/validator_utils.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:app/widgets/forms/unordered_list.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -20,17 +21,17 @@ class PasswordInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormHeader(
-          title: title ?? "Let's create your password.",
+          title: title ?? 'signUp1.passwordTitle',
           graySubText: true,
           smallerHeaderText: true,
           subtitle:
-              "Your password cannot contain part of your first or last name. It must contain 8 characters minimum, with the following requirements ",
+              'signUp1.passwordDesc1'.tr(),
         ),
-        const UnorderedList([
-          "Lower case letter",
-          "Upper case letter",
-          "Number (0-9)",
-          "Symbol (e.g !@#\$%^&*)",
+         UnorderedList([
+          'signUp1.passwordDesc2'.tr(),
+          'signUp1.passwordDesc3'.tr(),
+          'signUp1.passwordDesc3'.tr(),
+          'signUp1.passwordDesc4'.trim(),
         ]),
         kVerticalSpacer,
         GreyCard(
@@ -41,25 +42,25 @@ class PasswordInput extends StatelessWidget {
               AppInputPassword(
                 textEditingController: pass,
                 name: formNamePassword,
-                hintText: 'Password',
+                hintText: 'signUp1.password'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                       errorText:
-                      'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.')
+                    'signUp1.minCharsValidation'.tr())
                 ],
               ),
               kVerticalSpacer,
               AppInputPassword(
                 name: formNameConfirmPassword,
-                hintText: 'Confirm Password',
+                hintText: 'signUp1.passwordConfirm'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                       errorText:
-                      'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.'),
+                      'signUp1.minCharsValidation'.tr()),
                       (value) {
                     return ValidatorUtils.checkTwoField(
                       value,

@@ -70,7 +70,7 @@ class NameInput extends StatelessWidget {
                 isRequired: false,
                 textInputType: TextInputType.name,
                 name: formNameFirstName,
-                hintText: 'First Name',
+                hintText: 'signUp1.firstName'.tr(),
                 initialValue: firstNameInitValue,
                 validators: [
                   FormBuilderValidators.required(),
@@ -82,7 +82,7 @@ class NameInput extends StatelessWidget {
                 textInputType: TextInputType.name,
                 name: formNameLastName,
                 initialValue: lastNameInitValue,
-                hintText: 'Last Name',
+                hintText: 'signUp1.lastName'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                 ],

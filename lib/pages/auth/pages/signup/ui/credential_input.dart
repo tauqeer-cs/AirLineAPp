@@ -8,6 +8,7 @@ import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -24,8 +25,8 @@ class CredentialInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormHeader(
-          title: "Let's create your credentials.",
+         FormHeader(
+          title: 'signUp1.credentialsLabel'.tr(),
         ),
         GreyCard(
           edgeInsets: const EdgeInsets.all(8),
@@ -44,7 +45,7 @@ class CredentialInput extends StatelessWidget {
                             focusNode: focusNode,
                             textInputType: TextInputType.emailAddress,
                             name: formNameEmail,
-                            hintText: 'Email Address',
+                            hintText: 'signUp1.email',
                             validators: [
                               FormBuilderValidators.required(),
                               FormBuilderValidators.email(),
@@ -86,7 +87,7 @@ class CredentialInput extends StatelessWidget {
               kVerticalSpacer,
               AppCountriesDropdown(
                 isPhoneCode: true,
-                hintText: "Phone",
+                hintText: 'signUp1.phone'.tr(),
                 initialValue: Country.defaultCountry,
                 onChanged: (country) {
                   context
@@ -98,7 +99,7 @@ class CredentialInput extends StatelessWidget {
               AppInputText(
                 name: formNamePhone,
                 textInputType: TextInputType.number,
-                hintText: "Phone Number",
+                hintText: 'signUp1.mobilePhoneNumber'.tr(),
                 validators: [FormBuilderValidators.required()],
               ),
               kVerticalSpacer,

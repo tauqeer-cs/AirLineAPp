@@ -8,6 +8,7 @@ import 'package:app/pages/auth/pages/signup/ui/password_input.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -29,39 +30,39 @@ class AccountSettingView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const FormHeader(
-              title: "Change Password",
+             FormHeader(
+              title: 'accountDetail.changePassword'.tr(),
               graySubText: true,
               smallerHeaderText: true,
-              subtitle: "To verify your identity, enter your current password.",
+              subtitle: 'accountDetail.verifyIdentity'.tr(),
             ),
             GreyCard(
               child: AppInputPassword(
                 name: formNameNewPassword,
-                hintText: 'Password',
+                hintText: 'accountDetail.password'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                       errorText:
-                          'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.')
+                          'minCharsValidation'.tr())
                 ],
               ),
             ),
             kVerticalSpacer,
             kVerticalSpacerSmall,
-            const PasswordInput(title: "Set New Password"),
+             PasswordInput(title: 'accountDetail.setNewPassword'.tr()),
             kVerticalSpacerSmall,
             OutlinedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child:  Text('cancel'.tr()),
             ),
             kVerticalSpacerSmall,
             ElevatedButton(
               onPressed: () => onChangePassword(context),
-              child: const Text("Save"),
+              child: Text('save'.tr()),
             ),
             kVerticalSpacerMini,
             Center(
@@ -70,7 +71,7 @@ class AccountSettingView extends StatelessWidget {
                   context.router.push(const DeleteAccountRoute());
                 },
                 child: Text(
-                  "Delete Account",
+                  'account.deleteAccount'.tr(),
                   style: kMediumRegular.copyWith(color: Styles.kBorderColor),
                 ),
               ),
