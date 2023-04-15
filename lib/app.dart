@@ -263,7 +263,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(
           create: (context) => ManageBookingCubit(),
         ),
-        BlocProvider(create: (_) => SummaryContainerCubit()),
+        BlocProvider(
+          create: (_) => SummaryContainerCubit(),
+        ),
         BlocProvider(
             create: (_) =>
                 AuthBloc(authenticationRepository: AuthenticationRepository())),
@@ -319,7 +321,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               context.read<HomeCubit>().getContents(state.routes);
               context.read<CmsSsrCubit>().getCmsSSR(state.routes);
               context.read<AgentSignUpCubit>().getAgentSignUp(state.routes);
-
             },
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(

@@ -192,16 +192,18 @@ class _CMSProvider implements CMSProvider {
   }
 
   @override
-  Future<AgentSignUpCms> getInsuranceName(
+  Future<UniversalSharedSettingsRoutesResponse> getInsuranceName(
     key, {
-    query = "content",//ssrName,content,image,title,description,banner,bannerUrl,code,pdf
+    query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
     deep = "6",
+    timestamp = '1650012345',
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
       r'query': query,
       r'deep': deep,
+      r'timestamp': timestamp,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -219,7 +221,7 @@ class _CMSProvider implements CMSProvider {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = AgentSignUpCms.fromJson(_result.data!);
+    final value = UniversalSharedSettingsRoutesResponse.fromJson(_result.data!);
     return value;
   }
 

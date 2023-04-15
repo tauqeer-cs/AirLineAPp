@@ -8,6 +8,7 @@ import 'package:app/models/cms_flight.dart';
 import 'package:app/models/cms_route.dart';
 
 import '../responses/agent_sign_up_cms.dart';
+import '../responses/universal_shared_settings_routes_response.dart';
 
 class CMSRepository {
 
@@ -61,9 +62,13 @@ class CMSRepository {
     return await _provider.getAgentSignUp(id);
   }
 
-  Future<AgentSignUpCms> agenInsurance(String id) async {
+  Future<UniversalSharedSettingsRoutesResponse> agenInsurance(String id) async {
+    DateTime now = DateTime.now();
+    int unixTimestamp = now.millisecondsSinceEpoch ~/ 1000; // dividing by 1000 to get seconds instead of milliseconds
+    String unixTimestampString = unixTimestamp.toString();
+
     await getCMSToken();
-    return await _provider.getInsuranceName(id);
+    return await _provider.getInsuranceName(id,timestamp: unixTimestampString);
   }
 
 }
