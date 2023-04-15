@@ -727,7 +727,8 @@
   "communicationDetail.email" : "Email",
   "communicationDetail.webNotification" : "Web Push Notification",
   "communicationDetail.sms" : "SMS",
-  "communicationDetail.whatsapp" : "Whatsapp"
+  "communicationDetail.whatsapp" : "Whatsapp",
+  "loading": "Loading"
 }
 
 
