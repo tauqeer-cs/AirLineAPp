@@ -146,10 +146,13 @@ class MoreOptionsPage extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () async {
                                       context.loaderOverlay.show();
+
                                       await context
                                           .setLocale(const Locale('en'));
                                       context.loaderOverlay.hide();
+
                                       Phoenix.rebirth(context);
+
                                     },
                                     child: Text(
                                       "EN",

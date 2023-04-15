@@ -10,6 +10,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -75,15 +76,15 @@ class SignupAddressPage extends StatelessWidget {
                             visible: step != 3,
                             child: Text(
                               step == 1
-                                  ? "Tell us more about yourself."
-                                  : "Worry not, all questions are in accordance with MYAirline guidelines",
+                                  ? 'signUp1.signUpDesc'.tr()
+                                  : 'signUp1.worryNot'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kSubTextColor, fontSize: 16),
                             ),
                           ),
                           kVerticalSpacer,
                           GenderInput(
-                            onChanged: (value)=>context.read<SignupCubit>().editGender(value ?? "Male"),
+                            onChanged: (value)=>context.read<SignupCubit>().editGender(value ?? 'signUp2.genderMale'.tr() ),
                           ),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
@@ -98,7 +99,7 @@ class SignupAddressPage extends StatelessWidget {
                           kVerticalSpacer,
                           ElevatedButton(
                             onPressed: () => onSignup(context),
-                            child: const Text("Continue"),
+                            child:  Text('signUp3.continue'.tr()),
                           ),
                           kVerticalSpacer,
                         ],

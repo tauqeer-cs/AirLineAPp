@@ -194,6 +194,9 @@ PODS:
   - PromisesObjC (2.1.1)
   - share_plus (0.0.1):
     - Flutter
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - sign_in_with_apple (0.0.1):
     - Flutter
   - sqflite (0.0.2):
@@ -228,6 +231,7 @@ DEPENDENCIES:
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - store_redirect (from `.symlinks/plugins/store_redirect/ios`)
@@ -300,6 +304,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   sign_in_with_apple:
     :path: ".symlinks/plugins/sign_in_with_apple/ios"
   sqflite:
@@ -354,6 +360,7 @@ SPEC CHECKSUMS:
   permission_handler_apple: 2050a13d89a036782d7f45ecade71fc1a4acd7e0
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   share_plus: d9df4d660249de044fb0f7bc938ef589f602fac3
+  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
   sign_in_with_apple: 68026fd8fcc36381dc981511ecfa3ca6c18e9328
   sqflite: 751aeb5fc00be922b2db0d8122cdcad770a99f35
   store_redirect: 561f0508a9cb60b29d1a9dcf7a8efc592f3fab63

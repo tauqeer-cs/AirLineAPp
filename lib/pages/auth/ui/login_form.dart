@@ -6,6 +6,7 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -37,12 +38,13 @@ class LoginForm extends StatelessWidget {
       final value = fbKey.currentState!.value;
       final email = value[formEmailLoginName];
       final password = value[formPasswordLoginName];
-      await context.read<LoginCubit>().logInWithCredentialsFromPopUp(email, password);
+      await context
+          .read<LoginCubit>()
+          .logInWithCredentialsFromPopUp(email, password);
 
       context.read<ProfileCubit>().getProfile();
 
       await context.read<LoginCubit>().changeStatus();
-
     }
   }
 
@@ -62,7 +64,7 @@ class LoginForm extends StatelessWidget {
               ),
               kHorizontalSpacerMini,
               Text(
-                "Login",
+                'loginVerify.loginTitle'.tr(),
                 style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),
               ),
             ],
@@ -74,7 +76,7 @@ class LoginForm extends StatelessWidget {
                 kVerticalSpacer,
                 ElevatedButton(
                     onPressed: () => context.router.pop(),
-                    child: const Text("Continue As Guest")),
+                    child:  Text('loginVerify.continueAsGuest'.tr())),
                 kVerticalSpacerSmall,
                 Row(
                   children: [
@@ -84,7 +86,7 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    const Text("or"),
+                     Text('loginVerify.or'.tr()),
                     kHorizontalSpacerMini,
                     Expanded(
                         child: AppDividerWidget(
@@ -101,7 +103,7 @@ class LoginForm extends StatelessWidget {
             isRequired: false,
             textInputType: TextInputType.emailAddress,
             name: formEmailLoginName,
-            hintText: 'Email Address',
+            hintText: 'loginVerify.emailAddress'.tr(),
             maxLength: 45,
             validators: [
               FormBuilderValidators.required(),
@@ -112,7 +114,7 @@ class LoginForm extends StatelessWidget {
           //Text(tr.password, style: kMediumHeavy),
           AppInputPassword(
             name: formPasswordLoginName,
-            hintText: "Password",
+            hintText: 'loginVerify.password'.tr(),
             validators: [FormBuilderValidators.required()],
             isDarkBackground: false,
           ),
@@ -122,20 +124,20 @@ class LoginForm extends StatelessWidget {
                 context.router.push(const ForgetPasswordRoute());
               },
               child: Text(
-                "Forgotten your password?",
+                'loginVerify.forgotPassword'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kBorderColor),
               )),
           kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
-            child: const Text("Login"),
+            child: Text('loginVerify.logIn'.tr()),//
           ),
           kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(
               const SignupWrapperRoute(),
             ),
-            child: const Text("Create Account"),
+            child: Text('loginVerify.createAccount'.tr()),
           )
         ],
       ),
