@@ -36,8 +36,8 @@ class AvailableInsurance extends StatelessWidget {
               (e) => InkWell(
                 onTap: () {
                   final bookingState = context.read<BookingCubit>().state;
-                  final firstInsurance = bookingState
-                      .verifyResponse?.flightSSR?.insuranceGroup?.outbound?.firstOrNull;
+                  final firstInsurance = bookingState.verifyResponse?.flightSSR
+                      ?.insuranceGroup?.outbound?.firstOrNull;
                   if (firstInsurance == null) return;
                   print("first insurance not null $e");
                   context.read<InsuranceCubit>().changeInsuranceType(
@@ -71,7 +71,8 @@ class AvailableInsurance extends StatelessWidget {
                           ),
                           kHorizontalSpacerSmall,
                           Expanded(
-                            child: getTitle(e, firstInsurance, passengers.length),
+                            child:
+                                getTitle(e, firstInsurance, passengers.length),
                           ),
                           kHorizontalSpacerSmall,
                           SizedBox(
@@ -84,14 +85,14 @@ class AvailableInsurance extends StatelessWidget {
                         ],
                       ),
                       Visibility(
-                        visible: e == selected && e!= InsuranceType.none,
+                        visible: e == selected && e != InsuranceType.none,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 16.0),
                           child: Column(
                             children: [
                               Visibility(
                                 visible: e == InsuranceType.selected,
-                                child: PassengerInsuranceSelector(),
+                                child: const PassengerInsuranceSelector(),
                               ),
                               ...insurances.map(
                                 (e) {
@@ -99,16 +100,36 @@ class AvailableInsurance extends StatelessWidget {
                                   return InkWell(
                                     onTap: () {
                                       print("update insurance");
-                                      if(selected == InsuranceType.all){
-                                        context.read<InsuranceCubit>().updateInsuranceToAllPassenger(bound);
-                                      }else{
-                                        context.read<InsuranceCubit>().updateInsuranceToPassenger(selectedPassengers, bound);
+                                      if (selected == InsuranceType.all) {
+                                        context
+                                            .read<InsuranceCubit>()
+                                            .updateInsuranceToAllPassenger(
+                                                bound);
+                                      } else {
+
+                                        Bound? currentInsurance = passengers[selectedPassengers]
+                                            .getInsurance;
+
+                                        if(currentInsurance == null) {
+                                          context
+                                              .read<InsuranceCubit>()
+                                              .updateInsuranceToPassenger(
+                                              selectedPassengers, bound);
+                                        }
+                                        else {
+                                          context
+                                              .read<InsuranceCubit>()
+                                              .updateInsuranceToPassenger(
+                                              selectedPassengers, null);
+                                        }
+
                                       }
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(16),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           border: Border.all(
                                               color: Styles.kDisabledButton)),
                                       child: Column(
@@ -132,12 +153,14 @@ class AvailableInsurance extends StatelessWidget {
                                             ignoring: true,
                                             child: Radio<Bound?>(
                                               value: bound,
-                                              visualDensity: const VisualDensity(
+                                              visualDensity:
+                                                  const VisualDensity(
                                                 horizontal: -2,
                                                 vertical: -2,
                                               ),
                                               materialTapTargetSize:
-                                                  MaterialTapTargetSize.shrinkWrap,
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
                                               groupValue:
                                                   passengers[selectedPassengers]
                                                       .getInsurance,
