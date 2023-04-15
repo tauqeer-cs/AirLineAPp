@@ -461,8 +461,8 @@
   "familyDetail.myRewardsMembershipID": "MYReward Member ID (Optional)",
   "familyDetail.cancel": "Cancel",
   "familyDetail.save": "Save",
-  "familyDetail.edit": "edit",
-  "familyDetail.delete": "delete",
+  "familyDetail.edit": "Edit",
+  "familyDetail.delete": "Delete",
   "familyDetail.deleteConfirm": "Delete this information?",
   "familyDetail.deleteVerification": "You can OK to delete or Cancel to cancel.",
   "familyDetail.ok": "OK",
@@ -728,7 +728,12 @@
   "communicationDetail.webNotification" : "Web Push Notification",
   "communicationDetail.sms" : "SMS",
   "communicationDetail.whatsapp" : "Whatsapp",
-  "loading": "Loading"
+  "loading": "Loading",
+  "familyDetail.noFnF" : "No family or friends added",
+  "familyDetail.fName" : "First Name / Given Name",
+  "familyDetail.lName" : "Last Name / Surname"
+
+
 }
 
 

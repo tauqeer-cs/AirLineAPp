@@ -1,4 +1,5 @@
 import 'package:app/models/country.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -133,10 +134,6 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
 
     Country? selectedCountryObject;
 
-    //if(widget.isEditing && selectedCountry != null){
-
-     // selectedCountryObject = bloc.state.countries.firstWhere((element) => element.countryCode2 == selectedCountry);
-   // }
 
     return FormBuilder(
       onChanged: (){
@@ -155,7 +152,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
       child: Column(
         children: [
           Text(
-            widget.isEditing ? 'Family and Friends' : 'New Family and Friends',
+            widget.isEditing ? 'personalInfo.familyFriends'.tr() : 'familyDetail.newFamilyFriends'.tr(),
             style: kHugeSemiBold,
           ),
           const SizedBox(
@@ -168,7 +165,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             isRequired: false,
             textInputType: TextInputType.emailAddress,
             name: fName,
-            hintText: 'First Name / Given Name',
+            hintText: 'familyDetail.fName'.tr(),
             textEditingController: firstNameTextController,
             validators: [
               FormBuilderValidators.required(),
@@ -180,7 +177,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             textInputType: TextInputType.emailAddress,
             name: lName,
             textEditingController: lastNameTextController,
-            hintText: 'Last Name / Surname',
+            hintText: 'familyDetail.lName'.tr(),
             validators: [
               FormBuilderValidators.required(),
             ],
@@ -197,7 +194,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                     items: availableTitleAll,
                     //: availableTitleChild,
                     defaultValue: selectedTitle,
-                    sheetTitle: "Title",
+                    sheetTitle: 'familyDetail.title'.tr(),
                     onChanged: (value) {
                       titleController.text = value ?? "";
                     },
@@ -210,7 +207,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                   textEditingController: nationalityController,
                   name: 'nationality',
                   child: AppCountriesDropdown(
-                    hintText: "Country",
+                    hintText: 'country'.tr(),
                     isPhoneCode: false,
                     initialValue: selectedCountryObject,
                     onChanged: (value) {
@@ -228,7 +225,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             initialValue: initialDateTime,
             format: DateFormat("dd MMM yyyy"),
             initialEntryMode: DatePickerEntryMode.calendar,
-            decoration: const InputDecoration(hintText: "Date of Birth"),
+            decoration:  InputDecoration(hintText: 'infoDetail.dob'.tr()),
             inputType: InputType.date,
             validator: FormBuilderValidators.required(),
             onChanged: (date) {
@@ -246,7 +243,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
           AppInputText(
             name: reward,
             textEditingController: memberTextController,
-            hintText: "MYReward Member ID (Optional)",
+            hintText: 'familyDetail.myRewardsMembershipID'.tr(),
             inputFormatters: [AppFormUtils.onlyNumber()],
             textInputType: TextInputType.number,
           ),
@@ -265,7 +262,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                     Navigator.pop(context,);
 
                   },
-                  child: const Text("Cancel"),
+                  child:  Text('familyDetail.cancel'.tr()),
                 ),
               ),
               kHorizontalSpacerMini,

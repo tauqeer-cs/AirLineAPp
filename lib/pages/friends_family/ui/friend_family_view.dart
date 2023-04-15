@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -95,8 +96,8 @@ class FriendsFamilyView extends StatelessWidget {
                                             bloc.editFamilyMember(updateObject);
                                           }
                                         },
-                                        child: const Text(
-                                          'Edit',
+                                        child: Text(
+                                          'familyDetail.edit'.tr(),
                                           style: kSmallRegular,
                                         ),
                                       ),
@@ -115,8 +116,8 @@ class FriendsFamilyView extends StatelessWidget {
                                               .friendsAndFamilyID
                                               .toString());
                                         },
-                                        child: const Text(
-                                          'Delete',
+                                        child:  Text(
+                                          'familyDetail.delete'.tr(),
                                           style: kSmallRegular,
                                         ),
                                       ),
@@ -164,14 +165,14 @@ class FriendsFamilyView extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                     child: Row(
-                      children: const [
-                        Icon(Icons.add_circle_outline),
-                        SizedBox(
+                      children:  [
+                        const Icon(Icons.add_circle_outline),
+                        const SizedBox(
                           width: 8,
                         ),
                         Expanded(
                           child: Text(
-                            'New Family and Friends',
+                            'familyDetail.newFamilyFriends'.tr(),
                             style: kMediumRegular,
                           ),
                         ),
@@ -200,7 +201,7 @@ class NoFriendFamily extends StatelessWidget {
     return  Center(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 32),
-        child: Text(text ?? 'No family or friends added'),
+        child: Text(text ?? 'familyDetail.noFnF'.tr()),
       ),
     );
   }
