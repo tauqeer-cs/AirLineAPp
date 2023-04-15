@@ -6,12 +6,12 @@ class EmptyAddon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 100),
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 100),
         child: Text(
-          "This add-on is currently not available",
-          style: kLargeHeavy,
+          "This add-on is currently\nnot available",
+          style: k18Heavy,
           textAlign: TextAlign.center,
         ),
       ),
