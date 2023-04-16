@@ -63,7 +63,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
             children: [
               Text(
                 "Ticket",
-                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                style: kSmallRegular.copyWith(color: Styles.kTextColor),
               ),
               Align(
                   child: MoneyWidgetSmall(
@@ -82,7 +82,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                       child: Text(
                         e.taxDetail?.taxDesc ?? "",
                         style:
-                            kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                            kSmallRegular.copyWith(color: Styles.kTextColor),
                       ),
                     ),
                     Row(
@@ -167,7 +167,7 @@ class PriceContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 7, horizontal: padding ?? 15),
+      padding: EdgeInsets.symmetric(vertical: 2, horizontal: padding ?? 15),
       child: child,
     );
   }

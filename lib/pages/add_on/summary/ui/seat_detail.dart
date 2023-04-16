@@ -102,7 +102,7 @@ class SeatSummaryDetail extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Return",
                   style: kMediumSemiBold,
                 ),

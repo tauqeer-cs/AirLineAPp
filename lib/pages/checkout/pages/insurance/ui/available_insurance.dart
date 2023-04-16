@@ -61,7 +61,7 @@ class AvailableInsurance extends StatelessWidget {
                                   horizontal: -2,
                                   vertical: -2,
                                 ),
-                                activeColor: Styles.kActiveGrey,
+                                activeColor: Styles.kPrimaryColor,
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap,
                                 groupValue: selected,

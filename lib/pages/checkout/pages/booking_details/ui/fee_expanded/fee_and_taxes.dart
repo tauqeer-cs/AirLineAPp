@@ -58,7 +58,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             child: Row(
               children: [
                 Text(
-                  isPaymentPage ? "Fees and Taxes" : "- Fees and Taxes",
+                  isPaymentPage ? "Fees and Taxes " : "- Fees and Taxes",
                   style: kMediumHeavy,
                 ),
                 kHorizontalSpacerSmall,
@@ -73,6 +73,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             ),
           ),
         ),
+
         FeeAndTaxesDetail(
           isDeparture: widget.isDeparture,
           padding: 0,

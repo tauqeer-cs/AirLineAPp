@@ -45,12 +45,11 @@ class InsuranceTerms extends StatelessWidget {
                         text:
                             'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non-refundable. I confirm that I have read the ',
                       ),
-                      makeClickableTextSpan(
-                        context,
-                        text: 'Product Disclosure Sheet',
-                        pdfIsLink:false,
-                        pdfName: "zurich"
-                      ),
+                      makeClickableTextSpan(context,
+                          text: 'Product Disclosure Sheet',
+                          pdfIsLink: false,
+                          webViewLink:
+                              'https://booking.myairline.my/insurance/product_disclosure.pdf'),
                       TextSpan(
                         text: ', understood and agree to the, ',
                       ),
