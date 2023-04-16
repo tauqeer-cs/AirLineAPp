@@ -50,7 +50,7 @@ class SeatSummaryDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ChildRow(
-            child1: Text(
+            child1: const Text(
               "Seat",
               style: kLargeHeavy,
             ),
@@ -63,7 +63,7 @@ class SeatSummaryDetail extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-          Text(
+          const Text(
             "Depart",
             style: kMediumSemiBold,
           ),
@@ -83,7 +83,7 @@ class SeatSummaryDetail extends StatelessWidget {
                         e.generateText(numberOfPerson, separator: "& "),
                       ),
                       Text(
-                        "-${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                        " - ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
                         style:
                             kMediumRegular.copyWith(color: Styles.kActiveGrey),
                       ),
@@ -122,7 +122,7 @@ class SeatSummaryDetail extends StatelessWidget {
                               e.generateText(numberOfPerson, separator: "& "),
                             ),
                             Text(
-                              "- ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                              " - ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
                               style:
                               kMediumRegular.copyWith(color: Styles.kActiveGrey),
                             ),
