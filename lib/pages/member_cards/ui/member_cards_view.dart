@@ -1,4 +1,5 @@
 import 'package:app/widgets/app_loading_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,15 +26,15 @@ class MemberCardViw extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Saved payment methods',
+               Text(
+                'paymentDetail.paymentSaved'.tr(),
                 style: kLargeSemiBold,
               ),
               const SizedBox(
                 height: 8,
               ),
               Text(
-                'Details of your default card will be automatically entered for future MYAirline payments. Payment method can be changed at time of booking.',
+                'paymentDetail.paymentSavedDesc'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               ),
               kVerticalSpacer,
@@ -80,7 +81,7 @@ class MemberCardViw extends StatelessWidget {
                                           height: 2,
                                         ),
                                         Text(
-                                          'Expired',
+                                          'paymentDetail.expired'.tr(),
                                           style: kSmallMedium.copyWith(
                                               color: Styles.kActiveColor),
                                         ),
@@ -101,10 +102,10 @@ class MemberCardViw extends StatelessWidget {
                                     barrierDismissible: false,
                                     builder: (context) {
                                       return AppConfirmationDialog(
-                                        title: 'Are you sure you want to delete this card?',
-                                        subtitle: "Saved cards can help you checkout faster.",
-                                        confirmText: 'Delete',
-                                        cancelText: 'Cancel',
+                                        title: 'paymentDetail.paymentDelete'.tr(),
+                                        subtitle: 'paymentDetail.paymentDelete2'.tr(),
+                                        confirmText: 'paymentDetail.delete'.tr(),
+                                        cancelText: 'paymentDetail.cancel'.tr(),
                                         onConfirm: () {
 
 
@@ -129,8 +130,8 @@ class MemberCardViw extends StatelessWidget {
                   ),
                 ),
               ] else ...[
-                const NoFriendFamily(
-                  text: 'No Card Saved yet.',
+                 NoFriendFamily(
+                  text: 'paymentDetail.noCardsSaved'.tr(),
                 ),
               ],
               kVerticalSpacer,

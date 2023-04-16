@@ -22,17 +22,17 @@ class MoreOptionsPage extends StatelessWidget {
     final locale = context.locale.toString();
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: const AppLoadingScreen(message: 'Updating'),
+      overlayWidget:  AppLoadingScreen(message: 'updating'.tr()),
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'More Options',
-          height: 80.h,
+          title: 'app.moreInfo'.tr(),
+          height: 60.h,
           overrideInnerHeight: true,
           child: Column(
             children: [
               Text(
-                'More Options',
+                'app.moreInfo'.tr(),
                 style: kHugeSemiBold.copyWith(
                   color: Styles.kDartTeal,
                 ),
@@ -60,7 +60,7 @@ class MoreOptionsPage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PdfViewer(
-                                  title: 'Conditions of Carriage',
+                                  title: 'app.conditionsOfCarriage',
                                   fileName: agentCms?.tnC ??
                                       'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
                                   pdfIsLink: true,
@@ -71,7 +71,7 @@ class MoreOptionsPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8),
                             child: Text(
-                              'Conditions of Carriage',
+                              'app.conditionsOfCarriage'.tr(),
                               style: kLargeMedium.copyWith(
                                 color: Styles.kTextColor,
                               ),
@@ -84,8 +84,8 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PdfViewer(
-                                  title: 'Privacy Policy',
+                                builder: (context) =>  PdfViewer(
+                                  title: 'app.privacyPolicy'.tr(),
                                   fileName:
                                       'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                                   pdfIsLink: true,
@@ -96,7 +96,7 @@ class MoreOptionsPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8, top: 16),
                             child: Text(
-                              'Privacy Policy',
+                              'app.privacyPolicy'.tr(),
                               style: kLargeMedium.copyWith(
                                 color: Styles.kTextColor,
                               ),
@@ -109,8 +109,8 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PdfViewer(
-                                  title: 'Terms of Use',
+                                builder: (context) =>  PdfViewer(
+                                  title: 'app.termsOfUse'.tr(),
                                   fileName:
                                       'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
                                   pdfIsLink: true,
@@ -121,7 +121,7 @@ class MoreOptionsPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8, top: 16),
                             child: Text(
-                              'Terms of Use',
+                              'app.termsOfUse'.tr(),
                               style: kLargeMedium.copyWith(
                                 color: Styles.kTextColor,
                               ),
@@ -191,7 +191,7 @@ class MoreOptionsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
-                    '© 2022 MYAirline Reg No. 202101001075 (1401373-U).\nAll Rights Reserved',
+                    "app.copyright".tr(namedArgs: {'year': DateTime.now().year.toString()} ),
                     style: kTinyRegular.copyWith(
                       color: Styles.kTextColor,
                     ),

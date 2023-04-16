@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -33,8 +34,8 @@ class VoucherCodeUi extends StatelessWidget {
       key: fbKey,
       child: Column(
         children: [
-          const Text(
-            "Voucher Code",
+           Text(
+            'paymentView.voucherCode'.tr(),
             style: kHugeSemiBold,
           ),
           kVerticalSpacerSmall,
@@ -47,7 +48,7 @@ class VoucherCodeUi extends StatelessWidget {
                 readOnly: readOnly,
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
-                  hintText: "Voucher Code",
+                  hintText: 'paymentView.voucherCode'.tr(),
                   border: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -88,7 +89,7 @@ class VoucherCodeUi extends StatelessWidget {
                       readOnly: readOnly,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        hintText: "Voucher Code",
+                        hintText: 'paymentView.voucherCode'.tr(),
                         border: InputBorder.none,
                         disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -133,7 +134,7 @@ class VoucherCodeUi extends StatelessWidget {
                       readOnly: readOnly,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        hintText: "PIN",
+                        hintText: 'paymentView.pin'.tr(),
                         border: InputBorder.none,
                         disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -204,8 +205,8 @@ class VoucherCodeUi extends StatelessWidget {
               color: Colors.white,
             )
                 : state.insertedVoucher != null
-                ? const Text("Reset")
-                : const Text("Apply"),
+                ?  Text('paymentView.reset'.tr())
+                :  Text('paymentView.apply'.tr()),
           ),
 
         ],

@@ -1,5 +1,6 @@
 import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,6 +55,10 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
 
     bloc = context.watch<ManageBookingCubit>();
 
+    //TODO
+    //this need to be done
+    String noOfPerson = bloc?.state.manageBookingResponse?.result?.toBeautify() ?? '1';
+
     return Stack(
       children: [
         SummaryContainerListener(
@@ -79,9 +84,9 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16),
                         child: OutlinedButton(
-                          child: const FittedBox(
+                          child:  FittedBox(
                             child: Text(
-                              "Change Search",
+                              'flightResult.changeSearch'.tr(),
                               style: k18SemiBold,
                             ),
                           ),
@@ -103,7 +108,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
 //
                 kVerticalSpacerSmall,
                 Text(
-                  "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage, select your seat of choice and meal.",
+                  'flightResult.kgRule'.tr(),
                   textAlign: TextAlign.left,
                   style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor,
@@ -118,11 +123,11 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 Visibility(
                   visible: false,
                   replacement: Text(
-                    "All fares are calculated based on a one-way flight for a single adult passenger. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                    'flightSummary.fareRules'.tr(args: [noOfPerson]),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
                   child: Text(
-                    "Prices are based on an 'numberPerson.toBeautify()'. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                    'flightSummary.rules'.tr(args: [noOfPerson]),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
                 ),
@@ -162,7 +167,8 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                               );
                             }
                           },
-                          child: const Text("Continue"),
+                          child:  Text('changeFlightView.continue'.tr()
+                          ),
                         ),
                 ],
               ),
@@ -200,7 +206,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Return', style: k18Heavy),
+                             Text('topForm.return'.tr(), style: k18Heavy),
                             Text(
                                 state.manageBookingResponse?.result
                                     ?.departureToDestinationCode ??
@@ -242,7 +248,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                                   Navigator.pop(context);
 
                                 },
-                                child: const Text('Back'),
+                                child:  Text('back'.tr()),
                               ),
                             ),
                             Expanded(
@@ -259,7 +265,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
             )
           ] else ... [
             ChooseFlightSegment(
-              title: "Depart",
+              title: 'bundleTab.depart'.tr(),
               subtitle: state.manageBookingResponse?.result
                   ?.departureToDestinationCode ??
                   '',
@@ -307,7 +313,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Return', style: k18Heavy),
+                             Text('bundleTab.return'.tr(), style: k18Heavy),
                             Text(
                                 state.manageBookingResponse?.result
                                         ?.returnToDestinationCode ??
@@ -349,7 +355,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                                   Navigator.pop(context);
 
                                 },
-                                child: const Text('Back'),
+                                child:  Text('back'.tr()),
                               ),
                             ),
                             Expanded(
@@ -368,7 +374,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
             Visibility(
               //visible: state.filterState?.flightType == FlightType.round,
               child: ChooseFlightSegment(
-                title: "Return",
+                title: 'bundleTab.return'.tr(),
                 subtitle: state.manageBookingResponse?.result
                         ?.returnToDestinationCode ??
                     '',

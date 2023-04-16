@@ -1,4 +1,5 @@
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AddonHeader extends StatelessWidget {
@@ -9,12 +10,12 @@ class AddonHeader extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Add-On",
+          'flightSummary.addons'.tr(),
           style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
         ),
         kVerticalSpacer,
         Text(
-          " Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage, select your seat of choice and meal.",
+          'flightResult.kgRule'.tr(),
           style: kMediumRegular.copyWith(
             color: Styles.kSubTextColor,
             height: 1.5,

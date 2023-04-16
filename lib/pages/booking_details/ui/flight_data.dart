@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/spacer.dart';
@@ -62,7 +63,7 @@ class FlightDataInfo extends StatelessWidget {
             Expanded(
               flex: 4,
               child: FlightInto(
-                label: 'Depart',
+                label: 'flightSummary.depart'.tr(),
                 timeString: departureDateWithTime,
                 location: departureAirportName,
               ),
@@ -79,7 +80,7 @@ class FlightDataInfo extends StatelessWidget {
             Expanded(
               flex: 4,
               child: FlightInto(
-                label: 'Arrive',
+                label: 'flightSummary.arrive'.tr(),
                 timeString: arrivalDateWithTime,
                 location: arrivalAirportName,
               ),

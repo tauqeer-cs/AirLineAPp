@@ -11,6 +11,7 @@ import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,13 +121,13 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      weekText('S'),
-                      weekText('M'),
-                      weekText('T'),
-                      weekText('W'),
-                      weekText('T'),
-                      weekText('F'),
-                      weekText('S'),
+                      weekText('calendar.daySundayShort'.tr()),
+                      weekText('calendar.dayMondayShort'.tr()),
+                      weekText('calendar.dayTuesdayShort'.tr()),
+                      weekText('calendar.dayWednesdayShort'.tr()),
+                      weekText('calendar.dayThursdayShort'.tr()),
+                      weekText('calendar.dayFridayShort'.tr()),
+                      weekText('calendar.daySaturdayShort'.tr()),
                     ],
                   ),
                   kVerticalSpacerMini,

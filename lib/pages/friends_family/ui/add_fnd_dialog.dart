@@ -358,7 +358,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                       //context.read<LoginCubit>().logInWithCredentials(email, password);
                     }
                   },
-                  child: const Text('Save'),
+                  child:  Text('familyDetail.save'.tr()),
                 ),
               ),
             ],

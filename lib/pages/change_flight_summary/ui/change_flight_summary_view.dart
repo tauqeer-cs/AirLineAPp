@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -66,7 +67,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     }
     return Styles.kPrimaryColor;
   }
-
 
   final scrollController = ScrollController();
 
@@ -236,7 +236,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         ),
                         if ((bloc?.state.checkedDeparture == true)) ...[
                           FlightDataInfo(
-                            headingLabel: 'Departure',
+                            headingLabel: 'flightSummary.departure'.tr(),
                             dateToShow:
                                 flightSectionGoing?.departureDateToShow ?? '',
                             departureToDestinationCode: state
@@ -269,7 +269,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 false) &&
                             (bloc?.state.checkReturn == true)) ...[
                           FlightDataInfo(
-                            headingLabel: 'Return',
+                            headingLabel: 'flightCharge.return'.tr(),
                             dateToShow:
                                 flightSectionBack?.departureDateToShow ?? '',
                             departureToDestinationCode: state
@@ -309,8 +309,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                       children: [
                         Row(
                           children: [
-                            const Text(
-                              'Summary',
+                            Text(
+                              'flightCharge.summary'.tr(),
                               style: kLargeHeavy,
                             ),
                             const Spacer(),
@@ -349,8 +349,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         kVerticalSpacerSmall,
                         Row(
                           children: [
-                            const Text(
-                              'Flight Change Fee',
+                            Text(
+                              'flightChange.fee'.tr(),
                               style: kMediumHeavy,
                             ),
                             const Spacer(),
@@ -385,7 +385,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                       width: 4,
                                     ),
                                     Text(
-                                      'Changes',
+                                      'flightCharge.changes'.tr(),
                                       style: kSmallRegular.copyWith(
                                         color: Styles.kTextColor,
                                       ),
@@ -403,7 +403,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                       width: 4,
                                     ),
                                     Text(
-                                      'Existing Add-Ons',
+                                      'flightCharge.existingAddons'.tr(),
                                       style: kSmallRegular.copyWith(
                                         color: Styles.kTextColor,
                                       ),
@@ -485,22 +485,25 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     height: 16,
                   ),
                 ],
-                const SizedBox(height: 8,),
+                const SizedBox(
+                  height: 8,
+                ),
                 const Divider(),
-                const SizedBox(height: 24,),
+                const SizedBox(
+                  height: 24,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       SizedBox(
                         height: 24.0,
                         width: 24.0,
-                        child : Checkbox(
-
+                        child: Checkbox(
                           checkColor: Colors.white,
-                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
                           value: conditionsCheckOne,
                           onChanged: (bool? value) {
                             setState(() {
@@ -509,8 +512,9 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           },
                         ),
                       ),
-
-                      const SizedBox(width: 8,),
+                      const SizedBox(
+                        width: 8,
+                      ),
                       Expanded(
                         child: RichText(
                           text: TextSpan(
@@ -518,52 +522,40 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               color: Styles.kTextColor,
                             ),
                             children: [
-                               TextSpan(
-                                  text:
-                                  'CHANGED YOUR FLIGHT? ',
-                                   style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
-                               ),
-
-                              const TextSpan(
-                                  text:
-                                      'Remember to ',
-
-                              ),
-
-                               TextSpan(
-                                  text:
-                                  'UPDATE ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-                              ),
-
-                              const TextSpan(
-                                  text:
-                                  'your insurance coverage if you are '),
-
                               TextSpan(
-                                text:
-                                'EXTENDING YOUR TRAVEL PERIOD, ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+                                text: 'changeFlightView.changeFlightDesc1'.tr(),
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
-
-                              const TextSpan(
-                                  text:
-                                  'to stay protected throughout your journey! You may do so by contacting our '),
-
                               TextSpan(
-                                text: 'Live Chat',
+                                text: 'changeFlightView.changeFlightDesc2'.tr(),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc3'.tr(),
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kPrimaryColor),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc4'.tr(),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc5'.tr(),
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc6'.tr(),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc7'.tr(),
                                 style: TextStyle(
                                   color: Styles.kPrimaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-
-                              const TextSpan(
-                                text: ' Agent',
-
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc8'.tr(),
                               ),
-
                             ],
                           ),
                         ),
@@ -571,21 +563,21 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24,),
+                const SizedBox(
+                  height: 24,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-
                       SizedBox(
                         height: 24.0,
                         width: 24.0,
-                        child : Checkbox(
-
+                        child: Checkbox(
                           checkColor: Colors.white,
-                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
                           value: conditionsCheckTwo,
                           onChanged: (bool? value) {
                             setState(() {
@@ -594,8 +586,9 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           },
                         ),
                       ),
-
-                      const SizedBox(width: 8,),
+                      const SizedBox(
+                        width: 8,
+                      ),
                       Expanded(
                         child: RichText(
                           text: TextSpan(
@@ -603,79 +596,61 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               color: Styles.kTextColor,
                             ),
                             children: [
-
                               const TextSpan(
-                                text:
-                                'After clicking ',
-
+                                text: 'After clicking ',
                               ),
 
                               TextSpan(
-                                text:
-                                "'Confirm' ",
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
+                                text: "'Confirm' ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
 
                               const TextSpan(
-                                text:
-                                ' at the bottom right, the',
-
+                                text: ' at the bottom right, the',
                               ),
 
                               TextSpan(
-                                text:
-                                " CHANGES ARE ",
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
+                                text: " CHANGES ARE ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
-
-
-
 
                               TextSpan(
-                                text:
-                                'FINAL ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                                text: 'FINAL ',
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kPrimaryColor),
                               ),
-
-                            TextSpan(
-                              text:
-                              "& YOU WILL ",
-                              style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
-                            ),
 
                               TextSpan(
-                                text:
-                                'NOT ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                                text: "& YOU WILL ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
-
-                        //
-                              TextSpan(
-                                text:
-                                "BE ABLE TO REVERT TO YOUR ORIGINAL FLIGHT DATE/TIME. ",
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
-                              ),
-
-                        const TextSpan(
-                                  text:
-                                  'Therefore, '),
 
                               TextSpan(
-                                text:
-                                'PLEASE CHECK ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+                                text: 'NOT ',
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kPrimaryColor),
                               ),
 
-                              const TextSpan(
-                                  text:
-                                  'before confirming.'),
+                              //
+                              TextSpan(
+                                text:
+                                    "BE ABLE TO REVERT TO YOUR ORIGINAL FLIGHT DATE/TIME. ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
 
+                              const TextSpan(text: 'Therefore, '),
 
+                              TextSpan(
+                                text: 'PLEASE CHECK ',
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
 
+                              const TextSpan(text: 'before confirming.'),
                             ],
                           ),
                         ),
@@ -683,7 +658,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     ],
                   ),
                 ),
-
                 const SizedBox(
                   height: 200,
                 ),
@@ -691,8 +665,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             ),
           ),
         ),
-
-
         Positioned(
           bottom: 0,
           right: 15,
@@ -708,7 +680,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             child: const Icon(Icons.keyboard_arrow_up),
           ),
         ),
-
         Positioned(
           bottom: 0,
           left: 0,
@@ -721,39 +692,44 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     BookingSummary(
-                      labelToShow: 'Total Amount Due',
+                      labelToShow: 'flightResult.totalAmountDue'.tr(),
                       totalAmountToShow: calculateMoneyToShow(
                           changeFlightRequestResponse, discount),
                     ),
                     (bloc?.state.loadingCheckoutPayment == true)
                         ? const AppLoading()
                         : ElevatedButton(
-                            onPressed: (conditionsCheckOne == false || conditionsCheckTwo == false) ? null : () async {
-                              final voucher = context
-                                  .read<VoucherCubit>()
-                                  .state
-                                  .appliedVoucher;
+                            onPressed: (conditionsCheckOne == false ||
+                                    conditionsCheckTwo == false)
+                                ? null
+                                : () async {
+                                    final voucher = context
+                                        .read<VoucherCubit>()
+                                        .state
+                                        .appliedVoucher;
 
-                              var redirectUrl =
-                                  await bloc?.checkOutForPayment(voucher);
+                                    var redirectUrl =
+                                        await bloc?.checkOutForPayment(voucher);
 
-                              if (redirectUrl != null) {
-                                final result = await context.router.push(
-                                  WebViewRoute(
-                                      url: "", htmlContent: redirectUrl),
-                                );
+                                    if (redirectUrl != null) {
+                                      final result = await context.router.push(
+                                        WebViewRoute(
+                                            url: "", htmlContent: redirectUrl),
+                                      );
 
-                                if (result != null && result is String) {
-                                  final urlParsed = Uri.parse(result);
-                                  var query = urlParsed.queryParametersAll;
-                                  String? status = query['status']?.first;
-                                  String? superPNR = query['superPNR']?.first;
-                                  if (status != "FAIL") {
-                                    bloc?.reloadDataForConfirmation();
+                                      if (result != null && result is String) {
+                                        final urlParsed = Uri.parse(result);
+                                        var query =
+                                            urlParsed.queryParametersAll;
+                                        String? status = query['status']?.first;
+                                        String? superPNR =
+                                            query['superPNR']?.first;
+                                        if (status != "FAIL") {
+                                          bloc?.reloadDataForConfirmation();
 
-                                    if (true) {
-                                      //mounted
-                                      /*final filter = context
+                                          if (true) {
+                                            //mounted
+                                            /*final filter = context
                                     .read<SearchFlightCubit>()
                                     .state
                                     .filterState;
@@ -774,26 +750,26 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                   superPNR.setNoneIfNullOrEmpty,
                                   UserInsider.of(context).generateProduct(),
                                 );*/
+                                          }
+
+                                          //context.router.popUntilRoot();
+                                          context.router.replaceAll([
+                                            const NavigationRoute(),
+                                            ChangeFlightConfirmationRoute(
+                                              bookingId: superPNR ?? "",
+                                            ),
+                                          ]);
+                                        } else {
+                                          //    if (mounted) {
+                                          //     Toast.of(context).show(message: "Payment failed");
+                                          // }
+
+                                        }
+                                      } else {}
                                     }
-
-                                    //context.router.popUntilRoot();
-                                    context.router.replaceAll([
-                                      const NavigationRoute(),
-                                      ChangeFlightConfirmationRoute(
-                                        bookingId: superPNR ?? "",
-                                      ),
-                                    ]);
-                                  } else {
-                                    //    if (mounted) {
-                                    //     Toast.of(context).show(message: "Payment failed");
-                                    // }
-
-                                  }
-                                } else {}
-                              }
-                              //if (flag == true) {}
-                            },
-                            child: const Text("Continue"),
+                                    //if (flag == true) {}
+                                  },
+                            child: Text('flightResult.continue'.tr()),
                           ),
                   ],
                 ),
@@ -966,7 +942,7 @@ class PersonDeparture extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Seats',
+              'priceSection.seats'.tr(),
               style: kSmallHeavy.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -1019,7 +995,7 @@ class PersonDeparture extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Meals',
+              'priceSection.mealsTitle'.tr(),
               style: kSmallHeavy.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -1077,7 +1053,7 @@ class PersonDeparture extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Baggage',
+                'priceSection.baggageTitle'.tr(),
                 style: kSmallHeavy.copyWith(color: Styles.kTextColor),
               ),
             ),
@@ -1131,7 +1107,7 @@ class PersonDeparture extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Sports Equipment',
+              'priceSection.sportsEquipmentTitle'.tr(),
               style: kSmallHeavy.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -1184,7 +1160,7 @@ class PersonDeparture extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Insurance',
+                'priceSection.insuranceTitle'.tr(),
                 style: kSmallHeavy.copyWith(color: Styles.kTextColor),
               ),
             ),
@@ -1224,8 +1200,8 @@ class PersonDeparture extends StatelessWidget {
             ),
             Row(
               children: [
-                const Text(
-                  'Wheel Chair',
+                Text(
+                  'priceSection.wheelchair'.tr(),
                   style: kSmallRegular,
                 ),
                 const Spacer(),
@@ -1244,8 +1220,8 @@ class PersonDeparture extends StatelessWidget {
           if ((currentPerson.wheelChairReturn != null)) ...[
             Row(
               children: [
-                const Text(
-                  'Wheel Chair',
+                Text(
+                  'priceSection.wheelchair'.tr(),
                   style: kSmallRegular,
                 ),
                 const Spacer(),
@@ -1367,8 +1343,8 @@ class PersonDeparture extends StatelessWidget {
 
   String data(bool flag) {
     if (flag == true) {
-      return 'Departure Flight ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.departDetail?.routeNameToShow ?? ''}';
+      return '${'specialSelection.departureFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.departDetail?.routeNameToShow ?? ''}';
     }
-    return 'Return Flight ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.returnDetail?.routeNameToShow ?? ''}';
+    return '${'specialSelection.returnFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.returnDetail?.routeNameToShow ?? ''}';
   }
 }

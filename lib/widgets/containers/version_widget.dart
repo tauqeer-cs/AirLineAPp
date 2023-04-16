@@ -1,4 +1,5 @@
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -30,7 +31,7 @@ class _VersionWidgetState extends State<VersionWidget> {
     return Visibility(
       visible: packageInfo != null,
       child: Text(
-        'Version ${packageInfo?.version}',
+       '${'version'.tr()} ${packageInfo?.version}',
         style: kMediumSemiBold.copyWith(color: widget.textColor),
       ),
     );

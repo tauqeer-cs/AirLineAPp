@@ -7,6 +7,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,7 +66,7 @@ class FlightResultWidget extends StatelessWidget {
                 ),
                 kVerticalSpacerSmall,
                 Text(
-                  "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage, select your seat of choice and meal.",
+                  'flightResult.kgRule'.tr(),
                   textAlign: TextAlign.left,
                   style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor,
@@ -86,11 +87,12 @@ class FlightResultWidget extends StatelessWidget {
                 Visibility(
                   visible: false,
                   replacement: Text(
-                    "All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                    'flightSummary.fareRules'.tr(args: [filter?.numberPerson.toBeautify() ?? '']),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
+
                   child: Text(
-                    "Prices are based on an ${filter?.numberPerson.toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                    'flightSummary.rules'.tr(args: [filter?.numberPerson.toBeautify() ?? '']),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
                 ),

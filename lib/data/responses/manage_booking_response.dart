@@ -76,6 +76,32 @@ class Result {
   BookingContact? bookingContact;
   List<PassengersWithSSR>? passengersWithSSR;
 
+  String toBeautify() {
+    List<String> texts = [];
+    int numberOfAdult = 0;
+    int numberOfChildren = 0;
+    int numberOfInfant = 0;
+
+
+
+    if (numberOfAdult > 0) {
+      final text = "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      texts.add(text);
+    }
+    if (numberOfChildren > 0) {
+      final text =
+          "($numberOfChildren) ${numberOfChildren > 1 ? 'Children' : 'Child'}";
+      texts.add(text);
+    }
+    if (numberOfInfant > 0) {
+      final text =
+          "($numberOfInfant) ${numberOfInfant > 1 ? 'Infants' : 'Infant'}";
+      texts.add(text);
+    }
+    final combine = texts.join(", ");
+    return "$combine passenger(s)";
+  }
+
 
   List<PaymentOrder>? paymentOrders;
   FareAndBundleDetail? fareAndBundleDetail;
@@ -285,6 +311,36 @@ class Result {
 }
 
 class PassengersWithSSR {
+
+  //toBeautify
+
+  String toBeautify() {
+    List<String> texts = [];
+    int numberOfAdult = 0;
+    int numberOfChildren = 0;
+    int numberOfInfant = 0;
+
+
+
+    if (numberOfAdult > 0) {
+      final text = "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      texts.add(text);
+    }
+    if (numberOfChildren > 0) {
+      final text =
+          "($numberOfChildren) ${numberOfChildren > 1 ? 'Children' : 'Child'}";
+      texts.add(text);
+    }
+    if (numberOfInfant > 0) {
+      final text =
+          "($numberOfInfant) ${numberOfInfant > 1 ? 'Infants' : 'Infant'}";
+      texts.add(text);
+    }
+    final combine = texts.join(", ");
+    return "$combine passenger(s)";
+  }
+
+
   num? personOrgID;
   Passenger? passengers;
   FareAndBundleDetail? fareAndBundleDetail;

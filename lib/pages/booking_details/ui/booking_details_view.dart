@@ -2,6 +2,7 @@ import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -121,7 +122,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                           ),
                           Expanded(
                             child: FlightDataInfo(
-                              headingLabel: 'Return',
+                              headingLabel: 'flightCharge.return'.tr(),
                               dateToShow: state.manageBookingResponse?.result
                                   ?.returnDepartureDateToShow ??
                                   '',
@@ -161,7 +162,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                         onPressed: () {
                           onSharedTapped();
                         }, //isLoading ? null :
-                        child: const Text("Share"),
+                        child:  Text('flightChange.share'.tr()),
                         /*
                         * isLoading
                             ? const AppLoading(
@@ -185,7 +186,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       Toast.of(context).show(
                                           success: false,
                                           message:
-                                              "Sorry, your flight cannot be changed less than 48 hours before its scheduled departure time");
+                                              'flightCharge.twoDayChangeError'.tr());
                                       return;
                                     }
                                     bool? check = await showDialog(
@@ -203,7 +204,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       );
                                     }
                                   },
-                        child: const Text('Change Flight'),
+                        child:  Text('flightResult.changeFlight'.tr()),
                       ),
                     ),
                   ],
@@ -339,7 +340,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Flight Change Requirements",
+            'flightDetail.flightChangeReq'.tr(),
             textAlign: TextAlign.center,
             style: k18Heavy.copyWith(color: Styles.kTextColor),
           ),
@@ -359,29 +360,29 @@ class AlertWarningBeforeProceed extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
+            padding:  EdgeInsets.only(bottom: 16.0),
             child: Text(
-              "Flight ticket changes are subject to the following rules:",
+               'flightDetail.flightChangeRules'.tr(),
               style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              "• You may not change flights if your departure time is less than 48 hours from now.\n"
-              "• Your flight destination must be identical to the original.\n"
-              "• Your new fare cannot be lower than the original fare.\n"
-              "• Meals are subject to availability and the change must be made more than 24 hours before the flight.\n"
-              "• If you're travelling for longer than your travel insurance's coverage period, please ensure you are fully covered for the entire trip. Reach out to customer care to extend your coverage.\n"
-              "• Your baggage will be transferred over to the new flight.\n"
-              "• You may upgrade your baggage upon your flight change.",
+              "• ${'flightChange.rule1'.tr()}\n"
+              "• ${'flightChange.rule2'.tr()}\n"
+              "• ${'flightChange.rule3'.tr()}\n"
+              "• ${'flightChange.rule4'.tr()}.\n"
+              "• ${'flightChange.rule5'.tr()}\n"
+              "• ${'flightChange.rule6'.tr()}\n"
+              "• ${'flightChange.rule7'.tr()}",
               style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              "Proceed with flight change?",
+              'flightChangeProceedFlightChange'.tr(),
               style: kMediumRegular.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -394,7 +395,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                     }, //isLoading ? null :
-                    child: const Text("NO"),
+                    child:  Text('flightDetail.no'.tr()),
                     /*
                       * isLoading
                           ? const AppLoading(
@@ -405,7 +406,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
                 kHorizontalSpacerSmall,
                 Expanded(
                   child: ElevatedButton(
-                    child: const Text("Yes"),
+                    child: Text('flightDetail.yes'.tr()),
                     onPressed: () async {
                       Navigator.of(context).pop(true);
                     },

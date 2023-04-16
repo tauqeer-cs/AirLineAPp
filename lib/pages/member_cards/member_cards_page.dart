@@ -1,4 +1,5 @@
 import 'package:app/pages/member_cards/ui/member_cards_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -13,12 +14,12 @@ class MemberCardsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: const AppLoadingScreen(message: 'Loading'),
+      overlayWidget:  AppLoadingScreen(message: 'loading'.tr()),
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'My Payment Cards',
-          height: 100.h,
+          title: 'personalInfo.paymentCards'.tr(),
+          height: 60.h,
           overrideInnerHeight: true,
         ),
         body: Container(

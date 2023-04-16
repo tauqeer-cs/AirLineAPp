@@ -52,7 +52,7 @@ class ProfileView extends StatelessWidget {
                               height: 50.w,
                             ),
                             Text(
-                              "Logout",
+                              'navBar.logout'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kPrimaryColor),
                             ),

@@ -8,6 +8,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,7 +104,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                           size: 25,
                         ),
                         Text(
-                          "Sort by",
+                          'sortBy'.tr(),
                           style: kSmallRegular.copyWith(
                               color: Styles.kBorderColor),
                         ),
@@ -131,7 +132,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
               triggerMode: TooltipTriggerMode.tap,
               preferredDirection: AxisDirection.up,
               backgroundColor: Color.fromRGBO(237, 242, 244, 1),
-              margin: EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
               child: Icon(
                 Icons.info,
                 color: Styles.kPrimaryColor,
@@ -183,11 +184,11 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
           ],
         ),
         sortedSegment.isEmpty
-            ? const Padding(
-                padding: EdgeInsets.all(20.0),
+            ?  Padding(
+                padding: const EdgeInsets.all(20.0),
                 child: Center(
                   child: Text(
-                    "No flight available for this date",
+                    'flight.noAvailable'.tr(),
                     style: kHugeSemiBold,
                   ),
                 ),
