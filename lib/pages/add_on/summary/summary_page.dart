@@ -29,7 +29,7 @@ class SummaryPage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppAppBar(
-            title: "Summary",
+            title: 'flightCharge.summary'.trim(),
             height: 60.h,
           ),
           body: SummaryView(),

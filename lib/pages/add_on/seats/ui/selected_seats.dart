@@ -5,6 +5,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,12 +41,12 @@ class SelectedSeats extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Selected Seats",
+            'seatsSelection.selectedSeats'.tr(),
             style: kLargeSemiBold,
           ),
           kVerticalSpacerMini,
           Text(
-            isDeparture ? "Departing Flight" : "Returning Flight",
+            isDeparture ? 'seatsSelection.departingFlight'.tr() : 'seatsSelection.returningFlight'.tr(),
             style: kSmallSemiBold,
           ),
           kVerticalSpacerMini,
@@ -78,7 +79,7 @@ class SelectedSeats extends StatelessWidget {
                         kHorizontalSpacerMini,
                         Flexible(
                           child: Text(
-                            "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                            "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'seatsSelection.noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
                             style: kSmallRegular.copyWith(
                                 color: Styles.kSubTextColor),
                           ),

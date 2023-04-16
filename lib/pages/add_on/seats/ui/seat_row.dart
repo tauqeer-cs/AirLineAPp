@@ -61,12 +61,10 @@ class _SeatRowState extends State<SeatRow> {
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
-          print("is selected $selected");
           if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
           if(selected){
-            print("is selected $selected");
             context
                 .read<SearchFlightCubit>()
                 .addSeatToPerson(selectedPerson, null, isDeparture);
@@ -85,7 +83,6 @@ class _SeatRowState extends State<SeatRow> {
                 context
                     .read<SelectedPersonCubit>()
                     .selectPerson(persons.persons[0]);
-                print("go to bottom");
                 await Future.delayed(const Duration(milliseconds: 500));
                 widget.moveToBottom?.call();
                 return;
@@ -118,7 +115,7 @@ class _SeatRowState extends State<SeatRow> {
             child: Visibility(
               visible: selected || otherSelected,
               child: Container(
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle, color: Styles.kPrimaryColor),
                 child: Center(

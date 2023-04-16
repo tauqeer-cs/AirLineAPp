@@ -12,6 +12,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,14 +49,13 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
             shrinkWrap: true,
             children: [
               kVerticalSpacer,
-              TitleSummaryHeader(title: "Seat"),
+              TitleSummaryHeader(title: 'flightCharge.seat'.tr()),
               kVerticalSpacer,
               FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.seat),
               kVerticalSpacerSmall,
               Padding(
                 padding: kPageHorizontalPadding,
-                child: Text(
-                    "1. Your seat will automatically be assigned during check-in if no seat is selected."),
+                child: Text('seatsSelection.seatAssign'.tr()),
               ),
               kVerticalSpacer,
               SeatsSection(
@@ -156,9 +156,9 @@ class TitleSummaryHeader extends StatelessWidget {
           Expanded(
             flex: 1,
             child: OutlinedButton(
-              child: const FittedBox(
+              child:  FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text("Summary"),
+                child: Text('flightCharge.summary'.tr()),
               ),
               onPressed: () {
                 context.router.push(SummaryRoute());

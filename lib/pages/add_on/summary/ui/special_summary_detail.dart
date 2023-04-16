@@ -7,6 +7,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +34,7 @@ class SpecialSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-              "Special Add-On",
+              'passengerDetail.specialAddonsTitle'.tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -46,7 +47,7 @@ class SpecialSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           Text(
-            "Depart",
+          'bundleTab.depart'.tr(),
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
@@ -60,7 +61,7 @@ class SpecialSummaryDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Return",
+                  'bundleTab.return'.tr(),
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,

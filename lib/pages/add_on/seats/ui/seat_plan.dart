@@ -7,6 +7,7 @@ import 'package:app/pages/add_on/seats/ui/seat_row.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -107,7 +108,7 @@ class SeatPlan extends StatelessWidget {
                             Expanded(
                               flex: 3,
                               child: bundle?.finalAmount == null
-                                  ? Center(child: Text("No Data", style: kLargeHeavy,))
+                                  ? Center(child: Text('noData'.tr(), style: kLargeHeavy,))
                                   : SeatPrice(
                                       amount: bundle.finalAmount,
                                       currency: row.seats?.first.seatPriceOffers

@@ -2,6 +2,7 @@ import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,7 @@ class SeatsLegend extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacerMini,
-        const Text("Seat Types", style: kLargeHeavy),
+         Text('seatsSelection.seatTypes'.tr(), style: kLargeHeavy),
         kVerticalSpacerSmall,
         Wrap(
           spacing: 8,
@@ -68,30 +69,11 @@ class SeatsLegend extends StatelessWidget {
                     ),
                   ),
                   kHorizontalSpacerMini,
-                  const Flexible(child: Text("Unavailable", style: kSmallRegular,))
+                   Flexible(child: Text('seatsSelection.unavailable'.tr(), style: kSmallRegular,))
                 ],
               ),
             ),
-            // SizedBox(
-            //   width: 0.4.sw,
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       SizedBox(
-            //         height: 20,
-            //         width: 20,
-            //         child: DecoratedBox(
-            //           decoration: BoxDecoration(
-            //             color: Colors.purpleAccent,
-            //             borderRadius: BorderRadius.circular(4),
-            //           ),
-            //         ),
-            //       ),
-            //       kHorizontalSpacerMini,
-            //       const Flexible(child: Text("No Price Data", style: kSmallRegular,))
-            //     ],
-            //   ),
-            // )
+
           ],
         ),
       ],

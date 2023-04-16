@@ -11,6 +11,7 @@ import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,12 +89,12 @@ class _PassengerContactState extends State<PassengerContact> {
             children: [
               TextSpan(
                 text:
-                    "Please ensure you get these details right. We'll email you your travel itinerary and notify you of any important changes to your booking. ",
+                    'commForm.contactNotice1'.tr(),
                 style: kMediumRegular.copyWith(
                     color: Styles.kTextColor, height: 1.5),
               ),
               TextSpan(
-                text: "\nYour info will be collected in line with our",
+                text: '\n${'contactNotice2'.tr()}',
                 style: kMediumHeavy.copyWith(
                     color: Styles.kTextColor, height: 1.5),
               ),
@@ -104,19 +105,19 @@ class _PassengerContactState extends State<PassengerContact> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PdfViewer(
-                            title: 'Privacy Policy',
+                          builder: (context) =>  PdfViewer(
+                            title: 'app.privacyPolicy'.tr(),
                             fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                             pdfIsLink: true,
                           ),
                         ),
                       );
                     } catch (e, st) {
-                      Toast.of(context).show(message: "Cannot Launch url");
+                      Toast.of(context).show(message: 'cantLaunchUrl'.tr());
                       ErrorUtils.getErrorMessage(e, st);
                     }
                   },
-                text: "\nPrivacy Policy.",
+                text: "\n${'app.privacyPolicy'.tr()}.",
                 style: kMediumHeavy.copyWith(
                     color: Styles.kTextColor, height: 1.5),
               ),
@@ -129,7 +130,7 @@ class _PassengerContactState extends State<PassengerContact> {
           children: [
             AppInputText(
               name: formNameContactFirstName,
-              hintText: "First Name / Given Name",
+              hintText: 'firstName'.tr(),
               validators: [FormBuilderValidators.required()],
               initialValue: profile?.firstName ?? firstName,
               onChanged: (value) {
@@ -141,7 +142,7 @@ class _PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameContactLastName,
-              hintText: "Last Name / Surname",
+              hintText: 'lastName'.tr(),
               validators: [FormBuilderValidators.required()],
               initialValue: profile?.lastName ?? lastName,
               onChanged: (value) {
@@ -155,7 +156,7 @@ class _PassengerContactState extends State<PassengerContact> {
               textEditingController: nationalityController,
               name: formNameContactPhoneCode,
               child: AppCountriesDropdown(
-                hintText: "Phone Code",
+                hintText: 'phoneCode'.tr(),
                 isPhoneCode: true,
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 initialCountryCode: profile?.phoneCode ?? phoneCode,
@@ -173,7 +174,7 @@ class _PassengerContactState extends State<PassengerContact> {
               name: formNameContactPhoneNumber,
               initialValue: profile?.phoneNumber ?? phoneNumber,
               textInputType: TextInputType.number,
-              hintText: "Phone Number",
+              hintText: 'infoDetail.phoneNumber'.tr(),
               validators: [FormBuilderValidators.required()],
               onChanged: (value) {
                 final request = context.read<LocalUserBloc>().state;
@@ -184,7 +185,7 @@ class _PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameContactEmail,
-              hintText: "Email Address",
+              hintText: 'confirmationView.emailAddress'.tr(),
               textInputType: TextInputType.emailAddress,
               validators: [
                 FormBuilderValidators.required(),
@@ -210,8 +211,8 @@ class _PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             FormBuilderCheckbox(
               name: formNameContactReceiveEmail,
-              title: const Text(
-                  "I wish to receive news and promotions from MYAirline by email."),
+              title:  Text(
+                  'iWantReceiveEmail'.tr()),
             ),
           ],
         ),
