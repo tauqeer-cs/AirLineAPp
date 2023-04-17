@@ -323,6 +323,22 @@ class BaggageDetail extends Equatable {
       (baggages?.where((element) => element.departReturn == "Return") ?? [])
           .toList();
 
+  double totalDeparture(){
+    double total = 0.0;
+    for (var element in departureBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
+  double totalReturn(){
+    double total = 0.0;
+    for (var element in returnBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
   BaggageDetail copyWith(
           {num? totalAmount, List<Baggage>? baggages, num? baggageCount}) =>
       BaggageDetail(
@@ -1819,6 +1835,30 @@ class SportsEquipmentDetail extends Equatable {
   final num? sportEquipmentCount;
   final List<Baggage>? sportEquipments;
 
+  List<Baggage> get departureBaggages =>
+      (sportEquipments?.where((element) => element.departReturn == "Depart") ?? [])
+          .toList();
+
+  List<Baggage> get returnBaggages =>
+      (sportEquipments?.where((element) => element.departReturn == "Return") ?? [])
+          .toList();
+
+  double totalDeparture(){
+    double total = 0.0;
+    for (var element in departureBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
+  double totalReturn(){
+    double total = 0.0;
+    for (var element in returnBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
   SportsEquipmentDetail copyWith({
     num? totalAmount,
     List<Baggage>? sportEquipments,
@@ -1847,6 +1887,30 @@ class InsuranceDetails extends Equatable {
   final num? totalAmount;
   final List<Baggage>? insuranceSSRs;
   final num? insuranceSSRCount;
+
+  List<Baggage> get departureBaggages =>
+      (insuranceSSRs?.where((element) => element.departReturn == "Depart") ?? [])
+          .toList();
+
+  List<Baggage> get returnBaggages =>
+      (insuranceSSRs?.where((element) => element.departReturn == "Return") ?? [])
+          .toList();
+
+  double totalDeparture(){
+    double total = 0.0;
+    for (var element in departureBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
+  double totalReturn(){
+    double total = 0.0;
+    for (var element in returnBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
 
   InsuranceDetails copyWith(
           {num? totalAmount,

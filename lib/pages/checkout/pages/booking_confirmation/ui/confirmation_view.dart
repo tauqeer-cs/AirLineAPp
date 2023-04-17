@@ -93,9 +93,9 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   children: [
                     //1 == 1 ? Container() :
                     const ConfirmationPromo(),
-                    kVerticalSpacerSmall,
-                    const AppDividerWidget(),
-                    kVerticalSpacerSmall,
+                    // kVerticalSpacerSmall,
+                    // const AppDividerWidget(),
+                    // kVerticalSpacerSmall,
                     Row(
                       children: [
                         const Text("Total", style: kGiantHeavy),

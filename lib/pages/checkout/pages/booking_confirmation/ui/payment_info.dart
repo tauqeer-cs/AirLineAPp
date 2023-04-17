@@ -100,7 +100,7 @@ class PaymentDetail extends StatelessWidget {
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content:
-                '${paymentOrder.paymentMethodCode ?? ''}    ${paymentOrder.cardOption}',
+                '${paymentOrder.cardOption}',
             makeBoldAll: true,
 
           ),

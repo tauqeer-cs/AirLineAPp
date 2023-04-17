@@ -18,7 +18,10 @@ class ConfirmationSeats extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.seatDetail;
-    return (seats?.seats ?? []).isEmpty
+    final amount = isDeparture
+        ? seats?.totalDeparture()
+        : seats?.totalReturn();
+    return (seats?.seats ?? []).isEmpty || amount==0
         ? Container()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,9 +34,7 @@ class ConfirmationSeats extends StatelessWidget {
                   ),
                   const Spacer(),
                   MoneyWidget(
-                    amount: isDeparture
-                        ? seats?.totalDeparture()
-                        : seats?.totalReturn(),
+                    amount: amount,
                     isDense: true,
                     isNormalMYR: true,
                   ),

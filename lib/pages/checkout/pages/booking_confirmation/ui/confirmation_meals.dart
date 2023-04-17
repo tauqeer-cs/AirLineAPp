@@ -7,7 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ConfirmationMeals extends StatelessWidget {
   final bool isDeparture;
 
-  const ConfirmationMeals({Key? key, required this.isDeparture}) : super(key: key);
+  const ConfirmationMeals({Key? key, required this.isDeparture})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,39 +18,44 @@ class ConfirmationMeals extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.mealDetail;
-    return (meals?.noMealsSelected ?? false) ? Container() : Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const Text(
-              "Meals",
-              style: kHugeSemiBold,
-            ),
-            const Spacer(),
-            MoneyWidget(
-              amount: meals?.totalAmount,
-              isDense: true,
-              isNormalMYR: true,
-            ),
-          ],
-        ),
-        kVerticalSpacerSmall,
-        ...(isDeparture ? meals!.departureMeals : meals!.returnMeals)
-            .map((e) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if(e.mealList?.isNotEmpty ?? false) ... [
-                      Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
-                      ...(e.mealList??[]).map((e) => Text("${e.mealName} x${e.quantity}")).toList(),
-                      kVerticalSpacerSmall,
-                    ]
-
-                  ],
-                ))
-            .toList(),
-        kVerticalSpacerSmall,
-      ],
-    );
+    return (meals?.noMealsSelected ?? false) ||  (meals?.totalAmount==0)
+        ? Container()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    "Meals",
+                    style: kHugeSemiBold,
+                  ),
+                  const Spacer(),
+                  MoneyWidget(
+                    amount: meals?.totalAmount,
+                    isDense: true,
+                    isNormalMYR: true,
+                  ),
+                ],
+              ),
+              kVerticalSpacerSmall,
+              ...(isDeparture ? meals!.departureMeals : meals!.returnMeals)
+                  .map((e) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (e.mealList?.isNotEmpty ?? false) ...[
+                            Text(
+                                "${e.titleToShow} ${e.givenName} ${e.surName}"),
+                            ...(e.mealList ?? [])
+                                .map(
+                                    (e) => Text("${e.mealName} x${e.quantity}"))
+                                .toList(),
+                            kVerticalSpacerSmall,
+                          ]
+                        ],
+                      ))
+                  .toList(),
+              kVerticalSpacerSmall,
+            ],
+          );
   }
 }
