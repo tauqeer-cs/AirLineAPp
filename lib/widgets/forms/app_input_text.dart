@@ -25,6 +25,9 @@ class AppInputText extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
   final Widget? suffix, prefix;
+  final Color? fillColor;
+
+  final double topPadding;
 
   const AppInputText({
     Key? key,
@@ -48,15 +51,18 @@ class AppInputText extends StatelessWidget {
     this.textEditingController,
     this.focusNode,
     this.suffix,
+    this.topPadding = 8.0 ,
     this.prefix, this.maxLength,
+    this.fillColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
+      padding:  EdgeInsets.only(top: topPadding),
       child: FormBuilderTextField(
         controller: textEditingController,
+
         name: name,
         focusNode: focusNode,
         validator: FormBuilderValidators.compose(validators ?? []),
@@ -69,6 +75,8 @@ class AppInputText extends StatelessWidget {
             isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
         decoration: inputDecoration ?? InputDecoration(
           hintText: hintText ?? "",
+          fillColor: fillColor, // add this line to set the background color
+
           border: isHidden ? InputBorder.none : null,
           errorBorder: isHidden ? InputBorder.none : null,
           enabledBorder: isHidden ? InputBorder.none : null,
