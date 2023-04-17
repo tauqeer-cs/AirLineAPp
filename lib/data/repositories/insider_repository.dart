@@ -31,7 +31,6 @@ class InsiderRepository {
 
   loginProfile(UserProfile user) async{
     final String defaultLocale = Platform.localeName; // Returns locale string in the form 'en_US'
-
     FlutterInsiderUser? currentUser = FlutterInsider.Instance.getCurrentUser();
     FlutterInsiderIdentifiers identifiers = FlutterInsiderIdentifiers();
     identifiers.addEmail(user.email.nullIfEmpty ?? "none");
@@ -45,6 +44,7 @@ class InsiderRepository {
     currentUser?.setLocale(defaultLocale);
     currentUser?.setCustomAttributeWithString("Country", user.country.setNoneIfNullOrEmpty);
     currentUser?.setCustomAttributeWithString("State", user.state.setNoneIfNullOrEmpty);
+    currentUser?.setCustomAttributeWithString("Phone", "${user.phoneCode}${user.phoneNumber}");
     currentUser?.setCustomAttributeWithString("City", user.city.setNoneIfNullOrEmpty);
     await currentUser?.login(identifiers, insiderIDResult: (insiderID) async{
       logger.d('[INSIDER][login][insiderIDResult]: $insiderID');
