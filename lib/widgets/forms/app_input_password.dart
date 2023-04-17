@@ -32,7 +32,8 @@ class AppInputPassword extends StatefulWidget {
     this.isObstructedText = true,
     this.hintText,
     this.prefixIcon,
-    this.showShadow = false, this.textEditingController,
+    this.showShadow = false,
+    this.textEditingController,
     this.inputDecoration,
   }) : super(key: key);
 
@@ -54,7 +55,7 @@ class _AppInputPasswordState extends State<AppInputPassword> {
       obscureText: isObstructedText,
       cursorColor: Styles.kPrimaryColor,
       style: kMediumMedium.copyWith(),
-      decoration:  InputDecoration(
+      decoration: InputDecoration(
         hintText: widget.hintText ?? "",
         prefixIcon: widget.prefixIcon,
         label: widget.label != null ? Text(widget.label!) : null,
@@ -70,16 +71,20 @@ class _AppInputPasswordState extends State<AppInputPassword> {
               isObstructedText = !isObstructedText;
             });
           },
-          child: Icon(
-            isObstructedText ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
-            size: 15,
+          child: ImageIcon(
+            AssetImage(
+              isObstructedText
+                  ? "assets/images/icons/iconHide.png"
+                  : "assets/images/icons/iconShow.png",
+            ),
+            size: 16,
+            color: Styles.kActiveGrey,
           ),
         ),
       ),
     );
   }
 }
-
 
 class AppInputPasswordUnderline extends StatefulWidget {
   final String? defaultValue;
@@ -107,12 +112,14 @@ class AppInputPasswordUnderline extends StatefulWidget {
     this.isObstructedText = true,
     this.hintText,
     this.prefixIcon,
-    this.showShadow = false, this.textEditingController,
+    this.showShadow = false,
+    this.textEditingController,
     this.inputDecoration,
   }) : super(key: key);
 
   @override
-  State<AppInputPasswordUnderline> createState() => _AppInputPasswordStateUnderline();
+  State<AppInputPasswordUnderline> createState() =>
+      _AppInputPasswordStateUnderline();
 }
 
 class _AppInputPasswordStateUnderline extends State<AppInputPasswordUnderline> {
@@ -129,7 +136,7 @@ class _AppInputPasswordStateUnderline extends State<AppInputPasswordUnderline> {
       obscureText: isObstructedText,
       cursorColor: Styles.kPrimaryColor,
       style: kMediumMedium.copyWith(),
-      decoration:  InputDecoration(
+      decoration: InputDecoration(
         hintText: widget.hintText ?? "",
         counterText: "",
         border: UnderlineInputBorder(
@@ -148,8 +155,7 @@ class _AppInputPasswordStateUnderline extends State<AppInputPasswordUnderline> {
           borderSide: BorderSide(color: Colors.red),
         ),
         disabledBorder: UnderlineInputBorder(
-          borderSide:
-          BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
+          borderSide: BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
         ),
         prefixIcon: widget.prefixIcon,
         label: widget.label != null ? Text(widget.label!) : null,

@@ -37,12 +37,13 @@ class LoginForm extends StatelessWidget {
       final value = fbKey.currentState!.value;
       final email = value[formEmailLoginName];
       final password = value[formPasswordLoginName];
-      await context.read<LoginCubit>().logInWithCredentialsFromPopUp(email, password);
+      await context
+          .read<LoginCubit>()
+          .logInWithCredentialsFromPopUp(email, password);
 
       context.read<ProfileCubit>().getProfile();
 
       await context.read<LoginCubit>().changeStatus();
-
     }
   }
 
@@ -97,49 +98,37 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-          AppInputText(
-            isRequired: false,
-            inputDecoration: InputDecoration(
-              hintText: "Email Address",
-              counterText: "",
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Styles.kBorderColor),
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Styles.kBorderColor),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Styles.kBorderColor),
-              ),
-              errorBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.red),
-              ),
-              focusedErrorBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.red),
-              ),
-              disabledBorder: UnderlineInputBorder(
-                borderSide:
-                BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
-              ),
+          Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ), // set the background color here
+            child: AppInputText(
+              topPadding: 0,
+              isRequired: false,
+              fillColor: Colors.blueAccent,
+              textInputType: TextInputType.emailAddress,
+              name: formEmailLoginName,
+              hintText: 'Email Address',
+              maxLength: 45,
+              validators: [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.email(),
+              ],
             ),
-            textInputType: TextInputType.emailAddress,
-            name: formEmailLoginName,
-            hintText: 'Email Address',
-            maxLength: 45,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email(),
-            ],
           ),
           kVerticalSpacer,
-          //Text(tr.password, style: kMediumHeavy),
-          AppInputPasswordUnderline(
-            name: formPasswordLoginName,
-            hintText: "Password",
-
-
-            validators: [FormBuilderValidators.required()],
-            isDarkBackground: false,
+          Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: AppInputPassword(
+              name: formPasswordLoginName,
+              hintText: "Password",
+              validators: [FormBuilderValidators.required()],
+              isDarkBackground: false,
+            ),
           ),
           kVerticalSpacerMini,
           TextButton(
@@ -153,14 +142,20 @@ class LoginForm extends StatelessWidget {
           kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
-            child: const Text("Login",style: kLargeHeavy,),
+            child: const Text(
+              "Login",
+              style: kLargeHeavy,
+            ),
           ),
           kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(
               const SignupWrapperRoute(),
-            ),//kMedium15Heavy
-            child: const Text("Create Account",style: kLargeHeavy,),
+            ), //kMedium15Heavy
+            child: const Text(
+              "Create Account",
+              style: kLargeHeavy,
+            ),
           )
         ],
       ),
