@@ -5,6 +5,7 @@ import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/requests/resend_email_request.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/pages/auth/ui/login_form.dart';
+import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
@@ -37,6 +38,7 @@ class RedeemVoucherView extends StatelessWidget {
     final state = bloc.state;
 
     final setting = context.watch<SettingsCubit>().state.switchSetting;
+    print("setting.myReward  ${setting.myReward } $promoReady ${promotionsList}");
     if ((setting.myReward ?? false)) {
       if (promoReady) {
         promotionsList = bloc.state.redemptionOption?.availableOptions;
@@ -61,7 +63,7 @@ class RedeemVoucherView extends StatelessWidget {
                     style: kMediumRegular.copyWith(),
                   ),
                   ElevatedButton(
-                    onPressed: ()=>showLoginDialog(context),
+                    onPressed: () => showLoginDialog(context),
                     child: Text("Login"),
                   ),
                   kVerticalSpacerSmall,
@@ -70,7 +72,12 @@ class RedeemVoucherView extends StatelessWidget {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  kVerticalSpacer,
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       LoginCubit().logout();
+                  //     },
+                  //     child: Text("logout")),
+                  kVerticalSpacerSmall,
                   Text(
                     "MYReward",
                     style: kHugeSemiBold.copyWith(
@@ -161,10 +168,16 @@ class RedeemVoucherView extends StatelessWidget {
                     onFinished: () {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
-
+                      var token =context.read<SummaryCubit>().state.summaryResponse?.token;
+                      print("token is $token");
+                      if (token != null) {
+                        context
+                            .read<VoucherCubit>()
+                            .getAvailablePromotions(token);
+                      }
                       Toast.of(context)
                           .show(message: "Welcome back", success: true);
-                      context.router.replace(PaymentRoute());
+                      context.router.pop();
                     },
                   );
                 },
@@ -212,7 +225,7 @@ class RedeemVoucherView extends StatelessWidget {
         return AppConfirmationDialog(
           title: "Your email hasn't been verified yet.",
           subtitle:
-          "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
+              "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
           confirmText: "Resend",
           onConfirm: () {
             AuthenticationRepository()

@@ -1396,6 +1396,7 @@ class PaymentOrder extends Equatable {
   const PaymentOrder({
     this.paymentId,
     this.orderId,
+    this.cardHolderName,
     this.paymentDate,
     this.paymentMethodCode,
     this.paymentStatusCode,
@@ -1436,6 +1437,7 @@ class PaymentOrder extends Equatable {
         modifiedDate,
         modifiedDateUTC,
         cardNumber,
+    cardHolderName,
       ];
 
   final num? paymentId;
@@ -1444,6 +1446,8 @@ class PaymentOrder extends Equatable {
   final String? paymentMethodCode;
   final String? paymentStatusCode;
   final String? requeryStatusCode;
+  final String? cardHolderName;
+
   final String? cardOption;
   final String? cardNumber;
   final String? currencyCode;

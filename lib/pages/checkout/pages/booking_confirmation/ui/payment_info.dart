@@ -106,7 +106,19 @@ class PaymentDetail extends StatelessWidget {
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
+            content: paymentOrder.cardNumber ?? "",
+            makeBoldAll: true,
+
+          ),
+          kVerticalSpacer,
+          BorderedLeftContainerNoTitle(
             content: paymentOrder.paymentStatusCode ?? "",
+            makeBoldAll: true,
+
+          ),
+          kVerticalSpacer,
+          BorderedLeftContainerNoTitle(
+            content: paymentOrder.cardHolderName ?? "",
             makeBoldAll: true,
 
           ),

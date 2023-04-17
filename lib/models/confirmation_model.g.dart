@@ -750,7 +750,9 @@ PaymentOrder _$PaymentOrderFromJson(Map<String, dynamic> json) => PaymentOrder(
           ? null
           : DateTime.parse(json['paymentDate'] as String),
       paymentMethodCode: json['paymentMethodCode'] as String?,
-      paymentStatusCode: json['paymentStatusCode'] as String?,
+  cardHolderName: json['cardHolderName'] as String?,
+
+  paymentStatusCode: json['paymentStatusCode'] as String?,
       requeryStatusCode: json['requeryStatusCode'] as String?,
       currencyCode: json['currencyCode'] as String?,
       paymentAmount: json['paymentAmount'] as num?,
@@ -788,6 +790,7 @@ Map<String, dynamic> _$PaymentOrderToJson(PaymentOrder instance) {
   writeNotNull('orderId', instance.orderId);
   writeNotNull('paymentDate', instance.paymentDate?.toIso8601String());
   writeNotNull('paymentMethodCode', instance.paymentMethodCode);
+  writeNotNull('cardHolderName', instance.cardHolderName);
   writeNotNull('paymentStatusCode', instance.paymentStatusCode);
   writeNotNull('requeryStatusCode', instance.requeryStatusCode);
   writeNotNull('cardOption', instance.cardOption);
