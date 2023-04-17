@@ -62,6 +62,8 @@ class RedeemVoucherView extends StatelessWidget {
                     "Login to redeem your MYReward Points for further discounts!",
                     style: kMediumRegular.copyWith(),
                   ),
+                  kVerticalSpacerMini,
+
                   ElevatedButton(
                     onPressed: () => showLoginDialog(context),
                     child: Text("Login"),
