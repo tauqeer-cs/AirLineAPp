@@ -201,9 +201,10 @@ class AvailableInsurance extends StatelessWidget {
     if (agentCms != null) {
       if (e.codeType?.toLowerCase().contains('d') == true) {
         Items? item = agentCms.state.locationItem?.items
-            ?.firstWhere((element) => element.code == e.codeType);
-        String? cleanedHtmlString = item?.description?.replaceAll(RegExp(r'>\s+<'), '><');
-        if (item != null) {
+            ?.firstWhereOrNull((element) => element.code == e.codeType);
+
+        if(item != null) {
+          String? cleanedHtmlString = item.description?.replaceAll(RegExp(r'>\s+<'), '><');
           return Column(
             children: [
               //item?.ssrName ?? (e.description ?? '')
@@ -231,45 +232,48 @@ class AvailableInsurance extends StatelessWidget {
             ],
           );
         }
+
       } else if (e.codeType?.toLowerCase().contains('s') == true) {}
 
       Items? item = agentCms.state.internationalItem?.items
-          ?.firstWhere((element) => element.code == e.codeType);
+          ?.firstWhereOrNull((element) => element.code == e.codeType);
 
-      String? cleanedHtmlString = item?.description?.replaceAll(RegExp(r'>\s+<'), '><');
+      if(item != null) {
+        String? cleanedHtmlString = item.description?.replaceAll(RegExp(r'>\s+<'), '><');
 
 
-      if (item != null) {
-        return Column(
-          children: [
-            //item?.ssrName ?? (e.description ?? '')
-            kVerticalSpacerSmall,
+          return Column(
+            children: [
+              //item?.ssrName ?? (e.description ?? '')
+              kVerticalSpacerSmall,
 
-            Html(
-              data: cleanedHtmlString ?? "",
-              style: HtmlStyle.htmlStyleRed(
-                overrideColor: Styles.kTextColor,
+              Html(
+                data: cleanedHtmlString ?? "",
+                style: HtmlStyle.htmlStyleRed(
+                  overrideColor: Styles.kTextColor,
 
+                ),
+                onLinkTap: (
+                    String? url,
+                    RenderContext context,
+                    Map<String, String> attributes,
+                    element,
+                    ){
+                  if (url != null) {
+                    SecurityUtils.tryLaunch(
+                        url);
+
+                  }
+                },
               ),
-              onLinkTap: (
-                  String? url,
-                  RenderContext context,
-                  Map<String, String> attributes,
-                  element,
-                  ){
-                if (url != null) {
-                  SecurityUtils.tryLaunch(
-                      url);
+            ],
+          );
 
-                }
-              },
-            ),
-          ],
-        );
       }
+
     }
 
-    return SizedBox(
+    return const SizedBox(
       height: 0,
     );
   }
@@ -278,17 +282,22 @@ class AvailableInsurance extends StatelessWidget {
     if (agentCms != null) {
       if (e.codeType?.toLowerCase().contains('d') == true) {
         Items? item = agentCms.state.locationItem?.items
-            ?.firstWhere((element) => element.code == e.codeType);
+            ?.firstWhereOrNull((element) => element.code == e.codeType);
 
-        return item?.ssrName ?? (e.description ?? '');
+        if(item != null) {
+          return item.ssrName ?? (e.description ?? '');
+
+        }
       }
       else if (e.codeType?.toLowerCase().contains('s') == true) {
         Items? item = agentCms.state.internationalItem?.items
-            ?.firstWhere((element) => element.code == e.codeType);
+            ?.firstWhereOrNull((element) => element.code == e.codeType );
 
-        return item?.ssrName ?? (e.description ?? '');
+        if(item != null) {
+          return item.ssrName ?? (e.description ?? '');
+
+        }
       }
-      print('');
     }
     return e.description ?? "";
   }
