@@ -24,7 +24,8 @@ class FlightDetail extends StatefulWidget {
     Key? key,
     required this.isDeparture,
     required this.segment,
-    this.showFees = false, this.showDetailPayment = true,
+    this.showFees = false,
+    this.showDetailPayment = true,
   }) : super(key: key);
 
   @override
@@ -53,6 +54,7 @@ class _FlightDetailState extends State<FlightDetail> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          kVerticalSpacerMini,
           Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: widget.showFees ? 0 : 0.0),
@@ -69,7 +71,10 @@ class _FlightDetailState extends State<FlightDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: widget.showDetailPayment ? 15.0:0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: widget.showDetailPayment && !widget.showFees
+                            ? 15.0
+                            : 0),
                     child: Text(
                       "Details",
                       style: kSmallRegular.copyWith(
@@ -87,7 +92,8 @@ class _FlightDetailState extends State<FlightDetail> {
               ),
             ),
           ),
-          kVerticalSpacer,
+          kVerticalSpacerMini,
+
           ExpandedSection(
             expand: isExpand,
             child: Column(

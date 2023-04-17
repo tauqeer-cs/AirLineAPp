@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:app/app/app_flavor.dart';
 import 'package:app/theme/styles.dart';
 import 'package:auto_route/auto_route.dart';
@@ -57,6 +58,7 @@ class _WebViewStackState extends State<WebViewStack> {
             });
           },
           navigationDelegate: (navigation) {
+            log("navigation.url ${navigation.url}");
             if(navigation.url.contains(AppFlavor.paymentRedirectUrl)){
               context.router.pop(navigation.url);
             }
