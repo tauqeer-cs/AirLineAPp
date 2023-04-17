@@ -20,6 +20,7 @@ import 'dgnInfo_view.dart';
 
 class CheckInDetailView extends StatefulWidget {
   final bool isPast;
+  static final _fbKey = GlobalKey<FormBuilderState>();
 
   const CheckInDetailView({Key? key, required this.isPast}) : super(key: key);
 
@@ -42,116 +43,48 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
         return Padding(
           padding: kPageHorizontalPadding,
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 16,
-                ),
-                BookingReferenceLabel(
-                  refText: state.pnrEntered,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: CheckInSteps(
-                    passedSteps: const [
-                      CheckInStep.itinerary,
-                      //            BookingStep.addOn,
+            child: FormBuilder(
+              autoFocusOnValidationFailure: true,
+              key: CheckInDetailView._fbKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  BookingReferenceLabel(
+                    refText: state.pnrEntered,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: CheckInSteps(
+                      passedSteps: const [
+                        CheckInStep.itinerary,
+                        //            BookingStep.addOn,
 //              BookingStep.bookingDetails,
-                    ],
-                    onTopStepTaped: (i) {},
-                  ),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  'Itinerary',
-                  style: kHugeSemiBold.copyWith(
-                    color: Styles.kTextColor,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                kVerticalSpacerSmall,
-                AppCard(
-                  edgeInsets:
-                      const EdgeInsets.only(right: 15, top: 15, bottom: 15),
-                  child: Row(
-                    children: [
-                      if (state.manageBookingResponse?.result
-                              ?.outboundCheckingAllowed ==
-                          false) ...[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14),
-                          child: SizedBox(
-                            width: Checkbox.width,
-                            height: Checkbox.width,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Styles.kDisabledGrey,
-                                  width: 1.6,
-                                ),
-                                borderRadius: BorderRadius.circular(2.0),
-                              ),
-                            ),
-                          ),
-                        )
-                      ] else ...[
-                        Checkbox(
-                          checkColor: Colors.white,
-                          fillColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                          value: state.checkedDeparture,
-                          onChanged: (bool? value) {
-                            bloc.setCheckDeparture(value ?? false);
-                          },
-                        ),
                       ],
-                      Expanded(
-                        child: FlightDataInfo(
-                          headingLabel: 'Departure',
-                          disabledView: state.manageBookingResponse?.result
-                                  ?.outboundCheckingAllowed ==
-                              false,
-                          dateToShow: state.manageBookingResponse?.result
-                                  ?.departureDateToShow ??
-                              '',
-                          departureToDestinationCode: state
-                                  .manageBookingResponse
-                                  ?.result
-                                  ?.departureToDestinationCode ??
-                              '',
-                          departureDateWithTime: state.manageBookingResponse
-                                  ?.result?.departureDateWithTime ??
-                              '',
-                          departureAirportName: state.manageBookingResponse
-                                  ?.result?.departureAirportName ??
-                              '',
-                          journeyTimeInHourMin: state.manageBookingResponse
-                                  ?.result?.journeyTimeInHourMin ??
-                              '',
-                          arrivalDateWithTime: state.manageBookingResponse
-                                  ?.result?.arrivalDateWithTime ??
-                              '',
-                          arrivalAirportName: state.manageBookingResponse
-                                  ?.result?.arrivalAirportName ??
-                              '',
-                        ),
-                      ),
-                    ],
+                      onTopStepTaped: (i) {},
+                    ),
                   ),
-                ),
-                kVerticalSpacerSmall,
-                if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    'Itinerary',
+                    style: kHugeSemiBold.copyWith(
+                      color: Styles.kTextColor,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  kVerticalSpacerSmall,
                   AppCard(
                     edgeInsets:
-                    const EdgeInsets.only(right: 15, top: 15, bottom: 15),
+                        const EdgeInsets.only(right: 15, top: 15, bottom: 15),
                     child: Row(
                       children: [
                         if (state.manageBookingResponse?.result
-                            ?.inboundCheckingAllowed ==
-                            false) ... [
+                                ?.outboundCheckingAllowed ==
+                            false) ...[
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 14),
                             child: SizedBox(
@@ -167,393 +100,437 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 ),
                               ),
                             ),
-                          ),
-                        ] else ... [
+                          )
+                        ] else ...[
                           Checkbox(
                             checkColor: Colors.white,
                             fillColor:
-                            MaterialStateProperty.resolveWith(getColor),
-                            value: state.checkReturn,
+                                MaterialStateProperty.resolveWith(getColor),
+                            value: state.checkedDeparture,
                             onChanged: (bool? value) {
-                              bloc.setCheckReturn(value ?? false);
+                              bloc.setCheckDeparture(value ?? false);
                             },
                           ),
                         ],
                         Expanded(
                           child: FlightDataInfo(
-                            headingLabel: 'Return',
+                            headingLabel: 'Departure',
+                            disabledView: state.manageBookingResponse?.result
+                                    ?.outboundCheckingAllowed ==
+                                false,
                             dateToShow: state.manageBookingResponse?.result
-                                ?.returnDepartureDateToShow ??
+                                    ?.departureDateToShow ??
                                 '',
                             departureToDestinationCode: state
-                                .manageBookingResponse
-                                ?.result
-                                ?.returnToDestinationCode ??
+                                    .manageBookingResponse
+                                    ?.result
+                                    ?.departureToDestinationCode ??
                                 '',
                             departureDateWithTime: state.manageBookingResponse
-                                ?.result?.returnDepartureDateWithTime ??
+                                    ?.result?.departureDateWithTime ??
                                 '',
                             departureAirportName: state.manageBookingResponse
-                                ?.result?.returnDepartureAirportName ??
+                                    ?.result?.departureAirportName ??
                                 '',
                             journeyTimeInHourMin: state.manageBookingResponse
-                                ?.result?.returnJourneyTimeInHourMin ??
+                                    ?.result?.journeyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime: state.manageBookingResponse
-                                ?.result?.returnArrivalDateWithTime ??
+                                    ?.result?.arrivalDateWithTime ??
                                 '',
                             arrivalAirportName: state.manageBookingResponse
-                                ?.result?.returnArrivalAirportName ??
+                                    ?.result?.arrivalAirportName ??
                                 '',
                           ),
                         ),
                       ],
                     ),
                   ),
-
-
-                ],
-                if (state.loadBoardingDate == true) ...[
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: AppLoading(),
-                  )
-                ] else if (bloc.showCheckInButton) ...[
-                  kVerticalSpacer,
-                  if ((state.outboundBoardingPassPassenger ?? [])
-                      .isNotEmpty) ...[
+                  kVerticalSpacerSmall,
+                  if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
                     AppCard(
-                        child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                      edgeInsets:
+                      const EdgeInsets.only(right: 15, top: 15, bottom: 15),
+                      child: Row(
                         children: [
-                          Text(
-                            'Boarding Pass',
-                            style: kHugeSemiBold.copyWith(
-                              color: Styles.kTextColor,
-                            ),
-                          ),
-                          kVerticalSpacerSmall,
-                          Text(
-                            'Departing Flight',
-                            style: kMediumHeavy.copyWith(
-                                color: Styles.kPrimaryColor),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              style: kMediumRegular.copyWith(
-                                  color: Styles.kTextColor),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: state.manageBookingResponse?.result
-                                      ?.departureAirportToDestinationName,
-                                  //'Kuala Lumpur to Penang —'
-                                  style: kMediumSemiBold.copyWith(
-                                      color: Styles.kTextColor),
-                                ),
-                                TextSpan(
-                                  //
-                                  text: state.manageBookingResponse?.result
-                                          ?.departureAirportTime ??
-                                      '',
-                                ),
-                              ],
-                            ),
-                          ),
-                          kVerticalSpacerSmall,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    }, //isLoading ? null :
-                                    child: const Text('Share'),
+                          if (state.manageBookingResponse?.result
+                              ?.inboundCheckingAllowed ==
+                              false) ... [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 14),
+                              child: SizedBox(
+                                width: Checkbox.width,
+                                height: Checkbox.width,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Styles.kDisabledGrey,
+                                      width: 1.6,
+                                    ),
+                                    borderRadius: BorderRadius.circular(2.0),
                                   ),
                                 ),
-                                kHorizontalSpacerSmall,
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      //Navigator.of(context).pop(true);
-                                      bool? check = await bloc
-                                          .getBoardingPassPassengers(true);
-
-                                      //downloadFile(
-                                      ///  'https://myatempfolder.blob.core.windows.net/myatempfolder/XXT7NF-64335-20081.pdf',
-                                      // 'newFile.pdf');
-                                    },
-                                    child: const Text('Download'),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                    )),
-                  ],
-                  if ((state.inboundBoardingPassPassenger ?? [])
-                      .isNotEmpty) ...[
-                    AppCard(
-                        child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            'Boarding Pass',
-                            style: kHugeSemiBold.copyWith(
-                              color: Styles.kTextColor,
+                          ] else ... [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
+                              value: state.checkReturn,
+                              onChanged: (bool? value) {
+                                bloc.setCheckReturn(value ?? false);
+                              },
                             ),
-                          ),
-                          kVerticalSpacerSmall,
-                          Text(
-                            'Return Flight',
-                            style: kMediumHeavy.copyWith(
-                                color: Styles.kPrimaryColor),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              style: kMediumRegular.copyWith(
-                                  color: Styles.kTextColor),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: state.manageBookingResponse?.result
-                                      ?.returnAirportToDestinationName,
-                                  style: kMediumSemiBold.copyWith(
-                                      color: Styles.kTextColor),
-                                ),
-                                TextSpan(
-                                  //
-                                  text: state.manageBookingResponse?.result
-                                          ?.returnAirportTime ??
-                                      '',
-                                ),
-                              ],
-                            ),
-                          ),
-                          kVerticalSpacerSmall,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    }, //isLoading ? null :
-                                    child: const Text('Share'),
-                                  ),
-                                ),
-                                kHorizontalSpacerSmall,
-                                Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      //Navigator.of(context).pop(true);
-                                      bool? check = await bloc
-                                          .getBoardingPassPassengers(false);
-
-
-                                    },
-                                    child: const Text('Download'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )),
-                  ],
-                ],
-                kVerticalSpacer,
-                Text(
-                  'Passenger',
-                  style: kHugeSemiBold.copyWith(
-                    color: Styles.kTextColor,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                kVerticalSpacerSmall,
-                for (int i = 0;
-                    i <
-                        (state.manageBookingResponse?.result
-                                    ?.passengersWithSSR ??
-                                [])
-                            .length;
-                    i++) ...[
-                  Row(
-                    children: [
-                      Checkbox(
-                        checkColor: Colors.white,
-                        fillColor: MaterialStateProperty.resolveWith(getColor),
-                        value: state.manageBookingResponse?.result
-                                ?.passengersWithSSR?[i].paxSelected ??
-                            false,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            bloc.setPerson(value ?? false, i);
-                          });
-                        },
-                      ),
-                      Text(
-                        state.manageBookingResponse?.result
-                                ?.passengersWithSSR?[i].passengers?.fullName ??
-                            '',
-                        style: kLargeHeavy.copyWith(
-                          color: Styles.kTextColor,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
-                  ),
-                  AppInputText(
-                    hintText: "First Name/Given Name",
-                    readOnly: true,
-                    validators: [FormBuilderValidators.required()],
-                    initialValue: state.manageBookingResponse?.result
-                            ?.passengersWithSSR?[i].passengers?.givenName ??
-                        '',
-                    name: 'firstNameKey',
-                    fillDisabledColor: true,
-                  ),
-                  kVerticalSpacerSmall,
-                  AppInputText(
-                    hintText: 'Last Name / Surname',
-                    readOnly: true,
-                    validators: [FormBuilderValidators.required()],
-                    initialValue: state.manageBookingResponse?.result
-                            ?.passengersWithSSR?[i].passengers?.surname ??
-                        '',
-                    name: 'lastNameKey',
-                    fillDisabledColor: true,
-                  ),
-                  kVerticalSpacerSmall,
-                  AppInputText(
-                    hintText: 'Nationality',
-                    readOnly: true,
-                    validators: [FormBuilderValidators.required()],
-                    initialValue: state.manageBookingResponse?.result
-                            ?.passengersWithSSR?[i].passengers?.nationality ??
-                        '',
-                    name: 'lastNameKey',
-                    fillDisabledColor: true,
-                  ),
-                  kVerticalSpacerSmall,
-                  if (bloc.showPassport) ...[
-                    AppInputText(
-                      name: 'passportKey',
-                      initialValue: state.manageBookingResponse?.result
-                          ?.passengersWithSSR?[i].passengers?.passport,
-                      inputFormatters: [AppFormUtils.onlyNumber()],
-                      textInputType: TextInputType.text,
-//
-                    ),
-                    kVerticalSpacerMini,
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Styles.kBorderActionColor,
-                          //color: Colors.blueAccent,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: FormBuilderDateTimePicker(
-                          //key: 'dateKey1',
-                          name: 'dobKey',
-                          firstDate:
-                              DateTime.now().add(const Duration(days: 30)),
-                          lastDate:
-                              DateTime.now().add(const Duration(days: 4120)),
-                          initialValue: state
-                              .manageBookingResponse
-                              ?.result
-                              ?.passengersWithSSR?[i]
-                              .passengers
-                              ?.passportExpiryDate,
-                          format: DateFormat("dd MMMM yyyy"),
-                          initialDate: state
+                          ],
+                          Expanded(
+                            child: FlightDataInfo(
+                              headingLabel: 'Return',
+                              dateToShow: state.manageBookingResponse?.result
+                                  ?.returnDepartureDateToShow ??
+                                  '',
+                              departureToDestinationCode: state
                                   .manageBookingResponse
                                   ?.result
-                                  ?.passengersWithSSR?[i]
-                                  .passengers
-                                  ?.passportExpiryDate ??
-                              DateTime.now().add(const Duration(days: 30)),
-                          initialEntryMode: DatePickerEntryMode.calendar,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(8.0),
+                                  ?.returnToDestinationCode ??
+                                  '',
+                              departureDateWithTime: state.manageBookingResponse
+                                  ?.result?.returnDepartureDateWithTime ??
+                                  '',
+                              departureAirportName: state.manageBookingResponse
+                                  ?.result?.returnDepartureAirportName ??
+                                  '',
+                              journeyTimeInHourMin: state.manageBookingResponse
+                                  ?.result?.returnJourneyTimeInHourMin ??
+                                  '',
+                              arrivalDateWithTime: state.manageBookingResponse
+                                  ?.result?.returnArrivalDateWithTime ??
+                                  '',
+                              arrivalAirportName: state.manageBookingResponse
+                                  ?.result?.returnArrivalAirportName ??
+                                  '',
                             ),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            //labelText: ' Birth',
-                            label: const Padding(
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text('Date of'),
-                            ),
-                            hintText: 'Select Date of Birth',
                           ),
-                          inputType: InputType.date,
-                          validator: FormBuilderValidators.required(),
-                          onChanged: (date) {},
-                        ),
+                        ],
                       ),
                     ),
-                    kVerticalSpacerSmall,
-                  ],
-                  if (state.manageBookingResponse?.result?.passengersWithSSR?[i]
-                          .passengers?.passengerType !=
-                      'INF') ...[
-                    AppInputText(
-                      name: 'rewardKey',
-                      initialValue: state.manageBookingResponse?.result
-                          ?.passengersWithSSR?[i].passengers?.myRewardMemberId,
-                      hintText: 'Membership ID',
-                      inputFormatters: [AppFormUtils.onlyNumber()],
-                      textInputType: TextInputType.number,
-                    ),
-                    kVerticalSpacerMini,
-                  ],
-                ],
-                kVerticalSpacer,
-                if (widget.isPast == false) ...[
-                  ElevatedButton(
-                    onPressed: bloc.showCheckIn == false
-                        ? null
-                        : () async {
-                            bool? check = await showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 16),
-                                  child: DgnInfoView(
-                                    valueChanged: (bool value) {},
-                                  ),
-                                );
-                              },
-                            );
 
-                            if (check == true) {
-                              //true
-                            }
-                          },
-                    child: const Text('Check-In'),
+
+                  ],
+                  if (state.loadBoardingDate == true) ...[
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24),
+                      child: AppLoading(),
+                    )
+                  ] else if (bloc.showCheckInButton) ...[
+                    kVerticalSpacer,
+                    if ((state.outboundBoardingPassPassenger ?? [])
+                        .isNotEmpty) ...[
+                      AppCard(
+                          child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              'Boarding Pass',
+                              style: kHugeSemiBold.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                            kVerticalSpacerSmall,
+                            Text(
+                              'Departing Flight',
+                              style: kMediumHeavy.copyWith(
+                                  color: Styles.kPrimaryColor),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                style: kMediumRegular.copyWith(
+                                    color: Styles.kTextColor),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: state.manageBookingResponse?.result
+                                        ?.departureAirportToDestinationName,
+                                    //'Kuala Lumpur to Penang —'
+                                    style: kMediumSemiBold.copyWith(
+                                        color: Styles.kTextColor),
+                                  ),
+                                  TextSpan(
+                                    //
+                                    text: state.manageBookingResponse?.result
+                                            ?.departureAirportTime ??
+                                        '',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kVerticalSpacerSmall,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      }, //isLoading ? null :
+                                      child: const Text('Share'),
+                                    ),
+                                  ),
+                                  kHorizontalSpacerSmall,
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        //Navigator.of(context).pop(true);
+                                        bool? check = await bloc
+                                            .getBoardingPassPassengers(true);
+
+                                        //downloadFile(
+                                        ///  'https://myatempfolder.blob.core.windows.net/myatempfolder/XXT7NF-64335-20081.pdf',
+                                        // 'newFile.pdf');
+                                      },
+                                      child: const Text('Download'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                    ],
+                    if ((state.inboundBoardingPassPassenger ?? [])
+                        .isNotEmpty) ...[
+                      AppCard(
+                          child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              'Boarding Pass',
+                              style: kHugeSemiBold.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                            kVerticalSpacerSmall,
+                            Text(
+                              'Return Flight',
+                              style: kMediumHeavy.copyWith(
+                                  color: Styles.kPrimaryColor),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                style: kMediumRegular.copyWith(
+                                    color: Styles.kTextColor),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: state.manageBookingResponse?.result
+                                        ?.returnAirportToDestinationName,
+                                    style: kMediumSemiBold.copyWith(
+                                        color: Styles.kTextColor),
+                                  ),
+                                  TextSpan(
+                                    //
+                                    text: state.manageBookingResponse?.result
+                                            ?.returnAirportTime ??
+                                        '',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kVerticalSpacerSmall,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 24),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      }, //isLoading ? null :
+                                      child: const Text('Share'),
+                                    ),
+                                  ),
+                                  kHorizontalSpacerSmall,
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        //Navigator.of(context).pop(true);
+                                        bool? check = await bloc
+                                            .getBoardingPassPassengers(false);
+
+
+                                      },
+                                      child: const Text('Download'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                    ],
+                  ],
+                  kVerticalSpacer,
+                  Text(
+                    'Passenger',
+                    style: kHugeSemiBold.copyWith(
+                      color: Styles.kTextColor,
+                    ),
+                    textAlign: TextAlign.left,
                   ),
+                  kVerticalSpacerSmall,
+                  for (int i = 0;
+                      i <
+                          (state.manageBookingResponse?.result
+                                      ?.passengersWithSSR ??
+                                  [])
+                              .length;
+                      i++) ...[
+                    Row(
+                      children: [
+                        Checkbox(
+                          checkColor: Colors.white,
+                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          value: state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i].paxSelected ??
+                              false,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              bloc.setPerson(value ?? false, i);
+                            });
+                          },
+                        ),
+                        Text(
+                          state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i].passengers?.fullName ??
+                              '',
+                          style: kLargeHeavy.copyWith(
+                            color: Styles.kTextColor,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                    AppInputText(
+                      hintText: "First Name/Given Name",
+                      readOnly: true,
+                      validators: [FormBuilderValidators.required()],
+                      initialValue: state.manageBookingResponse?.result
+                              ?.passengersWithSSR?[i].passengers?.givenName ??
+                          '',
+                      name: 'firstNameKey',
+                      fillDisabledColor: true,
+                    ),
+                    kVerticalSpacerSmall,
+                    AppInputText(
+                      hintText: 'Last Name / Surname',
+                      readOnly: true,
+                      validators: [FormBuilderValidators.required()],
+                      initialValue: state.manageBookingResponse?.result
+                              ?.passengersWithSSR?[i].passengers?.surname ??
+                          '',
+                      name: 'lastNameKey',
+                      fillDisabledColor: true,
+                    ),
+                    kVerticalSpacerSmall,
+                    AppInputText(
+                      hintText: 'Nationality',
+                      readOnly: true,
+                      validators: [FormBuilderValidators.required()],
+                      initialValue: state.manageBookingResponse?.result
+                              ?.passengersWithSSR?[i].passengers?.nationality ??
+                          '',
+                      name: 'lastNameKey',
+                      fillDisabledColor: true,
+                    ),
+                    kVerticalSpacerSmall,
+                    if (bloc.showPassport) ...[
+                      AppInputText(
+                        isRequired: true,
+                        name: 'passportKey${i.toString()}',
+                        hintText: 'Passport No',
+                        label: 'Passport No',
+                        initialValue: state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].passengers?.passport,
+                        textInputType: TextInputType.text,
+                        validators: [
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.match(
+                              r'^[A-Z]{2}[0-9]{7}$',
+                              errorText:
+                              'Valid passport needed'),
+                        ],
+                      ),
+                      kVerticalSpacerSmall,
+
+
+                      FormBuilderDateTimePicker(
+                        name: 'formNameDob${i.toString()}',
+                        firstDate: DateTime(1920),
+                        lastDate: DateTime.now(),
+                        //initialValue: dobSelected,
+                        format: DateFormat("dd MMM yyyy"),
+                        onChanged: (newData) {},
+                        initialDate: DateTime(2000),
+                        initialEntryMode: DatePickerEntryMode.calendar,
+                        decoration: const InputDecoration(
+                            hintText: "Date of Birth",
+                            suffixIcon: Icon(Icons.calendar_month_sharp),
+                            contentPadding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
+                        inputType: InputType.date,
+                      ),
+
+                      kVerticalSpacerSmall,
+                    ],
+                    if (state.manageBookingResponse?.result?.passengersWithSSR?[i]
+                            .passengers?.passengerType !=
+                        'INF') ...[
+                      AppInputText(
+                        name: 'rewardKey${i.toString()}',
+                        initialValue: state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].passengers?.myRewardMemberId,
+                        hintText: 'Membership ID',
+                        inputFormatters: [AppFormUtils.onlyNumber()],
+                        textInputType: TextInputType.number,
+                      ),
+                      kVerticalSpacerMini,
+                    ],
+                  ],
+                  kVerticalSpacer,
+                  if (widget.isPast == false) ...[
+                    ElevatedButton(
+                      onPressed: bloc.showCheckIn == false
+                          ? null
+                          : () async {
+                              bool? check = await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 16),
+                                    child: DgnInfoView(
+                                      valueChanged: (bool value) {},
+                                    ),
+                                  );
+                                },
+                              );
+
+                              if (check == true) {
+                                //true
+                              }
+                            },
+                      child: const Text('Check-In'),
+                    ),
+                  ],
+                  kVerticalSpacer,
+                  kVerticalSpacer,
                 ],
-                kVerticalSpacer,
-                kVerticalSpacer,
-              ],
+              ),
             ),
           ),
         );
