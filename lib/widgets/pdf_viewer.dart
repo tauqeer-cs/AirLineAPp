@@ -142,7 +142,7 @@ class _PdfViewerState extends State<PdfViewer> {
             );
     }
     if (pathPDF.isEmpty) {
-      return Text("PDF Empty");
+      return Text("");
     }
     return PDFView(
       filePath: pathPDF,
