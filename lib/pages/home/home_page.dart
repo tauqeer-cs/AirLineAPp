@@ -22,14 +22,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.router.push(
-              BookingConfirmationRoute(
-                bookingId: "8HUHEE7" ?? "",)
-          );
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     context.router.push(
+      //         BookingConfirmationRoute(
+      //           bookingId: "8HUHEE7" ?? "",)
+      //     );
+      //   },
+      // ),
       body: BlocProvider(
         create: (context) => PriceRangeCubit(),
         child: const HomeView(),

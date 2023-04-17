@@ -17,6 +17,8 @@ class JosKeys {
   static final gKeysAuth = GlobalKey<FormBuilderState>();
   static final gKeysSearch = GlobalKey<FormBuilderState>();
   static final gKeysBooking = GlobalKey<FormBuilderState>();
+  static final gKeysVoucher = GlobalKey<FormBuilderState>();
+
 }
 
 class LoginForm extends StatelessWidget {
