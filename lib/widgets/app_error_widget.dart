@@ -21,6 +21,7 @@ class AppErrorWidget extends StatelessWidget {
             Text(
               title,
               style: kHugeHeavy,
+              textAlign: TextAlign.center,
             ),
             kVerticalSpacerSmall,
             Text(

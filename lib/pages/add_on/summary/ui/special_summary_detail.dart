@@ -93,7 +93,7 @@ class SpecialSummaryDetail extends StatelessWidget {
               e.generateText(numberOfPerson, separator: "& "),
             ),
             Text(
-              "-${wheelchair?.description}",
+              " - ${wheelchair?.description}",
               style:
               kMediumRegular.copyWith(color: Styles.kActiveGrey),
             ),

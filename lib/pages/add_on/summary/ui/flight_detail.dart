@@ -48,24 +48,27 @@ class FlightSummaryDetail extends StatelessWidget {
           ChildRow(
             child1: Text(
               "Depart",
+              style: kMediumRegular,
+
             ),
-            child2: FittedBox(
-              child: Text(
-                "${AppDateUtils.formatFullDateWithTime(segment?.departureDate)}\n${isDeparture ? filter?.origin?.name : filter?.destination?.name}",
-                textAlign: TextAlign.end,
-              ),
+            child2: Text(
+              "${AppDateUtils.formatFullDateWithTime(segment?.departureDate)}\n${isDeparture ? filter?.origin?.name : filter?.destination?.name}",
+              textAlign: TextAlign.end,
+              style: kMediumRegular,
+
             ),
           ),
           kVerticalSpacerMini,
           ChildRow(
             child1: Text(
               "Arrive",
+              style: kMediumRegular,
+
             ),
-            child2: FittedBox(
-              child: Text(
-                "${AppDateUtils.formatFullDateWithTime(segment?.arrivalDate)}\n${isDeparture ? filter?.destination?.name : filter?.origin?.name}",
-                textAlign: TextAlign.end,
-              ),
+            child2: Text(
+              "${AppDateUtils.formatFullDateWithTime(segment?.arrivalDate)}\n${isDeparture ? filter?.destination?.name : filter?.origin?.name}",
+              textAlign: TextAlign.end,
+              style: kMediumRegular,
             ),
           ),
           kVerticalSpacerMini,
@@ -74,6 +77,8 @@ class FlightSummaryDetail extends StatelessWidget {
                 (e) => ChildRow(
                   child1: Text(
                     e.generateText(numberOfPerson, separator: "& "),
+                    style: kMediumRegular,
+
                   ),
                   child2: MoneyWidgetCustom(
                     amount: e.peopleType == PeopleType.adult

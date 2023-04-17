@@ -69,7 +69,7 @@ class _FlightDetailState extends State<FlightDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: EdgeInsets.symmetric(horizontal: widget.showDetailPayment ? 15.0:0),
                     child: Text(
                       "Details",
                       style: kSmallRegular.copyWith(

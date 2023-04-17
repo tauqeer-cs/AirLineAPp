@@ -99,6 +99,29 @@ class LoginForm extends StatelessWidget {
           kVerticalSpacerSmall,
           AppInputText(
             isRequired: false,
+            inputDecoration: InputDecoration(
+              hintText: "Email Address",
+              counterText: "",
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Styles.kBorderColor),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Styles.kBorderColor),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Styles.kBorderColor),
+              ),
+              errorBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+              ),
+              focusedErrorBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+              ),
+              disabledBorder: UnderlineInputBorder(
+                borderSide:
+                BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
+              ),
+            ),
             textInputType: TextInputType.emailAddress,
             name: formEmailLoginName,
             hintText: 'Email Address',
@@ -110,9 +133,11 @@ class LoginForm extends StatelessWidget {
           ),
           kVerticalSpacer,
           //Text(tr.password, style: kMediumHeavy),
-          AppInputPassword(
+          AppInputPasswordUnderline(
             name: formPasswordLoginName,
             hintText: "Password",
+
+
             validators: [FormBuilderValidators.required()],
             isDarkBackground: false,
           ),
@@ -123,19 +148,19 @@ class LoginForm extends StatelessWidget {
               },
               child: Text(
                 "Forgotten your password?",
-                style: kMediumRegular.copyWith(color: Styles.kBorderColor),
+                style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               )),
           kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
-            child: const Text("Login"),
+            child: const Text("Login",style: kLargeHeavy,),
           ),
           kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(
               const SignupWrapperRoute(),
-            ),
-            child: const Text("Create Account"),
+            ),//kMedium15Heavy
+            child: const Text("Create Account",style: kLargeHeavy,),
           )
         ],
       ),

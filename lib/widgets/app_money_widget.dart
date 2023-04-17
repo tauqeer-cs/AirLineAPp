@@ -125,7 +125,6 @@ class MoneyWidgetCustom extends StatelessWidget {
               fontWeight: fontWeight
           ),
         ),
-        kHorizontalSpacerMini,
         AutoSizeText(
           NumberUtils.formatNumber(amount?.toDouble()),
           style: kMediumRegular.copyWith(
