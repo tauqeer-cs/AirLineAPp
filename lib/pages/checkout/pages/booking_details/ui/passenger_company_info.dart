@@ -1,5 +1,6 @@
 import 'package:app/blocs/local_user/local_user_bloc.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
+import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/widgets/app_countries_dropdown.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
@@ -29,6 +30,8 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
   String? postCode;
   String? emailAddress;
   bool isExpand = false;
+  final nationalityController = TextEditingController();
+  final stateController = TextEditingController();
 
   TextEditingController emailController = TextEditingController();
 
@@ -42,17 +45,12 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
     city = contact?.city;
     emailAddress = contact?.emailAddress;
     postCode = contact?.postCode;
-
-
-
-
   }
 
   void fillEmail() {
-     if( (emailController.text ?? '').isEmpty){
+    if ((emailController.text ?? '').isEmpty) {
       final request = context.read<LocalUserBloc>().state;
       emailController.text = request.contactEmail;
-
     }
   }
 
@@ -119,12 +117,11 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                         .read<LocalUserBloc>()
                         .add(UpdateCompany(newRequest));
 
-                    if((value ?? '').isNotEmpty){
+                    if ((value ?? '').isNotEmpty) {
                       //if((emailAddress ?? '').isEmpty){
-                        fillEmail();
-                     // }
+                      fillEmail();
+                      // }
                     }
-
                   },
                 ),
                 kVerticalSpacer,
@@ -142,11 +139,18 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                   },
                 ),
                 kVerticalSpacer,
-                const AppCountriesDropdown(
-                  hintText: "Country",
-                  isPhoneCode: false,
+                ShadowInput(
+                  textEditingController: nationalityController,
+                  name: formNameCompanyCountry,
+                  child: AppCountriesDropdown(
+                    dropdownDecoration: Styles.getDefaultFieldDecoration(),
+                    hintText: "Country",
+                    isPhoneCode: false,
+                  ),
                 ),
                 kVerticalSpacer,
+
+
                 AppInputText(
                   name: formNameCompanyState,
                   initialValue: state,

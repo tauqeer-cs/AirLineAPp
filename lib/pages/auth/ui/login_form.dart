@@ -17,6 +17,8 @@ class JosKeys {
   static final gKeysAuth = GlobalKey<FormBuilderState>();
   static final gKeysSearch = GlobalKey<FormBuilderState>();
   static final gKeysBooking = GlobalKey<FormBuilderState>();
+  static final gKeysVoucher = GlobalKey<FormBuilderState>();
+
 }
 
 class LoginForm extends StatelessWidget {
@@ -37,12 +39,13 @@ class LoginForm extends StatelessWidget {
       final value = fbKey.currentState!.value;
       final email = value[formEmailLoginName];
       final password = value[formPasswordLoginName];
-      await context.read<LoginCubit>().logInWithCredentialsFromPopUp(email, password);
+      await context
+          .read<LoginCubit>()
+          .logInWithCredentialsFromPopUp(email, password);
 
       context.read<ProfileCubit>().getProfile();
 
       await context.read<LoginCubit>().changeStatus();
-
     }
   }
 
@@ -97,24 +100,37 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-          AppInputText(
-            isRequired: false,
-            textInputType: TextInputType.emailAddress,
-            name: formEmailLoginName,
-            hintText: 'Email Address',
-            maxLength: 45,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email(),
-            ],
+          Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ), // set the background color here
+            child: AppInputText(
+              topPadding: 0,
+              isRequired: false,
+              fillColor: Colors.blueAccent,
+              textInputType: TextInputType.emailAddress,
+              name: formEmailLoginName,
+              hintText: 'Email Address',
+              maxLength: 45,
+              validators: [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.email(),
+              ],
+            ),
           ),
           kVerticalSpacer,
-          //Text(tr.password, style: kMediumHeavy),
-          AppInputPassword(
-            name: formPasswordLoginName,
-            hintText: "Password",
-            validators: [FormBuilderValidators.required()],
-            isDarkBackground: false,
+          Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: AppInputPassword(
+              name: formPasswordLoginName,
+              hintText: "Password",
+              validators: [FormBuilderValidators.required()],
+              isDarkBackground: false,
+            ),
           ),
           kVerticalSpacerMini,
           TextButton(
@@ -123,19 +139,25 @@ class LoginForm extends StatelessWidget {
               },
               child: Text(
                 "Forgotten your password?",
-                style: kMediumRegular.copyWith(color: Styles.kBorderColor),
+                style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               )),
           kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
-            child: const Text("Login"),
+            child: const Text(
+              "Login",
+              style: kLargeHeavy,
+            ),
           ),
           kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(
               const SignupWrapperRoute(),
+            ), //kMedium15Heavy
+            child: const Text(
+              "Create Account",
+              style: kLargeHeavy,
             ),
-            child: const Text("Create Account"),
           )
         ],
       ),

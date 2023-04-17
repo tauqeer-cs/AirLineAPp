@@ -6,6 +6,7 @@ import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
@@ -45,89 +46,93 @@ class WheelchairSection extends StatelessWidget {
 
     return Padding(
       padding: kPageHorizontalPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PassengerSelector(
-            isDeparture: isDeparture,
-            addonType: AddonType.special,
-          ),
-          kVerticalSpacer,
-          wheelChairs?.isEmpty ?? true
-              ? Center(child: Text("No available wheelchair", style: kLargeHeavy,))
-              : AppCard(
-                  edgeInsets: EdgeInsets.all(12),
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CustomCheckBox(
-                            checkBoxSize: 18,
-                            checkedFillColor: Styles.kActiveGrey,
-                            borderColor: Styles.kActiveGrey,
-                            value: selectedWheelchair != null,
-                            onChanged: (value) {
-                              print("value is $value");
-                              if (value) {
+      child: Visibility(
+        visible: wheelChairs?.isNotEmpty ?? false,
+        replacement: EmptyAddon(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PassengerSelector(
+              isDeparture: isDeparture,
+              addonType: AddonType.special,
+            ),
+            kVerticalSpacer,
+            wheelChairs?.isEmpty ?? true
+                ? Center(child: Text("No available wheelchair", style: kLargeHeavy,))
+                : AppCard(
+                    edgeInsets: EdgeInsets.all(12),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomCheckBox(
+                              checkBoxSize: 18,
+                              checkedFillColor: Styles.kActiveGrey,
+                              borderColor: Styles.kActiveGrey,
+                              value: selectedWheelchair != null,
+                              onChanged: (value) {
+                                print("value is $value");
+                                if (value) {
+                                  context
+                                      .read<SearchFlightCubit>()
+                                      .addWheelChairToPersonPartial(
+                                        person: focusedPerson,
+                                        wheelChairs: wheelChairs ?? [],
+                                        isDeparture: isDeparture,
+                                        okId: okId,
+                                      );
+                                } else {
+                                  context
+                                      .read<SearchFlightCubit>()
+                                      .addWheelChairToPersonPartial(
+                                        person: focusedPerson,
+                                        wheelChairs: [],
+                                        isDeparture: isDeparture,
+                                        okId: okId,
+                                      );
+                                }
+                              },
+                            ),
+                            kHorizontalSpacerMini,
+                            Image.asset("assets/images/design/wheelchair.png",
+                                height: 32),
+                            kHorizontalSpacerSmall,
+                            Expanded(
+                              child: Text(
+                                "I need a wheelchair.",
+                                style: kLargeMedium,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 50.0, top: 10),
+                          child: Visibility(
+                            visible: selectedWheelchair != null,
+                            child: BorderedAppInputText(
+                              key: Key("${focusedPerson.toString()}okId"),
+                              name: "${focusedPerson.toString()}okId",
+                              hintText: "Disabled ID Card No (Optional)",
+                              initialValue: okId,
+                              onChanged: (id) {
                                 context
                                     .read<SearchFlightCubit>()
                                     .addWheelChairToPersonPartial(
                                       person: focusedPerson,
                                       wheelChairs: wheelChairs ?? [],
                                       isDeparture: isDeparture,
-                                      okId: okId,
+                                      okId: id,
                                     );
-                              } else {
-                                context
-                                    .read<SearchFlightCubit>()
-                                    .addWheelChairToPersonPartial(
-                                      person: focusedPerson,
-                                      wheelChairs: [],
-                                      isDeparture: isDeparture,
-                                      okId: okId,
-                                    );
-                              }
-                            },
-                          ),
-                          kHorizontalSpacerMini,
-                          Image.asset("assets/images/design/wheelchair.png",
-                              height: 32),
-                          kHorizontalSpacerSmall,
-                          Expanded(
-                            child: Text(
-                              "I need a wheelchair.",
-                              style: kLargeMedium,
+                              },
                             ),
                           ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 50.0, top: 10),
-                        child: Visibility(
-                          visible: selectedWheelchair != null,
-                          child: BorderedAppInputText(
-                            key: Key("${focusedPerson.toString()}okId"),
-                            name: "${focusedPerson.toString()}okId",
-                            hintText: "Disabled ID Card No (Optional)",
-                            initialValue: okId,
-                            onChanged: (id) {
-                              context
-                                  .read<SearchFlightCubit>()
-                                  .addWheelChairToPersonPartial(
-                                    person: focusedPerson,
-                                    wheelChairs: wheelChairs ?? [],
-                                    isDeparture: isDeparture,
-                                    okId: id,
-                                  );
-                            },
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }

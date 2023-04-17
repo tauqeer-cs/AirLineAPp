@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfirmationSeats extends StatelessWidget {
-  const ConfirmationSeats({Key? key}) : super(key: key);
+  final bool isDeparture;
+
+  const ConfirmationSeats({Key? key, required this.isDeparture})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,37 +18,41 @@ class ConfirmationSeats extends StatelessWidget {
         .confirmationModel
         ?.value
         ?.seatDetail;
-    return (seats?.seats ?? []).isEmpty ? Container() : Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const Text(
-              "Seats",
-              style: kHugeSemiBold,
-            ),
-            const Spacer(),
-            MoneyWidget(
-              amount: seats?.totalAmount,
-              isDense: true,
-              isNormalMYR: true,
-
-            ),
-          ],
-        ),
-        kVerticalSpacerSmall,
-        ...(seats?.seats ?? [])
-            .map((e) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
-                    Text("${e.seatPosition}"),
-                    kVerticalSpacerSmall,
-                  ],
-                ))
-            .toList(),
-        kVerticalSpacerSmall,
-      ],
-    );
+    final amount = isDeparture
+        ? seats?.totalDeparture()
+        : seats?.totalReturn();
+    return (seats?.seats ?? []).isEmpty || amount==0
+        ? Container()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    "Seats",
+                    style: kHugeSemiBold,
+                  ),
+                  const Spacer(),
+                  MoneyWidget(
+                    amount: amount,
+                    isDense: true,
+                    isNormalMYR: true,
+                  ),
+                ],
+              ),
+              kVerticalSpacerSmall,
+              ...(isDeparture ? seats!.departureSeat : seats!.returnSeat)
+                  .map((e) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
+                          Text("${e.seatPosition}"),
+                          kVerticalSpacerSmall,
+                        ],
+                      ))
+                  .toList(),
+              kVerticalSpacerSmall,
+            ],
+          );
   }
 }

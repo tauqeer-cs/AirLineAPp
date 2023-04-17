@@ -71,6 +71,8 @@ class PaymentCubit extends Cubit<PaymentState> {
         data: formData,
       );
 
+      print("response is $response");
+
       emit(state.copyWith(
         blocState: BlocState.finished,
         bookRequest: bookRequest,

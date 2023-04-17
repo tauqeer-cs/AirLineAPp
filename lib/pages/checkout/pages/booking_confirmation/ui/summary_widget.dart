@@ -1,3 +1,4 @@
+import 'package:app/models/fare_summary_in_out.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/flight_detail_confirmation.dart';
 import 'package:app/utils/date_utils.dart';
@@ -10,14 +11,10 @@ class SummaryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flights = context
-            .watch<ConfirmationCubit>()
-            .state
-            .confirmationModel
-            ?.value
-            ?.flightSegments ??
-        [];
-
+    final confirmationModel =
+        context.watch<ConfirmationCubit>().state.confirmationModel?.value;
+    final flights = confirmationModel?.flightSegments ?? [];
+    final bookingInOut = confirmationModel?.fareSummaryInOut;
     return Column(
       children: flights
           .map((e) => Column(
@@ -25,13 +22,18 @@ class SummaryWidget extends StatelessWidget {
                   ...(e.outbound ?? [])
                       .map(
                         (f) => AppCard(
+                          edgeInsets: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 12),
                           child: FlightDetailConfirmation(
                             bound: f,
+                            bookingSummary:
+                                bookingInOut?.outboundBookingSummary ??
+                                    BoundBookingSummary(),
                             title: "Departing Flight",
                             subtitle:
                                 "${f.departureAirportLocationName} to ${f.arrivalAirportLocationName}",
-                            dateTitle:
-                                AppDateUtils.formatFullDate(f.departureDateTime),
+                            dateTitle: AppDateUtils.formatHalfDate(
+                                f.departureDateTime),
                             isDeparture: true,
                           ),
                         ),
@@ -42,18 +44,23 @@ class SummaryWidget extends StatelessWidget {
                     child: Container(
                       margin: const EdgeInsets.only(top: 18),
                       child: AppCard(
+                        edgeInsets:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                         child: Column(
                           children: [
                             ...(e.inbound ?? [])
                                 .map(
                                   (f) => FlightDetailConfirmation(
+                                    bookingSummary:
+                                        bookingInOut?.inboundBookingSummary ??
+                                            BoundBookingSummary(),
                                     bound: f,
                                     title: "Returning Flight",
                                     subtitle:
                                         "${f.departureAirportLocationName} - ${f.arrivalAirportLocationName}",
-                                    dateTitle: AppDateUtils.formatFullDate(
+                                    dateTitle: AppDateUtils.formatHalfDate(
                                         f.departureDateTime),
-                                    isDeparture: true,
+                                    isDeparture: false,
                                   ),
                                 )
                                 .toList(),

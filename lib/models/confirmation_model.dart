@@ -1,8 +1,9 @@
+import 'package:app/models/fare_summary_in_out.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'confirmation_model.g.dart';
 
@@ -67,6 +68,7 @@ class Value extends Equatable {
     this.flightSegments,
     this.bookingContact,
     this.insuranceSSRDetail,
+    this.fareSummaryInOut,
   });
 
   @override
@@ -84,6 +86,7 @@ class Value extends Equatable {
         insuranceSSRDetail,
         flightSegments,
         bookingContact,
+        fareSummaryInOut,
       ];
 
   final SuperPNR? superPNR;
@@ -97,7 +100,7 @@ class Value extends Equatable {
   final BookingContact? bookingContact;
   final BaggageDetail? baggageDetail;
   final SportsEquipmentDetail? sportEquipmentDetail;
-
+  final FareSummaryInOut? fareSummaryInOut;
   final InsuranceDetails? insuranceSSRDetail;
   final List<FlightSegment>? flightSegments;
 
@@ -115,9 +118,11 @@ class Value extends Equatable {
     List<FlightSegment>? flightSegments,
     SportsEquipmentDetail? sportEquipmentDetail,
     InsuranceDetails? insuranceSSRDetail,
+    FareSummaryInOut? fareSummaryInOut,
   }) =>
       Value(
         bookingContact: bookingContact ?? this.bookingContact,
+        fareSummaryInOut: fareSummaryInOut ?? this.fareSummaryInOut,
         superPNR: superPNR ?? this.superPNR,
         superPNROrder: superPNROrder ?? this.superPNROrder,
         flightBookings: flightBookings ?? this.flightBookings,
@@ -309,6 +314,30 @@ class BaggageDetail extends Equatable {
   final num? totalAmount;
   final List<Baggage>? baggages;
   final num? baggageCount;
+
+  List<Baggage> get departureBaggages =>
+      (baggages?.where((element) => element.departReturn == "Depart") ?? [])
+          .toList();
+
+  List<Baggage> get returnBaggages =>
+      (baggages?.where((element) => element.departReturn == "Return") ?? [])
+          .toList();
+
+  double totalDeparture(){
+    double total = 0.0;
+    for (var element in departureBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
+  double totalReturn(){
+    double total = 0.0;
+    for (var element in returnBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
 
   BaggageDetail copyWith(
           {num? totalAmount, List<Baggage>? baggages, num? baggageCount}) =>
@@ -1098,6 +1127,26 @@ class MealDetail extends Equatable {
 
   final List<Meal>? meals;
 
+  List<Meal> get departureMeals {
+    return meals?.where((element) {
+          final mealList = element.mealList?.firstWhereOrNull(
+              (element) => element.departReturn == "Depart");
+          if (mealList != null) return true;
+          return false;
+        }).toList() ??
+        [];
+  }
+
+  List<Meal> get returnMeals {
+    return meals?.where((element) {
+      final mealList = element.mealList?.firstWhereOrNull(
+              (element) => element.departReturn == "Return");
+      if (mealList != null) return true;
+      return false;
+    }).toList() ??
+        [];
+  }
+
   MealDetail copyWith({num? totalAmount, List<Meal>? meals, num? mealCount}) =>
       MealDetail(
           totalAmount: totalAmount ?? this.totalAmount,
@@ -1270,17 +1319,14 @@ class Passenger extends Equatable {
   }
 
   String get fullName {
-    if(givenName != null && surname != null) {
+    if (givenName != null && surname != null) {
       return '$givenName $surname';
-    }
-    else if(givenName != null) {
+    } else if (givenName != null) {
       return '$givenName';
-    }
-    else if(surname != null) {
+    } else if (surname != null) {
       return '$surname';
     }
     return '';
-
   }
 
   String? get titleToShow {
@@ -1350,6 +1396,7 @@ class PaymentOrder extends Equatable {
   const PaymentOrder({
     this.paymentId,
     this.orderId,
+    this.cardHolderName,
     this.paymentDate,
     this.paymentMethodCode,
     this.paymentStatusCode,
@@ -1390,6 +1437,7 @@ class PaymentOrder extends Equatable {
         modifiedDate,
         modifiedDateUTC,
         cardNumber,
+    cardHolderName,
       ];
 
   final num? paymentId;
@@ -1398,6 +1446,8 @@ class PaymentOrder extends Equatable {
   final String? paymentMethodCode;
   final String? paymentStatusCode;
   final String? requeryStatusCode;
+  final String? cardHolderName;
+
   final String? cardOption;
   final String? cardNumber;
   final String? currencyCode;
@@ -1480,6 +1530,31 @@ class SeatDetail extends Equatable {
 
   final num? totalAmount;
   final List<Baggage>? seats;
+
+  List<Baggage> get departureSeat =>
+      (seats?.where((element) => element.departReturn == "Depart") ?? [])
+          .toList();
+
+
+  List<Baggage> get returnSeat =>
+      (seats?.where((element) => element.departReturn == "Return") ?? [])
+          .toList();
+
+  double totalDeparture(){
+    double total = 0.0;
+    for (var element in departureSeat) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
+  double totalReturn(){
+    double total = 0.0;
+    for (var element in returnSeat) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
 
   SeatDetail copyWith({
     num? totalAmount,
@@ -1764,6 +1839,30 @@ class SportsEquipmentDetail extends Equatable {
   final num? sportEquipmentCount;
   final List<Baggage>? sportEquipments;
 
+  List<Baggage> get departureBaggages =>
+      (sportEquipments?.where((element) => element.departReturn == "Depart") ?? [])
+          .toList();
+
+  List<Baggage> get returnBaggages =>
+      (sportEquipments?.where((element) => element.departReturn == "Return") ?? [])
+          .toList();
+
+  double totalDeparture(){
+    double total = 0.0;
+    for (var element in departureBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
+  double totalReturn(){
+    double total = 0.0;
+    for (var element in returnBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
   SportsEquipmentDetail copyWith({
     num? totalAmount,
     List<Baggage>? sportEquipments,
@@ -1792,6 +1891,30 @@ class InsuranceDetails extends Equatable {
   final num? totalAmount;
   final List<Baggage>? insuranceSSRs;
   final num? insuranceSSRCount;
+
+  List<Baggage> get departureBaggages =>
+      (insuranceSSRs?.where((element) => element.departReturn == "Depart") ?? [])
+          .toList();
+
+  List<Baggage> get returnBaggages =>
+      (insuranceSSRs?.where((element) => element.departReturn == "Return") ?? [])
+          .toList();
+
+  double totalDeparture(){
+    double total = 0.0;
+    for (var element in departureBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
+
+  double totalReturn(){
+    double total = 0.0;
+    for (var element in returnBaggages) {
+      total = total+(element.amount ?? 0);
+    }
+    return total;
+  }
 
   InsuranceDetails copyWith(
           {num? totalAmount,

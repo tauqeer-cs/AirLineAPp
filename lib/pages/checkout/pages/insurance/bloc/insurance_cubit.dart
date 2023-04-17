@@ -26,8 +26,17 @@ class InsuranceCubit extends Cubit<InsuranceState> {
         updateInsuranceToAllPassenger(insurance);
         break;
       case InsuranceType.selected:
-        removeAllInsurance(insurance);
-        updateInsuranceToPassenger(0, insurance);
+        final newList = List<Passenger>.from([]);
+        for (var element in state.passengers) {
+          final newPassenger = element.copyWith(
+            ssr: const Ssr(outbound: []),
+          );
+          newList.add(newPassenger);
+        }
+        emit(state.copyWith(
+          passengers: newList,
+          insuranceType: InsuranceType.selected,
+        ));
         break;
       case InsuranceType.none:
         removeAllInsurance(insurance);

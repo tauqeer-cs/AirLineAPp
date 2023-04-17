@@ -115,17 +115,17 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 ],
 
                 kVerticalSpacer,
-                Visibility(
-                  visible: false,
-                  replacement: Text(
-                    "All fares are calculated based on a one-way flight for a single adult passenger. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
-                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                  ),
-                  child: Text(
-                    "Prices are based on an 'numberPerson.toBeautify()'. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
-                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                  ),
-                ),
+                // Visibility(
+                //   visible: false,
+                //   replacement: Text(
+                //     "All fares are calculated based on a one-way flight for a single adult passenger. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                //   child: Text(
+                //     "Prices are based on an 'numberPerson.toBeautify()'. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                // ),
                 const SizedBox(
                   height: 160,
                 ),

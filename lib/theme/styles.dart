@@ -224,7 +224,7 @@ class Styles {
         suffixIconColor: isLight ? kTextColor : Colors.white,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: kBorderColor),
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
         ),
