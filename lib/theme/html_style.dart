@@ -39,4 +39,50 @@ class HtmlStyle {
       ),
     };
   }
+
+  static Map<String, Style> htmlStyleRed(
+      {Color? overrideColor, double? overrideSize}) {
+    return {
+      "*": Style(
+        fontSize: FontSize(overrideSize ?? 14),
+        color: overrideColor ?? Styles.kSubTextColor,
+        padding: EdgeInsets.zero,
+        margin: Margins.zero,
+      ),
+      "span": Style(
+        fontSize: FontSize(overrideSize ?? 14),
+        color: overrideColor ?? Styles.kSubTextColor,
+        fontWeight: FontWeight.w400,
+        height: Height(1.5),
+        padding: EdgeInsets.zero,
+        margin: Margins.zero,
+      ),
+      "p": Style(
+        fontSize: FontSize(overrideSize ?? 14),
+        color: overrideColor ?? Styles.kPrimaryColor,
+        fontWeight: FontWeight.w500,
+        padding: EdgeInsets.zero,
+        margin: Margins.zero,
+        textAlign: TextAlign.center, // Center align the text
+      ),
+      "a": Style(
+        fontSize: FontSize(overrideSize ?? 14),
+        color: Styles.kPrimaryColor,
+        textDecorationColor: Styles.kPrimaryColor,
+        fontWeight: FontWeight.w700,
+        padding: EdgeInsets.zero,
+        margin: Margins.zero,
+      ),
+      "strong": Style(
+        color: Styles.kPrimaryColor, // Make "Benefits" red
+      ),
+      "ul": Style(
+        margin: Margins.only(left: 16),
+      ),
+      "li": Style(
+        color: overrideColor ?? Styles.kPrimaryColor,
+      ),
+    };
+  }
+
 }

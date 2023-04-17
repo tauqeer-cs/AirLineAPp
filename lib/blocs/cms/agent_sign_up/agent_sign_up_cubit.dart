@@ -38,11 +38,25 @@ class AgentSignUpCubit extends Cubit<AgentSignUpState> {
       final agentCms2 =
           await _repository.agenInsurance(universalSetting2?.key ?? '');
 
+      Items? items = agentCms2.items?.firstWhere((element) => element.name == 'SSR');
+
+      Items? localItem;
+      Items? internationItem;
+
+      if(items != null) {
+        localItem = items.items?.firstWhere((e) => e.name == 'insuranceDomesticGroup');
+        internationItem = items.items?.firstWhere((e) => e.name == 'insuranceInternationalGroup');
+
+
+      }
+
       emit(
         state.copyWith(
           blocState: BlocState.finished,
           agentCms: agentCms,
           userSharedRouteResponse: agentCms2,
+          locationItem: localItem,
+          internationalItem: internationItem
         ),
       );
     } catch (e, st) {
