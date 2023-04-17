@@ -10,9 +10,13 @@ class ConfirmationBaggage extends StatelessWidget {
   final bool boolIsSports;
 
   final bool isInsurance;
+  final bool isDeparture;
 
   const ConfirmationBaggage(
-      {Key? key, this.boolIsSports = false, this.isInsurance = false})
+      {Key? key,
+      this.boolIsSports = false,
+      this.isInsurance = false,
+      required this.isDeparture})
       : super(key: key);
 
   @override
@@ -102,7 +106,7 @@ class ConfirmationBaggage extends StatelessWidget {
                     .toList(),
               ] else ...[
                 kVerticalSpacerSmall,
-                ...(baggage?.baggages ?? [])
+                ...(isDeparture? (baggage?.departureBaggages ?? []):(baggage?.returnBaggages ?? []))
                     .map((e) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

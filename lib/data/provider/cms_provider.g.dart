@@ -159,25 +159,12 @@ class _CMSProvider implements CMSProvider {
     return value;
   }
 
-  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
-    if (T != dynamic &&
-        !(requestOptions.responseType == ResponseType.bytes ||
-            requestOptions.responseType == ResponseType.stream)) {
-      if (T == String) {
-        requestOptions.responseType = ResponseType.plain;
-      } else {
-        requestOptions.responseType = ResponseType.json;
-      }
-    }
-    return requestOptions;
-  }
-
   @override
   Future<AgentSignUpCms> getAgentSignUp(
-      key, {
-        query = "tnC,agreement",
-        deep = "6",
-      }) async {
+    key, {
+    query = "tnC,agreement",
+    deep = "6",
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
@@ -193,15 +180,27 @@ class _CMSProvider implements CMSProvider {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      'shared/get',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'shared/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AgentSignUpCms.fromJson(_result.data!);
     return value;
   }
 
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
 }

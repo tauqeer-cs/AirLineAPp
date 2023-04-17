@@ -78,6 +78,10 @@ Value _$ValueFromJson(Map<String, dynamic> json) => Value(
           ? null
           : InsuranceDetails.fromJson(
               json['insuranceSSRDetail'] as Map<String, dynamic>),
+      fareSummaryInOut: json['fareSummaryInOut'] == null
+          ? null
+          : FareSummaryInOut.fromJson(
+              json['fareSummaryInOut'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ValueToJson(Value instance) {
@@ -100,6 +104,7 @@ Map<String, dynamic> _$ValueToJson(Value instance) {
   writeNotNull('bookingContact', instance.bookingContact);
   writeNotNull('baggageDetail', instance.baggageDetail);
   writeNotNull('sportEquipmentDetail', instance.sportEquipmentDetail);
+  writeNotNull('fareSummaryInOut', instance.fareSummaryInOut);
   writeNotNull('insuranceSSRDetail', instance.insuranceSSRDetail);
   writeNotNull('flightSegments', instance.flightSegments);
   return val;
