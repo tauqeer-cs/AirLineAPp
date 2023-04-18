@@ -436,11 +436,17 @@ class CheckInCubit extends Cubit<CheckInState> {
     );
 
     try {
+//      var request = GetBoardingPassPassengerRequest(
+ //         pNR: state.pnrEntered,
+   //       lastName: state.lastName,
+    //      getInboundPassenger: inside ? state.checkReturn : inBoundCheckInDoneForAnyUser,
+     //     getOutboundPassenger: inside ? state.checkedDeparture : outBoundCheckInDoneForAnyUser);
+
       var request = GetBoardingPassPassengerRequest(
           pNR: state.pnrEntered,
           lastName: state.lastName,
-          getInboundPassenger: inside ? state.checkReturn : inBoundCheckInDoneForAnyUser,
-          getOutboundPassenger: inside ? state.checkedDeparture : outBoundCheckInDoneForAnyUser);
+          getInboundPassenger:  inBoundCheckInDoneForAnyUser,
+          getOutboundPassenger: outBoundCheckInDoneForAnyUser);
 
       BoardingpassPassengerResponse? response =
           await _checkInRepository.getBoardingpassPassenger(request);

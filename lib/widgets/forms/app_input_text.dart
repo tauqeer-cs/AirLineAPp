@@ -77,7 +77,7 @@ class AppInputText extends StatelessWidget {
             isHidden ? kMediumRegular.copyWith(color: Colors.transparent) : null,
         decoration: inputDecoration ?? InputDecoration(
           hintText: hintText ?? "",
-          fillColor: fillColor, // add this line to set the background color
+         // fillColor: fillColor, // add this line to set the background color
 
           border: isHidden ? InputBorder.none : null,
           errorBorder: isHidden ? InputBorder.none : null,
@@ -88,8 +88,8 @@ class AppInputText extends StatelessWidget {
           prefix: prefix,
           suffix: suffix,
           counterText: "",
-        //  fillColor: fillDisabledColor ? Styles.kDisabledButton : Colors.transparent,
-          filled: true,
+          fillColor: fillDisabledColor ? Styles.kDisabledButton : (fillColor ??  Colors.transparent),
+          //filled: true,
 
         ),
         inputFormatters: inputFormatters,

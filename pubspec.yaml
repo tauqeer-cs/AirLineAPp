@@ -83,7 +83,6 @@ dependencies:
   version: ^3.0.2
   flutter_pdfview: ^1.2.5
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
