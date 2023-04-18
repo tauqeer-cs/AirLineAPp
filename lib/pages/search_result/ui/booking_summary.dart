@@ -11,39 +11,35 @@ import 'package:collection/collection.dart';
 
 class BookingSummary extends StatelessWidget {
   final String? labelToShow;
-
   final bool isChangeFlight;
-
-  final String? changeFlightCurrency;
-
   final double? totalAmountToShow;
+  final double additionalNumber;
 
-  const BookingSummary(
-      {Key? key,
-      this.labelToShow,
-      this.totalAmountToShow,
-      this.isChangeFlight = false,
-      this.changeFlightCurrency})
-      : super(key: key);
+  const BookingSummary({
+    Key? key,
+    this.labelToShow,
+    this.totalAmountToShow,
+    this.isChangeFlight = false,
+    this.additionalNumber = 0
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
-
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final booking = context.watch<BookingCubit>().state;
     final voucherState = context.watch<VoucherCubit>().state;
     final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
-            ?.firstOrNull?.discountAmount ??
+        ?.firstOrNull?.discountAmount ??
         0;
-
 
     int? redeemAmount = context
-            .watch<VoucherCubit>()
-            .state
-            .selectedRedeemOption
-            ?.redemptionAmount ??
+        .watch<VoucherCubit>()
+        .state
+        .selectedRedeemOption
+        ?.redemptionAmount ??
         0;
+
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -55,11 +51,11 @@ class BookingSummary extends StatelessWidget {
         MoneyWidget(
           isDense: false,
           currency: isChangeFlight ? (changeFlightCurrency ?? 'MYR') : currency,
-          amount:totalAmountToShow ??
+          amount: totalAmountToShow ??
               booking.getFinalPriceDisplay +
                   (filterState?.numberPerson.getTotal() ?? 0) -
                   discount -
-                  redeemAmount,
+                  redeemAmount + additionalNumber,
         ),
         kVerticalSpacer,
       ],

@@ -10,9 +10,13 @@ class ConfirmationBaggage extends StatelessWidget {
   final bool boolIsSports;
 
   final bool isInsurance;
+  final bool isDeparture;
 
   const ConfirmationBaggage(
-      {Key? key, this.boolIsSports = false, this.isInsurance = false})
+      {Key? key,
+      this.boolIsSports = false,
+      this.isInsurance = false,
+      required this.isDeparture})
       : super(key: key);
 
   @override
@@ -61,7 +65,12 @@ class ConfirmationBaggage extends StatelessWidget {
     } else {
       hideView = (baggage?.baggages ?? []).isEmpty;
     }
-    return hideView
+    final amountNumber = amount(
+      sportsEquipmentDetail,
+      baggage,
+      insuranceDetails,
+    );
+    return hideView || ((amountNumber??0)==0)
         ? Container()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +84,10 @@ class ConfirmationBaggage extends StatelessWidget {
                   const Spacer(),
                   MoneyWidget(
                     amount: amount(
-                        sportsEquipmentDetail, baggage, insuranceDetails),
+                      sportsEquipmentDetail,
+                      baggage,
+                      insuranceDetails,
+                    ),
                     isDense: true,
                     isNormalMYR: true,
                     currency: currency,
@@ -84,7 +96,9 @@ class ConfirmationBaggage extends StatelessWidget {
               ),
               if (isInsurance) ...[
                 kVerticalSpacerSmall,
-                ...(insuranceDetails?.insuranceSSRs ?? [])
+                ...(isDeparture
+                        ? (insuranceDetails?.departureBaggages ?? [])
+                        : (insuranceDetails?.returnBaggages ?? []))
                     .map((e) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -97,7 +111,9 @@ class ConfirmationBaggage extends StatelessWidget {
                     .toList(),
               ] else if (boolIsSports) ...[
                 kVerticalSpacerSmall,
-                ...(sportsEquipmentDetail?.sportEquipments ?? [])
+                ...(isDeparture
+                        ? (sportsEquipmentDetail?.departureBaggages ?? [])
+                        : (sportsEquipmentDetail?.returnBaggages ?? []))
                     .map((e) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -110,7 +126,9 @@ class ConfirmationBaggage extends StatelessWidget {
                     .toList(),
               ] else ...[
                 kVerticalSpacerSmall,
-                ...(baggage?.baggages ?? [])
+                ...(isDeparture
+                        ? (baggage?.departureBaggages ?? [])
+                        : (baggage?.returnBaggages ?? []))
                     .map((e) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -130,12 +148,15 @@ class ConfirmationBaggage extends StatelessWidget {
   num? amount(SportsEquipmentDetail? sportsEquipmentDetail,
       BaggageDetail? baggage, InsuranceDetails? insuranceDetails) {
     if (boolIsSports) {
-      return sportsEquipmentDetail?.totalAmount;
+      return isDeparture
+          ? sportsEquipmentDetail?.totalDeparture()
+          : sportsEquipmentDetail?.totalReturn();
     } else if (isInsurance) {
-      return insuranceDetails?.totalAmount;
+      return isDeparture
+          ? insuranceDetails?.totalDeparture()
+          : insuranceDetails?.totalReturn();
     }
-
-    return baggage?.totalAmount;
+    return isDeparture ? baggage?.totalDeparture() : baggage?.totalReturn();
   }
 
   String titleText() {

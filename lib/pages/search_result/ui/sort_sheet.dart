@@ -1,5 +1,8 @@
 import 'package:app/pages/search_result/ui/choose_flight_segment.dart';
+import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
+import 'package:app/theme/typography.dart';
+import 'package:app/widgets/app_divider_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -28,27 +31,38 @@ class _SortSheetState extends State<SortSheet> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Wrap(
-        children: SortFlight.values
-            .map(
-              (e) => ListTile(
-                title: Text(e.toString()),
-                trailing: Visibility(
-                  visible: e == selectedSort,
-                  child: Icon(
-                    Icons.check,
-                    color: Styles.kPrimaryColor,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text("Sort by", style: kMediumHeavy,),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: AppDividerWidget(color: Styles.kDividerColor,),
+          ),
+          ...SortFlight.values
+              .map(
+                (e) => ListTile(
+                  dense: true,
+                  title: Text(e.toString()),
+                  trailing: Visibility(
+                    visible: e == selectedSort,
+                    child: Icon(
+                      Icons.check,
+                      color: Styles.kPrimaryColor,
+                    ),
                   ),
+                  onTap: () {
+                    setState(() {
+                      selectedSort = e;
+                      widget.onChanged(e);
+                    });
+                    context.router.pop();
+                  },
                 ),
-                onTap: (){
-                  setState(() {
-                    selectedSort = e;
-                    widget.onChanged(e);
-                  });
-                  context.router.pop();
-                },
-              ),
-            )
-            .toList(),
+              )
+              .toList()
+        ],
       ),
     );
   }

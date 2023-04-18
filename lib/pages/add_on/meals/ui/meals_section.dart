@@ -6,10 +6,11 @@ import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
-import 'package:app/widgets/app_image.dart';
+import 'package:app/widgets/app_tooltip.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,29 +37,26 @@ class MealsSection extends StatelessWidget {
         : state.filterState!.returnDate!.difference(DateTime.now()).inHours <=
             1;
 
-    return Padding(
-      padding: kPageHorizontalPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Meals",
-            style: kGiantHeavy.copyWith(
-              color: Styles.kOrangeColor,
-              fontWeight: FontWeight.bold,
+    return Visibility(
+      visible: meals?.isNotEmpty ?? false,
+      replacement: EmptyAddon(),
+      child: Padding(
+        padding: kPageHorizontalPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PassengerSelector(
+              isDeparture: isDeparture,
+              addonType: AddonType.meal,
             ),
-          ),
-          kVerticalSpacer,
-          PassengerSelector(
-            isDeparture: isDeparture,
-          ),
-          kVerticalSpacer,
-          isFlightUnderAnHour
-              ? const FlightUnderAnHour()
-              : isFlightOver24Hour
-                  ? const FlightWithin24Hour()
-                  : buildMealCards(meals, isDeparture),
-        ],
+            kVerticalSpacer,
+            isFlightUnderAnHour
+                ? const FlightUnderAnHour()
+                : isFlightOver24Hour
+                    ? const FlightWithin24Hour()
+                    : buildMealCards(meals, isDeparture),
+          ],
+        ),
       ),
     );
   }
@@ -112,8 +110,10 @@ class NewMealCard extends StatelessWidget {
         isDeparture ? focusedPerson?.departureMeal : focusedPerson?.returnMeal;
     final length = meals?.where((element) => element == meal).length;
     final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
-    final cmsDetail = cmsMeals.firstWhereOrNull((element) => element.code == meal.codeType);
+    final cmsDetail =
+        cmsMeals.firstWhereOrNull((element) => element.code == meal.codeType);
     //const mealSoldOut = false;
+    print(" image is ${cmsDetail?.image}");
     return AppCard(
       edgeInsets: EdgeInsets.zero,
       child: IntrinsicHeight(
@@ -121,27 +121,47 @@ class NewMealCard extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                kVerticalSpacer,
                 Center(
                   child: SizedBox(
                     width: 200,
                     height: 150,
-                    child: AppImage(
-                      imageUrl: cmsDetail?.image,
+                    child: Image.network(
+                      cmsDetail?.image ?? "",
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: progress.expectedTotalBytes != null
+                                ? progress.cumulativeBytesLoaded /
+                                    progress.expectedTotalBytes!
+                                : null,
+
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.w),
+                  padding: EdgeInsets.only(left: 20.w, right: 20.w),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        meal.description ?? "",
-                        style: kLargeHeavy,
+                      kVerticalSpacer,
+                      Wrap(
+                        children: [
+                          Text(
+                            meal.description ?? "",
+                            style: kMediumRegular,
+                            textAlign: TextAlign.center,
+                          ),
+                          kHorizontalSpacerMini,
+                          AppTooltip(child: Text(cmsDetail?.description ?? "")),
+                        ],
                       ),
-                      Text(cmsDetail?.description ?? "", textAlign: TextAlign.center,),
                       Text(
                         "${meal.currencyCode ?? "MYR"} ${NumberUtils.formatNumber(meal.finalAmount.toDouble())}",
                         style:
@@ -221,16 +241,19 @@ class InputWithPlusMinus extends StatelessWidget {
                   onPressed: number > 0
                       ? () => handler(context, person, false, isDeparture)
                       : null,
-                  child: const Icon(
+                  child: Icon(
                     Icons.remove,
                     size: 20,
+                    color: number == 0
+                        ? Styles.kBorderColor
+                        : Styles.kPrimaryColor,
                   ),
                 ),
               ),
               Expanded(
                 child: Text(
                   number.toString(),
-                  style: kLargeHeavy.copyWith(color: Styles.kSubTextColor),
+                  style: kGiantSemiBold.copyWith(color: Styles.kSubTextColor),
                   textAlign: TextAlign.center,
                 ),
               ),

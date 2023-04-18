@@ -39,27 +39,9 @@ class _BaggageNoticeState extends State<BaggageNotice> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Text("Carry-on Baggage", style: kGiantSemiBold),
-          ),
-          kVerticalSpacer,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Html(
-              data: carryNotice?.content ?? "",
-              style: HtmlStyle.htmlStyle(),
-            ),
-          ),
-          kVerticalSpacer,
-          Divider(
-            height: 1,
-            color: Styles.kDisabledButton,
-          ),
-          kVerticalSpacer,
           if (hideSportsEquipment) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -74,10 +56,14 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                         style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
                       ),
                     ),
-                    Icon(
-                      isExpand
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        isExpand
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                        size: 25,
+                      ),
                     ),
                   ],
                 ),
@@ -92,11 +78,12 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   RichText(
                     text: TextSpan(
                       text:
-                          'You may purchase baggage allowance for any sports equipment that you may want to bring on board. For more information about what counts as sports baggage, ',
-                      style: kMediumRegular.copyWith(color: Styles.kDartBlack),
+                      'You may purchase baggage allowance for any sports equipment that does not exceed a certain size. Please read our ',
+                      style: kMediumRegular.copyWith(
+                          color: Styles.kTextColor, height: 20 / 14),
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'please read our FAQ.',
+                          text: 'FAQ ',
                           style: kMediumRegular.copyWith(
                             color: Styles.kPrimaryColor,
                             decoration: TextDecoration.underline,
@@ -107,22 +94,68 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                                   'https://www.myairline.my/fares-fees');
                             },
                         ),
+                        TextSpan(
+                          text: 'for more information.',
+                          style: kMediumRegular.copyWith(
+                              color: Styles.kTextColor, height: 20 / 14),
+                        ),
                       ],
                     ),
                   ),
                   kVerticalSpacerSmall,
                   const SportsEquipmentCard(),
+
                 ],
               ),
             ),
-            const SizedBox(
-              height: 4,
-            ),
+            kVerticalSpacer,
             Divider(
               height: 1,
               color: Styles.kDisabledButton,
             ),
           ],
+          kVerticalSpacer,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            child: Text(
+              "Carry-on Baggage",
+              style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
+            ),
+          ),
+          kVerticalSpacer,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: Html(
+              data: carryNotice?.content ?? "",
+              style: HtmlStyle.htmlStyle(overrideColor: Styles.kTextColor),
+            ),
+          ),
+          kVerticalSpacer,
+          Divider(
+            height: 1,
+            color: Styles.kDisabledButton,
+          ),
+          kVerticalSpacer,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            child: Text(
+              "Oversized Item",
+              style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
+            ),
+          ),
+          kVerticalSpacer,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: Html(
+              data: oversizedNotice?.content ?? "",
+              style: HtmlStyle.htmlStyle(overrideColor: Styles.kTextColor),
+            ),
+          ),
+          kVerticalSpacer,
+          Divider(
+            height: 1,
+            color: Styles.kDisabledButton,
+          ),
         ],
       ),
     );
@@ -174,15 +207,15 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       lastPersonUser = selectedPerson;
     }
-
     final bookingState = context.watch<BookingCubit>().state;
     final baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
     final baggageGroup1 = bookingState.verifyResponse?.flightSSR?.baggageGroup;
-
     var squareDesign = true;
+
     final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     final baggage =
-        isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+    isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: IntrinsicHeight(
@@ -203,152 +236,154 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                       var responseFlag = context
                           .read<SearchFlightCubit>()
                           .addSportEquipmentToPerson(
-                              selectedPerson,
-                              (currentItem.serviceID ?? 0) == 0
-                                  ? null
-                                  : currentItem,
-                              isDeparture);
-
+                          selectedPerson,
+                          (currentItem.serviceID ?? 0) == 0
+                              ? null
+                              : currentItem,
+                          isDeparture);
                     },
                     child: squareDesign
                         ? AppCard(
-                            edgeInsets: EdgeInsets.zero,
-                            child: Stack(
-                              children: [
-                                ListTile(
-                                  contentPadding: const EdgeInsets.only(
-                                    top: 20,
-                                    right: 50,
-                                    left: 15,
-                                    bottom: 20,
-                                  ),
-                                  leading: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      IgnorePointer(
-                                        child: Radio<Bundle?>(
-                                          activeColor: Styles.kBorderColor,
-                                          value: selectedItem ==
-                                                  currentItem.serviceID!.toInt()
-                                              ? currentItem
-                                              : null,
-                                          groupValue: currentItem,
-                                          onChanged: (value) async {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  title: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      /*Text(
-                                  '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'.replaceAll('NOSELECT', '0'),
-                                  style: kLargeHeavy,
-                                ),*/
-                                      Text(
-                                        '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'
-                                            .replaceAll('NOSELECT', '0'),
-                                        style: kGiantHeavy,
-                                      ),
-                                    ],
-                                  ),
-                                  trailing: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        currentItem.currencyCode ?? currency,
-                                        style: kMediumHeavy,
-                                      ),
-                                      Text(
-                                        NumberUtils.formatNumber(
-                                          (currentItem.amount ?? 0.0)
-                                              .toDouble(),
-                                        ),
-                                        style: kHugeHeavy,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 6.0),
-                                    child: Center(
-                                      child: Image.asset(
-                                        "assets/images/design/icoSport2.png",
-                                        color: Styles.kSubTextColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                      edgeInsets: EdgeInsets.zero,
+                      child: Stack(
+                        children: [
+                          ListTile(
+                            contentPadding: const EdgeInsets.only(
+                              top: 20,
+                              right: 50,
+                              left: 15,
+                              bottom: 20,
                             ),
-                          )
-                        : AppCard(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            leading: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                kVerticalSpacerMini,
-                                const SizedBox(
-                                  width: double.infinity,
-                                ),
-                                FractionallySizedBox(
-                                  widthFactor: 0.34,
-                                  child: Image.asset(
-                                      "assets/images/design/icoSports.png"),
-                                ),
-                                kVerticalSpacerSmall,
-                                Text(
-                                  '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'
-                                      .replaceAll('NOSELECT', '0'),
-                                  style: kHeaderHeavy.copyWith(
-                                      fontSize: 32,
-                                      color: Styles.kBorderActionColor),
-                                ),
-                                kVerticalSpacerSmall,
-                                if (showDescribtion) ...[
-                                  Text(
-                                    'Save at least 90% on\nairport prince.',
-                                    textAlign: TextAlign.center,
-                                    style: kMediumMedium.copyWith(
-                                      fontSize: 14,
-                                      color: Styles.kBorderActionColor,
-                                    ),
-                                  ),
-                                  kVerticalSpacerMini,
-                                ],
-                                Text(
-                                  '${currentItem.currencyCode ?? 'MYR'} ${(currentItem.amount ?? 0.0).toStringAsFixed(2)}',
-                                  style: kHeaderHeavy.copyWith(
-                                      color: Styles.kPrimaryColor),
-                                ),
-                                kVerticalSpacerMini,
                                 IgnorePointer(
                                   child: Radio<Bundle?>(
-                                    activeColor: Styles.kBorderColor,
+                                    activeColor: Styles.kActiveColor,
                                     value: selectedItem ==
-                                            currentItem.serviceID!.toInt()
+                                        currentItem.serviceID!.toInt()
                                         ? currentItem
                                         : null,
                                     groupValue: currentItem,
                                     onChanged: (value) async {},
                                   ),
                                 ),
-                                kVerticalSpacerMini,
                               ],
                             ),
+                            title: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                /*Text(
+                                  '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'.replaceAll('NOSELECT', '0'),
+                                  style: kLargeHeavy,
+                                ),*/
+                                Text(
+                                  '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'
+                                      .replaceAll('NOSELECT', '0'),
+                                  style: kGiantHeavy,
+                                ),
+                              ],
+                            ),
+                            trailing: Container(
+                              constraints: BoxConstraints(
+                                  minWidth: 60
+                              ),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    currentItem.currencyCode ?? currency,
+                                    style: kMediumHeavy,
+                                  ),
+                                  Text(
+                                    NumberUtils.formatNumber(
+                                      (currentItem.amount ?? 0.0)
+                                          .toDouble(),
+                                    ),
+                                    style: kHugeHeavy,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
+                          Positioned(
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 6.0),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/design/icoSport2.png",
+                                  color: Styles.kSubTextColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                        : AppCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          kVerticalSpacerMini,
+                          const SizedBox(
+                            width: double.infinity,
+                          ),
+                          FractionallySizedBox(
+                            widthFactor: 0.34,
+                            child: Image.asset(
+                                "assets/images/design/icoSports.png"),
+                          ),
+                          kVerticalSpacerSmall,
+                          Text(
+                            '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'
+                                .replaceAll('NOSELECT', '0'),
+                            style: kHeaderHeavy.copyWith(
+                                fontSize: 32,
+                                color: Styles.kBorderActionColor),
+                          ),
+                          kVerticalSpacerSmall,
+                          if (showDescribtion) ...[
+                            Text(
+                              'Save at least 90% on\nairport prince.',
+                              textAlign: TextAlign.center,
+                              style: kMediumMedium.copyWith(
+                                fontSize: 14,
+                                color: Styles.kBorderActionColor,
+                              ),
+                            ),
+                            kVerticalSpacerMini,
+                          ],
+                          Text(
+                            '${currentItem.currencyCode ?? 'MYR'} ${(currentItem.amount ?? 0.0).toStringAsFixed(2)}',
+                            style: kHeaderHeavy.copyWith(
+                                color: Styles.kPrimaryColor),
+                          ),
+                          kVerticalSpacerMini,
+                          IgnorePointer(
+                            child: Radio<Bundle?>(
+                              activeColor: Styles.kBorderColor,
+                              value: selectedItem ==
+                                  currentItem.serviceID!.toInt()
+                                  ? currentItem
+                                  : null,
+                              groupValue: currentItem,
+                              onChanged: (value) async {},
+                            ),
+                          ),
+                          kVerticalSpacerMini,
+                        ],
+                      ),
+                    ),
                   ),
-                  kVerticalSpacer,
                 ],
-                kVerticalSpacer,
               ],
             ),
           ],

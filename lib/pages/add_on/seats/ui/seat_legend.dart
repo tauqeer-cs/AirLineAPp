@@ -71,7 +71,27 @@ class SeatsLegend extends StatelessWidget {
                   const Flexible(child: Text("Unavailable", style: kSmallRegular,))
                 ],
               ),
-            )
+            ),
+            // SizedBox(
+            //   width: 0.4.sw,
+            //   child: Row(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       SizedBox(
+            //         height: 20,
+            //         width: 20,
+            //         child: DecoratedBox(
+            //           decoration: BoxDecoration(
+            //             color: Colors.purpleAccent,
+            //             borderRadius: BorderRadius.circular(4),
+            //           ),
+            //         ),
+            //       ),
+            //       kHorizontalSpacerMini,
+            //       const Flexible(child: Text("No Price Data", style: kSmallRegular,))
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ],

@@ -3,7 +3,10 @@ import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/pages/add_on/seats/ui/seat_legend_simple.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/theme/styles.dart';
+import 'package:app/theme/theme.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,10 +62,19 @@ class _SeatRowState extends State<SeatRow> {
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
-          if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
+          print("is selected ${widget.seats.isSeatAvailable}");
+          //if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
+          if(selected){
+            print("is selected $selected");
+            context
+                .read<SearchFlightCubit>()
+                .addSeatToPerson(selectedPerson, null, isDeparture);
+          }
           if (otherSelected) return;
+
+
           var responseCheck = context
               .read<SearchFlightCubit>()
               .addSeatToPerson(selectedPerson, widget.seats, isDeparture);
@@ -74,12 +86,12 @@ class _SeatRowState extends State<SeatRow> {
                 context
                     .read<SelectedPersonCubit>()
                     .selectPerson(persons.persons[0]);
+                print("go to bottom");
                 await Future.delayed(const Duration(milliseconds: 500));
                 widget.moveToBottom?.call();
                 return;
               }
               await Future.delayed(const Duration(seconds: 1));
-
               if (!mounted) return;
               context
                   .read<SelectedPersonCubit>()
@@ -98,20 +110,27 @@ class _SeatRowState extends State<SeatRow> {
           height: 40,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: selected
-                  ? Colors.red
-                  : otherSelected
-                      ? Colors.grey
-                      : (widget.seats.isSeatAvailable ?? false) &&
-                              !isBlockChild(focusedPerson, persons)
-                          ? (mapColor ?? {})[widget.seats.serviceId] ??
-                              Colors.grey
-                          : Colors.grey,
+              color: (widget.seats.isSeatAvailable ?? false) &&
+                      !isBlockChild(focusedPerson, persons)
+                  ? widget.seats.toColor
+                  : SeatAvailableLegend.unavailable.color,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Visibility(
               visible: selected || otherSelected,
-              child: const Icon(Icons.check, color: Colors.white),
+              child: Container(
+                margin: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Styles.kPrimaryColor),
+                child: Center(
+                  child: Text(
+                    selected
+                        ? "${persons?.getPersonIndex(focusedPerson)}"
+                        : "${persons?.getPersonIndexBySeat(widget.seats, isDeparture)}",
+                    style: kLargeHeavy.copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

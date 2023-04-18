@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfirmationMeals extends StatelessWidget {
-  const ConfirmationMeals({Key? key}) : super(key: key);
+  final bool isDeparture;
+
+  const ConfirmationMeals({Key? key, required this.isDeparture})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +28,9 @@ class ConfirmationMeals extends StatelessWidget {
         ?.currencyToShow ??
         'MYR';
 
-
-    return (meals?.noMealsSelected ?? false) ? Container() : Column(
+    return (meals?.noMealsSelected ?? false) ||  (meals?.totalAmount==0)
+        ? Container()
+        : Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -45,18 +49,21 @@ class ConfirmationMeals extends StatelessWidget {
           ],
         ),
         kVerticalSpacerSmall,
-        ...(meals?.meals ?? [])
+        ...(isDeparture ? meals!.departureMeals : meals!.returnMeals)
             .map((e) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if( e.mealList?.isNotEmpty ?? false) ... [
-                      Text("${e.titleToShow} ${e.givenName} ${e.surName}"),
-                      ...(e.mealList??[]).map((e) => Text("${e.mealName} x${e.quantity}")).toList(),
-                      kVerticalSpacerSmall,
-                    ]
-
-                  ],
-                ))
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (e.mealList?.isNotEmpty ?? false) ...[
+              Text(
+                  "${e.titleToShow} ${e.givenName} ${e.surName}"),
+              ...(e.mealList ?? [])
+                  .map(
+                      (e) => Text("${e.mealName} x${e.quantity}"))
+                  .toList(),
+              kVerticalSpacerSmall,
+            ]
+          ],
+        ))
             .toList(),
         kVerticalSpacerSmall,
       ],

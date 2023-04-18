@@ -91,11 +91,11 @@ class AppScaffold extends StatelessWidget {
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool canBack, centerTitle;
-
   final Widget? child;
   final Function()? onAction;
   final double? height;
   final Widget? flexibleWidget;
+  final Color? titleColor;
 
   final bool overrideInnerHeight;
 
@@ -108,7 +108,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.canBack = true,
     this.height,
     this.flexibleWidget,
-    this.overrideInnerHeight = false,
+    this.overrideInnerHeight = false, this.titleColor,
   }) : super(key: key);
 
   @override
@@ -156,7 +156,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: flexibleWidget,
         ),
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
         title: Container(
           padding: EdgeInsets.only(left: canPop ? 0 : 20.0, right: 0),
           child: child ??
@@ -167,7 +167,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                     )
                   : Text(
                       title!,
-                      style: kHugeHeavy,
+                      style: kHugeHeavy.copyWith(color: titleColor),
                       textScaleFactor: 1,
                     )),
         ),

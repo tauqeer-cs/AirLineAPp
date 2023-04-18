@@ -36,6 +36,9 @@ class ChangeFlightSummaryView extends StatefulWidget {
 class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
   ManageBookingCubit? bloc;
 
+  bool conditionsCheckOne = false;
+  bool conditionsCheckTwo = false;
+
   final _fbKey = GlobalKey<FormBuilderState>();
 
   void removeVoucher(String currentToken, BuildContext context) {
@@ -51,6 +54,19 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
   void initState() {
     super.initState();
   }
+
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Styles.kTextColor;
+    }
+    return Styles.kPrimaryColor;
+  }
+
 
   final scrollController = ScrollController();
 
@@ -469,14 +485,32 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     height: 16,
                   ),
                 ],
+                const SizedBox(height: 8,),
+                const Divider(),
+                const SizedBox(height: 24,),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //.png
-                      Image.asset("assets/images/design/disclaimer.png",width: 30,height: 30,),
-                      const SizedBox(width: 2,),
+
+                      SizedBox(
+                        height: 24.0,
+                        width: 24.0,
+                        child : Checkbox(
+
+                          checkColor: Colors.white,
+                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          value: conditionsCheckOne,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              conditionsCheckOne = value ?? false;
+                            });
+                          },
+                        ),
+                      ),
+
+                      const SizedBox(width: 8,),
                       Expanded(
                         child: RichText(
                           text: TextSpan(
@@ -484,19 +518,52 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               color: Styles.kTextColor,
                             ),
                             children: [
+                               TextSpan(
+                                  text:
+                                  'CHANGED YOUR FLIGHT? ',
+                                   style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+
+                               ),
+
                               const TextSpan(
                                   text:
-                                      'Changed your flight? Remember to upgrade your insurance coverage by contacting our '),
+                                      'Remember to ',
+
+                              ),
+
+                               TextSpan(
+                                  text:
+                                  'UPDATE ',
+                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                              ),
+
+                              const TextSpan(
+                                  text:
+                                  'your insurance coverage if you are '),
+
                               TextSpan(
-                                text: 'Live Chat Agent',
+                                text:
+                                'EXTENDING YOUR TRAVEL PERIOD, ',
+                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+                              ),
+
+                              const TextSpan(
+                                  text:
+                                  'to stay protected throughout your journey! You may do so by contacting our '),
+
+                              TextSpan(
+                                text: 'Live Chat',
                                 style: TextStyle(
                                   color: Styles.kPrimaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+
                               const TextSpan(
-                                  text:
-                                      '. After clicking \'Continue\', any changes made to the flight are final.'),
+                                text: ' Agent',
+
+                              ),
+
                             ],
                           ),
                         ),
@@ -504,6 +571,119 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 24,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+
+                      SizedBox(
+                        height: 24.0,
+                        width: 24.0,
+                        child : Checkbox(
+
+                          checkColor: Colors.white,
+                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          value: conditionsCheckTwo,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              conditionsCheckTwo = value ?? false;
+                            });
+                          },
+                        ),
+                      ),
+
+                      const SizedBox(width: 8,),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            style: kMediumRegular.copyWith(
+                              color: Styles.kTextColor,
+                            ),
+                            children: [
+
+                              const TextSpan(
+                                text:
+                                'After clicking ',
+
+                              ),
+
+                              TextSpan(
+                                text:
+                                "'Confirm' ",
+                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+
+                              ),
+
+                              const TextSpan(
+                                text:
+                                ' at the bottom right, the',
+
+                              ),
+
+                              TextSpan(
+                                text:
+                                " CHANGES ARE ",
+                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+
+                              ),
+
+
+
+
+                              TextSpan(
+                                text:
+                                'FINAL ',
+                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                              ),
+
+                            TextSpan(
+                              text:
+                              "& YOU WILL ",
+                              style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+
+                            ),
+
+                              TextSpan(
+                                text:
+                                'NOT ',
+                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                              ),
+
+                        //
+                              TextSpan(
+                                text:
+                                "BE ABLE TO REVERT TO YOUR ORIGINAL FLIGHT DATE/TIME. ",
+                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+
+                              ),
+
+                        const TextSpan(
+                                  text:
+                                  'Therefore, '),
+
+                              TextSpan(
+                                text:
+                                'PLEASE CHECK ',
+                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+                              ),
+
+                              const TextSpan(
+                                  text:
+                                  'before confirming.'),
+
+
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 const SizedBox(
                   height: 200,
                 ),
@@ -511,6 +691,24 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             ),
           ),
         ),
+
+
+        Positioned(
+          bottom: 0,
+          right: 15,
+          child: FloatingActionButton(
+            onPressed: () {
+              scrollController.animateTo(
+                scrollController.position.minScrollExtent,
+                duration: const Duration(seconds: 1),
+                curve: Curves.fastOutSlowIn,
+              );
+            },
+            backgroundColor: Styles.kPrimaryColor,
+            child: const Icon(Icons.keyboard_arrow_up),
+          ),
+        ),
+
         Positioned(
           bottom: 0,
           left: 0,
@@ -532,7 +730,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     (bloc?.state.loadingCheckoutPayment == true)
                         ? const AppLoading()
                         : ElevatedButton(
-                            onPressed: () async {
+                            onPressed: (conditionsCheckOne == false || conditionsCheckTwo == false) ? null : () async {
                               final voucher = context
                                   .read<VoucherCubit>()
                                   .state

@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:app/app/app_logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'app_app_bar.dart';
-import 'dart:io' as io;
 
 class PdfViewer extends StatefulWidget {
   final String title;
@@ -34,8 +34,6 @@ class PdfViewer extends StatefulWidget {
 class _PdfViewerState extends State<PdfViewer> {
   String pathPDF = "";
 
-
-
   Future<io.File> getFileFromAssets(String path) async {
     final byteData = await rootBundle.load('assets/$path');
 
@@ -53,23 +51,23 @@ class _PdfViewerState extends State<PdfViewer> {
 
     return file;
   }
-  String remotePDFpath = "";
+
+  String? remotePDFpath;
 
   @override
   void initState() {
     super.initState();
-    if(!widget.pdfIsLink) {
-      getFileFromAssets('pdfs/${widget.fileName}.pdf');
-    }
-    else {
+    if (!widget.pdfIsLink) {
+      getFileFromAssets('pdf/${widget.fileName}.pdf');
+    } else {
       //loadPdf();
       createFileOfPdfUrl().then((f) {
+        print("f is ${f.path}");
         setState(() {
           remotePDFpath = f.path;
         });
       });
     }
-
   }
 
   Future<String> downloadAndSavePdf() async {
@@ -77,22 +75,18 @@ class _PdfViewerState extends State<PdfViewer> {
     Uri uri = Uri.parse(url);
     String name = uri.pathSegments.last;
 
-
     final directory = await getApplicationDocumentsDirectory();
     final file = io.File('${directory.path}/$name');
-
-
-
 
     if (await file.exists()) {
       return file.path;
     }
 
-
     final response = await Dio().getUri(Uri.parse(widget.fileName));
     await file.writeAsBytes(utf8.encode(response.data));
     return file.path;
   }
+
   String? pdfFlePath;
 
   void loadPdf() async {
@@ -119,44 +113,45 @@ class _PdfViewerState extends State<PdfViewer> {
     return completer.future;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppAppBar(
         centerTitle: true,
         title: widget.title,
-        height: 80.h,
+        height: 60.h,
       ),
-      body:  buildPdfView()
-      );
+      body: buildPdfView(),
+    );
   }
 
   Widget buildPdfView() {
-    if(widget.pdfIsLink){
+    if (widget.pdfIsLink) {
+      return remotePDFpath == null
+          ? Text("")
+          : PDFView(
+              filePath: remotePDFpath,
+              onRender: (pages) {},
+              onError: (error) {
+                logger.e('error: ${error.toString()}');
 
-      return remotePDFpath.isEmpty ? Container() : PDFView(
-        filePath: remotePDFpath,
-        onRender: (pages) {},
-        onError: (error) {},
-        onPageError: (page, error) {
-          logger.e('$page: ${error.toString()}');
-        },
-      );
+              },
+              onPageError: (page, error) {
+                logger.e('$page: ${error.toString()}');
+              },
+            );
     }
-    if(pathPDF.isEmpty){
-
-      return Container();
+    if (pathPDF.isEmpty) {
+      return Text("");
     }
     return PDFView(
-            filePath: pathPDF,
-            onRender: (pages) {},
-            onError: (error) {},
-            onPageError: (page, error) {
-
-              logger.e('$page: ${error.toString()}');
-            },
-          );
+      filePath: pathPDF,
+      onRender: (pages) {},
+      onError: (error) {},
+      onPageError: (page, error) {
+        logger.e('$page: ${error.toString()}');
+      },
+    );
   }
 }
 //,

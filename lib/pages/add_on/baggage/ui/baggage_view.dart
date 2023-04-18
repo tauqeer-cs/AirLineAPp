@@ -1,8 +1,10 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_section.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_subtotal.dart';
+import 'package:app/pages/add_on/seats/ui/seats_view.dart';
 import 'package:app/pages/add_on/ui/flight_detail_widget.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -15,6 +17,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/flutter_insider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BaggageView extends StatefulWidget {
   final bool isDeparture;
@@ -28,7 +31,6 @@ class BaggageView extends StatefulWidget {
 class _BaggageViewState extends State<BaggageView>
     with TickerProviderStateMixin {
   final scrollController = ScrollController();
-  bool isScrollable = false;
   final bool autoScrollToBottom = false;
 
   @override
@@ -53,7 +55,9 @@ class _BaggageViewState extends State<BaggageView>
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                FlightDetailWidget(isDeparture: widget.isDeparture),
+                TitleSummaryHeader(title: "Baggage"),
+                kVerticalSpacer,
+                FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.baggage,),
                 kVerticalSpacer,
                 BaggageSection(
                   isDeparture: widget.isDeparture,
@@ -92,7 +96,7 @@ class _BaggageViewState extends State<BaggageView>
                           );
                         },
                         backgroundColor: Styles.kPrimaryColor,
-                        child: const Icon(Icons.keyboard_arrow_up),
+                        child: const FaIcon(FontAwesomeIcons.angleUp, size: 25,),
                       ),
                     )
                   ],
@@ -148,12 +152,7 @@ class ContinueButton extends StatelessWidget {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(BaggageRoute(isDeparture: false));
         } else {
-
-          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
-          var response = await context.router.push(const BookingDetailsRoute());
-          if(response == true) {
-            context.router.push(const BookingDetailsRoute());
-          }
+          context.router.push(SpecialRoute(isDeparture: true));
         }
       },
       child: const Text("Continue"),

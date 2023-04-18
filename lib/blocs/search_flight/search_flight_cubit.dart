@@ -7,6 +7,7 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 part 'search_flight_state.dart';
@@ -33,6 +34,87 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
         state.copyWith(
             filterState: filterState,
             message: "${DateTime.now().millisecondsSinceEpoch}"),
+      );
+    }
+  }
+
+  addWheelChairToPersonPartial({
+    Person? person,
+    required List<Bundle> wheelChairs,
+    required bool isDeparture,
+    String? okId,
+  }) {
+    print("available wheelchair is ${wheelChairs.length}");
+    final persons =
+        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+    Bundle? wheelChair;
+    if(okId?.isNotEmpty ?? false){
+      wheelChair = wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHC");
+    }else{
+      wheelChair = wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHR");
+    }
+    wheelChair ??= wheelChairs.firstOrNull;
+
+    final selected = persons.indexWhere((element) {
+      return element == person;
+    });
+    if (selected >= 0) {
+      print("selected is more than 0 $wheelChair");
+      final person = persons[selected];
+      late Person newPerson;
+      if (isDeparture) {
+        newPerson = person.copyWith(
+          departureWheelChair: () => wheelChair,
+          departureOkId: () => okId,
+        );
+      } else {
+        newPerson = person.copyWith(
+          returnWheelChair: () => wheelChair,
+          returnOkId: () => okId,
+        );
+      }
+      persons.removeAt(selected);
+      persons.insert(selected, newPerson);
+      final newNumberPerson = NumberPerson(persons: persons);
+      final filterState =
+          state.filterState?.copyWith(numberPerson: newNumberPerson);
+      emit(
+        state.copyWith(
+          filterState: filterState,
+          message: "${DateTime.now().millisecondsSinceEpoch}",
+        ),
+      );
+    }
+  }
+
+  updateOkIdPartial(Person? person, String? okId, {required bool isDeparture}) {
+    final persons =
+        List<Person>.from(state.filterState?.numberPerson.persons ?? []);
+    final selected = persons.indexWhere((element) {
+      return element == person;
+    });
+    if (selected >= 0) {
+      final person = persons[selected];
+      late Person newPerson;
+      if (isDeparture) {
+        newPerson = person.copyWith(
+          departureOkId: () => okId,
+        );
+      } else {
+        newPerson = person.copyWith(
+          returnOkId: () => okId,
+        );
+      }
+      persons.removeAt(selected);
+      persons.insert(selected, newPerson);
+      final newNumberPerson = NumberPerson(persons: persons);
+      final filterState =
+          state.filterState?.copyWith(numberPerson: newNumberPerson);
+      emit(
+        state.copyWith(
+          filterState: filterState,
+          message: "${DateTime.now().millisecondsSinceEpoch}",
+        ),
       );
     }
   }
@@ -238,7 +320,6 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
         return true;
       }
     }
-
     return false;
   }
 }

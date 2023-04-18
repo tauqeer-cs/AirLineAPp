@@ -2,10 +2,6 @@ import UIKit
 import Flutter
 
 
-
-//class AppDelegate: UIResponder, UIApplicationDelegate,
-
-
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate  {
 
@@ -27,9 +23,6 @@ import Flutter
           Insider.register(withQuietPermission: false)
       }
       
-      //insider api key 9NSEqzLBz0quco87ih2AwhG0IUV7suyj
-      
-      
       GeneratedPluginRegistrant.register(with: self)
       
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -45,3 +38,4 @@ import Flutter
     
     
 }
+

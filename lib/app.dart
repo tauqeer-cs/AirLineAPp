@@ -25,6 +25,7 @@ import 'package:app/pages/home/bloc/home/home_cubit.dart';
 import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
+import 'package:app/utils/navigation_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -64,6 +65,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     const SelectBaggageRoute().path,
     const BookingDetailsRoute().path,
     const CheckoutRoute().path,
+    const InsuranceRoute().path,
     const PaymentRoute().path,
   ];
 
@@ -81,26 +83,41 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Future initInsider() async {
+    print("init insider");
     if (!mounted) return;
     // Call in async method.
+    print("init insider 2");
+
     await FlutterInsider.Instance.init(
       AppFlavor.insiderPartnerName,
       AppFlavor.insiderAppGroup,
       userInsiderCallBack,
     );
+
+    print("init insider 3");
+
     // This is an utility method, if you want to handle the push permission in iOS own your own you can omit the following method.
-    try {
-      await FlutterInsider.Instance.visitHomePage();
-    } catch (e) {
-      logger.e(e);
-    }
+    // try {
+    //   await FlutterInsider.Instance.visitHomePage();
+    // } catch (e) {
+    //   logger.e(e);
+    //   print("init insider error 5");
+    // }
+    print("init insider 4");
+
+    print("register with queit");
     FlutterInsider.Instance.registerWithQuietPermission(false);
   }
 
   userInsiderCallBack(int type, dynamic data) {
+    print("user insider callback");
     switch (type) {
       case InsiderCallbackAction.NOTIFICATION_OPEN:
         logger.d("[INSIDER][NOTIFICATION_OPEN]: $data");
+        final scheme = data["ins_dl_url_scheme"];
+        print("is String ${scheme !is String} ${scheme}");
+        if(scheme == null) return;
+        NavigationUtils.navigateMainPage(scheme);
         break;
       case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
         logger.d("[INSIDER][TEMP_STORE_CUSTOM_ACTION]: $data");
@@ -122,11 +139,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         final nowUTC = DateTime.now().toUtc();
         final diff = expiredDate.difference(nowUTC);
         currentContext?.read<TimerBloc>().add(
-              TimerStarted(
-                duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
-                expiredTime: expiredDate,
-              ),
-            );
+          TimerStarted(
+            duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
+            expiredTime: expiredDate,
+          ),
+        );
       } catch (e) {
         logger.e("Cannot start timer from resume");
       }
@@ -144,6 +161,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         superPnr != null &&
         currentContext != null) {
       if (durationRemaining == 0) {
+        return;
         FirebaseAnalytics.instance.logEvent(name: "session_pnr_dialog");
         showDialog(
           context: currentContext,
@@ -208,13 +226,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
       } */
       else if (durationRemaining == 0) {
+        //return;
         FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
         showDialog(
           context: currentContext,
           barrierDismissible: false,
           builder: (context) {
             return WillPopScope(
-              onWillPop: () async => false,
+              onWillPop: () async => true,
               child: AppConfirmationDialog(
                 showCloseButton: false,
                 title: "Your session is expired, please retry your search!",
@@ -256,12 +275,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => CmsSsrCubit()),
         BlocProvider(create: (_) => AgentSignUpCubit()),
-
         BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(
           create: (context) => ManageBookingCubit(),
         ),
-        BlocProvider(create: (_) => SummaryContainerCubit()),
+        BlocProvider(
+          create: (_) => SummaryContainerCubit(),
+        ),
         BlocProvider(
             create: (_) =>
                 AuthBloc(authenticationRepository: AuthenticationRepository())),
@@ -292,13 +312,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
               context.read<TimerBloc>().add(
-                    TimerStarted(
-                      duration: state.superPnrNo != null ? 900 : diff.inSeconds,
-                      expiredTime: state.superPnrNo != null
-                          ? nowUTC.add(const Duration(seconds: 900))
-                          : expiredInUTC,
-                    ),
-                  );
+                TimerStarted(
+                  duration: state.superPnrNo != null ? 900 : diff.inSeconds,
+                  expiredTime: state.superPnrNo != null
+                      ? nowUTC.add(const Duration(seconds: 900))
+                      : expiredInUTC,
+                ),
+              );
               if (state.blocState == BlocState.failed) {
                 if (state.message ==
                     "The outbound seat chosen is not available anymore") {
@@ -316,13 +336,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             listener: (context, state) {
               context.read<HomeCubit>().getContents(state.routes);
               context.read<CmsSsrCubit>().getCmsSSR(state.routes);
-
               context.read<AgentSignUpCubit>().getAgentSignUp(state.routes);
             },
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(
             listenWhen: (previous, current) =>
-                previous.blocState != BlocState.finished &&
+            previous.blocState != BlocState.finished &&
                 current.blocState == BlocState.finished,
             listener: (context, state) {
               context.read<BookingCubit>().resetState();
@@ -350,7 +369,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
                   return MediaQuery(
                     data:
-                        MediaQuery.of(context).copyWith(textScaleFactor: scale),
+                    MediaQuery.of(context).copyWith(textScaleFactor: scale),
                     child: child!,
                   );
                 },
@@ -439,8 +458,8 @@ class MyObserver extends AutoRouterObserver {
           .setCurrentScreen(screenName: screenName)
           .catchError(
             (Object error) {},
-            test: (Object error) => error is PlatformException,
-          );
+        test: (Object error) => error is PlatformException,
+      );
     }
   }
 }

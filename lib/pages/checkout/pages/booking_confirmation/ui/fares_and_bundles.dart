@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:app/models/confirmation_model.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/fare_detail_widget.dart';
 import 'package:app/theme/theme.dart';
@@ -6,17 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FaresAndBundles extends StatelessWidget {
-  const FaresAndBundles({Key? key}) : super(key: key);
+  final bool isDeparture;
+
+  const FaresAndBundles({Key? key, required this.isDeparture})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final fares = context
-        .watch<ConfirmationCubit>()
-        .state
-        .confirmationModel
-        ?.value
-        ?.fareAndBundleDetail;
-
+    final confirmationModel =
+        context.watch<ConfirmationCubit>().state.confirmationModel;
+    final summary = confirmationModel?.value?.fareSummaryInOut;
+    final detail = isDeparture ? summary?.outboundBookingSummary : summary?.inboundBookingSummary;
 
     var currency = fares?.currencyToShow ?? 'MYR';
 
@@ -25,22 +28,20 @@ class FaresAndBundles extends StatelessWidget {
         Row(
           children: [
             const Text(
-              "Fares And Bundles",
-              style: kHugeSemiBold,
+              "Fees and Taxes",
+              style: k18Heavy,
             ),
             const Spacer(),
             MoneyWidget(
-              amount: fares?.totalAmount,
+              amount: detail?.fareAndTax?.totalAmount,
               isDense: true,
               isNormalMYR: true,
               currency: currency,
             ),
           ],
         ),
-        kVerticalSpacerSmall,
-        ...(fares?.fareAndBundles ?? [])
-            .map((e) => FareDetailWidget(fareAndBundle: e))
-            .toList(),
+        kVerticalSpacerMini,
+        FareDetailWidget(),
         kVerticalSpacerSmall,
       ],
     );

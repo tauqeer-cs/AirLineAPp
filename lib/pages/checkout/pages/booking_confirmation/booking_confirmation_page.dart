@@ -13,7 +13,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 class BookingConfirmationPage extends StatefulWidget {
   final String bookingId;
 
-
   const BookingConfirmationPage({
     Key? key,
     @PathParam('id') required this.bookingId,
@@ -32,6 +31,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("booking ${widget.bookingId}");
     return LoaderOverlay(
       useDefaultLoading: false,
       child: BlocProvider(
@@ -40,6 +40,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
         child: Scaffold(
           appBar: AppAppBar(
             title: "Confirmation",
+            titleColor: Styles.kPrimaryColor,
             height: 60.h,
             centerTitle: true,
           ),
@@ -47,8 +48,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
             builder: (context, state) {
               return blocBuilderWrapper(
                 blocState: state.blocState,
-                finishedBuilder: const ConfirmationView(
-                ),
+                finishedBuilder: const ConfirmationView(),
                 loadingBuilder: const SingleChildScrollView(
                   padding: kPagePadding,
                   child: BookingLoader(),

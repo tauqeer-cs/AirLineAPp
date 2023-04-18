@@ -21,7 +21,7 @@ class _CheckoutSummaryState extends State<CheckoutSummary> {
     final booking = context.watch<BookingCubit>().state;
 
     return Visibility(
-      visible: booking.isVerify,
+      visible: false,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 12),
         child: Column(

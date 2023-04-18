@@ -76,7 +76,7 @@ class SegmentCard extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                 child: Column(
                   children: [
                     Row(
@@ -98,7 +98,6 @@ class SegmentCard extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-
                         ] else ...[
                           Visibility(
                             visible: segment.discountPCT != null &&
@@ -122,7 +121,7 @@ class SegmentCard extends StatelessWidget {
                     ),
                     kVerticalSpacer,
                     const AppDividerWidget(),
-                    if (showVisa) ... [
+                    if (showVisa) ...[
                       Transform.translate(
                         offset: const Offset(0, 20),
                         child: Row(
@@ -160,7 +159,7 @@ class SegmentCard extends StatelessWidget {
                                     amount: changeFlight
                                         ? segment.changeFlightAmountToShow
                                         : segment
-                                        .totalSegmentFareAmtWithInfantSSR,
+                                            .totalSegmentFareAmtWithInfantSSR,
                                     isDense: true,
                                     showPlus: changeFlight),
                                 Visibility(
@@ -169,7 +168,7 @@ class SegmentCard extends StatelessWidget {
                                   child: Text(
                                     " ${segment.currentToShow} ${segment.beforeDiscountTotalAmt}",
                                     style: kSmallRegular.copyWith(
-                                        decoration: TextDecoration.lineThrough,
+                                      decoration: TextDecoration.lineThrough,
                                       decorationThickness: 3,
                                     ),
                                   ),
@@ -179,7 +178,7 @@ class SegmentCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ] else ... [
+                    ] else ...[
                       Transform.translate(
                         offset: const Offset(0, 20),
                         child: Row(
@@ -213,7 +212,7 @@ class SegmentCard extends StatelessWidget {
                                       amount: changeFlight
                                           ? segment.changeFlightAmountToShow
                                           : segment
-                                          .totalSegmentFareAmtWithInfantSSR,
+                                              .totalSegmentFareAmtWithInfantSSR,
                                       isDense: true,
                                       showPlus: changeFlight),
                                   Visibility(
@@ -222,7 +221,8 @@ class SegmentCard extends StatelessWidget {
                                     child: Text(
                                       "${segment.currentToShow} ${segment.beforeDiscountTotalAmt}",
                                       style: kSmallRegular.copyWith(
-                                          decoration: TextDecoration.lineThrough),
+                                          decoration:
+                                              TextDecoration.lineThrough),
                                     ),
                                   ),
                                 ],
@@ -231,10 +231,13 @@ class SegmentCard extends StatelessWidget {
                           ],
                         ),
                       ),
-
                     ],
-                    FlightDetail(isDeparture: isDeparture, segment: segment),
-                    kVerticalSpacerSmall,
+                    FlightDetail(
+                      isDeparture: isDeparture,
+                      segment: segment,
+                      showFees: false,
+                      showDetailPayment: false,
+                    ),
                   ],
                 ),
               ),
@@ -366,7 +369,7 @@ class SegmentHeader extends StatelessWidget {
           style: kLargeHeavy,
         ),
         Text(
-          "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'Depart' : 'Arrival'}",
+          "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'Departure' : 'Arrival'}",
           style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
         )
       ],

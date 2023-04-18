@@ -3,7 +3,7 @@ description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 #prodlist:
-version: 1.0.92+92
+version: 1.1.1+104
 
 environment:
   sdk: '>=2.18.1 <3.0.0'
@@ -15,6 +15,7 @@ dependencies:
   bloc: ^8.0.2
   expandable_page_view: ^1.0.17
   bloc_concurrency: ^0.2.0
+  datepicker_dropdown: ^0.0.7+4
   cached_network_image: ^3.1.0+1
   carousel_slider: ^4.1.1
   cupertino_icons: ^1.0.2
@@ -29,6 +30,7 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   flutter_insider: ^3.4.0+nh
   auto_size_text: ^3.0.0
+  font_awesome_flutter: ^10.4.0
   flutter_inappwebview: ^5.7.2
   flutter_screenutil: ^5.3.1
   flutter_secure_storage: ^5.0.2
@@ -71,6 +73,7 @@ dependencies:
   screenshot: ^1.2.3
   path_provider: ^2.0.11
   share_plus: ^6.2.0
+  just_the_tooltip: ^0.0.12
   paged_vertical_calendar: ^1.1.5
   stream_transform: ^2.1.0
   crypto: ^3.0.2
@@ -96,10 +99,14 @@ dev_dependencies:
   retrofit_generator: ^4.0.3
 
 
+
 flutter_native_splash:
   image: "assets/images/native/logo_new.png"
   fullscreen: true
   color: "#FFFFFF"
+
+dependency_overrides:
+  font_awesome_flutter: ^10.4.0
 
 flutter:
   uses-material-design: true
@@ -132,3 +139,4 @@ flutter:
     - assets/images/icons/
     - assets/images/svg/
     - assets/fonts/
+    - assets/pdf/

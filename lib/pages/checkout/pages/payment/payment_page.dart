@@ -151,7 +151,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             context.router.replaceAll([
                               const NavigationRoute(),
                               BookingConfirmationRoute(
-                                  bookingId: superPNR ?? "",)
+                                  bookingId: superPNR ?? "",),
                             ]);
                           } else {
                             if (mounted) {
@@ -198,6 +198,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       BookingStep.flights,
                       BookingStep.addOn,
                       BookingStep.bookingDetails,
+                      BookingStep.insurance,
                       BookingStep.payment
                     ],
                     onTopStepTaped: (int index) {

@@ -350,21 +350,31 @@ class Passenger extends HiveObject with EquatableMixin {
 
 
   String? get ifPassengerHasInsuranceName {
-
     if(ssr != null) {
       if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
         var outBound = ssr!.outbound!;
         var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
-
         if(object.isNotEmpty){
           return object.first.name;
         }
-
         return null;
       }
     }
     return null;
 
+  }
+  Bound? get getInsurance {
+    if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+        if(object.isNotEmpty){
+          return object.first;
+        }
+        return null;
+      }
+    }
+    return null;
   }
   String? get ifPassengerHasInsurance {
 
@@ -372,17 +382,32 @@ class Passenger extends HiveObject with EquatableMixin {
       if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
         var outBound = ssr!.outbound!;
         var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
-
         if(object.isNotEmpty){
          return object.first.price!.toDouble().toStringAsFixed(2);
         }
-
         return null;
       }
     }
     return null;
 
   }
+
+  String? get passengerInsuranceCode {
+
+    if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+        if(object.isNotEmpty){
+          return object.first.code;
+        }
+        return null;
+      }
+    }
+    return null;
+
+  }
+
 
 
   PeopleType? get getType =>
@@ -564,6 +589,7 @@ class Bound extends Equatable {
     this.quantity,
     this.price,
     this.name,
+    this.code,
   });
 
   @JsonKey(name: 'LogicalFlightID')
@@ -579,6 +605,8 @@ class Bound extends Equatable {
   @JsonKey(name: 'Name')
   final String? name;
 
+  final String? code;
+
   Bound copyWith({
     num? logicalFlightId,
     num? serviceId,
@@ -586,6 +614,7 @@ class Bound extends Equatable {
     num? quantity,
     num? price,
     String? name,
+    String? code,
   }) =>
       Bound(
         logicalFlightId: logicalFlightId ?? this.logicalFlightId,
@@ -594,5 +623,6 @@ class Bound extends Equatable {
         quantity: quantity ?? this.quantity,
         price: price ?? this.price,
         name: name ?? this.name,
+        code: code ?? this.code,
       );
 }

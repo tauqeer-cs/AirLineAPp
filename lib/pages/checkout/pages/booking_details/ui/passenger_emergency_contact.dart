@@ -80,119 +80,123 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         Text(
           "Let us know who we can contact in case of an emergency. Make sure this person isn't a passenger on this flight and is easily reachable. ",
           style:
-              kMediumRegular.copyWith(color: Styles.kSubTextColor, height: 1.5),
+              kMediumRegular.copyWith(height: 1.5),
         ),
         kVerticalSpacer,
-        GreyCard(
-          child: Column(
-            children: [
-              AppInputText(
-                name: formNameEmergencyFirstName,
-                hintText: "First Name/Given Name",
-                validators: [FormBuilderValidators.required()],
-                initialValue: emergency?.firstName ?? firstName,
-                onChanged: (value) {
-                  final request =
-                      context.read<LocalUserBloc>().state.emergencyContact ??
-                          EmergencyContact();
-                  final newRequest = request.copyWith(firstName: value);
-                  context
-                      .read<LocalUserBloc>()
-                      .add(UpdateEmergency(newRequest));
-                },
-              ),
-              kVerticalSpacerMini,
-              AppInputText(
-                name: formNameEmergencyLastName,
-                hintText: "Last Name / Surname",
-                validators: [FormBuilderValidators.required()],
-                initialValue: emergency?.lastName ?? lastName,
-                onChanged: (value) {
-                  final request =
-                      context.read<LocalUserBloc>().state.emergencyContact;
-                  final newRequest = request?.copyWith(lastName: value);
-                  context
-                      .read<LocalUserBloc>()
-                      .add(UpdateEmergency(newRequest));
-                },
-              ),
-              kVerticalSpacerMini,
-              ShadowInput(
-                name: formNameEmergencyRelation,
-                textEditingController: relationController,
-                validators: [FormBuilderValidators.required()],
-                child: AppDropDown<String>(
-                  items: availableRelations,
-                  defaultValue:
-                      availableRelations.contains(relationController.text)
-                          ? relationController.text
-                          : null,
-                  sheetTitle: "Relationship",
-                  onChanged: (value) {
-                    relationController.text = value ?? "";
-                    final request =
-                        context.read<LocalUserBloc>().state.emergencyContact;
-                    final newRequest = request?.copyWith(relationship: value);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateEmergency(newRequest));
-                  },
-                ),
-              ),
-              kVerticalSpacerMini,
-              ShadowInput(
-                textEditingController: nationalityController,
-                name: formNameEmergencyCountry,
-                child: AppCountriesDropdown(
-                  isPhoneCode: true,
-                  hintText: "Phone",
-                  initialCountryCode: nationalityController.text,
-                  onChanged: (value) {
-                    nationalityController.text = value?.phoneCode ?? "";
-                    final request =
-                        context.read<LocalUserBloc>().state.emergencyContact;
-                    final newRequest =
-                        request?.copyWith(phoneNumber: value?.phoneCode);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateEmergency(newRequest));
-                  },
-                ),
-              ),
-              AppInputText(
-                name: formNameEmergencyPhone,
-                initialValue: emergency?.phoneNumber ?? phoneNumber,
-                textInputType: TextInputType.number,
-                hintText: "Phone Number",
-                validators: [FormBuilderValidators.required()],
-                onChanged: (value) {
-                  final request =
-                      context.read<LocalUserBloc>().state.emergencyContact;
-                  final newRequest = request?.copyWith(phoneNumber: value);
-                  context
-                      .read<LocalUserBloc>()
-                      .add(UpdateEmergency(newRequest));
-                },
-              ),
-              /*AppInputText(
-                name: formNameEmergencyEmail,
-                hintText: "Email",
+        Column(
+          children: [
+            AppInputText(
+              name: formNameEmergencyFirstName,
+              hintText: "First Name/Given Name",
+              validators: [FormBuilderValidators.required()],
+              initialValue: emergency?.firstName ?? firstName,
+              onChanged: (value) {
+                final request =
+                    context.read<LocalUserBloc>().state.emergencyContact ??
+                        EmergencyContact();
+                final newRequest = request.copyWith(firstName: value);
+                context
+                    .read<LocalUserBloc>()
+                    .add(UpdateEmergency(newRequest));
+              },
+            ),
+            kVerticalSpacerSmall,
+            AppInputText(
+              name: formNameEmergencyLastName,
+              hintText: "Last Name / Surname",
+              validators: [FormBuilderValidators.required()],
+              initialValue: emergency?.lastName ?? lastName,
+              onChanged: (value) {
+                final request =
+                    context.read<LocalUserBloc>().state.emergencyContact;
+                final newRequest = request?.copyWith(lastName: value);
+                context
+                    .read<LocalUserBloc>()
+                    .add(UpdateEmergency(newRequest));
+              },
+            ),
+            kVerticalSpacerSmall,
+            ShadowInput(
+              name: formNameEmergencyRelation,
+              textEditingController: relationController,
+              validators: [FormBuilderValidators.required()],
+              child: AppDropDown<String>(
+                dropdownDecoration: Styles.getDefaultFieldDecoration(),
 
-                validators: [
-                  FormBuilderValidators.required(),
-                  FormBuilderValidators.email(),
-                ],
+                items: availableRelations,
+                defaultValue:
+                    availableRelations.contains(relationController.text)
+                        ? relationController.text
+                        : null,
+                sheetTitle: "Relationship",
                 onChanged: (value) {
+                  relationController.text = value ?? "";
                   final request =
                       context.read<LocalUserBloc>().state.emergencyContact;
-                  final newRequest = request?.copyWith(email: value);
+                  final newRequest = request?.copyWith(relationship: value);
                   context
                       .read<LocalUserBloc>()
                       .add(UpdateEmergency(newRequest));
                 },
-              ),*/
-            ],
-          ),
+              ),
+            ),
+            kVerticalSpacerSmall,
+            ShadowInput(
+              textEditingController: nationalityController,
+              name: formNameEmergencyCountry,
+              child: AppCountriesDropdown(
+                dropdownDecoration: Styles.getDefaultFieldDecoration(),
+
+                isPhoneCode: true,
+                hintText: "Phone",
+                initialCountryCode: nationalityController.text,
+                onChanged: (value) {
+                  nationalityController.text = value?.phoneCode ?? "";
+                  final request =
+                      context.read<LocalUserBloc>().state.emergencyContact;
+                  final newRequest =
+                      request?.copyWith(phoneNumber: value?.phoneCode);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateEmergency(newRequest));
+                },
+              ),
+            ),
+            kVerticalSpacerSmall,
+
+            AppInputText(
+              name: formNameEmergencyPhone,
+              initialValue: emergency?.phoneNumber ?? phoneNumber,
+              textInputType: TextInputType.number,
+              hintText: "Phone Number",
+              validators: [FormBuilderValidators.required()],
+              onChanged: (value) {
+                final request =
+                    context.read<LocalUserBloc>().state.emergencyContact;
+                final newRequest = request?.copyWith(phoneNumber: value);
+                context
+                    .read<LocalUserBloc>()
+                    .add(UpdateEmergency(newRequest));
+              },
+            ),
+            /*AppInputText(
+              name: formNameEmergencyEmail,
+              hintText: "Email",
+
+              validators: [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.email(),
+              ],
+              onChanged: (value) {
+                final request =
+                    context.read<LocalUserBloc>().state.emergencyContact;
+                final newRequest = request?.copyWith(email: value);
+                context
+                    .read<LocalUserBloc>()
+                    .add(UpdateEmergency(newRequest));
+              },
+            ),*/
+          ],
         ),
       ],
     );

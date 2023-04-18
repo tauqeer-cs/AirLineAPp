@@ -28,6 +28,7 @@ class FlightResultWidget extends StatelessWidget {
             child: Column(
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       flex: 4,
@@ -43,10 +44,12 @@ class FlightResultWidget extends StatelessWidget {
                         return Visibility(
                           //visible: !state.isVerify,
                           child: Expanded(
-                            flex: 2,
+                            flex: 3,
                             child: OutlinedButton(
-                              child:
-                                  const FittedBox(child: Text("Change Search")),
+                              child: const FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text("Change Search"),
+                              ),
                               onPressed: () {
                                 context
                                     .read<SummaryContainerCubit>()
@@ -80,17 +83,17 @@ class FlightResultWidget extends StatelessWidget {
                   },
                 ),
                 kVerticalSpacer,
-                Visibility(
-                  visible: false,
-                  replacement: Text(
-                    "All fares are calculated based on a one-way flight for a single adult passenger. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
-                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                  ),
-                  child: Text(
-                    "Prices are based on an ${filter?.numberPerson.toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
-                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                  ),
-                ),
+                // Visibility(
+                //   visible: false,
+                //   replacement: Text(
+                //     "All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                //   child: Text(
+                //     "Prices are based on an ${filter?.numberPerson.toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -103,9 +106,9 @@ class FlightResultWidget extends StatelessWidget {
     return Column(
       children: [
         ChooseFlightSegment(
-          title: "Depart",
+          title: "Departure",
           subtitle: state.filterState?.beautifyShort ?? "",
-          dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
+          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate),
           segments: bookState.selectedDeparture != null
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
@@ -119,7 +122,7 @@ class FlightResultWidget extends StatelessWidget {
             title: "Return",
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
-                AppDateUtils.formatFullDate(state.filterState?.returnDate),
+                AppDateUtils.formatHalfDate(state.filterState?.returnDate),
             segments: bookState.selectedReturn != null
                 ? [bookState.selectedReturn!]
                 : state.flights?.flightResult?.inboundSegment ?? [],

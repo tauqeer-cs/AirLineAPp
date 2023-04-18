@@ -2,8 +2,10 @@ import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/requests/search_flight_request.dart';
 import 'package:app/data/responses/aplicable_taxes.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/pages/add_on/seats/ui/seat_legend_simple.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
@@ -618,13 +620,13 @@ class Bundle extends Equatable {
   Bound toBound({bool sports = false, bool isInsurance = false}) {
     if (isInsurance) {
       return Bound(
-        name: description?.toLowerCase(),
+        name: description,
         servicesType: "Insurance",
         logicalFlightId: logicalFlightID,
         quantity: 1,
         price: amount == null
             ? 0
-            : (amount! + (applicableTaxes!.first.taxAmount ?? 0)),
+            : (amount! + (applicableTaxes!.firstOrNull?.taxAmount ?? 0)),
         serviceId: serviceID,
       );
     } else if (sports) {
@@ -1171,6 +1173,16 @@ class Seats extends Equatable {
           .toList(),
       seatColumn: seatColumn,
     );
+  }
+
+  Color get toColor {
+    if(serviceDescription?.toLowerCase().contains("PREFERRED") ?? false){
+      return SeatAvailableLegend.unavailable.color;
+    }else if(serviceDescription?.toLowerCase().contains("standard")?? false){
+      return SeatAvailableLegend.standard.color;
+    }else{
+      return SeatAvailableLegend.preferred.color;
+    }
   }
 }
 

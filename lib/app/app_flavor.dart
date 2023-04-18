@@ -19,11 +19,11 @@ class AppFlavor {
   static String get title {
     switch (appFlavor) {
       case Flavor.staging:
-        return 'MyAirline - Staging';
+        return 'MYAirline - Staging';
       case Flavor.uat:
-        return 'MyAirline - UAT';
+        return 'MYAirline - UAT';
       default:
-        return 'MyAirline';
+        return 'MYAirline';
     }
   }
 
@@ -47,6 +47,17 @@ class AppFlavor {
         return 'https://uat-booking.myairline.my/booked';
       default:
         return 'https://booking.myairline.my/booked';
+    }
+  }
+
+  static String get websiteUrl {
+    switch (appFlavor) {
+      case Flavor.staging:
+        return 'https://mya-web.alphareds.com';
+      case Flavor.uat:
+        return 'https://uat.myairline.my';
+      default:
+        return 'https://www.myairline.my';
     }
   }
 
@@ -122,7 +133,7 @@ class AppFlavor {
     final isAndroid = Platform.isAndroid;
     switch (appFlavor) {
       case Flavor.staging:
-        return isAndroid ? '' : 'group.com.myairline.mobileapp';
+        return isAndroid ? '' : 'group.com.myairline.mobileapp.uat';
       case Flavor.uat:
         return isAndroid ? '' : 'group.com.myairline.mobileapp.uat';
       default:

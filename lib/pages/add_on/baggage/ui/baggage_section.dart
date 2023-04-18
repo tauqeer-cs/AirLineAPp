@@ -1,9 +1,11 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
+import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_notice.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
@@ -11,6 +13,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BaggageSection extends StatelessWidget {
   final bool isDeparture;
@@ -29,29 +32,26 @@ class BaggageSection extends StatelessWidget {
     final bookingState = context.watch<BookingCubit>().state;
     final baggageGroup = bookingState.verifyResponse?.flightSSR?.baggageGroup;
     final baggages =
-        isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+    isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Padding(
       padding: kPageHorizontalPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Baggage",
-            style: kGiantHeavy.copyWith(
-              color: Styles.kOrangeColor,
-              fontWeight: FontWeight.bold,
+      child: Visibility(
+        visible: baggages?.isNotEmpty ?? false,
+        replacement: EmptyAddon(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PassengerSelector(
+              isDeparture: isDeparture,
+              addonType: AddonType.baggage,
             ),
-          ),
-          kVerticalSpacer,
-          PassengerSelector(
-            isDeparture: isDeparture,
-          ),
-          kVerticalSpacer,
-          buildBaggageCards(baggages, isDeparture),
-          kVerticalSpacer,
-           const BaggageNotice(),
-          kVerticalSpacer,
-        ],
+            kVerticalSpacer,
+            buildBaggageCards(baggages, isDeparture),
+            kVerticalSpacer,
+            const BaggageNotice(),
+            kVerticalSpacer,
+          ],
+        ),
       ),
     );
   }
@@ -61,23 +61,23 @@ class BaggageSection extends StatelessWidget {
       children: [
         ...baggages?.map(
               (e) {
-                return Column(
-                  children: [
-                    NewBaggageCard(
-                      selectedBaggage: e,
-                      isDeparture: isDeparture,
-                      moveToBottom: () {
-                        moveToBottom?.call();
-                      },
-                      moveToTop: () {
-                        moveToTop?.call();
-                      },
-                    ),
-                    kVerticalSpacerSmall,
-                  ],
-                );
-              },
-            ).toList() ??
+            return Column(
+              children: [
+                NewBaggageCard(
+                  selectedBaggage: e,
+                  isDeparture: isDeparture,
+                  moveToBottom: () {
+                    moveToBottom?.call();
+                  },
+                  moveToTop: () {
+                    moveToTop?.call();
+                  },
+                ),
+                kVerticalSpacerSmall,
+              ],
+            );
+          },
+        ).toList() ??
             []
       ],
     );
@@ -115,9 +115,9 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
         : focusedPerson?.returnBaggage;
     final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
+
     return InkWell(
       onTap: () async {
-
         /*
         context.read<SearchFlightCubit>().addBaggageToPerson(
             selectedPerson, widget.selectedBaggage, widget.isDeparture);
@@ -129,8 +129,6 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                 ? null
                 : widget.selectedBaggage,
             widget.isDeparture);
-
-
 
         if (responseFlag) {
           var nextIndex = persons?.persons.indexOf(selectedPerson!);
@@ -166,12 +164,14 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
       },
       child: AppCard(
         edgeInsets: EdgeInsets.zero,
+        margin: EdgeInsets.only(bottom: 12),
+        borderRadius: 12,
         child: Stack(
           children: [
             ListTile(
               contentPadding: const EdgeInsets.only(
                 top: 20,
-                right: 50,
+                right: 40,
                 left: 15,
                 bottom: 20,
               ),
@@ -180,6 +180,7 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                 children: [
                   IgnorePointer(
                     child: Radio<Bundle?>(
+                      activeColor: Styles.kPrimaryColor,
                       value: widget.selectedBaggage.serviceID == 0
                           ? null
                           : widget.selectedBaggage,
@@ -200,21 +201,27 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                   ),
                 ],
               ),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.selectedBaggage.currencyCode ?? currency,
-                    style: kMediumHeavy,
-                  ),
-                  Text(
-                    NumberUtils.formatNumber(
-                      widget.selectedBaggage.finalAmount.toDouble(),
+              trailing: SizedBox(
+                width: 65,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.selectedBaggage.currencyCode ?? currency,
+                      style: kMediumHeavy,
                     ),
-                    style: kHugeHeavy,
-                  ),
-                ],
+                    Flexible(
+                      child: Text(
+                        NumberUtils.formatNumber(
+                          widget.selectedBaggage.finalAmount.toDouble(),
+                        ),
+                        style: kHugeHeavy,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(
@@ -222,10 +229,10 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
               top: 0,
               bottom: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                padding: const EdgeInsets.symmetric(vertical: 0.0),
                 child: Center(
                   child: Image.asset(
-                    "assets/images/design/icoLuggage.png",
+                    "assets/images/design/icoLuggage20.png",
                     color: Styles.kSubTextColor,
                   ),
                 ),

@@ -50,7 +50,6 @@ class RewardAndDiscount extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-
           VoucherCodeUi(
             readOnly: bookingState.superPnrNo != null,
             blocState: state.blocState,

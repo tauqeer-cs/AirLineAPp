@@ -70,9 +70,16 @@ class SeatPlan extends StatelessWidget {
             Rows? previousRow = index == 0 ? null : rows?[index - 1];
             bool isSeatSeparated = row.seats?.first.serviceId !=
                 previousRow?.seats?.first.serviceId;
-            final bundle = legends.firstWhereOrNull(
-                (element) => element.serviceID == row.seats?.first.serviceId);
-            if(bundle?.finalAmount==null){
+            Bundle? bundle;
+            for (Seats seat in row.seats ?? []) {
+              bundle = legends.firstWhereOrNull(
+                  (element) => element.serviceID == seat.serviceId);
+              if (bundle?.finalAmount != null && bundle?.finalAmount != 0) break;
+            }
+
+            // final bundle = legends.firstWhereOrNull(
+            //     (element) => element.serviceID == row.seats?.first.serviceId);
+            if (bundle?.finalAmount == null) {
               log("final amount ${bundle?.toJson()}");
             }
             return Padding(
@@ -80,7 +87,7 @@ class SeatPlan extends StatelessWidget {
               child: Column(
                 children: [
                   kVerticalSpacerSmall,
-                  if (isSeatSeparated && bundle!=null)
+                  if (isSeatSeparated && bundle != null)
                     Column(
                       children: [
                         kVerticalSpacerSmall,
@@ -88,28 +95,30 @@ class SeatPlan extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Expanded(flex: 1, child: SizedBox()),
-                            ArrowSVG(
-                              assetName:
-                                  'assets/images/svg/seats_arrow_left.svg',
-                              color: mapColor?[row.seats?.first.serviceId] ??
-                                  Colors.purpleAccent,
+                            Expanded(
+                              flex: 1,
+                              child: ArrowSVG(
+                                assetName:
+                                    'assets/images/svg/seats_arrow_left.svg',
+                                color: row.seats?.first.toColor,
+                              ),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 35),
+                            Expanded(
+                              flex: 3,
                               child: bundle.finalAmount == null
-                                  ? const Text("No Data")
+                                  ? Center(child: Text("No Data", style: kLargeHeavy,))
                                   : SeatPrice(
                                       amount: bundle.finalAmount,
                                       currency: row.seats?.first.seatPriceOffers
                                           ?.firstOrNull?.currency,
                                     ),
                             ),
-                            ArrowSVG(
-                              assetName:
-                                  'assets/images/svg/seats_arrow_right.svg',
-                              color: mapColor?[row.seats?.first.serviceId] ??
-                                  Colors.purpleAccent,
+                            Expanded(
+                              child: ArrowSVG(
+                                assetName:
+                                    'assets/images/svg/seats_arrow_right.svg',
+                                color: row.seats?.first.toColor,
+                              ),
                             ),
                             const Expanded(flex: 1, child: SizedBox()),
                           ],
