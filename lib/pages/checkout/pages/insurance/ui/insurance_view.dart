@@ -10,6 +10,7 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_toast.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,6 +32,15 @@ class _InsuranceViewState extends State<InsuranceView> {
       totalInsurance = totalInsurance + (element.getInsurance?.price ?? 0);
     }
     print("total insurance is $totalInsurance");
+
+    final bookingState = context.watch<BookingCubit>().state;
+
+    final insurances =
+        bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+
+    final firstInsurance = insurances.firstOrNull;
+
+
     return Stack(
       children: [
         SummaryContainerListener(
@@ -47,7 +57,7 @@ class _InsuranceViewState extends State<InsuranceView> {
               ZurichContainer(),
               kVerticalSpacer,
               AvailableInsurance(),
-              InsuranceTerms(),
+              InsuranceTerms(isInternational: firstInsurance?.codeType?.contains('SL') == true ,),
               kSummaryContainerSpacing,
               kSummaryContainerSpacing,
             ],

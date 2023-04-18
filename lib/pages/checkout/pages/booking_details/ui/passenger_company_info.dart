@@ -102,115 +102,113 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
         kVerticalSpacer,
         ExpandedSection(
           expand: isExpand,
-          child: GreyCard(
-            child: Column(
-              children: [
-                AppInputText(
-                  name: formNameCompanyName,
-                  initialValue: name,
-                  hintText: "Company Name",
-                  onChanged: (value) {
-                    final request =
-                        context.read<LocalUserBloc>().state.companyTaxInvoice;
-                    final newRequest = request?.copyWith(companyName: value);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateCompany(newRequest));
+          child: Column(
+            children: [
+              AppInputText(
+                name: formNameCompanyName,
+                initialValue: name,
+                hintText: "Company Name",
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.companyTaxInvoice;
+                  final newRequest = request?.copyWith(companyName: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateCompany(newRequest));
 
-                    if ((value ?? '').isNotEmpty) {
-                      //if((emailAddress ?? '').isEmpty){
-                      fillEmail();
-                      // }
-                    }
-                  },
+                  if ((value ?? '').isNotEmpty) {
+                    //if((emailAddress ?? '').isEmpty){
+                    fillEmail();
+                    // }
+                  }
+                },
+              ),
+              kVerticalSpacer,
+              AppInputText(
+                name: formNameCompanyAddress,
+                initialValue: address,
+                hintText: "Company Address",
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.companyTaxInvoice;
+                  final newRequest = request?.copyWith(companyAddress: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateCompany(newRequest));
+                },
+              ),
+              kVerticalSpacer,
+              ShadowInput(
+                textEditingController: nationalityController,
+                name: formNameCompanyCountry,
+                child: AppCountriesDropdown(
+                  dropdownDecoration: Styles.getDefaultFieldDecoration(),
+                  hintText: "Country",
+                  isPhoneCode: false,
                 ),
-                kVerticalSpacer,
-                AppInputText(
-                  name: formNameCompanyAddress,
-                  initialValue: address,
-                  hintText: "Company Address",
-                  onChanged: (value) {
-                    final request =
-                        context.read<LocalUserBloc>().state.companyTaxInvoice;
-                    final newRequest = request?.copyWith(companyAddress: value);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateCompany(newRequest));
-                  },
-                ),
-                kVerticalSpacer,
-                ShadowInput(
-                  textEditingController: nationalityController,
-                  name: formNameCompanyCountry,
-                  child: AppCountriesDropdown(
-                    dropdownDecoration: Styles.getDefaultFieldDecoration(),
-                    hintText: "Country",
-                    isPhoneCode: false,
-                  ),
-                ),
-                kVerticalSpacer,
+              ),
+              kVerticalSpacer,
 
 
-                AppInputText(
-                  name: formNameCompanyState,
-                  initialValue: state,
-                  hintText: "State",
-                  onChanged: (value) {
-                    final request =
-                        context.read<LocalUserBloc>().state.companyTaxInvoice;
-                    final newRequest = request?.copyWith(state: value);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateCompany(newRequest));
-                  },
-                ),
-                kVerticalSpacer,
-                AppInputText(
-                  name: formNameCompanyCity,
-                  initialValue: city,
-                  hintText: "City",
-                  onChanged: (value) {
-                    final request =
-                        context.read<LocalUserBloc>().state.companyTaxInvoice;
-                    final newRequest = request?.copyWith(city: value);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateCompany(newRequest));
-                  },
-                ),
-                kVerticalSpacer,
-                AppInputText(
-                  name: formNameCompanyPostCode,
-                  initialValue: postCode,
-                  hintText: "Postcode",
-                  onChanged: (value) {
-                    final request =
-                        context.read<LocalUserBloc>().state.companyTaxInvoice;
-                    final newRequest = request?.copyWith(postCode: value);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateCompany(newRequest));
-                  },
-                ),
-                kVerticalSpacer,
-                AppInputText(
-                  name: formNameCompanyEmailAddress,
-                  hintText: "Email Address",
-                  textEditingController: emailController,
-                  validators: [FormBuilderValidators.email()],
-                  onChanged: (value) {
-                    emailAddress = value;
+              AppInputText(
+                name: formNameCompanyState,
+                initialValue: state,
+                hintText: "State",
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.companyTaxInvoice;
+                  final newRequest = request?.copyWith(state: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateCompany(newRequest));
+                },
+              ),
+              kVerticalSpacer,
+              AppInputText(
+                name: formNameCompanyCity,
+                initialValue: city,
+                hintText: "City",
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.companyTaxInvoice;
+                  final newRequest = request?.copyWith(city: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateCompany(newRequest));
+                },
+              ),
+              kVerticalSpacer,
+              AppInputText(
+                name: formNameCompanyPostCode,
+                initialValue: postCode,
+                hintText: "Postcode",
+                onChanged: (value) {
+                  final request =
+                      context.read<LocalUserBloc>().state.companyTaxInvoice;
+                  final newRequest = request?.copyWith(postCode: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateCompany(newRequest));
+                },
+              ),
+              kVerticalSpacer,
+              AppInputText(
+                name: formNameCompanyEmailAddress,
+                hintText: "Email Address",
+                textEditingController: emailController,
+                validators: [FormBuilderValidators.email()],
+                onChanged: (value) {
+                  emailAddress = value;
 
-                    final request =
-                        context.read<LocalUserBloc>().state.companyTaxInvoice;
-                    final newRequest = request?.copyWith(emailAddress: value);
-                    context
-                        .read<LocalUserBloc>()
-                        .add(UpdateCompany(newRequest));
-                  },
-                ),
-              ],
-            ),
+                  final request =
+                      context.read<LocalUserBloc>().state.companyTaxInvoice;
+                  final newRequest = request?.copyWith(emailAddress: value);
+                  context
+                      .read<LocalUserBloc>()
+                      .add(UpdateCompany(newRequest));
+                },
+              ),
+            ],
           ),
         ),
       ],

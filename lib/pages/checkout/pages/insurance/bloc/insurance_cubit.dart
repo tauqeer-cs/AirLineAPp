@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/summary_response.dart';
+import 'package:app/data/responses/verify_response.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -44,9 +45,13 @@ class InsuranceCubit extends Cubit<InsuranceState> {
     }
   }
 
-  updateInsuranceToPassenger(int index, Bound? insurance) {
+  updateInsuranceToPassenger(int index, Bound? insurance,String? codeType) {
     final newList = List<Passenger>.from(state.passengers);
 
+    if(insurance != null) {
+      insurance = insurance.copyWith(code: codeType);
+
+    }
     final newPassenger = newList[index].copyWith(
       ssr: Ssr(outbound: insurance == null ? [] : [insurance]),
     );
@@ -85,5 +90,14 @@ class InsuranceCubit extends Cubit<InsuranceState> {
       passengers: newList,
       insuranceType: InsuranceType.none,
     ));
+  }
+
+  void setLast(Bundle? firstWhereOrNull) {
+
+    if(firstWhereOrNull != null) {
+      emit(state.copyWith(
+        lastInsuranceSelected: firstWhereOrNull,
+      ));
+    }
   }
 }
