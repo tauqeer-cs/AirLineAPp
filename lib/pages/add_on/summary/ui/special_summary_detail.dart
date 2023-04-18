@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/theme.dart';
+import '../../ui/summary_list_item.dart';
 
 class SpecialSummaryDetail extends StatelessWidget {
   const SpecialSummaryDetail({Key? key}) : super(key: key);
@@ -92,11 +93,7 @@ class SpecialSummaryDetail extends StatelessWidget {
             Text(
               e.generateText(numberOfPerson, separator: "& "),
             ),
-            Text(
-              " - ${wheelchair?.description}",
-              style:
-              kMediumRegular.copyWith(color: Styles.kActiveGrey),
-            ),
+            SummaryListItem(text: wheelchair?.description ?? '',),
             Visibility(
               visible: okId?.isNotEmpty ?? false,
               child: Text(

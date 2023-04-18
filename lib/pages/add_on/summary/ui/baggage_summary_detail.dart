@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/theme.dart';
+import '../../ui/summary_list_item.dart';
 
 class BaggageSummaryDetail extends StatelessWidget {
   const BaggageSummaryDetail({Key? key}) : super(key: key);
@@ -82,11 +83,8 @@ class BaggageSummaryDetail extends StatelessWidget {
 
   Visibility buildBaggageComponent(
       Person e, NumberPerson? numberOfPerson, bool isDeparture) {
-    print("is departure $isDeparture");
     final baggage = isDeparture ? e.departureBaggage : e.returnBaggage;
     final sport = isDeparture ? e.departureSports : e.returnSports;
-    print("baggage $baggage");
-    print("sport $sport");
 
     return Visibility(
       visible: baggage!=null || sport!=null,
@@ -99,19 +97,11 @@ class BaggageSummaryDetail extends StatelessWidget {
             ),
             Visibility(
               visible: baggage!=null,
-              child: Text(
-                " - ${baggage?.description}",
-                style:
-                kMediumRegular.copyWith(color: Styles.kActiveGrey),
-              ),
+              child:  SummaryListItem( text: baggage?.description ?? '',),
             ),
             Visibility(
               visible: sport!=null,
-              child: Text(
-                " - ${sport?.description}",
-                style:
-                kMediumRegular.copyWith(color: Styles.kActiveGrey),
-              ),
+              child: SummaryListItem( text: sport?.description ?? '',),
             ),
           ],
         ),

@@ -19,23 +19,33 @@ import '../../../../../theme/html_style.dart';
 import '../../../../../utils/security_utils.dart';
 
 class AvailableInsurance extends StatelessWidget {
-  const AvailableInsurance({Key? key}) : super(key: key);
+   AvailableInsurance({Key? key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
+    final insuranceBloc = context.watch<InsuranceCubit>();
+
     final insuranceCubit = context.watch<InsuranceCubit>().state;
     final selected = insuranceCubit.insuranceType;
 
     final bookingState = context.watch<BookingCubit>().state;
     final passengers = insuranceCubit.passengers;
+
+    final insurancesGroup =
+        bookingState.verifyResponse?.flightSSR?.insuranceGroup;
+
     final insurances =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
     final selectedPassengers = insuranceCubit.selectedPassenger;
     final firstInsurance = insurances.firstOrNull;
 
     final agentCms = context.watch<AgentSignUpCubit>();
+    Bundle? lastInsuranceSelected = insuranceCubit.lastInsuranceSelected;
 
-    return Visibility(
+
+    return  Visibility(
       visible: insurances.isNotEmpty,
       replacement: EmptyAddon(),
       child: Column(
@@ -51,7 +61,7 @@ class AvailableInsurance extends StatelessWidget {
                   context.read<InsuranceCubit>().changeInsuranceType(
                       e, firstInsurance.toBound(isInsurance: true));
                 },
-                child: AppCard(
+                child:  AppCard(
                   margin: EdgeInsets.only(bottom: 10),
                   child: Column(
                     children: [
@@ -80,8 +90,9 @@ class AvailableInsurance extends StatelessWidget {
                           kHorizontalSpacerSmall,
                           Expanded(
                             child:
-                                getTitle(e, firstInsurance, passengers.length),
+                                getTitle(e, lastInsuranceSelected ?? firstInsurance, passengers.length),
                           ),
+
                           kHorizontalSpacerSmall,
                           SizedBox(
                             height: 56,
@@ -111,25 +122,34 @@ class AvailableInsurance extends StatelessWidget {
                                       onTap: () {
                                         print("update insurance");
                                         if (selected == InsuranceType.all) {
+
+                                          insuranceBloc.setLast(insurancesGroup?.outbound?.firstWhereOrNull((element) => element == e));
+
+
+
                                           context
                                               .read<InsuranceCubit>()
                                               .updateInsuranceToAllPassenger(
                                                   bound);
+
                                         } else {
                                           Bound? currentInsurance =
                                               passengers[selectedPassengers]
                                                   .getInsurance;
 
+
                                           if (currentInsurance == null) {
+
                                             context
                                                 .read<InsuranceCubit>()
                                                 .updateInsuranceToPassenger(
-                                                    selectedPassengers, bound);
+                                                    selectedPassengers, bound,e.codeType);
                                           } else {
+
                                             context
                                                 .read<InsuranceCubit>()
                                                 .updateInsuranceToPassenger(
-                                                    selectedPassengers, null);
+                                                    selectedPassengers, null,e.codeType);
                                           }
                                         }
                                       },

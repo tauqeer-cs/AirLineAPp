@@ -7,6 +7,8 @@ class InsuranceState extends Equatable {
   final String message;
   final InsuranceType? insuranceType;
   final int selectedPassenger;
+  final Bundle? lastInsuranceSelected;
+
 
   const InsuranceState({
     this.summaryResponse,
@@ -15,6 +17,7 @@ class InsuranceState extends Equatable {
     this.message = '',
     this.insuranceType,
     this.selectedPassenger= 0,
+    this.lastInsuranceSelected,
   });
 
   InsuranceState copyWith({
@@ -24,6 +27,8 @@ class InsuranceState extends Equatable {
     List<Passenger>? passengers,
     InsuranceType? insuranceType,
     int? selectedPassenger,
+    Bundle? lastInsuranceSelected,
+
   }) {
     return InsuranceState(
       blocState: blocState ?? this.blocState,
@@ -32,6 +37,7 @@ class InsuranceState extends Equatable {
       passengers: passengers ?? this.passengers,
       insuranceType: insuranceType ?? this.insuranceType,
       selectedPassenger: selectedPassenger ?? this.selectedPassenger,
+      lastInsuranceSelected: lastInsuranceSelected ?? this.lastInsuranceSelected,
 
     );
   }
@@ -44,6 +50,7 @@ class InsuranceState extends Equatable {
         passengers,
         insuranceType,
     selectedPassenger,
+    lastInsuranceSelected
       ];
 }
 
