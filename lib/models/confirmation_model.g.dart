@@ -78,6 +78,10 @@ Value _$ValueFromJson(Map<String, dynamic> json) => Value(
           ? null
           : InsuranceDetails.fromJson(
               json['insuranceSSRDetail'] as Map<String, dynamic>),
+      fareSummaryInOut: json['fareSummaryInOut'] == null
+          ? null
+          : FareSummaryInOut.fromJson(
+              json['fareSummaryInOut'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ValueToJson(Value instance) {
@@ -100,6 +104,7 @@ Map<String, dynamic> _$ValueToJson(Value instance) {
   writeNotNull('bookingContact', instance.bookingContact);
   writeNotNull('baggageDetail', instance.baggageDetail);
   writeNotNull('sportEquipmentDetail', instance.sportEquipmentDetail);
+  writeNotNull('fareSummaryInOut', instance.fareSummaryInOut);
   writeNotNull('insuranceSSRDetail', instance.insuranceSSRDetail);
   writeNotNull('flightSegments', instance.flightSegments);
   return val;
@@ -749,7 +754,9 @@ PaymentOrder _$PaymentOrderFromJson(Map<String, dynamic> json) => PaymentOrder(
           ? null
           : DateTime.parse(json['paymentDate'] as String),
       paymentMethodCode: json['paymentMethodCode'] as String?,
-      paymentStatusCode: json['paymentStatusCode'] as String?,
+  cardHolderName: json['cardHolderName'] as String?,
+
+  paymentStatusCode: json['paymentStatusCode'] as String?,
       requeryStatusCode: json['requeryStatusCode'] as String?,
       currencyCode: json['currencyCode'] as String?,
       paymentAmount: json['paymentAmount'] as num?,
@@ -787,6 +794,7 @@ Map<String, dynamic> _$PaymentOrderToJson(PaymentOrder instance) {
   writeNotNull('orderId', instance.orderId);
   writeNotNull('paymentDate', instance.paymentDate?.toIso8601String());
   writeNotNull('paymentMethodCode', instance.paymentMethodCode);
+  writeNotNull('cardHolderName', instance.cardHolderName);
   writeNotNull('paymentStatusCode', instance.paymentStatusCode);
   writeNotNull('requeryStatusCode', instance.requeryStatusCode);
   writeNotNull('cardOption', instance.cardOption);

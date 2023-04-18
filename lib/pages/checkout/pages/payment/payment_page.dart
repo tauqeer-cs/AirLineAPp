@@ -151,7 +151,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             context.router.replaceAll([
                               const NavigationRoute(),
                               BookingConfirmationRoute(
-                                  bookingId: superPNR ?? "",)
+                                  bookingId: superPNR ?? "",),
                             ]);
                           } else {
                             if (mounted) {

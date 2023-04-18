@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/theme.dart';
+import '../../ui/summary_list_item.dart';
 
 class SeatSummaryDetail extends StatelessWidget {
   const SeatSummaryDetail({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class SeatSummaryDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ChildRow(
-            child1: Text(
+            child1: const Text(
               "Seat",
               style: kLargeHeavy,
             ),
@@ -63,7 +64,7 @@ class SeatSummaryDetail extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-          Text(
+          const Text(
             "Depart",
             style: kMediumSemiBold,
           ),
@@ -82,10 +83,13 @@ class SeatSummaryDetail extends StatelessWidget {
                       Text(
                         e.generateText(numberOfPerson, separator: "& "),
                       ),
-                      Text(
-                        "-${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
-                        style:
-                            kMediumRegular.copyWith(color: Styles.kActiveGrey),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Text(
+                          "- ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                          style:
+                              kMediumRegular.copyWith(color: Styles.kActiveGrey),
+                        ),
                       ),
                     ],
                   ),
@@ -102,7 +106,7 @@ class SeatSummaryDetail extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Return",
                   style: kMediumSemiBold,
                 ),
@@ -121,11 +125,8 @@ class SeatSummaryDetail extends StatelessWidget {
                             Text(
                               e.generateText(numberOfPerson, separator: "& "),
                             ),
-                            Text(
-                              "-${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
-                              style:
-                              kMediumRegular.copyWith(color: Styles.kActiveGrey),
-                            ),
+                            SummaryListItem(text: seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}',),
+
                           ],
                         ),
                         child2: MoneyWidgetCustom(

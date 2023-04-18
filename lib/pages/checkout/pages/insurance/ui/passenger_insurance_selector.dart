@@ -4,6 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
+import '../../../../../data/responses/universal_shared_settings_routes_response.dart';
 import '../../../../../theme/theme.dart';
 
 class PassengerInsuranceSelector extends StatelessWidget {
@@ -14,6 +16,10 @@ class PassengerInsuranceSelector extends StatelessWidget {
     final insuranceCubit = context.watch<InsuranceCubit>().state;
     final passengers = insuranceCubit.passengers;
     final selectedPassengers = insuranceCubit.selectedPassenger;
+
+    final agentCms = context.watch<AgentSignUpCubit>();
+
+
     print("selected is $selectedPassengers");
     return Column(
       children: [
@@ -60,7 +66,7 @@ class PassengerInsuranceSelector extends StatelessWidget {
                                 ),
                                 kVerticalSpacerMini,
                                 Text(
-                                  getPersonSelectorText(isActive, person),
+                                  getPersonSelectorText(isActive, person,agentCms),
                                   style: kMediumSemiBold.copyWith(
                                       color: isActive ? Colors.white : null),
                                 ),
@@ -79,10 +85,29 @@ class PassengerInsuranceSelector extends StatelessWidget {
     );
   }
 
-  String getPersonSelectorText(bool isActive, Passenger passenger) {
+  String getPersonSelectorText(bool isActive, Passenger passenger,AgentSignUpCubit? agentCms) {
     if (isActive) return "Selecting";
-    if (passenger.ifPassengerHasInsurance != null)
+    if (passenger.ifPassengerHasInsurance != null) {
+      if(passenger.passengerInsuranceCode != null) {
+        if (passenger.passengerInsuranceCode?.toLowerCase().contains('d') == true){
+          Items? item = agentCms?.state.locationItem?.items
+              ?.firstWhereOrNull((element) => element.code == passenger.passengerInsuranceCode);
+          if(item != null) {
+            return item.ssrName ?? (passenger.ifPassengerHasInsuranceName ?? "");
+
+          }
+        }
+        if (passenger.passengerInsuranceCode?.toLowerCase().contains('s') == true){
+          Items? item = agentCms?.state.internationalItem?.items
+              ?.firstWhereOrNull((element) => element.code == passenger.passengerInsuranceCode);
+          if(item != null) {
+            return item.ssrName ?? (passenger.ifPassengerHasInsuranceName ?? "");
+
+          }
+        }
+      }
       return passenger.ifPassengerHasInsuranceName ?? "";
+    }
     return "No Item Selected";
   }
 }

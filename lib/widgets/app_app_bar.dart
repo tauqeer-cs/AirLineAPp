@@ -95,6 +95,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function()? onAction;
   final double? height;
   final Widget? flexibleWidget;
+  final Color? titleColor;
 
   final bool overrideInnerHeight;
 
@@ -107,7 +108,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.canBack = true,
     this.height,
     this.flexibleWidget,
-    this.overrideInnerHeight = false,
+    this.overrideInnerHeight = false, this.titleColor,
   }) : super(key: key);
 
   @override
@@ -166,7 +167,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                     )
                   : Text(
                       title!,
-                      style: kHugeHeavy,
+                      style: kHugeHeavy.copyWith(color: titleColor),
                       textScaleFactor: 1,
                     )),
         ),

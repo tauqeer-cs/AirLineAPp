@@ -72,7 +72,7 @@ class PassengerSelector extends StatelessWidget {
                     context.read<SelectedPersonCubit>().selectPerson(person);
                   },
                   child: Container(
-                    constraints: BoxConstraints(minWidth: 140),
+                    constraints: BoxConstraints(minWidth: 160),
                     margin: EdgeInsets.only(right: 8),
                     child: Card(
                         shape: RoundedRectangleBorder(
@@ -80,14 +80,17 @@ class PassengerSelector extends StatelessWidget {
                         color: isActive ? Styles.kActiveColor : Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 16),
+                              vertical: 10.0, horizontal: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                person.generateText(numberOfPerson, separator: "\n"),
-                                style: kMediumSemiBold.copyWith(
-                                    color: isActive ? Colors.white : null),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  person.generateText(numberOfPerson, separator: "\n"),
+                                  style: kMediumSemiBold.copyWith(
+                                      color: isActive ? Colors.white : null),
+                                ),
                               ),
                               kVerticalSpacerMini,
                               Text(
@@ -97,7 +100,7 @@ class PassengerSelector extends StatelessWidget {
                                   addonType,
                                   rows: rows ?? [],
                                 ),
-                                style: kMediumSemiBold.copyWith(
+                                style: kSmallMedium.copyWith(
                                     color: isActive ? Colors.white : null),
                               ),
                             ],

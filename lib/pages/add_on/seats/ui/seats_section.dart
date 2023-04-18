@@ -1,5 +1,6 @@
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/pages/add_on/seats/ui/seat_legend_simple.dart';
 import 'package:app/pages/add_on/seats/ui/selected_seats.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/add_on/seats/ui/seat_legend.dart';
@@ -36,11 +37,11 @@ class SeatsSection extends StatelessWidget {
           kVerticalSpacerSmall,
           const Padding(
             padding: kPageHorizontalPaddingBig,
-            child: SeatsLegend(),
+            child: SeatLegendSimple(),
           ),
           kVerticalSpacer,
-          SelectedSeats(isDeparture: isDeparture),
-          kVerticalSpacer,
+          // SelectedSeats(isDeparture: isDeparture),
+          // kVerticalSpacer,
           SeatPlan(
             moveToTop: () {
               moveToTop?.call();
@@ -49,8 +50,8 @@ class SeatsSection extends StatelessWidget {
               moveToBottom?.call();
             },
           ),
-          kVerticalSpacer,
-          const SeatRemove(),
+          // kVerticalSpacer,
+          // const SeatRemove(),
         ],
       ),
     );
