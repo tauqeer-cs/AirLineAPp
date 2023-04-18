@@ -18,6 +18,8 @@ class SummaryListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 6),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             "- ",
