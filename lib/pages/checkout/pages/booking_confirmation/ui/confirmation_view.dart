@@ -1,13 +1,11 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
-import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_baggage.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_promo.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/passengers_widget.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/payment_info.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/summary_widget.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -29,6 +27,8 @@ class ConfirmationView extends StatefulWidget {
 
 class _ConfirmationViewState extends State<ConfirmationView> {
   ScreenshotController screenshotController = ScreenshotController();
+  ScrollController _controllerSroll = ScrollController();
+
   bool isLoading = false;
 
   onShare() async {
@@ -49,6 +49,8 @@ class _ConfirmationViewState extends State<ConfirmationView> {
   Widget build(BuildContext context) {
     final confirmationDetail = context.watch<ConfirmationCubit>().state;
     return SingleChildScrollView(
+      controller: _controllerSroll,
+
       child: Screenshot(
         controller: screenshotController,
         child: Container(
@@ -118,6 +120,29 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               kVerticalSpacer,
               kVerticalSpacerSmall,
               const PaymentInfo(),
+
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
+                  child: FloatingActionButton(
+                    onPressed: () {
+
+
+                      _controllerSroll.animateTo(
+                      _controllerSroll.position.minScrollExtent,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.fastOutSlowIn,
+                      );
+
+
+                    },
+                    backgroundColor: Styles.kPrimaryColor,
+                    child: const Icon(Icons.keyboard_arrow_up),
+                  ),
+                ),
+              ),
               kVerticalSpacer,
               OutlinedButton(
                 onPressed: isLoading ? null : onShare,
