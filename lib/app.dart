@@ -41,6 +41,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import 'blocs/manage_booking/manage_booking_cubit.dart';
+import 'pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'widgets/dialogs/app_confirmation_dialog.dart';
 
 final appRouter = AppRouter();
@@ -265,6 +266,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (context) => SummaryCubit()),
         BlocProvider(create: (_) => BookingCubit()),
+        BlocProvider(create: (context) => InsuranceCubit()),
         BlocProvider(
           create: (_) => TimerBloc(
             tickerRepository: const TickerRepository(),

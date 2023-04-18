@@ -93,7 +93,6 @@ class InsuranceCubit extends Cubit<InsuranceState> {
   }
 
   void setLast(Bundle? firstWhereOrNull) {
-
     if(firstWhereOrNull != null) {
       emit(state.copyWith(
         lastInsuranceSelected: firstWhereOrNull,

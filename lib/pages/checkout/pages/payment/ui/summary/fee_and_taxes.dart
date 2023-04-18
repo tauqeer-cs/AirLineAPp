@@ -1,8 +1,10 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/baggage_fee.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/fares_and_bundles.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/fee_and_taxes_detail.dart';
+import 'package:app/pages/checkout/pages/payment/ui/summary/insurance_fee.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/meals_fee.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/money_widget_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
@@ -12,7 +14,6 @@ import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../ui/insurance_fee.dart';
 
 class FeeAndTaxesPayment extends StatefulWidget {
   final bool isDeparture;
@@ -30,6 +31,8 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final insurance = context.watch<InsuranceCubit>().state.totalInsurance();
+    print("insurance is $insurance");
     final bookingTotal = context.watch<BookingCubit>().state;
     return Column(
       children: [
@@ -46,7 +49,6 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
           ),
         ),
         FeeAndTaxesDetailPayment(isDeparture: widget.isDeparture),
-
         Visibility(
           visible: (filter?.numberPerson
                       .getTotalBundlesPartial(widget.isDeparture) ??
@@ -68,16 +70,10 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
                   0,
           child: MealsFeePayment(isDeparture: widget.isDeparture),
         ),
-
-        if(widget.isDeparture) ... [
-
-
+        if (widget.isDeparture) ...[
           Visibility(
-            visible: (filter?.numberPerson
-                .getTotalInsurance() ??
-                0) >
-                0,
-            child: const InsuranceFeeSummary(),
+            visible: insurance > 0,
+            child: InsuarnceFeePayment(isDeparture: true,),
           ),
         ],
         Visibility(
@@ -89,19 +85,25 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
         ),
         Visibility(
           visible: (filter?.numberPerson
-              .getTotalWheelChairPartial(widget.isDeparture) ??
-              0) >
+                      .getTotalWheelChairPartial(widget.isDeparture) ??
+                  0) >
               0,
           child: WheelchairFeePayment(isDeparture: widget.isDeparture),
         ),
         Visibility(
-          visible: (filter?.numberPerson
-              .getTotalSportsPartial(widget.isDeparture) ??
-              0) >
-              0,
-          child: BaggageFeePayment(isDeparture: widget.isDeparture,isSports: true,),
+          visible:
+              (filter?.numberPerson.getTotalSportsPartial(widget.isDeparture) ??
+                      0) >
+                  0,
+          child: BaggageFeePayment(
+            isDeparture: widget.isDeparture,
+            isSports: true,
+          ),
         ),
-
+        // Visibility(
+        //   visible: insurance > 0,
+        //   child: InsuranceFee(),
+        // ),
         kVerticalSpacerBig,
       ],
     );
