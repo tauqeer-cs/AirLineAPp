@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../responses/agent_sign_up_cms.dart';
+import '../responses/common_response.dart';
 import '../responses/universal_shared_settings_routes_response.dart';
 
 part 'cms_provider.g.dart';

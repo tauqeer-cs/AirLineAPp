@@ -15,12 +15,15 @@ class BookingSummary extends StatelessWidget {
   final double? totalAmountToShow;
   final double additionalNumber;
 
+  final String? changeFlightCurrency;
+
   const BookingSummary({
     Key? key,
     this.labelToShow,
     this.totalAmountToShow,
     this.isChangeFlight = false,
-    this.additionalNumber = 0
+    this.additionalNumber = 0,
+    this.changeFlightCurrency
   }) : super(key: key);
 
   @override

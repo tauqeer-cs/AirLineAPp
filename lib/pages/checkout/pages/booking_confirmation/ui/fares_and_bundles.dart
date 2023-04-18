@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FaresAndBundles extends StatelessWidget {
   final bool isDeparture;
 
+
   const FaresAndBundles({Key? key, required this.isDeparture})
       : super(key: key);
 
@@ -20,6 +21,14 @@ class FaresAndBundles extends StatelessWidget {
         context.watch<ConfirmationCubit>().state.confirmationModel;
     final summary = confirmationModel?.value?.fareSummaryInOut;
     final detail = isDeparture ? summary?.outboundBookingSummary : summary?.inboundBookingSummary;
+
+    final fares = context
+        .watch<ConfirmationCubit>()
+        .state
+        .confirmationModel
+        ?.value
+        ?.fareAndBundleDetail;
+
 
     var currency = fares?.currencyToShow ?? 'MYR';
 
