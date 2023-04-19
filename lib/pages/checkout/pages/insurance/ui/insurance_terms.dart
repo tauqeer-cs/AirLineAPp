@@ -41,17 +41,18 @@ class InsuranceTerms extends StatelessWidget {
                     children: <TextSpan>[
                       const TextSpan(
                         text:
-                            'Yes, I would like to add MYAirline Travel Insurance to protect my trip.\n\n',
+                        'Yes, I would like to add MYAirline Travel Insurance to protect my trip.\n\n',
                       ),
                       const TextSpan(
                         text:
-                            'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non-refundable. I confirm that I have read the ',
+                        'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non-refundable. I confirm that I have read the ',
                       ),
 
                       makeClickableTextSpan(context,
                           text: 'Product Disclosure Sheet',
                           pdfIsLink: false,
                           pdfName: 'product_disclosure',
+
                           webViewLink:
                           'https://booking.myairline.my/insurance/product_disclosure.pdf'),
 
@@ -70,7 +71,7 @@ class InsuranceTerms extends StatelessWidget {
 
                       TextSpan(
                         text:
-                            ' of MYAirline Travel Insurance and agree to the processing of my Personal Data in accordance with the ',
+                        ' of MYAirline Travel Insurance and agree to the processing of my Personal Data in accordance with the ',
                       ),
                       makeClickableTextSpan(context,
                           text: 'Data Privacy Notice.',
@@ -86,3 +87,5 @@ class InsuranceTerms extends StatelessWidget {
     );
   }
 }
+
+

@@ -26,13 +26,8 @@ class _InsuranceViewState extends State<InsuranceView> {
 
   @override
   Widget build(BuildContext context) {
-    final passengers = context.watch<InsuranceCubit>().state.passengers;
-    double totalInsurance = 0;
-    for (var element in passengers) {
-      totalInsurance = totalInsurance + (element.getInsurance?.price ?? 0);
-    }
-    print("total insurance is $totalInsurance");
-
+    final insuranceState = context.watch<InsuranceCubit>().state;
+    final passengers = insuranceState.passengers;
     final bookingState = context.watch<BookingCubit>().state;
 
     final insurances =
@@ -40,7 +35,7 @@ class _InsuranceViewState extends State<InsuranceView> {
 
     final firstInsurance = insurances.firstOrNull;
 
-
+    print("insurance is ${insuranceState.totalInsurance()}");
     return Stack(
       children: [
         SummaryContainerListener(
@@ -73,7 +68,7 @@ class _InsuranceViewState extends State<InsuranceView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  BookingSummary(additionalNumber: totalInsurance),
+                  BookingSummary(additionalNumber: insuranceState.totalInsurance()),
                   ElevatedButton(
                     onPressed: () {
                       final bookingState = context.read<BookingCubit>().state;
