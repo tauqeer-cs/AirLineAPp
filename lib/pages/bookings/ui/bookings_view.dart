@@ -158,8 +158,6 @@ class BookingsView extends StatelessWidget {
           await bloc?.getBookingInformation(lastName.trim(), code.trim().toUpperCase());
       if (flag == true) {
         moveToNext(context);
-
-
       }
     }
   }

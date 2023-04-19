@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
@@ -11,10 +12,12 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/form_utils.dart';
 import '../../../widgets/app_loading_screen.dart';
+import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
 import '../../booking_details/ui/flight_data.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 import '../bloc/check_in_cubit.dart';
+import 'boarding_pass_view.dart';
 import 'check_in_steps.dart';
 import 'dgnInfo_view.dart';
 
@@ -217,7 +220,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                   ],
-                  if (state.loadBoardingDate == true) ...[
+
+                  if (state.loadBoardingDate == true || state.isDownloading == true) ...[
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24),
                       child: AppLoading(),
@@ -272,8 +276,20 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 children: [
                                   Expanded(
                                     child: OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
+                                      onPressed: () async {
+
+                                        await showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+
+                                          return const EmailBoardingPassView(
+                                            departure: true,
+                                            bothSides: false,
+                                            onlySelected: false,
+                                          );
+                                        },
+                                        );
+
                                       }, //isLoading ? null :
                                       child: const Text('Share'),
                                     ),
@@ -286,9 +302,18 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                         bool? check = await bloc
                                             .getBoardingPassPassengers(true);
 
-                                        //downloadFile(
-                                        ///  'https://myatempfolder.blob.core.windows.net/myatempfolder/XXT7NF-64335-20081.pdf',
-                                        // 'newFile.pdf');
+                                        if (check == true) {
+                                          Fluttertoast.showToast(
+                                              msg: 'Files downloaded successfully',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.SNACKBAR,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        }
+
+
                                       },
                                       child: const Text('Download'),
                                     ),
@@ -302,6 +327,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                     ],
                     if ((state.inboundBoardingPassPassenger ?? [])
                         .isNotEmpty) ...[
+                          kVerticalSpacer,
                       AppCard(
                           child: Padding(
                         padding: const EdgeInsets.all(4.0),
@@ -347,8 +373,20 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 children: [
                                   Expanded(
                                     child: OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
+                                      onPressed: () async {
+
+                                        await showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+
+                                            return const EmailBoardingPassView(
+                                              departure: false,
+                                              bothSides: false,
+                                              onlySelected: false,
+
+                                            );
+                                          },
+                                        );
                                       }, //isLoading ? null :
                                       child: const Text('Share'),
                                     ),
@@ -357,10 +395,19 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   Expanded(
                                     child: ElevatedButton(
                                       onPressed: () async {
-                                        //Navigator.of(context).pop(true);
                                         bool? check = await bloc
                                             .getBoardingPassPassengers(false);
 
+                                        if (check == true) {
+                                          Fluttertoast.showToast(
+                                              msg: 'Files downloaded successfully',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.SNACKBAR,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        }
 
                                       },
                                       child: const Text('Download'),
@@ -390,116 +437,240 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   [])
                               .length;
                       i++) ...[
-                    Row(
-                      children: [
-                        Checkbox(
-                          checkColor: Colors.white,
-                          fillColor: MaterialStateProperty.resolveWith(getColor),
-                          value: state.manageBookingResponse?.result
-                                  ?.passengersWithSSR?[i].paxSelected ??
-                              false,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              bloc.setPerson(value ?? false, i);
-                            });
-                          },
-                        ),
-                        Text(
-                          state.manageBookingResponse?.result
-                                  ?.passengersWithSSR?[i].passengers?.fullName ??
-                              '',
-                          style: kLargeHeavy.copyWith(
-                            color: Styles.kTextColor,
+
+                    if(state.manageBookingResponse?.result
+                        ?.passengersWithSSR?[i].passengers?.passengerType != 'INF') ... [
+                      Row(
+                        children: [
+                          Checkbox(
+                            checkColor: Colors.white,
+                            fillColor: MaterialStateProperty.resolveWith(getColor),
+                            value: state.manageBookingResponse?.result
+                                ?.passengersWithSSR?[i].paxSelected ??
+                                false,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                bloc.setPerson(value ?? false, i);
+                              });
+                            },
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                    AppInputText(
-                      hintText: "First Name/Given Name",
-                      readOnly: true,
-                      validators: [FormBuilderValidators.required()],
-                      initialValue: state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].passengers?.givenName ??
-                          '',
-                      name: 'firstNameKey',
-                      fillDisabledColor: true,
-                    ),
-                    kVerticalSpacerSmall,
-                    AppInputText(
-                      hintText: 'Last Name / Surname',
-                      readOnly: true,
-                      validators: [FormBuilderValidators.required()],
-                      initialValue: state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].passengers?.surname ??
-                          '',
-                      name: 'lastNameKey',
-                      fillDisabledColor: true,
-                    ),
-                    kVerticalSpacerSmall,
-                    AppInputText(
-                      hintText: 'Nationality',
-                      readOnly: true,
-                      validators: [FormBuilderValidators.required()],
-                      initialValue: state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].passengers?.nationality ??
-                          '',
-                      name: 'lastNameKey',
-                      fillDisabledColor: true,
-                    ),
-                    kVerticalSpacerSmall,
-                    if (bloc.showPassport) ...[
-                      AppInputText(
-                        isRequired: true,
-                        name: 'passportKey${i.toString()}',
-                        hintText: 'Passport No',
-                        label: 'Passport No',
-                        initialValue: state.manageBookingResponse?.result
-                            ?.passengersWithSSR?[i].passengers?.passport,
-                        textInputType: TextInputType.text,
-                        validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.match(
-                              r'^[A-Z]{2}[0-9]{7}$',
-                              errorText:
-                              'Valid passport needed'),
+                          Text(
+                            state.manageBookingResponse?.result
+                                ?.passengersWithSSR?[i].passengers?.fullName ??
+                                '',
+                            style: kLargeHeavy.copyWith(
+                              color: Styles.kTextColor,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                         ],
                       ),
-                      kVerticalSpacerSmall,
-
-
-                      FormBuilderDateTimePicker(
-                        name: 'formNameDob${i.toString()}',
-                        firstDate: DateTime(1920),
-                        lastDate: DateTime.now(),
-                        //initialValue: dobSelected,
-                        format: DateFormat("dd MMM yyyy"),
-                        onChanged: (newData) {},
-                        initialDate: DateTime(2000),
-                        initialEntryMode: DatePickerEntryMode.calendar,
-                        decoration: const InputDecoration(
-                            hintText: "Date of Birth",
-                            suffixIcon: Icon(Icons.calendar_month_sharp),
-                            contentPadding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
-                        inputType: InputType.date,
-                      ),
-
-                      kVerticalSpacerSmall,
-                    ],
-                    if (state.manageBookingResponse?.result?.passengersWithSSR?[i]
-                            .passengers?.passengerType !=
-                        'INF') ...[
                       AppInputText(
-                        name: 'rewardKey${i.toString()}',
+                        hintText: "First Name/Given Name",
+                        readOnly: true,
+                        validators: [FormBuilderValidators.required()],
                         initialValue: state.manageBookingResponse?.result
-                            ?.passengersWithSSR?[i].passengers?.myRewardMemberId,
-                        hintText: 'Membership ID',
-                        inputFormatters: [AppFormUtils.onlyNumber()],
-                        textInputType: TextInputType.number,
+                            ?.passengersWithSSR?[i].passengers?.givenName ??
+                            '',
+                        name: 'firstNameKey$i',
+                        fillDisabledColor: true,
                       ),
-                      kVerticalSpacerMini,
+                      kVerticalSpacerSmall,
+                      AppInputText(
+                        hintText: 'Last Name / Surname',
+                        readOnly: true,
+                        validators: [FormBuilderValidators.required()],
+                        initialValue: state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].passengers?.surname ??
+                            '',
+                        name: 'lastNameKey$i',
+                        fillDisabledColor: true,
+                      ),
+                      kVerticalSpacerSmall,
+                      AppInputText(
+                        hintText: 'Nationality',
+                        readOnly: true,
+                        validators: [FormBuilderValidators.required()],
+                        initialValue: state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].passengers?.nationality ??
+                            '',
+                        name: 'nationalityKey$i',
+                        fillDisabledColor: true,
+                      ),
+                      kVerticalSpacerSmall,
+                      if (bloc.showPassport && false) ...[
+                        AppInputText(
+                          isRequired: true,
+                          name: 'passportKey${i.toString()}',
+                          hintText: 'Passport No',
+                          label: 'Passport No',
+                          initialValue: state.manageBookingResponse?.result
+                              ?.passengersWithSSR?[i].passengers?.passport,
+                          textInputType: TextInputType.text,
+                          validators: [
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.match(
+                                r'^[A-Z]{2}[0-9]{7}$',
+                                errorText:
+                                'Valid passport needed'),
+                          ],
+                        ),
+                        kVerticalSpacerSmall,
+
+
+                        FormBuilderDateTimePicker(
+                          name: 'formNameDob${i.toString()}',
+                          firstDate: DateTime(1920),
+                          lastDate: DateTime.now(),
+                          //initialValue: dobSelected,
+                          format: DateFormat("dd MMM yyyy"),
+                          onChanged: (newData) {},
+                          initialDate: DateTime(2000),
+                          initialEntryMode: DatePickerEntryMode.calendar,
+                          decoration: const InputDecoration(
+                              hintText: "Date of Birth",
+                              suffixIcon: Icon(Icons.calendar_month_sharp),
+                              contentPadding:
+                              EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
+                          inputType: InputType.date,
+                        ),
+
+                        kVerticalSpacerSmall,
+                      ],
+                      if (state.manageBookingResponse?.result?.passengersWithSSR?[i]
+                          .passengers?.passengerType !=
+                          'INF') ...[
+                        AppInputText(
+                          name: 'rewardKey${i.toString()}',
+                          initialValue: state.manageBookingResponse?.result
+                              ?.passengersWithSSR?[i].passengers?.myRewardMemberId,
+                          hintText: 'Membership ID',
+                          inputFormatters: [AppFormUtils.onlyNumber()],
+                          textInputType: TextInputType.number,
+                          onChanged: (newText){
+                            if(newText != null) {
+                              state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i].checkInMemberID = newText;
+                            }
+                          },
+                        ),
+                        kVerticalSpacerMini,
+
+                        if(state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].haveInfant == true) ... [
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantExpanded = !(state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantExpanded ?? true);
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Infant',
+                                      style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      (state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantExpanded ?? true)
+                                          ? Icons.keyboard_arrow_up
+                                          : Icons.keyboard_arrow_down,
+                                      size: 25,
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          ExpandedSection(
+                            expand: state.manageBookingResponse?.result
+                                ?.passengersWithSSR?[i].infantExpanded ?? true,
+                            child: Column(
+                              children: [
+                                AppInputText(
+                                  hintText: "First Name/Given Name",
+                                  readOnly: true,
+                                  validators: [FormBuilderValidators.required()],
+                                  initialValue: state.manageBookingResponse?.result
+                                      ?.infanctWith(state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantSurname ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantDob ?? '')?.givenName ?? '',
+                                  name: 'firstNameKeyInfant$i',
+                                  fillDisabledColor: true,
+                                ),
+                                kVerticalSpacerSmall,
+                                AppInputText(
+                                  hintText: 'Last Name / Surname',
+                                  readOnly: true,
+                                  validators: [FormBuilderValidators.required()],
+                                  initialValue: state.manageBookingResponse?.result
+                                      ?.infanctWith(state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantSurname ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantDob ?? '')?.surname ?? '',
+                                  name: 'lastNameKeyInfant$i',
+                                  fillDisabledColor: true,
+                                ),
+                                kVerticalSpacerSmall,
+                                AppInputText(
+                                  hintText: 'Nationality',
+                                  readOnly: true,
+                                  validators: [FormBuilderValidators.required()],
+                                  initialValue: state.manageBookingResponse?.result
+                                      ?.infanctWith(state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantSurname ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantDob ?? '')?.nationality ?? '',
+                                  name: 'nationalityKeyInfant$i',
+                                  onChanged: (value){
+
+                                    if(value != null) {
+                                      state.manageBookingResponse?.result
+                                          ?.infanct(state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                          state.manageBookingResponse?.result
+                                              ?.passengersWithSSR?[i].infantSurname ?? '',
+                                          state.manageBookingResponse?.result
+                                              ?.passengersWithSSR?[i].infantDob ?? '')?.checkInMemberID = value;
+
+
+                                    }
+
+                                  },
+                                  fillDisabledColor: true,
+                                ),
+                                kVerticalSpacer,
+
+                              ],
+                            ),
+
+                          ),
+
+
+                        ],
+                      ],
                     ],
+
+
+
                   ],
                   kVerticalSpacer,
                   if (widget.isPast == false) ...[

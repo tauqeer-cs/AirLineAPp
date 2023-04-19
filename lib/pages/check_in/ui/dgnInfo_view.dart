@@ -209,9 +209,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () {
-
                           Navigator.of(context).pop();
-
 
                         }, //isLoading ? null :
                         child: const Text('Back'),

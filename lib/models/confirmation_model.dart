@@ -1348,6 +1348,7 @@ class Passenger extends Equatable {
   }
 
   final String? myRewardMemberId;
+
   final num? createdById;
   final DateTime? createdDate;
   final DateTime? createdDateUTC;

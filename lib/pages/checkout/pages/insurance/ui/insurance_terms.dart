@@ -48,45 +48,24 @@ class InsuranceTerms extends StatelessWidget {
                             'I acknowledge and agree that the Policy issued is non-cancellable and premium paid is non-refundable, and the Policy does not cover persons who are on any sanction lists and in such event, the Policy will be void and premium is non-refundable. I confirm that I have read the ',
                       ),
 
-                      if(isInternational == true) ... [
-                        makeClickableTextSpan(context,
-                            text: 'Product Disclosure Sheet',
-                            pdfIsLink: false,
-                            webViewLink:
-                            'https://booking.myairline.my/insurance/product_disclosure.pdf',
-                        pdfName: 'product_disclosure'
-                        ),
-                      ] else ... [
-                        makeClickableTextSpan(context,
-                            text: 'Product Disclosure Sheet',
-                            pdfIsLink: false,
-                            webViewLink:
-                            'https://booking.myairline.my/insurance/product_disclosure.pdf'),
-                      ],
+                      makeClickableTextSpan(context,
+                          text: 'Product Disclosure Sheet',
+                          pdfIsLink: false,
+                          webViewLink:
+                          'https://booking.myairline.my/insurance/product_disclosure.pdf'),
 
-                      //
                       const TextSpan(
                         text: ', understood and agree to the, ',
                       ),
 
-                      if(isInternational == true) ... [
-
-                        makeClickableTextSpan(context,
-                            text: 'Terms and Conditions',
-                            webViewLink:
-                            'https://booking.myairline.my/insurance/term_and_conditions.pdf',
-                            pdfIsLink: false,
+                      makeClickableTextSpan(context,
+                          text: 'Terms and Conditions',
+                          webViewLink:
+                          'https://booking.myairline.my/insurance/term_and_conditions.pdf',
+                          pdfIsLink: false,
                           pdfName: 'interntional_terms'
-                        ),
+                      ),
 
-                      ] else ... [
-                        makeClickableTextSpan(context,
-                            text: 'Terms and Conditions',
-                            webViewLink:
-                            'https://booking.myairline.my/insurance/term_and_conditions.pdf',
-                            pdfIsLink: true),
-
-                      ],
 
                       TextSpan(
                         text:
