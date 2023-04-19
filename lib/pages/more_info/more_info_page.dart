@@ -22,7 +22,7 @@ class MoreOptionsPage extends StatelessWidget {
     final locale = context.locale.toString();
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget:  AppLoadingScreen(message: 'updating'.tr()),
+      overlayWidget: AppLoadingScreen(message: 'updating'.tr()),
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
@@ -84,7 +84,7 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  PdfViewer(
+                                builder: (context) => PdfViewer(
                                   title: 'app.privacyPolicy'.tr(),
                                   fileName:
                                       'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
@@ -109,7 +109,7 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  PdfViewer(
+                                builder: (context) => PdfViewer(
                                   title: 'app.termsOfUse'.tr(),
                                   fileName:
                                       'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
@@ -145,14 +145,7 @@ class MoreOptionsPage extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                     onTap: () async {
-                                      context.loaderOverlay.show();
-
-                                      await context
-                                          .setLocale(const Locale('en'));
-                                      context.loaderOverlay.hide();
-
-                                      Phoenix.rebirth(context);
-
+                                      setLocale(context, 'en');
                                     },
                                     child: Text(
                                       "EN",
@@ -165,16 +158,24 @@ class MoreOptionsPage extends StatelessWidget {
                                   const SizedBox(width: 24),
                                   GestureDetector(
                                       onTap: () async {
-                                        context.loaderOverlay.show();
-                                        await context
-                                            .setLocale(const Locale('th'));
-                                        context.loaderOverlay.hide();
-                                        Phoenix.rebirth(context);
+                                        setLocale(context, 'th');
                                       },
                                       child: Text(
                                         "TH",
                                         style: TextStyle(
                                             color: locale == "th"
+                                                ? Styles.kActiveColor
+                                                : Colors.black),
+                                      )),
+                                  const SizedBox(width: 24),
+                                  GestureDetector(
+                                      onTap: () async {
+                                        setLocale(context, 'id');
+                                      },
+                                      child: Text(
+                                        "ID",
+                                        style: TextStyle(
+                                            color: locale == "id"
                                                 ? Styles.kActiveColor
                                                 : Colors.black),
                                       ))
@@ -191,7 +192,8 @@ class MoreOptionsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
-                    "app.copyright".tr(namedArgs: {'year': DateTime.now().year.toString()} ),
+                    "app.copyright".tr(
+                        namedArgs: {'year': DateTime.now().year.toString()}),
                     style: kTinyRegular.copyWith(
                       color: Styles.kTextColor,
                     ),
@@ -205,5 +207,12 @@ class MoreOptionsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void setLocale(BuildContext context, String langCode) async {
+    context.loaderOverlay.show();
+    await context.setLocale(Locale(langCode));
+    context.loaderOverlay.hide();
+    Phoenix.rebirth(context);
   }
 }
