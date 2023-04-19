@@ -12,7 +12,6 @@ class CheckInBoardingPassPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppAppBar(
         centerTitle: true,
         title: 'Check-In',

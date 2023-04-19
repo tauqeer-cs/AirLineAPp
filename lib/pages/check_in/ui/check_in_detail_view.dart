@@ -1,3 +1,4 @@
+import 'package:app/data/responses/manage_booking_response.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,10 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 MaterialStateProperty.resolveWith(getColor),
                             value: state.checkedDeparture,
                             onChanged: (bool? value) {
-                              bloc.setCheckDeparture(value ?? false);
+                              setState(() {
+                                bloc.setCheckDeparture(value ?? false);
+
+                              });
                             },
                           ),
                         ],
@@ -182,7 +186,10 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                               MaterialStateProperty.resolveWith(getColor),
                               value: state.checkReturn,
                               onChanged: (bool? value) {
-                                bloc.setCheckReturn(value ?? false);
+                                setState(() {
+                                  bloc.setCheckReturn(value ?? false);
+
+                                });
                               },
                             ),
                           ],
@@ -442,6 +449,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         ?.passengersWithSSR?[i].passengers?.passengerType != 'INF') ... [
                       Row(
                         children: [
+
+
                           Checkbox(
                             checkColor: Colors.white,
                             fillColor: MaterialStateProperty.resolveWith(getColor),
@@ -449,11 +458,19 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 ?.passengersWithSSR?[i].paxSelected ??
                                 false,
                             onChanged: (bool? value) {
+
+
+                              if(checkDetails(state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i],state) == false) {
+                                return;
+
+                              }
                               setState(() {
                                 bloc.setPerson(value ?? false, i);
                               });
                             },
                           ),
+
                           Text(
                             state.manageBookingResponse?.result
                                 ?.passengersWithSSR?[i].passengers?.fullName ??
@@ -707,6 +724,30 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
         );
       },
     );
+  }
+
+  bool checkDetails(PassengersWithSSR? passengersWithSSR,state) {
+    if(state.checkedDeparture == false && state.checkReturn == false){
+      return false;
+    }
+
+    else
+    if(state.checkedDeparture == true && state.checkReturn == false) {
+      var ccc =  passengersWithSSR?.checkInStatusInOut!.outboundCheckInStatus?.allowCheckIn ?? false;;
+
+      return passengersWithSSR?.checkInStatusInOut!.outboundCheckInStatus?.allowCheckIn ?? false;
+    }
+    else
+    if(state.checkedDeparture == false && state.checkReturn == true) {
+      return passengersWithSSR?.checkInStatusInOut!.inboundCheckInStatus?.allowCheckIn ?? false;
+    }
+    else
+
+    if(state.checkedDeparture == true && state.checkReturn == true) {
+      return (passengersWithSSR!.checkInStatusInOut!.outboundCheckInStatus?.allowCheckIn ?? false) || (passengersWithSSR.checkInStatusInOut!.inboundCheckInStatus?.allowCheckIn ?? false);
+    }
+    return true;
+
   }
 }
 

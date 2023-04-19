@@ -714,6 +714,8 @@ Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
       modifiedDateUTC: json['modifiedDateUTC'] == null
           ? null
           : DateTime.parse(json['modifiedDateUTC'] as String),
+      inboundCheckedIn: json['inboundCheckedIn'] as bool?,
+      outboundCheckedIn: json['outboundCheckedIn'] as bool?,
     );
 
 Map<String, dynamic> _$PassengerToJson(Passenger instance) {
@@ -737,6 +739,8 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
   writeNotNull(
       'passportExpiryDate', instance.passportExpiryDate?.toIso8601String());
   writeNotNull('titleCode', instance.titleCode);
+  writeNotNull('outboundCheckedIn', instance.outboundCheckedIn);
+  writeNotNull('inboundCheckedIn', instance.inboundCheckedIn);
   writeNotNull('myRewardMemberId', instance.myRewardMemberId);
   writeNotNull('createdById', instance.createdById);
   writeNotNull('createdDate', instance.createdDate?.toIso8601String());
@@ -750,13 +754,12 @@ Map<String, dynamic> _$PassengerToJson(Passenger instance) {
 PaymentOrder _$PaymentOrderFromJson(Map<String, dynamic> json) => PaymentOrder(
       paymentId: json['paymentId'] as num?,
       orderId: json['orderId'] as num?,
+      cardHolderName: json['cardHolderName'] as String?,
       paymentDate: json['paymentDate'] == null
           ? null
           : DateTime.parse(json['paymentDate'] as String),
       paymentMethodCode: json['paymentMethodCode'] as String?,
-  cardHolderName: json['cardHolderName'] as String?,
-
-  paymentStatusCode: json['paymentStatusCode'] as String?,
+      paymentStatusCode: json['paymentStatusCode'] as String?,
       requeryStatusCode: json['requeryStatusCode'] as String?,
       currencyCode: json['currencyCode'] as String?,
       paymentAmount: json['paymentAmount'] as num?,
@@ -794,9 +797,9 @@ Map<String, dynamic> _$PaymentOrderToJson(PaymentOrder instance) {
   writeNotNull('orderId', instance.orderId);
   writeNotNull('paymentDate', instance.paymentDate?.toIso8601String());
   writeNotNull('paymentMethodCode', instance.paymentMethodCode);
-  writeNotNull('cardHolderName', instance.cardHolderName);
   writeNotNull('paymentStatusCode', instance.paymentStatusCode);
   writeNotNull('requeryStatusCode', instance.requeryStatusCode);
+  writeNotNull('cardHolderName', instance.cardHolderName);
   writeNotNull('cardOption', instance.cardOption);
   writeNotNull('cardNumber', instance.cardNumber);
   writeNotNull('currencyCode', instance.currencyCode);

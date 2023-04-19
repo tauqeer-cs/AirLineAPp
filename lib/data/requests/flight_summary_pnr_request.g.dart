@@ -1094,6 +1094,7 @@ Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
       quantity: json['Quantity'] as num?,
       price: json['Price'] as num?,
       name: json['Name'] as String?,
+      code: json['code'] as String?,
     );
 
 Map<String, dynamic> _$BoundToJson(Bound instance) {
@@ -1111,5 +1112,6 @@ Map<String, dynamic> _$BoundToJson(Bound instance) {
   writeNotNull('Quantity', instance.quantity);
   writeNotNull('Price', instance.price);
   writeNotNull('Name', instance.name);
+  writeNotNull('code', instance.code);
   return val;
 }

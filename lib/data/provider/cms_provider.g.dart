@@ -10,9 +10,9 @@ part of 'cms_provider.dart';
 
 class _CMSProvider implements CMSProvider {
   _CMSProvider(
-      this._dio, {
-        this.baseUrl,
-      });
+    this._dio, {
+    this.baseUrl,
+  });
 
   final Dio _dio;
 
@@ -25,18 +25,18 @@ class _CMSProvider implements CMSProvider {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result =
-    await _dio.fetch<List<dynamic>>(_setStreamType<List<CMSRoute>>(Options(
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<CMSRoute>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      'shared/getRoute',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'shared/getRoute',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
         .map((dynamic i) => CMSRoute.fromJson(i as Map<String, dynamic>))
         .toList();
@@ -45,10 +45,10 @@ class _CMSProvider implements CMSProvider {
 
   @override
   Future<HomeResponse> getHomeContent(
-      key, {
-        query =
+    key, {
+    query =
         "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
-      }) async {
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
@@ -63,23 +63,23 @@ class _CMSProvider implements CMSProvider {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      'shared/get',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'shared/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = HomeResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<CMSFlight> getSSRContent(
-      key, {
-        query = "content,image,title,description,code",
-        deep = "6",
-      }) async {
+    key, {
+    query = "content,image,title,description,code",
+    deep = "6",
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
@@ -95,22 +95,22 @@ class _CMSProvider implements CMSProvider {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      'shared/get',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'shared/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CMSFlight.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<HomeDetail> getContentDetail(
-      key, {
-        query = "content,showBookNow",
-      }) async {
+    key, {
+    query = "content,showBookNow",
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
@@ -125,13 +125,13 @@ class _CMSProvider implements CMSProvider {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      'shared/detail',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'shared/detail',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = HomeDetail.fromJson(_result.data!);
     return value;
   }
@@ -148,23 +148,23 @@ class _CMSProvider implements CMSProvider {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      'auth/gettoken',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'auth/gettoken',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = TokenResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<AgentSignUpCms> getAgentSignUp(
-      key, {
-        query = "tnC,agreement",
-        deep = "6",
-      }) async {
+    key, {
+    query = "tnC,agreement",
+    deep = "6",
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
@@ -180,24 +180,24 @@ class _CMSProvider implements CMSProvider {
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-      _dio.options,
-      'shared/get',
-      queryParameters: queryParameters,
-      data: _data,
-    )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'shared/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = AgentSignUpCms.fromJson(_result.data!);
     return value;
   }
 
   @override
   Future<UniversalSharedSettingsRoutesResponse> getInsuranceName(
-      key, {
-        query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
-        deep = "6",
-        timestamp = '1650012345',
-      }) async {
+    key, {
+    query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
+    deep = "6",
+    timestamp = '1650012345',
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
@@ -210,16 +210,16 @@ class _CMSProvider implements CMSProvider {
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<UniversalSharedSettingsRoutesResponse>(Options(
-          method: 'GET',
-          headers: _headers,
-          extra: _extra,
-        )
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
             .compose(
-          _dio.options,
-          'shared/get',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+              _dio.options,
+              'shared/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UniversalSharedSettingsRoutesResponse.fromJson(_result.data!);
     return value;

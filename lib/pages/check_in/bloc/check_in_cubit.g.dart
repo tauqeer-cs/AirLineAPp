@@ -20,6 +20,8 @@ abstract class _$CheckInStateCWProxy {
   CheckInState inboundBoardingPassPassenger(
       List<BoardingPassPassenger>? inboundBoardingPassPassenger);
 
+  CheckInState isDownloading(bool isDownloading);
+
   CheckInState isLoadingInfo(bool isLoadingInfo);
 
   CheckInState isRememberMe(bool isRememberMe);
@@ -61,6 +63,7 @@ abstract class _$CheckInStateCWProxy {
     bool? checkedDeparture,
     bool? checkingInFlight,
     List<BoardingPassPassenger>? inboundBoardingPassPassenger,
+    bool? isDownloading,
     bool? isLoadingInfo,
     bool? isRememberMe,
     String? lastName,
@@ -105,6 +108,10 @@ class _$CheckInStateCWProxyImpl implements _$CheckInStateCWProxy {
   CheckInState inboundBoardingPassPassenger(
           List<BoardingPassPassenger>? inboundBoardingPassPassenger) =>
       this(inboundBoardingPassPassenger: inboundBoardingPassPassenger);
+
+  @override
+  CheckInState isDownloading(bool isDownloading) =>
+      this(isDownloading: isDownloading);
 
   @override
   CheckInState isLoadingInfo(bool isLoadingInfo) =>
@@ -171,6 +178,7 @@ class _$CheckInStateCWProxyImpl implements _$CheckInStateCWProxy {
     Object? checkedDeparture = const $CopyWithPlaceholder(),
     Object? checkingInFlight = const $CopyWithPlaceholder(),
     Object? inboundBoardingPassPassenger = const $CopyWithPlaceholder(),
+    Object? isDownloading = const $CopyWithPlaceholder(),
     Object? isLoadingInfo = const $CopyWithPlaceholder(),
     Object? isRememberMe = const $CopyWithPlaceholder(),
     Object? lastName = const $CopyWithPlaceholder(),
@@ -214,16 +222,17 @@ class _$CheckInStateCWProxyImpl implements _$CheckInStateCWProxy {
               ? _value.inboundBoardingPassPassenger
               // ignore: cast_nullable_to_non_nullable
               : inboundBoardingPassPassenger as List<BoardingPassPassenger>?,
+      isDownloading:
+          isDownloading == const $CopyWithPlaceholder() || isDownloading == null
+              ? _value.isDownloading
+              // ignore: cast_nullable_to_non_nullable
+              : isDownloading as bool,
       isLoadingInfo:
           isLoadingInfo == const $CopyWithPlaceholder() || isLoadingInfo == null
               ? _value.isLoadingInfo
               // ignore: cast_nullable_to_non_nullable
               : isLoadingInfo as bool,
-      isRememberMe:
-          isRememberMe == const $CopyWithPlaceholder() || isRememberMe == null
-              ? _value.isRememberMe
-              // ignore: cast_nullable_to_non_nullable
-              : isRememberMe as bool,
+
       lastName: lastName == const $CopyWithPlaceholder()
           ? _value.lastName
           // ignore: cast_nullable_to_non_nullable
@@ -309,8 +318,8 @@ extension $CheckInStateCopyWith on CheckInState {
       inboundBoardingPassPassenger: inboundBoardingPassPassenger == true
           ? null
           : this.inboundBoardingPassPassenger,
+      isDownloading: isDownloading,
       isLoadingInfo: isLoadingInfo,
-      isRememberMe: isRememberMe,
       lastName: lastName == true ? null : this.lastName,
       listToCall: listToCall,
       loadBoardingDate: loadBoardingDate,

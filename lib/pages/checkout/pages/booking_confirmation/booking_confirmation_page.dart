@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../check_in/bloc/check_in_cubit.dart';
+
 class BookingConfirmationPage extends StatefulWidget {
   final String bookingId;
 
@@ -32,6 +34,11 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
   @override
   Widget build(BuildContext context) {
     print("booking ${widget.bookingId}");
+
+    CheckInCubit? bloc = context.watch<CheckInCubit>();
+    bloc.resetStates();
+
+
     return LoaderOverlay(
       useDefaultLoading: false,
       child: BlocProvider(

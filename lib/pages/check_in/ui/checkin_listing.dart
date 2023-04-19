@@ -184,10 +184,12 @@ class CheckingListing extends StatelessWidget {
 
                             if (flag == true) {
 
+                               await bloc.resetStates();
+
                               context.router.push(
                                 CheckInDetailsRoute(isPast: false),
                               );
-                              // moveToNext(context);
+
                             }
                           },
                         );

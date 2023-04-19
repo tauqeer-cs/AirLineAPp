@@ -1267,6 +1267,7 @@ class Passenger extends Equatable {
   PeopleType? get getType => PeopleType.values
       .firstWhereOrNull((element) => element.code == passengerType);
 
+
   const Passenger({
     this.paxId,
     this.bookingId,
@@ -1286,7 +1287,8 @@ class Passenger extends Equatable {
     this.modifiedById,
     this.modifiedDate,
     this.modifiedDateUTC,
-
+    this.inboundCheckedIn,
+    this.outboundCheckedIn,
   });
 
   @override
@@ -1309,6 +1311,8 @@ class Passenger extends Equatable {
         modifiedById,
         modifiedDate,
         modifiedDateUTC,
+    inboundCheckedIn,
+    outboundCheckedIn
       ];
 
   final num? paxId;
@@ -1322,6 +1326,10 @@ class Passenger extends Equatable {
   final String? passport;
   final DateTime? passportExpiryDate;
   final String? titleCode;
+  final bool? outboundCheckedIn;
+  final bool? inboundCheckedIn;
+
+
 
   bool get isWithinTwoYears {
     DateTime now = DateTime.now();

@@ -318,11 +318,14 @@ class CheckInCubit extends Cubit<CheckInState> {
                   '',
               passportNumber: '',
               passportExpiryDate: '',
-              memberID: currentItem.passengers?.myRewardMemberId ?? '');
+              memberID: currentItem.checkInMemberID ?? '');
 
-          if (currentItem.paxSelected == true) {
-            request.outboundCheckInPassengerDetails?.add(currentOne);
+          if(currentItem.checkInStatusInOut?.outboundCheckInStatus?.allowCheckIn == true) {
+            if (currentItem.paxSelected == true) {
+              request.outboundCheckInPassengerDetails?.add(currentOne);
+            }
           }
+
         }
       }
 
@@ -343,10 +346,12 @@ class CheckInCubit extends Cubit<CheckInState> {
                   '',
               passportNumber: '',
               passportExpiryDate: '',
-              memberID: currentItem.passengers?.myRewardMemberId ?? '');
+              memberID: currentItem.checkInMemberID ?? '');
 
-          if (currentItem.paxSelected == true) {
-            request.inboundCheckInPassengerDetails?.add(currentOne);
+          if(currentItem.checkInStatusInOut?.inboundCheckInStatus?.allowCheckIn == true) {
+            if (currentItem.paxSelected == true) {
+              request.inboundCheckInPassengerDetails?.add(currentOne);
+            }
           }
         }
       }
@@ -358,12 +363,21 @@ class CheckInCubit extends Cubit<CheckInState> {
         ErrorUtils.showErrorMessage(verifyResponse.errorMessages);
 
         emit(
-          state.copyWith(checkingInFlight: false),
+          state.copyWith(
+
+              checkingInFlight: false),
         );
 
         return false;
       }
 
+      emit(
+        state.copyWith(
+            listToCall: false,
+            checkingInFlight: false),
+      );
+
+      //getBookingsListing
       return true;
     } catch (e, st) {
       emit(
@@ -589,6 +603,35 @@ class CheckInCubit extends Cubit<CheckInState> {
         );
       }
     }
+  }
+
+
+  void resetList() {
+
+    emit(
+        state.copyWith(
+          listToCall: false,
+
+        )
+    );
+
+  }
+  Future<void> resetStates() async {
+
+    emit(
+      state.copyWith(
+        checkedDeparture: false,
+        checkReturn: false,
+        checkingInFlight: false,
+      )
+    );
+
+    emit(
+      state.copyWithNull(
+          inboundBoardingPassPassenger : false,
+          outboundBoardingPassPassenger: false,
+    ));
+
   }
 
 /*

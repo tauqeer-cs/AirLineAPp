@@ -9,6 +9,7 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../widgets/app_card.dart';
 import '../../booking_details/ui/flight_data.dart';
+import '../../check_in/bloc/check_in_cubit.dart';
 import '../../checkout/pages/booking_confirmation/ui/payment_info.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 
@@ -32,6 +33,9 @@ class ChangeFlightConfirmationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ManageBookingCubit bloc = context.watch<ManageBookingCubit>();
+
+    CheckInCubit? blocList = context.watch<CheckInCubit>();
+    blocList.resetStates();
 
     return bloc.state.loadingSummary
         ? const AppLoading()
