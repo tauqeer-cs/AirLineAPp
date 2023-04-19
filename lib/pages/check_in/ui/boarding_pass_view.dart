@@ -159,6 +159,8 @@ class BoardingPassView extends StatelessWidget {
                 }, //isLoading ? null :
                 child: const Text('Email'),
               ),
+              kVerticalSpacerSmall,
+
               ElevatedButton(
                 onPressed: () async {
                   var departure = true;

@@ -36,7 +36,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
     print("booking ${widget.bookingId}");
 
     CheckInCubit? bloc = context.watch<CheckInCubit>();
-    bloc.resetStates();
+    bloc.resetList();
 
 
     return LoaderOverlay(
