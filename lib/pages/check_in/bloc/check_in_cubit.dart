@@ -435,6 +435,7 @@ class CheckInCubit extends Cubit<CheckInState> {
     emit(
       state.copyWith(
         loadingListDetailItem: true,
+        isLoadingInfo : true,
         bookingSelected: bookSelected,
         message: '',
       ),
@@ -451,6 +452,8 @@ class CheckInCubit extends Cubit<CheckInState> {
       emit(
         state.copyWith(
             blocState: BlocState.finished,
+            isLoadingInfo : false,
+
             manageBookingResponse: verifyResponse,
             loadingListDetailItem: false,
             bookingSelected: bookSelected,
@@ -464,6 +467,8 @@ class CheckInCubit extends Cubit<CheckInState> {
           message: ErrorUtils.getErrorMessage(e, st, dontShowError: false),
           blocState: BlocState.failed,
           loadingListDetailItem: false,
+          isLoadingInfo : false,
+
         ),
       );
       return false;
