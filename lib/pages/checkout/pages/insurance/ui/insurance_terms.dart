@@ -51,6 +51,7 @@ class InsuranceTerms extends StatelessWidget {
                       makeClickableTextSpan(context,
                           text: 'Product Disclosure Sheet',
                           pdfIsLink: false,
+                          pdfName: 'product_disclosure',
                           webViewLink:
                           'https://booking.myairline.my/insurance/product_disclosure.pdf'),
 
