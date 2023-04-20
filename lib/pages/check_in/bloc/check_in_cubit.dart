@@ -432,14 +432,28 @@ class CheckInCubit extends Cubit<CheckInState> {
 
   Future<bool?> getBookingInformation(String lastName, String pnr,
       {UpcomingBookings? bookSelected}) async {
+
+    emit(
+        state.copyWithNull(
+          inboundBoardingPassPassenger : false,
+          outboundBoardingPassPassenger: false,
+        ));
+
     emit(
       state.copyWith(
         loadingListDetailItem: true,
         isLoadingInfo : true,
         bookingSelected: bookSelected,
         message: '',
+        checkedDeparture: false,
+        checkReturn: false,
+        checkingInFlight: false,
       ),
     );
+
+
+
+
 
     try {
       final verifyResponse =

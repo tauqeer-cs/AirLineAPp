@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/wrapper/auth_wrapper.dart';
+import 'check_in_details_page.dart';
 
 class CheckInPage extends StatelessWidget {
   const CheckInPage({Key? key}) : super(key: key);
@@ -29,7 +30,13 @@ class CheckInPage extends StatelessWidget {
             builder: (context, state) {
               return SafeArea(
                 child: AuthWrapper(
-                  authChild:  CheckingListing(),
+                  authChild:  CheckingListing(navigateToCheckInDetails: (bool past) {
+
+                    context.router.push(
+                      CheckInDetailsRoute(isPast: false),
+                    );
+
+                  },),
                   child: CheckInView(),
                 ),
               );

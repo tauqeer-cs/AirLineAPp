@@ -52,7 +52,7 @@ class CheckInView extends StatelessWidget {
                     ),
                     kVerticalSpacerMini,
                     Text(
-                      "Web check in available from 48 hours and up to 90 minutes before departure",
+                      'Web check in available from 72 hours and up to 3 hours before departure.',
                       style:
                           kMediumRegular.copyWith(color: Styles.kSubTextColor),
                     ),
@@ -74,7 +74,7 @@ class CheckInView extends StatelessWidget {
                     kVerticalSpacerSmall,
                     AppInputTextWithBorder(
                       name: "lastNameCheckIn",
-                      hintText: "Surname / Last Name",
+                      hintText: "Last Name / Surname",
                       validators: [FormBuilderValidators.required()],
                     ),
                     kVerticalSpacer,
