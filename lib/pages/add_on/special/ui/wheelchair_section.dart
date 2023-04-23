@@ -13,6 +13,7 @@ import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/custom_checkbox.dart';
 import 'package:app/widgets/forms/bordered_input_text.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,7 +55,11 @@ class WheelchairSection extends StatelessWidget {
           ),
           kVerticalSpacer,
           wheelChairs?.isEmpty ?? true
-              ? Center(child: Text("No available wheelchair", style: kLargeHeavy,))
+              ? Center(
+                  child: Text(
+                  "No available wheelchair",
+                  style: kLargeHeavy,
+                ))
               : AppCard(
                   edgeInsets: EdgeInsets.all(12),
                   child: Column(
@@ -96,7 +101,7 @@ class WheelchairSection extends StatelessWidget {
                           kHorizontalSpacerSmall,
                           Expanded(
                             child: Text(
-                              "I need a wheelchair.",
+                              "wheelChair".tr(),
                               style: kLargeMedium,
                             ),
                           ),

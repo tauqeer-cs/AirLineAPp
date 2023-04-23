@@ -13,6 +13,7 @@ import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,8 +28,6 @@ class MealsView extends StatefulWidget {
 
 class _MealsViewState extends State<MealsView> {
   final scrollController = ScrollController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class _MealsViewState extends State<MealsView> {
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                TitleSummaryHeader(title: "Meal"),
+                TitleSummaryHeader(title: "meal".tr()),
                 kVerticalSpacer,
                 FlightDetailWidget(
                   isDeparture: widget.isDeparture,

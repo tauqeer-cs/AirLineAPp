@@ -3,6 +3,7 @@ import 'package:app/pages/checkout/ui/baggage_fee_detail.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +16,11 @@ class BaggageFee extends StatefulWidget {
 
   final bool isInsurance;
 
-  const BaggageFee({Key? key, required this.isDeparture, this.isSports = false,  this.isInsurance = false})
+  const BaggageFee(
+      {Key? key,
+      required this.isDeparture,
+      this.isSports = false,
+      this.isInsurance = false})
       : super(key: key);
 
   @override
@@ -53,43 +58,42 @@ class _BaggageFeeState extends State<BaggageFee> {
                       : Icons.keyboard_arrow_down,
                 ),
                 const Spacer(),
-                if(widget.isSports) ... [
+                if (widget.isSports) ...[
                   MoneyWidgetSmall(
                       amount: filter?.numberPerson
                           .getTotalSportsPartial(widget.isDeparture)),
-                ]
-                else if(widget.isInsurance) ... [
+                ] else if (widget.isInsurance) ...[
                   MoneyWidgetSmall(
-                      amount: filter?.numberPerson
-                          .getTotalInsurance(),),
-                ]
-                else ... [
+                    amount: filter?.numberPerson.getTotalInsurance(),
+                  ),
+                ] else ...[
                   MoneyWidgetSmall(
                       amount: filter?.numberPerson
                           .getTotalBaggagePartial(widget.isDeparture)),
                 ],
-
               ],
             ),
           ),
         ),
         ExpandedSection(
           expand: isExpand,
-          child: BaggageFeeDetail(isDeparture: widget.isDeparture , isSports: widget.isSports,isInsurance: widget.isInsurance,),
+          child: BaggageFeeDetail(
+            isDeparture: widget.isDeparture,
+            isSports: widget.isSports,
+            isInsurance: widget.isInsurance,
+          ),
         ),
       ],
     );
   }
 
-  String setText(bool isPaymentPage){
-    if(widget.isSports) {
-     return '- Sports Equipment';
-    }
-    else if(widget.isInsurance) {
+  String setText(bool isPaymentPage) {
+    if (widget.isSports) {
+      return '- Sports Equipment';
+    } else if (widget.isInsurance) {
       return '- Insurance';
     }
-   // return widget.isSports ? (isPaymentPage ? "Sports Equipment" : "- Sports Equipment") : (isPaymentPage ? "Baggage" : "- Baggage");
-    return "- Baggage";
-
+    // return widget.isSports ? (isPaymentPage ? "Sports Equipment" : "- Sports Equipment") : (isPaymentPage ? "Baggage" : "- Baggage");
+    return "- ${"baggage".tr()}";
   }
 }

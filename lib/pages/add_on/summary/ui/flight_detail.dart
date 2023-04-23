@@ -32,7 +32,7 @@ class FlightSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-              isDeparture ? 'flightDetail.departingFlight'.tr() : 'flightDetail.returningFlight'.tr(),
+              isDeparture ? 'departFlight'.tr() : 'returningFlight'.tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -60,7 +60,7 @@ class FlightSummaryDetail extends StatelessWidget {
           kVerticalSpacerMini,
           ChildRow(
             child1: Text(
-            'flightDetail.arrive'.tr(),
+              'arrive'.tr(),
             ),
             child2: FittedBox(
               child: Text(

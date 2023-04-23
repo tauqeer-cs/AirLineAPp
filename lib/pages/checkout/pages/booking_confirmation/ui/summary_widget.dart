@@ -2,6 +2,7 @@ import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/flight_detail_confirmation.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/app_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,11 +28,11 @@ class SummaryWidget extends StatelessWidget {
                         (f) => AppCard(
                           child: FlightDetailConfirmation(
                             bound: f,
-                            title: "Departing Flight",
+                            title: "departFlight".tr(),
                             subtitle:
                                 "${f.departureAirportLocationName} to ${f.arrivalAirportLocationName}",
-                            dateTitle:
-                                AppDateUtils.formatFullDate(f.departureDateTime),
+                            dateTitle: AppDateUtils.formatFullDate(
+                                f.departureDateTime),
                             isDeparture: true,
                           ),
                         ),
@@ -48,7 +49,7 @@ class SummaryWidget extends StatelessWidget {
                                 .map(
                                   (f) => FlightDetailConfirmation(
                                     bound: f,
-                                    title: "Returning Flight",
+                                    title: "returningFlight".tr(),
                                     subtitle:
                                         "${f.departureAirportLocationName} - ${f.arrivalAirportLocationName}",
                                     dateTitle: AppDateUtils.formatFullDate(

@@ -3,6 +3,7 @@ import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/number_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,7 +42,7 @@ class BaggageSubtotal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Baggage Subtotal",
+                    "baggageSubtotal".tr(),
                     style: kLargeRegular.copyWith(color: Colors.white),
                   ),
                   Text(
@@ -51,10 +52,11 @@ class BaggageSubtotal extends StatelessWidget {
                 ],
               ),
             ),
-
-            if(filter?.numberPerson.getTotalSportsPartial(isDeparture) != null) ... [
+            if (filter?.numberPerson.getTotalSportsPartial(isDeparture) !=
+                null) ...[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,12 +71,7 @@ class BaggageSubtotal extends StatelessWidget {
                   ],
                 ),
               ),
-
-
             ],
-
-
-
             child,
           ],
         ),

@@ -51,11 +51,12 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
               kVerticalSpacer,
               TitleSummaryHeader(title: 'flightCharge.seat'.tr()),
               kVerticalSpacer,
-              FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.seat),
+              FlightDetailWidget(
+                  isDeparture: widget.isDeparture, addonType: AddonType.seat),
               kVerticalSpacerSmall,
               Padding(
                 padding: kPageHorizontalPadding,
-                child: Text('seatsSelection.seatAssign'.tr()),
+                child: Text('seatAutomatically'.tr()),
               ),
               kVerticalSpacer,
               SeatsSection(
@@ -135,7 +136,8 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
 class TitleSummaryHeader extends StatelessWidget {
   final String title;
   const TitleSummaryHeader({
-    Key? key, required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -156,9 +158,9 @@ class TitleSummaryHeader extends StatelessWidget {
           Expanded(
             flex: 1,
             child: OutlinedButton(
-              child:  FittedBox(
+              child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text('flightCharge.summary'.tr()),
+                child: Text('summary'.tr()),
               ),
               onPressed: () {
                 context.router.push(SummaryRoute());

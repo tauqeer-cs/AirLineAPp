@@ -144,7 +144,7 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
               ),
               kVerticalSpacer,
               BorderedLeftContainer(
-                title: "Arrive:",
+                title: "${"arrive".tr()}:",
                 content:
                     "${AppDateUtils.formatFullDateWithTime(widget.bound.arrivalDateTime)}\n${widget.bound.arrivalAirportLocationName}",
               ),

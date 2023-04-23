@@ -1,6 +1,7 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +53,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   children: [
                     Expanded(
                       child: Text(
-                        "Travelling with Sports Equipments?",
+                        "travellingSports".tr(),
                         style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
                       ),
                     ),
@@ -104,7 +105,6 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   ),
                   kVerticalSpacerSmall,
                   const SportsEquipmentCard(),
-
                 ],
               ),
             ),
@@ -118,7 +118,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 0.0),
             child: Text(
-              "Carry-on Baggage",
+              "carryOnBaggage".tr(),
               style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
             ),
           ),
@@ -139,7 +139,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 0.0),
             child: Text(
-              "Oversized Item",
+              "oversizedItem".tr(),
               style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
             ),
           ),
@@ -285,13 +285,12 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                     ],
                                   ),
                                   trailing: Container(
-                                    constraints: BoxConstraints(
-                                      minWidth: 60
-                                    ),
+                                    constraints: BoxConstraints(minWidth: 60),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           currentItem.currencyCode ?? 'MYR',

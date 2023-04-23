@@ -41,12 +41,12 @@ class SelectedSeats extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'seatsSelection.selectedSeats'.tr(),
+            'selectedSeats'.tr(),
             style: kLargeSemiBold,
           ),
           kVerticalSpacerMini,
           Text(
-            isDeparture ? 'seatsSelection.departingFlight'.tr() : 'seatsSelection.returningFlight'.tr(),
+            isDeparture ? 'departFlight'.tr() : 'returningFlight'.tr(),
             style: kSmallSemiBold,
           ),
           kVerticalSpacerMini,
@@ -79,7 +79,7 @@ class SelectedSeats extends StatelessWidget {
                         kHorizontalSpacerMini,
                         Flexible(
                           child: Text(
-                            "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'seatsSelection.noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
+                            "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
                             style: kSmallRegular.copyWith(
                                 color: Styles.kSubTextColor),
                           ),

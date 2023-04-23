@@ -23,7 +23,7 @@ class SeatsLegend extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacerMini,
-         Text('seatsSelection.seatTypes'.tr(), style: kLargeHeavy),
+        Text('seatTypes'.tr(), style: kLargeHeavy),
         kVerticalSpacerSmall,
         Wrap(
           spacing: 8,
@@ -47,7 +47,11 @@ class SeatsLegend extends StatelessWidget {
                         ),
                       ),
                       kHorizontalSpacerMini,
-                      Flexible(child: Text(e.description?.camelCase() ?? "", style: kSmallRegular,))
+                      Flexible(
+                          child: Text(
+                        e.description?.camelCase() ?? "",
+                        style: kSmallRegular,
+                      ))
                     ],
                   ),
                 );
@@ -69,11 +73,14 @@ class SeatsLegend extends StatelessWidget {
                     ),
                   ),
                   kHorizontalSpacerMini,
-                   Flexible(child: Text('seatsSelection.unavailable'.tr(), style: kSmallRegular,))
+                  Flexible(
+                      child: Text(
+                    'seatsSelection.unavailable'.tr(),
+                    style: kSmallRegular,
+                  ))
                 ],
               ),
             ),
-
           ],
         ),
       ],

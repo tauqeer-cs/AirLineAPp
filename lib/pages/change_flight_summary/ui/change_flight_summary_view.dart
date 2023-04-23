@@ -310,7 +310,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         Row(
                           children: [
                             Text(
-                              'flightCharge.summary'.tr(),
+                              'summary'.tr(),
                               style: kLargeHeavy,
                             ),
                             const Spacer(),

@@ -47,9 +47,9 @@ class FlightResultWidget extends StatelessWidget {
                           child: Expanded(
                             flex: 3,
                             child: OutlinedButton(
-                              child: const FittedBox(
+                              child: FittedBox(
                                 fit: BoxFit.scaleDown,
-                                child: Text("Change Search"),
+                                child: Text("changeSearch".tr()),
                               ),
                               onPressed: () {
                                 context

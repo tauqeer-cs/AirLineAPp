@@ -77,8 +77,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     initInsider();
-
-
   }
 
   @override
@@ -120,8 +118,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case InsiderCallbackAction.NOTIFICATION_OPEN:
         logger.d("[INSIDER][NOTIFICATION_OPEN]: $data");
         final scheme = data["ins_dl_url_scheme"];
-        print("is String ${scheme !is String} ${scheme}");
-        if(scheme == null) return;
+        print("is String ${scheme! is String} ${scheme}");
+        if (scheme == null) return;
         NavigationUtils.navigateMainPage(scheme);
         break;
       case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
@@ -199,9 +197,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           barrierDismissible: false,
           builder: (context) {
             return AppConfirmationDialog(
-              title: "Your session is about to expire in 10 minutes.",
+              title: "sessionExpireTen".tr(),
               subtitle: "",
-              confirmText: "Stay and Continue",
+              confirmText: "stayContinue".tr(),
               onConfirm: () {
                 final filterState =
                     currentContext.read<SearchFlightCubit>().state.filterState;

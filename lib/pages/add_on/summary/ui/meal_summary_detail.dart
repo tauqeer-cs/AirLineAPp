@@ -7,6 +7,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,7 +33,7 @@ class MealSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-              "Meal",
+              "meal".tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -45,7 +46,7 @@ class MealSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           Text(
-            "Depart",
+            "depart".tr(),
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
@@ -93,8 +94,7 @@ class MealSummaryDetail extends StatelessWidget {
                 .map(
                   (e) => Text(
                     "${e.value.first.description} x${e.value.length}",
-                    style:
-                    kMediumRegular.copyWith(color: Styles.kActiveGrey),
+                    style: kMediumRegular.copyWith(color: Styles.kActiveGrey),
                   ),
                 )
                 .toList()

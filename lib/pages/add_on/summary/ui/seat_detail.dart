@@ -8,6 +8,7 @@ import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,7 +52,7 @@ class SeatSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-              "Seat",
+              "seat".tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -64,7 +65,7 @@ class SeatSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           Text(
-            "Depart",
+            "depart".tr(),
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
@@ -83,7 +84,7 @@ class SeatSummaryDetail extends StatelessWidget {
                         e.generateText(numberOfPerson, separator: "& "),
                       ),
                       Text(
-                        "-${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                        "-${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
                         style:
                             kMediumRegular.copyWith(color: Styles.kActiveGrey),
                       ),
@@ -110,8 +111,8 @@ class SeatSummaryDetail extends StatelessWidget {
                 ...persons.map(
                   (e) {
                     final seats = e.returnSeats;
-                    final row = (rowsReturn ?? [])
-                        .firstWhereOrNull((element) => element.rowId == seats?.rowId);
+                    final row = (rowsReturn ?? []).firstWhereOrNull(
+                        (element) => element.rowId == seats?.rowId);
                     return Visibility(
                       visible: e.getPartialPriceSeatPartial(false) > 0,
                       child: ChildRow(
@@ -122,9 +123,9 @@ class SeatSummaryDetail extends StatelessWidget {
                               e.generateText(numberOfPerson, separator: "& "),
                             ),
                             Text(
-                              "-${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
-                              style:
-                              kMediumRegular.copyWith(color: Styles.kActiveGrey),
+                              "-${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kActiveGrey),
                             ),
                           ],
                         ),

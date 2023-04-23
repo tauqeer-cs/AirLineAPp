@@ -76,7 +76,7 @@ class LoginForm extends StatelessWidget {
                 kVerticalSpacer,
                 ElevatedButton(
                     onPressed: () => context.router.pop(),
-                    child:  Text('loginVerify.continueAsGuest'.tr())),
+                    child: Text('continueGuest'.tr())),
                 kVerticalSpacerSmall,
                 Row(
                   children: [
@@ -86,7 +86,7 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                     Text('loginVerify.or'.tr()),
+                    Text('loginVerify.or'.tr()),
                     kHorizontalSpacerMini,
                     Expanded(
                         child: AppDividerWidget(
@@ -130,14 +130,14 @@ class LoginForm extends StatelessWidget {
           kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
-            child: Text('loginVerify.logIn'.tr()),//
+            child: Text('loginVerify.logIn'.tr()), //
           ),
           kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(
               const SignupWrapperRoute(),
             ),
-            child: Text('loginVerify.createAccount'.tr()),
+            child: Text('createAccount'.tr()),
           )
         ],
       ),

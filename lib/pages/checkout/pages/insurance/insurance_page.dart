@@ -95,7 +95,7 @@ class _InsurancePageState extends State<InsurancePage> {
             },
             child: Scaffold(
               appBar: AppAppBar(
-                title: "You Are Almost There",
+                title: "almostThere".tr(),
                 height: 100.h,
                 flexibleWidget: AppBookingStep(
                   passedSteps: const [

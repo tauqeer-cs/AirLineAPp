@@ -478,18 +478,18 @@ class Person extends Equatable {
   String getPersonSelectorText(
       bool isActive, bool isDeparture, AddonType addonType,
       {List<Rows> rows = const []}) {
-    if (isActive) return "Selecting";
+    if (isActive) return "selecting".tr();
     switch (addonType) {
       case AddonType.seat:
-        if (isDeparture && departureSeats == null) return "No seat selected";
-        if (!isDeparture && returnSeats == null) return "No seat selected";
+        if (isDeparture && departureSeats == null) return "noSeatSelected".tr();
+        if (!isDeparture && returnSeats == null) return "noSeatSelected".tr();
         final seats = isDeparture ? departureSeats : returnSeats;
         final row =
             rows.firstWhereOrNull((element) => element.rowId == seats?.rowId);
         return '${seats?.seatColumn}${row?.rowNumber}';
       case AddonType.meal:
-        if (isDeparture && departureMeal.isEmpty) return "No meal selected";
-        if (!isDeparture && returnMeal.isEmpty) return "No meal selected";
+        if (isDeparture && departureMeal.isEmpty) return "noMeal".tr();
+        if (!isDeparture && returnMeal.isEmpty) return "noMeal".tr();
         final meals = isDeparture ? departureMeal : returnMeal;
         return '${meals.length} ${meals.length > 1 ? " meals" : "meals"}';
       case AddonType.baggage:

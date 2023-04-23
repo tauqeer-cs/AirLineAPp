@@ -80,7 +80,7 @@ class FlightDataInfo extends StatelessWidget {
             Expanded(
               flex: 4,
               child: FlightInto(
-                label: 'flightSummary.arrive'.tr(),
+                label: 'arrive'.tr(),
                 timeString: arrivalDateWithTime,
                 location: arrivalAirportName,
               ),

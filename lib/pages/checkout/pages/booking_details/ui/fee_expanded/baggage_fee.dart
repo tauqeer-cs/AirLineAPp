@@ -3,6 +3,7 @@ import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,7 +51,6 @@ class _BaggageFeeState extends State<BaggageFee> {
                 setText(isPaymentPage),
                 style: kMediumHeavy,
               ),
-
               const Spacer(),
               MoneyWidgetCustom(
                 fontWeight: FontWeight.w700,
@@ -81,9 +81,9 @@ class _BaggageFeeState extends State<BaggageFee> {
     if (widget.isSports) {
       return 'Sports Equipment';
     } else if (widget.isInsurance) {
-      return 'Insurance';
+      return 'insurance'.tr();
     }
     // return widget.isSports ? (isPaymentPage ? "Sports Equipment" : "- Sports Equipment") : (isPaymentPage ? "Baggage" : "- Baggage");
-    return "Baggage";
+    return "baggage".tr();
   }
 }
