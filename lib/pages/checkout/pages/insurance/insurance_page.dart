@@ -11,6 +11,7 @@ import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,16 +30,23 @@ class InsurancePage extends StatefulWidget {
 class _InsurancePageState extends State<InsurancePage> {
   @override
   Widget build(BuildContext context) {
-    final passengers = context.watch<SummaryCubit>().state.summaryRequest?.flightSummaryPNRRequest.passengers ?? [];
+    final passengers = context
+            .watch<SummaryCubit>()
+            .state
+            .summaryRequest
+            ?.flightSummaryPNRRequest
+            .passengers ??
+        [];
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: "Loading"),
+        overlayWidget: AppLoadingScreen(message: "loading".tr()),
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => InfoCubit()),
-            BlocProvider(create: (context) => InsuranceCubit()..init(passengers)),
+            BlocProvider(
+                create: (context) => InsuranceCubit()..init(passengers)),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
             listener: (context, state) {
@@ -46,7 +54,7 @@ class _InsurancePageState extends State<InsurancePage> {
                 blocState: state.blocState,
                 onLoading: () {
                   context.loaderOverlay.show(
-                    widget: const AppLoadingScreen(message: "Loading"),
+                    widget: AppLoadingScreen(message: "loading".tr()),
                   );
                 },
                 onFailed: () {
@@ -95,7 +103,6 @@ class _InsurancePageState extends State<InsurancePage> {
                     BookingStep.addOn,
                     BookingStep.bookingDetails,
                     BookingStep.insurance,
-
                   ],
                   onTopStepTaped: (int index) {
                     if (index == 0) {

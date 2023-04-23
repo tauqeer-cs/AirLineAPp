@@ -100,7 +100,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
         useDefaultLoading: false,
         overlayWidget: SizedBox(
           height: 0.5.sh,
-          child: const AppLoadingScreen(message: "Loading"),
+          child: AppLoadingScreen(message: "loading".tr()),
         ),
         child: BlocProvider(
           create: (context) => LoginCubit(),
@@ -169,7 +169,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: const AppLoadingScreen(message: "Loading"),
+      overlayWidget: AppLoadingScreen(message: "loading".tr()),
       child: MultiBlocListener(
         listeners: [
           BlocListener<SearchFlightCubit, SearchFlightState>(

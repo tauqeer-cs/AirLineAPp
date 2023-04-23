@@ -1,6 +1,7 @@
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,7 @@ showBottomDialog(context, Widget widget) {
       useDefaultLoading: false,
       overlayWidget: SizedBox(
         height: 0.5.sh,
-        child: const AppLoadingScreen(message: "Loading"),
+        child: AppLoadingScreen(message: "loading".tr()),
       ),
       child: widget,
     ),
@@ -38,7 +39,8 @@ TextSpan makeClickableTextSpan(context,
     {required String text,
     String? pdfName,
     String? webViewLink,
-    VoidCallback? callBackAction,bool makeNormalTextBol = false,
+    VoidCallback? callBackAction,
+    bool makeNormalTextBol = false,
     bool pdfIsLink = false}) {
   return TextSpan(
     recognizer: TapGestureRecognizer()
@@ -55,9 +57,7 @@ TextSpan makeClickableTextSpan(context,
             ),
           );
         } else if (webViewLink != null) {
-          SecurityUtils.tryLaunch(
-              webViewLink);
-
+          SecurityUtils.tryLaunch(webViewLink);
         } else if (callBackAction != null) {
           callBackAction.call();
         }

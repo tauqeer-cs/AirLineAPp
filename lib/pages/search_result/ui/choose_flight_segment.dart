@@ -184,7 +184,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
           ],
         ),
         sortedSegment.isEmpty
-            ?  Padding(
+            ? Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Center(
                   child: Text(

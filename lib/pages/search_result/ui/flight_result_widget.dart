@@ -66,7 +66,7 @@ class FlightResultWidget extends StatelessWidget {
                 ),
                 kVerticalSpacerSmall,
                 Text(
-                  'flightResult.kgRule'.tr(),
+                  'starterFareIncludes'.tr(),
                   textAlign: TextAlign.left,
                   style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor,
@@ -77,8 +77,14 @@ class FlightResultWidget extends StatelessWidget {
                   builder: (context, bookState) {
                     return blocBuilderWrapper(
                       blocState: bookState.blocState,
-                      finishedBuilder: buildFlights(state, bookState,),
-                      initialBuilder: buildFlights(state, bookState,),
+                      finishedBuilder: buildFlights(
+                        state,
+                        bookState,
+                      ),
+                      initialBuilder: buildFlights(
+                        state,
+                        bookState,
+                      ),
                       loadingBuilder: const BookingLoader(),
                     );
                   },
@@ -87,12 +93,13 @@ class FlightResultWidget extends StatelessWidget {
                 Visibility(
                   visible: false,
                   replacement: Text(
-                    'flightSummary.fareRules'.tr(args: [filter?.numberPerson.toBeautify() ?? '']),
+                    'fareCalculation'
+                        .tr(args: [filter?.numberPerson.toBeautify() ?? '']),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
-
                   child: Text(
-                    'flightSummary.rules'.tr(args: [filter?.numberPerson.toBeautify() ?? '']),
+                    'flightSummary.rules'
+                        .tr(args: [filter?.numberPerson.toBeautify() ?? '']),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
                 ),
@@ -108,7 +115,7 @@ class FlightResultWidget extends StatelessWidget {
     return Column(
       children: [
         ChooseFlightSegment(
-          title: "Departure",
+          title: "departure".tr(),
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate),
           segments: bookState.selectedDeparture != null

@@ -36,7 +36,7 @@ class _SeatsPageState extends State<SeatsPage> {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: const AppLoadingScreen(message: "Loading"),
+      overlayWidget: AppLoadingScreen(message: "loading".tr()),
       child: BlocListener<SearchFlightCubit, SearchFlightState>(
         listener: (context, state) {
           if (state.blocState == BlocState.failed) {

@@ -15,7 +15,7 @@ class AddonHeader extends StatelessWidget {
         ),
         kVerticalSpacer,
         Text(
-          'flightResult.kgRule'.tr(),
+          'starterFareIncludes'.tr(),
           style: kMediumRegular.copyWith(
             color: Styles.kSubTextColor,
             height: 1.5,

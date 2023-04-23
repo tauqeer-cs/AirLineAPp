@@ -23,6 +23,7 @@ import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -41,22 +42,15 @@ class BookingDetailsPage extends StatefulWidget {
 }
 
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
-
-  
-  void isLoggedInPopUp()  {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-       var response = await showLoginDialog();
-        if(response == true){
-
-          await Future.delayed(const Duration(seconds: 2));
-          appRouter.pop(true);
-
-        }
-      });
-
-
+  void isLoggedInPopUp() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var response = await showLoginDialog();
+      if (response == true) {
+        await Future.delayed(const Duration(seconds: 2));
+        appRouter.pop(true);
+      }
+    });
   }
-
 
   @override
   void initState() {
@@ -64,11 +58,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     final isLoggedIn =
         context.read<AuthBloc>().state.status == AppStatus.authenticated;
     if (!isLoggedIn) {
-
       isLoggedInPopUp();
-
     }
-    FlutterInsider.Instance.itemAddedToCart(UserInsider.of(context).generateProduct());
+    FlutterInsider.Instance.itemAddedToCart(
+        UserInsider.of(context).generateProduct());
     UserInsider.of(context).registerPurchasedAddOn();
     temporarySummaryRequest();
   }
@@ -185,7 +178,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
         useDefaultLoading: false,
         overlayWidget: SizedBox(
           height: 0.5.sh,
-          child: const AppLoadingScreen(message: "Loading"),
+          child: AppLoadingScreen(message: "loading".tr()),
         ),
         child: BlocProvider(
           create: (context) => LoginCubit(),
@@ -213,7 +206,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
 //                      callBack();
 
                       Navigator.of(dialogContext).pop(true);
-
                     },
                   );
                 },
@@ -256,7 +248,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: "Loading"),
+        overlayWidget: AppLoadingScreen(message: "loading".tr()),
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => InfoCubit()),
@@ -267,7 +259,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 blocState: state.blocState,
                 onLoading: () {
                   context.loaderOverlay.show(
-                    widget: const AppLoadingScreen(message: "Loading"),
+                    widget: AppLoadingScreen(message: "loading".tr()),
                   );
                 },
                 onFailed: () {

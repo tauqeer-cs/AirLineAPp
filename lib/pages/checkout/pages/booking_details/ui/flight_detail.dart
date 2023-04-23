@@ -8,6 +8,7 @@ import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -103,7 +104,7 @@ class _FlightDetailState extends State<FlightDetail> {
                       ),
                       Expanded(
                         child: BorderedLeftContainer(
-                          title: "Aircraft:",
+                          title: "${"aircraft".tr()}:",
                           content: '${detail?.aircraftDescription}',
                         ),
                       ),
@@ -119,7 +120,7 @@ class _FlightDetailState extends State<FlightDetail> {
                   padding: EdgeInsets.symmetric(
                       horizontal: widget.showFees ? 0 : 15.0),
                   child: BorderedLeftContainer(
-                    title: "Duration:",
+                    title: "${"duration".tr()}:",
                     content: NumberUtils.getTimeString(detail?.flightTime),
                   ),
                 ),
@@ -139,7 +140,7 @@ class _FlightDetailState extends State<FlightDetail> {
                   padding: EdgeInsets.symmetric(
                       horizontal: widget.showFees ? 0 : 15.0),
                   child: BorderedLeftContainer(
-                    title: "Arrival:",
+                    title: "${"arrival".tr()}:",
                     content:
                         "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
                   ),

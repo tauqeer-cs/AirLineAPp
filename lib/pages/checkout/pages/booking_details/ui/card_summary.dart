@@ -5,9 +5,9 @@ import 'package:app/pages/checkout/pages/booking_details/ui/flight_segment.dart'
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class CardSummary extends StatelessWidget {
   final bool showFees;
@@ -33,7 +33,7 @@ class CardSummary extends StatelessWidget {
     return Column(
       children: [
         FlightSegment(
-          title: "Departure",
+          title: "departure".tr(),
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
           segments: bookState.isVerify

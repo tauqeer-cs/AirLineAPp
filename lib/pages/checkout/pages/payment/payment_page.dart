@@ -86,7 +86,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       blocState: state.blocState,
                       onLoading: () {
                         context.loaderOverlay.show(
-                          widget: const AppLoadingScreen(message: "Loading"),
+                          widget: AppLoadingScreen(message: "loading".tr()),
                         );
                       },
                       onFailed: () {
@@ -171,7 +171,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       blocState: state.blocState,
                       onLoading: () {
                         context.loaderOverlay.show(
-                          widget: const AppLoadingScreen(message: "Loading"),
+                          widget: AppLoadingScreen(message: "loading".tr()),
                         );
                       },
                       onFailed: () {

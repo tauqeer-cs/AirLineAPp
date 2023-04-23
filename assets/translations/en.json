@@ -20,5 +20,20 @@
   "flights": "Flights",
   "addOn": "Add-on",
   "bookingDetails": "Booking Details",
-  "insurance": "Insurance"
+  "insurance": "Insurance",
+  "changeSearch": "Change Search",
+  "starterFareIncludes": "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage, select your seat of choice and meal.",
+  "departure": "Departure",
+  "sortBy": "Sort by",
+  "cheapest": "Cheapest",
+  "earliest": "Earliest",
+  "fastest": "Fastest",
+  "fareCalculation": "All fares are calculated based on a one-way flight for (2) Adults passenger(s). You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+  "flight": "Flight",
+  "aircraft": "Aircraft",
+  "duration": "Duration",
+  "arrival": "Arrival",
+  "feesTaxes": "Fees and Taxes",
+  "yourTotalBooking": "Your total booking",
+  "loading": "loading"
 }

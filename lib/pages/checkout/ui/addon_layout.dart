@@ -7,6 +7,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/app_booking_header.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +22,7 @@ class AddonLayout extends StatelessWidget {
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
     final booking = context.watch<BookingCubit>().state;
     final tabs = <Widget>[];
-    tabs.add(buildTabTitle(booking.selectedDeparture, "Departure", false));
+    tabs.add(buildTabTitle(booking.selectedDeparture, "departure".tr(), false));
     if (booking.selectedReturn != null) {
       tabs.add(buildTabTitle(booking.selectedReturn, "Return", true));
     }
@@ -36,7 +37,8 @@ class AddonLayout extends StatelessWidget {
               //headerSilverBuilder only accepts slivers
               child: Column(
                 children: [
-                  const AppBookingHeader(passedSteps: [BookingStep.flights, BookingStep.addOn]),
+                  const AppBookingHeader(
+                      passedSteps: [BookingStep.flights, BookingStep.addOn]),
                   kVerticalSpacer,
                   const AddonHeader(),
                   kVerticalSpacer,
@@ -62,7 +64,6 @@ class AddonLayout extends StatelessWidget {
           body: TabBarView(
             children: child,
           ),
-
         ),
       ),
     );
