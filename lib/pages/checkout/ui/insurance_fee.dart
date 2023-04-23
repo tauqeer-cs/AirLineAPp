@@ -1,9 +1,9 @@
-
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,10 +15,7 @@ import '../pages/payment/ui/summary/money_widget_summary.dart';
 import '../pages/payment/ui/summary/price_row.dart';
 
 class InsuranceFee extends StatefulWidget {
-
-
-  const InsuranceFee({Key? key})
-      : super(key: key);
+  const InsuranceFee({Key? key}) : super(key: key);
 
   @override
   State<InsuranceFee> createState() => _InsuranceFeeState();
@@ -55,13 +52,9 @@ class _InsuranceFeeState extends State<InsuranceFee> {
                       : Icons.keyboard_arrow_down,
                 ),
                 const Spacer(),
-
-                  MoneyWidgetSmall(
-                    amount: filter?.numberPerson
-                        .getTotalInsurance(),),
-
-
-
+                MoneyWidgetSmall(
+                  amount: filter?.numberPerson.getTotalInsurance(),
+                ),
               ],
             ),
           ),
@@ -74,18 +67,15 @@ class _InsuranceFeeState extends State<InsuranceFee> {
     );
   }
 
-  String setText(bool isPaymentPage){
-
-      return '- Insurance';
-
+  String setText(bool isPaymentPage) {
+    return '- Insurance';
   }
 }
 
 class InsuranceFeeDetail extends StatelessWidget {
-
-
-  const InsuranceFeeDetail({Key? key, })
-      : super(key: key);
+  const InsuranceFeeDetail({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -96,53 +86,55 @@ class InsuranceFeeDetail extends StatelessWidget {
         kVerticalSpacerSmall,
         AppDividerWidget(color: Styles.kDisabledButton),
         ...persons.map(
-              (e) {
-            final bundle =  e.insuranceGroup;
+          (e) {
+            final bundle = e.insuranceGroup;
 
             return bundle?.amount == null
                 ? const SizedBox.shrink()
                 : PriceContainer(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "${e.generateText(filter?.numberPerson)} :\n${bundle?.description ?? 'No Bundle'}",
-                          style: kSmallRegular.copyWith(
-                              color: Styles.kSubTextColor),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "${e.generateText(filter?.numberPerson)} :\n${bundle?.description ?? 'No Bundle'}",
+                                style: kSmallRegular.copyWith(
+                                    color: Styles.kSubTextColor),
+                              ),
+                            ),
+                            kHorizontalSpacerSmall,
+                            MoneyWidgetSmall(
+                                amount: bundle?.amount,
+                                isDense: true,
+                                currency: bundle?.currencyCode),
+                          ],
                         ),
-                      ),
-                      kHorizontalSpacerSmall,
-                      MoneyWidgetSmall(
-                          amount: bundle?.amount,
-                          isDense: true,
-                          currency: bundle?.currencyCode),
-                    ],
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          bundle?.applicableTaxes?.firstOrNull?.taxDescription ?? 'Taxes',
-                          style: kSmallRegular.copyWith(
-                              color: Styles.kSubTextColor),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                bundle?.applicableTaxes?.firstOrNull
+                                        ?.taxDescription ??
+                                    'Taxes',
+                                style: kSmallRegular.copyWith(
+                                    color: Styles.kSubTextColor),
+                              ),
+                            ),
+                            kHorizontalSpacerSmall,
+                            MoneyWidgetSmall(
+                                amount: bundle?.applicableTaxes?.firstOrNull
+                                        ?.taxAmount ??
+                                    0.0,
+                                isDense: true,
+                                currency: bundle?.currencyCode),
+                          ],
                         ),
-                      ),
-                      kHorizontalSpacerSmall,
-                      MoneyWidgetSmall(
-                          amount: bundle?.applicableTaxes?.firstOrNull?.taxAmount ?? 0.0,
-                          isDense: true,
-                          currency: bundle?.currencyCode),
-                    ],
-                  ),
-
-                ],
-              ),
-            );
+                      ],
+                    ),
+                  );
           },
         ).toList(),
       ],
@@ -161,11 +153,10 @@ class InsuranceFeeSummary extends StatelessWidget {
       children: [
         kVerticalSpacer,
         PriceRow(
-          child1: const Text("Insurance", style: k18Heavy),
+          child1: Text("insurance".tr(), style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
-            amount:
-            filter?.numberPerson.getTotalInsurance(),
+            amount: filter?.numberPerson.getTotalInsurance(),
           ),
         ),
         const InsuranceFeeDtailsSummary(),
@@ -174,9 +165,8 @@ class InsuranceFeeSummary extends StatelessWidget {
   }
 }
 
-
 class InsuranceFeeDtailsSummary extends StatelessWidget {
-  const   InsuranceFeeDtailsSummary({super.key});
+  const InsuranceFeeDtailsSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +179,7 @@ class InsuranceFeeDtailsSummary extends StatelessWidget {
       children: [
         kVerticalSpacerSmall,
         ...persons.map(
-              (e) {
+          (e) {
             final passengersTypes = passengers
                 .where((element) => element.paxType == e.peopleType?.code)
                 .toList();
@@ -206,17 +196,19 @@ class InsuranceFeeDtailsSummary extends StatelessWidget {
                 ? const SizedBox.shrink()
                 :
             * */
-            return insurance == null ? Container() : PriceRow(
-              child1: Text(
-                "${passenger.title} ${passenger.firstName}",
-                style: kMediumRegular,
-              ),
-              child2: MoneyWidgetSummary(
-                amount: insurance.finalAmount,
-                isDense: true,
-                currency: insurance.currencyCode,
-              ),
-            );
+            return insurance == null
+                ? Container()
+                : PriceRow(
+                    child1: Text(
+                      "${passenger.title} ${passenger.firstName}",
+                      style: kMediumRegular,
+                    ),
+                    child2: MoneyWidgetSummary(
+                      amount: insurance.finalAmount,
+                      isDense: true,
+                      currency: insurance.currencyCode,
+                    ),
+                  );
           },
         ).toList(),
       ],

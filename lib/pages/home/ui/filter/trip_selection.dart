@@ -1,6 +1,7 @@
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +20,9 @@ class TripSelection extends StatelessWidget {
                   if (tripType == e) return;
                   context.read<FilterCubit>().updateTripType(e);
                   if (e == FlightType.oneWay) {
-                    context.read<FilterCubit>().updateDateReturnDate(returnDate: null);
+                    context
+                        .read<FilterCubit>()
+                        .updateDateReturnDate(returnDate: null);
                   }
                 },
                 child: Container(
@@ -51,7 +54,7 @@ class TripSelection extends StatelessWidget {
                       ),
                       kHorizontalSpacerMini,
                       Text(
-                        e.message,
+                        e.messageTranslated.tr(),
                         style: kMediumMedium.copyWith(
                             color: e == tripType ? Colors.white : null),
                       )

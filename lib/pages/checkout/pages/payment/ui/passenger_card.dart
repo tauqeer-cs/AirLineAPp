@@ -4,6 +4,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +37,7 @@ class PassengerCard extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Passengers",
+                        "passengers".tr(),
                         style:
                             kMediumHeavy.copyWith(color: Styles.kSubTextColor),
                       ),
@@ -71,9 +72,9 @@ class PassengerCard extends StatelessWidget {
                               style: kLargeHeavy,
                             ),
                             kVerticalSpacerMini,
-                            Text("${e.titleToShow} ${e.firstName} ${e.lastName}"),
+                            Text(
+                                "${e.titleToShow} ${e.firstName} ${e.lastName}"),
                             kVerticalSpacerSmall,
-
                           ],
                         );
                       },

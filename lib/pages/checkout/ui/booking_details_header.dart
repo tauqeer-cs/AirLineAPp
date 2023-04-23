@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/theme.dart';
@@ -10,8 +11,8 @@ class BookingDetailsHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Booking Details",
+        Text(
+          "bookingDetails".tr(),
           style: kHugeHeavy,
         ),
         kVerticalSpacerSmall,

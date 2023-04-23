@@ -2,6 +2,7 @@ import 'package:app/blocs/timer/timer_bloc.dart';
 import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -88,7 +89,7 @@ class _AppBookingStepState extends State<AppBookingStep> {
                       height: 2,
                     ),
                     Text(
-                      step.message,
+                      step.messageTranslated.tr(),
                       style: selected
                           ? kMediumHeavy.copyWith(fontWeight: FontWeight.w900)
                           : kMediumMedium.copyWith(
@@ -138,7 +139,7 @@ class _AppBookingStepState extends State<AppBookingStep> {
                         widget.onTopStepTaped(index);
                       },
                       child: Text(
-                        step.message,
+                        step.messageTranslated.tr(),
                         style: kMediumMedium.copyWith(
                           color: selected
                               ? Styles.kTextColor
@@ -160,14 +161,16 @@ class _AppBookingStepState extends State<AppBookingStep> {
 }
 
 enum BookingStep {
-  flights("Flights", FontAwesomeIcons.plane),
-  addOn("Add-On", FontAwesomeIcons.briefcase),
-  bookingDetails("Booking Details", FontAwesomeIcons.clipboardList),
-  insurance("Insurance", FontAwesomeIcons.planeDeparture),
-  payment("Summary & Payment", Icons.monetization_on);
+  flights("Flights", FontAwesomeIcons.plane, "flights"),
+  addOn("Add-On", FontAwesomeIcons.briefcase, "addOn"),
+  bookingDetails(
+      "Booking Details", FontAwesomeIcons.clipboardList, "bookingDetails"),
+  insurance("Insurance", FontAwesomeIcons.planeDeparture, "insurance"),
+  payment("Summary & Payment", Icons.monetization_on, "summaryPayment");
 
-  const BookingStep(this.message, this.iconData);
+  const BookingStep(this.message, this.iconData, this.messageTranslated);
 
   final String message;
   final IconData iconData;
+  final String messageTranslated;
 }

@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 import '../../models/confirmation_model.dart';
 import '../../utils/date_utils.dart';
 
@@ -25,17 +27,14 @@ class ManageBookingResponse {
   }
 
   DateTime? get currentEndDate {
-
     if (customSelected && newReturnDateSelected != null) {
       return newReturnDateSelected;
     }
     if (customSelected && newReturnDateSelected == null) {
       return null;
-    }
-    else if (newReturnDateSelected == null) {
-      if(result?.flightSegments?.first.inbound?.isEmpty ?? true) {
+    } else if (newReturnDateSelected == null) {
+      if (result?.flightSegments?.first.inbound?.isEmpty ?? true) {
         return null;
-
       }
       return result?.flightSegments?.first.inbound?.first.departureDateTime;
     }
@@ -44,14 +43,11 @@ class ManageBookingResponse {
   }
 
   bool get isTwoWay {
-    return result?.flightSegments
-        ?.first.inbound?.isNotEmpty ?? false;
-
+    return result?.flightSegments?.first.inbound?.isNotEmpty ?? false;
   }
 
   bool get isOneWay {
-    return  result?.flightSegments
-        ?.first.inbound?.isEmpty ?? true;
+    return result?.flightSegments?.first.inbound?.isEmpty ?? true;
   }
 
   ManageBookingResponse({this.result, this.success, this.message});
@@ -82,10 +78,9 @@ class Result {
     int numberOfChildren = 0;
     int numberOfInfant = 0;
 
-
-
     if (numberOfAdult > 0) {
-      final text = "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      final text =
+          "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {
@@ -101,7 +96,6 @@ class Result {
     final combine = texts.join(", ");
     return "$combine passenger(s)";
   }
-
 
   List<PaymentOrder>? paymentOrders;
   FareAndBundleDetail? fareAndBundleDetail;
@@ -311,7 +305,6 @@ class Result {
 }
 
 class PassengersWithSSR {
-
   //toBeautify
 
   String toBeautify() {
@@ -320,10 +313,9 @@ class PassengersWithSSR {
     int numberOfChildren = 0;
     int numberOfInfant = 0;
 
-
-
     if (numberOfAdult > 0) {
-      final text = "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      final text =
+          "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {
@@ -339,7 +331,6 @@ class PassengersWithSSR {
     final combine = texts.join(", ");
     return "$combine passenger(s)";
   }
-
 
   num? personOrgID;
   Passenger? passengers;

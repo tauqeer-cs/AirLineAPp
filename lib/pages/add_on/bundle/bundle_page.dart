@@ -7,6 +7,7 @@ import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/flutter_insider.dart';
@@ -25,12 +26,13 @@ class BundlePage extends StatefulWidget {
 }
 
 class _BundlePageState extends State<BundlePage> {
-
   @override
   void initState() {
     super.initState();
-    FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
+    FlutterInsider.Instance.visitProductDetailPage(
+        UserInsider.of(context).generateProduct());
   }
+
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
@@ -44,7 +46,7 @@ class _BundlePageState extends State<BundlePage> {
         },
         child: Scaffold(
           appBar: AppAppBar(
-            title: "Your Trip Starts Here",
+            title: "yourTripStartsHere".tr(),
             height: 100.h,
             flexibleWidget: AppBookingStep(
               passedSteps: const [BookingStep.flights, BookingStep.addOn],

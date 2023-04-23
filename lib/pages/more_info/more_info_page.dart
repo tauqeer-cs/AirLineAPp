@@ -167,18 +167,6 @@ class MoreOptionsPage extends StatelessWidget {
                                                 ? Styles.kActiveColor
                                                 : Colors.black),
                                       )),
-                                  const SizedBox(width: 24),
-                                  GestureDetector(
-                                      onTap: () async {
-                                        setLocale(context, 'id');
-                                      },
-                                      child: Text(
-                                        "ID",
-                                        style: TextStyle(
-                                            color: locale == "id"
-                                                ? Styles.kActiveColor
-                                                : Colors.black),
-                                      ))
                                 ],
                               ),
                             ],

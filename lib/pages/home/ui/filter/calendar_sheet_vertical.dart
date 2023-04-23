@@ -15,6 +15,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
@@ -62,6 +63,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
     final isRoundTrip = filterCubit.state.flightType == FlightType.round;
     final priceState = context.watch<PriceRangeCubit>().state;
     final prices = priceState.prices;
+    final locale = context.locale.toString();
+    initializeDateFormatting(locale, null);
     return SizedBox(
         height: 0.8.sh,
         child: Stack(
@@ -152,7 +155,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                       onDayPressed: (value) async {
                         final now = DateTime.now();
 
-                        final isBefore = value.isBefore(DateTime(now.year, now.month, now.day, 0, 0, 0));
+                        final isBefore = value.isBefore(
+                            DateTime(now.year, now.month, now.day, 0, 0, 0));
                         if (isBefore) return;
                         if (isRoundTrip) {
                           if (departDate == null) {
@@ -206,7 +210,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             date, priceState.loadingDate);
                         final event = prices.firstWhereOrNull(
                             (event) => isSameDay(event.date, date));
-                        final isBefore = date.isBefore(DateTime(now.year, now.month, now.day, 0, 0, 0));
+                        final isBefore = date.isBefore(
+                            DateTime(now.year, now.month, now.day, 0, 0, 0));
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
@@ -321,14 +326,14 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                               .read<FilterCubit>()
                               .updateDate(departDate: null, returnDate: null);
                         },
-                        child: const Text("Reset"),
+                        child: Text("reset".tr()),
                       ),
                     ),
                     kHorizontalSpacer,
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text("Apply"),
+                        child: Text("apply".tr()),
                       ),
                     ),
                   ],

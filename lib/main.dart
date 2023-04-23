@@ -53,7 +53,7 @@ void run() async {
       // The following lines are the same as previously explained in "Handling uncaught errors"
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
       runApp(EasyLocalization(
-          supportedLocales: const [Locale('en'), Locale('th'), Locale('id')],
+          supportedLocales: const [Locale('en'), Locale('th')],
           path: 'assets/translations',
           fallbackLocale: const Locale('en'),
           child: const App()));

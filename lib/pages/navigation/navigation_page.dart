@@ -25,16 +25,15 @@ class _NavigationPageState extends State<NavigationPage> {
     initDialogSystem();
   }
 
-  initDialogSystem() async{
-    try{
+  initDialogSystem() async {
+    try {
       await RemoteConfigRepository.versionChecking();
-      if(mounted) {
+      if (mounted) {
         WidgetUtils.appUpdateDialog(context);
       }
-    }catch(e,st){
+    } catch (e, st) {
       ErrorUtils.getErrorMessage(e, st);
     }
-
   }
 
   initDynamicLink(BuildContext context) async {}
@@ -51,11 +50,11 @@ class _NavigationPageState extends State<NavigationPage> {
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: [
-             BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: const Icon(MyFlutterApp.icohome),
-              label: 'navBar.home'.tr(),
+              label: 'home'.tr(),
             ),
-             BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: const Icon(MyFlutterApp.ico_deals),
               label: 'navBar.deals'.tr(),
             ),
@@ -84,7 +83,8 @@ class _NavigationPageState extends State<NavigationPage> {
                     tabsRouter.activeIndex == 4 ? Styles.kPrimaryColor : null,
                 height: 30,
               ),
-              label: isLogin ? 'navBar.account'.tr() : 'navBar.signupLogIn'.tr(),
+              label:
+                  isLogin ? 'navBar.account'.tr() : 'navBar.signupLogIn'.tr(),
             ),
           ],
         );
@@ -99,4 +99,3 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 }
-

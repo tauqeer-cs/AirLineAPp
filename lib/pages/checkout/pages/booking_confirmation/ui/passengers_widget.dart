@@ -3,6 +3,7 @@ import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +29,7 @@ class PassengersWidget extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Passengers",
+            "passengers".tr(),
             style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
           ),
         ),

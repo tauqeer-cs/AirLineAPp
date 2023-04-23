@@ -15,6 +15,7 @@ import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -31,7 +32,6 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-
   @override
   void initState() {
     super.initState();
@@ -103,9 +103,9 @@ class _PaymentPageState extends State<PaymentPage> {
                         context.read<TimerBloc>().add(
                               TimerStarted(
                                 duration: 900,
-                                expiredTime: DateTime.now()
-                                    .toUtc()
-                                    .add(const Duration(seconds: 900),),
+                                expiredTime: DateTime.now().toUtc().add(
+                                      const Duration(seconds: 900),
+                                    ),
                               ),
                             );
                         FlutterInsider.Instance.visitCartPage(
@@ -120,12 +120,13 @@ class _PaymentPageState extends State<PaymentPage> {
                           var query = urlParsed.queryParametersAll;
                           String? status = query['status']?.first;
                           String? superPNR = query['superPNR']?.first;
-                          if(status == 'VISAFAIL'){
+                          if (status == 'VISAFAIL') {
                             if (mounted) {
-                              Toast.of(context).show(message: 'Oops sorry, this promo is not applicable for your card type.');
+                              Toast.of(context).show(
+                                  message:
+                                      'Oops sorry, this promo is not applicable for your card type.');
                             }
-                          }
-                          else if (status != "FAIL") {
+                          } else if (status != "FAIL") {
                             if (mounted) {
                               final filter = context
                                   .read<SearchFlightCubit>()
@@ -151,7 +152,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             context.router.replaceAll([
                               const NavigationRoute(),
                               BookingConfirmationRoute(
-                                  bookingId: superPNR ?? "",)
+                                bookingId: superPNR ?? "",
+                              )
                             ]);
                           } else {
                             if (mounted) {
@@ -191,7 +193,7 @@ class _PaymentPageState extends State<PaymentPage> {
               ],
               child: Scaffold(
                 appBar: AppAppBar(
-                  title: "Your Trip Starts Here",
+                  title: "yourTripStartsHere".tr(),
                   height: 100.h,
                   flexibleWidget: AppBookingStep(
                     passedSteps: const [

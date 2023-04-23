@@ -13,6 +13,7 @@ import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -198,7 +199,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
         ],
         child: Scaffold(
           appBar: AppAppBar(
-            title: "Your Trip Starts Here",
+            title: "yourTripStartsHere".tr(),
             height: 100.h,
             flexibleWidget: AppBookingStep(
               passedSteps: const [BookingStep.flights],

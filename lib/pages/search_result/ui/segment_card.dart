@@ -9,6 +9,7 @@ import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,7 +99,6 @@ class SegmentCard extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-
                         ] else ...[
                           Visibility(
                             visible: segment.discountPCT != null &&
@@ -122,7 +122,7 @@ class SegmentCard extends StatelessWidget {
                     ),
                     kVerticalSpacer,
                     const AppDividerWidget(),
-                    if (showVisa) ... [
+                    if (showVisa) ...[
                       Transform.translate(
                         offset: const Offset(0, 20),
                         child: Row(
@@ -151,15 +151,15 @@ class SegmentCard extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  "from",
+                                Text(
+                                  "from".tr(),
                                   style: kTinyHeavy,
                                 ),
                                 MoneyWidget(
                                     amount: changeFlight
                                         ? segment.changeFlightAmountToShow
                                         : segment
-                                        .totalSegmentFareAmtWithInfantSSR,
+                                            .totalSegmentFareAmtWithInfantSSR,
                                     isDense: true,
                                     showPlus: changeFlight),
                                 Visibility(
@@ -168,7 +168,7 @@ class SegmentCard extends StatelessWidget {
                                   child: Text(
                                     "MYR ${segment.beforeDiscountTotalAmt}",
                                     style: kSmallRegular.copyWith(
-                                        decoration: TextDecoration.lineThrough,
+                                      decoration: TextDecoration.lineThrough,
                                       decorationThickness: 3,
                                     ),
                                   ),
@@ -178,7 +178,7 @@ class SegmentCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ] else ... [
+                    ] else ...[
                       Transform.translate(
                         offset: const Offset(0, 20),
                         child: Row(
@@ -203,15 +203,15 @@ class SegmentCard extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "from",
+                                  Text(
+                                    "from".tr(),
                                     style: kTinyHeavy,
                                   ),
                                   MoneyWidget(
                                       amount: changeFlight
                                           ? segment.changeFlightAmountToShow
                                           : segment
-                                          .totalSegmentFareAmtWithInfantSSR,
+                                              .totalSegmentFareAmtWithInfantSSR,
                                       isDense: true,
                                       showPlus: changeFlight),
                                   Visibility(
@@ -220,7 +220,8 @@ class SegmentCard extends StatelessWidget {
                                     child: Text(
                                       "MYR ${segment.beforeDiscountTotalAmt}",
                                       style: kSmallRegular.copyWith(
-                                          decoration: TextDecoration.lineThrough),
+                                          decoration:
+                                              TextDecoration.lineThrough),
                                     ),
                                   ),
                                 ],
@@ -229,7 +230,6 @@ class SegmentCard extends StatelessWidget {
                           ],
                         ),
                       ),
-
                     ],
                     FlightDetail(isDeparture: isDeparture, segment: segment),
                     kVerticalSpacerSmall,

@@ -2,6 +2,7 @@ import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -61,7 +62,8 @@ class NumberPerson extends Equatable {
   String toString() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
-      final text = "$numberOfAdult ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      final text =
+          "$numberOfAdult ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {
@@ -153,7 +155,8 @@ class NumberPerson extends Equatable {
   String toBeautify() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
-      final text = "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      final text =
+          "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {

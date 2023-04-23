@@ -1,6 +1,7 @@
 import 'package:app/custom_packages/dropdown_search/dropdown_search.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_sheet_handler.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -36,35 +37,37 @@ class AppDropDown<T> extends StatelessWidget {
       items: items,
       onChanged: onChanged,
       selectedItem: defaultValue,
-      dropdownDecoratorProps: dropdownDecoration ?? DropDownDecoratorProps(
-        dropdownSearchDecoration: InputDecoration(
-          border: UnderlineInputBorder(
-            borderSide: BorderSide(color: Styles.kBorderColor),
+      dropdownDecoratorProps: dropdownDecoration ??
+          DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(color: Styles.kBorderColor),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Styles.kBorderColor),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Styles.kBorderColor),
+              ),
+              errorBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+              ),
+              focusedErrorBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+              ),
+              disabledBorder: UnderlineInputBorder(
+                borderSide:
+                    BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
+              ),
+              hintStyle: kTinySemiBold.copyWith(
+                color: const Color.fromRGBO(43, 45, 66, 1),
+              ),
+              hintText: sheetTitle,
+              contentPadding: isMinimalism
+                  ? EdgeInsets.zero
+                  : const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+            ),
           ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Styles.kBorderColor),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Styles.kBorderColor),
-          ),
-          errorBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-          ),
-          focusedErrorBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-          ),
-          disabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Styles.kBorderColor.withOpacity(0.3)),
-          ),
-          hintStyle: kTinySemiBold.copyWith(
-            color: const Color.fromRGBO(43, 45, 66, 1),
-          ),
-          hintText: sheetTitle,
-          contentPadding: isMinimalism
-              ? EdgeInsets.zero
-              : const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-        ),
-      ),
       dropdownBuilder: (context, val) {
         if (val == null) {
           return Row(
@@ -112,7 +115,7 @@ class AppDropDown<T> extends StatelessWidget {
           trackBorderColor: Colors.transparent,
         ),
         emptyBuilder: (_, __) =>
-            const Center(child: Text("No items can be selected")),
+            Center(child: Text("noItemsCanBeSelected".tr())),
         itemBuilder: (context, value, selected) {
           return ListTile(
             dense: true,
@@ -123,7 +126,6 @@ class AppDropDown<T> extends StatelessWidget {
                     style: selected
                         ? kMediumSemiBold.copyWith(color: Styles.kActiveColor)
                         : kMediumMedium,
-
                   ),
             trailing: Visibility(
               visible: selected,
@@ -137,7 +139,6 @@ class AppDropDown<T> extends StatelessWidget {
         listViewProps: const ListViewProps(
           padding: EdgeInsets.zero,
         ),
-
         modalBottomSheetProps: ModalBottomSheetProps(
           backgroundColor: const Color.fromRGBO(235, 235, 235, 0.85),
           shape: const RoundedRectangleBorder(
@@ -155,8 +156,9 @@ class AppDropDown<T> extends StatelessWidget {
         color: Colors.black,
         icon: const Icon(Icons.keyboard_arrow_down),
         isVisible: !isMinimalism,
-        constraints:
-            isMinimalism ? const BoxConstraints(minWidth: 0, maxWidth: 0) : null,
+        constraints: isMinimalism
+            ? const BoxConstraints(minWidth: 0, maxWidth: 0)
+            : null,
       ),
     );
   }
