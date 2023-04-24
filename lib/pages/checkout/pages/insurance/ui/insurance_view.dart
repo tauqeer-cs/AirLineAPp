@@ -10,6 +10,7 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_toast.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +41,7 @@ class _InsuranceViewState extends State<InsuranceView> {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
               Text(
-                "MYAirline Travel Insurance",
+                "myAirTravelInsurance".tr(),
                 style: kHugeHeavy,
               ),
               kVerticalSpacer,
@@ -68,17 +69,17 @@ class _InsuranceViewState extends State<InsuranceView> {
                     onPressed: () {
                       final bookingState = context.read<BookingCubit>().state;
                       final token = bookingState.verifyResponse?.token;
-                      if(token == null){
+                      if (token == null) {
                         Toast.of(context).show(message: "Token is empty");
                         return;
                       }
                       final summaryRequest = InsuranceRequest(
-                        token: token,
-                        updateInsuranceRequest: UpdateInsuranceRequest(
-                          isRemoveInsurance: false,
-                          passengers: context.read<InsuranceCubit>().state.passengers,
-                        )
-                      );
+                          token: token,
+                          updateInsuranceRequest: UpdateInsuranceRequest(
+                            isRemoveInsurance: false,
+                            passengers:
+                                context.read<InsuranceCubit>().state.passengers,
+                          ));
                       context
                           .read<SummaryCubit>()
                           .submitUpdateInsurance(summaryRequest);
