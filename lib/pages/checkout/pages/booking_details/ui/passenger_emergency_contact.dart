@@ -9,6 +9,7 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -75,19 +76,18 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         kVerticalSpacer,
         const AppDividerWidget(),
         kVerticalSpacer,
-        const Text("Emergency Contact Person Details", style: k18Heavy),
+        Text("emergencyContactLabel".tr(), style: k18Heavy),
         kVerticalSpacerSmall,
         Text(
-          "Let us know who we can contact in case of an emergency. Make sure this person isn't a passenger on this flight and is easily reachable. ",
-          style:
-              kMediumRegular.copyWith(height: 1.5),
+          "emergencyContactDesc".tr(),
+          style: kMediumRegular.copyWith(height: 1.5),
         ),
         kVerticalSpacer,
         Column(
           children: [
             AppInputText(
               name: formNameEmergencyFirstName,
-              hintText: "First Name/Given Name",
+              hintText: "firstNameGivenName".tr(),
               validators: [FormBuilderValidators.required()],
               initialValue: emergency?.firstName ?? firstName,
               onChanged: (value) {
@@ -95,24 +95,20 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                     context.read<LocalUserBloc>().state.emergencyContact ??
                         EmergencyContact();
                 final newRequest = request.copyWith(firstName: value);
-                context
-                    .read<LocalUserBloc>()
-                    .add(UpdateEmergency(newRequest));
+                context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
               },
             ),
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameEmergencyLastName,
-              hintText: "Last Name / Surname",
+              hintText: "lastNameSurname".tr(),
               validators: [FormBuilderValidators.required()],
               initialValue: emergency?.lastName ?? lastName,
               onChanged: (value) {
                 final request =
                     context.read<LocalUserBloc>().state.emergencyContact;
                 final newRequest = request?.copyWith(lastName: value);
-                context
-                    .read<LocalUserBloc>()
-                    .add(UpdateEmergency(newRequest));
+                context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
               },
             ),
             kVerticalSpacerSmall,
@@ -122,13 +118,12 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               validators: [FormBuilderValidators.required()],
               child: AppDropDown<String>(
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
-
                 items: availableRelations,
                 defaultValue:
                     availableRelations.contains(relationController.text)
                         ? relationController.text
                         : null,
-                sheetTitle: "Relationship",
+                sheetTitle: "relationship".tr(),
                 onChanged: (value) {
                   relationController.text = value ?? "";
                   final request =
@@ -146,7 +141,6 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               name: formNameEmergencyCountry,
               child: AppCountriesDropdown(
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
-
                 isPhoneCode: true,
                 hintText: "Phone",
                 initialCountryCode: nationalityController.text,
@@ -163,7 +157,6 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               ),
             ),
             kVerticalSpacerSmall,
-
             AppInputText(
               name: formNameEmergencyPhone,
               initialValue: emergency?.phoneNumber ?? phoneNumber,
@@ -174,9 +167,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 final request =
                     context.read<LocalUserBloc>().state.emergencyContact;
                 final newRequest = request?.copyWith(phoneNumber: value);
-                context
-                    .read<LocalUserBloc>()
-                    .add(UpdateEmergency(newRequest));
+                context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
               },
             ),
             /*AppInputText(

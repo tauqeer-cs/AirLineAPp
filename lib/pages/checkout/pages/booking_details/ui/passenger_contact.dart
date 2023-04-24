@@ -82,14 +82,13 @@ class _PassengerContactState extends State<PassengerContact> {
       children: [
         const AppDividerWidget(),
         kVerticalSpacer,
-        const Text("Contact", style: k18Heavy),
+        Text("contact".tr(), style: k18Heavy),
         kVerticalSpacerSmall,
         RichText(
           text: TextSpan(
             children: [
               TextSpan(
-                text:
-                    'commForm.contactNotice1'.tr(),
+                text: 'contactNotice1'.tr(),
                 style: kMediumRegular.copyWith(
                     color: Styles.kTextColor, height: 1.5),
               ),
@@ -105,9 +104,10 @@ class _PassengerContactState extends State<PassengerContact> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  PdfViewer(
+                          builder: (context) => PdfViewer(
                             title: 'app.privacyPolicy'.tr(),
-                            fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
+                            fileName:
+                                'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                             pdfIsLink: true,
                           ),
                         ),
@@ -211,8 +211,7 @@ class _PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             FormBuilderCheckbox(
               name: formNameContactReceiveEmail,
-              title:  Text(
-                  'iWantReceiveEmail'.tr()),
+              title: Text('iWantReceiveEmail'.tr()),
             ),
           ],
         ),

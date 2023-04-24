@@ -5,6 +5,7 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -42,17 +43,12 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
     city = contact?.city;
     emailAddress = contact?.emailAddress;
     postCode = contact?.postCode;
-
-
-
-
   }
 
   void fillEmail() {
-     if( (emailController.text ?? '').isEmpty){
+    if ((emailController.text ?? '').isEmpty) {
       final request = context.read<LocalUserBloc>().state;
       emailController.text = request.contactEmail;
-
     }
   }
 
@@ -110,7 +106,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 AppInputText(
                   name: formNameCompanyName,
                   initialValue: name,
-                  hintText: "Company Name",
+                  hintText: "companyName".tr(),
                   onChanged: (value) {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -119,19 +115,18 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                         .read<LocalUserBloc>()
                         .add(UpdateCompany(newRequest));
 
-                    if((value ?? '').isNotEmpty){
+                    if ((value ?? '').isNotEmpty) {
                       //if((emailAddress ?? '').isEmpty){
-                        fillEmail();
-                     // }
+                      fillEmail();
+                      // }
                     }
-
                   },
                 ),
                 kVerticalSpacer,
                 AppInputText(
                   name: formNameCompanyAddress,
                   initialValue: address,
-                  hintText: "Company Address",
+                  hintText: "companyAddress".tr(),
                   onChanged: (value) {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -178,7 +173,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 AppInputText(
                   name: formNameCompanyPostCode,
                   initialValue: postCode,
-                  hintText: "Postcode",
+                  hintText: "postcode".tr(),
                   onChanged: (value) {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;

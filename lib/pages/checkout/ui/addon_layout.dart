@@ -24,7 +24,7 @@ class AddonLayout extends StatelessWidget {
     final tabs = <Widget>[];
     tabs.add(buildTabTitle(booking.selectedDeparture, "departure".tr(), false));
     if (booking.selectedReturn != null) {
-      tabs.add(buildTabTitle(booking.selectedReturn, "Return", true));
+      tabs.add(buildTabTitle(booking.selectedReturn, "return".tr(), true));
     }
     return Padding(
       padding: kPageHorizontalPadding,

@@ -128,7 +128,7 @@ class FlightResultWidget extends StatelessWidget {
         Visibility(
           visible: state.filterState?.flightType == FlightType.round,
           child: ChooseFlightSegment(
-            title: "Return",
+            title: "return".tr(),
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
                 AppDateUtils.formatHalfDate(state.filterState?.returnDate),

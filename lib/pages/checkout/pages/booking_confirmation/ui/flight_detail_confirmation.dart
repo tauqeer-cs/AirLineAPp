@@ -83,7 +83,7 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "Details",
+                "details".tr(),
                 style: kLargeMedium.copyWith(color: Colors.orange),
               ),
               kHorizontalSpacerSmall,

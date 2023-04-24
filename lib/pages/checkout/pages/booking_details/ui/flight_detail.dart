@@ -69,7 +69,7 @@ class _FlightDetailState extends State<FlightDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Details",
+                    "details".tr(),
                     style: kSmallRegular.copyWith(
                         color: const Color.fromRGBO(243, 110, 56, 1)),
                   ),

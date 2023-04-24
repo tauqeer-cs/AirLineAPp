@@ -1,6 +1,7 @@
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/country.dart';
@@ -39,7 +40,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
   @override
   void initState() {
     super.initState();
-    if(widget.relationShip!=null){
+    if (widget.relationShip != null) {
       relationController.text = widget.relationShip!;
     }
   }
@@ -49,8 +50,8 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormHeader(
-          title: 'Emergency Contact Person Details',
+        FormHeader(
+          title: 'emergencyContactLabel'.tr(),
           subtitle: 'We’ll call them when there’s an emergency.',
           graySubText: true,
         ),
@@ -77,7 +78,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   textInputType: TextInputType.name,
                   name: formNameLastNameEmergency,
                   initialValue: widget.lastName,
-                  hintText: 'Last Name / Surname',
+                  hintText: 'lastNameSurname'.tr(),
                   validators: const [
                     //FormBuilderValidators.required(),
                   ],
@@ -92,7 +93,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                         availableRelations.contains(widget.relationShip)
                             ? widget.relationShip
                             : null,
-                    sheetTitle: "Relationship",
+                    sheetTitle: "relationship".tr(),
                     onChanged: (value) {
                       relationController.text = value ?? "";
                     },

@@ -16,6 +16,7 @@ import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:app/widgets/settings_wrapper.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -192,7 +193,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
               kVerticalSpacerSmall,
               AppInputText(
                 name: firstNameKey,
-                hintText: "First Name/Given Name",
+                hintText: "firstNameGivenName".tr(),
                 initialValue: passengerInfo?.firstName,
                 validators: [FormBuilderValidators.required()],
                 onChanged: (value) {
@@ -220,7 +221,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
               kVerticalSpacerSmall,
               AppInputText(
                 name: lastNameKey,
-                hintText: "Last Name / Surname",
+                hintText: "lastNameSurname".tr(),
                 initialValue: passengerInfo?.lastName,
                 validators: [
                   FormBuilderValidators.required(),
@@ -295,9 +296,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     : widget.person.dateLimitEnd(filter.departDate),
                 initialEntryMode: DatePickerEntryMode.calendar,
                 decoration: InputDecoration(
-                  hintText: "Date of Birth",
-                  suffixIcon: Icon(Icons.calendar_month, color: Styles.kBorderColor,)
-                ),
+                    hintText: "Date of Birth",
+                    suffixIcon: Icon(
+                      Icons.calendar_month,
+                      color: Styles.kBorderColor,
+                    )),
                 inputType: InputType.date,
                 validator: FormBuilderValidators.required(),
                 onChanged: (date) {
@@ -314,7 +317,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
               if (widget.person.peopleType != PeopleType.infant) ...[
                 AppInputText(
                   name: rewardKey,
-                  hintText: 'To earn points, enter your MYRewards ID',
+                  hintText: 'earnPoints'.tr(),
                   inputFormatters: [AppFormUtils.onlyNumber()],
                   textInputType: TextInputType.number,
                 ),
@@ -340,8 +343,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       Checkbox(
                         value: true,
                         onChanged: (_) {},
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       Expanded(
                         child: Html(
@@ -354,7 +356,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 ),
               ),
               Visibility(
-                visible:false,
+                visible: false,
                 child: FormBuilderCheckbox(
                   name: "${widget.person.toString()}$formNameWheelChair",
                   contentPadding: EdgeInsets.zero,
@@ -434,8 +436,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       child: SettingsWrapper(
                         settingType: AvailableSetting.insurance,
                         child: FormBuilderCheckbox(
-                          name:
-                              "${widget.person.toString()}$formNameInsurance",
+                          name: "${widget.person.toString()}$formNameInsurance",
                           contentPadding: EdgeInsets.zero,
                           initialValue: insuranceSelected,
                           decoration: const InputDecoration(
@@ -605,10 +606,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
     currentInsuranceBundlde = outbound.firstOrNull;
     var taxAmount = 0.0;
     if (currentInsuranceBundlde!.applicableTaxes != null) {
-      taxAmount =
-          currentInsuranceBundlde!.applicableTaxes!.firstOrNull?.taxAmount?.toDouble() ?? 0;
+      taxAmount = currentInsuranceBundlde!
+              .applicableTaxes!.firstOrNull?.taxAmount
+              ?.toDouble() ??
+          0;
     }
-    return ((taxAmount + (outbound.firstOrNull?.amount! ?? 0)).toDouble()).toStringAsFixed(2);
+    return ((taxAmount + (outbound.firstOrNull?.amount! ?? 0)).toDouble())
+        .toStringAsFixed(2);
   }
 }
 

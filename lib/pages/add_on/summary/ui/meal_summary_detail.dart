@@ -60,7 +60,7 @@ class MealSummaryDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Return",
+                  "return".tr(),
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,

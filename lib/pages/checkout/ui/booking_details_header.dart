@@ -17,7 +17,7 @@ class BookingDetailsHeader extends StatelessWidget {
         ),
         kVerticalSpacerSmall,
         Text(
-          "Fill in all passenger details as it appears on their passport or government-issued ID. Passport expiry dates are required to be more than 6 months away from the flight date. Otherwise, your entry to the destination country may be denied.",
+          "bookingDetailDesc".tr(),
           style: kMediumRegular.copyWith(
             color: Styles.kSubTextColor,
             height: 1.5,

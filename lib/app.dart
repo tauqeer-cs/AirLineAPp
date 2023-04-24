@@ -239,7 +239,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               onWillPop: () async => true,
               child: AppConfirmationDialog(
                 showCloseButton: false,
-                title: "Your session is expired, please retry your search!",
+                title: "sessionRetrySearch".tr(),
                 subtitle: "",
                 onConfirm: () {
                   currentContext.router.pop();

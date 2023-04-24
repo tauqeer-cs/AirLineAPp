@@ -120,7 +120,8 @@ class FlightDetailWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(isDeparture ? "departure".tr() : "Return", style: k18Heavy),
+            Text(isDeparture ? "departure".tr() : "return".tr(),
+                style: k18Heavy),
             Text(
                 isDeparture
                     ? state.filterState?.beautifyShort ?? ""

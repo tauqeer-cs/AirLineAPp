@@ -63,7 +63,7 @@ class BaggageSummaryDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Return",
+                  "return".tr(),
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,
