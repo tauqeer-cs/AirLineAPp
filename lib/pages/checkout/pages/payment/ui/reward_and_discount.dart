@@ -7,6 +7,7 @@ import 'package:app/pages/checkout/pages/payment/ui/voucher_ui.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -36,7 +37,7 @@ class RewardAndDiscount extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Rewards & Discount",
+            "rewardsDiscount".tr(),
             style: kGiantSemiBold.copyWith(color: Styles.kPrimaryColor),
           ),
           SettingsWrapper(
@@ -46,7 +47,6 @@ class RewardAndDiscount extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-
           VoucherCodeUi(
             readOnly: bookingState.superPnrNo != null,
             blocState: state.blocState,
@@ -59,47 +59,45 @@ class RewardAndDiscount extends StatelessWidget {
                 _fbKey.currentState!.reset();
               }
             },
-            onButtonTapped:state.blocState == BlocState.loading ||
-                bookingState.superPnrNo != null
+            onButtonTapped: state.blocState == BlocState.loading ||
+                    bookingState.superPnrNo != null
                 ? null
                 : (state.response != null)
-                ? () => removeVoucher(bookingState, context)
-                : () {
-
-              if (_fbKey.currentState!.saveAndValidate()) {
-                if (ConstantUtils.showPinInVoucher) {
-                  final value = _fbKey.currentState!.value;
-                  final voucher = value["voucherCode"];
-                  final pin = value["voucherPin"];
-                  final voucherPin = InsertVoucherPIN(
-                    voucherCode: voucher,
-                    voucherPin: pin,
-                  );
-                  final token = bookingState.verifyResponse?.token;
-                  final voucherRequest = VoucherRequest(
-                    voucherPins: [voucherPin],
-                    token: token,
-                  );
-                  context
-                      .read<VoucherCubit>()
-                      .addVoucher(voucherRequest);
-                } else {
-                  final value = _fbKey.currentState!.value;
-                  final voucher = value["voucherCode"];
-                  final token = bookingState.verifyResponse?.token;
-                  final voucherRequest = VoucherRequest(
-                    insertVoucher: voucher,
-                    token: token,
-                  );
-                  context
-                      .read<VoucherCubit>()
-                      .addVoucher(voucherRequest);
-                }
-              }
-            }, fbKey: _fbKey,
+                    ? () => removeVoucher(bookingState, context)
+                    : () {
+                        if (_fbKey.currentState!.saveAndValidate()) {
+                          if (ConstantUtils.showPinInVoucher) {
+                            final value = _fbKey.currentState!.value;
+                            final voucher = value["voucherCode"];
+                            final pin = value["voucherPin"];
+                            final voucherPin = InsertVoucherPIN(
+                              voucherCode: voucher,
+                              voucherPin: pin,
+                            );
+                            final token = bookingState.verifyResponse?.token;
+                            final voucherRequest = VoucherRequest(
+                              voucherPins: [voucherPin],
+                              token: token,
+                            );
+                            context
+                                .read<VoucherCubit>()
+                                .addVoucher(voucherRequest);
+                          } else {
+                            final value = _fbKey.currentState!.value;
+                            final voucher = value["voucherCode"];
+                            final token = bookingState.verifyResponse?.token;
+                            final voucherRequest = VoucherRequest(
+                              insertVoucher: voucher,
+                              token: token,
+                            );
+                            context
+                                .read<VoucherCubit>()
+                                .addVoucher(voucherRequest);
+                          }
+                        }
+                      },
+            fbKey: _fbKey,
           ),
-
-
         ],
       ),
     );
@@ -114,4 +112,3 @@ class RewardAndDiscount extends StatelessWidget {
     context.read<VoucherCubit>().removeVoucher(voucherRequest);
   }
 }
-

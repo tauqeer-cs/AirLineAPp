@@ -107,5 +107,9 @@
   "postcode": "Postcode",
   "sessionRetrySearch": "Your session is expired, please retry your search!",
   "passengerUnder18FAQ": "All passengers under 18- Please take note of our updated requirements for young passengers who are travelling alone, an independent traveller and without accompanying adult passenger.",
-  "myAirTravelInsurance": "MYAirline Travel Insurance"
+  "myAirTravelInsurance": "MYAirline Travel Insurance",
+  "summaryPayment": "Summary & Payment",
+  "rewardsDiscount": "Rewards & Discount",
+  "voucherCode": "Voucher Code",
+  "pin": "PIN"
 }
