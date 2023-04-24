@@ -74,7 +74,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     tabsRouter.activeIndex == 3 ? Styles.kPrimaryColor : null,
                 height: 30,
               ),
-              label: 'navBar.checkin'.tr(),
+              label: 'checkInDash'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Image.asset(

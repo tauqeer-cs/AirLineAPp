@@ -28,13 +28,14 @@ class CheckInView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   kVerticalSpacer,
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
-                    child: Text("Online Check In", style: kGiantHeavy),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 0.0, horizontal: 0),
+                    child: Text("onlineCheckIn".tr(), style: kGiantHeavy),
                   ),
                   kVerticalSpacerMini,
                   Text(
-                    "Web check in available from 48 hours and up to 90 minutes before departure",
+                    "webCheckInFAQ".tr(),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
                   kVerticalSpacer,
@@ -62,7 +63,7 @@ class CheckInView extends StatelessWidget {
                     onPressed: () {
                       onManageBooking(context);
                     },
-                    child: const Text("Check In"),
+                    child: Text("checkIn".tr()),
                   )
                 ],
               ),

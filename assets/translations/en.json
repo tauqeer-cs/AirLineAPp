@@ -124,5 +124,9 @@
   "addOnServices": "Add on Services",
   "changeFlight": "Change flight",
   "fieldNotEmpty": "This field cannot be empty.",
-  "bookings": "Bookings"
+  "bookings": "Bookings",
+  "onlineCheckIn": "Online Check In",
+  "webCheckInFAQ": "Web check in available from 48 hours and up to 90 minutes before departure",
+  "checkIn": "Check In",
+  "checkInDash": "Check-In"
 }
