@@ -64,7 +64,7 @@ class LoginForm extends StatelessWidget {
               ),
               kHorizontalSpacerMini,
               Text(
-                'loginVerify.loginTitle'.tr(),
+                'logIn'.tr(),
                 style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),
               ),
             ],
@@ -103,7 +103,7 @@ class LoginForm extends StatelessWidget {
             isRequired: false,
             textInputType: TextInputType.emailAddress,
             name: formEmailLoginName,
-            hintText: 'loginVerify.emailAddress'.tr(),
+            hintText: 'emailAddress'.tr(),
             maxLength: 45,
             validators: [
               FormBuilderValidators.required(),
@@ -114,7 +114,7 @@ class LoginForm extends StatelessWidget {
           //Text(tr.password, style: kMediumHeavy),
           AppInputPassword(
             name: formPasswordLoginName,
-            hintText: 'loginVerify.password'.tr(),
+            hintText: 'password'.tr(),
             validators: [FormBuilderValidators.required()],
             isDarkBackground: false,
           ),
@@ -124,7 +124,7 @@ class LoginForm extends StatelessWidget {
                 context.router.push(const ForgetPasswordRoute());
               },
               child: Text(
-                'loginVerify.forgotPassword'.tr(),
+                'forgottenYourPassword'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kBorderColor),
               )),
           kVerticalSpacerMini,

@@ -128,5 +128,13 @@
   "onlineCheckIn": "Online Check In",
   "webCheckInFAQ": "Web check in available from 48 hours and up to 90 minutes before departure",
   "checkIn": "Check In",
-  "checkInDash": "Check-In"
+  "checkInDash": "Check-In",
+  "welcomeBack": "Welcome Back!",
+  "logIn": "Login",
+  "emailAddress": "Email Address",
+  "password": "Password",
+  "forgottenYourPassword": "Forgotten your password?",
+  "createAccount": "Create Account",
+  "version": "Version",
+  "moreInfo": "More Info"
 }

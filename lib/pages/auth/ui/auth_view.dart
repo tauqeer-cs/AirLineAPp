@@ -1,4 +1,3 @@
-
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/auth/ui/login_form.dart';
 import 'package:app/theme/theme.dart';
@@ -34,17 +33,15 @@ class AuthView extends StatelessWidget {
                       Align(
                         alignment: Alignment.topRight,
                         child: InkWell(
-                          onTap: (){
-
+                          onTap: () {
                             context.router.push(
                               const MoreOptionsRoute(),
                             );
-
                           },
                           child: Text(
-                            'profile.moreInfo'.tr(),
-                            style:
-                                kSmallMedium.copyWith(color: Styles.kCanvasColor),
+                            'moreInfo'.tr(),
+                            style: kSmallMedium.copyWith(
+                                color: Styles.kCanvasColor),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -53,7 +50,7 @@ class AuthView extends StatelessWidget {
                   ),
                   kVerticalSpacer,
                   Text(
-                    'auth.welcomeBack'.tr(),
+                    'welcomeBack'.tr(),
                     style: kGiantRegular.copyWith(color: Colors.white),
                   ),
                 ],

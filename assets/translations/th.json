@@ -128,5 +128,13 @@
   "onlineCheckIn": "เช็คอินออนไลน์",
   "webCheckInFAQ": "เช็คอินผ่านเว็บได้ตั้งแต่ 48 ชั่วโมงจนถึง 90 นาทีก่อนเวลาออกเดินทาง",
   "checkIn": "เช็คอิน",
-  "checkInDash": "เช็คอิน"
+  "checkInDash": "เช็คอิน",
+  "welcomeBack": "ยินดีต้อนรับกลับมา!",
+  "logIn": "เข้าสู่ระบบ",
+  "emailAddress": "ที่อยู่อีเมล",
+  "password": "รหัสผ่าน",
+  "forgottenYourPassword": "ลืมรหัสผ่านหรือ",
+  "createAccount": "สร้างบัญชี",
+  "version": "เวอร์ชัน",
+  "moreInfo": "ข้อมูลเพิ่มเติม"
 }

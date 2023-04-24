@@ -201,7 +201,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       context.loaderOverlay.hide();
 
                       Toast.of(context)
-                          .show(message: "Welcome back", success: true);
+                          .show(message: "welcomeBack".tr(), success: true);
 
 //                      callBack();
 

@@ -186,7 +186,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 kVerticalSpacer,
                 AppInputText(
                   name: formNameCompanyEmailAddress,
-                  hintText: "Email Address",
+                  hintText: "emailAddress".tr(),
                   textEditingController: emailController,
                   validators: [FormBuilderValidators.email()],
                   onChanged: (value) {

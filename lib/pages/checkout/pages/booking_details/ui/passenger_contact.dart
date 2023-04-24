@@ -185,7 +185,7 @@ class _PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameContactEmail,
-              hintText: 'confirmationView.emailAddress'.tr(),
+              hintText: 'emailAddress'.tr(),
               textInputType: TextInputType.emailAddress,
               validators: [
                 FormBuilderValidators.required(),

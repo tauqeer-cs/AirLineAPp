@@ -123,7 +123,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                       context.loaderOverlay.hide();
                       Navigator.of(dialogContext).pop();
                       Toast.of(context)
-                          .show(message: "Welcome back", success: true);
+                          .show(message: "welcomeBack".tr(), success: true);
                     },
                   );
                 },

@@ -30,7 +30,7 @@ class AccountSettingView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             FormHeader(
+            FormHeader(
               title: 'accountDetail.changePassword'.tr(),
               graySubText: true,
               smallerHeaderText: true,
@@ -39,25 +39,24 @@ class AccountSettingView extends StatelessWidget {
             GreyCard(
               child: AppInputPassword(
                 name: formNameNewPassword,
-                hintText: 'accountDetail.password'.tr(),
+                hintText: 'password'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                      errorText:
-                          'minCharsValidation'.tr())
+                      errorText: 'minCharsValidation'.tr())
                 ],
               ),
             ),
             kVerticalSpacer,
             kVerticalSpacerSmall,
-             PasswordInput(title: 'accountDetail.setNewPassword'.tr()),
+            PasswordInput(title: 'accountDetail.setNewPassword'.tr()),
             kVerticalSpacerSmall,
             OutlinedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child:  Text('cancel'.tr()),
+              child: Text('cancel'.tr()),
             ),
             kVerticalSpacerSmall,
             ElevatedButton(

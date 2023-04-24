@@ -12,7 +12,7 @@ import '../signup_wrapper.dart';
 
 class PasswordInput extends StatelessWidget {
   final String? title;
-  const   PasswordInput({Key? key, this.title}) : super(key: key);
+  const PasswordInput({Key? key, this.title}) : super(key: key);
   static final TextEditingController pass = TextEditingController();
 
   @override
@@ -24,10 +24,9 @@ class PasswordInput extends StatelessWidget {
           title: title ?? 'signUp1.passwordTitle',
           graySubText: true,
           smallerHeaderText: true,
-          subtitle:
-              'signUp1.passwordDesc1'.tr(),
+          subtitle: 'signUp1.passwordDesc1'.tr(),
         ),
-         UnorderedList([
+        UnorderedList([
           'signUp1.passwordDesc2'.tr(),
           'signUp1.passwordDesc3'.tr(),
           'signUp1.passwordDesc3'.tr(),
@@ -36,19 +35,17 @@ class PasswordInput extends StatelessWidget {
         kVerticalSpacer,
         GreyCard(
           edgeInsets: const EdgeInsets.all(8),
-
           child: Column(
             children: [
               AppInputPassword(
                 textEditingController: pass,
                 name: formNamePassword,
-                hintText: 'signUp1.password'.tr(),
+                hintText: 'password'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                      errorText:
-                    'signUp1.minCharsValidation'.tr())
+                      errorText: 'signUp1.minCharsValidation'.tr())
                 ],
               ),
               kVerticalSpacer,
@@ -59,9 +56,8 @@ class PasswordInput extends StatelessWidget {
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                      errorText:
-                      'signUp1.minCharsValidation'.tr()),
-                      (value) {
+                      errorText: 'signUp1.minCharsValidation'.tr()),
+                  (value) {
                     return ValidatorUtils.checkTwoField(
                       value,
                       pass.text,
@@ -73,7 +69,6 @@ class PasswordInput extends StatelessWidget {
             ],
           ),
         ),
-
       ],
     );
   }
