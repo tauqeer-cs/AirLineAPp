@@ -1,5 +1,6 @@
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +14,8 @@ import '../../checkout/pages/booking_confirmation/ui/payment_info.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 
 class ChangeFlightConfirmationView extends StatelessWidget {
-  const ChangeFlightConfirmationView({Key? key, required this.onShare}) : super(key: key);
+  const ChangeFlightConfirmationView({Key? key, required this.onShare})
+      : super(key: key);
 
   final VoidCallback onShare;
 
@@ -158,7 +160,8 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                             ?.result
                                             ?.returnDepartureDateToShow ??
                                         '',
-                                    departureToDestinationCode: bloc.state
+                                    departureToDestinationCode: bloc
+                                            .state
                                             .manageBookingResponse
                                             ?.result
                                             ?.returnToDestinationCode ??
@@ -203,8 +206,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: OutlinedButton(
                               onPressed: () {
-                                 onSharedTapped();
-
+                                onSharedTapped();
                               }, //isLoading ? null :
                               child: const Text("Share"),
                               /*
@@ -228,7 +230,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                   ManageBookingDetailsRoute(),
                                 ]);
                               },
-                              child: const Text('Change Flight'),
+                              child: Text('changeFlight'.tr()),
                             ),
                           ),
                           const SizedBox(

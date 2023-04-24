@@ -32,16 +32,13 @@ class BookingsView extends StatelessWidget {
     return BlocConsumer<ManageBookingCubit, ManageBookingState>(
       listener: (context, state) {
         if (state.blocState == BlocState.failed) {
-
           if (state.message.isNotEmpty) {
             Toast.of(context).show(
               success: false,
               message: state.message,
             );
           }
-
         }
-
       },
       builder: (context, state) {
         return GestureDetector(
@@ -62,17 +59,17 @@ class BookingsView extends StatelessWidget {
                           children: [
                             kVerticalSpacer,
                             kVerticalSpacer,
-                             Text('manageBooking.title'.tr(), style: kGiantHeavy),
+                            Text('manageMyBookings'.tr(), style: kGiantHeavy),
                             kVerticalSpacerMini,
                             Text(
-                              'manageBooking.subtext'.tr(),
+                              'manageBookingSubText'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kSubTextColor),
                             ),
                             kVerticalSpacer,
                             AppInputTextWithBorder(
                               name: "bookingNumber",
-                              hintText: 'manageBooking.bookingReference'.tr(),
+                              hintText: 'bookingReference'.tr(),
                               maxLength: 6,
 
                               /*inputFormatters: [
@@ -95,7 +92,7 @@ class BookingsView extends StatelessWidget {
                             kVerticalSpacer,
                             AppInputTextWithBorder(
                               name: "lastName",
-                              hintText: 'navBar.lastName'.tr(),
+                              hintText: 'surnameLastName'.tr(),
                               validators: [FormBuilderValidators.required()],
                             ),
                             kVerticalSpacer,
@@ -109,8 +106,8 @@ class BookingsView extends StatelessWidget {
                                           onPressed: () {
                                             onManageBooking(context);
                                           },
-                                          child:  Text(
-                                            'navBar.addonServices'.tr(),
+                                          child: Text(
+                                            'addonServices'.tr(),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -121,7 +118,7 @@ class BookingsView extends StatelessWidget {
                                           onPressed: () {
                                             onChangeFlightTapped(context);
                                           },
-                                          child:  Text('navBar.flightChange'.tr()),
+                                          child: Text('changeFlight'.tr()),
                                         ),
                                       ),
                                     ],
@@ -157,12 +154,10 @@ class BookingsView extends StatelessWidget {
       String code = value["bookingNumber"];
       String lastName = value["lastName"];
 
-      var flag =
-          await bloc?.getBookingInformation(lastName.trim(), code.trim().toUpperCase());
+      var flag = await bloc?.getBookingInformation(
+          lastName.trim(), code.trim().toUpperCase());
       if (flag == true) {
         moveToNext(context);
-
-
       }
     }
   }

@@ -304,7 +304,7 @@ class SegmentCard extends StatelessWidget {
                           .changeVisibility(true);
                       //context.router.pop();
                     },
-                    child: const Text("Change Flight"),
+                    child: Text("changeFlight".tr()),
                   ),
                 ),
               ),

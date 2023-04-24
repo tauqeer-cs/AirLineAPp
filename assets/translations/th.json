@@ -116,5 +116,13 @@
   "checkOutDeals": "ลองดูข้อเสนอที่น่าทึ่งเหล่านี้",
   "startFrom": "ออกเดินทางจาก",
   "promotion": "โปรโมชั่น",
-  "deals": "ข้อเสนอ"
+  "deals": "ข้อเสนอ",
+  "manageMyBookings": "จัดการการจองของฉัน",
+  "manageBookingSubText": "โปรดป้อนรายละเอียดเที่ยวบินของคุณเพื่อดูและจัดการการจองของคุณ",
+  "bookingReference": "หมายเลขอ้างอิงการจอง",
+  "surnameLastName": "นามสกุล",
+  "addOnServices": "บริการเสริม",
+  "changeFlight": "เปลี่ยนเที่ยวบิน",
+  "fieldNotEmpty": "ต้องกรอกข้อมูลในช่องนี้",
+  "bookings": "การจอง"
 }

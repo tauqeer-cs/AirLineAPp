@@ -5,6 +5,7 @@ import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -53,7 +54,7 @@ class CheckInView extends StatelessWidget {
                   kVerticalSpacerSmall,
                   AppInputText(
                     name: "lastNameCheckIn",
-                    hintText: "Surname / Last Name",
+                    hintText: "surnameLastName".tr(),
                     validators: [FormBuilderValidators.required()],
                   ),
                   kVerticalSpacer,

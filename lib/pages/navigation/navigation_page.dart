@@ -56,7 +56,7 @@ class _NavigationPageState extends State<NavigationPage> {
             ),
             BottomNavigationBarItem(
               icon: const Icon(MyFlutterApp.ico_deals),
-              label: 'navBar.deals'.tr(),
+              label: 'deals'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
@@ -65,7 +65,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 color:
                     tabsRouter.activeIndex == 2 ? Styles.kPrimaryColor : null,
               ),
-              label: 'navBar.bookings'.tr(),
+              label: 'bookings'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Image.asset(

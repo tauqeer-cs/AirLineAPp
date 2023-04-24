@@ -27,7 +27,7 @@ class ManageBookingDetailsPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'manageBooking.title'.tr(),
+          title: 'manageMyBookings'.tr(),
           height: 60.h,
           overrideInnerHeight: true,
         ),

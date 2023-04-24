@@ -116,5 +116,13 @@
   "checkOutDeals": "Check out these amazing deals",
   "startFrom": "Start from",
   "promotion": "Promotion",
-  "deals": "Deals"
+  "deals": "Deals",
+  "manageMyBookings": "Manage my bookings",
+  "manageBookingSubText": "Please enter your flight details to view and manage your booking.",
+  "bookingReference": "Booking Reference Number",
+  "surnameLastName": "Surname / Last Name",
+  "addOnServices": "Add on Services",
+  "changeFlight": "Change flight",
+  "fieldNotEmpty": "This field cannot be empty.",
+  "bookings": "Bookings"
 }
