@@ -111,5 +111,10 @@
   "summaryPayment": "Summary & Payment",
   "rewardsDiscount": "Rewards & Discount",
   "voucherCode": "Voucher Code",
-  "pin": "PIN"
+  "pin": "PIN",
+  "tightBudget": "On a tight budget?",
+  "checkOutDeals": "Check out these amazing deals",
+  "startFrom": "Start from",
+  "promotion": "Promotion",
+  "deals": "Deals"
 }

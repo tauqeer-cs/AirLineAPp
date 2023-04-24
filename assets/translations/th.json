@@ -111,5 +111,10 @@
   "summaryPayment": "สรุปและชำระเงิน",
   "rewardsDiscount": "รางวัลและส่วนลด",
   "voucherCode": "รหัสบัตรกำนัล",
-  "pin": "หมายเลข PIN"
+  "pin": "หมายเลข PIN",
+  "tightBudget": "มีงบจำกัดหรือ",
+  "checkOutDeals": "ลองดูข้อเสนอที่น่าทึ่งเหล่านี้",
+  "startFrom": "ออกเดินทางจาก",
+  "promotion": "โปรโมชั่น",
+  "deals": "ข้อเสนอ"
 }

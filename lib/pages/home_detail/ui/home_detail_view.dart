@@ -24,7 +24,7 @@ class HomeDetailView extends StatelessWidget {
         if (state.blocState == BlocState.failed) {
           final secureUrl = url.replaceAll("http://", "https://");
           context.router.replace(
-            WebViewRoute(url: secureUrl, title: 'Promotion'),
+            WebViewRoute(url: secureUrl, title: 'promotion'.tr()),
           );
         }
       },

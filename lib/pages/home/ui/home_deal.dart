@@ -4,6 +4,7 @@ import 'package:app/models/home_content.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_image.dart';
 import 'package:app/widgets/app_image_carousel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class HomeDeal extends StatelessWidget {
@@ -45,16 +46,18 @@ class HomeDeal extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(10, 10, 40, 10),
                             child: ClipRect(
                               child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                                filter: ImageFilter.blur(
+                                    sigmaX: 10.0, sigmaY: 10.0),
                                 child: Container(
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color: Colors.grey.shade200.withOpacity(0.5),
+                                    color:
+                                        Colors.grey.shade200.withOpacity(0.5),
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         e.title ?? "",
@@ -64,11 +67,12 @@ class HomeDeal extends StatelessWidget {
                                       Text(
                                         e.description ?? "",
                                         style: kMediumMedium.copyWith(
-                                            color: Colors.black.withOpacity(0.5)),
+                                            color:
+                                                Colors.black.withOpacity(0.5)),
                                       ),
                                       kVerticalSpacerSmall,
                                       Text(
-                                        "Start from",
+                                        "startFrom".tr(),
                                         style: kMediumMedium.copyWith(
                                             color: Colors.black),
                                       ),
