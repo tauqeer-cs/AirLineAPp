@@ -8,6 +8,7 @@ import 'package:app/pages/checkout/pages/payment/ui/discount_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/passenger_card.dart';
 import 'package:app/pages/checkout/pages/payment/ui/reward_and_discount.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../theme/theme.dart';
@@ -58,12 +59,15 @@ class _PaymentViewState extends State<PaymentView> {
             children: [
               kVerticalSpacer,
               BookingSummary(
-                totalAmountToShow: summaryResponse?.flightSummaryPnrResult?.summaryAmount?.toDouble() ?? 0,
+                totalAmountToShow: summaryResponse
+                        ?.flightSummaryPnrResult?.summaryAmount
+                        ?.toDouble() ??
+                    0,
               ),
               kVerticalSpacer,
               ElevatedButton(
                 onPressed: () => onBook(context),
-                child: const Text("Continue"),
+                child: Text("continue".tr()),
               ),
               kVerticalSpacer,
             ],
@@ -89,18 +93,20 @@ class _PaymentViewState extends State<PaymentView> {
 
     String? redeemCodeToSend;
 
-    if(context.read<VoucherCubit>().state.selectedRedeemOption != null) {
-
-     redeemCodeToSend = context.read<VoucherCubit>().state.selectedRedeemOption!.redemptionName!;
-
+    if (context.read<VoucherCubit>().state.selectedRedeemOption != null) {
+      redeemCodeToSend = context
+          .read<VoucherCubit>()
+          .state
+          .selectedRedeemOption!
+          .redemptionName!;
     }
     context.read<PaymentCubit>().pay(
-          flightSummaryPnrRequest: pnrRequest,
-          token: token,
-          total: summaryResponse?.flightSummaryPnrResult?.summaryAmount ??0,
-          totalNeedPaid: summaryResponse?.flightSummaryPnrResult?.summaryAmount ??0,
-          promoCode: voucher,
-      redeemCodeToSend: redeemCodeToSend
-        );
+        flightSummaryPnrRequest: pnrRequest,
+        token: token,
+        total: summaryResponse?.flightSummaryPnrResult?.summaryAmount ?? 0,
+        totalNeedPaid:
+            summaryResponse?.flightSummaryPnrResult?.summaryAmount ?? 0,
+        promoCode: voucher,
+        redeemCodeToSend: redeemCodeToSend);
   }
 }

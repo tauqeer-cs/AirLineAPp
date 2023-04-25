@@ -137,7 +137,7 @@ class ContinueButton extends StatelessWidget {
           }
         }
       },
-      child: const Text("Continue"),
+      child: Text("continue".tr()),
     );
   }
 }

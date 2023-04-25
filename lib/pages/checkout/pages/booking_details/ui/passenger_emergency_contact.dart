@@ -142,7 +142,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               child: AppCountriesDropdown(
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 isPhoneCode: true,
-                hintText: "Phone",
+                hintText: "phone".tr(),
                 initialCountryCode: nationalityController.text,
                 onChanged: (value) {
                   nationalityController.text = value?.phoneCode ?? "";
@@ -161,7 +161,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               name: formNameEmergencyPhone,
               initialValue: emergency?.phoneNumber ?? phoneNumber,
               textInputType: TextInputType.number,
-              hintText: "Phone Number",
+              hintText: "phoneNumber".tr(),
               validators: [FormBuilderValidators.required()],
               onChanged: (value) {
                 final request =

@@ -18,7 +18,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class SignupAddressPage extends StatelessWidget {
   const SignupAddressPage({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
-  final step =2;
+  final step = 2;
 
   onSignup(BuildContext context) {
     if (_fbKey.currentState!.saveAndValidate()) {
@@ -49,7 +49,7 @@ class SignupAddressPage extends StatelessWidget {
               Row(
                 children: [
                   BackButton(
-                    onPressed: ()=>AutoRouter.of(context).pop(),
+                    onPressed: () => AutoRouter.of(context).pop(),
                     color: Colors.white,
                   ),
                   const Expanded(
@@ -64,7 +64,6 @@ class SignupAddressPage extends StatelessWidget {
                   step: step,
                   child: FormBuilder(
                     autoFocusOnValidationFailure: true,
-
                     key: _fbKey,
                     child: SingleChildScrollView(
                       padding: kPageHorizontalPaddingBig,
@@ -77,14 +76,16 @@ class SignupAddressPage extends StatelessWidget {
                             child: Text(
                               step == 1
                                   ? 'signUp1.signUpDesc'.tr()
-                                  : 'signUp1.worryNot'.tr(),
+                                  : 'worryNot'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kSubTextColor, fontSize: 16),
                             ),
                           ),
                           kVerticalSpacer,
                           GenderInput(
-                            onChanged: (value)=>context.read<SignupCubit>().editGender(value ?? 'signUp2.genderMale'.tr() ),
+                            onChanged: (value) => context
+                                .read<SignupCubit>()
+                                .editGender(value ?? 'signUp2.genderMale'.tr()),
                           ),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
@@ -93,15 +94,13 @@ class SignupAddressPage extends StatelessWidget {
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
-                           const AddressInput(
-
-                           ),
+                          const AddressInput(),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
                           ElevatedButton(
                             onPressed: () => onSignup(context),
-                            child:  Text('signUp3.continue'.tr()),
+                            child: Text('signUp3.continue'.tr()),
                           ),
                           kVerticalSpacer,
                         ],

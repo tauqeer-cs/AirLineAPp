@@ -184,7 +184,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                       : availableTitleChild,
                   dropdownDecoration: Styles.getDefaultFieldDecoration(),
                   defaultValue: defaultTitle,
-                  sheetTitle: "Title",
+                  sheetTitle: "title".tr(),
                   onChanged: (value) {
                     titleController.text = value ?? "";
                   },
@@ -296,7 +296,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     : widget.person.dateLimitEnd(filter.departDate),
                 initialEntryMode: DatePickerEntryMode.calendar,
                 decoration: InputDecoration(
-                    hintText: "Date of Birth",
+                    hintText: "dob".tr(),
                     suffixIcon: Icon(
                       Icons.calendar_month,
                       color: Styles.kBorderColor,

@@ -145,7 +145,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 AppInputText(
                   name: formNameCompanyState,
                   initialValue: state,
-                  hintText: "State",
+                  hintText: "state".tr(),
                   onChanged: (value) {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -159,7 +159,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 AppInputText(
                   name: formNameCompanyCity,
                   initialValue: city,
-                  hintText: "City",
+                  hintText: "city".tr(),
                   onChanged: (value) {
                     final request =
                         context.read<LocalUserBloc>().state.companyTaxInvoice;

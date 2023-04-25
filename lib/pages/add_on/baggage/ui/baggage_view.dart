@@ -58,7 +58,10 @@ class _BaggageViewState extends State<BaggageView>
                 kVerticalSpacer,
                 TitleSummaryHeader(title: 'priceSection.baggageTitle'.tr()),
                 kVerticalSpacer,
-                FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.baggage,),
+                FlightDetailWidget(
+                  isDeparture: widget.isDeparture,
+                  addonType: AddonType.baggage,
+                ),
                 kVerticalSpacer,
                 BaggageSection(
                   isDeparture: widget.isDeparture,
@@ -70,7 +73,7 @@ class _BaggageViewState extends State<BaggageView>
                     }
                   },
                   moveToBottom: () {
-                    if(autoScrollToBottom) {
+                    if (autoScrollToBottom) {
                       if (scrollController.hasClients) {
                         scrollController.animateTo(
                             scrollController.position.maxScrollExtent,
@@ -78,7 +81,6 @@ class _BaggageViewState extends State<BaggageView>
                             curve: Curves.linear);
                       }
                     }
-
                   },
                 ),
                 kVerticalSpacer,
@@ -97,7 +99,10 @@ class _BaggageViewState extends State<BaggageView>
                           );
                         },
                         backgroundColor: Styles.kPrimaryColor,
-                        child: const FaIcon(FontAwesomeIcons.angleUp, size: 25,),
+                        child: const FaIcon(
+                          FontAwesomeIcons.angleUp,
+                          size: 25,
+                        ),
                       ),
                     )
                   ],
@@ -156,7 +161,7 @@ class ContinueButton extends StatelessWidget {
           context.router.push(SpecialRoute(isDeparture: true));
         }
       },
-      child: const Text("Continue"),
+      child: Text("continue".tr()),
     );
   }
 }

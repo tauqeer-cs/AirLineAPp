@@ -14,10 +14,9 @@ class DobInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         FormHeader(
-          title: 'signUp2.birthdayQuestion'.tr(),
-          subtitle:
-              'signUp2.birthdayDesc',
+        FormHeader(
+          title: 'birthdayQuestion'.tr(),
+          subtitle: 'birthdayDesc',
         ),
         // Text("Birthday", style: kLargeSemiBold),
         // kVerticalSpacer,
@@ -30,11 +29,11 @@ class DobInput extends StatelessWidget {
             format: DateFormat("dd MMM yyyy"),
             initialDate: DateTime(2000),
             initialEntryMode: DatePickerEntryMode.calendar,
-            decoration:  InputDecoration(
-              hintText: 'infoDetail.dob'.tr(),
-              suffixIcon: const Icon(Icons.calendar_month_sharp),
-              contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12)
-            ),
+            decoration: InputDecoration(
+                hintText: 'dob'.tr(),
+                suffixIcon: const Icon(Icons.calendar_month_sharp),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
             inputType: InputType.date,
           ),
         ),

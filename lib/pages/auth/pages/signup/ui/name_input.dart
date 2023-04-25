@@ -43,9 +43,8 @@ class NameInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormHeader(
-          title: title ?? 'signUp1.fullNameQuestion'.tr(),
-          subtitle:
-              subText ?? 'signUp1.fullNameDesc'.tr(),
+          title: title ?? 'fullNameQuestion'.tr(),
+          subtitle: subText ?? 'fullNameDesc'.tr(),
           graySubText: true,
           smallerHeaderText: true,
         ),
@@ -56,10 +55,10 @@ class NameInput extends StatelessWidget {
             children: [
               AppDropDown<String>(
                 items: availableTitle,
-                defaultValue: initialTitle ?? 'signUp1.mr'.tr(),
-                sheetTitle: 'signUp1.title'.tr(),
+                defaultValue: initialTitle ?? 'mr'.tr(),
+                sheetTitle: 'title'.tr(),
                 onChanged: (value) {
-                  if(isSignUp){
+                  if (isSignUp) {
                     context.read<SignupCubit>().editTitle(value);
                   }
                   onTitleChanged?.call(value);
@@ -70,7 +69,7 @@ class NameInput extends StatelessWidget {
                 isRequired: false,
                 textInputType: TextInputType.name,
                 name: formNameFirstName,
-                hintText: 'signUp1.firstName'.tr(),
+                hintText: 'firstName'.tr(),
                 initialValue: firstNameInitValue,
                 validators: [
                   FormBuilderValidators.required(),
@@ -82,7 +81,7 @@ class NameInput extends StatelessWidget {
                 textInputType: TextInputType.name,
                 name: formNameLastName,
                 initialValue: lastNameInitValue,
-                hintText: 'signUp1.lastName'.tr(),
+                hintText: 'lastName'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                 ],

@@ -49,8 +49,8 @@ class AddressInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormHeader(
-          title: title ?? 'signUp2.addressQuestion'.tr(),
-          subtitle: subText ?? 'signUp2.addressDesc'.tr(),
+          title: title ?? 'addressQuestion'.tr(),
+          subtitle: subText ?? 'addressDesc'.tr(),
           noSpaceSubText: hideSubText,
         ),
         GreyCard(
@@ -88,9 +88,8 @@ class AddressInput extends StatelessWidget {
                     child: AppInputText(
                       isRequired: false,
                       name: formNameState,
-                      hintText: 'signUp2.state'.tr(),
+                      hintText: 'state'.tr(),
                       initialValue: selectedState,
-
                     ),
                   ),
                 ],
@@ -102,7 +101,7 @@ class AddressInput extends StatelessWidget {
                     child: AppInputText(
                       isRequired: false,
                       name: formNameCity,
-                      hintText: 'signUp2.city'.tr(),
+                      hintText: 'city'.tr(),
                       initialValue: selectedCity,
                       inputFormatters: [
                         AppFormUtils.onlyLetterAndSpace(),
@@ -114,7 +113,7 @@ class AddressInput extends StatelessWidget {
                     child: AppInputText(
                       isRequired: false,
                       name: formNamePostCode,
-                      hintText: 'signUp2.postalCode'.tr(),
+                      hintText: 'postalCode'.tr(),
                       initialValue: selectedPosCode,
                       inputFormatters: [
                         AppFormUtils.onlyNumber(),

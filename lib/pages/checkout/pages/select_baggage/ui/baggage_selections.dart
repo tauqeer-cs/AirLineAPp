@@ -41,7 +41,7 @@ class _BaggageSelectionsState extends State<BaggageSelections>
         onPressed: () => context.router.push(
           const BookingDetailsRoute(),
         ),
-        child: const Text("Continue"),
+        child: Text("continue".tr()),
       ),
       kVerticalSpacer,
     ];

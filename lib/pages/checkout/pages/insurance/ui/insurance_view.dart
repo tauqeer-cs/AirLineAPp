@@ -84,7 +84,7 @@ class _InsuranceViewState extends State<InsuranceView> {
                           .read<SummaryCubit>()
                           .submitUpdateInsurance(summaryRequest);
                     },
-                    child: const Text("Continue"),
+                    child: Text("continue".tr()),
                   ),
                 ],
               ),

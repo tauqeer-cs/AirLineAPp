@@ -193,7 +193,7 @@ class ContinueButton extends StatelessWidget {
           context.router.push(MealsRoute());
         }
       },
-      child: const Text("Continue"),
+      child: Text("continue".tr()),
     );
   }
 }

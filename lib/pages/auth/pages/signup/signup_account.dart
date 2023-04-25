@@ -51,7 +51,8 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
   @override
   void initState() {
     super.initState();
-    UserInsider.of(context).registerStandardEvent(InsiderConstants.registrationStarted);
+    UserInsider.of(context)
+        .registerStandardEvent(InsiderConstants.registrationStarted);
     focusNodeEmail = FocusNode();
     focusNodeEmail.addListener(() {
       if (!focusNodeEmail.hasFocus) {
@@ -110,7 +111,7 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
                             child: Text(
                               step == 1
                                   ? 'signUp1.signUpDesc'.tr()
-                                  : 'signUp1.worryNot'.tr(),
+                                  : 'worryNot'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kSubTextColor, fontSize: 16),
                             ),
@@ -128,7 +129,7 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
                                 onPressed: state.blocState == BlocState.finished
                                     ? () => onContinue(context)
                                     : null,
-                                child:  Text('signUp3.continue'.tr()),
+                                child: Text('signUp3.continue'.tr()),
                               );
                             },
                           ),
@@ -161,7 +162,7 @@ class SignupHeader extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            step == 1 ? "Sign Up" : "Personal Info (Optional)",
+            step == 1 ? "signUp".tr() : "personalInformation".tr(),
             style: kGiantSemiBold.copyWith(
                 color: Styles.kPrimaryColor,
                 fontSize: 26,

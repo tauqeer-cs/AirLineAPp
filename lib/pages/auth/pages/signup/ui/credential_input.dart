@@ -25,8 +25,8 @@ class CredentialInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         FormHeader(
-          title: 'signUp1.credentialsLabel'.tr(),
+        FormHeader(
+          title: 'credentialsLabel'.tr(),
         ),
         GreyCard(
           edgeInsets: const EdgeInsets.all(8),
@@ -76,8 +76,13 @@ class CredentialInput extends StatelessWidget {
                       Visibility(
                         visible: state.blocState == BlocState.failed,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
-                          child: Text(state.message, style: kSmallSemiBold.copyWith(color: Styles.kActiveColor),),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5.0, horizontal: 10),
+                          child: Text(
+                            state.message,
+                            style: kSmallSemiBold.copyWith(
+                                color: Styles.kActiveColor),
+                          ),
                         ),
                       ),
                     ],
@@ -87,7 +92,7 @@ class CredentialInput extends StatelessWidget {
               kVerticalSpacer,
               AppCountriesDropdown(
                 isPhoneCode: true,
-                hintText: 'signUp1.phone'.tr(),
+                hintText: 'phone'.tr(),
                 initialValue: Country.defaultCountry,
                 onChanged: (country) {
                   context

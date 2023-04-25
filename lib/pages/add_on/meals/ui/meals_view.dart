@@ -129,7 +129,7 @@ class ContinueButton extends StatelessWidget {
           context.router.push(BaggageRoute());
         }
       },
-      child: const Text("Continue"),
+      child: Text("continue".tr()),
     );
   }
 }

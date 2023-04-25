@@ -25,22 +25,28 @@ class AddFamilyFriendsView extends StatelessWidget {
   final bool isEditing;
   final FriendsFamily? familyMember;
 
-  const AddFamilyFriendsView({Key? key,  this.isEditing = false, this.familyMember}) : super(key: key);
+  const AddFamilyFriendsView(
+      {Key? key, this.isEditing = false, this.familyMember})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
           12, 12, 12, MediaQuery.of(context).viewInsets.bottom + 20),
-      child:  SingleChildScrollView(
-        child: FriendsFamilyForm(isEditing: isEditing,familyMember: familyMember,),
+      child: SingleChildScrollView(
+        child: FriendsFamilyForm(
+          isEditing: isEditing,
+          familyMember: familyMember,
+        ),
       ),
     );
   }
 }
 
 class FriendsFamilyForm extends StatefulWidget {
-  const FriendsFamilyForm({Key? key, this.isEditing = false, this.familyMember}) : super(key: key);
+  const FriendsFamilyForm({Key? key, this.isEditing = false, this.familyMember})
+      : super(key: key);
   final bool isEditing;
   final FriendsFamily? familyMember;
 
@@ -69,14 +75,13 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
 
   //AppCountriesDropdown
 
-
   DateTime? initialDateTime;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if(widget.isEditing) {
+    if (widget.isEditing) {
       setTitle();
     }
   }
@@ -85,7 +90,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
   void initState() {
     super.initState();
 
-    if(widget.isEditing) {
+    if (widget.isEditing) {
       firstNameTextController.text = widget.familyMember?.firstName ?? '';
       lastNameTextController.text = widget.familyMember?.lastName ?? '';
 
@@ -93,66 +98,54 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
       var tmpDate = widget.familyMember?.dob;
       initialDateTime = DateTime.parse(tmpDate!);
 
-      if(widget.familyMember?.memberID != null){
-
-        memberTextController.text =  widget.familyMember!.memberID!.toString();
-
+      if (widget.familyMember?.memberID != null) {
+        memberTextController.text = widget.familyMember!.memberID!.toString();
       }
     }
-
   }
 
   void setTitle() async {
-     if(widget.familyMember?.title == 'Tan S') {
+    if (widget.familyMember?.title == 'Tan S') {
       selectedTitle = availableTitle.last;
       await Future.delayed(const Duration(seconds: 1));
-      formKey.currentState!.fields['title']!
-          .didChange(availableTitle.last);
-    }
-    else {
+      formKey.currentState!.fields['title']!.didChange(availableTitle.last);
+    } else {
       selectedTitle = widget.familyMember?.title ?? '';
       await Future.delayed(const Duration(seconds: 1));
 
-      formKey.currentState!.fields['title']!
-          .didChange(selectedTitle);
-
-
+      formKey.currentState!.fields['title']!.didChange(selectedTitle);
     }
   }
+
   bool validateOnChange = false;
 
   bool isTwelveYearsAgo(DateTime dob) {
-
-    var twelveYearsAgo = DateTime.now().subtract(const Duration(days: 365 * 12)).subtract(const Duration(days: 3));
+    var twelveYearsAgo = DateTime.now()
+        .subtract(const Duration(days: 365 * 12))
+        .subtract(const Duration(days: 3));
     return dob.isBefore(twelveYearsAgo);
   }
-  
+
   @override
   Widget build(BuildContext context) {
-
     var bloc = context.read<CountriesCubit>();
 
     Country? selectedCountryObject;
 
-
     return FormBuilder(
-      onChanged: (){
-
-
-        if(validateOnChange) {
+      onChanged: () {
+        if (validateOnChange) {
           formKey.currentState!.validate();
-
         }
-
-
-
       },
       autoFocusOnValidationFailure: true,
       key: formKey,
       child: Column(
         children: [
           Text(
-            widget.isEditing ? 'personalInfo.familyFriends'.tr() : 'familyDetail.newFamilyFriends'.tr(),
+            widget.isEditing
+                ? 'personalInfo.familyFriends'.tr()
+                : 'familyDetail.newFamilyFriends'.tr(),
             style: kHugeSemiBold,
           ),
           const SizedBox(
@@ -225,7 +218,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             initialValue: initialDateTime,
             format: DateFormat("dd MMM yyyy"),
             initialEntryMode: DatePickerEntryMode.calendar,
-            decoration:  InputDecoration(hintText: 'infoDetail.dob'.tr()),
+            decoration: InputDecoration(hintText: 'dob'.tr()),
             inputType: InputType.date,
             validator: FormBuilderValidators.required(),
             onChanged: (date) {
@@ -259,23 +252,22 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                     }),
                   ),
                   onPressed: () {
-                    Navigator.pop(context,);
-
+                    Navigator.pop(
+                      context,
+                    );
                   },
-                  child:  Text('familyDetail.cancel'.tr()),
+                  child: Text('familyDetail.cancel'.tr()),
                 ),
               ),
               kHorizontalSpacerMini,
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-
-                    if(validateOnChange == false) {
+                    if (validateOnChange == false) {
                       setState(() {
                         validateOnChange = true;
                       });
                     }
-
 
                     if (formKey.currentState!.saveAndValidate()) {
                       final value = formKey.currentState!.value;
@@ -283,82 +275,75 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                       final lastName = value[lName];
                       final personTitle = value[title];
                       var personNationality = nationalityController.text;
-                      if(personNationality.isEmpty){
+                      if (personNationality.isEmpty) {
                         personNationality = 'Malaysia';
                       }
                       final personDob = value[dob];
 
                       //personDob
-                      if((personTitle == 'Mstr.' || personTitle == 'Miss')) {
-
-                        bool check = isTwelveYearsAgo(personDob,);
-                        if(check) {
+                      if ((personTitle == 'Mstr.' || personTitle == 'Miss')) {
+                        bool check = isTwelveYearsAgo(
+                          personDob,
+                        );
+                        if (check) {
                           //error here of form
-                          formKey.currentState!.invalidateField(name: 'title' , errorText: 'Invalid title');
+                          formKey.currentState!.invalidateField(
+                              name: 'title', errorText: 'Invalid title');
+                          return;
+                        } else {}
+                      } else {
+                        bool check = isTwelveYearsAgo(
+                          personDob,
+                        );
+                        if (!check) {
+                          //error here of form
+                          formKey.currentState!.invalidateField(
+                              name: 'title', errorText: 'Invalid title');
                           return;
                         }
-                        else {
-
-
-
-                        }
-                      }
-                      else {
-                        bool check = isTwelveYearsAgo(personDob,);
-                        if(!check) {
-                          //error here of form
-                          formKey.currentState!.invalidateField(name: 'title' , errorText: 'Invalid title');
-                          return;
-                        }
-
                       }
                       final rewardId = value[reward];
                       int? memberIdToSemd;
-                      if(rewardId != '') {
+                      if (rewardId != '') {
                         memberIdToSemd = int.parse(rewardId);
                       }
 
-                      var dobString =personDob.toString();
+                      var dobString = personDob.toString();
                       var indexOfSpace = dobString.indexOf(' ');
-                      dobString = '${dobString.replaceAll(' ','T')}Z';
+                      dobString = '${dobString.replaceAll(' ', 'T')}Z';
 
-
-                    final dobToSend =
+                      final dobToSend =
                           '${dobString.substring(0, indexOfSpace)}T02:10:32.977Z';
 
-                    if(widget.isEditing) {
-                      final friendsObject = UpdateFriendsFamily(
-                        firstName: firstName,
-                        lastName: lastName,
-                        title: personTitle,
-                        nationality: personNationality,
-                        dob: dobToSend,
-                        memberID: memberIdToSemd,
-                        friendsAndFamilyID: widget.familyMember!.friendsAndFamilyID
-                      );
+                      if (widget.isEditing) {
+                        final friendsObject = UpdateFriendsFamily(
+                            firstName: firstName,
+                            lastName: lastName,
+                            title: personTitle,
+                            nationality: personNationality,
+                            dob: dobToSend,
+                            memberID: memberIdToSemd,
+                            friendsAndFamilyID:
+                                widget.familyMember!.friendsAndFamilyID);
 
-                      Navigator.pop(context, friendsObject);
+                        Navigator.pop(context, friendsObject);
+                      } else {
+                        final friendsObject = FriendsFamilyAdd(
+                          firstName: firstName,
+                          lastName: lastName,
+                          title: personTitle,
+                          nationality: personNationality,
+                          dOB: dobToSend,
+                          memberID: memberIdToSemd,
+                        );
 
-
-                    }
-                    else {
-                      final friendsObject = FriendsFamilyAdd(
-                        firstName: firstName,
-                        lastName: lastName,
-                        title: personTitle,
-                        nationality: personNationality,
-                        dOB: dobToSend,
-                        memberID: memberIdToSemd,
-                      );
-
-                      Navigator.pop(context, friendsObject);
-
-                    }
+                        Navigator.pop(context, friendsObject);
+                      }
 
                       //context.read<LoginCubit>().logInWithCredentials(email, password);
                     }
                   },
-                  child:  Text('familyDetail.save'.tr()),
+                  child: Text('familyDetail.save'.tr()),
                 ),
               ),
             ],

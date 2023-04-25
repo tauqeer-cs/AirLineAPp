@@ -21,16 +21,16 @@ class PasswordInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormHeader(
-          title: title ?? 'signUp1.passwordTitle',
+          title: title ?? 'passwordTitle'.tr(),
           graySubText: true,
           smallerHeaderText: true,
-          subtitle: 'signUp1.passwordDesc1'.tr(),
+          subtitle: 'passwordDesc1'.tr(),
         ),
         UnorderedList([
-          'signUp1.passwordDesc2'.tr(),
-          'signUp1.passwordDesc3'.tr(),
-          'signUp1.passwordDesc3'.tr(),
-          'signUp1.passwordDesc4'.trim(),
+          'passwordDesc2'.tr(),
+          'passwordDesc3'.tr(),
+          'passwordDesc3'.tr(),
+          'passwordDesc4'.tr(),
         ]),
         kVerticalSpacer,
         GreyCard(

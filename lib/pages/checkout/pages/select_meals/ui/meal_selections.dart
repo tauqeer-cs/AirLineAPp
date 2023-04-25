@@ -6,6 +6,7 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class MealSelections extends StatefulWidget {
@@ -35,7 +36,7 @@ class _MealSelectionsState extends State<MealSelections>
       kVerticalSpacer,
       ElevatedButton(
         onPressed: () => context.router.push(const SelectBaggageRoute()),
-        child: const Text("Continue"),
+        child: Text("continue".tr()),
       ),
       kVerticalSpacer,
     ];

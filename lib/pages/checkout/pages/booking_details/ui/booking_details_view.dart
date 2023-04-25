@@ -12,6 +12,7 @@ import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -231,7 +232,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                             ? (isValid ? () => onBooking(context) : null)
                             : null)
                         : (isValid ? () => onBooking(context) : null),
-                    child: const Text("Continue"),
+                    child: Text("continue".tr()),
                   ),
                   kVerticalSpacer,
                 ],
@@ -332,7 +333,6 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
       String? emailCompany;
 
       if ((companyName ?? '').isNotEmpty) {
-
         emailCompany = value[formNameCompanyEmailAddress];
 
         if ((emailCompany ?? '').isEmpty) {
@@ -406,7 +406,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           country: value[formNameCompanyCountry],
           state: value[formNameCompanyState],
           city: value[formNameCompanyCity],
-          emailAddress: (companyName ?? '').isNotEmpty ? value[formNameCompanyEmailAddress] : null,
+          emailAddress: (companyName ?? '').isNotEmpty
+              ? value[formNameCompanyEmailAddress]
+              : null,
           postCode: value[formNameCompanyPostCode],
         ),
         emergencyContact: EmergencyContact(

@@ -102,7 +102,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                 kVerticalSpacer,
                 AppCountriesDropdown(
                   isPhoneCode: true,
-                  hintText: "Phone",
+                  hintText: "phone".tr(),
                   onChanged: widget.onPhoneCodeChanged,
                   initialCountryCode: widget.countryCode,
                 ),

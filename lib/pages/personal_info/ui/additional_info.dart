@@ -42,7 +42,7 @@ class AdditionInfoView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         FormHeader(
+        FormHeader(
           title: 'infoDetail.additionalInfo'.tr(),
         ),
         GreyCard(
@@ -95,11 +95,11 @@ class AdditionInfoView extends StatelessWidget {
                   onChanged: (newData) {},
                   initialDate: DateTime(2000),
                   initialEntryMode: DatePickerEntryMode.calendar,
-                  decoration: const InputDecoration(
-                      hintText: "Date of Birth",
-                      suffixIcon: Icon(Icons.calendar_month_sharp),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
+                  decoration: InputDecoration(
+                      hintText: "dob".tr(),
+                      suffixIcon: const Icon(Icons.calendar_month_sharp),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 12)),
                   inputType: InputType.date,
                 ),
                 kVerticalSpacer,
