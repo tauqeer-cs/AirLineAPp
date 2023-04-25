@@ -87,10 +87,11 @@ class ProfileView extends StatelessWidget {
                               textAlign: TextAlign.left,
                             ),
                             Text(
-                             "${'profile.rewardMemberShipNo'.tr()}${state.profile?.userProfile?.memberID ?? ''}",
+                              "${'profile.rewardMemberShipNo'.tr()}${state.profile?.userProfile?.memberID ?? ''}",
                               style: kMediumSemiBold,
                             ),
-                            if(state.profile?.userProfile?.memberPoint != null) ... [
+                            if (state.profile?.userProfile?.memberPoint !=
+                                null) ...[
                               Text(
                                 "${state.profile?.userProfile?.memberPoint ?? 0} ${'profile.pts'.tr()}'",
                                 style: kGiantMedium,
@@ -154,7 +155,8 @@ class ProfileView extends StatelessWidget {
                                       ),
                                       children: [
                                         ProfileBoxButton(
-                                          text: 'infoDetail.personalInformation'.tr(),
+                                          text: 'infoDetail.personalInformation'
+                                              .tr(),
                                           imageName: 'iconInfo',
                                           onTap: () {
                                             context.router.push(
@@ -162,7 +164,8 @@ class ProfileView extends StatelessWidget {
                                           },
                                         ),
                                         ProfileBoxButton(
-                                          text: 'personalInfo.accountSettings'.tr(),
+                                          text: 'personalInfo.accountSettings'
+                                              .tr(),
                                           imageName: 'iconSetting',
                                           onTap: () {
                                             context.router.push(
@@ -170,7 +173,9 @@ class ProfileView extends StatelessWidget {
                                           },
                                         ),
                                         ProfileBoxButton(
-                                          text: 'personalInfo.communicationPreference'.tr(),
+                                          text:
+                                              'personalInfo.communicationPreference'
+                                                  .tr(),
                                           imageName: 'iconPref',
                                           onTap: () {
                                             context.router.push(
@@ -178,9 +183,10 @@ class ProfileView extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                        if(ConstantUtils.showFamily) ... [
+                                        if (ConstantUtils.showFamily) ...[
                                           ProfileBoxButton(
-                                            text: 'familyDetail.familyFriends'.tr(),
+                                            text: 'familyDetail.familyFriends'
+                                                .tr(),
                                             imageName: 'iconFamily',
                                             onTap: () {
                                               //Page
@@ -190,10 +196,10 @@ class ProfileView extends StatelessWidget {
                                             },
                                           ),
                                         ],
-
-                                        if(ConstantUtils.showCards) ... [
+                                        if (ConstantUtils.showCards) ...[
                                           ProfileBoxButton(
-                                            text: 'personalInfo.paymentCards'.tr(),
+                                            text: 'personalInfo.paymentCards'
+                                                .tr(),
                                             imageName: 'iconPayment',
                                             onTap: () {
                                               context.router.push(
@@ -202,7 +208,14 @@ class ProfileView extends StatelessWidget {
                                             },
                                           ),
                                         ],
-
+                                        ProfileBoxButton(
+                                          text: 'language'.tr(),
+                                          imageName: 'language',
+                                          onTap: () {
+                                            context.router
+                                                .push(const LanguageRoute());
+                                          },
+                                        ),
                                         ProfileBoxButton(
                                           text: 'personalInfo.moreInfo'.tr(),
                                           imageName: 'iconMoreInfo',
@@ -213,10 +226,6 @@ class ProfileView extends StatelessWidget {
                                             );
                                           },
                                         ),
-
-
-
-
                                       ],
                                     ),
                                   ),
@@ -228,9 +237,6 @@ class ProfileView extends StatelessWidget {
                                 ],
                               ),
                             ),
-
-
-
                           ],
                         ),
                       ),

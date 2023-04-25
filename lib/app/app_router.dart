@@ -32,6 +32,7 @@ import 'package:app/pages/forget_password/forget_password_page.dart';
 import 'package:app/pages/home/home_page.dart';
 import 'package:app/pages/home_detail/home_detail_page.dart';
 import 'package:app/pages/inapp_webview/in_app_webview_page.dart';
+import 'package:app/pages/language/language_page.dart';
 import 'package:app/pages/navigation/navigation_page.dart';
 import 'package:app/pages/search_result/search_result_page.dart';
 import 'package:app/pages/webview/webview_page.dart';
@@ -98,7 +99,8 @@ part 'app_router.gr.dart';
       page: SignupWrapperPage,
       path: 'signup',
       children: [
-        AutoRoute(page: SignupAccountPage, path: 'signup/account', initial: true),
+        AutoRoute(
+            page: SignupAccountPage, path: 'signup/account', initial: true),
         AutoRoute(page: SignupAddressPage, path: 'signup/detail'),
       ],
     ),
@@ -111,11 +113,14 @@ part 'app_router.gr.dart';
     AutoRoute(page: FriendsFamilyPage, path: "/friends-family"),
     AutoRoute(page: MemberCardsPage, path: "/member-cards"),
     AutoRoute(page: MoreOptionsPage, path: "/more-options"),
+    AutoRoute(page: LanguagePage, path: "/language"),
     AutoRoute(page: ManageBookingDetailsPage, path: "/manage-booking-details"),
     AutoRoute(page: NewTravelDatesPage, path: "/new-travel-dates"),
     AutoRoute(page: SelectChangeFlightPage, path: "/select-change-flight"),
     AutoRoute(page: ChangeFlightSummaryPage, path: "/change-flight-summary"),
-    AutoRoute(page: ChangeFlightConfirmationPage, path: "/change-flight-confirmation"),
+    AutoRoute(
+        page: ChangeFlightConfirmationPage,
+        path: "/change-flight-confirmation"),
 
 //
   ],

@@ -287,6 +287,12 @@ class _$AppRouter extends RootStackRouter {
         child: const MoreOptionsPage(),
       );
     },
+    LanguageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const LanguagePage(),
+      );
+    },
     ManageBookingDetailsRoute.name: (routeData) {
       final args = routeData.argsAs<ManageBookingDetailsRouteArgs>(
           orElse: () => const ManageBookingDetailsRouteArgs());
@@ -567,6 +573,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           MoreOptionsRoute.name,
           path: '/more-options',
+        ),
+        RouteConfig(
+          LanguageRoute.name,
+          path: '/language',
         ),
         RouteConfig(
           ManageBookingDetailsRoute.name,
@@ -1288,6 +1298,18 @@ class MoreOptionsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MoreOptionsRoute';
+}
+
+/// generated route for
+/// [LanguagePage]
+class LanguageRoute extends PageRouteInfo<void> {
+  const LanguageRoute()
+      : super(
+          LanguageRoute.name,
+          path: '/language',
+        );
+
+  static const String name = 'LanguageRoute';
 }
 
 /// generated route for

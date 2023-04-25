@@ -3,7 +3,6 @@ import 'package:app/widgets/pdf_viewer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -19,7 +18,6 @@ class MoreOptionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final agentCms = context.watch<AgentSignUpCubit>().state.agentCms;
-    final locale = context.locale.toString();
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: AppLoadingScreen(message: 'updating'.tr()),
@@ -128,50 +126,6 @@ class MoreOptionsPage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Divider(),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8, top: 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'language'.tr(),
-                                  style: kLargeMedium.copyWith(
-                                    color: Styles.kTextColor,
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      setLocale(context, 'en');
-                                    },
-                                    child: Text(
-                                      "EN",
-                                      style: TextStyle(
-                                          color: locale == "en"
-                                              ? Styles.kActiveColor
-                                              : Colors.black),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 24),
-                                  GestureDetector(
-                                      onTap: () async {
-                                        setLocale(context, 'th');
-                                      },
-                                      child: Text(
-                                        "TH",
-                                        style: TextStyle(
-                                            color: locale == "th"
-                                                ? Styles.kActiveColor
-                                                : Colors.black),
-                                      )),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -195,12 +149,5 @@ class MoreOptionsPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void setLocale(BuildContext context, String langCode) async {
-    context.loaderOverlay.show();
-    await context.setLocale(Locale(langCode));
-    context.loaderOverlay.hide();
-    Phoenix.rebirth(context);
   }
 }
