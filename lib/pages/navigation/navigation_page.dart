@@ -83,8 +83,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     tabsRouter.activeIndex == 4 ? Styles.kPrimaryColor : null,
                 height: 30,
               ),
-              label:
-                  isLogin ? 'navBar.account'.tr() : 'navBar.signupLogIn'.tr(),
+              label: isLogin ? 'navBar.account'.tr() : 'logIn'.tr(),
             ),
           ],
         );

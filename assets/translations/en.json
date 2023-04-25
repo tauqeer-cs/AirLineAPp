@@ -175,5 +175,11 @@
   "state": "State",
   "city": "City",
   "postalCode": "Postal Code",
-  "country": "Country"
+  "country": "Country",
+  "moreOptions": "More Options",
+  "conditionsOfCarriage": "Conditions of Carriage",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfUse": "Terms of Use",
+  "allRightsReserved": "All Rights Reserved",
+  "includeOneAdult": "Must include at least 1 adult for each booking"
 }

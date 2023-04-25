@@ -23,7 +23,7 @@ class LanguagePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'app.moreInfo'.tr(),
+          title: 'moreInfo'.tr(),
           height: 60.h,
           overrideInnerHeight: true,
           child: Column(

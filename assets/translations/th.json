@@ -175,5 +175,11 @@
   "state": "เมือง",
   "city": "จังหวัด",
   "postalCode": "รหัสไปรษณีย์",
-  "country": "ประเทศ"
+  "country": "ประเทศ",
+  "moreOptions": "ตัวเลือกเพิ่มเติม",
+  "conditionsOfCarriage": "เงื่อนไขการขนส่ง",
+  "privacyPolicy": "นโยบายความเป็นส่วนตัว",
+  "termsOfUse": "ข้อกำหนดการใช้งาน",
+  "allRightsReserved": "สงวนลิขสิทธิ์",
+  "includeOneAdult": "ต้องมีผู้ใหญ่อย่างน้อย 1 คนสำหรับการจองแต่ละครั้ง"
 }

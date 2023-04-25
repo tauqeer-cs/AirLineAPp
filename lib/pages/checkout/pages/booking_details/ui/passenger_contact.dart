@@ -105,7 +105,7 @@ class _PassengerContactState extends State<PassengerContact> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => PdfViewer(
-                            title: 'app.privacyPolicy'.tr(),
+                            title: 'privacyPolicy'.tr(),
                             fileName:
                                 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                             pdfIsLink: true,
@@ -117,7 +117,7 @@ class _PassengerContactState extends State<PassengerContact> {
                       ErrorUtils.getErrorMessage(e, st);
                     }
                   },
-                text: "\n${'app.privacyPolicy'.tr()}.",
+                text: "\n${'privacyPolicy'.tr()}.",
                 style: kMediumHeavy.copyWith(
                     color: Styles.kTextColor, height: 1.5),
               ),
