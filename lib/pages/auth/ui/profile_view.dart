@@ -71,7 +71,7 @@ class ProfileView extends StatelessWidget {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: 'profile.welcomeBack'.tr(),
+                                    text: 'welcomeBackProfile'.tr(),
                                     style: kGiantRegular.copyWith(
                                         color: Styles.kPrimaryColor),
                                   ),
@@ -93,7 +93,7 @@ class ProfileView extends StatelessWidget {
                             if (state.profile?.userProfile?.memberPoint !=
                                 null) ...[
                               Text(
-                                "${state.profile?.userProfile?.memberPoint ?? 0} ${'profile.pts'.tr()}'",
+                                "${state.profile?.userProfile?.memberPoint ?? 0} ${'profile.pts'.tr()}",
                                 style: kGiantMedium,
                               ),
                             ],
