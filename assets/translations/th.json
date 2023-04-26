@@ -473,6 +473,7 @@
   "flightSummary.depart" : "ออกเดินทาง",
   "flightSummary.arrive" : "ไปถึง",
   "flightSummary.error" : "มีข้อผิดพลาด",
+  "flightSummary.select": "Select",
   "flightSummary.errorMessage" : "ขออภัย ค่าโดยสารหรือที่นั่งที่คุณเลือกไม่พร้อมให้บริการอีกต่อไป โปรดลองอีกครั้ง",
   "newPassword.createPassword" : "สร้างรหัสผ่านใหม่",
   "newPassword.passwordDesc1" : "รหัสผ่านของคุณต้องไม่ประกอบด้วยชื่อหรือนามสกุลของคุณ ต้องมีอักขระอย่างน้อย 8 ตัวโดยมีข้อกำหนดดังต่อไปนี",
@@ -973,5 +974,8 @@
   "calendar.dayWednesdayShort": "W",
   "calendar.dayThursdayShort": "T",
   "calendar.dayFridayShort": "F",
-  "calendar.daySaturdayShort": "F"
+  "calendar.daySaturdayShort": "S",
+  "seatsSelection.preferredSeat" : "Preferred Seat",
+  "seatsSelection.standardSeat" : "Standard Seat",
+  "seatsSelection.unavailable" : "Unavailable"
 }

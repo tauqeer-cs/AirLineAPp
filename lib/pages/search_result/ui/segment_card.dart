@@ -191,7 +191,7 @@ class SegmentCard extends StatelessWidget {
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Text(
-                                    "Direct flight - ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
+                                    'flightSummary.directFlight'.tr() + " ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
                                     style: kSmallMedium,
                                   ),
                                 ),
@@ -281,7 +281,7 @@ class SegmentCard extends StatelessWidget {
                       }
                     }
                   },
-                  child: const Text("Select"),
+                  child: Text('flightSummary.select'.tr()),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 20),

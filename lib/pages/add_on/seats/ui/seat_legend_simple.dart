@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,7 +24,7 @@ class SeatLegendSimple extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacerMini,
-        const Text("Seat Types", style: kMediumRegular),
+        Text('seatTypes'.tr(), style: kMediumRegular),
         kVerticalSpacerSmall,
         Wrap(
           spacing: 8,
