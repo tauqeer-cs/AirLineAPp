@@ -966,5 +966,12 @@
   "personalInfo.manageText": "Let’s manage your account",
   "selectYourLanguage" : "Select your preferred language for myairline app",
   "language": "Language",
-  "personalInfo.moreInfo": "ข้อมูลเพิ่มเติม"
+  "personalInfo.moreInfo": "ข้อมูลเพิ่มเติม",
+  "calendar.daySundayShort": "S",
+  "calendar.dayMondayShort": "M",
+  "calendar.dayTuesdayShort": "T",
+  "calendar.dayWednesdayShort": "W",
+  "calendar.dayThursdayShort": "T",
+  "calendar.dayFridayShort": "F",
+  "calendar.daySaturdayShort": "F"
 }
