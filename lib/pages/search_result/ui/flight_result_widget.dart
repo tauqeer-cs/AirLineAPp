@@ -77,19 +77,26 @@ class FlightResultWidget extends StatelessWidget {
                   builder: (context, bookState) {
                     return blocBuilderWrapper(
                       blocState: bookState.blocState,
-                      finishedBuilder: buildFlights(
-                        state,
-                        bookState,
-                      ),
-                      initialBuilder: buildFlights(
-                        state,
-                        bookState,
-                      ),
+                      finishedBuilder: buildFlights(state, bookState,),
+                      initialBuilder: buildFlights(state, bookState,),
                       loadingBuilder: const BookingLoader(),
                     );
                   },
                 ),
                 kVerticalSpacer,
+                // Visibility(
+                //   visible: false,
+                //   replacement: Text(
+                //     "All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                //   child: Text(
+                //     "Prices are based on an ${filter?.numberPerson.toBeautify()}. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                // ),
+
+                /*
                 Visibility(
                   visible: false,
                   replacement: Text(
@@ -102,7 +109,9 @@ class FlightResultWidget extends StatelessWidget {
                         .tr(args: [filter?.numberPerson.toBeautify() ?? '']),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
-                ),
+                ),*/
+
+
               ],
             ),
           ),

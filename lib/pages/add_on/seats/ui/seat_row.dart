@@ -3,6 +3,7 @@ import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/pages/add_on/seats/ui/seat_legend_simple.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
@@ -61,10 +62,12 @@ class _SeatRowState extends State<SeatRow> {
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
-          if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
+          print("is selected ${widget.seats.isSeatAvailable}");
+          //if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
           if(selected){
+            print("is selected $selected");
             context
                 .read<SearchFlightCubit>()
                 .addSeatToPerson(selectedPerson, null, isDeparture);
@@ -83,6 +86,7 @@ class _SeatRowState extends State<SeatRow> {
                 context
                     .read<SelectedPersonCubit>()
                     .selectPerson(persons.persons[0]);
+                print("go to bottom");
                 await Future.delayed(const Duration(milliseconds: 500));
                 widget.moveToBottom?.call();
                 return;
@@ -108,8 +112,8 @@ class _SeatRowState extends State<SeatRow> {
             decoration: BoxDecoration(
               color: (widget.seats.isSeatAvailable ?? false) &&
                       !isBlockChild(focusedPerson, persons)
-                  ? (mapColor ?? {})[widget.seats.serviceId] ?? Colors.grey
-                  : Colors.grey,
+                  ? widget.seats.toColor
+                  : SeatAvailableLegend.unavailable.color,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Visibility(

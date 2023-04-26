@@ -19,12 +19,14 @@ class FlightDetail extends StatefulWidget {
   final bool isDeparture;
   final InboundOutboundSegment segment;
   final bool showFees;
+  final bool showDetailPayment;
 
   const FlightDetail({
     Key? key,
     required this.isDeparture,
     required this.segment,
     this.showFees = false,
+    this.showDetailPayment = true,
   }) : super(key: key);
 
   @override
@@ -53,9 +55,10 @@ class _FlightDetailState extends State<FlightDetail> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          kVerticalSpacerMini,
           Padding(
             padding:
-                EdgeInsets.symmetric(horizontal: widget.showFees ? 0 : 15.0),
+                EdgeInsets.symmetric(horizontal: widget.showFees ? 0 : 0.0),
             child: InkWell(
               onTap: () {
                 setState(() {
@@ -68,10 +71,16 @@ class _FlightDetailState extends State<FlightDetail> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "details".tr(),
-                    style: kSmallRegular.copyWith(
-                        color: const Color.fromRGBO(243, 110, 56, 1)),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: widget.showDetailPayment && !widget.showFees
+                            ? 15.0
+                            : 0),
+                    child: Text(
+                      "details".tr(),
+                      style: kSmallRegular.copyWith(
+                          color: const Color.fromRGBO(243, 110, 56, 1)),
+                    ),
                   ),
                   kHorizontalSpacerMini,
                   Icon(
@@ -84,7 +93,8 @@ class _FlightDetailState extends State<FlightDetail> {
               ),
             ),
           ),
-          kVerticalSpacer,
+          kVerticalSpacerMini,
+
           ExpandedSection(
             expand: isExpand,
             child: Column(
@@ -147,7 +157,7 @@ class _FlightDetailState extends State<FlightDetail> {
                 ),
                 kVerticalSpacer,
                 Visibility(
-                  visible: true,
+                  visible: widget.showDetailPayment,
                   child: BlocProvider(
                     create: (context) => IsPaymentPageCubit(true),
                     child: widget.showFees

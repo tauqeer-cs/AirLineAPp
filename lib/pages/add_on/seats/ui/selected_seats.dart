@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/models/number_person.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
@@ -35,63 +36,67 @@ class SelectedSeats extends StatelessWidget {
         ?.seatConfiguration
         ?.rows;
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
-    return Padding(
-      padding: kPageHorizontalPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'selectedSeats'.tr(),
-            style: kLargeSemiBold,
-          ),
-          kVerticalSpacerMini,
-          Text(
-            isDeparture ? 'departFlight'.tr() : 'returningFlight'.tr(),
-            style: kSmallSemiBold,
-          ),
-          kVerticalSpacerMini,
-          Wrap(
-            spacing: 5,
-            runSpacing: 5,
-            children: [
-              ...(persons ?? []).map(
-                (e) {
-                  final seats = isDeparture ? e.departureSeats : e.returnSeats;
-                  final row = (rows ?? []).firstWhereOrNull(
-                      (element) => element.rowId == seats?.rowId);
-                  return SizedBox(
-                    width: 0.4.sw,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Styles.kPrimaryColor,
-                            shape: BoxShape.circle,
+    return Visibility(
+      visible: rows?.isNotEmpty ?? false,
+      replacement: EmptyAddon(),
+      child: Padding(
+        padding: kPageHorizontalPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'selectedSeats'.tr(),
+              style: kLargeSemiBold,
+            ),
+            kVerticalSpacerMini,
+            Text(
+              isDeparture ? "departFlight".tr() : "returningFlight".tr(),
+              style: kSmallSemiBold,
+            ),
+            kVerticalSpacerMini,
+            Wrap(
+              spacing: 5,
+              runSpacing: 5,
+              children: [
+                ...(persons ?? []).map(
+                  (e) {
+                    final seats = isDeparture ? e.departureSeats : e.returnSeats;
+                    final row = (rows ?? []).firstWhereOrNull(
+                        (element) => element.rowId == seats?.rowId);
+                    return SizedBox(
+                      width: 0.4.sw,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Styles.kPrimaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Text(
+                              "${numberPersons?.getPersonIndex(e)}",
+                              style:
+                                  kMediumSemiBold.copyWith(color: Colors.white),
+                            ),
                           ),
-                          child: Text(
-                            "${numberPersons?.getPersonIndex(e)}",
-                            style:
-                                kMediumSemiBold.copyWith(color: Colors.white),
-                          ),
-                        ),
-                        kHorizontalSpacerMini,
-                        Flexible(
-                          child: Text(
-                            "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
-                            style: kSmallRegular.copyWith(
-                                color: Styles.kSubTextColor),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ).toList(),
-            ],
-          ),
-        ],
+                          kHorizontalSpacerMini,
+                          Flexible(
+                            child: Text(
+                              "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                              style: kSmallRegular.copyWith(
+                                  color: Styles.kSubTextColor),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ).toList(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

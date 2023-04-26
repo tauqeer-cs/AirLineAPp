@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../responses/agent_sign_up_cms.dart';
+import '../responses/universal_shared_settings_routes_response.dart';
 
 part 'cms_provider.g.dart';
 
@@ -42,4 +43,13 @@ abstract class CMSProvider {
     @Query("query") String? query = "tnC,agreement",
     @Query("deep") String? deep = "6",
   });
+
+  @GET('shared/get')
+  Future<UniversalSharedSettingsRoutesResponse> getInsuranceName(@Query("key") String key, {
+    @Query("query") String? query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
+    @Query("deep") String? deep = "6",
+    @Query("timestamp") String? timestamp = '1650012345',
+  });
+
+
 }

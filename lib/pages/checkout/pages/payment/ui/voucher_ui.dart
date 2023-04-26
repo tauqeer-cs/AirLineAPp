@@ -41,10 +41,16 @@ class VoucherCodeUi extends StatelessWidget {
     return FormBuilder(
       key: fbKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'voucherCode'.tr(),
             style: kHugeSemiBold,
+          ),
+          kVerticalSpacerMini,
+          const Text(
+            "Enter your voucher code below",
+            style: kMediumRegular,
           ),
           kVerticalSpacerSmall,
           if (!ConstantUtils.showPinInVoucher) ...[

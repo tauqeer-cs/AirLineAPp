@@ -35,7 +35,7 @@ class SearchFlightWidget extends StatelessWidget {
           AppInputText(
               name: "promoFlight",
               inputDecoration: InputDecoration(
-                hintText: "Promo Code",
+                hintText: "Promo Code e.g. VISA5",
                 border: UnderlineInputBorder(
                   borderSide: BorderSide(color: Styles.kBorderColor),
                 ),

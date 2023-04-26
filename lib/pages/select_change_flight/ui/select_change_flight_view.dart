@@ -121,6 +121,18 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 ],
 
                 kVerticalSpacer,
+                // Visibility(
+                //   visible: false,
+                //   replacement: Text(
+                //     "All fares are calculated based on a one-way flight for a single adult passenger. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                //   child: Text(
+                //     "Prices are based on an 'numberPerson.toBeautify()'. Fares are non-refundable, limited changes are permitted, and charges may apply. ",
+                //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                //   ),
+                // ),
+                /*
                 Visibility(
                   visible: false,
                   replacement: Text(
@@ -131,7 +143,8 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                     'flightSummary.rules'.tr(args: [noOfPerson]),
                     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   ),
-                ),
+                ),*/
+
                 const SizedBox(
                   height: 160,
                 ),
@@ -183,8 +196,9 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
     return Column(
       children: [
         if (state.checkedDeparture == true) ...[
+
           if (state.flightSearchResponse?.searchFlightResponse?.flightResult
-                  ?.isOutboundNotAvailable ==
+              ?.isOutboundNotAvailable ==
               true) ...[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,7 +222,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                             Text('topForm.return'.tr(), style: k18Heavy),
                             Text(
                                 state.manageBookingResponse?.result
-                                        ?.departureToDestinationCode ??
+                                    ?.departureToDestinationCode ??
                                     '',
                                 style: kLargeRegular),
                           ],
@@ -221,10 +235,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ],
                 ),
                 kVerticalSpacerBig,
-                Text(
-                    AppDateUtils.formatFullDate(
-                        state.manageBookingResponse?.newStartDateSelected ??
-                            DateTime.now()),
+                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newStartDateSelected ?? DateTime.now()),
                     style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
                 kVerticalSpacerBig,
                 AppCard(
@@ -233,7 +244,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                     child: Column(
                       children: [
                         Text(state.flightSearchResponse?.searchFlightResponse
-                                ?.flightResult?.outboundNotAvailableMessage ??
+                            ?.flightResult?.outboundNotAvailableMessage ??
                             ''),
                         kVerticalSpacerSmall,
                         Row(
@@ -246,7 +257,9 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                               flex: 3,
                               child: ElevatedButton(
                                 onPressed: () {
+
                                   Navigator.pop(context);
+
                                 },
                                 child: Text('back'.tr()),
                               ),
@@ -263,11 +276,11 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 ),
               ],
             )
-          ] else ...[
+          ] else ... [
             ChooseFlightSegment(
               title: 'bundleTab.depart'.tr(),
               subtitle: state.manageBookingResponse?.result
-                      ?.departureToDestinationCode ??
+                  ?.departureToDestinationCode ??
                   '',
               dateTitle: AppDateUtils.formatFullDate(state
                   .flightSearchResponse
@@ -278,14 +291,15 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   .departureDate),
               segments: state.selectedDepartureFlight != null
                   ? [state.selectedDepartureFlight!]
-                  : state.flightSearchResponse?.searchFlightResponse
-                          ?.flightResult?.outboundSegment ??
-                      [],
+                  : state.flightSearchResponse?.searchFlightResponse?.flightResult
+                  ?.outboundSegment ??
+                  [],
               isDeparture: true,
               changeFlight: true,
               visaPromo: false,
             ),
           ],
+
         ],
         kVerticalSpacer,
         if ((state.manageBookingResponse?.isTwoWay ?? true) &&
@@ -328,10 +342,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ],
                 ),
                 kVerticalSpacerBig,
-                Text(
-                    AppDateUtils.formatFullDate(
-                        state.manageBookingResponse?.newReturnDateSelected ??
-                            DateTime.now()),
+                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newReturnDateSelected ?? DateTime.now()),
                     style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
                 kVerticalSpacerBig,
                 AppCard(
@@ -353,7 +364,9 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                               flex: 3,
                               child: ElevatedButton(
                                 onPressed: () {
+
                                   Navigator.pop(context);
+
                                 },
                                 child: Text('back'.tr()),
                               ),

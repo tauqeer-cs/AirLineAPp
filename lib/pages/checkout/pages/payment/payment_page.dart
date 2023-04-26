@@ -32,6 +32,7 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
+
   @override
   void initState() {
     super.initState();
@@ -152,8 +153,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             context.router.replaceAll([
                               const NavigationRoute(),
                               BookingConfirmationRoute(
-                                bookingId: superPNR ?? "",
-                              )
+                                  bookingId: superPNR ?? "",)
                             ]);
                           } else {
                             if (mounted) {

@@ -6,7 +6,6 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -18,6 +17,8 @@ class JosKeys {
   static final gKeysAuth = GlobalKey<FormBuilderState>();
   static final gKeysSearch = GlobalKey<FormBuilderState>();
   static final gKeysBooking = GlobalKey<FormBuilderState>();
+  static final gKeysVoucher = GlobalKey<FormBuilderState>();
+
 }
 
 class LoginForm extends StatelessWidget {
@@ -76,7 +77,12 @@ class LoginForm extends StatelessWidget {
                 kVerticalSpacer,
                 ElevatedButton(
                     onPressed: () => context.router.pop(),
-                    child: Text('continueGuest'.tr())),
+                    child: const
+
+
+                     Text('continueGuest'.tr())
+
+    ),
                 kVerticalSpacerSmall,
                 Row(
                   children: [
@@ -86,12 +92,14 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    Text('loginVerify.or'.tr()),
+                    const Text(
+                        'loginVerify.or'
+                    ),
                     kHorizontalSpacerMini,
                     Expanded(
                         child: AppDividerWidget(
-                      color: Styles.kSubTextColor,
-                    )),
+                          color: Styles.kSubTextColor,
+                        )),
                   ],
                 ),
                 kVerticalSpacerSmall,
@@ -99,24 +107,37 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-          AppInputText(
-            isRequired: false,
-            textInputType: TextInputType.emailAddress,
-            name: formEmailLoginName,
-            hintText: 'emailAddress'.tr(),
-            maxLength: 45,
-            validators: [
-              FormBuilderValidators.required(),
-              FormBuilderValidators.email(),
-            ],
+          Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ), // set the background color here
+            child: AppInputText(
+              topPadding: 0,
+              isRequired: false,
+              fillColor: Colors.blueAccent,
+              textInputType: TextInputType.emailAddress,
+              name: formEmailLoginName,
+              hintText: 'emailAddress'.tr(),
+              maxLength: 45,
+              validators: [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.email(),
+              ],
+            ),
           ),
           kVerticalSpacer,
-          //Text(tr.password, style: kMediumHeavy),
-          AppInputPassword(
-            name: formPasswordLoginName,
-            hintText: 'password'.tr(),
-            validators: [FormBuilderValidators.required()],
-            isDarkBackground: false,
+          Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: AppInputPassword(
+              name: formPasswordLoginName,
+              hintText: 'password'.tr(),
+              validators: [FormBuilderValidators.required()],
+              isDarkBackground: false,
+            ),
           ),
           kVerticalSpacerMini,
           TextButton(
@@ -125,19 +146,27 @@ class LoginForm extends StatelessWidget {
               },
               child: Text(
                 'forgottenYourPassword'.tr(),
-                style: kMediumRegular.copyWith(color: Styles.kBorderColor),
+                style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               )),
           kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
-            child: Text('loginVerify.logIn'.tr()), //
+            child:  Text(
+              'loginVerify.logIn'.tr(),
+
+
+              style: kLargeHeavy,
+            ),
           ),
           kVerticalSpacer,
           OutlinedButton(
             onPressed: () => context.router.push(
               const SignupWrapperRoute(),
+            ), //kMedium15Heavy
+            child: const Text(
+              child: Text('createAccount'.tr()),
+              style: kLargeHeavy,
             ),
-            child: Text('createAccount'.tr()),
           )
         ],
       ),

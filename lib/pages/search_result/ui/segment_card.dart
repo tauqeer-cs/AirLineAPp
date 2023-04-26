@@ -77,7 +77,7 @@ class SegmentCard extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                 child: Column(
                   children: [
                     Row(
@@ -231,8 +231,12 @@ class SegmentCard extends StatelessWidget {
                         ),
                       ),
                     ],
-                    FlightDetail(isDeparture: isDeparture, segment: segment),
-                    kVerticalSpacerSmall,
+                    FlightDetail(
+                      isDeparture: isDeparture,
+                      segment: segment,
+                      showFees: false,
+                      showDetailPayment: false,
+                    ),
                   ],
                 ),
               ),

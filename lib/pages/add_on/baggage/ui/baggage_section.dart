@@ -5,6 +5,7 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/baggage/ui/baggage_notice.dart';
 import 'package:app/pages/add_on/ui/passenger_selector.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
@@ -34,19 +35,23 @@ class BaggageSection extends StatelessWidget {
         isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Padding(
       padding: kPageHorizontalPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PassengerSelector(
-            isDeparture: isDeparture,
-            addonType: AddonType.baggage,
-          ),
-          kVerticalSpacer,
-          buildBaggageCards(baggages, isDeparture),
-          kVerticalSpacer,
-           const BaggageNotice(),
-          kVerticalSpacer,
-        ],
+      child: Visibility(
+        visible: baggages?.isNotEmpty ?? false,
+        replacement: EmptyAddon(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PassengerSelector(
+              isDeparture: isDeparture,
+              addonType: AddonType.baggage,
+            ),
+            kVerticalSpacer,
+            buildBaggageCards(baggages, isDeparture),
+            kVerticalSpacer,
+             const BaggageNotice(),
+            kVerticalSpacer,
+          ],
+        ),
       ),
     );
   }

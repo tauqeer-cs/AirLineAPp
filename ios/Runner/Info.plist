@@ -36,7 +36,7 @@
 			<string>insider</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>insidermyairlineuat</string>
+				<string>insidermyairline</string>
 			</array>
 		</dict>
 	</array>

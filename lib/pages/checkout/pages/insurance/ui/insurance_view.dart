@@ -10,6 +10,7 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_toast.dart';
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,12 +27,16 @@ class _InsuranceViewState extends State<InsuranceView> {
 
   @override
   Widget build(BuildContext context) {
-    final passengers = context.watch<InsuranceCubit>().state.passengers;
-    double totalInsurance = 0;
-    for (var element in passengers) {
-      totalInsurance = totalInsurance + (element.getInsurance?.price ?? 0);
-    }
-    print("total insurance is $totalInsurance");
+    final insuranceState = context.watch<InsuranceCubit>().state;
+    final passengers = insuranceState.passengers;
+    final bookingState = context.watch<BookingCubit>().state;
+
+    final insurances =
+        bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+
+    final firstInsurance = insurances.firstOrNull;
+
+    print("insurance is ${insuranceState.totalInsurance()}");
     return Stack(
       children: [
         SummaryContainerListener(
@@ -48,7 +53,7 @@ class _InsuranceViewState extends State<InsuranceView> {
               ZurichContainer(),
               kVerticalSpacer,
               AvailableInsurance(),
-              InsuranceTerms(),
+              InsuranceTerms(isInternational: firstInsurance?.codeType?.contains('SL') == true ,),
               kSummaryContainerSpacing,
               kSummaryContainerSpacing,
             ],
@@ -64,12 +69,12 @@ class _InsuranceViewState extends State<InsuranceView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  BookingSummary(additionalNumber: totalInsurance),
+                  BookingSummary(additionalNumber: insuranceState.totalInsurance()),
                   ElevatedButton(
                     onPressed: () {
                       final bookingState = context.read<BookingCubit>().state;
                       final token = bookingState.verifyResponse?.token;
-                      if (token == null) {
+                      if(token == null){
                         Toast.of(context).show(message: "Token is empty");
                         return;
                       }

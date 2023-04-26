@@ -7,6 +7,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:app/widgets/app_tooltip.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
@@ -128,38 +129,27 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
               style: kLargeHeavy.copyWith(color: Styles.kSubTextColor),
             ),
             kHorizontalSpacerMini,
-            JustTheTooltip(
-              triggerMode: TooltipTriggerMode.tap,
-              preferredDirection: AxisDirection.up,
-              backgroundColor: Color.fromRGBO(237, 242, 244, 1),
-              margin: const EdgeInsets.all(16),
-              child: Icon(
-                Icons.info,
-                color: Styles.kPrimaryColor,
-              ),
-              content: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: RichText(
-                  text: TextSpan(
-                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text:
-                            'All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our ',
-                      ),
-                      TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            context.router.push(
-                              WebViewSimpleRoute(url: "/fares-fees"),
-                            );
-                          },
-                        style:
-                            kMediumMedium.copyWith(color: Styles.kPrimaryColor),
-                        text: 'Fare Rules.',
-                      ),
-                    ],
-                  ),
+            AppTooltip(
+              child: RichText(
+                text: TextSpan(
+                  style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text:
+                      'All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our ',
+                    ),
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          context.router.push(
+                            WebViewSimpleRoute(url: "/fares-fees"),
+                          );
+                        },
+                      style:
+                      kMediumMedium.copyWith(color: Styles.kPrimaryColor),
+                      text: 'Fare Rules.',
+                    ),
+                  ],
                 ),
               ),
             ),

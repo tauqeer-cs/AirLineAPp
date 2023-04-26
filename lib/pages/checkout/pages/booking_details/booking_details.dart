@@ -254,6 +254,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             BlocProvider(create: (context) => InfoCubit()),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
+            listenWhen: (prev, curr) {
+              return prev.blocState != curr.blocState;
+            },
             listener: (context, state) {
               blocListenerWrapper(
                 blocState: state.blocState,
@@ -272,6 +275,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   Toast.of(context).show(message: state.message);
                 },
                 onFinished: () async {
+                  if(context.router.currentPath != BookingDetailsRoute().path) return;
+                 print("context.router.currentPath ${context.router.currentPath}");
+                  print("BookingDetailsRoute().path ${BookingDetailsRoute().path}");
+
                   context.loaderOverlay.hide();
                   context
                       .read<BookingCubit>()

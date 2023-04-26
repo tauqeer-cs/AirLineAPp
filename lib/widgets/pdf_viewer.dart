@@ -128,7 +128,7 @@ class _PdfViewerState extends State<PdfViewer> {
   Widget buildPdfView() {
     if (widget.pdfIsLink) {
       return remotePDFpath == null
-          ? Text("PDF Path Empty")
+          ? Text("")
           : PDFView(
               filePath: remotePDFpath,
               onRender: (pages) {},
@@ -142,7 +142,7 @@ class _PdfViewerState extends State<PdfViewer> {
             );
     }
     if (pathPDF.isEmpty) {
-      return Text("PDF Empty");
+      return Text("");
     }
     return PDFView(
       filePath: pathPDF,

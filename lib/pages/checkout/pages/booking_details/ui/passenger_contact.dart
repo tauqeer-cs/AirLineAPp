@@ -119,7 +119,7 @@ class _PassengerContactState extends State<PassengerContact> {
                   },
                 text: "\n${'privacyPolicy'.tr()}.",
                 style: kMediumHeavy.copyWith(
-                    color: Styles.kTextColor, height: 1.5),
+                    color: Styles.kPrimaryColor, height: 1.5),
               ),
             ],
           ),

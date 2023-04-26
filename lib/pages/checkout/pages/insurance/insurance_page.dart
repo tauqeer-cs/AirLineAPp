@@ -3,7 +3,6 @@ import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
-import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/ui/insurance_view.dart';
 import 'package:app/widgets/app_app_bar.dart';
@@ -29,14 +28,21 @@ class InsurancePage extends StatefulWidget {
 
 class _InsurancePageState extends State<InsurancePage> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    print("reinit insurance page");
     final passengers = context
-            .watch<SummaryCubit>()
+            .read<SummaryCubit>()
             .state
             .summaryRequest
             ?.flightSummaryPNRRequest
             .passengers ??
         [];
+    context.read<InsuranceCubit>().init(passengers);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
@@ -45,10 +51,12 @@ class _InsurancePageState extends State<InsurancePage> {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => InfoCubit()),
-            BlocProvider(
-                create: (context) => InsuranceCubit()..init(passengers)),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
+            listenWhen: (prev, curr) {
+
+              return prev.blocState != curr.blocState;
+            },
             listener: (context, state) {
               blocListenerWrapper(
                 blocState: state.blocState,
@@ -103,6 +111,7 @@ class _InsurancePageState extends State<InsurancePage> {
                     BookingStep.addOn,
                     BookingStep.bookingDetails,
                     BookingStep.insurance,
+
                   ],
                   onTopStepTaped: (int index) {
                     if (index == 0) {

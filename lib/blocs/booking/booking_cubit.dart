@@ -13,9 +13,9 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-part 'booking_state.dart';
-
 part 'booking_cubit.g.dart';
+
+part 'booking_state.dart';
 
 class BookingCubit extends Cubit<BookingState> {
   BookingCubit() : super(const BookingState());
@@ -57,7 +57,9 @@ class BookingCubit extends Cubit<BookingState> {
   }
 
   summaryFlight(SummaryRequest? summaryRequest) {
-    emit(state.copyWith(summaryRequest: summaryRequest));
+    emit(
+      state.copyWith(summaryRequest: summaryRequest),
+    );
   }
 
   updateSuperPnrNo(String? superPnrNo) {

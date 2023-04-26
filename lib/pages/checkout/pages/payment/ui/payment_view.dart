@@ -11,6 +11,7 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../../theme/theme.dart';
 
 class PaymentView extends StatefulWidget {
@@ -36,7 +37,25 @@ class _PaymentViewState extends State<PaymentView> {
       Padding(
         padding: kPageHorizontalPadding,
         child: Column(
+
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            kVerticalSpacer,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                "Summary & Payment",
+                style: kHugeHeavy,
+              ),
+            ),
+            kVerticalSpacerSmall,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                "Fill in all passengers’ names as per passport. Your entry may be denied if your passport’s expiry date is within several months of your travel period - please check your passport’s expiry date.",
+                style: kMediumRegular,
+              ),
+            ),
             kVerticalSpacer,
             const PassengerCard(),
             kVerticalSpacer,

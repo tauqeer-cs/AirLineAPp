@@ -10,6 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class FeeAndTaxesDetail extends StatelessWidget {
   final bool isDeparture;
   final double? padding;
@@ -62,7 +63,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
             children: [
               Text(
                 "ticket".tr(),
-                style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                style: kSmallRegular.copyWith(color: Styles.kTextColor),
               ),
               Align(
                   child: MoneyWidgetSmall(
@@ -81,7 +82,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                       child: Text(
                         e.taxDetail?.taxDesc ?? "",
                         style:
-                            kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                            kSmallRegular.copyWith(color: Styles.kTextColor),
                       ),
                     ),
                     Row(
@@ -166,7 +167,7 @@ class PriceContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 7, horizontal: padding ?? 15),
+      padding: EdgeInsets.symmetric(vertical: 2, horizontal: padding ?? 15),
       child: child,
     );
   }

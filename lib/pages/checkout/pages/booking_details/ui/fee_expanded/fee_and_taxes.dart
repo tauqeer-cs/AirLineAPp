@@ -47,6 +47,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
         InkWell(
           onTap: () {
             setState(() {
@@ -116,8 +117,8 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
         ),
         Visibility(
           visible: (filter?.numberPerson
-                      .getTotalWheelChairPartial(widget.isDeparture) ??
-                  0) >
+              .getTotalWheelChairPartial(widget.isDeparture) ??
+              0) >
               0,
           child: WheelChairFee(
             isDeparture: widget.isDeparture,

@@ -79,26 +79,43 @@ class PassengerCard extends StatelessWidget {
                         );
                       },
                     ),
+                    Visibility(
+                      visible: superPnr == null,
+                      child: Center(
+                        child: SizedBox(
+                          width: 150,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Edit",
+                              style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
             ],
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Visibility(
-              visible: superPnr == null,
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  "Edit",
-                  style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
-                ),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.topRight,
+          //   child: Visibility(
+          //     visible: superPnr == null,
+          //     child: InkWell(
+          //       onTap: () {
+          //         Navigator.pop(context);
+          //       },
+          //       child: Text(
+          //         "Edit",
+          //         style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

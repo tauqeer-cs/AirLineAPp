@@ -8,7 +8,7 @@
 @end
 
 // FIXME: Please change with your app group.
-static NSString *APP_GROUP = @"group.com.myairline.mobileapp.uat";
+static NSString *APP_GROUP = @"group.com.myairline.mobileapp";
 
 @implementation NotificationViewController
 

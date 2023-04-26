@@ -1,16 +1,11 @@
 import 'package:app/app/app_router.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
-import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_baggage.dart';
-import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_meals.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_promo.dart';
-import 'package:app/pages/checkout/pages/booking_confirmation/ui/confirmation_seats.dart';
-import 'package:app/pages/checkout/pages/booking_confirmation/ui/fares_and_bundles.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/passengers_widget.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/payment_info.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/summary_widget.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
-import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -22,8 +17,9 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ConfirmationView extends StatefulWidget {
-  const ConfirmationView({Key? key,}) : super(key: key);
-
+  const ConfirmationView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ConfirmationView> createState() => _ConfirmationViewState();
@@ -31,6 +27,8 @@ class ConfirmationView extends StatefulWidget {
 
 class _ConfirmationViewState extends State<ConfirmationView> {
   ScreenshotController screenshotController = ScreenshotController();
+  ScrollController _controllerSroll = ScrollController();
+
   bool isLoading = false;
 
   onShare() async {
@@ -51,6 +49,8 @@ class _ConfirmationViewState extends State<ConfirmationView> {
   Widget build(BuildContext context) {
     final confirmationDetail = context.watch<ConfirmationCubit>().state;
     return SingleChildScrollView(
+      controller: _controllerSroll,
+
       child: Screenshot(
         controller: screenshotController,
         child: Container(
@@ -62,8 +62,8 @@ class _ConfirmationViewState extends State<ConfirmationView> {
             children: [
               kVerticalSpacerSmall,
               Text(
-                "A confirmation email has been sent to",
-                style: kMediumMedium.copyWith(
+                "Your booking has been confirmed.\nA confirmation email has been sent to",
+                style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor, height: 1.5),
                 textAlign: TextAlign.center,
               ),
@@ -76,7 +76,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               kVerticalSpacerSmall,
               Text(
                 "Booking reference:  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
-                style: kHugeSemiBold.copyWith(color: Styles.kDartBlack),
+                style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
                 textAlign: TextAlign.center,
               ),
               kVerticalSpacer,
@@ -87,29 +87,17 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   ],
                 ),
               ),
-
               kVerticalSpacer,
               const SummaryWidget(),
               kVerticalSpacer,
-
               AppCard(
                 child: Column(
                   children: [
-                    const FaresAndBundles(),
-                    const ConfirmationSeats(),
-                    const ConfirmationMeals(),
-                    const ConfirmationBaggage(),
-                    const ConfirmationBaggage(
-                      boolIsSports: true,
-                    ),
-                    const ConfirmationBaggage(
-                      isInsurance: true,
-                    ),
                     //1 == 1 ? Container() :
                     const ConfirmationPromo(),
-                    kVerticalSpacerSmall,
-                    const AppDividerWidget(),
-                    kVerticalSpacerSmall,
+                    // kVerticalSpacerSmall,
+                    // const AppDividerWidget(),
+                    // kVerticalSpacerSmall,
                     Row(
                       children: [
                         const Text("Total", style: kGiantHeavy),
@@ -129,10 +117,32 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   ],
                 ),
               ),
-
               kVerticalSpacer,
               kVerticalSpacerSmall,
               const PaymentInfo(),
+
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
+                  child: FloatingActionButton(
+                    onPressed: () {
+
+
+                      _controllerSroll.animateTo(
+                      _controllerSroll.position.minScrollExtent,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.fastOutSlowIn,
+                      );
+
+
+                    },
+                    backgroundColor: Styles.kPrimaryColor,
+                    child: const Icon(Icons.keyboard_arrow_up),
+                  ),
+                ),
+              ),
               kVerticalSpacer,
               OutlinedButton(
                 onPressed: isLoading ? null : onShare,

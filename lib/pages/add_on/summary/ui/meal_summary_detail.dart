@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../theme/theme.dart';
+import '../../ui/summary_list_item.dart';
 
 class MealSummaryDetail extends StatelessWidget {
   const MealSummaryDetail({Key? key}) : super(key: key);
@@ -92,10 +93,8 @@ class MealSummaryDetail extends StatelessWidget {
             ),
             ...meal.entries
                 .map(
-                  (e) => Text(
-                    "${e.value.first.description} x${e.value.length}",
-                    style: kMediumRegular.copyWith(color: Styles.kActiveGrey),
-                  ),
+                  (e) =>
+                      SummaryListItem(text:"${e.value.first.description} ${e.value.length>1?'x ${e.value.length}':''}",),
                 )
                 .toList()
           ],
