@@ -53,7 +53,7 @@ class LanguagePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'Select your preferred language for myairline app',
+                  'selectYourLanguage'.tr(),
                   style: kMediumRegular.copyWith(
                     color: Styles.kTextColor,
                   ),

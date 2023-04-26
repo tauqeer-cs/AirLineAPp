@@ -624,7 +624,7 @@
   "navBar.bookingReferenceValid" : "หมายเลขการจองต้องเป็นอักขระที่เป็นตัวอักษรและตัวเลขคละกัน 6 ตัว",
   "navBar.lastName" : "นามสกุล",
   "navBar.nameValidation" :  "ป้อนนามสกุลที่ถูกต้อง",
-  "navBar.addonServices" : "บริการเสริม",
+  "addonServices" : "บริการเสริม",
   "navBar.flightChange" : "การเปลี่ยนแปลงเที่ยวบิน",
   "navBar.greeting" : "สวัสดี,",
   "navBar.myRewardsMembership" : "สมาชิก MYRewards #",
@@ -964,5 +964,7 @@
   "welcomeBackProfile": "ยินดีต้อนรับกลับมา, ",
   "profile.rewardMemberShipNo": "MYReward Membership # ",
   "personalInfo.manageText": "Let’s manage your account",
+  "selectYourLanguage" : "Select your preferred language for myairline app",
+  "language": "Language",
   "personalInfo.moreInfo": "ข้อมูลเพิ่มเติม"
 }

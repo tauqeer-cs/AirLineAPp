@@ -14,6 +14,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class SignupAddressPage extends StatelessWidget {
   const SignupAddressPage({Key? key}) : super(key: key);
@@ -36,6 +37,10 @@ class SignupAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
+    initializeDateFormatting(locale, null);
+
     return Stack(
       children: [
         Image.asset(

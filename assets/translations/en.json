@@ -572,7 +572,7 @@
   "navBar.bookingReferenceValid": "Booking number has to be 6 alphanumeric characters",
   "navBar.lastName": "Surname/Last Name",
   "navBar.nameValidation": "Enter a valid Last Name / Surname",
-  "navBar.addonServices": "Add on Services",
+  "addonServices": "Add on Services",
   "navBar.flightChange": "Change Flight",
   "navBar.greeting": "Hi,",
   "navBar.myRewardsMembership": "MYRewards Membership #",
@@ -924,5 +924,6 @@
   "seatsSelection.noSeatSelected" : "No seat selected",
   "seatsSelection.seatTypes" : "Seat Types",
   "seatsSelection.unavailable" : "Unavailable",
-  "pleaseSelect" : "Please Select"
+  "pleaseSelect" : "Please Select",
+  "selectYourLanguage" : "Select your preferred language for myairline app"
 }

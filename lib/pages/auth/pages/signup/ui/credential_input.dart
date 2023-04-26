@@ -45,7 +45,7 @@ class CredentialInput extends StatelessWidget {
                             focusNode: focusNode,
                             textInputType: TextInputType.emailAddress,
                             name: formNameEmail,
-                            hintText: 'signUp1.email',
+                            hintText: 'signUp1.email'.tr(),
                             validators: [
                               FormBuilderValidators.required(),
                               FormBuilderValidators.email(),
