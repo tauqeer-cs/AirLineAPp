@@ -24,7 +24,10 @@ class VoucherCubit extends Cubit<VoucherState> {
 
   getAvailablePromotions(String token) async {
     state.flightToken = token;
+
+
     final response = await _repository.getPromoInfo(Token(token: token));
+
     if (response.statusCode == 200) {
       emit(state.copyWith(
         redemptionOption: response.value!.lmsRedemptionOption,
@@ -104,4 +107,5 @@ class VoucherCubit extends Cubit<VoucherState> {
       );
     }
   }
+
 }
