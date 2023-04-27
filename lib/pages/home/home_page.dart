@@ -4,6 +4,8 @@ import 'package:app/pages/home/ui/home_view.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,6 +19,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     //FCMNotification.of(context).initialize();
+
+
+
   }
 
   @override
@@ -30,6 +35,7 @@ class _HomePageState extends State<HomePage> {
       //     );
       //   },
       // ),
+
       body: BlocProvider(
         create: (context) => PriceRangeCubit(),
         child: const HomeView(),

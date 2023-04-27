@@ -44,7 +44,7 @@ class _InsuranceViewState extends State<InsuranceView> {
             controller: scrollController,
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
-              Text(
+              const Text(
                 "MYAirline Travel Insurance",
                 style: kHugeHeavy,
               ),
@@ -81,7 +81,7 @@ class _InsuranceViewState extends State<InsuranceView> {
                         token: token,
                         updateInsuranceRequest: UpdateInsuranceRequest(
                           isRemoveInsurance: false,
-                          passengers: context.read<InsuranceCubit>().state.passengers,
+                          passengers: context.read<InsuranceCubit>().state.passengersWithOutInfants,
                         )
                       );
                       context
