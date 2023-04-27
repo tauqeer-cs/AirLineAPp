@@ -14,6 +14,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../data/responses/verify_response.dart';
+
 class InsuranceView extends StatefulWidget {
   const InsuranceView({Key? key}) : super(key: key);
 
@@ -24,11 +26,41 @@ class InsuranceView extends StatefulWidget {
 class _InsuranceViewState extends State<InsuranceView> {
   final scrollController = ScrollController();
 
+
+  bool resetInsurance = false;
+
+  InsuranceCubit? insuranceCubit;
+  BundleGroupSeat? insuranceGroup;
+
+  void resetData() async {
+    await Future.delayed(Duration(milliseconds: 500));
+
+    if(insuranceCubit != null) {
+
+      insuranceCubit?.setLast(insuranceGroup?.outbound?.firstWhereOrNull((element) => element == insuranceGroup?.outbound?.first));
+
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+
+    resetData();
+
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bookingState = context.watch<BookingCubit>().state;
+
+    insuranceGroup =
+        bookingState.verifyResponse?.flightSSR?.insuranceGroup;
+
+
+    insuranceCubit = context.watch<InsuranceCubit>();
+
     final insuranceState = context.watch<InsuranceCubit>().state;
     final passengers = insuranceState.passengers;
-    final bookingState = context.watch<BookingCubit>().state;
 
     final insurances =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];

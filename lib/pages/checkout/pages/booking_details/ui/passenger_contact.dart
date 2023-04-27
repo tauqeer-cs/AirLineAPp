@@ -13,6 +13,7 @@ import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -106,7 +107,8 @@ class _PassengerContactState extends State<PassengerContact> {
                         MaterialPageRoute(
                           builder: (context) => const PdfViewer(
                             title: 'Privacy Policy',
-                            fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
+                            fileName:
+                                'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                             pdfIsLink: true,
                           ),
                         ),
@@ -173,6 +175,9 @@ class _PassengerContactState extends State<PassengerContact> {
               name: formNameContactPhoneNumber,
               initialValue: profile?.phoneNumber ?? phoneNumber,
               textInputType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
               hintText: "Phone Number",
               validators: [FormBuilderValidators.required()],
               onChanged: (value) {
