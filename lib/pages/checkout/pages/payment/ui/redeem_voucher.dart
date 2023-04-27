@@ -44,33 +44,40 @@ class RedeemVoucherView extends StatelessWidget {
         promotionsList = bloc.state.redemptionOption?.availableOptions;
       }
     }
-    return !state.promoLoaded
+    final user = context.read<AuthBloc>().state.user;
+
+    return
+      user  == null ? Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          kVerticalSpacerSmall,
+          Text(
+            "MYReward",
+            style: kHugeSemiBold.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          kVerticalSpacerMini,
+          Text(
+            "Login to redeem your MYReward Points for further discounts!",
+            style: kMediumRegular.copyWith(),
+          ),
+          kVerticalSpacerMini,
+
+          ElevatedButton(
+            onPressed: () async {
+              showLoginDialog(context);
+
+            },
+            child: const Text("Login"),
+          ),
+          kVerticalSpacerSmall,
+        ],
+      ) :
+      !state.promoLoaded
         ? const AppLoading()
         : (promoReady && promotionsList == null)
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  kVerticalSpacerSmall,
-                  Text(
-                    "MYReward",
-                    style: kHugeSemiBold.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  kVerticalSpacerMini,
-                  Text(
-                    "Login to redeem your MYReward Points for further discounts!",
-                    style: kMediumRegular.copyWith(),
-                  ),
-                  kVerticalSpacerMini,
-
-                  ElevatedButton(
-                    onPressed: () => showLoginDialog(context),
-                    child: Text("Login"),
-                  ),
-                  kVerticalSpacerSmall,
-                ],
-              )
+            ? Container()
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -171,6 +178,7 @@ class RedeemVoucherView extends StatelessWidget {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
                       var token =context.read<SummaryCubit>().state.summaryResponse?.token;
+
                       print("token is $token");
                       if (token != null) {
                         context

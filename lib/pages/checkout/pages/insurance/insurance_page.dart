@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../../blocs/auth/auth_bloc.dart';
 import '../../../../blocs/settings/settings_cubit.dart';
 import '../../../../blocs/voucher/voucher_cubit.dart';
 
@@ -42,6 +43,8 @@ class _InsurancePageState extends State<InsurancePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthBloc>().state.user;
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
@@ -93,10 +96,16 @@ class _InsurancePageState extends State<InsurancePage> {
                     context.read<VoucherCubit>().state.copyWith(
                         flightToken: state.summaryResponse?.token ??
                             state.summaryResponse!.token);
-                    if (token != null) {
+                    if(user?.token == null){
+
+                    }
+                    else if (token != null) {
                       context
                           .read<VoucherCubit>()
                           .getAvailablePromotions(token);
+                    }
+                    else {
+
                     }
                   }
                   //VoucherCubit

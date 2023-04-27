@@ -522,6 +522,10 @@ class _PassengerInfoState extends State<PassengerInfo> {
     DateTime userDob =
         profileBloc.state.profile?.userProfile?.dob ?? DateTime.now();
 
+    bool showMySelf = false;
+    if(userDob.year == 1){
+      showMySelf = true;
+    }
     var limitDate = widget.person.dateLimitStart(filter.departDate);
 
     int difference = userDob.difference(limitDate).inDays;
@@ -536,7 +540,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
             filter.departDate ?? DateTime.now(),
             widget.person.peopleType ?? PeopleType.adult),
         person: widget.person,
-        showMySelf: difference > 1,
+        showMySelf: showMySelf == true ? true : difference > 1,
       ),
     );
     if (selectFamily != null) {

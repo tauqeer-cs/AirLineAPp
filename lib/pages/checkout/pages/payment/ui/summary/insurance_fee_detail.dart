@@ -16,7 +16,7 @@ class InsuranceFeeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
-    final passengers = context.watch<InsuranceCubit>().state.passengers;
+    final passengers = context.watch<InsuranceCubit>().state.passengersWithOutInfants;
 
     final bookingState = context.watch<BookingCubit>().state;
     final pnrRequest = bookingState.summaryRequest?.flightSummaryPNRRequest;
