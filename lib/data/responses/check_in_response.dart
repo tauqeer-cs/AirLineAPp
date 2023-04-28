@@ -6,6 +6,8 @@ class CheckInResponse {
   bool? success;
   String? outboundCheckInErrorMessage;
   String? inboundCheckInErrorMessage;
+  String? message;
+
 
   String get errorMessages {
     if((outboundCheckInErrorMessage ?? '').isNotEmpty && (inboundCheckInErrorMessage ?? '').isNotEmpty) {
@@ -19,7 +21,7 @@ class CheckInResponse {
     if((inboundCheckInErrorMessage ?? '').isNotEmpty){
       return inboundCheckInErrorMessage ?? '';
     }
-    return '';
+    return message ?? '';
   }
 
   CheckInResponse(
@@ -38,6 +40,8 @@ class CheckInResponse {
     inboundCheckInSuccess = json['inboundCheckInSuccess'];
     outboundCheckInErrorMessage = json['outboundCheckInErrorMessage'];
     inboundCheckInErrorMessage = json['inboundCheckInErrorMessage'];
+    message = json['message'];
+
 
     success = json['success'];
   }
