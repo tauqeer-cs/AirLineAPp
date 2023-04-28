@@ -10,6 +10,9 @@ class AgentSignUpState extends Equatable {
   final Items? internationalItem;
   final Items? locationItem;
 
+  final String? meal24Title;
+  final String? mean24Content;
+
   final UniversalSharedSettingsRoutesResponse? userSharedRouteResponse;
 
 
@@ -20,6 +23,8 @@ class AgentSignUpState extends Equatable {
     this.userSharedRouteResponse,
     this.internationalItem,
     this.locationItem,
+    this.meal24Title,
+    this.mean24Content
 
   });
 
@@ -30,6 +35,8 @@ class AgentSignUpState extends Equatable {
     UniversalSharedSettingsRoutesResponse? userSharedRouteResponse,
      Items? internationalItem,
      Items? locationItem,
+    String? meal24Title,
+     String? mean24Content,
   }) {
     return AgentSignUpState(
       blocState: blocState ?? this.blocState,
@@ -38,6 +45,9 @@ class AgentSignUpState extends Equatable {
       userSharedRouteResponse: userSharedRouteResponse ?? this.userSharedRouteResponse,
       internationalItem: internationalItem ?? this.internationalItem,
       locationItem: locationItem ?? this.locationItem,
+      meal24Title: meal24Title ?? this.meal24Title,
+      mean24Content: mean24Content ?? this.mean24Content,
+
     );
   }
 
@@ -47,5 +57,7 @@ class AgentSignUpState extends Equatable {
     message,
     agentCms,
     userSharedRouteResponse,
+    meal24Title,
+    mean24Content
   ];
 }
