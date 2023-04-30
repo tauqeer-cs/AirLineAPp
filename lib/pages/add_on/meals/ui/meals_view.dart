@@ -78,6 +78,7 @@ class _MealsViewState extends State<MealsView> {
                 ),
                 kSummaryContainerSpacing,
                 kSummaryContainerSpacing,
+                kSummaryContainerSpacing,
               ],
             ),
           ),

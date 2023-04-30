@@ -38,8 +38,20 @@ class AgentSignUpCubit extends Cubit<AgentSignUpState> {
       final agentCms2 =
           await _repository.agenInsurance(universalSetting2?.key ?? '');
 
+
+      //
       Items? items = agentCms2.items?.firstWhere((element) => element.name == 'SSR');
 
+      Items? meal24HourItems = agentCms2.items?.firstWhere((element) => element.name == 'Meal Overtime Warning');
+
+      String? titleMeal24;
+      String? contentMeal24;
+
+      if(meal24HourItems != null) {
+
+        titleMeal24 = meal24HourItems.title;
+        contentMeal24 = meal24HourItems.contentHtmlString;
+      }
       Items? localItem;
       Items? internationItem;
 
@@ -52,6 +64,8 @@ class AgentSignUpCubit extends Cubit<AgentSignUpState> {
 
       emit(
         state.copyWith(
+          meal24Title: titleMeal24,
+          mean24Content: contentMeal24,
           blocState: BlocState.finished,
           agentCms: agentCms,
           userSharedRouteResponse: agentCms2,

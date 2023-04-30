@@ -1,6 +1,16 @@
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart' as html_parser;
+import 'package:universal_html/html.dart';
+
 class UniversalSharedSettingsRoutesResponse {
   int? id;
   String? name;
+  String? content;
+  String? title;
+
+
+
+
   List<Items>? items;
   String? responseTime;
 
@@ -10,6 +20,9 @@ class UniversalSharedSettingsRoutesResponse {
   UniversalSharedSettingsRoutesResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    title = json['title'];
+    content = json['content'];
+
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
@@ -32,6 +45,9 @@ class Items {
   String? ssrName;
   List<Items>? items;
 
+  String? content;
+  String? title;
+
   Items(
       {this.code,
         this.description,
@@ -39,6 +55,24 @@ class Items {
         this.id,
         this.name,
         this.ssrName});
+
+  String get contentHtmlString {
+
+    return extractTextFromHtml(content ?? '');
+  }
+
+  String get titleContent {
+    return '${title ?? ''}\n\n$contentHtmlString';
+  }
+  String extractTextFromHtml(String html) {
+
+    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
+    String parsedstring1 = html.replaceAll(exp, '');
+
+    String parsedstring2 = html.replaceAll(exp, ' ');
+    return parsedstring2;
+  }
+
 
   Items.fromJson(Map<String, dynamic> json) {
     code = json['code'];
@@ -48,6 +82,11 @@ class Items {
     name = json['name'];
     ssrName = json['ssrName'];
     items = <Items>[];
+
+    title = json['title'];
+    content = json['content'];
+
+
 
     if (json['items'] != null) {
       json['items'].forEach((v) {

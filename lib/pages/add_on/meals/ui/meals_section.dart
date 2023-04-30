@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
+
 class MealsSection extends StatelessWidget {
   final bool isDeparture;
 
@@ -37,7 +39,9 @@ class MealsSection extends StatelessWidget {
         : state.filterState!.returnDate!.difference(DateTime.now()).inHours <=
             1;
 
-    return Visibility(
+
+
+    return isFlightOver24Hour ? FlightWithin24Hour() : Visibility(
       visible: meals?.isNotEmpty ?? false,
       replacement: EmptyAddon(),
       child: Padding(
@@ -322,23 +326,28 @@ class FlightUnderAnHour extends StatelessWidget {
 class FlightWithin24Hour extends StatelessWidget {
   const FlightWithin24Hour({Key? key}) : super(key: key);
 
+
+
+
   @override
   Widget build(BuildContext context) {
+    final agentCms = context.watch<AgentSignUpCubit>().state;
+
     return Padding(
       padding: kPageHorizontalPadding,
       child: Column(
         children: [
           kVerticalSpacer,
-          const Text(
-            "Oh, your flight will depart within 24 hours.",
+           Text(
+             agentCms.meal24Title ??   "Oh, your flight will depart within 24 hours.",
             style: kHugeHeavy,
             textAlign: TextAlign.center,
           ),
           kVerticalSpacerSmall,
-          const Padding(
+           Padding(
             padding: kPageHorizontalPaddingBig,
             child: Text(
-              "Just buy your munchies and drinks on board your flight.",
+             agentCms.mean24Content ?? "Just buy your munchies and drinks on board your flight.",
               style: kLargeRegular,
               textAlign: TextAlign.center,
             ),
