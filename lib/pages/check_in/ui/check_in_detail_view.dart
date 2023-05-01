@@ -562,21 +562,19 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
                         ),
                         kVerticalSpacerSmall,
-
-
-                        CheckInDropDownCountry(keyName: 'sdf', onChange: (String newValue) {
+                        CheckInDropDownCountry(
+                          doValidation: state.manageBookingResponse?.result
+                              ?.passengersWithSSR?[i].paxSelected == true,
+                          keyName: 'passportNation$i', onChange: (String newValue) {
 
                           if(newValue != null) {
                             state.manageBookingResponse?.result
                                 ?.passengersWithSSR?[i].passportCountry = newValue;
                           }
 
-                        },),
-
+                        },
+                        ),
                         kVerticalSpacerSmall,
-
-
-
                         FormBuilderDateTimePicker(
                           name: 'formNameDob${i.toString()}',
                           firstDate: DateTime(1920),
@@ -595,7 +593,20 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           },
                           initialDate: DateTime(2000),
                           initialEntryMode: DatePickerEntryMode.calendar,
-                          validator: FormBuilderValidators.required(),
+                          validator: (value){
+
+                            if(state.manageBookingResponse?.result
+                                ?.passengersWithSSR?[i].paxSelected == true) {
+
+
+                              if(value == null) {
+                                return 'Passport is required';
+                              }
+                            }
+
+                            return null;
+
+                          },
 
                           decoration: const InputDecoration(
                               hintText: "Passport Expiry",
@@ -604,7 +615,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                               EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
                           inputType: InputType.date,
                         ),
-
                         kVerticalSpacerSmall,
                       ],
                       if (state.manageBookingResponse?.result?.passengersWithSSR?[i]
@@ -711,24 +721,135 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                           ?.passengersWithSSR?[i].infantDob ?? '')?.nationality ?? '',
                                   name: 'nationalityKeyInfant$i',
                                   onChanged: (value){
+                                  },
+                                  fillDisabledColor: true,
+                                ),
+                                kVerticalSpacer,
 
-                                    if(value != null) {
+                                if(bloc.showPassport == true) ... [
+
+                                  AppInputText(
+                                    isRequired: true,
+                                    name: 'infpassportKey${i.toString()}',
+                                    hintText: 'Passport No',
+                                    label: 'Passport No',
+                                    onChanged: (newValue){
+                                      if (newValue != null) {
+
+                                          state.manageBookingResponse?.result
+                                              ?.infanct(state.manageBookingResponse?.result
+                                              ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                              state.manageBookingResponse?.result
+                                                  ?.passengersWithSSR?[i].infantSurname ?? '',
+                                              state.manageBookingResponse?.result
+                                                  ?.passengersWithSSR?[i].infantDob ?? '')?.checkInPassportNo = newValue;
+
+
+
+
+                                      }
+                                    },
+                                    initialValue: state.manageBookingResponse?.result
+                                        ?.passengersWithSSR?[i].passengers?.passport,
+                                    textInputType: TextInputType.text,
+
+                                    validators: [
+                                          (value){
+
+                                        if(state.manageBookingResponse?.result
+                                            ?.passengersWithSSR?[i].paxSelected == true) {
+
+
+                                          if(value == null) {
+                                            return 'Passport is required';
+                                          }
+                                          if(value.isEmpty) {
+                                            return 'Passport is required';
+                                          }
+                                        }
+                                        return null;
+                                      }
+                                    ],
+                                    //validators: [
+                                    //  FormBuilderValidators.required(),
+
+                                    //],
+
+                                  ),
+                                  kVerticalSpacerSmall,
+                                  CheckInDropDownCountry(
+                                    doValidation: state.manageBookingResponse?.result
+                                        ?.passengersWithSSR?[i].paxSelected == true,
+                                    keyName: 'infpassportNation$i', onChange: (String newValue) {
+
+
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].passportCountry = newValue;
+
                                       state.manageBookingResponse?.result
                                           ?.infanct(state.manageBookingResponse?.result
                                           ?.passengersWithSSR?[i].infantGivenName ?? '',
                                           state.manageBookingResponse?.result
                                               ?.passengersWithSSR?[i].infantSurname ?? '',
                                           state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantDob ?? '')?.checkInMemberID = value;
+                                              ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
 
 
-                                    }
 
-                                  },
-                                  fillDisabledColor: true,
-                                ),
-                                kVerticalSpacer,
 
+
+                                  },),
+                                  kVerticalSpacerSmall,
+                                  FormBuilderDateTimePicker(
+                                    name: 'infformNameDob${i.toString()}',
+                                    firstDate: DateTime(1920),
+                                    lastDate: DateTime.now(),
+                                    //initialValue: dobSelected,
+                                    format: DateFormat("dd MMM yyyy"),
+                                    onChanged: (newData) {
+
+                                      if(newData != null) {
+
+                                        state.manageBookingResponse?.result
+                                            ?.infanct(state.manageBookingResponse?.result
+                                            ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                            state.manageBookingResponse?.result
+                                                ?.passengersWithSSR?[i].infantSurname ?? '',
+                                            state.manageBookingResponse?.result
+                                                ?.passengersWithSSR?[i].infantDob ?? '')?.passExpdate = newData.toString();
+
+
+                                      }
+
+
+
+                                    },
+                                    initialDate: DateTime(2000),
+                                    initialEntryMode: DatePickerEntryMode.calendar,
+                                    validator: (value){
+
+                                      if(state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].paxSelected == true) {
+
+
+                                        if(value == null) {
+                                          return 'Passport is required';
+                                        }
+                                      }
+
+                                      return null;
+
+                                    },
+                                    decoration: const InputDecoration(
+                                        hintText: "Passport Expiry",
+                                        suffixIcon: Icon(Icons.calendar_month_sharp),
+                                        contentPadding:
+                                        EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
+                                    inputType: InputType.date,
+                                  ),
+                                  kVerticalSpacerSmall,
+
+                                ],
                               ],
                             ),
 
@@ -749,7 +870,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           ? null
                           : () async {
 
-                        var ccc = CheckInDetailView._fbKey.currentState?.value;
 
                         if( CheckInDetailView._fbKey.currentState?.validate() == true) {
 
@@ -860,10 +980,13 @@ class CheckInDropDownCountry extends StatefulWidget {
 
   final Function(String) onChange;
 
+  final bool doValidation;
+
   final String keyName;
 
 
-  const CheckInDropDownCountry({Key? key, required this.keyName, required this.onChange}) : super(key: key);
+  const CheckInDropDownCountry({Key? key, required this.keyName, required this.onChange,
+    this.doValidation = false}) : super(key: key);
 
   @override
   State<CheckInDropDownCountry> createState() => _CheckInDropDownCountryState();
@@ -879,10 +1002,26 @@ class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
       ShadowInput(
       name: widget.keyName,
       textEditingController: _controller,
-        validators: [FormBuilderValidators.required()],
+        validators: [
+              (value) {
+            if(widget.doValidation == true){
+
+              if(value == null) {
+                return 'Passport Issuing Country required';
+              }
+            }
+          },
+        ],
         child: AppCountriesDropdown(
         validators: [
-           FormBuilderValidators.required(),
+          (value) {
+          if(widget.doValidation == true){
+
+            if(value == null) {
+              return 'Passport Issuing Country required';
+            }
+          }
+          },
         ],
         hintText: "Passport Issuing Country",
         customSheetTitle: 'Passport Issuing Country',
