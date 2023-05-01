@@ -60,13 +60,16 @@ class OutboundCheckInPassengerDetails {
   String? passportExpiryDate;
   String? memberID;
 
+  String? passportIssueCountryCode;
+
   OutboundCheckInPassengerDetails(
       {this.flightNumber,
         this.departureStationCode,
         this.inkPaxID,
         this.passportNumber,
         this.passportExpiryDate,
-        this.memberID});
+        this.memberID,
+      this.passportIssueCountryCode});
 
   OutboundCheckInPassengerDetails.fromJson(Map<String, dynamic> json) {
     flightNumber = json['FlightNumber'];
@@ -75,6 +78,11 @@ class OutboundCheckInPassengerDetails {
     passportNumber = json['PassportNumber'];
     passportExpiryDate = json['PassportExpiryDate'];
     memberID = json['MemberID'];
+    passportIssueCountryCode = json['PassportIssueCountryCode'];
+
+    print('');
+
+
   }
 
   Map<String, dynamic> toJson() {
@@ -91,6 +99,18 @@ class OutboundCheckInPassengerDetails {
       data['PassportNumber'] = passportNumber;
 
     }
+
+
+    if(passportNumber == '') {
+      data['PassportIssueCountryCode'] = null;
+
+    }
+    else {
+      data['PassportIssueCountryCode'] = passportIssueCountryCode;
+
+    }
+
+
     if(passportExpiryDate == ''){
       data['PassportExpiryDate'] = null;
 

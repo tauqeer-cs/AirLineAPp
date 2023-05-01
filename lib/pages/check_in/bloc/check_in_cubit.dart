@@ -316,9 +316,11 @@ class CheckInCubit extends Cubit<CheckInState> {
               inkPaxID: currentItem
                       .checkInStatusInOut?.outboundCheckInStatus?.inkPaxID ??
                   '',
-              passportNumber: '',
-              passportExpiryDate: '',
-              memberID: currentItem.checkInMemberID ?? '');
+              passportNumber: currentItem.checkInPassportNo ?? '',
+              passportExpiryDate: currentItem.passExpdate ?? '',
+              memberID: currentItem.checkInMemberID ?? '',
+              passportIssueCountryCode: currentItem.passportCountry ?? ''
+          );
 
           if(currentItem.checkInStatusInOut?.outboundCheckInStatus?.allowCheckIn == true) {
             if (currentItem.paxSelected == true) {

@@ -12,10 +12,12 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/form_utils.dart';
+import '../../../widgets/app_countries_dropdown.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
 import '../../booking_details/ui/flight_data.dart';
+import '../../checkout/pages/booking_details/ui/shadow_input.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 import '../bloc/check_in_cubit.dart';
 import 'boarding_pass_view.dart';
@@ -40,6 +42,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
     if (bloc.showCheckInButton == true) {
       bloc.loadBoardingDate();
     }
+
+    final nationalityController = TextEditingController();
 
     return BlocBuilder<CheckInCubit, CheckInState>(
       bloc: bloc,
@@ -515,24 +519,43 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         fillDisabledColor: true,
                       ),
                       kVerticalSpacerSmall,
-                      if (bloc.showPassport && false) ...[
+                      if (bloc.showPassport) ...[
                         AppInputText(
                           isRequired: true,
                           name: 'passportKey${i.toString()}',
                           hintText: 'Passport No',
                           label: 'Passport No',
+                          onChanged: (newValue){
+                            if (newValue != null) {
+                              state
+                                  .manageBookingResponse
+                                  ?.result
+                                  ?.passengersWithSSR?[i]
+                                  .checkInPassportNo = newValue;
+                            }
+                          },
                           initialValue: state.manageBookingResponse?.result
                               ?.passengersWithSSR?[i].passengers?.passport,
                           textInputType: TextInputType.text,
                           validators: [
                             FormBuilderValidators.required(),
-                            FormBuilderValidators.match(
-                                r'^[A-Z]{2}[0-9]{7}$',
-                                errorText:
-                                'Valid passport needed'),
+
                           ],
                         ),
                         kVerticalSpacerSmall,
+
+
+                        CheckInDropDownCountry(keyName: 'sdf', onChange: (String newValue) {
+
+                          if(newValue != null) {
+                            state.manageBookingResponse?.result
+                                ?.passengersWithSSR?[i].passportCountry = newValue;
+                          }
+
+                        },),
+
+                        kVerticalSpacerSmall,
+
 
 
                         FormBuilderDateTimePicker(
@@ -541,11 +564,22 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           lastDate: DateTime.now(),
                           //initialValue: dobSelected,
                           format: DateFormat("dd MMM yyyy"),
-                          onChanged: (newData) {},
+                          onChanged: (newData) {
+
+                            if(newData != null) {
+                              state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i].passExpdate = newData.toString();
+                            }
+
+
+
+                          },
                           initialDate: DateTime(2000),
                           initialEntryMode: DatePickerEntryMode.calendar,
+                          validator: FormBuilderValidators.required(),
+
                           decoration: const InputDecoration(
-                              hintText: "Date of Birth",
+                              hintText: "Passport Expiry",
                               suffixIcon: Icon(Icons.calendar_month_sharp),
                               contentPadding:
                               EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
@@ -695,22 +729,30 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                       onPressed: bloc.showCheckIn == false
                           ? null
                           : () async {
-                              bool? check = await showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 16),
-                                    child: DgnInfoView(
-                                      valueChanged: (bool value) {},
-                                    ),
-                                  );
-                                },
-                              );
 
-                              if (check == true) {
-                                //true
-                              }
+                        if( CheckInDetailView._fbKey.currentState?.validate() == true) {
+
+                          bool? check = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 16),
+                                child: DgnInfoView(
+                                  valueChanged: (bool value) {},
+                                ),
+                              );
+                            },
+                          );
+
+                          if (check == true) {
+                            //true
+                          }
+
+                        }
+
+
+
                             },
                       child: const Text('Check-In'),
                     ),
@@ -786,6 +828,51 @@ class BorderContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: child,
+    );
+  }
+}
+
+
+
+
+class CheckInDropDownCountry extends StatefulWidget {
+
+  final Function(String) onChange;
+
+  final String keyName;
+
+
+  const CheckInDropDownCountry({Key? key, required this.keyName, required this.onChange}) : super(key: key);
+
+  @override
+  State<CheckInDropDownCountry> createState() => _CheckInDropDownCountryState();
+}
+
+class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
+
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return                         ShadowInput(
+      name: widget.keyName,
+      textEditingController: _controller,
+      child: AppCountriesDropdown(
+
+        validators: [
+           FormBuilderValidators.required(),
+        ],
+        hintText: "Passport Issuing Country",
+        customSheetTitle: 'Passport Issuing Country',
+        dropdownDecoration: Styles.getDefaultFieldDecoration(),
+        hideDefualttValue: true,
+        isPhoneCode: false,
+        onChanged: (value) {
+          //nationalityController.text = value?.countryCode2 ?? "";
+          widget.onChange(value?.countryCode ?? '');
+
+        },
+      ),
     );
   }
 }

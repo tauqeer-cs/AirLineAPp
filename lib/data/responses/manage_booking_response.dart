@@ -400,6 +400,11 @@ class PassengersWithSSR {
   CheckInStatusInOut? checkInStatusInOut;
 
   String? checkInMemberID;
+  String? checkInPassportNo;
+
+  String? passportCountry;
+  String? passExpdate;
+  String? passPortdob;
 
   bool? haveInfant;
 
