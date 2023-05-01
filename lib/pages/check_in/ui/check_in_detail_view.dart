@@ -537,10 +537,29 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           initialValue: state.manageBookingResponse?.result
                               ?.passengersWithSSR?[i].passengers?.passport,
                           textInputType: TextInputType.text,
-                          validators: [
-                            FormBuilderValidators.required(),
 
+                          validators: [
+                            (value){
+
+                            if(state.manageBookingResponse?.result
+                                ?.passengersWithSSR?[i].paxSelected == true) {
+
+
+                              if(value == null) {
+                                return 'Passport is required';
+                              }
+                              if(value.isEmpty) {
+                                return 'Passport is required';
+                              }
+                            }
+                            return null;
+                            }
                           ],
+                          //validators: [
+                          //  FormBuilderValidators.required(),
+
+                          //],
+
                         ),
                         kVerticalSpacerSmall,
 
@@ -730,6 +749,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           ? null
                           : () async {
 
+                        var ccc = CheckInDetailView._fbKey.currentState?.value;
+
                         if( CheckInDetailView._fbKey.currentState?.validate() == true) {
 
                           bool? check = await showDialog(
@@ -854,11 +875,12 @@ class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
 
   @override
   Widget build(BuildContext context) {
-    return                         ShadowInput(
+    return
+      ShadowInput(
       name: widget.keyName,
       textEditingController: _controller,
-      child: AppCountriesDropdown(
-
+        validators: [FormBuilderValidators.required()],
+        child: AppCountriesDropdown(
         validators: [
            FormBuilderValidators.required(),
         ],
@@ -870,7 +892,7 @@ class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
         onChanged: (value) {
           //nationalityController.text = value?.countryCode2 ?? "";
           widget.onChange(value?.countryCode ?? '');
-
+          _controller.text = value?.country ?? '';
         },
       ),
     );
