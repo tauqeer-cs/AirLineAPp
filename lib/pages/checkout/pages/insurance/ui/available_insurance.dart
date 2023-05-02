@@ -31,7 +31,7 @@ class AvailableInsurance extends StatelessWidget {
     final selected = insuranceCubit.insuranceType;
 
     final bookingState = context.watch<BookingCubit>().state;
-    final passengers = insuranceCubit.passengers;
+    final passengers = insuranceCubit.passengersWithOutInfants;
 
     final insurancesGroup =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup;
@@ -90,7 +90,7 @@ class AvailableInsurance extends StatelessWidget {
                           kHorizontalSpacerSmall,
                           Expanded(
                             child:
-                                getTitle(e, lastInsuranceSelected ?? firstInsurance, passengers.length),
+                                getTitle(e, lastInsuranceSelected ?? firstInsurance, passengers.length ),
                           ),
 
                           kHorizontalSpacerSmall,

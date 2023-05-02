@@ -19,6 +19,8 @@ class AppCountriesDropdown extends StatelessWidget {
   final Function(Country?)? onChanged;
   final DropDownDecoratorProps? dropdownDecoration;
 
+  final String? customSheetTitle;
+  final  bool hideDefualttValue;
   const AppCountriesDropdown({
     Key? key,
     this.initialValue,
@@ -26,8 +28,9 @@ class AppCountriesDropdown extends StatelessWidget {
     this.hintText,
     this.initialCountryCode,
     this.validators,
-    this.onChanged,
-    this.dropdownDecoration,
+    this.customSheetTitle,
+    this.hideDefualttValue = false,
+    this.onChanged, this.dropdownDecoration,
   }) : super(key: key);
 
   @override
@@ -55,7 +58,7 @@ class AppCountriesDropdown extends StatelessWidget {
           finishedBuilder: AppDropDown<Country>(
             sheetTitle: isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue:
-                selectedCountry ?? initialValue ?? Country.defaultCountry,
+                true ? null : selectedCountry ?? initialValue ?? Country.defaultCountry,
             onChanged: onChanged,
             dropdownDecoration: dropdownDecoration,
             valueTransformerItem: (value, selected) {

@@ -11,6 +11,7 @@ import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../../../../theme/theme.dart';
@@ -163,6 +164,9 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               textInputType: TextInputType.number,
               hintText: "phoneNumber".tr(),
               validators: [FormBuilderValidators.required()],
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+              ],
               onChanged: (value) {
                 final request =
                     context.read<LocalUserBloc>().state.emergencyContact;

@@ -102,15 +102,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return '0.0';
   }
 
-  String  onePersonTotalToShowReturn(String personName) {
+  String onePersonTotalToShowReturn(String personName) {
     if (state.changeFlightResponse?.result?.changeFlightResponse
-        ?.flightBreakDown?.returnDetail?.flightPaxNameList !=
+            ?.flightBreakDown?.returnDetail?.flightPaxNameList !=
         null) {
       var object = state.changeFlightResponse?.result?.changeFlightResponse
           ?.flightBreakDown?.returnDetail!.flightPaxNameList!
           .firstWhere((e) =>
-      ('${e.givenName ?? ''} ${e.surname ?? ''}').toLowerCase() ==
-          personName.toLowerCase());
+              ('${e.givenName ?? ''} ${e.surname ?? ''}').toLowerCase() ==
+              personName.toLowerCase());
 
       if (object != null) {
         return (object.changeAmount ?? 0.0).toStringAsFixed(2);
@@ -121,8 +121,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   String onePersonTotalToShow(String personName) {
-
-    return (double.parse(onePersonTotalToShowDepart(personName)) + double.parse(onePersonTotalToShowReturn(personName))).toStringAsFixed(2);
+    return (double.parse(onePersonTotalToShowDepart(personName)) +
+            double.parse(onePersonTotalToShowReturn(personName)))
+        .toStringAsFixed(2);
   }
 
   List<PassengersWithSSR> get passengersWithSSRNotBaby {
@@ -354,17 +355,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   Future<bool?> getBookingInformation(
       String lastName, String bookingReference) async {
-    emit(state.copyWith(
-      isLoadingInfo: true,
-      message: '',
-    ));
 
-    //   var tempKey = 'EAT6GA';
-    //var tempKey = 'STY1VX';
-    //var tempKey = 'SS5G2M';
-    //var tempKey = 'MWJC8Q';
-
-    //  var tempKey = '4H1I6Q';
+    emit(
+      state.copyWith(
+        isLoadingInfo: true,
+        message: '',
+      ),
+    );
 
     try {
       final verifyResponse = await _repository.getBookingInfo(
@@ -388,7 +385,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     } catch (e, st) {
       emit(
         state.copyWith(
-            message: ErrorUtils.getErrorMessage(e, st,dontShowError: true),
+            message: ErrorUtils.getErrorMessage(e, st, dontShowError: true),
             blocState: BlocState.failed,
             isLoadingInfo: false,
             dataLoaded: false),
@@ -592,16 +589,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       String? superNo;
       int? orderId;
 
-      if(response.value?.superPnrNo != null) {
+      if (response.value?.superPnrNo != null) {
         superNo = response.value?.superPnrNo;
-
       }
 
-
-      if(response.value?.orderId != null) {
+      if (response.value?.orderId != null) {
         orderId = response.value?.orderId;
-
-
       }
       //loadingCheckoutPayment
       FormData formData = FormData.fromMap(
@@ -614,11 +607,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
-          loadingCheckoutPayment: false,
-          orderId: orderId,
-          superPnrNo: superNo,
-          message: ''
-        ),
+            loadingCheckoutPayment: false,
+            orderId: orderId,
+            superPnrNo: superNo,
+            message: ''),
       );
       return 1 == 1
           ? responseView.data

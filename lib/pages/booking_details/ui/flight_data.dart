@@ -16,6 +16,8 @@ class FlightDataInfo extends StatelessWidget {
   final String arrivalDateWithTime;
   final String arrivalAirportName;
 
+  final bool disabledView;
+
   const FlightDataInfo(
       {Key? key,
       required this.headingLabel,
@@ -25,7 +27,8 @@ class FlightDataInfo extends StatelessWidget {
       required this.departureAirportName,
       required this.journeyTimeInHourMin,
       required this.arrivalDateWithTime,
-      required this.arrivalAirportName})
+      required this.arrivalAirportName,
+      this.disabledView = false,})
       : super(key: key);
 
   @override
@@ -43,19 +46,19 @@ class FlightDataInfo extends StatelessWidget {
             children: [
               Text(
                 headingLabel,
-                style: kMediumHeavy.copyWith(color: Styles.kPrimaryColor),
+                style: kMediumHeavy.copyWith(color: disabledView ? Styles.kDisabledGrey : Styles.kPrimaryColor),
               ),
               const Spacer(),
               Text(
                 dateToShow,
-                style: kMediumMedium.copyWith(color: Styles.kTextColor),
+                style: kMediumMedium.copyWith(color: disabledView ? Styles.kDisabledGrey : Styles.kTextColor),
               ),
             ],
           ),
         ),
         Text(
           departureToDestinationCode,
-          style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+          style: kMediumSemiBold.copyWith(color: disabledView ? Styles.kDisabledGrey : Styles.kTextColor),
         ),
         kVerticalSpacerMini,
         Row(
@@ -66,6 +69,7 @@ class FlightDataInfo extends StatelessWidget {
                 label: 'flightSummary.depart'.tr(),
                 timeString: departureDateWithTime,
                 location: departureAirportName,
+                showDisabled: disabledView,
               ),
             ),
             Expanded(
@@ -74,6 +78,7 @@ class FlightDataInfo extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: PlaneWithTime(
                   time: journeyTimeInHourMin,
+                  showDisabled: disabledView,
                 ),
               ),
             ),
@@ -83,6 +88,8 @@ class FlightDataInfo extends StatelessWidget {
                 label: 'arrive'.tr(),
                 timeString: arrivalDateWithTime,
                 location: arrivalAirportName,
+                showDisabled: disabledView,
+
               ),
             ),
             const SizedBox(

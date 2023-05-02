@@ -23,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../blocs/voucher/voucher_cubit.dart';
+import '../../../check_in/bloc/check_in_cubit.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -149,7 +150,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               );
                             }
 
-                            //context.router.popUntilRoot();
+
                             context.router.replaceAll([
                               const NavigationRoute(),
                               BookingConfirmationRoute(

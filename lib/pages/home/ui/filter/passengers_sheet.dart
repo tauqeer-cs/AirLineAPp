@@ -34,7 +34,9 @@ class PassengersSheetState extends State<PassengersSheet> {
       }
     }
     if (peopleType == PeopleType.adult && !isAdd) {
-
+      if(context.read<FilterCubit>().state.numberPerson.hasOneAdult ){
+        return;
+      }
 
       final numOfAdult =
           context.read<FilterCubit>().state.numberPerson.numberOfAdult;
@@ -152,7 +154,7 @@ class InputWithPlusMinus extends StatelessWidget {
                             shape: const CircleBorder(),
                             padding: EdgeInsets.zero,
                             backgroundColor: Colors.transparent),
-                        onPressed: (peopleType == PeopleType.adult ? (number > 1) : (number > 0))
+                        onPressed: number > 0
                             ? () => handler(peopleType, false)
                             : null,
                         child: const Icon(

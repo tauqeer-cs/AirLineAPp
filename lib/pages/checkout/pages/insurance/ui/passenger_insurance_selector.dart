@@ -15,7 +15,7 @@ class PassengerInsuranceSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final insuranceCubit = context.watch<InsuranceCubit>().state;
-    final passengers = insuranceCubit.passengers;
+    final passengers = insuranceCubit.passengersWithOutInfants;
     final selectedPassengers = insuranceCubit.selectedPassenger;
 
     final agentCms = context.watch<AgentSignUpCubit>();

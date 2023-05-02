@@ -149,7 +149,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     await onFamilyButtonTapped(profileBloc, filter, context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     color: Styles.kDividerColor,
                     child: Row(
                       children: [
@@ -158,7 +158,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                           style: kMediumMedium.copyWith(),
                         ),
                         kHorizontalSpacerMini,
-                        Icon(
+                        const Icon(
                           Icons.keyboard_arrow_down_sharp,
                         ),
                       ],
@@ -523,6 +523,10 @@ class _PassengerInfoState extends State<PassengerInfo> {
     DateTime userDob =
         profileBloc.state.profile?.userProfile?.dob ?? DateTime.now();
 
+    bool showMySelf = false;
+    if(userDob.year == 1){
+      showMySelf = true;
+    }
     var limitDate = widget.person.dateLimitStart(filter.departDate);
 
     int difference = userDob.difference(limitDate).inDays;
@@ -537,7 +541,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
             filter.departDate ?? DateTime.now(),
             widget.person.peopleType ?? PeopleType.adult),
         person: widget.person,
-        showMySelf: difference > 1,
+        showMySelf: showMySelf == true ? true : difference > 1,
       ),
     );
     if (selectFamily != null) {

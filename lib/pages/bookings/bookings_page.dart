@@ -12,7 +12,7 @@ class BookingsPage extends StatelessWidget {
       color: Colors.white,
       child:  Scaffold(
         backgroundColor: Colors.transparent,
-        body: BookingsView(),
+        body: SafeArea(child: BookingsView()),
       ),
     );
   }
