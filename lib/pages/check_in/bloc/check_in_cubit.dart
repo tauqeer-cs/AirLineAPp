@@ -150,13 +150,15 @@ class CheckInCubit extends Cubit<CheckInState> {
     var tmpValue = state.manageBookingResponse;
     tmpValue?.result?.passengersWithSSR?[index].paxSelected = value;
 
-    if(tmpValue?.result?.passengersWithSSR?[index].haveInfant == true){
-      tmpValue?.result?.passengersWithSSR?.firstWhere((element) =>
-      element.passengers?.givenName == tmpValue.result?.passengersWithSSR?[index].infantGivenName &&
-          element.passengers?.surname == tmpValue.result?.passengersWithSSR?[index].infantSurname &&
-          element.passengers?.passengerType == 'INF'
-      ).paxSelected = value;
-
+    if (tmpValue?.result?.passengersWithSSR?[index].haveInfant == true) {
+      tmpValue?.result?.passengersWithSSR
+          ?.firstWhere((element) =>
+              element.passengers?.givenName ==
+                  tmpValue.result?.passengersWithSSR?[index].infantGivenName &&
+              element.passengers?.surname ==
+                  tmpValue.result?.passengersWithSSR?[index].infantSurname &&
+              element.passengers?.passengerType == 'INF')
+          .paxSelected = value;
     }
     emit(
       state.copyWith(
@@ -176,20 +178,18 @@ class CheckInCubit extends Cubit<CheckInState> {
     );
   }
 
-  Future<bool?> getBoardingPassPassengers(bool outbound,
-      {bool onlySelected = false,
-      var boodSides = false,
-      bool email = false,
-      String? emailText,
-      }) async {
+  Future<bool?> getBoardingPassPassengers(
+    bool outbound, {
+    bool onlySelected = false,
+    var boodSides = false,
+    bool email = false,
+    String? emailText,
+  }) async {
     try {
-
-
       BoardingPassRequest request2 = BoardingPassRequest();
       request2.pNR = state.pnrEntered;
       request2.lastName = state.lastName;
       request2.email = emailText;
-
 
       if (email == true) {
         request2.getBoardingPassBy = 'Email';
@@ -211,19 +211,25 @@ class CheckInCubit extends Cubit<CheckInState> {
                 lastName: currentOne.lastName,
                 logicalFlightKey: currentOne.logicalFlightKey,
                 personOrgId: currentOne.personOrgId);
-            request2.boardingPassPax?.add(boardItem);
 
-            var filesResponse =
-                await _checkInRepository.getBoardingPass(request2);
+            if (email) {
+              request2.boardingPassPax?.add(boardItem);
+            }
+            else {
+              request2.boardingPassPax?.add(boardItem);
 
-            if (email == false) {
-              await FileUtils.downloadFile(
-                filesResponse.boardingPassURLs?.first ?? '',
-                makeFileName(
-                  state.pnrEntered ?? '',
-                  (currentOne.fullName ?? '').replaceAll(' ', ''),
-                ),
-              );
+              var filesResponse =
+                  await _checkInRepository.getBoardingPass(request2);
+
+              if (email == false) {
+                await FileUtils.downloadFile(
+                  filesResponse.boardingPassURLs?.first ?? '',
+                  makeFileName(
+                    state.pnrEntered ?? '',
+                    (currentOne.fullName ?? '').replaceAll(' ', ''),
+                  ),
+                );
+              }
             }
           }
         }
@@ -238,30 +244,41 @@ class CheckInCubit extends Cubit<CheckInState> {
                 lastName: currentOne.lastName,
                 logicalFlightKey: currentOne.logicalFlightKey,
                 personOrgId: currentOne.personOrgId);
-            request2.boardingPassPax?.add(boardItem);
 
-            var filesResponse =
-                await _checkInRepository.getBoardingPass(request2);
 
-            if (email == false) {
-              await FileUtils.downloadFile(
-                filesResponse.boardingPassURLs?.first ?? '',
-                makeFileName(
-                  state.pnrEntered ?? '',
-                  (currentOne.fullName ?? '').replaceAll(' ', ''),
-                ),
-              );
+            if (email) {
+              request2.boardingPassPax?.add(boardItem);
             }
+            else {
+              request2.boardingPassPax?.add(boardItem);
+
+              var filesResponse =
+              await _checkInRepository.getBoardingPass(request2);
+
+              if (email == false) {
+                await FileUtils.downloadFile(
+                  filesResponse.boardingPassURLs?.first ?? '',
+                  makeFileName(
+                    state.pnrEntered ?? '',
+                    (currentOne.fullName ?? '').replaceAll(' ', ''),
+                  ),
+                );
+              }
+
+            }
+
           }
         }
       }
 
-      if(email == true) {
+      var filesResponse =
+      await _checkInRepository.getBoardingPass(request2);
+
+      if (email == true) {
         emit(
           state.copyWith(isDownloading: false),
         );
-      }
-      else {
+      } else {
         emit(
           state.copyWith(isDownloading: false),
         );
@@ -319,15 +336,15 @@ class CheckInCubit extends Cubit<CheckInState> {
               passportNumber: currentItem.checkInPassportNo ?? '',
               passportExpiryDate: currentItem.passExpdate ?? '',
               memberID: currentItem.checkInMemberID ?? '',
-              passportIssueCountryCode: currentItem.passportCountry ?? ''
-          );
+              passportIssueCountryCode: currentItem.passportCountry ?? '');
 
-          if(currentItem.checkInStatusInOut?.outboundCheckInStatus?.allowCheckIn == true) {
+          if (currentItem
+                  .checkInStatusInOut?.outboundCheckInStatus?.allowCheckIn ==
+              true) {
             if (currentItem.paxSelected == true) {
               request.outboundCheckInPassengerDetails?.add(currentOne);
             }
           }
-
         }
       }
 
@@ -350,7 +367,9 @@ class CheckInCubit extends Cubit<CheckInState> {
               passportExpiryDate: '',
               memberID: currentItem.checkInMemberID ?? '');
 
-          if(currentItem.checkInStatusInOut?.inboundCheckInStatus?.allowCheckIn == true) {
+          if (currentItem
+                  .checkInStatusInOut?.inboundCheckInStatus?.allowCheckIn ==
+              true) {
             if (currentItem.paxSelected == true) {
               request.inboundCheckInPassengerDetails?.add(currentOne);
             }
@@ -365,18 +384,14 @@ class CheckInCubit extends Cubit<CheckInState> {
         ErrorUtils.showErrorMessage(verifyResponse.errorMessages);
 
         emit(
-          state.copyWith(
-
-              checkingInFlight: false),
+          state.copyWith(checkingInFlight: false),
         );
 
         return false;
       }
 
       emit(
-        state.copyWith(
-            listToCall: false,
-            checkingInFlight: false),
+        state.copyWith(listToCall: false, checkingInFlight: false),
       );
 
       //getBookingsListing
@@ -434,31 +449,24 @@ class CheckInCubit extends Cubit<CheckInState> {
 
   Future<bool?> getBookingInformation(String lastName, String pnr,
       {UpcomingBookings? bookSelected}) async {
-
-
-    emit(
-        state.copyWithNull(
-          inboundBoardingPassPassenger : false,
-          outboundBoardingPassPassenger: false,
-        ));
+    emit(state.copyWithNull(
+      inboundBoardingPassPassenger: false,
+      outboundBoardingPassPassenger: false,
+    ));
 
     emit(
       state.copyWith(
         loadingListDetailItem: true,
-        isLoadingInfo : true,
+        isLoadingInfo: true,
         bookingSelected: bookSelected,
         message: '',
         inboundBoardingPassPassenger: [],
-    outboundBoardingPassPassenger: [],
-    checkedDeparture: false,
+        outboundBoardingPassPassenger: [],
+        checkedDeparture: false,
         checkReturn: false,
         checkingInFlight: false,
       ),
     );
-
-
-
-
 
     try {
       final verifyResponse =
@@ -471,8 +479,7 @@ class CheckInCubit extends Cubit<CheckInState> {
       emit(
         state.copyWith(
             blocState: BlocState.finished,
-            isLoadingInfo : false,
-
+            isLoadingInfo: false,
             manageBookingResponse: verifyResponse,
             loadingListDetailItem: false,
             bookingSelected: bookSelected,
@@ -486,8 +493,7 @@ class CheckInCubit extends Cubit<CheckInState> {
           message: ErrorUtils.getErrorMessage(e, st, dontShowError: false),
           blocState: BlocState.failed,
           loadingListDetailItem: false,
-          isLoadingInfo : false,
-
+          isLoadingInfo: false,
         ),
       );
       return false;
@@ -629,33 +635,23 @@ class CheckInCubit extends Cubit<CheckInState> {
     }
   }
 
-
   void resetList() {
-
-    emit(
-        state.copyWith(
-          listToCall: false,
-
-        )
-    );
-
+    emit(state.copyWith(
+      listToCall: false,
+    ));
   }
+
   Future<void> resetStates() async {
-
-    emit(
-      state.copyWith(
-        checkedDeparture: false,
-        checkReturn: false,
-        checkingInFlight: false,
-      )
-    );
-
-    emit(
-      state.copyWithNull(
-          inboundBoardingPassPassenger : false,
-          outboundBoardingPassPassenger: false,
+    emit(state.copyWith(
+      checkedDeparture: false,
+      checkReturn: false,
+      checkingInFlight: false,
     ));
 
+    emit(state.copyWithNull(
+      inboundBoardingPassPassenger: false,
+      outboundBoardingPassPassenger: false,
+    ));
   }
 
 /*

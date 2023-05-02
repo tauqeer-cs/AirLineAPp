@@ -361,7 +361,7 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
               kVerticalSpacer,
             ],
             if(state.isDownloading) ... [
-              AppLoading(),
+              const AppLoading(),
             ] else ... [
               ElevatedButton(
                 child: Text(success ? 'Close' : 'Send'),
