@@ -43,7 +43,7 @@ class _AppBookingStepState extends State<AppBookingStep> {
       replacement: SizedBox(
         height: 60,
         child: ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           controller: _controller,
           scrollDirection: Axis.horizontal,
           itemCount: BookingStep.values.length,

@@ -51,8 +51,13 @@ class Styles {
 
   static Color get kBlack => const Color.fromRGBO(0, 0, 0, 1);
 
+  static Color get kLinkColor => const Color.fromRGBO(0, 0, 228, 1);
+
 //  static Color get kSubTextColor => const Color.fromRGBO(102, 102, 102, 1);
   static Color get klightBackgroundColor => const Color.fromRGBO(0, 0, 0, 0.05);
+
+
+  static Color get kDisabledGrey => const Color.fromRGBO(151, 151, 151, 1);
 
   static LinearGradient get gradient => const LinearGradient(colors: <Color>[
         Color(0xFF02C2F3),

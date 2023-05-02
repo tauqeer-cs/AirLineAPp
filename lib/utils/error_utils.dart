@@ -37,6 +37,21 @@ class ErrorUtils {
     return message;
   }
 
+  static String showErrorMessage(String message) {
+
+
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    return message;
+  }
+
+
   static String handleAppleSignInError(
       SignInWithAppleAuthorizationException exception) {
     switch (exception.code) {

@@ -133,6 +133,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         const CardSummary(showFees: false),
                         kVerticalSpacerSmall,
                         ListOfPassengerInfo(
+
                           onInsuranceChanged: () {
                             rebuild();
                             rebuildSummary();

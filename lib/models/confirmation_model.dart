@@ -896,6 +896,8 @@ class Bound extends Equatable {
     this.modifiedById,
     this.modifiedDate,
     this.modifiedDateUTC,
+    this.isCheckInAllowed,
+    this.isFullyCheckedIn,
   });
 
   @override
@@ -944,6 +946,8 @@ class Bound extends Equatable {
         modifiedById,
         modifiedDate,
         modifiedDateUTC,
+    isCheckInAllowed,
+    isFullyCheckedIn,
       ];
 
   final num? flightSegmentId;
@@ -966,6 +970,8 @@ class Bound extends Equatable {
   final DateTime? departureDateTime;
   final bool? eTicket;
   final bool? isChangeAllowed;
+  final bool? isCheckInAllowed;
+  final bool? isFullyCheckedIn;
   final num? duration;
   final num? elapsedTime;
   final num? flightNumber;
@@ -1036,6 +1042,8 @@ class Bound extends Equatable {
     num? modifiedById,
     DateTime? modifiedDate,
     DateTime? modifiedDateUTC,
+    bool? isCheckInAllowed,
+    bool? isFullyCheckedIn,
   }) =>
       Bound(
         flightSegmentId: flightSegmentId ?? this.flightSegmentId,
@@ -1090,6 +1098,8 @@ class Bound extends Equatable {
         modifiedById: modifiedById ?? this.modifiedById,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         modifiedDateUTC: modifiedDateUTC ?? this.modifiedDateUTC,
+        isCheckInAllowed: isCheckInAllowed ?? this.isCheckInAllowed,
+        isFullyCheckedIn: isFullyCheckedIn ?? this.isFullyCheckedIn,
       );
 }
 
@@ -1257,6 +1267,7 @@ class Passenger extends Equatable {
   PeopleType? get getType => PeopleType.values
       .firstWhereOrNull((element) => element.code == passengerType);
 
+
   const Passenger({
     this.paxId,
     this.bookingId,
@@ -1276,6 +1287,8 @@ class Passenger extends Equatable {
     this.modifiedById,
     this.modifiedDate,
     this.modifiedDateUTC,
+    this.inboundCheckedIn,
+    this.outboundCheckedIn,
   });
 
   @override
@@ -1298,6 +1311,8 @@ class Passenger extends Equatable {
         modifiedById,
         modifiedDate,
         modifiedDateUTC,
+    inboundCheckedIn,
+    outboundCheckedIn
       ];
 
   final num? paxId;
@@ -1311,6 +1326,10 @@ class Passenger extends Equatable {
   final String? passport;
   final DateTime? passportExpiryDate;
   final String? titleCode;
+  final bool? outboundCheckedIn;
+  final bool? inboundCheckedIn;
+
+
 
   bool get isWithinTwoYears {
     DateTime now = DateTime.now();
@@ -1337,12 +1356,15 @@ class Passenger extends Equatable {
   }
 
   final String? myRewardMemberId;
+
   final num? createdById;
   final DateTime? createdDate;
   final DateTime? createdDateUTC;
   final num? modifiedById;
   final DateTime? modifiedDate;
   final DateTime? modifiedDateUTC;
+
+
 
   Passenger copyWith({
     num? paxId,
@@ -1363,6 +1385,8 @@ class Passenger extends Equatable {
     num? modifiedById,
     DateTime? modifiedDate,
     DateTime? modifiedDateUTC,
+    String? passportNumber,
+
   }) =>
       Passenger(
         paxId: paxId ?? this.paxId,
@@ -1383,6 +1407,7 @@ class Passenger extends Equatable {
         modifiedById: modifiedById ?? this.modifiedById,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         modifiedDateUTC: modifiedDateUTC ?? this.modifiedDateUTC,
+
       );
 }
 

@@ -19,6 +19,30 @@ class NumberPerson extends Equatable {
 
   static const adult = NumberPerson(persons: [Person.adult]);
 
+  bool get hasAdult {
+
+    var person = persons.where((e) => e.peopleType == PeopleType.adult).toList();
+
+    if(person.isNotEmpty ){
+      return true;
+    }
+
+    return false;
+   }
+
+  bool get hasOneAdult {
+
+    var person = persons.where((e) => e.peopleType == PeopleType.adult).toList();
+    if(person.isNotEmpty ){
+      if(person.length == 1) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+
+  }
+
   List<Seats?> selectedSeats(bool isDeparture) {
     if (isDeparture) {
       return persons.map((e) => e.departureSeats).toList()

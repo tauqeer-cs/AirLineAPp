@@ -22,11 +22,13 @@ class _ManageBookingProvider implements ManageBookingProvider {
   Future<ManageBookingResponse> getBookingInfo(
     pnr,
     lastname,
+    action,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'pnr': pnr,
       r'lastname': lastname,
+      r'action': action,
     };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
@@ -140,6 +142,29 @@ class _ManageBookingProvider implements ManageBookingProvider {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CommonResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<MyBookings> userBookingListing() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MyBookings>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'user/userbookinglist',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MyBookings.fromJson(_result.data!);
     return value;
   }
 

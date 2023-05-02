@@ -76,7 +76,7 @@ class _InsuranceViewState extends State<InsuranceView> {
             controller: scrollController,
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
-              const Text(
+              Text(
                 "MYAirline Travel Insurance",
                 style: kHugeHeavy,
               ),

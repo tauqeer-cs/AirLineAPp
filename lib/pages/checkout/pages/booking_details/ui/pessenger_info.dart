@@ -148,7 +148,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     await onFamilyButtonTapped(profileBloc, filter, context);
                   },
                   child: Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     color: Styles.kDividerColor,
                     child: Row(
                       children: [
@@ -157,7 +157,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                           style: kMediumMedium.copyWith(),
                         ),
                         kHorizontalSpacerMini,
-                        Icon(
+                        const Icon(
                           Icons.keyboard_arrow_down_sharp,
                         ),
                       ],

@@ -25,17 +25,14 @@ class ManageBookingResponse {
   }
 
   DateTime? get currentEndDate {
-
     if (customSelected && newReturnDateSelected != null) {
       return newReturnDateSelected;
     }
     if (customSelected && newReturnDateSelected == null) {
       return null;
-    }
-    else if (newReturnDateSelected == null) {
-      if(result?.flightSegments?.first.inbound?.isEmpty ?? true) {
+    } else if (newReturnDateSelected == null) {
+      if (result?.flightSegments?.first.inbound?.isEmpty ?? true) {
         return null;
-
       }
       return result?.flightSegments?.first.inbound?.first.departureDateTime;
     }
@@ -44,14 +41,11 @@ class ManageBookingResponse {
   }
 
   bool get isTwoWay {
-    return result?.flightSegments
-        ?.first.inbound?.isNotEmpty ?? false;
-
+    return result?.flightSegments?.first.inbound?.isNotEmpty ?? false;
   }
 
   bool get isOneWay {
-    return  result?.flightSegments
-        ?.first.inbound?.isEmpty ?? true;
+    return result?.flightSegments?.first.inbound?.isEmpty ?? true;
   }
 
   ManageBookingResponse({this.result, this.success, this.message});
@@ -76,6 +70,24 @@ class Result {
   BookingContact? bookingContact;
   List<PassengersWithSSR>? passengersWithSSR;
 
+  Passenger? infanctWith(String givenName, String lastLame, String dob) {
+   var response = passengersWithSSR?.firstWhere((element) =>
+        element.passengers?.givenName == givenName ||
+        element.passengers?.surname == lastLame || element.passengers?.passengerType == 'INF');
+
+    return response?.passengers;
+  }
+
+  PassengersWithSSR? infanct(String givenName, String lastLame, String dob) {
+    var response = passengersWithSSR?.firstWhere((element) =>
+    element.passengers?.givenName == givenName ||
+        element.passengers?.surname == lastLame || element.passengers?.passengerType == 'INF');
+
+    return response;
+  }
+
+  SuperPNR? superPNR;
+  SuperPNROrder? superPNROrder;
 
   List<PaymentOrder>? paymentOrders;
   FareAndBundleDetail? fareAndBundleDetail;
@@ -90,6 +102,58 @@ class Result {
   bool? isReturn;
   bool? success;
 
+  bool? isRequiredPassport;
+
+  bool get outboundCheckingAllowed {
+    if (flightSegments != null) {
+      if (flightSegments!.first.outbound != null) {
+        if (flightSegments!.first.outbound!.first.isFullyCheckedIn == false) {
+          if (flightSegments!.first.outbound!.first.isCheckInAllowed == true) {
+            var departureTime =
+                flightSegments!.first.outbound!.first.departureDateTime ??
+                    DateTime.now().add(const Duration(minutes: 1));
+
+            return true;
+
+            var now = DateTime.now();
+
+            if (DateTime.now().isBefore(departureTime)) {
+              return true;
+            }
+            return false;
+          }
+        }
+      }
+    }
+    print('');
+    return false;
+  }
+
+  bool get inboundCheckingAllowed {
+    if (flightSegments != null) {
+      if (flightSegments!.first.inbound != null) {
+        if (flightSegments!.first.inbound!.first.isFullyCheckedIn == false) {
+          if (flightSegments!.first.inbound!.first.isCheckInAllowed == true) {
+            var departureTime =
+                flightSegments!.first.inbound!.first.departureDateTime ??
+                    DateTime.now().add(const Duration(minutes: 1));
+
+            return true;
+
+            var now = DateTime.now();
+
+            if (DateTime.now().isBefore(departureTime)) {
+              return true;
+            }
+            return false;
+          }
+        }
+      }
+    }
+    print('');
+    return false;
+  }
+
   String get returnDepartureAirportName {
     return flightSegments?.first.inbound?.first.departureAirportLocationName ??
         '';
@@ -99,6 +163,36 @@ class Result {
     return flightSegments?.first.outbound?.first.departureAirportLocationName ??
         '';
   }
+
+  String get departureAirportToDestinationName {
+    return '${flightSegments?.first.outbound?.first.departureAirportLocationName ?? ''} to $arrivalAirportName -';
+  }
+
+  String get returnAirportToDestinationName {
+    return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} to $returnArrivalAirportName -';
+  }
+
+  String get departureAirportTime {
+    if (flightSegments?.first.outbound?.first.departureDateTime != null) {
+      return AppDateUtils.formatHalfDate(
+          flightSegments?.first.outbound?.first.departureDateTime);
+    }
+    return '';
+    return flightSegments?.first.outbound?.first.departureDateTime.toString() ??
+        '';
+  }
+
+  String get returnAirportTime {
+    if (flightSegments?.first.outbound?.first.departureDateTime != null) {
+      return AppDateUtils.formatHalfDate(
+          flightSegments?.first.inbound?.first.departureDateTime);
+    }
+    return '';
+    return flightSegments?.first.outbound?.first.departureDateTime.toString() ??
+        '';
+  }
+
+  //
 
   String get arrivalAirportName {
     return flightSegments?.first.outbound?.first.arrivalAirportLocationName ??
@@ -189,6 +283,12 @@ class Result {
       this.success});
 
   Result.fromJson(Map<String, dynamic> json) {
+    superPNR =
+        json['superPNR'] != null ? SuperPNR.fromJson(json['superPNR']) : null;
+    superPNROrder = json['superPNROrder'] != null
+        ? SuperPNROrder.fromJson(json['superPNROrder'])
+        : null;
+
     bookingContact = json['bookingContact'] != null
         ? BookingContact.fromJson(json['bookingContact'])
         : null;
@@ -236,6 +336,8 @@ class Result {
         ? CompanyTaxInvoice.fromJson(json['companyTaxInvoice'])
         : null;
     isReturn = json['isReturn'];
+    isRequiredPassport = json['isRequiredPassport'];
+
     success = json['success'];
   }
 
@@ -279,6 +381,7 @@ class Result {
       data['companyTaxInvoice'] = companyTaxInvoice!.toJson();
     }
     data['isReturn'] = isReturn;
+
     data['success'] = success;
     return data;
   }
@@ -294,25 +397,64 @@ class PassengersWithSSR {
   WheelChairDetail? wheelChairDetail;
   SportsEquipmentDetail? sportEquipmentDetail;
   InsuranceDetails? insuranceSSRDetail;
+  CheckInStatusInOut? checkInStatusInOut;
 
-  PassengersWithSSR(
-      {this.personOrgID,
-      this.passengers,
-      this.fareAndBundleDetail,
-      this.seatDetail,
-      this.mealDetail,
-      this.baggageDetail,
-      this.wheelChairDetail,
-      this.sportEquipmentDetail,
-      this.insuranceSSRDetail});
+  String? checkInMemberID;
+  String? checkInPassportNo;
+
+  String? passportCountry;
+  String? passExpdate;
+  String? passPortdob;
+
+  bool? haveInfant;
+
+  bool? paxSelected;
+
+  String? infantGivenName;
+  String? infantSurname;
+  String? infantDob;
+  bool? infantExpanded;
+
+  PassengersWithSSR({
+    this.personOrgID,
+    this.passengers,
+    this.fareAndBundleDetail,
+    this.seatDetail,
+    this.mealDetail,
+    this.checkInStatusInOut,
+    this.paxSelected = false,
+    this.baggageDetail,
+    this.wheelChairDetail,
+    this.sportEquipmentDetail,
+    this.insuranceSSRDetail,
+    this.haveInfant,
+    this.checkInMemberID,
+    this.infantExpanded
+  });
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {
     personOrgID = json['personOrgID'];
+    haveInfant = json['haveInfant'];
+
+
+    //checkInMemberID = json['checkInMemberID'];
+
+    if (haveInfant == true) {
+      if (json['haveInfant'] != null) {
+        infantGivenName = json['infantPassengerDetail']['givenName'];
+        infantSurname = json['infantPassengerDetail']['surname'];
+        infantDob = json['infantPassengerDetail']['dob'];
+      }
+    }
+
     passengers = json['passengers'] != null
         ? Passenger.fromJson(json['passengers'])
         : null;
     fareAndBundleDetail = json['fareAndBundleDetail'] != null
         ? FareAndBundleDetail.fromJson(json['fareAndBundleDetail'])
+        : null;
+    checkInStatusInOut = json['checkInStatusInOut'] != null
+        ? CheckInStatusInOut.fromJson(json['checkInStatusInOut'])
         : null;
     seatDetail = json['seatDetail'] != null
         ? SeatDetail.fromJson(json['seatDetail'])
@@ -362,6 +504,63 @@ class PassengersWithSSR {
     if (insuranceSSRDetail != null) {
       data['insuranceSSRDetail'] = insuranceSSRDetail!.toJson();
     }
+    return data;
+  }
+}
+
+class CheckInStatusInOut {
+  CheckInStatus? outboundCheckInStatus;
+  CheckInStatus? inboundCheckInStatus;
+
+  CheckInStatusInOut({this.outboundCheckInStatus, this.inboundCheckInStatus});
+
+  CheckInStatusInOut.fromJson(Map<String, dynamic> json) {
+    outboundCheckInStatus = json['outboundCheckInStatus'] != null
+        ? CheckInStatus.fromJson(json['outboundCheckInStatus'])
+        : null;
+    inboundCheckInStatus = json['inboundCheckInStatus'] != null
+        ? CheckInStatus.fromJson(json['inboundCheckInStatus'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (outboundCheckInStatus != null) {
+      data['outboundCheckInStatus'] = outboundCheckInStatus!.toJson();
+    }
+    if (inboundCheckInStatus != null) {
+      data['inboundCheckInStatus'] = inboundCheckInStatus!.toJson();
+    }
+    return data;
+  }
+}
+
+class CheckInStatus {
+  bool? allowCheckIn;
+
+  String? flightNumber;
+  String? departureStationCode;
+  String? inkPaxID;
+  String? checkInStatus;
+
+  CheckInStatus({this.allowCheckIn});
+
+  CheckInStatus.fromJson(Map<String, dynamic> json) {
+    allowCheckIn = json['allowCheckIn'];
+    flightNumber = json['flightNumber'];
+    departureStationCode = json['departureStationCode'];
+    inkPaxID = json['inkPaxID'];
+    checkInStatus = json['checkInStatus'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['allowCheckIn'] = allowCheckIn;
+    data['flightNumber'] = flightNumber;
+    data['departureStationCode'] = departureStationCode;
+    data['inkPaxID'] = inkPaxID;
+    data['checkInStatus'] = checkInStatus;
+
     return data;
   }
 }

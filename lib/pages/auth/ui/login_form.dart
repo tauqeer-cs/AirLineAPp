@@ -108,7 +108,6 @@ class LoginForm extends StatelessWidget {
             child: AppInputText(
               topPadding: 0,
               isRequired: false,
-              fillColor: Colors.blueAccent,
               textInputType: TextInputType.emailAddress,
               name: formEmailLoginName,
               hintText: 'Email Address',
