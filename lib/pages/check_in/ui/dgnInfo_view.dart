@@ -230,10 +230,13 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                             }
                             else {
 
-                              context.router.replaceAll([
-                                const NavigationRoute(),
-                                 const CheckInErrorRoute(),
-                              ]);
+                              if(bloc.showPassport) {
+                                context.router.replaceAll([
+                                  const NavigationRoute(),
+                                  const CheckInErrorRoute(),
+                                ]);
+                              }
+
 
 
                             }
