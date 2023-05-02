@@ -11,6 +11,7 @@ import '../../../theme/typography.dart';
 import '../../../utils/security_utils.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../bloc/check_in_cubit.dart';
+import '../check_in_error_page.dart';
 
 class DgnInfoView extends StatefulWidget {
 
@@ -226,6 +227,15 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                                 const NavigationRoute(),
                                 const CheckInBoardingPassRoute(),
                               ]);
+                            }
+                            else {
+
+                              context.router.replaceAll([
+                                const NavigationRoute(),
+                                 const CheckInErrorRoute(),
+                              ]);
+
+
                             }
 
                           }

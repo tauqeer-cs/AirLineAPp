@@ -24,8 +24,6 @@ abstract class _$CheckInStateCWProxy {
 
   CheckInState isLoadingInfo(bool isLoadingInfo);
 
-  CheckInState isRememberMe(bool isRememberMe);
-
   CheckInState lastName(String? lastName);
 
   CheckInState listToCall(bool listToCall);
@@ -65,7 +63,6 @@ abstract class _$CheckInStateCWProxy {
     List<BoardingPassPassenger>? inboundBoardingPassPassenger,
     bool? isDownloading,
     bool? isLoadingInfo,
-    bool? isRememberMe,
     String? lastName,
     bool? listToCall,
     bool? loadBoardingDate,
@@ -116,10 +113,6 @@ class _$CheckInStateCWProxyImpl implements _$CheckInStateCWProxy {
   @override
   CheckInState isLoadingInfo(bool isLoadingInfo) =>
       this(isLoadingInfo: isLoadingInfo);
-
-  @override
-  CheckInState isRememberMe(bool isRememberMe) =>
-      this(isRememberMe: isRememberMe);
 
   @override
   CheckInState lastName(String? lastName) => this(lastName: lastName);
@@ -180,7 +173,6 @@ class _$CheckInStateCWProxyImpl implements _$CheckInStateCWProxy {
     Object? inboundBoardingPassPassenger = const $CopyWithPlaceholder(),
     Object? isDownloading = const $CopyWithPlaceholder(),
     Object? isLoadingInfo = const $CopyWithPlaceholder(),
-    Object? isRememberMe = const $CopyWithPlaceholder(),
     Object? lastName = const $CopyWithPlaceholder(),
     Object? listToCall = const $CopyWithPlaceholder(),
     Object? loadBoardingDate = const $CopyWithPlaceholder(),
@@ -232,7 +224,6 @@ class _$CheckInStateCWProxyImpl implements _$CheckInStateCWProxy {
               ? _value.isLoadingInfo
               // ignore: cast_nullable_to_non_nullable
               : isLoadingInfo as bool,
-
       lastName: lastName == const $CopyWithPlaceholder()
           ? _value.lastName
           // ignore: cast_nullable_to_non_nullable

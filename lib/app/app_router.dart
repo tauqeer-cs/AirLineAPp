@@ -13,6 +13,7 @@ import 'package:app/pages/auth/pages/signup/signup_address.dart';
 import 'package:app/pages/auth/pages/signup/signup_wrapper.dart';
 import 'package:app/pages/bookings/bookings_page.dart';
 import 'package:app/pages/change_search/change_search_page.dart';
+import 'package:app/pages/check_in/check_in_error_page.dart';
 import 'package:app/pages/check_in/check_in_page.dart';
 import 'package:app/pages/checkout/pages/booking_confirmation/booking_confirmation_page.dart';
 import 'package:app/pages/checkout/pages/booking_details/booking_details.dart';
@@ -120,7 +121,9 @@ part 'app_router.gr.dart';
     AutoRoute(page: ChangeFlightConfirmationPage, path: "/change-flight-confirmation"),
     AutoRoute(page: CheckInDetailsPage, path: "/check_in_details"),
     AutoRoute(page: CheckInBoardingPassPage, path: "/check_in_boarding_pass"),
+    AutoRoute(page: CheckInErrorPage, path: "/check_in_error"),
 
+//
 
 
 //
