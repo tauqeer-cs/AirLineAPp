@@ -72,17 +72,17 @@ class _CheckInErrorPageState extends State<CheckInErrorPage> {
                             color: Styles.kTextColor,
                           ),
                           children: [
-                            const TextSpan(
-                              text: 'If the issue persists, please contact ',
+                             TextSpan(
+                              text: 'ifIssuePersists'.tr(),
                             ),
                             TextSpan(
-                              text: 'Live Chat',
+                              text: 'changeFlightView.changeFlightDesc7'.tr(),
                               style: TextStyle(
                                 color: Styles.kPrimaryColor,
                               ),
                             ),
-                            const TextSpan(
-                              text: ' agent for assistance.',
+                             TextSpan(
+                              text: 'agentAssistance'.tr(),
                             ),
                           ],
                         ),
@@ -93,7 +93,7 @@ class _CheckInErrorPageState extends State<CheckInErrorPage> {
               ),
               Spacer(),
               if (isLoading) ...[
-                Center(child: AppLoading()),
+                const Center(child: AppLoading()),
               ] else ...[
                 ElevatedButton(
                   onPressed: () async {
@@ -116,10 +116,10 @@ class _CheckInErrorPageState extends State<CheckInErrorPage> {
                       ]);
                     }
                   },
-                  child: const Text('Retry'),
+                  child:  Text('retry'.tr()),
                 ),
               ],
-              Spacer(),
+              const Spacer(),
             ],
           ),
         ),

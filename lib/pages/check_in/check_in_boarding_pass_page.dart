@@ -1,4 +1,5 @@
 import 'package:app/pages/check_in/ui/boarding_pass_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,7 +15,7 @@ class CheckInBoardingPassPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppAppBar(
         centerTitle: true,
-        title: 'Check-In',
+        title: 'checkInDash'.tr(),
         height: 80.h,
         overrideInnerHeight: true,
       ),

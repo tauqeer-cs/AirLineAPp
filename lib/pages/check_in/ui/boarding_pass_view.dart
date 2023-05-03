@@ -1,4 +1,5 @@
 import 'package:app/widgets/app_loading_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -49,7 +50,7 @@ class BoardingPassView extends StatelessWidget {
             kVerticalSpacer,
             kVerticalSpacerMini,
             Text(
-              'Boarding Pass',
+              'boardingPass'.tr(),
               style: kHugeSemiBold.copyWith(
                 color: Styles.kTextColor,
               ),
@@ -57,7 +58,7 @@ class BoardingPassView extends StatelessWidget {
             ),
             kVerticalSpacerSmall,
             Text(
-              '''Your check-in has been confirmed. A copy of the boarding pass has been automatically sent to the registered contact person. You may also print, email and download the boarding pass individually below:''',
+              'checkInConfirmedMessage'.tr(),
               style: kMediumMedium.copyWith(
                 color: Styles.kTextColor,
               ),
@@ -157,7 +158,7 @@ class BoardingPassView extends StatelessWidget {
 
                   if (email != null) {}
                 }, //isLoading ? null :
-                child: const Text('Email'),
+                child:  Text('confirmationView.email'.tr()),
               ),
               kVerticalSpacerSmall,
 
@@ -181,7 +182,7 @@ class BoardingPassView extends StatelessWidget {
 
                   if (response == true) {
                     Fluttertoast.showToast(
-                        msg: 'Files downloaded successfully',
+                        msg: 'fileDownloadedSuccessfully'.tr(),
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.SNACKBAR,
                         timeInSecForIosWeb: 1,
@@ -190,7 +191,7 @@ class BoardingPassView extends StatelessWidget {
                         fontSize: 16.0);
                   }
                 },
-                child: const Text('Download'),
+                child:  Text('download'.tr()),
               )
             ],
           ],
@@ -309,7 +310,7 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Email Boarding Pass",
+            "finalFlightDetail.emailBoardingPass".tr(),
             textAlign: TextAlign.center,
             style: kHugeHeavy.copyWith(color: Styles.kTextColor),
           ),
@@ -334,8 +335,8 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Text(
                 success
-                    ? 'Boarding pass is successfully sent.'
-                    : 'Please fill in your email address to receive your boarding pass via email.',
+                    ? 'boardingPassSuccess'.tr()
+                    : 'pleaseFillEmailPass'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kTextColor),
               ),
             ),
@@ -345,17 +346,17 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
                 controller: _emailController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email address';
+                    return 'pleaseEnterEmail'.tr();
                   }
                   if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                       .hasMatch(value)) {
-                    return 'Please enter a valid email address';
+                    return 'pleaseEnterEmail'.tr();
                   }
                   return null;
                 },
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  hintText: 'Email',
+                decoration:  InputDecoration(
+                  hintText: 'loginForm.email'.tr(),
                 ),
               ),
               kVerticalSpacer,
@@ -364,7 +365,7 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
               const AppLoading(),
             ] else ... [
               ElevatedButton(
-                child: Text(success ? 'Close' : 'Send'),
+                child: Text(success ? 'close'.tr() : 'send'.tr()),
                 onPressed: () async {
                   if (success == true) {
 

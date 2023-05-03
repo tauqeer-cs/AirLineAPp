@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/typography.dart';
@@ -14,10 +15,10 @@ class BookingReferenceLabel extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 0),
+         Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Text(
-            'Booking Reference',
+            'bookReference'.tr(),
             style: kMediumRegular,
           ),
         ),
