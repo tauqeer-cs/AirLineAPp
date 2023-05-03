@@ -1,5 +1,6 @@
 import 'package:app/data/responses/manage_booking_response.dart';
 import 'package:app/widgets/app_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +44,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
       bloc.loadBoardingDate();
     }
 
-    final nationalityController = TextEditingController();
 
     return BlocBuilder<CheckInCubit, CheckInState>(
       bloc: bloc,
@@ -78,7 +78,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                     height: 4,
                   ),
                   Text(
-                    'Itinerary',
+                    'flightDetail.itinerary'.tr(),
                     style: kHugeSemiBold.copyWith(
                       color: Styles.kTextColor,
                     ),
@@ -125,7 +125,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         ],
                         Expanded(
                           child: FlightDataInfo(
-                            headingLabel: 'Departure',
+                            headingLabel: 'departure'.tr(),
                             disabledView: state.manageBookingResponse?.result
                                     ?.outboundCheckingAllowed ==
                                 false,
@@ -199,7 +199,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           ],
                           Expanded(
                             child: FlightDataInfo(
-                              headingLabel: 'Return',
+                              headingLabel: 'return'.tr(),
                               dateToShow: state.manageBookingResponse?.result
                                   ?.returnDepartureDateToShow ??
                                   '',
@@ -248,14 +248,14 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              'Boarding Pass',
+                              'boardingPass'.tr(),
                               style: kHugeSemiBold.copyWith(
                                 color: Styles.kTextColor,
                               ),
                             ),
                             kVerticalSpacerSmall,
                             Text(
-                              'Departing Flight',
+                              'departFlight'.tr(),
                               style: kMediumHeavy.copyWith(
                                   color: Styles.kPrimaryColor),
                             ),
@@ -302,7 +302,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                         );
 
                                       }, //isLoading ? null :
-                                      child: const Text('Share'),
+                                      child:  Text('flightChange.share'.tr()),
                                     ),
                                   ),
                                   kHorizontalSpacerSmall,
@@ -315,7 +315,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
                                         if (check == true) {
                                           Fluttertoast.showToast(
-                                              msg: 'Files downloaded successfully',
+                                              msg: 'fileDownloadedSuccessfully'.tr(),
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.SNACKBAR,
                                               timeInSecForIosWeb: 1,
@@ -326,7 +326,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                                       },
-                                      child: const Text('Download'),
+                                      child:  Text('download'.tr()),
                                     ),
                                   ),
                                 ],
@@ -346,14 +346,14 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              'Boarding Pass',
+                              'boardingPass'.tr(),
                               style: kHugeSemiBold.copyWith(
                                 color: Styles.kTextColor,
                               ),
                             ),
                             kVerticalSpacerSmall,
                             Text(
-                              'Return Flight',
+                              'seatsSelection.returnFlight'.tr(),
                               style: kMediumHeavy.copyWith(
                                   color: Styles.kPrimaryColor),
                             ),
@@ -399,7 +399,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                           },
                                         );
                                       }, //isLoading ? null :
-                                      child: const Text('Share'),
+                                      child:  Text('flightChange.share'.tr()),
                                     ),
                                   ),
                                   kHorizontalSpacerSmall,
@@ -411,7 +411,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
                                         if (check == true) {
                                           Fluttertoast.showToast(
-                                              msg: 'Files downloaded successfully',
+                                              msg: 'fileDownloadedSuccessfully'.tr(),
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.SNACKBAR,
                                               timeInSecForIosWeb: 1,
@@ -421,7 +421,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                         }
 
                                       },
-                                      child: const Text('Download'),
+                                      child:  Text('download'.tr()),
                                     ),
                                   ),
                                 ],
@@ -434,7 +434,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                   ],
                   kVerticalSpacer,
                   Text(
-                    'Passenger',
+                    'passenger'.tr(),
                     style: kHugeSemiBold.copyWith(
                       color: Styles.kTextColor,
                     ),
@@ -487,7 +487,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         ],
                       ),
                       AppInputText(
-                        hintText: "First Name/Given Name",
+                        hintText: "firstNameGivenName".tr(),
                         readOnly: true,
                         validators: [FormBuilderValidators.required()],
                         initialValue: state.manageBookingResponse?.result
@@ -498,7 +498,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                       ),
                       kVerticalSpacerSmall,
                       AppInputText(
-                        hintText: 'Last Name / Surname',
+                        hintText: 'lastNameSurname'.tr(),
                         readOnly: true,
                         validators: [FormBuilderValidators.required()],
                         initialValue: state.manageBookingResponse?.result
@@ -509,7 +509,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                       ),
                       kVerticalSpacerSmall,
                       AppInputText(
-                        hintText: 'Nationality',
+                        hintText: 'passengerDetail.nationality'.tr(),
                         readOnly: true,
                         validators: [FormBuilderValidators.required()],
                         initialValue: state.manageBookingResponse?.result
@@ -523,8 +523,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         AppInputText(
                           isRequired: true,
                           name: 'passportKey${i.toString()}',
-                          hintText: 'Passport No',
-                          label: 'Passport No',
+                          hintText: 'passportNo'.tr(),
+                          label: 'passportNo'.tr(),
                           onChanged: (newValue){
                             if (newValue != null) {
                               state
@@ -546,10 +546,10 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                               if(value == null) {
-                                return 'Passport is required';
+                                return 'passportRequired'.tr();
                               }
                               if(value.isEmpty) {
-                                return 'Passport is required';
+                                return 'passportRequired'.tr();
                               }
                             }
                             return null;
@@ -600,7 +600,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                               if(value == null) {
-                                return 'Passport is required';
+                                return 'expDateRequired'.tr();
                               }
                             }
 
@@ -608,8 +608,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
                           },
 
-                          decoration: const InputDecoration(
-                              hintText: "Passport Expiry",
+                          decoration:  InputDecoration(
+                              hintText: "passportExpiry".tr(),
                               suffixIcon: Icon(Icons.calendar_month_sharp),
                               contentPadding:
                               EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
@@ -624,7 +624,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           name: 'rewardKey${i.toString()}',
                           initialValue: state.manageBookingResponse?.result
                               ?.passengersWithSSR?[i].passengers?.myRewardMemberId,
-                          hintText: 'Membership ID',
+                          hintText: 'passengerDetail.membershipID'.tr(),
                           inputFormatters: [AppFormUtils.onlyNumber()],
                           textInputType: TextInputType.number,
                           onChanged: (newText){
@@ -653,7 +653,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      'Infant',
+                                      'paymentView.infant'.tr(),
                                       style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
                                     ),
                                   ),
@@ -679,7 +679,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                             child: Column(
                               children: [
                                 AppInputText(
-                                  hintText: "First Name/Given Name",
+                                  hintText: "firstNameGivenName".tr(),
                                   readOnly: true,
                                   validators: [FormBuilderValidators.required()],
                                   initialValue: state.manageBookingResponse?.result
@@ -694,7 +694,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 ),
                                 kVerticalSpacerSmall,
                                 AppInputText(
-                                  hintText: 'Last Name / Surname',
+                                  hintText: 'lastNameSurname'.tr(),
                                   readOnly: true,
                                   validators: [FormBuilderValidators.required()],
                                   initialValue: state.manageBookingResponse?.result
@@ -709,7 +709,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                 ),
                                 kVerticalSpacerSmall,
                                 AppInputText(
-                                  hintText: 'Nationality',
+                                  hintText: 'passengerDetail.nationality'.tr(),
                                   readOnly: true,
                                   validators: [FormBuilderValidators.required()],
                                   initialValue: state.manageBookingResponse?.result
@@ -731,8 +731,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   AppInputText(
                                     isRequired: true,
                                     name: 'infpassportKey${i.toString()}',
-                                    hintText: 'Passport No',
-                                    label: 'Passport No',
+                                    hintText: 'passportNo'.tr(),
+                                    label: 'passportNo'.tr(),
                                     onChanged: (newValue){
                                       if (newValue != null) {
 
@@ -761,10 +761,10 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                                           if(value == null) {
-                                            return 'Passport is required';
+                                            return 'passportRequired'.tr();
                                           }
                                           if(value.isEmpty) {
-                                            return 'Passport is required';
+                                            return 'passportRequired'.tr();
                                           }
                                         }
                                         return null;
@@ -833,15 +833,15 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                                         if(value == null) {
-                                          return 'Passport is required';
+                                          return 'passportExpiry'.tr();
                                         }
                                       }
 
                                       return null;
 
                                     },
-                                    decoration: const InputDecoration(
-                                        hintText: "Passport Expiry",
+                                    decoration:  InputDecoration(
+                                        hintText: "passportExpiry".tr(),
                                         suffixIcon: Icon(Icons.calendar_month_sharp),
                                         contentPadding:
                                         EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
@@ -895,7 +895,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                             },
-                      child: const Text('Check-In'),
+                      child:  Text('checkIn'.tr()),
                     ),
                   ],
                   kVerticalSpacer,
@@ -1007,7 +1007,7 @@ class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
             if(widget.doValidation == true){
 
               if(value == null) {
-                return 'Passport Issuing Country required';
+                return 'passportCountryRequired'.tr();
               }
             }
           },
@@ -1018,13 +1018,13 @@ class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
           if(widget.doValidation == true){
 
             if(value == null) {
-              return 'Passport Issuing Country required';
+              return 'passportCountryRequired'.tr();
             }
           }
           },
         ],
-        hintText: "Passport Issuing Country",
-        customSheetTitle: 'Passport Issuing Country',
+        hintText: "passportIssuingCountry".tr(),
+        customSheetTitle: 'passportIssuingCountry'.tr(),
         dropdownDecoration: Styles.getDefaultFieldDecoration(),
         hideDefualttValue: true,
         isPhoneCode: false,

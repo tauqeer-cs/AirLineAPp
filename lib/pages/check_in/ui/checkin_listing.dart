@@ -1,5 +1,6 @@
 import 'package:app/localizations/localizations_util.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,10 +18,10 @@ import 'check_in_view.dart';
 import 'flight_list_item.dart';
 
 class CheckingListing extends StatelessWidget {
-
   final void Function(bool) navigateToCheckInDetails;
 
-  const CheckingListing({Key? key, required this.navigateToCheckInDetails}) : super(key: key);
+  const CheckingListing({Key? key, required this.navigateToCheckInDetails})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class CheckingListing extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 0.0.w),
               child: Text(
-                "My Booking",
+                'myBookings'.tr(),
                 style: kGiantHeavy.copyWith(color: Styles.kTextColor),
               ),
             ),
@@ -55,15 +56,16 @@ class CheckingListing extends StatelessWidget {
             if (bloc.state.showUpcoming == false) ...[
               if (bloc.state.isLoadingInfo == false &&
                   bloc.state.pastBookings?.isEmpty == true) ...[
-                buildNoDataView(context, bloc,true),
+                buildNoDataView(context, bloc, true),
               ] else ...[
                 Expanded(
                   child: bloc.state.isLoadingInfo == true
                       ? const Center(
                           child: Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: AppLoading(),
-                        ))
+                            padding: EdgeInsets.only(bottom: 24),
+                            child: AppLoading(),
+                          ),
+                        )
                       : ListView.separated(
                           itemBuilder: (context, index) {
                             if (bloc.state.loadingListDetailItem == true &&
@@ -81,9 +83,7 @@ class CheckingListing extends StatelessWidget {
                                   '',
                               flightCode:
                                   bloc.state.pastBookings?[index].pnr ?? '',
-                              departureLocation: bloc
-                                      .state
-                                      .pastBookings?[index]
+                              departureLocation: bloc.state.pastBookings?[index]
                                       .pastDepartureLocation ??
                                   '',
                               btnView: true,
@@ -93,8 +93,7 @@ class CheckingListing extends StatelessWidget {
                                       .pastReturnLocation ??
                                   '',
                               onCheckTapped: () async {
-                                if (bloc.state.loadingListDetailItem ==
-                                    true) {
+                                if (bloc.state.loadingListDetailItem == true) {
                                   return;
                                 }
 
@@ -104,9 +103,7 @@ class CheckingListing extends StatelessWidget {
                                         bloc.state.pastBookings?[index]);
 
                                 if (flag == true) {
-
                                   navigateToCheckInDetails(true);
-
                                 }
                               },
                             );
@@ -122,87 +119,83 @@ class CheckingListing extends StatelessWidget {
               ],
             ] else ...[
               Text(
-                'Online check-in opens 72 hours before departure.',
+                'onlineCheckHoursMessage'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kTextColor),
               ),
               kVerticalSpacer,
-
               if (bloc.state.isLoadingInfo == false &&
                   bloc.state.upcomingBookings?.isEmpty == true) ...[
-                buildNoDataView(context, bloc,false),
-              ] else ... [
+                buildNoDataView(context, bloc, false),
+              ] else ...[
                 Expanded(
                   child: bloc.state.isLoadingInfo == true
                       ? const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 24),
-                        child: AppLoading(),
-                      ))
-                      : ListView.separated(
-                    itemBuilder: (context, index) {
-                      if (bloc.state.loadingListDetailItem == true &&
-                          bloc.state.bookingSelected?.pnr ==
-                              bloc.state.upcomingBookings?[index].pnr) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 24),
+                          child: Padding(
+                          padding: EdgeInsets.only(bottom: 24),
                           child: AppLoading(),
-                        );
-                      }
+                        ))
+                      : ListView.separated(
+                          itemBuilder: (context, index) {
+                            if (bloc.state.loadingListDetailItem == true &&
+                                bloc.state.bookingSelected?.pnr ==
+                                    bloc.state.upcomingBookings?[index].pnr) {
+                              return const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 24),
+                                child: AppLoading(),
+                              );
+                            }
 
-                      return FlightListItem(
-                        dateToShow: bloc.state.upcomingBookings?[index]
-                            .dateToShow ??
-                            '',
-                        btnView: bloc.state.upcomingBookings?[index]
-                            .isFullyCheckedIn ==
-                            true,
-                        flightCode:
-                        bloc.state.upcomingBookings?[index].pnr ?? '',
-                        departureLocation: bloc
-                            .state
-                            .upcomingBookings?[index]
-                            .departureLocation ??
-                            '',
-                        destinationLocation: bloc
-                            .state
-                            .upcomingBookings?[index]
-                            .returnLocation ??
-                            '',
-                        onCheckTapped: bloc.state.upcomingBookings?[index]
-                            .allowCheckIn ==
-                            false && (bloc.state.upcomingBookings?[index].isFullyCheckedIn
-                             == false)
-                            ? null
-                            : () async {
-                          if (bloc.state.loadingListDetailItem ==
-                              true) {
-                            return;
-                          }
-                          var flag = await bloc
-                              .getBookingInformation('', '',
-                              bookSelected: bloc.state
-                                  .upcomingBookings?[index]);
+                            return FlightListItem(
+                              dateToShow: bloc.state.upcomingBookings?[index]
+                                      .dateToShow ??
+                                  '',
+                              btnView: bloc.state.upcomingBookings?[index]
+                                      .isFullyCheckedIn ==
+                                  true,
+                              flightCode:
+                                  bloc.state.upcomingBookings?[index].pnr ?? '',
+                              departureLocation: bloc
+                                      .state
+                                      .upcomingBookings?[index]
+                                      .departureLocation ??
+                                  '',
+                              destinationLocation: bloc
+                                      .state
+                                      .upcomingBookings?[index]
+                                      .returnLocation ??
+                                  '',
+                              onCheckTapped: bloc.state.upcomingBookings?[index]
+                                              .allowCheckIn ==
+                                          false &&
+                                      (bloc.state.upcomingBookings?[index]
+                                              .isFullyCheckedIn ==
+                                          false)
+                                  ? null
+                                  : () async {
+                                      if (bloc.state.loadingListDetailItem ==
+                                          true) {
+                                        return;
+                                      }
+                                      var flag = await bloc
+                                          .getBookingInformation('', '',
+                                              bookSelected: bloc.state
+                                                  .upcomingBookings?[index]);
 
-                          if (flag == true) {
-
-                            navigateToCheckInDetails(false);
-
-
-                          }
-                        },
-                      );
-                    },
-                    itemCount: (bloc.state.upcomingBookings ?? []).length,
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 8.h,
-                      );
-                    },
-                  ),
+                                      if (flag == true) {
+                                        navigateToCheckInDetails(false);
+                                      }
+                                    },
+                            );
+                          },
+                          itemCount: (bloc.state.upcomingBookings ?? []).length,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: 8.h,
+                            );
+                          },
+                        ),
                 ),
               ],
-
-
             ],
           ],
         ),
@@ -220,9 +213,9 @@ class CheckingListing extends StatelessWidget {
             children: [
               Expanded(child: Container()),
               if (isPast) ...[
-                const Text('No Past booking found'),
+                Text('noPastBookingFound'.tr()),
               ] else ...[
-                const Text('No upcoming booking found'),
+                Text('noUpcomingBookingFound'.tr()),
               ],
               const SizedBox(
                 height: 16,
@@ -233,7 +226,7 @@ class CheckingListing extends StatelessWidget {
                   onPressed: () {
                     bloc.getBookingsListing();
                   },
-                  child: const Text('Reload'),
+                  child: Text('reload'.tr()),
                 ),
               ),
               Expanded(
@@ -297,7 +290,7 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Center(
                   child: Text(
-                    'Upcoming Bookings',
+                    'upcomingBookings'.tr(),
                     style: kSmallSemiBold.copyWith(
                         color: _isSelectedOption1
                             ? Colors.white
@@ -330,7 +323,7 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: Center(
                   child: Text(
-                    'Past Bookings',
+                    'pastBookings'.tr(),
                     style: kSmallSemiBold.copyWith(
                         color: !_isSelectedOption1
                             ? Colors.white

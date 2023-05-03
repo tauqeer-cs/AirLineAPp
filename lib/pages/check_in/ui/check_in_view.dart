@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../../app/app_router.dart';
 import '../../../widgets/app_card.dart';
@@ -45,36 +46,36 @@ class CheckInView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     kVerticalSpacer,
-                    const Padding(
+                     Padding(
                       padding:
                       EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
                       child: Text("onlineCheckIn".tr(), style: kGiantHeavy),
                     ),
                     kVerticalSpacerMini,
                     Text(
-                      'Web check in available from 72 hours and up to 3 hours before departure.',
+                      'webCheckInFAQ'.tr(),
                       style:
                       kMediumRegular.copyWith(color: Styles.kSubTextColor),
                     ),
                     kVerticalSpacer,
                     AppInputTextWithBorder(
                       name: "bookingNumberCheckIn",
-                      hintText: "Booking Reference Number",
+                      hintText: 'bookingReference'.tr(),
                       maxLength: 6,
                       validators: [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.minLength(6,
                             errorText:
-                            "Booking number has to be 6 alphanumeric characters"),
+                            "navBar.bookingReferenceValid".tr()),
                         FormBuilderValidators.maxLength(6,
                             errorText:
-                            "Booking number has to be 6 alphanumeric characters"),
+                            'navBar.bookingReferenceValid'.tr()),
                       ],
                     ),
                     kVerticalSpacerSmall,
                     AppInputTextWithBorder(
                       name: "lastNameCheckIn",
-                      hintText: "Last Name / Surname",
+                      hintText: "lastNameSurname".tr(),
                       validators: [FormBuilderValidators.required()],
                     ),
                     kVerticalSpacer,
@@ -84,7 +85,7 @@ class CheckInView extends StatelessWidget {
                       onPressed: () {
                         onManageBooking(context);
                       },
-                      child: const Text("Search"),
+                      child:  Text('Search'.tr()),
                     )
                   ],
                 ),

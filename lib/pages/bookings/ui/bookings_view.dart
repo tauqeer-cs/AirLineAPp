@@ -62,7 +62,7 @@ class BookingsView extends StatelessWidget {
                           children: [
                             kVerticalSpacer,
                             kVerticalSpacer,
-                            const Text(manageMyBookings'.tr(), style: kGiantHeavy),
+                             Text('manageMyBookings'.tr(), style: kGiantHeavy),
                             kVerticalSpacerMini,
                             Text(
                             'manageBookingSubText'.tr(),
@@ -109,7 +109,7 @@ class BookingsView extends StatelessWidget {
                                           onPressed: () {
                                             onManageBooking(context);
                                           },
-                                          child: const Text(
+                                          child:  Text(
                                             'addonServices'.tr(),
                                             textAlign: TextAlign.center,
                                           ),

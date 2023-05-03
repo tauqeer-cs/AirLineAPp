@@ -1,6 +1,7 @@
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +33,7 @@ class _CheckInErrorPageState extends State<CheckInErrorPage> {
     return Scaffold(
       appBar: AppAppBar(
         centerTitle: true,
-        title: 'Check-In',
+        title: 'checkInDash'.tr(),
         height: 80.h,
         overrideInnerHeight: true,
       ),
@@ -53,7 +54,7 @@ class _CheckInErrorPageState extends State<CheckInErrorPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'We are unable to process your check-in request, please make sure the following are fulfilled:',
+                  'checkInError'.tr(),
                   style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
                 ),
               ),
@@ -63,17 +64,7 @@ class _CheckInErrorPageState extends State<CheckInErrorPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Text('''• Passport number and name keyed in
-  match the number and name shown on 
-  your passport.
-• Your passport is valid and fulfils the 
-  regulations set by the destination country.
-• Your passport meets the minimum validity 
-  rule set by the destination country. 
-• You have ALL the required supporting 
-  travel document(s) and/or other relevant 
-  secondary document(s) ready. Do also verify 
-  them at the airport check-in counter''', style: kMediumRegular),
+                      Text('checkInErrorInfo'.tr(), style: kMediumRegular),
                       kVerticalSpacerSmall,
                       RichText(
                         text: TextSpan(

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +15,9 @@ import '../bloc/check_in_cubit.dart';
 import '../check_in_error_page.dart';
 
 class DgnInfoView extends StatefulWidget {
-
   final Function(bool) valueChanged;
 
-  const DgnInfoView({Key? key,required this.valueChanged}) : super(key: key);
+  const DgnInfoView({Key? key, required this.valueChanged}) : super(key: key);
 
   @override
   State<DgnInfoView> createState() => _DgnInfoViewState();
@@ -35,8 +35,8 @@ class _DgnInfoViewState extends State<DgnInfoView> {
     }
     return Styles.kPrimaryColor;
   }
-  bool checked = false;
 
+  bool checked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Important Information',
+            'importantInformation'.tr(),
             textAlign: TextAlign.center,
             style: kGiantHeavy.copyWith(color: Styles.kTextColor),
           ),
@@ -75,7 +75,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             Padding(
               padding: const EdgeInsets.all(0),
               child: Text(
-                '''Please read the following key information and do your due diligence to ensure that you will be eligible to board the aircraft. Failure to comply with the requirements will lead to denial of boarding.''',
+                'checkInfoOne'.tr(),
                 style: kSmallRegular.copyWith(color: Styles.kTextColor),
               ),
             ),
@@ -83,100 +83,92 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             kVerticalSpacerMini,
             Padding(
               padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconBoarding', 'BOARDING',
-                  '''Please be advised that the boarding gate closes 20 minutes prior to the scheduled departure.'''),
-            ),
-            kVerticalSpacer,
-            Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconCovid', 'COVID-19',
-                  '''Please take note of the entry and health requirements to/from your intended destination.'''),
-            ),
-            kVerticalSpacer,
-            Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconCheckIn', 'CHECK-IN',
-                  '''You may perform online check-in between 3 days to 1 hour before departure.'''),
-            ),
-            kVerticalSpacer,
-            Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconDocuments', 'TRAVEL DOCUMENTS',
-                  '''Do ensure that your passport is valid and that you have all the relevant documents including visas, entry permits, and so on for the destination you are flying to, or you may be denied boarding, detained or deported by the respective authorities.'''),
-            ),
-            kVerticalSpacer,
-            Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconBaggage', 'BAGGAGE',
-                  '''Cabin baggage – you are allowed to carry 2 pieces of cabin baggage with a total weight of 7kg. The dimensions are limited to 56 cm x 36cm x 23cm including handles, wheels and side pockets. The bag must be able to fit into the overhead cabin of the aircraft. The second item should be 40cm x 30cm x 10cm so that it can be stored under your seat.'''),
-            ),
-            kVerticalSpacer,
-            Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconProhibited', 'PROHIBITED ITEMS',
-                  '''Please take note of items that shall not be carried onboard the aircraft, as well as the restriction on liquids, aerosols and gels, limited to 100ml per container and a combined total of 1000ml.'''),
+              child: buildRow(
+                  'iconBoarding', 'boarding'.tr(), 'checkInBoardingInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
               padding: const EdgeInsets.only(left: 12),
               child: buildRow(
-                  'iconInfoSystem',
-                  'APIS – ADVANCE PASSENGER INFORMATION SYSTEM',
-                  '''As part of the security requirements of Malaysia, you are required to enter your travel document personal details during the check-in process. Please ensure that the personal data you entered is updated and accurate.'''),
+                  'iconCovid', 'covid19'.tr(), 'checkInCovid19Info'.tr()),
             ),
             kVerticalSpacer,
-            buildDoubleRow('iconFlamable', 'Sharp Objects\n& Weapons', 'iconBlunt',
-                'Explosives'),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: buildRow('iconCheckIn', 'check_in_caps'.tr(),
+                  'checkInCheckInInfo'.tr()),
+            ),
             kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'Flammable\nSubstances', 'iconKnife',
-                'Blunt Objects\n& Instruments'),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: buildRow('iconDocuments', 'travelDocuments'.tr(),
+                  'checkInTravelDocumentsInfo'.tr()),
+            ),
             kVerticalSpacer,
-            buildDoubleRow(
-                'iconMeals',
-                'Self-Heating\nMeals &\nReady-To-Eat\nMeals',
-                'iconBioHazard',
-                'Biohazards\n& Poisons'),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: buildRow('iconBaggage', 'baggageSelection.baggage'.tr(),
+                  'checkInBaggageInfo'.tr()),
+            ),
             kVerticalSpacer,
-            buildDoubleRow('iconCorrosive', 'Chemicals\n& Corrosive\nMaterials',
-                'iconGas', 'Compressed\nGases'),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: buildRow('iconProhibited', 'prohibitedItems'.tr(),
+                  'checkInProhibitedItemsInfo'.tr()),
+            ),
             kVerticalSpacer,
-            buildDoubleRow('iconBattery', 'Batteries\n(more than\n160WH)',
-                'iconFirearm', 'Firearms: Guns,\nStun Guns,\nReplica Guns'),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: buildRow(
+                  'iconInfoSystem', 'apisTitle'.tr(), 'checkInApisInfo'.tr()),
+            ),
             kVerticalSpacer,
-            buildDoubleRow('iconFirearm', 'Live Plants\nand Flowers', 'iconDisablingDevice',
-                'Disabling Devices:\nTasers, Mace,\nPepper Spray'),
+            buildDoubleRow('iconFlamable', 'shareObjWeapons'.tr(), 'iconBlunt',
+                'explosives'.tr()),
             kVerticalSpacer,
-
+            buildDoubleRow('iconKnife', 'flammableSubstances'.tr(), 'iconKnife',
+                'bluntObjects'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconMeals', 'selfHeating'.tr(), 'iconBioHazard',
+                'biohazards'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconCorrosive', 'chemicals'.tr(), 'iconGas',
+                'compressed'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconBattery', 'batteries'.tr(), 'iconFirearm',
+                'firearms'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconFirearm', 'livePlants'.tr(),
+                'iconDisablingDevice', 'disablingDevices'.tr()),
+            kVerticalSpacer,
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Checkbox(
                   checkColor: Colors.white,
-                  fillColor:
-                  MaterialStateProperty.resolveWith(getColor),
+                  fillColor: MaterialStateProperty.resolveWith(getColor),
                   value: checked,
                   onChanged: (bool? value) {
                     setState(() {
                       checked = value ?? false;
                     });
-
-
-                   // bloc?.setCheckDeparture(value ?? false);
-                  },
+                    },
                 ),
                 Expanded(
                   child: RichText(
-                    text:  TextSpan(
+                    text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'By clicking "Continue", I acknowledge and agree to the information above. For more information about Dangerous Goods, please read our ',
-                          style:  kMediumRegular.copyWith(color: Styles.kTextColor),
+                          text: 'checkInTerms'.tr(),
+                          style:
+                              kMediumRegular.copyWith(color: Styles.kTextColor),
                         ),
 
                         //
                         TextSpan(
-                          text: 'FAQ',
-                          style:  kMediumSemiBold.copyWith(color: Styles.kLinkColor,
+                          text: 'checkInTermsFAQ'.tr(),
+                          style: kMediumSemiBold.copyWith(
+                            color: Styles.kLinkColor,
                             decoration: TextDecoration.underline,
                           ),
                           recognizer: TapGestureRecognizer()
@@ -190,19 +182,16 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                               * */
                             },
                         ),
-
                       ],
                     ),
                   ),
                 )
-
               ],
             ),
             kVerticalSpacer,
-
-            if(bloc.state.checkingInFlight == true) ... [
+            if (bloc.state.checkingInFlight == true) ...[
               const AppLoading(),
-            ] else ... [
+            ] else ...[
               SizedBox(
                 width: double.infinity,
                 child: Row(
@@ -211,46 +200,42 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                       child: OutlinedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-
                         }, //isLoading ? null :
-                        child: const Text('Back'),
+                        child: Text(
+                          'back'.tr(),
+                        ),
                       ),
                     ),
                     kHorizontalSpacerSmall,
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: checked == false ? null : () async {
-                          if(checked)  {
-                            var check = await bloc.checkInFlight();
-                            if(check == true) {
-                              context.router.replaceAll([
-                                const NavigationRoute(),
-                                const CheckInBoardingPassRoute(),
-                              ]);
-                            }
-                            else {
-
-                              if(bloc.showPassport) {
-                                context.router.replaceAll([
-                                  const NavigationRoute(),
-                                  const CheckInErrorRoute(),
-                                ]);
-                              }
-
-
-
-                            }
-
-                          }
-                        },
-                        child: const Text('Continue'),
+                        onPressed: checked == false
+                            ? null
+                            : () async {
+                                if (checked) {
+                                  var check = await bloc.checkInFlight();
+                                  if (check == true) {
+                                    context.router.replaceAll([
+                                      const NavigationRoute(),
+                                      const CheckInBoardingPassRoute(),
+                                    ]);
+                                  } else {
+                                    if (bloc.showPassport) {
+                                      context.router.replaceAll([
+                                        const NavigationRoute(),
+                                        const CheckInErrorRoute(),
+                                      ]);
+                                    }
+                                  }
+                                }
+                              },
+                        child:  Text('continue'.tr()),
                       ),
                     ),
                   ],
                 ),
               ),
             ],
-
           ],
         ),
       ),
@@ -288,7 +273,6 @@ class _DgnInfoViewState extends State<DgnInfoView> {
               kHorizontalSpacerSmall,
               FittedBox(
                 fit: BoxFit.scaleDown,
-
                 child: Text(
                   textTwo,
                   style: kSmallMedium.copyWith(color: Styles.kSubTextColor),

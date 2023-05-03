@@ -160,7 +160,8 @@ class ProfileView extends StatelessWidget {
                                           imageName: 'iconInfo',
                                           onTap: () {
                                             context.router.push(
-                                                const PersonalInfoRoute());
+                                              const PersonalInfoRoute(),
+                                            );
                                           },
                                         ),
                                         ProfileBoxButton(

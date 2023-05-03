@@ -48,6 +48,7 @@ import '../pages/change_flight_summary/change_flight_summary_page.dart';
 import '../pages/check_in/check_in_boarding_pass_page.dart';
 import '../pages/check_in/check_in_details_page.dart';
 import '../pages/friends_family/friend_family_page.dart';
+import '../pages/language/language_page.dart';
 import '../pages/member_cards/member_cards_page.dart';
 import '../pages/more_info/more_info_page.dart';
 import '../pages/new_travel_date/new_travel_date_page.dart';

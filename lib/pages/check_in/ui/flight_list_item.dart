@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/spacer.dart';
@@ -87,7 +88,7 @@ class FlightListItem extends StatelessWidget {
                   flex: 3,
                   child: ElevatedButton(
                     onPressed: onCheckTapped,
-                    child:  Text(btnView == true ? 'View' : 'Check-In'),
+                    child:  Text(btnView == true ? 'view'.tr() : 'checkIn'.tr()),
                   ),
                 ),
                 Expanded(
