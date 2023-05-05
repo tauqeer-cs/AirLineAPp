@@ -1012,6 +1012,7 @@
   "pleaseEnterEmail" : "กรุณากรอกอีเมลของคุณ",
   "close" : "ปิด",
   "dates" : "เลือกวันที่",
-  "navBar.account": "ประวัติ"
+  "navBar.account": "ประวัติ",
+  "profile.pts": "คะแนน"
 }
 
