@@ -842,7 +842,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     },
                                     decoration:  InputDecoration(
                                         hintText: "passportExpiry".tr(),
-                                        suffixIcon: Icon(Icons.calendar_month_sharp),
+                                        suffixIcon: const Icon(Icons.calendar_month_sharp),
                                         contentPadding:
                                         EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
                                     inputType: InputType.date,
