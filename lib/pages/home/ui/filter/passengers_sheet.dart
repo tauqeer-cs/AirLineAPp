@@ -71,7 +71,7 @@ class PassengersSheetState extends State<PassengersSheet> {
           ),
           InputWithPlusMinus(
             title: 'customerSelect.children'.tr(),
-            subtitle: 'customerSelect.childDesc'.tr(),
+            subtitle: 'childDesc'.tr(),
             number: passengers.numberOfChildren,
             peopleType: PeopleType.child,
             handler: changeNumber,

@@ -27,7 +27,7 @@ class BaggageNotice extends StatelessWidget {
           ),
           kVerticalSpacerBig,
           kVerticalSpacer,
-          Text('baggageSelection.travelOversizedItem'.tr(),
+          Text('travelOversizedItem'.tr(),
               style: kGiantSemiBold),
           kVerticalSpacer,
           Html(data: oversizedNotice?.content ?? ""),

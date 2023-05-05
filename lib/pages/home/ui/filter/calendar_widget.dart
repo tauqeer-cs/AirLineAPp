@@ -6,6 +6,7 @@ import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/containers/bordered_container.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,7 +76,7 @@ class CalendarWidget extends StatelessWidget {
       child: BorderedContainer(
         child: DropdownTransformerWidget<String>(
           value: texts.isEmpty ? null : texts.join(" to "),
-          hintText: "Dates",
+          hintText: "dates".tr(),
           prefix: Icon(
             MyFlutterApp.icodate,
             size: 20,
