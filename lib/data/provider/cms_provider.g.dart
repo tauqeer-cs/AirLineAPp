@@ -45,13 +45,15 @@ class _CMSProvider implements CMSProvider {
 
   @override
   Future<HomeResponse> getHomeContent(
-    key, {
+    key,
+    timestamp, {
     query =
         "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
+      r'timestamp': timestamp,
       r'query': query,
     };
     queryParameters.removeWhere((k, v) => v == null);
