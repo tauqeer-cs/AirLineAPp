@@ -54,13 +54,13 @@ class WheelchairSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PassengerSelector(
+PassengerSelector(
               isDeparture: isDeparture,
               addonType: AddonType.special,
             ),
             kVerticalSpacer,
             wheelChairs?.isEmpty ?? true
-                ? Center(child: Text("No available wheelchair", style: kLargeHeavy,))
+                ? Center(child: Text("noWheelchairAvailable".tr(), style: kLargeHeavy,))
                 : AppCard(
               edgeInsets: EdgeInsets.all(12),
               child: Column(
@@ -115,7 +115,7 @@ class WheelchairSection extends StatelessWidget {
                       child: BorderedAppInputText(
                         key: Key("${focusedPerson.toString()}okId"),
                         name: "${focusedPerson.toString()}okId",
-                        hintText: "Disabled ID Card No (Optional)",
+                        hintText: "specialSelection.disabledIDCard".tr(),
                         initialValue: okId,
                         onChanged: (id) {
                           context
@@ -358,16 +358,16 @@ class FlightUnderAnHour extends StatelessWidget {
       child: Column(
         children: [
           kVerticalSpacer,
-          const Text(
-            "Oh, your flight is 1 hour or less.",
+           Text(
+            "oneHourWarning".tr(),
             style: kHugeHeavy,
             textAlign: TextAlign.center,
           ),
           kVerticalSpacerSmall,
-          const Padding(
+           Padding(
             padding: kPageHorizontalPaddingBig,
             child: Text(
-              "Just buy your munchies and drinks on board your flight.",
+              "buyMunchiesOnBoard".tr(),
               style: kLargeRegular,
               textAlign: TextAlign.center,
             ),
@@ -389,16 +389,16 @@ class FlightWithin24Hour extends StatelessWidget {
       child: Column(
         children: [
           kVerticalSpacer,
-          const Text(
-            "Oh, your flight will depart within 24 hours.",
+           Text(
+            'flight24warning'.tr(),
             style: kHugeHeavy,
             textAlign: TextAlign.center,
           ),
           kVerticalSpacerSmall,
-          const Padding(
+           Padding(
             padding: kPageHorizontalPaddingBig,
             child: Text(
-              "Just buy your munchies and drinks on board your flight.",
+              "buyMunchiesOnBoard".tr(),
               style: kLargeRegular,
               textAlign: TextAlign.center,
             ),

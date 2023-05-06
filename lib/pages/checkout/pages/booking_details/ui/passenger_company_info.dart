@@ -78,11 +78,11 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Company Tax Invoice ",
+                          text: 'companyContact.companyTaxInvoice'.tr(),
                           style: k18Heavy.copyWith(color: Styles.kTextColor),
                         ),
                         TextSpan(
-                          text: "(Optional)",
+                          text: "(${'optional'.tr()})",
                           style:
                               kMediumRegular.copyWith(color: Styles.kTextColor),
                         ),
@@ -144,7 +144,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 name: formNameCompanyCountry,
                 child: AppCountriesDropdown(
                   dropdownDecoration: Styles.getDefaultFieldDecoration(),
-                  hintText: "Country",
+                  hintText: "country".tr(),
                   isPhoneCode: false,
                 ),
               ),

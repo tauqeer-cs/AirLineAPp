@@ -10,6 +10,7 @@ import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,7 +60,7 @@ class RedeemVoucherView extends StatelessWidget {
           ),
           kVerticalSpacerMini,
           Text(
-            "Login to redeem your MYReward Points for further discounts!",
+            "loginToRedeemDiscounts".tr(),
             style: kMediumRegular.copyWith(),
           ),
           kVerticalSpacerMini,
@@ -69,7 +70,7 @@ class RedeemVoucherView extends StatelessWidget {
               showLoginDialog(context);
 
             },
-            child: const Text("Login"),
+            child:  Text("logIn".tr()),
           ),
           kVerticalSpacerSmall,
         ],
@@ -94,8 +95,8 @@ class RedeemVoucherView extends StatelessWidget {
                     ),
                   ),
                   kVerticalSpacerSmall,
-                  const Text(
-                    'Redeem your MYReward Points from options below!',
+                   Text(
+                    'paymentView.myrewardDesc'.tr(),
                     style: kMediumRegular,
                   ),
                   kVerticalSpacer,
@@ -124,7 +125,7 @@ class RedeemVoucherView extends StatelessWidget {
                               child: Container(),
                             ),
                             Text(
-                              '${currenteItem.redemptionPoint} points',
+                              '${currenteItem.redemptionPoint} ${'paymentView.points'.tr()}',
                               style: kMediumMedium,
                             ),
                           ],
@@ -156,7 +157,7 @@ class RedeemVoucherView extends StatelessWidget {
         useDefaultLoading: false,
         overlayWidget: SizedBox(
           height: 0.5.sh,
-          child: const AppLoadingScreen(message: "Loading"),
+          child:  AppLoadingScreen(message: 'loading'.tr()),
         ),
         child: BlocProvider(
           create: (context) => LoginCubit(),
@@ -186,7 +187,7 @@ class RedeemVoucherView extends StatelessWidget {
                             .getAvailablePromotions(token);
                       }
                       Toast.of(context)
-                          .show(message: "Welcome back", success: true);
+                          .show(message: 'welcomeBack'.tr(), success: true);
                       context.router.pop();
                     },
                   );
@@ -233,10 +234,10 @@ class RedeemVoucherView extends StatelessWidget {
       barrierDismissible: false,
       builder: (_) {
         return AppConfirmationDialog(
-          title: "Your email hasn't been verified yet.",
+          title: "verifyEmail.emailVerifyTitle".tr(),
           subtitle:
-              "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
-          confirmText: "Resend",
+              "verifyEmail.emailVerifyDesc".tr(),
+          confirmText: "verifyEmail.resend".tr(),
           onConfirm: () {
             AuthenticationRepository()
                 .sendEmail(ResendEmailRequest(email: email));
@@ -244,12 +245,12 @@ class RedeemVoucherView extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "We've sent a verification link to your email ${email.sensorEmail()}. Please check your email and click on the link.",
+               "${'verifyEmail.emailVerifyLink1'.tr()} ${email.sensorEmail()}. ${'verifyEmail.emailVerifyLink2'.tr()}",
                 style: kMediumHeavy,
               ),
               kVerticalSpacer,
-              const Text(
-                "Click resend if you didn’t receive the email. ",
+               Text(
+                "verifyEmail.emailVerifyLink3".tr(),
               ),
               kVerticalSpacer,
             ],

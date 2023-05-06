@@ -12,6 +12,7 @@ import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_tooltip.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -339,7 +340,7 @@ class FlightWithin24Hour extends StatelessWidget {
         children: [
           kVerticalSpacer,
            Text(
-             agentCms.meal24Title ??   "Oh, your flight will depart within 24 hours.",
+             agentCms.meal24Title ??   'flight24warning'.tr(),
             style: kHugeHeavy,
             textAlign: TextAlign.center,
           ),
@@ -347,7 +348,7 @@ class FlightWithin24Hour extends StatelessWidget {
            Padding(
             padding: kPageHorizontalPaddingBig,
             child: Text(
-             agentCms.mean24Content ?? "Just buy your munchies and drinks on board your flight.",
+             agentCms.mean24Content ?? 'buyMunchiesOnBoard'.tr(),
               style: kLargeRegular,
               textAlign: TextAlign.center,
             ),

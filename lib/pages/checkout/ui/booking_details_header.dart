@@ -20,7 +20,7 @@ class BookingDetailsHeader extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: "bookingForm.bookingDetailsDesc1",
+                text: "bookingForm.bookingDetailsDesc1".tr(),
                 style: kMediumRegular.copyWith(
                   color: Styles.kTextColor,
                   height: 1.5,

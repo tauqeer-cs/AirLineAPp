@@ -68,7 +68,7 @@ class _InsuranceFeeState extends State<InsuranceFee> {
   }
 
   String setText(bool isPaymentPage) {
-    return '- Insurance';
+    return '- ${'insurance'.tr()}';
   }
 }
 
@@ -99,7 +99,7 @@ class InsuranceFeeDetail extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                "${e.generateText(filter?.numberPerson)} :\n${bundle?.description ?? 'No Bundle'}",
+                                "${e.generateText(filter?.numberPerson)} :\n${bundle?.description ?? 'noBundle'.tr()}",
                                 style: kSmallRegular.copyWith(
                                     color: Styles.kSubTextColor),
                               ),
@@ -117,7 +117,7 @@ class InsuranceFeeDetail extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 bundle?.applicableTaxes?.first.taxDescription ??
-                                    'Taxes',
+                                    'taxes'.tr(),
                                 style: kSmallRegular.copyWith(
                                     color: Styles.kSubTextColor),
                               ),

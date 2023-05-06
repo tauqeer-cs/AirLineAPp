@@ -4,6 +4,8 @@ class CmsSsrState extends Equatable {
   final List<SSRItemType> mealGroups;
   final List<SSRItemType> bundleGroups;
   final List<SSRItem>? notifications;
+  final String? language;
+
   final SharedSetting? notice;
   final SharedSetting? bundleNotice;
   final SharedSetting? seatNotice;
@@ -12,7 +14,7 @@ class CmsSsrState extends Equatable {
   final BlocState blocState;
   final String message;
 
-  const CmsSsrState({
+  const CmsSsrState(this.language,  {
     this.bundleGroups = const [],
     this.mealGroups = const [],
     this.blocState = BlocState.initial,
@@ -38,6 +40,7 @@ class CmsSsrState extends Equatable {
     SharedSetting? carryNotice,
   }) {
     return CmsSsrState(
+      language,
       blocState: blocState ?? this.blocState,
       message: message ?? this.message,
       mealGroups: mealGroups ?? this.mealGroups,
@@ -63,5 +66,6 @@ class CmsSsrState extends Equatable {
         seatNotice,
         oversizedNotice,
         carryNotice,
+      language
       ];
 }

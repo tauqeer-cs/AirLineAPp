@@ -123,6 +123,8 @@ part 'app_router.gr.dart';
     AutoRoute(page: CheckInDetailsPage, path: "/check_in_details"),
     AutoRoute(page: CheckInBoardingPassPage, path: "/check_in_boarding_pass"),
     AutoRoute(page: CheckInErrorPage, path: "/check_in_error"),
+    AutoRoute(page: LanguagePage, path: "/language"),
+
 
 //
 

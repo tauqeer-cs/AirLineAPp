@@ -40,6 +40,7 @@ class _FlightDetailState extends State<FlightDetail> {
   Widget build(BuildContext context) {
     final detail = widget.segment.segmentDetail;
     final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final locale = context.locale.toString();
 
     return BlocListener<BookingCubit, BookingState>(
       listenWhen: (prev, curr) {
@@ -108,7 +109,7 @@ class _FlightDetailState extends State<FlightDetail> {
                     children: [
                       Expanded(
                         child: BorderedLeftContainer(
-                          title: "Flight:",
+                          title: "${'flights'.tr()}:",
                           content: '${detail?.carrierCode}${detail?.flightNum}',
                         ),
                       ),
@@ -122,10 +123,7 @@ class _FlightDetailState extends State<FlightDetail> {
                   ),
                 ),
                 kVerticalSpacer,
-                // BorderedLeftContainer(
-                //   title: "Cabin:", content: '${info?.cabin}',
-                // ),
-                // kVerticalSpacer,
+
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: widget.showFees ? 0 : 15.0),
@@ -140,9 +138,9 @@ class _FlightDetailState extends State<FlightDetail> {
                   padding: EdgeInsets.symmetric(
                       horizontal: widget.showFees ? 0 : 15.0),
                   child: BorderedLeftContainer(
-                    title: "Departure:",
+                    title: "${'departure'.tr()}:",
                     content:
-                        "${AppDateUtils.formatFullDateWithTime(detail?.departureDate)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
+                        "${AppDateUtils.formatFullDateWithTime(detail?.departureDate,locale: locale)}\n${widget.isDeparture ? filter?.origin?.name?.camelCase() : filter?.destination?.name?.camelCase()}",
                   ),
                 ),
                 kVerticalSpacer,
@@ -152,7 +150,7 @@ class _FlightDetailState extends State<FlightDetail> {
                   child: BorderedLeftContainer(
                     title: "${"arrival".tr()}:",
                     content:
-                        "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
+                        "${AppDateUtils.formatFullDateWithTime(detail?.arrivalDate,locale: locale)}\n${widget.isDeparture ? filter?.destination?.name?.camelCase() : filter?.origin?.name?.camelCase()}",
                   ),
                 ),
                 kVerticalSpacer,
@@ -163,9 +161,9 @@ class _FlightDetailState extends State<FlightDetail> {
                     child: widget.showFees
                         ? FeeAndTaxesPayment(isDeparture: widget.isDeparture)
                         : Container(
-                            padding: EdgeInsets.all(12),
-                            color: Color.fromRGBO(229, 229, 229, 0.53),
-                            child: FeeAndTaxes(isDeparture: true),
+                            padding: const EdgeInsets.all(12),
+                            color: const Color.fromRGBO(229, 229, 229, 0.53),
+                            child:   FeeAndTaxes(isDeparture: true),
                           ),
                   ),
                 ),

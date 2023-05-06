@@ -19,6 +19,9 @@ class FlightResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
+
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     return BlocBuilder<SearchFlightCubit, SearchFlightState>(
       builder: (context, state) {
@@ -28,7 +31,7 @@ class FlightResultWidget extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: Column(
               children: [
-                Row(
+                  Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
@@ -77,8 +80,8 @@ class FlightResultWidget extends StatelessWidget {
                   builder: (context, bookState) {
                     return blocBuilderWrapper(
                       blocState: bookState.blocState,
-                      finishedBuilder: buildFlights(state, bookState,),
-                      initialBuilder: buildFlights(state, bookState,),
+                      finishedBuilder: buildFlights(state, bookState,locale),
+                      initialBuilder: buildFlights(state, bookState,locale),
                       loadingBuilder: const BookingLoader(),
                     );
                   },
@@ -120,13 +123,14 @@ class FlightResultWidget extends StatelessWidget {
     );
   }
 
-  Column buildFlights(SearchFlightState state, BookingState bookState) {
-    return Column(
+  Column buildFlights(SearchFlightState state, BookingState bookState,String locale) {
+
+    return  Column(
       children: [
         ChooseFlightSegment(
           title: "departure".tr(),
           subtitle: state.filterState?.beautifyShort ?? "",
-          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate),
+          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate,locale: locale),
           segments: bookState.selectedDeparture != null
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],

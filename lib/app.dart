@@ -42,6 +42,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/date_symbol_data_file.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import 'blocs/manage_booking/manage_booking_cubit.dart';
@@ -259,6 +260,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => CountriesCubit()..getCountries()),
@@ -279,10 +282,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (_) => SelectedPersonCubit()),
         BlocProvider(create: (context) => VoucherCubit()),
         BlocProvider(create: (_) => HomeCubit()),
-        BlocProvider(create: (_) => CmsSsrCubit()),
-        BlocProvider(create: (_) => AgentSignUpCubit()),
+        BlocProvider(create: (_) => CmsSsrCubit(locale)),
+        BlocProvider(create: (_) => AgentSignUpCubit(locale)),
         BlocProvider(create: (_) => CheckInCubit()),
-
         BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(
           create: (context) => ManageBookingCubit(),
@@ -291,11 +293,17 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           create: (_) => SummaryContainerCubit(),
         ),
         BlocProvider(
-            create: (_) =>
-                AuthBloc(authenticationRepository: AuthenticationRepository())),
+          create: (_) => AuthBloc(
+            authenticationRepository: AuthenticationRepository(),
+          ),
+        ),
         BlocProvider(create: (_) => RoutesCubit()..getRoutes(), lazy: false),
         BlocProvider(
-            create: (_) => LocalUserBloc()..add(const Init()), lazy: false),
+            create: (_) => LocalUserBloc()
+              ..add(
+                const Init(),
+              ),
+            lazy: false),
         BlocProvider(create: (_) => BookingLocalCubit()..getBooking()),
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
@@ -373,6 +381,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   localizationsDelegates: [
                     FormBuilderLocalizations.delegate,
                     EasyLocalization.of(context)!.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
                   ],
                   supportedLocales: context.supportedLocales,
                   builder: (context, child) {

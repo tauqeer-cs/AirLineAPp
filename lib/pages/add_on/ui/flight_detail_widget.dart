@@ -87,7 +87,7 @@ class FlightDetailWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        index == 0 ? "DEP" : "RET",
+                        index == 0 ? "departureShort".tr() : "returnShort".tr(),
                         style: kGiantHeavy.copyWith(
                             color: isActive ? Colors.white : null),
                       ),

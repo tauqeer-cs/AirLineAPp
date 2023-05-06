@@ -4,6 +4,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,8 +33,8 @@ class _FaresAndBundlesPaymentState extends State<FaresAndBundlesPayment> {
           },
           title: Row(
             children: [
-              const Text(
-                "- Fares and Bundles",
+               Text(
+                "- ${'priceSection.fareBundles'.tr()}",
                 style: kMediumRegular,
               ),
               kHorizontalSpacerSmall,

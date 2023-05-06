@@ -45,12 +45,12 @@ class ListOfPassengerInfo extends StatelessWidget {
                   children: [
                     kVerticalSpacer,
                     Text(
-                      "Travelling with kids?",
+                      "commForm.travelKids".tr(),
                       style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
                     ),
                     kVerticalSpacerSmall,
                     Text(
-                      "Rows 1, 12 and 14 are emergency exit seats and cannot be assigned to a child.",
+                      "rowNoEmergency".tr(),
                       style:
                           kMediumMedium.copyWith(color: Styles.kSubTextColor),
                     ),
@@ -67,7 +67,7 @@ class ListOfPassengerInfo extends StatelessWidget {
             children: [
               TextSpan(
                 text:
-                    'If you\'re having any issues when filling in your name, please refer to our guidelines on filling in your personal details in our ',
+                    'commForm.commFormFAQ'.tr(),
                 style: kMediumMedium.copyWith(
                     color: Styles.kTextColor, height: 1.5),
               ),
@@ -77,7 +77,7 @@ class ListOfPassengerInfo extends StatelessWidget {
                     SecurityUtils.tryLaunch(
                         'https://www.myairline.my/fares-fees');
                   },
-                text: 'FAQ',
+                text: 'commForm.faq'.tr(),
                 style: kMediumHeavy.copyWith(
                     color: Colors.blue,
                     height: 1.5,

@@ -57,12 +57,14 @@ class CalendarWidget extends StatelessWidget {
     final origin = filterState.origin;
     final destination = filterState.destination;
     final List<String> texts = [];
+    final locale = context.locale.toString();
+
     if (departDate != null) {
-      final dateText = AppDateUtils.formatDateWithoutLocale(departDate);
+      final dateText = AppDateUtils.formatDateWithoutLocale(departDate,locale: locale);
       texts.add(dateText);
     }
     if (returnDate != null) {
-      final dateText = AppDateUtils.formatDateWithoutLocale(returnDate);
+      final dateText = AppDateUtils.formatDateWithoutLocale(returnDate,locale: locale);
       texts.add(dateText);
     }
     /*if (texts.isEmpty) {
@@ -75,7 +77,7 @@ class CalendarWidget extends StatelessWidget {
           : () => _onCalendarPick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<String>(
-          value: texts.isEmpty ? null : texts.join(" to "),
+          value: texts.isEmpty ? null : texts.join(" ${"to".tr()} "),
           hintText: "dates".tr(),
           prefix: Icon(
             MyFlutterApp.icodate,

@@ -29,7 +29,7 @@ class _BaggageFeePaymentState extends State<BaggageFeePayment> {
       children: [
         kVerticalSpacer,
         PriceRow(
-          child1: Text(widget.isSports ? 'Sports Equipment' : "baggage".tr(),
+          child1: Text(widget.isSports ? 'priceSection.sportsEquipmentTitle'.tr() : "baggage".tr(),
               style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,

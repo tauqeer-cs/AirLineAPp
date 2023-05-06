@@ -79,12 +79,12 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   RichText(
                     text: TextSpan(
                       text:
-                          'You may purchase baggage allowance for any sports equipment that does not exceed a certain size. Please read our ',
+                          'baggageMessage'.tr(),
                       style: kMediumRegular.copyWith(
                           color: Styles.kTextColor, height: 20 / 14),
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'FAQ ',
+                          text: 'checkInTermsFAQ'.tr(),
                           style: kMediumRegular.copyWith(
                             color: Styles.kPrimaryColor,
                             decoration: TextDecoration.underline,
@@ -96,7 +96,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                             },
                         ),
                         TextSpan(
-                          text: 'for more information.',
+                          text: 'forMoreInfo'.tr(),
                           style: kMediumRegular.copyWith(
                               color: Styles.kTextColor, height: 20 / 14),
                         ),
@@ -116,7 +116,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
           ],
           kVerticalSpacer,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
             child: Text(
               "carryOnBaggage".tr(),
               style: kHugeHeavy.copyWith(color: Styles.kDartBlack),

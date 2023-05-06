@@ -11,6 +11,7 @@ import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/seats_fee.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/wheelchair_fee.dart';
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,8 +39,8 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
       children: [
         kVerticalSpacer,
         PriceRow(
-          child1: const Text(
-            "Fares And Bundles",
+          child1:  Text(
+            "faresNBundles".tr(),
             style: k18Heavy,
           ),
           child2: MoneyWidgetSummary(
@@ -73,7 +74,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
         if (widget.isDeparture) ...[
           Visibility(
             visible: insurance > 0,
-            child: InsuarnceFeePayment(isDeparture: true,),
+            child: const InsuarnceFeePayment(isDeparture: true,),
           ),
         ],
         Visibility(

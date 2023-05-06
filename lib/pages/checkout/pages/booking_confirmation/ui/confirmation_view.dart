@@ -10,6 +10,7 @@ import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -62,7 +63,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
             children: [
               kVerticalSpacerSmall,
               Text(
-                "Your booking has been confirmed.\nA confirmation email has been sent to",
+                "confirmationView.bookingConfirm".tr(),
                 style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor, height: 1.5),
                 textAlign: TextAlign.center,
@@ -75,7 +76,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               ),
               kVerticalSpacerSmall,
               Text(
-                "Booking reference:  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
+                "${'confirmationView.bookingReference'.tr()} :  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
                 style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
                 textAlign: TextAlign.center,
               ),
@@ -100,7 +101,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     // kVerticalSpacerSmall,
                     Row(
                       children: [
-                        const Text("Total", style: kGiantHeavy),
+                         Text("flightCharge.total".tr(), style: kGiantHeavy),
                         const Spacer(),
                         MoneyWidget(
                           amount: (confirmationDetail.confirmationModel?.value
@@ -150,14 +151,14 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     ? const AppLoading(
                         size: 20,
                       )
-                    : const Text("Share"),
+                    :  Text("flightChange.share".tr()),
               ),
               kVerticalSpacerSmall,
               ElevatedButton(
                 onPressed: () {
                   context.router.replaceAll([const NavigationRoute()]);
                 },
-                child: const Text("Back to Home"),
+                child:  Text("backHome".tr()),
               ),
             ],
           ),

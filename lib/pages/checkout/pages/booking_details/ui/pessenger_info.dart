@@ -114,7 +114,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
     final passengerInfo = widget.person.passenger;
     final notice = context.watch<CmsSsrCubit>().state.notice;
     final filter = context.watch<FilterCubit>().state;
-
+    final locale = context.locale.toString();
     final bookingState = context.watch<BookingCubit>().state;
     final insuranceGroup = context
         .watch<BookingCubit>()
@@ -154,7 +154,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     child: Row(
                       children: [
                         Text(
-                          "Friends & Family",
+                          "fnF".tr(),
                           style: kMediumMedium.copyWith(),
                         ),
                         kHorizontalSpacerMini,
@@ -241,50 +241,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 ),
               ),
               kVerticalSpacerSmall,
-              // DropdownDatePicker(
-              //   locale: SupportedLocale.en,
-              //   inputDecoration: InputDecoration(
-              //       enabledBorder: const OutlineInputBorder(
-              //         borderSide: BorderSide(color: Colors.grey, width: 1.0),
-              //       ),
-              //       helperText: '',
-              //       contentPadding: const EdgeInsets.all(8),
-              //       border: OutlineInputBorder(
-              //           borderRadius: BorderRadius.circular(10))), // optional
-              //   isDropdownHideUnderline: true, // optional
-              //   isFormValidator: false, // optional
-              //   startYear: widget.person.dateLimitStart(filter.departDate).year, // optional
-              //   endYear: widget.person.peopleType == PeopleType.infant
-              //       ? infantDOBlimit(DateTime.now()).year
-              //       : widget.person.dateLimitEnd(filter.departDate).year, //
-              //   startMonth: widget.person.dateLimitStart(filter.departDate).month, // optional
-              //   endMonth: widget.person.peopleType == PeopleType.infant
-              //       ? infantDOBlimit(DateTime.now()).month
-              //       : widget.person.dateLimitEnd(filter.departDate).month, //
-              //   startDate: widget.person.dateLimitStart(filter.departDate).day, // optional
-              //   endDate: widget.person.peopleType == PeopleType.infant
-              //       ? infantDOBlimit(DateTime.now()).day
-              //       : widget.person.dateLimitEnd(filter.departDate).day, //// optional
-              //   width: 10, // optional
-              //   // selectedDay: 14, // optional
-              //   //selectedMonth: 10, // optional
-              //   //selectedYear: 1993, // optional
-              //   onChangedDay: (value) => print('onChangedDay: $value'),
-              //   onChangedMonth: (value) => print('onChangedMonth: $value'),
-              //   onChangedYear: (value) => print('onChangedYear: $value'),
-              //   //boxDecoration: BoxDecoration(
-              //   // border: Border.all(color: Colors.grey, width: 1.0)), // optional
-              //   // showDay: false,// optional
-              //   // dayFlex: 2,// optional
-              //   // locale: "zh_CN",// optional
-              //   // hintDay: 'Day', // optional
-              //   // hintMonth: 'Month', // optional
-              //   // hintYear: 'Year', // optional
-              //   // hintTextStyle: TextStyle(color: Colors.grey), // optional
-              // ),
+
               FormBuilderDateTimePicker(
                 key: dateKey,
                 name: dobKey,
+               // locale:  ,
+              //  locale: Locale(locale),
+                locale: Locale(locale, ''), // set the locale to French
                 firstDate: widget.person.dateLimitStart(filter.departDate),
                 lastDate: widget.person.peopleType == PeopleType.infant
                     ? infantDOBlimit(DateTime.now())
@@ -392,7 +355,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 visible: isWheelChairChecked,
                 child: AppInputText(
                   name: "${widget.person.toString()}$formNameOkIdNumber",
-                  hintText: "Disabled ID Card No (Optional)",
+                  hintText: "specialSelection.disabledIDCard".tr(),
                   onChanged: (id) {
                     okId = id;
                     updateWheelChair(
@@ -407,7 +370,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                     final adultName =
                         state["Adult ${widget.person.numberOrder}"];
                     final string =
-                        adultName ?? "Adult ${widget.person.numberOrder}";
+                        adultName ?? "${'adult'.tr()} ${widget.person.numberOrder}";
                     return Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
@@ -421,7 +384,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                         ),
                       ),
                       child: Text(
-                        "Travel With $string",
+                        "${'travWith'.tr()} $string",
                         style: kSmallSemiBold,
                       ),
                     );
@@ -452,7 +415,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                             text: TextSpan(
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
-                                const TextSpan(text: 'I want '),
+                                 TextSpan(text: '${'iWant'.tr()} '),
                                 makeClickableTextSpan(context,
                                     text: 'MY${' Travel Shield'}',
                                     pdfName:
@@ -661,7 +624,7 @@ class FriendsAndFamilySelectorPopUp extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 40),
                   child: Center(
                     child: Text(
-                      'Your family and friends doesnt have ${person.peopleType!.toPersonTypeString()} added',
+                     '${'yourFamilyDoesntHave'.tr()} ${person.peopleType!.toPersonTypeString()} ${'added'.tr()}',
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -689,7 +652,7 @@ class FriendsAndFamilySelectorPopUp extends StatelessWidget {
                           },
                           child: (showMySelf && index == 0)
                               ? Text(
-                                  'I am flying',
+                                  'commForm.iAmFlying'.tr(),
                                   style: kMediumRegular.copyWith(
                                       color: Styles.kPrimaryColor),
                                 )

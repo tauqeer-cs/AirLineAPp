@@ -6,6 +6,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -25,9 +25,11 @@ abstract class CMSProvider {
   });
 
   @GET('shared/get')
-  Future<CMSFlight> getSSRContent(@Query("key") String key, {
+  Future<CMSFlight> getSSRContent(@Query("key",) String key, {
     @Query("query") String? query = "content,image,title,description,code",
     @Query("deep") String? deep = "6",
+    @Query("lang") String? language = "en",
+
   });
 
   @GET('shared/detail')
@@ -42,6 +44,7 @@ abstract class CMSProvider {
   Future<AgentSignUpCms> getAgentSignUp(@Query("key") String key, {
     @Query("query") String? query = "tnC,agreement",
     @Query("deep") String? deep = "6",
+
   });
 
   @GET('shared/get')
@@ -49,6 +52,7 @@ abstract class CMSProvider {
     @Query("query") String? query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
     @Query("deep") String? deep = "6",
     @Query("timestamp") String? timestamp = '1650012345',
+    @Query("lang") String? lang = 'en_US',
   });
 
 

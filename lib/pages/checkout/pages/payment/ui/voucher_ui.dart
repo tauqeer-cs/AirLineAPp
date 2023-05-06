@@ -48,8 +48,8 @@ class VoucherCodeUi extends StatelessWidget {
             style: kHugeSemiBold,
           ),
           kVerticalSpacerMini,
-          const Text(
-            "Enter your voucher code below",
+           Text(
+            "enterVoucherCode".tr(),
             style: kMediumRegular,
           ),
           kVerticalSpacerSmall,

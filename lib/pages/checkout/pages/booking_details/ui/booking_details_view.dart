@@ -131,7 +131,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                       children: [
                         const BookingDetailsHeader(),
                         kVerticalSpacer,
-                        const CardSummary(showFees: false),
+                       const CardSummary(showFees: false),
                         kVerticalSpacerSmall,
                         ListOfPassengerInfo(
 
@@ -339,7 +339,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         if ((emailCompany ?? '').isEmpty) {
           BookingDetailsView.fbKey.currentState!.invalidateField(
               name: formNameCompanyEmailAddress,
-              errorText: 'Email address is mandatory for company Tax Invoice.');
+              errorText: 'emailMandatoryTaxInvoice'.tr());
           return;
         }
       }
@@ -442,10 +442,10 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyFirstName,
         errorText:
-            'Emergency contact name should be different from contact name and passenger name.');
+            'emergencyContactSameError'.tr());
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyLastName,
         errorText:
-            'Emergency contact name should be different from contact name and passenger name.');
+            'emergencyContactSameError'.tr());
   }
 }

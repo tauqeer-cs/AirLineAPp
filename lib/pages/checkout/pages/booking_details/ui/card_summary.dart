@@ -16,26 +16,28 @@ class CardSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     final state = context.watch<SearchFlightCubit>().state;
     return BlocBuilder<BookingCubit, BookingState>(
       builder: (context, bookState) {
         return blocBuilderWrapper(
           blocState: bookState.blocState,
-          finishedBuilder: buildFlights(state, bookState),
-          initialBuilder: buildFlights(state, bookState),
+          finishedBuilder: buildFlights(state, bookState,locale),
+          initialBuilder: buildFlights(state, bookState,locale),
           loadingBuilder: const BookingLoader(),
         );
       },
     );
   }
 
-  Column buildFlights(SearchFlightState state, BookingState bookState) {
+  Column buildFlights(SearchFlightState state, BookingState bookState,String local) {
     return Column(
       children: [
         FlightSegment(
           title: "departure".tr(),
           subtitle: state.filterState?.beautifyShort ?? "",
-          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate),
+          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate,locale: local),
           segments: bookState.isVerify
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
@@ -48,7 +50,7 @@ class CardSummary extends StatelessWidget {
             title: "return".tr(),
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
-                AppDateUtils.formatHalfDate(state.filterState?.returnDate),
+                AppDateUtils.formatHalfDate(state.filterState?.returnDate,locale: local),
             segments: bookState.isVerify
                 ? bookState.selectedReturn != null
                     ? [bookState.selectedReturn!]

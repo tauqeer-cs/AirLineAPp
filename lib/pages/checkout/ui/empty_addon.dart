@@ -1,4 +1,5 @@
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmptyAddon extends StatelessWidget {
@@ -6,11 +7,11 @@ class EmptyAddon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return  Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 100),
         child: Text(
-          "This add-on is currently\nnot available",
+          'addOnNotAvailable'.tr(),
           style: k18Heavy,
           textAlign: TextAlign.center,
         ),

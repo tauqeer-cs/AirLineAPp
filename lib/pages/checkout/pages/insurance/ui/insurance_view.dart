@@ -1,5 +1,4 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
-import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/update_insurance_request.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';

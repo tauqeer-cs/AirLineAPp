@@ -47,9 +47,9 @@ class CMSRepository {
     return await _provider.getHomeContent(id);
   }
 
-  Future<CMSFlight> getSSRContent(String id) async {
+  Future<CMSFlight> getSSRContent(String id,String language) async {
     await getCMSToken();
-    return await _provider.getSSRContent(id);
+    return await _provider.getSSRContent(id,language: language);
   }
 
   Future<HomeDetail> getContentDetail(String id) async {
@@ -57,18 +57,18 @@ class CMSRepository {
     return await _provider.getContentDetail(id);
   }
 
-  Future<AgentSignUpCms> agentSignUp(String id) async {
+  Future<AgentSignUpCms> agentSignUp(String id,String language) async {
     await getCMSToken();
     return await _provider.getAgentSignUp(id);
   }
 
-  Future<UniversalSharedSettingsRoutesResponse> agenInsurance(String id) async {
+  Future<UniversalSharedSettingsRoutesResponse> agenInsurance(String id,String language) async {
     DateTime now = DateTime.now();
     int unixTimestamp = now.millisecondsSinceEpoch ~/ 1000; // dividing by 1000 to get seconds instead of milliseconds
     String unixTimestampString = unixTimestamp.toString();
 
     await getCMSToken();
-    return await _provider.getInsuranceName(id,timestamp: unixTimestampString);
+    return await _provider.getInsuranceName(id,timestamp: unixTimestampString,lang: language);
   }
 
 }

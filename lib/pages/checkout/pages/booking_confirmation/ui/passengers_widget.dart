@@ -58,7 +58,7 @@ class PassengersWidget extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${e.getType?.name.capitalize()} $number",
+                Text("${e.getType?.name.tr()} $number",
                     style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
                 kVerticalSpacerMini,
                 Text("${e.titleToShow} ${e.givenName} ${e.surname}",

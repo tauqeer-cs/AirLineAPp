@@ -91,7 +91,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         Expanded(
                           child: Center(
                             child: AutoSizeText(
-                              "DEP ${AppDateUtils.formatDateWithoutLocale(departDate)}",
+                              "${"departureShort".tr()} ${AppDateUtils.formatDateWithoutLocale(departDate, locale: locale)}",
                               style: departDate == null
                                   ? kMediumRegular
                                   : kMediumSemiBold,
@@ -109,7 +109,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             child: Center(
                               child: AutoSizeText(
                                   maxLines: 1,
-                                  "RET ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
+                                  "${"returnShort".tr()} ${AppDateUtils.formatDateWithoutLocale(returnDate, locale: locale)}",
                                   style: returnDate == null
                                       ? kMediumRegular
                                       : kMediumSemiBold),
@@ -141,7 +141,9 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                           DateTime(DateTime.now().year, DateTime.now().month, 1)
                               .removeTime(),
                       maxDate: DateTime.now()
-                          .add(const Duration(days: 365))
+                          .add(
+                            const Duration(days: 365),
+                          )
                           .removeTime(),
                       initialDate: departDate?.removeTime() ??
                           DateTime.now().removeTime(),
@@ -195,7 +197,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            DateFormat("MMM yyyy").format(
+                            DateFormat("MMM yyyy", locale).format(
                               DateTime(year, month),
                             ),
                             style: kMediumMedium.copyWith(

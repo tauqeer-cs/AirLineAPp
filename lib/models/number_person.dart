@@ -87,17 +87,17 @@ class NumberPerson extends Equatable {
     List<String> texts = [];
     if (numberOfAdult > 0) {
       final text =
-          "$numberOfAdult ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
+          "$numberOfAdult ${numberOfAdult > 1 ? 'customerSelect.adults'.tr() : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {
       final text =
-          "$numberOfChildren ${numberOfChildren > 1 ? 'Children' : 'Child'}";
+          "$numberOfChildren ${numberOfChildren > 1 ? 'customerSelect.children'.tr() : 'child'.tr()}";
       texts.add(text);
     }
     if (numberOfInfant > 0) {
       final text =
-          "$numberOfInfant ${numberOfInfant > 1 ? 'Infants' : 'Infant'}";
+          "$numberOfInfant ${numberOfInfant > 1 ? 'infants'.tr() : 'infant'.tr()}";
       texts.add(text);
     }
     return texts.join(", ");
@@ -518,9 +518,9 @@ class Person extends Equatable {
         return '${meals.length} ${meals.length > 1 ? " meals" : "meals"}';
       case AddonType.baggage:
         if (isDeparture && departureBaggage == null) {
-          return "No baggage selected";
+          return "noBaggageSelected".tr();
         }
-        if (!isDeparture && returnBaggage == null) return "No baggage selected";
+        if (!isDeparture && returnBaggage == null) return "noBaggageSelected".tr();
         final baggage = isDeparture ? departureBaggage : returnBaggage;
         return '${baggage?.description}';
       case AddonType.special:
@@ -529,12 +529,12 @@ class Person extends Equatable {
         if (!isDeparture && returnWheelChair != null) number = number + 1;
         if (isDeparture && departureInsurance != null) number = number + 1;
         if (!isDeparture && returnInsurance != null) number = number + 1;
-        return "$number ${number > 1 ? 'items' : 'item'} selected";
+        return "$number ${number > 1 ? 'items'.tr() : 'item'.tr()} ${'selected'.tr()}";
       case AddonType.bundle:
         if (isDeparture && departureBundle == null) {
-          return "No bundle selected";
+          return "noBundleSelected".tr();
         }
-        if (!isDeparture && returnBundle == null) return "No bundle selected";
+        if (!isDeparture && returnBundle == null) return "noBundleSelected".tr();
         final bundle = isDeparture ? departureBundle : returnBundle;
         return '${bundle?.detail?.bundleDescription}';
     }
@@ -596,7 +596,10 @@ class Person extends Equatable {
 
   @override
   String toString() {
-    return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
+
+    var cc = peopleType?.name;
+
+    return "${peopleType?.name.tr() ?? ""} $numberOrder";
   }
 
   String toStringShort() {
@@ -606,9 +609,10 @@ class Person extends Equatable {
   String generateText(NumberPerson? numberPerson, {String? separator}) {
     if (peopleType == PeopleType.adult &&
         ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))) {
-      return "${peopleType?.name.capitalize() ?? ""} $numberOrder ${separator ?? "+ "}${PeopleType.infant.name.capitalize()} $numberOrder";
+      return "${peopleType?.name.tr() ?? ""} $numberOrder ${separator ?? "+ "}${PeopleType.infant.name.tr()} $numberOrder";
     }
-    return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
+
+    return "${peopleType?.name.tr() ?? ""} $numberOrder";
   }
 
   DateTime dateLimitEnd(DateTime? departDate) {

@@ -59,7 +59,7 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
                 child: Text('seatAutomatically'.tr()),
               ),
               kVerticalSpacer,
-              SeatsSection(
+SeatsSection(
                 isDeparture: widget.isDeparture,
                 moveToTop: () {
                   if (scrollController.hasClients) {

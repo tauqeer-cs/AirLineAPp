@@ -2,20 +2,34 @@ import 'package:intl/intl.dart';
 
 
 class AppDateUtils {
-  static String formatDateWithoutLocale(DateTime? dateTime) {
+  static String formatDateWithoutLocale(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+
+    if(locale != null) {
+      String formattedDate = DateFormat("dd MMM yyyy",locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat("dd MMM yyyy").format(dateTime);
     return formattedDate;
   }
 
-  static String formatTimeWithoutLocale(DateTime? dateTime) {
+  static String formatTimeWithoutLocale(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+    if(locale != null) {
+      String formattedDate = DateFormat.Hm(locale).format(dateTime);
+      return formattedDate;
+    }
+
     String formattedDate = DateFormat.Hm().format(dateTime);
     return formattedDate;
   }
 
-  static String formatJM(DateTime? dateTime) {
+  static String formatJM(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+    if(locale != null) {
+      String formattedDate = DateFormat.jm(locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat.jm().format(dateTime);
     return formattedDate;
   }
@@ -26,14 +40,24 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatHalfDate(DateTime? dateTime) {
+  static String formatHalfDate(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "Invalid Date";
+    if(locale != null) {
+      String formattedDate = DateFormat("EEE dd MMMM yyyy",locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat("EEE dd MMMM yyyy").format(dateTime);
     return formattedDate;
   }
 
-  static String formatFullDateWithTime(DateTime? dateTime) {
+  static String formatFullDateWithTime(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "Invalid Date";
+    if(locale != null) {
+      final dateFormat = DateFormat("EEE dd MMM yyyy, hh:mm a",locale);
+      String formattedDate = dateFormat.format(dateTime);
+      return formattedDate;
+    }
+
     final dateFormat = DateFormat("EEE dd MMM yyyy, hh:mm a");
     String formattedDate = dateFormat.format(dateTime);
     return formattedDate;

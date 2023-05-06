@@ -287,12 +287,6 @@ class _$AppRouter extends RootStackRouter {
         child: const MoreOptionsPage(),
       );
     },
-    LanguageRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const LanguagePage(),
-      );
-    },
     ManageBookingDetailsRoute.name: (routeData) {
       final args = routeData.argsAs<ManageBookingDetailsRouteArgs>(
           orElse: () => const ManageBookingDetailsRouteArgs());
@@ -349,6 +343,12 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const CheckInErrorPage(),
+      );
+    },
+    LanguageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const LanguagePage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -597,10 +597,6 @@ class _$AppRouter extends RootStackRouter {
           path: '/more-options',
         ),
         RouteConfig(
-          LanguageRoute.name,
-          path: '/language',
-        ),
-        RouteConfig(
           ManageBookingDetailsRoute.name,
           path: '/manage-booking-details',
         ),
@@ -631,6 +627,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CheckInErrorRoute.name,
           path: '/check_in_error',
+        ),
+        RouteConfig(
+          LanguageRoute.name,
+          path: '/language',
         ),
       ];
 }
@@ -1335,18 +1335,6 @@ class MoreOptionsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [LanguagePage]
-class LanguageRoute extends PageRouteInfo<void> {
-  const LanguageRoute()
-      : super(
-          LanguageRoute.name,
-          path: '/language',
-        );
-
-  static const String name = 'LanguageRoute';
-}
-
-/// generated route for
 /// [ManageBookingDetailsPage]
 class ManageBookingDetailsRoute
     extends PageRouteInfo<ManageBookingDetailsRouteArgs> {
@@ -1498,6 +1486,18 @@ class CheckInErrorRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CheckInErrorRoute';
+}
+
+/// generated route for
+/// [LanguagePage]
+class LanguageRoute extends PageRouteInfo<void> {
+  const LanguageRoute()
+      : super(
+          LanguageRoute.name,
+          path: '/language',
+        );
+
+  static const String name = 'LanguageRoute';
 }
 
 /// generated route for

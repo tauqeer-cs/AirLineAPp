@@ -6,6 +6,7 @@ import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +34,7 @@ class _InsuarnceFeePaymentState extends State<InsuarnceFeePayment> {
       children: [
         kVerticalSpacer,
         PriceRow(
-          child1: Text("Insurance", style: k18Heavy),
+          child1: Text("insurance".tr(), style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
             amount:insurance,

@@ -97,7 +97,7 @@ class ConfirmationBaggage extends StatelessWidget {
                           children: [
                             Text(
                                 "${e.titleToShow} ${e.givenName} ${e.surName}"),
-                            Text(e.insuranceSSRName ?? 'Insurance'),
+                            Text(e.insuranceSSRName ?? 'priceSection.insuranceTitle'.tr()),
                             kVerticalSpacerSmall,
                           ],
                         ))
@@ -154,7 +154,7 @@ class ConfirmationBaggage extends StatelessWidget {
 
   String titleText() {
     if (boolIsSports) {
-      return 'Sport Equipment';
+      return 'priceSection.sportsEquipmentTitle'.tr();
     } else if (isInsurance) {
       return 'insurance'.tr();
     }

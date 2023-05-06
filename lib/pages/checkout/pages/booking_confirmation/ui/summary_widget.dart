@@ -12,6 +12,7 @@ class SummaryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
     final confirmationModel =
         context.watch<ConfirmationCubit>().state.confirmationModel?.value;
     final flights = confirmationModel?.flightSegments ?? [];
@@ -23,7 +24,7 @@ class SummaryWidget extends StatelessWidget {
           ...(e.outbound ?? [])
               .map(
                 (f) => AppCard(
-              edgeInsets: EdgeInsets.symmetric(
+              edgeInsets: const EdgeInsets.symmetric(
                   vertical: 15, horizontal: 12),
               child: FlightDetailConfirmation(
                 bound: f,
@@ -32,9 +33,9 @@ class SummaryWidget extends StatelessWidget {
                     BoundBookingSummary(),
                 title: "departFlight".tr(),
                 subtitle:
-                "${f.departureAirportLocationName} to ${f.arrivalAirportLocationName}",
+                "${f.departureAirportLocationName} ${'to'.tr()} ${f.arrivalAirportLocationName}",
                 dateTitle: AppDateUtils.formatHalfDate(
-                    f.departureDateTime),
+                    f.departureDateTime,locale: locale),
                 isDeparture: true,
               ),
             ),
@@ -46,7 +47,7 @@ class SummaryWidget extends StatelessWidget {
               margin: const EdgeInsets.only(top: 18),
               child: AppCard(
                 edgeInsets:
-                EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
                 child: Column(
                   children: [
                     ...(e.inbound ?? [])
@@ -60,7 +61,7 @@ class SummaryWidget extends StatelessWidget {
                         subtitle:
                         "${f.departureAirportLocationName} - ${f.arrivalAirportLocationName}",
                         dateTitle: AppDateUtils.formatHalfDate(
-                            f.departureDateTime),
+                            f.departureDateTime,locale: locale),
                         isDeparture: false,
                       ),
                     )

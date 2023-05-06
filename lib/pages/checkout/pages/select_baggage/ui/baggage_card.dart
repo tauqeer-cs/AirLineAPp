@@ -6,6 +6,7 @@ import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,9 +42,9 @@ class BaggageCard extends StatelessWidget {
             children: [
               Image.asset("assets/images/design/baggageSmall.png"),
               kVerticalSpacer,
-              Text(selectedBundle.codeType?.capitalize() ?? "No Code"),
+              Text(selectedBundle.codeType?.capitalize() ?? "noCode".tr()),
               kVerticalSpacer,
-              Text(selectedBundle.description?.capitalize() ?? "No Baggage"),
+              Text(selectedBundle.description?.capitalize() ?? 'noBaggage'.tr()),
               kVerticalSpacer,
               MoneyWidget(
                   amount: selectedBundle.finalAmount,

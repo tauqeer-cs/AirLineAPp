@@ -89,7 +89,7 @@ class PassengerCard extends StatelessWidget {
                               Navigator.pop(context);
                             },
                             child: Text(
-                              "Edit",
+                              "paymentView.edit".tr(),
                               style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
                             ),
                           ),
@@ -101,21 +101,7 @@ class PassengerCard extends StatelessWidget {
               ),
             ],
           ),
-          // Align(
-          //   alignment: Alignment.topRight,
-          //   child: Visibility(
-          //     visible: superPnr == null,
-          //     child: InkWell(
-          //       onTap: () {
-          //         Navigator.pop(context);
-          //       },
-          //       child: Text(
-          //         "Edit",
-          //         style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
-          //       ),
-          //     ),
-          //   ),
-          // ),
+
         ],
       ),
     );

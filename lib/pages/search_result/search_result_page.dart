@@ -55,10 +55,10 @@ class _SearchResultPageState extends State<SearchResultPage> {
       barrierDismissible: false,
       builder: (_) {
         return AppConfirmationDialog(
-          title: "Your email hasn't been verified yet.",
+          title: "verifyEmail.emailVerifyTitle".tr(),
           subtitle:
-              "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
-          confirmText: "Resend",
+              "verifyEmail.emailVerifyDesc".tr(),
+          confirmText: "verifyEmail.resend".tr(),
           onConfirm: () {
             AuthenticationRepository()
                 .sendEmail(ResendEmailRequest(email: email));
@@ -66,12 +66,13 @@ class _SearchResultPageState extends State<SearchResultPage> {
           child: Column(
             children: [
               Text(
-                "We've sent a verification link to your email ${email.sensorEmail()}. Please check your email and click on the link.",
+
+                "${'verifyEmail.emailVerifyLink1'.tr()} ${email.sensorEmail()}. ${'verifyEmail.emailVerifyLink2'.tr()}",
                 style: kMediumHeavy,
               ),
               kVerticalSpacer,
-              const Text(
-                "Click resend if you didn’t receive the email. ",
+               Text(
+                "verifyEmail.emailVerifyLink3".tr(),
               ),
               kVerticalSpacer,
             ],

@@ -38,6 +38,8 @@ class _FlightDetailConfirmationState extends State<FlightDetailConfirmation> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -85,15 +87,15 @@ class _FlightDetailConfirmationState extends State<FlightDetailConfirmation> {
                 children: [
                   Expanded(
                     child: BorderedLeftContainer(
-                      title: "Flight:",
+                      title: "${'flight'.tr()}:",
                       content:
                       '${widget.bound.airlineCode}${widget.bound.flightNumber}',
                     ),
                   ),
-                  const Expanded(
+                   Expanded(
                     child: BorderedLeftContainer(
-                      title: "Cabin:",
-                      content: 'Economy',
+                      title: "flightSection.cabin".tr(),
+                      content: 'flightSection.economyClass'.tr(),
                     ),
                   ),
                 ],
@@ -103,14 +105,14 @@ class _FlightDetailConfirmationState extends State<FlightDetailConfirmation> {
                 children: [
                   Expanded(
                     child: BorderedLeftContainer(
-                      title: "Duration:",
+                      title: "flightResult.duration".tr(),
                       content:
                       NumberUtils.getTimeString(widget.bound.elapsedTime),
                     ),
                   ),
                   Expanded(
                     child: BorderedLeftContainer(
-                      title: "Aircraft:",
+                      title: "flightResult.aircraft".tr(),
                       content: '${widget.bound.aircraftDescription}',
                     ),
                   ),
@@ -118,15 +120,15 @@ class _FlightDetailConfirmationState extends State<FlightDetailConfirmation> {
               ),
               kVerticalSpacer,
               BorderedLeftContainer(
-                title: "Departs:",
+                title: 'flightResult.departs'.tr(),
                 content:
-                "${AppDateUtils.formatFullDateWithTime(widget.bound.departureDateTime)}\n${widget.bound.departureAirportLocationName}",
+                "${AppDateUtils.formatFullDateWithTime(widget.bound.departureDateTime,locale: locale)}\n${widget.bound.departureAirportLocationName}",
               ),
               kVerticalSpacer,
               BorderedLeftContainer(
-                title: "Arrive:",
+                title: "flightResult.arrive".tr(),
                 content:
-                "${AppDateUtils.formatFullDateWithTime(widget.bound.arrivalDateTime)}\n${widget.bound.arrivalAirportLocationName}",
+                "${AppDateUtils.formatFullDateWithTime(widget.bound.arrivalDateTime,locale: locale)}\n${widget.bound.arrivalAirportLocationName}",
               ),
               kVerticalSpacer,
               FareDetail(

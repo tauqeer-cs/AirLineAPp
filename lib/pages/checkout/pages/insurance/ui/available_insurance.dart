@@ -9,6 +9,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -330,15 +331,15 @@ class AvailableInsurance extends StatelessWidget {
           text: TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: 'For ',
+                text: '${'for'.tr()} ',
                 style: kMediumMedium.copyWith(color: Styles.kTextColor),
               ),
               TextSpan(
-                text: 'ALL ',
+                text: '${'all'.tr()} ',
                 style: kMediumHeavy.copyWith(color: Styles.kTextColor),
               ),
               TextSpan(
-                text: 'passengers: ',
+                text: '${'flightSection.passengers'.tr()}: ',
                 style: kMediumMedium.copyWith(color: Styles.kTextColor),
               ),
               TextSpan(
@@ -354,15 +355,15 @@ class AvailableInsurance extends StatelessWidget {
           text: TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: 'For ',
+                text: '${'for'.tr()} ',
                 style: kMediumMedium.copyWith(color: Styles.kTextColor),
               ),
               TextSpan(
-                text: 'selected ',
+                text: '${'selected'.tr()} ',
                 style: kMediumHeavy.copyWith(color: Styles.kTextColor),
               ),
               TextSpan(
-                text: 'passengers.',
+                text: '${'flightSection.passengers'.tr()}.',
                 style: kMediumMedium.copyWith(color: Styles.kTextColor),
               ),
             ],
@@ -373,7 +374,7 @@ class AvailableInsurance extends StatelessWidget {
           text: TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: 'I do not need any travel insurance.',
+                text: 'notNeedInsurance'.tr(),
                 style: kMediumMedium.copyWith(color: Styles.kTextColor),
               ),
             ],

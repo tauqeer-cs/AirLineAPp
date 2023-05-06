@@ -44,7 +44,7 @@ class _PaymentViewState extends State<PaymentView> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                "Summary & Payment",
+                "summaryPayment".tr() ,
                 style: kHugeHeavy,
               ),
             ),
@@ -52,7 +52,7 @@ class _PaymentViewState extends State<PaymentView> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                "Fill in all passengers’ names as per passport. Your entry may be denied if your passport’s expiry date is within several months of your travel period - please check your passport’s expiry date.",
+                'paymentView.paymentDesc'.tr(),
                 style: kMediumRegular,
               ),
             ),

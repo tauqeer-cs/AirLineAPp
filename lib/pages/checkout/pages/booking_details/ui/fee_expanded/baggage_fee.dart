@@ -79,7 +79,7 @@ class _BaggageFeeState extends State<BaggageFee> {
 
   String setText(bool isPaymentPage) {
     if (widget.isSports) {
-      return 'Sports Equipment';
+      return 'priceSection.sportsEquipmentTitle'.tr();
     } else if (widget.isInsurance) {
       return 'insurance'.tr();
     }
