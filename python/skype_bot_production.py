@@ -16,7 +16,7 @@ import json
 from vsts.work_item_tracking.v4_1.models.wiql import Wiql
 def U(msg,*B):A(msg%B)
 def r(work_item):A=work_item;U(k.format(A.fields[l],A.id,A.fields[m]))
-V='osos6cio6g3mfaiyo62h22iixz7bzgfvr6q5kxbpuutxmok36zeq'
+V='uoyiaqpqzdglbv6fmaekicbieb6x3r3m7ob2iyz2d65f6dtf7j6a'
 W='https://dev.azure.com/alphareds'
 X=T(L,V)
 Y=S(base_url=W,creds=X)

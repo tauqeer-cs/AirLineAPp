@@ -19,7 +19,7 @@ abstract class CMSProvider {
   Future<List<CMSRoute>> getRoutes();
 
   @GET('shared/get')
-  Future<HomeResponse> getHomeContent(@Query("key") String key, {
+  Future<HomeResponse> getHomeContent(@Query("key") String key, @Query("timestamp") String timestamp, {
     @Query("query") String? query =
     "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
   });
@@ -48,12 +48,15 @@ abstract class CMSProvider {
   });
 
   @GET('shared/get')
-  Future<UniversalSharedSettingsRoutesResponse> getInsuranceName(@Query("key") String key, {
-    @Query("query") String? query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
-    @Query("deep") String? deep = "6",
-    @Query("timestamp") String? timestamp = '1650012345',
-    @Query("lang") String? lang = 'en_US',
-  });
+  Future<UniversalSharedSettingsRoutesResponse> getInsuranceName(
+      @Query("key") String key, {
+        @Query(
+            "query") String? query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
+        @Query("deep") String? deep = "6",
+        @Query("timestamp") String? timestamp = '1650012345',
+        @Query("lang") String? lang = 'en_US',
+
+      });
 
 
 }
