@@ -43,7 +43,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
     if (bloc.showCheckInButton == true) {
       bloc.loadBoardingDate();
     }
-
+    final locale = context.locale.toString();
 
     return BlocBuilder<CheckInCubit, CheckInState>(
       bloc: bloc,
@@ -68,8 +68,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                     child: CheckInSteps(
                       passedSteps: const [
                         CheckInStep.itinerary,
-                        //            BookingStep.addOn,
-//              BookingStep.bookingDetails,
                       ],
                       onTopStepTaped: (i) {},
                     ),
@@ -130,7 +128,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     ?.outboundCheckingAllowed ==
                                 false,
                             dateToShow: state.manageBookingResponse?.result
-                                    ?.departureDateToShow ??
+                                    ?.departureDateToShow(locale) ??
                                 '',
                             departureToDestinationCode: state
                                     .manageBookingResponse
@@ -138,7 +136,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     ?.departureToDestinationCode ??
                                 '',
                             departureDateWithTime: state.manageBookingResponse
-                                    ?.result?.departureDateWithTime ??
+                                    ?.result?.departureDateWithTime(locale) ??
                                 '',
                             departureAirportName: state.manageBookingResponse
                                     ?.result?.departureAirportName ??
@@ -147,7 +145,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     ?.result?.journeyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime: state.manageBookingResponse
-                                    ?.result?.arrivalDateWithTime ??
+                                    ?.result?.arrivalDateWithTime(locale) ??
                                 '',
                             arrivalAirportName: state.manageBookingResponse
                                     ?.result?.arrivalAirportName ??
@@ -209,7 +207,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   ?.returnToDestinationCode ??
                                   '',
                               departureDateWithTime: state.manageBookingResponse
-                                  ?.result?.returnDepartureDateWithTime ??
+                                  ?.result?.returnDepartureDateWithTime(locale) ??
                                   '',
                               departureAirportName: state.manageBookingResponse
                                   ?.result?.returnDepartureAirportName ??
@@ -218,7 +216,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   ?.result?.returnJourneyTimeInHourMin ??
                                   '',
                               arrivalDateWithTime: state.manageBookingResponse
-                                  ?.result?.returnArrivalDateWithTime ??
+                                  ?.result?.returnArrivalDateWithTime(locale) ??
                                   '',
                               arrivalAirportName: state.manageBookingResponse
                                   ?.result?.returnArrivalAirportName ??
@@ -272,9 +270,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                         color: Styles.kTextColor),
                                   ),
                                   TextSpan(
-                                    //
                                     text: state.manageBookingResponse?.result
-                                            ?.departureAirportTime ??
+                                            ?.departureAirportTime(locale) ??
                                         '',
                                   ),
                                 ],
@@ -369,9 +366,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                         color: Styles.kTextColor),
                                   ),
                                   TextSpan(
-                                    //
                                     text: state.manageBookingResponse?.result
-                                            ?.returnAirportTime ??
+                                            ?.returnAirportTime(locale) ??
                                         '',
                                   ),
                                 ],

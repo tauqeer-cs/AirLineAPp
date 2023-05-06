@@ -170,7 +170,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             textInputType: TextInputType.emailAddress,
             name: lName,
             textEditingController: lastNameTextController,
-            hintText: 'familyDetail.lName'.tr(),
+            hintText: 'lastNameSurname'.tr(),
             validators: [
               FormBuilderValidators.required(),
             ],

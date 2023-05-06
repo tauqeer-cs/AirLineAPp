@@ -585,7 +585,7 @@
   "paymentDetail.cancel" : "ยกเลิก",
   "paymentDetail.noPaymentMethod" : "ไม่มีวิธีการชำระเงิน",
   "paymentDetail.cardRemove" : "ลบบัตรแล้ว",
-  "selectedFlightDetail.itinerary" : " กำหนดการเดินทาง",
+  "selectedFlightDetail.itinerary" : "กำหนดกา\nรเดินทาง",
   "selectedFlightDetail.departingFlight" : "เที่ยวบินขาไป",
   "selectedFlightDetail.returningFlight" : "เที่ยวบินขากลับ",
   "selectedFlightDetail.depart" : "ออกเดินทาง",
@@ -881,7 +881,7 @@
   "signUp3.congrats" : " ยินดีด้วย!",
   "signUp3.congratsDesc" : " สวัสดี การลงทะเบียน MYReward ของคุณเสร็จสมบูรณ์แล้ว!",
   "signUp3.checkEmail1" : "ตรวจสอบอีเมลของคุณ",
-  "signUp3.checkEmail2" : "สำหรับลิงก์ยืนยันเพื่อยืนยันอีเมลของคุณ หากคุณไม่ได้รับลิงก์ยืนยัน ให้คลิกปุ่ม 'ส่งลิงก์อีกครั้ง' เพื่อส่งอีเมลอีกครั้ง",
+  "signUp3.checkEmail2" : "สำหรับลิงก์ยืนยันเพื่อยืนยันอีเมลของคุณ หากคุณไม่ได้รับลิงก์ยืนยัน ให้คลิกปุ่ม",
   "signUp3.resendLink" : "ส่งลิงก์อีกครั้ง",
   "signUp3.continue" : " ดำเนินการต่อ",
   "signUp3.emailSuccess" : " ่งอีเมลเรียบร้อยแล้ว",
@@ -1065,8 +1065,24 @@
   "promoVoucher" : "รหัสโปร/บัตรกำนัล",
   "flightChange.share": "แบ่งปัน",
   "backHome" : "กลับไปที่บ้าน",
-  "localTime" : "เวลาท้องถิ่น"
-
-
+  "localTime" : "เวลาท้องถิ่น",
+  "familyDetail.fName": "ื่อ / ชื่อจริง",
+  "familyDetail.noFnF": "ไม่มีการเพิ่มครอบครัวหรือเพื่อน",
+  "communicationDetail.webNotification": "การแจ้งเตือนแบบพุชของเว็บ",
+  "communicationDetail.sms": "ข้อความ",
+  "communicationDetail.whatsapp": "Whatsapp",
+  "cancel": "ยกเลิก",
+  "account.deleteAccount": "ลบบัญชี",
+  "enterLastName" : "กรุณาใส่นามสกุล",
+  "enterFirstName" : "กรุณากรอกชื่อ",
+  "selectRelationship" : "กรุณาเลือกความสัมพันธ์",
+  "clickResendLinkMessage" : "คลิกปุ่ม 'ส่งลิงก์อีกครั้ง' เพื่อส่งอีเมลอีกครั้ง",
+  "loginVerify.or" : "หรือ",
+  "declaration" : "ประกาศ",
+  "boardingPassLine" : "ตั๋วโด\nยสาร",
+  "hour" : "ชม",
+  "min" : "นาที",
+  "s" : "",
+  "back": "ย้อนกลับ"
 }
 

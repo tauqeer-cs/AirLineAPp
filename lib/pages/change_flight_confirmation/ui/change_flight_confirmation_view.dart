@@ -38,7 +38,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
 
     CheckInCubit? blocList = context.watch<CheckInCubit>();
     blocList.resetStates();
-
+    final locale = context.locale.toString();
     return bloc.state.loadingSummary
         ? const AppLoading()
         : Padding(
@@ -87,7 +87,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                 child: FlightDataInfo(
                                   headingLabel: 'Departure',
                                   dateToShow: bloc.state.manageBookingResponse
-                                          ?.result?.departureDateToShow ??
+                                          ?.result?.departureDateToShow(locale) ??
                                       '',
                                   departureToDestinationCode: bloc
                                           .state
@@ -99,7 +99,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                           .state
                                           .manageBookingResponse
                                           ?.result
-                                          ?.departureDateWithTime ??
+                                          ?.departureDateWithTime(locale) ??
                                       '',
                                   departureAirportName: bloc
                                           .state
@@ -117,7 +117,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                           .state
                                           .manageBookingResponse
                                           ?.result
-                                          ?.arrivalDateWithTime ??
+                                          ?.arrivalDateWithTime(locale) ??
                                       '',
                                   arrivalAirportName: bloc
                                           .state
@@ -174,7 +174,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                             .state
                                             .manageBookingResponse
                                             ?.result
-                                            ?.returnDepartureDateWithTime ??
+                                            ?.returnDepartureDateWithTime(locale) ??
                                         '',
                                     departureAirportName: bloc
                                             .state
@@ -192,7 +192,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                             .state
                                             .manageBookingResponse
                                             ?.result
-                                            ?.returnArrivalDateWithTime ??
+                                            ?.returnArrivalDateWithTime(locale) ??
                                         '',
                                     arrivalAirportName: bloc
                                             .state

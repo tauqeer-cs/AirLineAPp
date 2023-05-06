@@ -53,21 +53,31 @@ class UpcomingBookings {
   }
 
 
-  String get dateToShow {
-
-    if(departureToShow) {
+  String dateToShow(String? locale) {
+    if (departureToShow) {
       var date = (DateTime.parse(outboundFlight?.departureDate ?? ''));
+      if(locale != null) {
+        final formatter = DateFormat('E dd MMM yyyy h:mm a',locale);
+        return formatter.format(date);
+      }
       final formatter = DateFormat('E dd MMM yyyy h:mm a');
       return formatter.format(date);
     }
     var date = (DateTime.parse(inboundFlight?.departureDate ?? ''));
+    if(locale != null) {
+      final formatter = DateFormat('E dd MMM yyyy h:mm a',locale);
+      return formatter.format(date,);
+    }
     final formatter = DateFormat('E dd MMM yyyy h:mm a');
     return formatter.format(date);
-
   }
 
-  String get pastDateToShow {
+  String pastDateToShow(String? locale) {
     var date = (DateTime.parse(outboundFlight?.departureDate ?? ''));
+    if (locale != null) {
+      final formatter = DateFormat('E dd MMM yyyy h:mm a', locale);
+      return formatter.format(date);
+    }
     final formatter = DateFormat('E dd MMM yyyy h:mm a');
     return formatter.format(date);
     /*
@@ -86,8 +96,7 @@ class UpcomingBookings {
 
 
   String get departureLocation {
-
-    if(departureToShow) {
+    if (departureToShow) {
       return outboundFlight?.departLocation ?? '';
     }
 
@@ -95,24 +104,23 @@ class UpcomingBookings {
   }
 
   String get pastReturnLocation {
-      return outboundFlight?.arrivalLocation ?? '';
-
+    return outboundFlight?.arrivalLocation ?? '';
   }
+
   String get returnLocation {
-    if(departureToShow) {
+    if (departureToShow) {
       return outboundFlight?.arrivalLocation ?? '';
     }
 
     return inboundFlight?.arrivalLocation ?? '';
   }
 
-  UpcomingBookings(
-      {this.pnr,
-      this.superPNRNo,
-      this.lastName,
-      this.allowCheckIn,
-      this.outboundFlight,
-      this.inboundFlight});
+  UpcomingBookings({this.pnr,
+    this.superPNRNo,
+    this.lastName,
+    this.allowCheckIn,
+    this.outboundFlight,
+    this.inboundFlight});
 
   UpcomingBookings.fromJson(Map<String, dynamic> json) {
     pnr = json['pnr'];
@@ -152,12 +160,11 @@ class OutboundFlight {
   String? departLocation;
   String? arrivalLocation;
 
-  OutboundFlight(
-      {this.departureDate,
-      this.arrivalDate,
-      this.pnr,
-      this.departLocation,
-      this.arrivalLocation});
+  OutboundFlight({this.departureDate,
+    this.arrivalDate,
+    this.pnr,
+    this.departLocation,
+    this.arrivalLocation});
 
   OutboundFlight.fromJson(Map<String, dynamic> json) {
     departureDate = json['departureDate'];

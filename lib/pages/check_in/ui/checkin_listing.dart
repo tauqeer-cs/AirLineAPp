@@ -29,7 +29,7 @@ class CheckingListing extends StatelessWidget {
     if (bloc.state.listToCall == false) {
       bloc.getBookingsListing();
     }
-
+    final locale = context.locale.toString();
     return Container(
       color: Colors.white,
       child: Padding(
@@ -79,7 +79,7 @@ class CheckingListing extends StatelessWidget {
 
                             return FlightListItem(
                               dateToShow: bloc.state.pastBookings?[index]
-                                      .pastDateToShow ??
+                                      .pastDateToShow(locale) ??
                                   '',
                               flightCode:
                                   bloc.state.pastBookings?[index].pnr ?? '',
@@ -147,7 +147,7 @@ class CheckingListing extends StatelessWidget {
 
                             return FlightListItem(
                               dateToShow: bloc.state.upcomingBookings?[index]
-                                      .dateToShow ??
+                                      .dateToShow(locale) ??
                                   '',
                               btnView: bloc.state.upcomingBookings?[index]
                                       .isFullyCheckedIn ==

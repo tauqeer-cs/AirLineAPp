@@ -37,6 +37,7 @@ class ManageBookingDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
+    final locale = context.locale.toString();
 
     return BlocBuilder<ManageBookingCubit, ManageBookingState>(
       builder: (context, state) {
@@ -73,7 +74,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                           child: FlightDataInfo(
                             headingLabel: 'Departure',
                             dateToShow: state.manageBookingResponse?.result
-                                    ?.departureDateToShow ??
+                                    ?.departureDateToShow(locale) ??
                                 '',
                             departureToDestinationCode: state
                                     .manageBookingResponse
@@ -81,7 +82,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     ?.departureToDestinationCode ??
                                 '',
                             departureDateWithTime: state.manageBookingResponse
-                                    ?.result?.departureDateWithTime ??
+                                    ?.result?.departureDateWithTime(locale) ??
                                 '',
                             departureAirportName: state.manageBookingResponse
                                     ?.result?.departureAirportName ??
@@ -90,7 +91,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     ?.result?.journeyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime: state.manageBookingResponse
-                                    ?.result?.arrivalDateWithTime ??
+                                    ?.result?.arrivalDateWithTime(locale) ??
                                 '',
                             arrivalAirportName: state.manageBookingResponse
                                     ?.result?.arrivalAirportName ??
@@ -132,7 +133,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                               departureDateWithTime: state
                                   .manageBookingResponse
                                   ?.result
-                                  ?.returnDepartureDateWithTime ??
+                                  ?.returnDepartureDateWithTime(locale) ??
                                   '',
                               departureAirportName: state
                                   .manageBookingResponse
@@ -144,7 +145,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   ?.result
                                   ?.returnJourneyTimeInHourMin ??
                                   '',
-                              arrivalDateWithTime: state .manageBookingResponse ?.result ?.returnArrivalDateWithTime ?? '',
+                              arrivalDateWithTime: state .manageBookingResponse ?.result ?.returnArrivalDateWithTime(locale) ?? '',
                               arrivalAirportName: state
                                   .manageBookingResponse
                                   ?.result

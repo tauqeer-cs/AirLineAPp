@@ -133,7 +133,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                       (eLastName ?? '').isEmpty) {
                     PersonalInfoView._fbKey.currentState!.invalidateField(
                         name: formNameLastNameEmergency,
-                        errorText: 'Please enter last name');
+                        errorText: 'enterLastName'.tr());
                     relationShipFlag = false;
                   }
 
@@ -141,7 +141,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                       (eFirstName ?? '').isEmpty) {
                     PersonalInfoView._fbKey.currentState!.invalidateField(
                         name: formNameFirstNameEmergency,
-                        errorText: 'Please enter first name');
+                        errorText: 'enterFirstName'.tr());
                     relationShipFlag = false;
                   }
 
@@ -150,7 +150,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                     if ((eRelationShip ?? '').isEmpty) {
                       PersonalInfoView._fbKey.currentState!.invalidateField(
                           name: formNameRelationshipEmergency,
-                          errorText: 'Please Select relationship');
+                          errorText: 'selectRelationship'.tr());
                       relationShipFlag = false;
                     }
                   }

@@ -16,7 +16,7 @@ class DobInput extends StatelessWidget {
       children: [
         FormHeader(
           title: 'birthdayQuestion'.tr(),
-          subtitle: 'birthdayDesc',
+          subtitle: 'birthdayDesc'.tr(),
         ),
         // Text("Birthday", style: kLargeSemiBold),
         // kVerticalSpacer,

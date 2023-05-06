@@ -89,8 +89,8 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    const Text(
-                        'loginVerify.or'
+                     Text(
+                        'loginVerify.or'.tr()
                     ),
                     kHorizontalSpacerMini,
                     Expanded(

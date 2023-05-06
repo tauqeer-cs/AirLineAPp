@@ -38,7 +38,7 @@ class _SettingsViewState extends State<SettingsView> {
         children: [
           SwitchListTile(
             value: communicationPreferences.email ?? false,
-            title:  Text('communicationDetail.email'.tr()),
+            title:  Text('loginForm.email'.tr()),
             onChanged: (value) {
               setState(() {
                 communicationPreferences =
@@ -100,7 +100,7 @@ class _SettingsViewState extends State<SettingsView> {
               currentUser?.setEmailOptin(communicationPreferences.email ?? false);
 
             },
-            child:  Text('save'.tr()),
+            child:  Text('accountDetail.save'.tr()),
           ),
         ],
       ),

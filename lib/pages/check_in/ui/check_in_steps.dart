@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -140,7 +141,7 @@ class _CheckInStepsState extends State<CheckInSteps> {
         ),
         if(selected == false && widget.isLast == true) ... [
           Text(
-            step.message,
+            step.messageKey.tr(),
             style: kMediumRegular.copyWith(
               color: selected ? Styles.kPrimaryColor : ( widget.isLast == true ? Styles.kTextColor : Styles.kInactiveColor),
             ),
@@ -148,7 +149,7 @@ class _CheckInStepsState extends State<CheckInSteps> {
           ),
         ] else ... [
           Text(
-            step.message,
+            step.messageKey.tr(),
             style: kMediumHeavy.copyWith(
               color: selected ? Styles.kPrimaryColor : ( widget.isLast == true ? Styles.kTextColor : Styles.kInactiveColor),
             ),
@@ -162,12 +163,14 @@ class _CheckInStepsState extends State<CheckInSteps> {
 }
 
 enum CheckInStep {
-  itinerary("Itinerary", FontAwesomeIcons.clipboardList),
-  addOn("Declaration", FontAwesomeIcons.circleExclamation),
-  bookingDetails('Boarding\nPass', FontAwesomeIcons.planeCircleCheck);
+  itinerary(FontAwesomeIcons.clipboardList,'selectedFlightDetail.itinerary'),
+  addOn(FontAwesomeIcons.circleExclamation,'declaration'),
+  bookingDetails( FontAwesomeIcons.planeCircleCheck,'boardingPassLine');
 
-  const CheckInStep(this.message, this.iconData);
+  const CheckInStep(this.iconData,this.messageKey);
 
-  final String message;
+
   final IconData iconData;
+  final String messageKey;
+
 }

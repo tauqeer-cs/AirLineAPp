@@ -52,7 +52,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
       children: [
         FormHeader(
           title: 'emergencyContactLabel'.tr(),
-          subtitle: 'We’ll call them when there’s an emergency.',
+          subtitle: 'infoDetail.emergencyContactDesc'.tr(),
           graySubText: true,
         ),
         GreyCard(
@@ -66,7 +66,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   isRequired: false,
                   textInputType: TextInputType.name,
                   name: formNameFirstNameEmergency,
-                  hintText: 'First Name / Given Name',
+                  hintText: 'familyDetail.fName'.tr(),
                   initialValue: widget.firstName,
                   validators: const [
                     //FormBuilderValidators.required(),
@@ -110,7 +110,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                 AppInputText(
                   name: formNamePhoneNoRelationship,
                   textInputType: TextInputType.number,
-                  hintText: "Phone Number",
+                  hintText: "phoneNumber".tr(),
                   initialValue: widget.phoneNo,
                   validators: const [
                     //FormBuilderValidators.required(),

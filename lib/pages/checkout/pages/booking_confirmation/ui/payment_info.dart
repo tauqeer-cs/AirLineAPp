@@ -132,7 +132,7 @@ class PaymentDetail extends StatelessWidget {
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
-            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate),
+            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate,locale: locale),
           ),
           kVerticalSpacer,
           Row(

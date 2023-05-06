@@ -198,20 +198,23 @@ class Result {
     return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} to $returnArrivalAirportName -';
   }
 
-  String get departureAirportTime {
+  String  departureAirportTime(String? locale) {
     if (flightSegments?.first.outbound?.first.departureDateTime != null) {
+      if(locale != null) {
+        return AppDateUtils.formatHalfDate(
+            flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
+      }
       return AppDateUtils.formatHalfDate(
           flightSegments?.first.outbound?.first.departureDateTime);
     }
     return '';
-    return flightSegments?.first.outbound?.first.departureDateTime.toString() ??
-        '';
+
   }
 
-  String get returnAirportTime {
+  String returnAirportTime(String? locale) {
     if (flightSegments?.first.outbound?.first.departureDateTime != null) {
       return AppDateUtils.formatHalfDate(
-          flightSegments?.first.inbound?.first.departureDateTime);
+          flightSegments?.first.inbound?.first.departureDateTime,locale: locale);
     }
     return '';
     return flightSegments?.first.outbound?.first.departureDateTime.toString() ??
@@ -240,9 +243,9 @@ class Result {
         '';
   }
 
-  String get departureDateWithTime {
+  String  departureDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.outbound?.first.departureDateTime);
+        flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
   }
 
   String get departureDate {
@@ -255,22 +258,26 @@ class Result {
         flightSegments?.first.inbound?.first.departureDateTime);
   }
 
-  String get arrivalDateWithTime {
+  String  arrivalDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.outbound?.first.arrivalDateTime);
+        flightSegments?.first.outbound?.first.arrivalDateTime,locale: locale);
   }
 
-  String get returnArrivalDateWithTime {
+  String  returnArrivalDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.inbound?.first.arrivalDateTime);
+        flightSegments?.first.inbound?.first.arrivalDateTime,locale: locale);
   }
 
-  String get returnDepartureDateWithTime {
+  String  returnDepartureDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.inbound?.first.departureDateTime);
+        flightSegments?.first.inbound?.first.departureDateTime,locale: locale);
   }
 
-  String get departureDateToShow {
+  String  departureDateToShow(String? locale) {
+    if(locale != null) {
+      return AppDateUtils.formatHalfDateHalfMonth(
+          flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
+    }
     return AppDateUtils.formatHalfDateHalfMonth(
         flightSegments?.first.outbound?.first.departureDateTime);
   }

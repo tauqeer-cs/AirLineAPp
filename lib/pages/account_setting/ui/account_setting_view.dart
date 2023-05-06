@@ -56,12 +56,12 @@ class AccountSettingView extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('cancel'.tr()),
+              child: Text('infoDetail.cancel'.tr()),
             ),
             kVerticalSpacerSmall,
             ElevatedButton(
               onPressed: () => onChangePassword(context),
-              child: Text('save'.tr()),
+              child: Text('accountDetail.save'.tr()),
             ),
             kVerticalSpacerMini,
             Center(

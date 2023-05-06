@@ -774,7 +774,7 @@
   "signUp3.congrats": "Congrats!",
   "signUp3.congratsDesc": "Hi, your MYReward registration is complete!",
   "signUp3.checkEmail1": "Check your email",
-  "signUp3.checkEmail2": "for a verification link to verify your email. If you didn't receive anything, click the 'Resend Link' button to resend the email.",
+  "signUp3.checkEmail2": "for a verification link to verify your email. If you didn't receive anything.",
   "signUp3.resendLink": "Resend Link",
   "signUp3.continue": "Continue",
   "signUp3.emailSuccess": "Email sent successfully",
@@ -1010,5 +1010,14 @@
   "confirmation" : "Confirmation",
   "promoVoucher" : "Promo/Voucher",
   "backHome" : "Back to Home",
-  "localTime" : "Local Time"
+  "localTime" : "Local Time",
+  "enterLastName" : "Please enter last name",
+  "enterFirstName" : "Please enter first name",
+  "selectRelationship" : "Please Select relationship",
+  "clickResendLinkMessage" : "Click the 'Resend Link' button to resend the email.",
+  "declaration" : "Declaration",
+  "boardingPassLine" : "Boarding\nPass",
+  "hour" : "hour",
+  "min" : "min",
+  "s" : "s"
 }
