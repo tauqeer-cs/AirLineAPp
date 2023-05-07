@@ -16,7 +16,7 @@ class WheelChairFeeDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final persons = filter?.numberPerson.persons ?? [];
-    return Column(
+    return  Column(
       children: [
         kVerticalSpacerSmall,
         AppDividerWidget(color: Styles.kDisabledButton),

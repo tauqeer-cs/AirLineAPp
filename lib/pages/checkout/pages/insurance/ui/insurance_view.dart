@@ -26,36 +26,34 @@ class InsuranceView extends StatefulWidget {
 class _InsuranceViewState extends State<InsuranceView> {
   final scrollController = ScrollController();
 
-
   bool resetInsurance = false;
 
   InsuranceCubit? insuranceCubit;
   BundleGroupSeat? insuranceGroup;
 
   void resetData() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(
+      const Duration(milliseconds: 500),
+    );
 
-    if(insuranceCubit != null) {
-
-      insuranceCubit?.setLast(insuranceGroup?.outbound?.firstWhereOrNull((element) => element == insuranceGroup?.outbound?.first));
-
+    if (insuranceCubit != null) {
+      insuranceCubit?.setLast(insuranceGroup?.outbound?.firstWhereOrNull(
+          (element) => element == insuranceGroup?.outbound?.first));
     }
   }
+
   @override
   void initState() {
     super.initState();
 
     resetData();
-
   }
 
   @override
   Widget build(BuildContext context) {
     final bookingState = context.watch<BookingCubit>().state;
 
-    insuranceGroup =
-        bookingState.verifyResponse?.flightSSR?.insuranceGroup;
-
+    insuranceGroup = bookingState.verifyResponse?.flightSSR?.insuranceGroup;
 
     insuranceCubit = context.watch<InsuranceCubit>();
 
@@ -84,7 +82,10 @@ class _InsuranceViewState extends State<InsuranceView> {
               ZurichContainer(),
               kVerticalSpacer,
               AvailableInsurance(),
-              InsuranceTerms(isInternational: firstInsurance?.codeType?.contains('SL') == true ,),
+              InsuranceTerms(
+                isInternational:
+                    firstInsurance?.codeType?.contains('SL') == true,
+              ),
               kSummaryContainerSpacing,
               kSummaryContainerSpacing,
             ],
@@ -100,22 +101,25 @@ class _InsuranceViewState extends State<InsuranceView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  BookingSummary(additionalNumber: insuranceState.totalInsurance()),
+                  BookingSummary(
+                      additionalNumber: insuranceState.totalInsurance()),
                   ElevatedButton(
                     onPressed: () {
                       final bookingState = context.read<BookingCubit>().state;
                       final token = bookingState.verifyResponse?.token;
-                      if(token == null){
+                      if (token == null) {
                         Toast.of(context).show(message: "Token is empty");
                         return;
                       }
                       final summaryRequest = InsuranceRequest(
-                        token: token,
-                        updateInsuranceRequest: UpdateInsuranceRequest(
-                          isRemoveInsurance: false,
-                          passengers: context.read<InsuranceCubit>().state.passengersWithOutInfants,
-                        )
-                      );
+                          token: token,
+                          updateInsuranceRequest: UpdateInsuranceRequest(
+                            isRemoveInsurance: false,
+                            passengers: context
+                                .read<InsuranceCubit>()
+                                .state
+                                .passengersWithOutInfants,
+                          ));
                       context
                           .read<SummaryCubit>()
                           .submitUpdateInsurance(summaryRequest);
