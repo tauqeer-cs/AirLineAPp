@@ -15,7 +15,8 @@ import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class BaggageSummaryDetail extends StatelessWidget {
-  const BaggageSummaryDetail({Key? key}) : super(key: key);
+  const BaggageSummaryDetail({Key? key, this.currency}) : super(key: key);
+  final String? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,7 @@ class BaggageSummaryDetail extends StatelessWidget {
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
+              currency: currency,
               amountSize: 16,
               myrSize: 16,
               amount: totalPrice,
@@ -107,6 +109,7 @@ class BaggageSummaryDetail extends StatelessWidget {
           ],
         ),
         child2: MoneyWidgetCustom(
+          currency: currency,
           amount: e.getPartialPriceBaggage(isDeparture) + e.getPartialPriceSports(isDeparture),
         ),
       ),

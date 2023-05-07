@@ -13,7 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FlightSummaryDetail extends StatelessWidget {
   final bool isDeparture;
 
-  const FlightSummaryDetail({Key? key, required this.isDeparture})
+  final String? currency;
+
+  const FlightSummaryDetail({Key? key, required this.isDeparture, this.currency})
       : super(key: key);
 
   @override
@@ -37,6 +39,7 @@ class FlightSummaryDetail extends StatelessWidget {
             ),
             child2: MoneyWidgetCustom(
               amountSize: 16,
+              currency: currency,
               myrSize: 16,
               amount: isDeparture
                   ? bookingTotal.selectedDeparture?.getTotalPriceDisplay
@@ -82,6 +85,7 @@ class FlightSummaryDetail extends StatelessWidget {
 
                   ),
                   child2: MoneyWidgetCustom(
+                    currency: currency,
                     amount: e.peopleType == PeopleType.adult
                         ? e.isWithInfant(numberOfPerson)
                             ? (segment?.adultPricePerPax ?? 0) +

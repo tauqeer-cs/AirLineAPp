@@ -29,6 +29,13 @@ class BookingSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
+    if(changeFlightCurrency != null) {
+
+      currency = changeFlightCurrency ?? 'MYR';
+
+    }
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final booking = context.watch<BookingCubit>().state;
     final voucherState = context.watch<VoucherCubit>().state;

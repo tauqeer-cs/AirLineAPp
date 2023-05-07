@@ -691,6 +691,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     BookingSummary(
+                      changeFlightCurrency: bloc?.currentCurrency,
                       labelToShow: 'flightResult.totalAmountDue'.tr(),
                       totalAmountToShow: calculateMoneyToShow(
                           changeFlightRequestResponse, discount),

@@ -15,7 +15,8 @@ import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class MealSummaryDetail extends StatelessWidget {
-  const MealSummaryDetail({Key? key}) : super(key: key);
+  const MealSummaryDetail({Key? key, this.currency}) : super(key: key);
+  final String? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class MealSummaryDetail extends StatelessWidget {
             ),
             child2: MoneyWidgetCustom(
               amountSize: 16,
+              currency: currency,
               myrSize: 16,
               amount: totalPrice,
               textColor: Styles.kPrimaryColor,
@@ -100,6 +102,7 @@ class MealSummaryDetail extends StatelessWidget {
           ],
         ),
         child2: MoneyWidgetCustom(
+          currency: currency,
           amount: e.getPartialPriceMeal(isDeparture),
         ),
       ),

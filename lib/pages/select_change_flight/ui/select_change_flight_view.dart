@@ -55,8 +55,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
 
     bloc = context.watch<ManageBookingCubit>();
 
-    //TODO
-    //this need to be done
+
     String noOfPerson =
         bloc?.state.manageBookingResponse?.result?.toBeautify() ?? '1';
 
@@ -117,7 +116,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ),
                 ),
                 if (bloc != null) ...[
-                   buildFlights(bloc!.state),
+                   buildFlights(bloc!.state,bloc?.currentCurrency),
                 ],
 
 
@@ -140,6 +139,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   BookingSummary(
+                    changeFlightCurrency: bloc?.currentCurrency,
                     isChangeFlight: true,
                     totalAmountToShow: bloc?.totalAmountToShowInChangeFlight,
                   ),
@@ -169,7 +169,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
     );
   }
 
-  Column buildFlights(ManageBookingState state) {
+  Column buildFlights(ManageBookingState state,String? currency) {
     return Column(
       children: [
         if (state.checkedDeparture == true) ...[
@@ -177,7 +177,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
           if (state.flightSearchResponse?.searchFlightResponse?.flightResult
               ?.isOutboundNotAvailable ==
               true) ...[
-            Column(
+             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kVerticalSpacer,
@@ -215,7 +215,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                 Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newStartDateSelected ?? DateTime.now()),
                     style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
                 kVerticalSpacerBig,
-                AppCard(
+                 AppCard(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -256,6 +256,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
           ] else ... [
             ChooseFlightSegment(
               title: 'bundleTab.depart'.tr(),
+              currency: currency,
               subtitle: state.manageBookingResponse?.result
                   ?.departureToDestinationCode ??
                   '',
@@ -364,6 +365,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
             Visibility(
               //visible: state.filterState?.flightType == FlightType.round,
               child: ChooseFlightSegment(
+    currency: currency,
                 title: 'bundleTab.return'.tr(),
                 subtitle: state.manageBookingResponse?.result
                         ?.returnToDestinationCode ??

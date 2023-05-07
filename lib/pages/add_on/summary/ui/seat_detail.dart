@@ -16,7 +16,8 @@ import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class SeatSummaryDetail extends StatelessWidget {
-  const SeatSummaryDetail({Key? key}) : super(key: key);
+  const SeatSummaryDetail({Key? key, this.currency}) : super(key: key);
+  final String? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class SeatSummaryDetail extends StatelessWidget {
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
+              currency: currency,
               amountSize: 16,
               myrSize: 16,
               amount: totalPrice,
@@ -95,6 +97,7 @@ class SeatSummaryDetail extends StatelessWidget {
                     ],
                   ),
                   child2: MoneyWidgetCustom(
+                    currency: currency,
                     amount: e.getPartialPriceSeatPartial(true),
                   ),
                 ),
@@ -131,6 +134,7 @@ class SeatSummaryDetail extends StatelessWidget {
                           ],
                         ),
                         child2: MoneyWidgetCustom(
+                          currency: currency,
                           amount: e.getPartialPriceSeatPartial(false),
                         ),
                       ),

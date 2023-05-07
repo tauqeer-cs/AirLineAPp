@@ -21,6 +21,7 @@ class SegmentCard extends StatelessWidget {
   final bool isDeparture;
   final bool changeFlight;
 
+  final String? currency;
   final bool showVisa;
 
   const SegmentCard(
@@ -28,6 +29,7 @@ class SegmentCard extends StatelessWidget {
       required this.segment,
       required this.isDeparture,
       required this.showVisa,
+        this.currency,
       this.changeFlight = false})
       : super(key: key);
 
@@ -156,7 +158,7 @@ class SegmentCard extends StatelessWidget {
                                   style: kTinyHeavy,
                                 ),
                                 MoneyWidget(
-                                  currency: segment.currentToShow,
+                                  currency: changeFlight ? currency  : segment.currentToShow,
                                     amount: changeFlight
                                         ? segment.changeFlightAmountToShow
                                         : segment
@@ -178,7 +180,7 @@ class SegmentCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ),
+                     ),
                     ] else ...[
                       Transform.translate(
                         offset: const Offset(0, 20),
@@ -209,7 +211,7 @@ class SegmentCard extends StatelessWidget {
                                     style: kTinyHeavy,
                                   ),
                                   MoneyWidget(
-                                    currency: segment.currentToShow,
+                                      currency: changeFlight ? currency  : segment.currentToShow,
                                       amount: changeFlight
                                           ? segment.changeFlightAmountToShow
                                           : segment

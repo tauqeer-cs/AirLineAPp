@@ -75,7 +75,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
               children: [
                 kVerticalSpacerSmall,
                 ...(payments ?? [])
-                    .map((f) => PaymentDetail(paymentOrder: f))
+                    .map((f) => PaymentDetail(paymentOrder: f, changeFlight: widget.isChange,))
                     .toList(),
               ],
             ),
@@ -88,8 +88,8 @@ class _PaymentInfoState extends State<PaymentInfo> {
 
 class PaymentDetail extends StatelessWidget {
   final PaymentOrder paymentOrder;
-
-  const PaymentDetail({Key? key, required this.paymentOrder}) : super(key: key);
+  final bool changeFlight;
+  const PaymentDetail({Key? key, required this.paymentOrder, required this.changeFlight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

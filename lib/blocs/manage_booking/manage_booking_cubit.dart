@@ -29,6 +29,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   final _repository = ManageBookingRepository();
 
+
   DateTime get minDate {
     var ccc = state.manageBookingResponse;
 
@@ -49,6 +50,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         .removeTime();
   }
 
+  String get currentCurrency {
+    return state.manageBookingResponse?.result?.fareAndBundleDetail?.fareAndBundles?.first.currency ?? 'MYR';
+  }
   DateTime get maxDate {
     var ccc = state.manageBookingResponse;
     if (ccc?.isTwoWay ?? false) {

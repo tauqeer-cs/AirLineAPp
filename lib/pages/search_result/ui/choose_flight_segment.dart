@@ -36,6 +36,8 @@ class ChooseFlightSegment extends StatefulWidget {
 
   final bool visaPromo;
 
+  final String? currency;
+
   final bool changeFlight;
 
   const ChooseFlightSegment(
@@ -46,6 +48,7 @@ class ChooseFlightSegment extends StatefulWidget {
       required this.dateTitle,
       required this.segments,
       required this.isDeparture,
+        this.currency,
       this.changeFlight = false})
       : super(key: key);
 
@@ -186,6 +189,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                 children: sortedSegment
                     .map(
                       (e) => SegmentCard(
+                        currency: widget.currency,
                         segment: e,
                         isDeparture: widget.isDeparture,
                         changeFlight: widget.changeFlight,
