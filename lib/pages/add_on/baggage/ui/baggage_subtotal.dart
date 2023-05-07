@@ -63,11 +63,11 @@ class BaggageSubtotal extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Sports Equipment Subtotal",
+                      "sportsEquipmentSubtotal".tr(),
                       style: kLargeRegular.copyWith(color: Colors.white),
                     ),
                     Text(
-                      "MYR ${NumberUtils.formatNum(filter?.numberPerson.getTotalSportsPartial(isDeparture))}",
+                      "$currency ${NumberUtils.formatNum(filter?.numberPerson.getTotalSportsPartial(isDeparture))}",
                       style: kLargeHeavy.copyWith(color: Colors.white),
                     ),
                   ],

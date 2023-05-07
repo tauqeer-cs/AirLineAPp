@@ -42,7 +42,7 @@ class BaggageSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PassengerSelector(
+             PassengerSelector(
               isDeparture: isDeparture,
               addonType: AddonType.baggage,
             ),

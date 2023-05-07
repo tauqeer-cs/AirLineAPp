@@ -196,7 +196,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                   context.read<ProfileCubit>().updateProfile(userProfile);
                 }
               },
-              child: const Text('infoDetail.save'),
+              child:  Text('infoDetail.save'.tr()),
             ),
             kVerticalSpacer,
           ],

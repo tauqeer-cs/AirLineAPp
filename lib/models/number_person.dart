@@ -515,7 +515,7 @@ class Person extends Equatable {
         if (isDeparture && departureMeal.isEmpty) return "noMeal".tr();
         if (!isDeparture && returnMeal.isEmpty) return "noMeal".tr();
         final meals = isDeparture ? departureMeal : returnMeal;
-        return '${meals.length} ${meals.length > 1 ? " meals" : "meals"}';
+        return '${meals.length} ${meals.length > 1 ? " meals".tr() : "meal".tr()}';
       case AddonType.baggage:
         if (isDeparture && departureBaggage == null) {
           return "noBaggageSelected".tr();

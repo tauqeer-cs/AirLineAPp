@@ -1103,6 +1103,9 @@
   "pleaseCheckCaps" : "โปรดตรวจสอบ",
   "beforeConfirming" : "ก่อนยืนยัน.",
   "changeFlightConfirmation" : "เปลี่ยนเที่ยวบินการยืนยัน",
-  "flightChange.fee": "การเปลี่ยนแปลงเที่ยวบินดู"
+  "flightChange.fee": "การเปลี่ยนแปลงเที่ยวบินดู",
+  "sportsEquipmentSubtotal" : "ยอดรวมย่อยอุปกรณ์กีฬา",
+  "meals": "อาหาร",
+  "noItemSelected" : "ไม่ได้เลือก"
 }
 

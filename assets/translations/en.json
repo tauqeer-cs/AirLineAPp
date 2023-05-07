@@ -1030,6 +1030,8 @@
   "thereFore" : "Therefore,",
   "pleaseCheckCaps" : "PLEASE CHECK",
   "beforeConfirming" : "before confirming.",
-  "changeFlightConfirmation" : "Change Flight Confirmation"
-
+  "changeFlightConfirmation" : "Change Flight Confirmation",
+  "sportsEquipmentSubtotal" : "Sports Equipment Subtotal",
+  "meals": "Meal",
+  "noItemSelected" : "No Item Selected"
 }
