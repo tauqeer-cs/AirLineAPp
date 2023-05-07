@@ -1,4 +1,5 @@
 import 'package:app/pages/booking_details/ui/booking_details_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,7 +27,7 @@ class ManageBookingDetailsPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'Manage Booking',
+          title: 'manageMyBookings'.tr(),
           height: 60.h,
           overrideInnerHeight: true,
         ),

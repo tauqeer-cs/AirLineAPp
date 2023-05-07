@@ -4,6 +4,7 @@ import 'package:app/pages/home/ui/dynamic_home_banner.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_logo_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../theme/theme.dart';
@@ -27,11 +28,10 @@ class HomeView extends StatelessWidget {
             color: const Color(0xFFF0F0F0),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.21),
-                offset: const Offset(0, 2),
-                blurRadius: 6,
-                spreadRadius: 0
-              ),
+                  color: Colors.black.withOpacity(0.21),
+                  offset: const Offset(0, 2),
+                  blurRadius: 6,
+                  spreadRadius: 0),
             ],
           ),
           child: const SearchFlightWidget(
@@ -39,7 +39,6 @@ class HomeView extends StatelessWidget {
           ),
         ),
         kVerticalSpacer,
-
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return blocBuilderWrapper(
@@ -54,8 +53,9 @@ class HomeView extends StatelessWidget {
                           Padding(
                             padding: kPageHorizontalPaddingBig,
                             child: Text(
-                              "Ongoing Promotions",
-                              style: kLargeRegular.copyWith(color: Styles.kTextColor),
+                              "ongoingPromotions".tr(),
+                              style: kLargeRegular.copyWith(
+                                  color: Styles.kTextColor),
                             ),
                           ),
                           kVerticalSpacerSmall,

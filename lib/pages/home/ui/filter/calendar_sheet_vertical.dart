@@ -11,9 +11,11 @@ import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
@@ -61,6 +63,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
     final isRoundTrip = filterCubit.state.flightType == FlightType.round;
     final priceState = context.watch<PriceRangeCubit>().state;
     final prices = priceState.prices;
+    final locale = context.locale.toString();
+    initializeDateFormatting(locale, null);
     return SizedBox(
         height: 0.8.sh,
         child: Stack(
@@ -87,7 +91,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         Expanded(
                           child: Center(
                             child: AutoSizeText(
-                              "DEP ${AppDateUtils.formatDateWithoutLocale(departDate)}",
+                              "${"departureShort".tr()} ${AppDateUtils.formatDateWithoutLocale(departDate, locale: locale)}",
                               style: departDate == null
                                   ? kMediumRegular
                                   : kMediumSemiBold,
@@ -105,7 +109,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             child: Center(
                               child: AutoSizeText(
                                   maxLines: 1,
-                                  "RET ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
+                                  "${"returnShort".tr()} ${AppDateUtils.formatDateWithoutLocale(returnDate, locale: locale)}",
                                   style: returnDate == null
                                       ? kMediumRegular
                                       : kMediumSemiBold),
@@ -120,13 +124,13 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      weekText('S'),
-                      weekText('M'),
-                      weekText('T'),
-                      weekText('W'),
-                      weekText('T'),
-                      weekText('F'),
-                      weekText('S'),
+                      weekText('calendar.daySundayShort'.tr()),
+                      weekText('calendar.dayMondayShort'.tr()),
+                      weekText('calendar.dayTuesdayShort'.tr()),
+                      weekText('calendar.dayWednesdayShort'.tr()),
+                      weekText('calendar.dayThursdayShort'.tr()),
+                      weekText('calendar.dayFridayShort'.tr()),
+                      weekText('calendar.daySaturdayShort'.tr()),
                     ],
                   ),
                   kVerticalSpacerMini,
@@ -137,7 +141,9 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                           DateTime(DateTime.now().year, DateTime.now().month, 1)
                               .removeTime(),
                       maxDate: DateTime.now()
-                          .add(const Duration(days: 365))
+                          .add(
+                            const Duration(days: 365),
+                          )
                           .removeTime(),
                       initialDate: departDate?.removeTime() ??
                           DateTime.now().removeTime(),
@@ -151,7 +157,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                       onDayPressed: (value) async {
                         final now = DateTime.now();
 
-                        final isBefore = value.isBefore(DateTime(now.year, now.month, now.day, 0, 0, 0));
+                        final isBefore = value.isBefore(
+                            DateTime(now.year, now.month, now.day, 0, 0, 0));
                         if (isBefore) return;
                         if (isRoundTrip) {
                           if (departDate == null) {
@@ -190,7 +197,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            DateFormat("MMM yyyy").format(
+                            DateFormat("MMM yyyy", locale).format(
                               DateTime(year, month),
                             ),
                             style: kMediumMedium.copyWith(
@@ -205,7 +212,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             date, priceState.loadingDate);
                         final event = prices.firstWhereOrNull(
                             (event) => isSameDay(event.date, date));
-                        final isBefore = date.isBefore(DateTime(now.year, now.month, now.day, 0, 0, 0));
+                        final isBefore = date.isBefore(
+                            DateTime(now.year, now.month, now.day, 0, 0, 0));
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
@@ -320,14 +328,14 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                               .read<FilterCubit>()
                               .updateDate(departDate: null, returnDate: null);
                         },
-                        child: const Text("Reset"),
+                        child: Text("reset".tr()),
                       ),
                     ),
                     kHorizontalSpacer,
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () => Navigator.of(context).pop(),
-                        child: const Text("Apply"),
+                        child: Text("apply".tr()),
                       ),
                     ),
                   ],

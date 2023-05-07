@@ -1,58 +1,96 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
 
 
 class AppDateUtils {
-  static String formatDateWithoutLocale(DateTime? dateTime) {
+  static String formatDateWithoutLocale(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+
+    if(locale != null) {
+      String formattedDate = DateFormat("dd MMM yyyy",locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat("dd MMM yyyy").format(dateTime);
     return formattedDate;
   }
 
-  static String formatTimeWithoutLocale(DateTime? dateTime) {
+  static String formatTimeWithoutLocale(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+    if(locale != null) {
+      String formattedDate = DateFormat.Hm(locale).format(dateTime);
+      return formattedDate;
+    }
+
     String formattedDate = DateFormat.Hm().format(dateTime);
     return formattedDate;
   }
 
-  static String formatJM(DateTime? dateTime) {
+  static String formatJM(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+    if(locale != null) {
+      String formattedDate = DateFormat.jm(locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat.jm().format(dateTime);
     return formattedDate;
   }
 
-  static String formatFullDate(DateTime? dateTime) {
+  static String formatFullDate(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+    if(locale != null) {
+      String formattedDate = DateFormat("EEEE dd MMMM yyyy",locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat("EEEE dd MMMM yyyy").format(dateTime);
     return formattedDate;
   }
 
-  static String formatHalfDate(DateTime? dateTime) {
+  static String formatHalfDate(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "Invalid Date";
+    if(locale != null) {
+      String formattedDate = DateFormat("EEE dd MMMM yyyy",locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat("EEE dd MMMM yyyy").format(dateTime);
     return formattedDate;
   }
 
-  static String formatFullDateWithTime(DateTime? dateTime) {
+  static String formatFullDateWithTime(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "Invalid Date";
+    if(locale != null) {
+      final dateFormat = DateFormat("EEE dd MMM yyyy, hh:mm a",locale);
+      String formattedDate = dateFormat.format(dateTime);
+      return formattedDate;
+    }
+
     final dateFormat = DateFormat("EEE dd MMM yyyy, hh:mm a");
     String formattedDate = dateFormat.format(dateTime);
     return formattedDate;
   }
 
-  static String formatFullDateTwoLines(DateTime? dateTime) {
+  static String formatFullDateTwoLines(DateTime? dateTime,{String? locale}) {
     /*
     Mon 01 Jan 2023,
     12:30 pm
     * */
     if (dateTime == null) return "Invalid Date";
+    if(locale != null) {
+      final dateFormat = DateFormat("EEE dd MMM yyyy,\nhh:mm a",locale);
+      String formattedDate = dateFormat.format(dateTime);
+      return formattedDate;
+    }
     final dateFormat = DateFormat("EEE dd MMM yyyy,\nhh:mm a");
     String formattedDate = dateFormat.format(dateTime);
     return formattedDate;
   }
 
 
-  static String formatHalfDateHalfMonth(DateTime? dateTime) {
+  static String formatHalfDateHalfMonth(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "Invalid Date";
+    if(locale != null) {
+      String formattedDate = DateFormat("EEE dd MMM yyyy",locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat("EEE dd MMM yyyy").format(dateTime);
     return formattedDate;
   }
@@ -85,7 +123,7 @@ class AppDateUtils {
     String result = '';
 
     if (hours > 0) {
-      result += '${hours.toString()} hour';
+      result += '${hours.toString()} ${'hour'.tr()}';
       if (hours > 1) {
         result += 's';
       }
@@ -93,10 +131,15 @@ class AppDateUtils {
     }
 
     if (minutes > 0) {
-      result += '${minutes.toString()} min';
+      result += '${minutes.toString()} ${'min'.tr()}';
       if (minutes > 1) {
-        result += 's';
+        result += 's'.tr();
       }
+    }
+    else {
+      result += '${00.toString()} ${'min'.tr()}';
+      result += 's'.tr();
+
     }
 
     return result.trim();

@@ -5,6 +5,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,10 +37,9 @@ class SeatRemove extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.leading,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text("Pick my seats for me", style: kLargeSemiBold),
-            Text("Let the system allocate a seat for you.",
-                style: kLargeMedium),
+          children: [
+            Text("pickMySeats".tr(), style: kLargeSemiBold),
+            Text("systemPickMySeat".tr(), style: kLargeMedium),
           ],
         ),
         value: seat == null,

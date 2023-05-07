@@ -6,6 +6,7 @@ import 'package:app/theme/typography.dart';
 import 'package:app/utils/security_utils.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -19,7 +20,7 @@ import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
 
 class BookingsView extends StatelessWidget {
-  BookingsView({Key? key}) : super(key: key);
+   BookingsView({Key? key}) : super(key: key);
   static final _fbKey = GlobalKey<FormBuilderState>();
 
   ManageBookingCubit? bloc;
@@ -61,17 +62,17 @@ class BookingsView extends StatelessWidget {
                           children: [
                             kVerticalSpacer,
                             kVerticalSpacer,
-                            const Text("Manage Booking", style: kGiantHeavy),
+                             Text('manageMyBookings'.tr(), style: kGiantHeavy),
                             kVerticalSpacerMini,
                             Text(
-                              "Please enter your flight details to view and manage your booking.",
+                            'manageBookingSubText'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kSubTextColor),
                             ),
                             kVerticalSpacer,
                             AppInputTextWithBorder(
                               name: "bookingNumber",
-                              hintText: "Booking Reference Number",
+                              hintText: "bookingReference".tr(),
                               maxLength: 6,
 
                               /*inputFormatters: [
@@ -85,16 +86,16 @@ class BookingsView extends StatelessWidget {
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.minLength(6,
                                     errorText:
-                                        "Booking number has to be 6 alphanumeric characters"),
+        'navBar.bookingReferenceValid'.tr()),
                                 FormBuilderValidators.maxLength(6,
                                     errorText:
-                                        "Booking number has to be 6 alphanumeric characters"),
+        'navBar.bookingReferenceValid'.tr()),
                               ],
                             ),
                             kVerticalSpacer,
                             AppInputTextWithBorder(
                               name: "lastName",
-                              hintText: "Surname / Last Name",
+                              hintText: 'surnameLastName'.tr(),
                               validators: [FormBuilderValidators.required()],
                             ),
                             kVerticalSpacer,
@@ -108,8 +109,8 @@ class BookingsView extends StatelessWidget {
                                           onPressed: () {
                                             onManageBooking(context);
                                           },
-                                          child: const Text(
-                                            'Add on Services',
+                                          child:  Text(
+                                            'addonServices'.tr(),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -120,7 +121,7 @@ class BookingsView extends StatelessWidget {
                                           onPressed: () {
                                             onChangeFlightTapped(context);
                                           },
-                                          child: const Text('Change flight'),
+                                          child:  Text('changeFlight'.tr()),
                                         ),
                                       ),
                                     ],

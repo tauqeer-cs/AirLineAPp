@@ -1,6 +1,7 @@
 import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,16 +36,16 @@ class ConfirmationMeals extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Text(
-              "Meals",
+            Text(
+              "priceSection.mealsTitle".tr(),
               style: kHugeSemiBold,
             ),
             const Spacer(),
             MoneyWidget(
+              currency: currency,
               amount: meals?.totalAmount,
               isDense: true,
               isNormalMYR: true,
-              currency: currency,
             ),
           ],
         ),

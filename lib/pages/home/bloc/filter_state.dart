@@ -23,20 +23,24 @@ class FilterState extends Equatable {
     this.promoCode,
   });
 
-  bool get isValid =>
-      numberPerson != NumberPerson.empty &&
-      destination != null &&
-      origin != null &&
-      departDate != null &&
-      (returnDate != null || flightType == FlightType.oneWay);
+  bool get isValid {
+
+
+   return  (numberPerson != NumberPerson.empty && numberPerson.hasAdult) &&
+        destination != null &&
+        origin != null &&
+        departDate != null &&
+        (returnDate != null || flightType == FlightType.oneWay);
+  }
+
 
   String get beautify =>
-      "${origin?.name?.camelCase()} To ${destination?.name?.camelCase()}";
+      "${origin?.name?.camelCase()} ${"to".tr()} ${destination?.name?.camelCase()}";
 
   String get beautifyReverse =>
-      "${destination?.name?.camelCase()} To ${origin?.name?.camelCase()}";
+      "${destination?.name?.camelCase()} ${"to".tr()} ${origin?.name?.camelCase()}";
 
-  String get beautifyShort => "${origin?.code} To ${destination?.code}";
+  String get beautifyShort => "${origin?.code} ${"to".tr()} ${destination?.code}";
 
   Widget beautifyWithRow(bool isReverse, bool isActive) {
     return Row(
@@ -61,7 +65,7 @@ class FilterState extends Equatable {
 
   String get routeShort => "${origin?.code}-${destination?.code}";
 
-  String get beautifyReverseShort => "${destination?.code} To ${origin?.code}";
+  String get beautifyReverseShort => "${destination?.code} ${"to".tr()} ${origin?.code}";
 
   @override
   List<Object?> get props => [

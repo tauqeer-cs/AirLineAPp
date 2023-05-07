@@ -1,5 +1,4 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
-import 'package:app/data/requests/summary_request.dart';
 import 'package:app/data/requests/update_insurance_request.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
@@ -11,8 +10,11 @@ import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../data/responses/verify_response.dart';
 
 class InsuranceView extends StatefulWidget {
   const InsuranceView({Key? key}) : super(key: key);
@@ -24,23 +26,48 @@ class InsuranceView extends StatefulWidget {
 class _InsuranceViewState extends State<InsuranceView> {
   final scrollController = ScrollController();
 
+
+  bool resetInsurance = false;
+
+  InsuranceCubit? insuranceCubit;
+  BundleGroupSeat? insuranceGroup;
+
+  void resetData() async {
+    await Future.delayed(Duration(milliseconds: 500));
+
+    if(insuranceCubit != null) {
+
+      insuranceCubit?.setLast(insuranceGroup?.outbound?.firstWhereOrNull((element) => element == insuranceGroup?.outbound?.first));
+
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+
+    resetData();
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    final passengers = context.watch<InsuranceCubit>().state.passengers;
-    double totalInsurance = 0;
-    for (var element in passengers) {
-      totalInsurance = totalInsurance + (element.getInsurance?.price ?? 0);
-    }
-    print("total insurance is $totalInsurance");
-
     final bookingState = context.watch<BookingCubit>().state;
+
+    insuranceGroup =
+        bookingState.verifyResponse?.flightSSR?.insuranceGroup;
+
+
+    insuranceCubit = context.watch<InsuranceCubit>();
+
+    final insuranceState = context.watch<InsuranceCubit>().state;
+    final passengers = insuranceState.passengers;
 
     final insurances =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
 
     final firstInsurance = insurances.firstOrNull;
 
-
+    print("insurance is ${insuranceState.totalInsurance()}");
     return Stack(
       children: [
         SummaryContainerListener(
@@ -50,7 +77,7 @@ class _InsuranceViewState extends State<InsuranceView> {
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
               Text(
-                "MYAirline Travel Insurance",
+                "myAirTravelInsurance".tr(),
                 style: kHugeHeavy,
               ),
               kVerticalSpacer,
@@ -73,7 +100,7 @@ class _InsuranceViewState extends State<InsuranceView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  BookingSummary(additionalNumber: totalInsurance),
+                  BookingSummary(additionalNumber: insuranceState.totalInsurance()),
                   ElevatedButton(
                     onPressed: () {
                       final bookingState = context.read<BookingCubit>().state;
@@ -86,14 +113,14 @@ class _InsuranceViewState extends State<InsuranceView> {
                         token: token,
                         updateInsuranceRequest: UpdateInsuranceRequest(
                           isRemoveInsurance: false,
-                          passengers: context.read<InsuranceCubit>().state.passengers,
+                          passengers: context.read<InsuranceCubit>().state.passengersWithOutInfants,
                         )
                       );
                       context
                           .read<SummaryCubit>()
                           .submitUpdateInsurance(summaryRequest);
                     },
-                    child: const Text("Continue"),
+                    child: Text("continue".tr()),
                   ),
                 ],
               ),

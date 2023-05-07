@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -67,7 +68,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     return Styles.kPrimaryColor;
   }
 
-
   final scrollController = ScrollController();
 
   @override
@@ -88,16 +88,17 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
 
     bloc = context.watch<ManageBookingCubit>();
     var state = bloc?.state;
     var voucherBloc = context.watch<VoucherCubit>();
-
     var voucherState = voucherBloc.state;
 
     final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
-            ?.firstOrNull?.discountAmount ??
+        ?.firstOrNull?.discountAmount ??
         0.0;
 
     var departureDate = state?.changeFlightResponse?.result
@@ -179,9 +180,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               if (bloc?.state.checkedDeparture == true &&
                                   bloc?.state.checkReturn == true) ...[
                                 Text(
-                                  '${AppDateUtils.formatFullDate(
-                                    DateTime.parse(departureDate ?? ''),
-                                  )} -',
+                                  '${AppDateUtils.formatFullDate(DateTime.parse(departureDate ?? ''), locale: locale)} -',
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
                                     height: 1.5,
@@ -189,8 +188,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 ),
                                 Text(
                                   AppDateUtils.formatFullDate(
-                                    DateTime.parse(returnDate ?? ''),
-                                  ),
+                                      DateTime.parse(returnDate ?? ''),
+                                      locale: locale),
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
                                     height: 1.5,
@@ -199,8 +198,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               ] else ...[
                                 Text(
                                   AppDateUtils.formatFullDate(
-                                    DateTime.parse(departureDate ?? ''),
-                                  ),
+                                      DateTime.parse(departureDate ?? ''),
+                                      locale: locale),
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
                                     height: 1.5,
@@ -226,7 +225,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   edgeInsets: EdgeInsets.zero,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -236,27 +235,27 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         ),
                         if ((bloc?.state.checkedDeparture == true)) ...[
                           FlightDataInfo(
-                            headingLabel: 'Departure',
+                            headingLabel: 'flightSummary.departure'.tr(),
                             dateToShow:
-                                flightSectionGoing?.departureDateToShow ?? '',
+                            flightSectionGoing?.departureDateToShow ?? '',
                             departureToDestinationCode: state
-                                    ?.manageBookingResponse
-                                    ?.result
-                                    ?.departureToDestinationCode ??
+                                ?.manageBookingResponse
+                                ?.result
+                                ?.departureToDestinationCode ??
                                 '',
                             departureDateWithTime:
-                                flightSectionGoing?.departureDateToTwoLine ??
-                                    '',
+                            flightSectionGoing?.departureDateToTwoLine(locale) ??
+                                '',
                             departureAirportName: state?.manageBookingResponse
-                                    ?.result?.departureAirportName ??
+                                ?.result?.departureAirportName ??
                                 '',
                             journeyTimeInHourMin: state?.manageBookingResponse
-                                    ?.result?.journeyTimeInHourMin ??
+                                ?.result?.journeyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime:
-                                flightSectionGoing?.arrivalDateToTwoLine ?? '',
+                            flightSectionGoing?.arrivalDateToTwoLine(locale) ?? '',
                             arrivalAirportName: state?.manageBookingResponse
-                                    ?.result?.arrivalAirportName ??
+                                ?.result?.arrivalAirportName ??
                                 '',
                           ),
                           const Padding(
@@ -266,29 +265,29 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           ),
                         ],
                         if ((bloc?.state.manageBookingResponse?.isTwoWay ??
-                                false) &&
+                            false) &&
                             (bloc?.state.checkReturn == true)) ...[
                           FlightDataInfo(
-                            headingLabel: 'Return',
+                            headingLabel: 'flightCharge.return'.tr(),
                             dateToShow:
-                                flightSectionBack?.departureDateToShow ?? '',
+                            flightSectionBack?.departureDateToShow ?? '',
                             departureToDestinationCode: state
-                                    ?.manageBookingResponse
-                                    ?.result
-                                    ?.returnToDestinationCode ??
+                                ?.manageBookingResponse
+                                ?.result
+                                ?.returnToDestinationCode ??
                                 '',
                             departureDateWithTime:
-                                flightSectionBack?.departureDateToTwoLine ?? '',
+                            flightSectionBack?.departureDateToTwoLine(locale) ?? '',
                             departureAirportName: state?.manageBookingResponse
-                                    ?.result?.returnDepartureAirportName ??
+                                ?.result?.returnDepartureAirportName ??
                                 '',
                             journeyTimeInHourMin: state?.manageBookingResponse
-                                    ?.result?.returnJourneyTimeInHourMin ??
+                                ?.result?.returnJourneyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime:
-                                flightSectionBack?.arrivalDateToTwoLine ?? '',
+                            flightSectionBack?.arrivalDateToTwoLine(locale) ?? '',
                             arrivalAirportName: state?.manageBookingResponse
-                                    ?.result?.returnArrivalAirportName ??
+                                ?.result?.returnArrivalAirportName ??
                                 '',
                           ),
                         ],
@@ -303,22 +302,22 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   edgeInsets: EdgeInsets.zero,
                   child: Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Row(
                           children: [
-                            const Text(
-                              'Summary',
+                            Text(
+                              'summary'.tr(),
                               style: kLargeHeavy,
                             ),
                             const Spacer(),
                             Text(
                               changeFlightRequestResponse
-                                      ?.result
-                                      ?.changeFlightResponse
-                                      ?.totalReservationAmountString ??
+                                  ?.result
+                                  ?.changeFlightResponse
+                                  ?.totalReservationAmountString ??
                                   '',
                               style: kLargeHeavy.copyWith(
                                 color: Styles.kPrimaryColor,
@@ -330,17 +329,17 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           height: 8,
                         ),
                         for (PassengersWithSSRFareBreakDown currentPerson
-                            in changeFlightRequestResponse
-                                    ?.result
-                                    ?.changeFlightResponse
-                                    ?.passengersWithSSRFareBreakDown ??
-                                []) ...[
+                        in changeFlightRequestResponse
+                            ?.result
+                            ?.changeFlightResponse
+                            ?.passengersWithSSRFareBreakDown ??
+                            []) ...[
                           PersonHeader(
                               currentPerson: currentPerson, bloc: bloc),
                           kVerticalSpacerMini,
                           PersonDeparture(
                             changeFlightRequestResponse:
-                                changeFlightRequestResponse!,
+                            changeFlightRequestResponse!,
                             currentPerson: currentPerson,
                             bloc: bloc!,
                           ),
@@ -349,16 +348,16 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         kVerticalSpacerSmall,
                         Row(
                           children: [
-                            const Text(
-                              'Flight Change Fee',
+                            Text(
+                              'flightChange.fee'.tr(),
                               style: kMediumHeavy,
                             ),
                             const Spacer(),
                             Text(
                               changeFlightRequestResponse
-                                      ?.result
-                                      ?.changeFlightResponse
-                                      ?.flightChangAmountString ??
+                                  ?.result
+                                  ?.changeFlightResponse
+                                  ?.flightChangAmountString ??
                                   '',
                               style: kMediumHeavy.copyWith(
                                 color: Styles.kPrimaryColor,
@@ -368,7 +367,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         ),
                         const Padding(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           child: Divider(),
                         ),
                         Padding(
@@ -385,7 +384,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                       width: 4,
                                     ),
                                     Text(
-                                      'Changes',
+                                      'flightCharge.changes'.tr(),
                                       style: kSmallRegular.copyWith(
                                         color: Styles.kTextColor,
                                       ),
@@ -403,7 +402,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                       width: 4,
                                     ),
                                     Text(
-                                      'Existing Add-Ons',
+                                      'flightCharge.existingAddons'.tr(),
                                       style: kSmallRegular.copyWith(
                                         color: Styles.kTextColor,
                                       ),
@@ -432,7 +431,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     readOnly: false,
                     blocState: voucherState.blocState,
                     voucherCodeInitial:
-                        voucherState.insertedVoucher?.voucherCode ?? '',
+                    voucherState.insertedVoucher?.voucherCode ?? '',
                     state: voucherState,
                     onRemoveTapped: () {
                       if (voucherState.response != null) {
@@ -442,65 +441,68 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                       }
                     },
                     onButtonTapped: voucherState.blocState == BlocState.loading
-                        // || bookingState.superPnrNo != null
+                    // || bookingState.superPnrNo != null
                         ? null
                         : (voucherState.response != null)
-                            ? () =>
-                                removeVoucher(bloc?.currentToken ?? '', context)
-                            : () {
-                                if (_fbKey.currentState!.saveAndValidate()) {
-                                  if (ConstantUtils.showPinInVoucher) {
-                                    final value = _fbKey.currentState!.value;
-                                    final voucher = value["voucherCode"];
-                                    final pin = value["voucherPin"];
-                                    final voucherPin = InsertVoucherPIN(
-                                      voucherCode: voucher,
-                                      voucherPin: pin,
-                                    );
-                                    final token = bloc?.currentToken ?? '';
-                                    final voucherRequest = VoucherRequest(
-                                      voucherPins: [voucherPin],
-                                      token: token,
-                                    );
-                                    context
-                                        .read<VoucherCubit>()
-                                        .addVoucher(voucherRequest);
-                                  } else {
-                                    final value = _fbKey.currentState!.value;
-                                    final voucher = value["voucherCode"];
-                                    final token = bloc?.currentToken ?? '';
-                                    final voucherRequest = VoucherRequest(
-                                      insertVoucher: voucher,
-                                      token: token,
-                                    );
-                                    context
-                                        .read<VoucherCubit>()
-                                        .addVoucher(voucherRequest);
-                                  }
-                                }
-                              },
+                        ? () =>
+                        removeVoucher(bloc?.currentToken ?? '', context)
+                        : () {
+                      if (_fbKey.currentState!.saveAndValidate()) {
+                        if (ConstantUtils.showPinInVoucher) {
+                          final value = _fbKey.currentState!.value;
+                          final voucher = value["voucherCode"];
+                          final pin = value["voucherPin"];
+                          final voucherPin = InsertVoucherPIN(
+                            voucherCode: voucher,
+                            voucherPin: pin,
+                          );
+                          final token = bloc?.currentToken ?? '';
+                          final voucherRequest = VoucherRequest(
+                            voucherPins: [voucherPin],
+                            token: token,
+                          );
+                          context
+                              .read<VoucherCubit>()
+                              .addVoucher(voucherRequest);
+                        } else {
+                          final value = _fbKey.currentState!.value;
+                          final voucher = value["voucherCode"];
+                          final token = bloc?.currentToken ?? '';
+                          final voucherRequest = VoucherRequest(
+                            insertVoucher: voucher,
+                            token: token,
+                          );
+                          context
+                              .read<VoucherCubit>()
+                              .addVoucher(voucherRequest);
+                        }
+                      }
+                    },
                     fbKey: _fbKey,
                   ),
                   const SizedBox(
                     height: 16,
                   ),
                 ],
-                const SizedBox(height: 8,),
+                const SizedBox(
+                  height: 8,
+                ),
                 const Divider(),
-                const SizedBox(height: 24,),
+                const SizedBox(
+                  height: 24,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       SizedBox(
                         height: 24.0,
                         width: 24.0,
-                        child : Checkbox(
-
+                        child: Checkbox(
                           checkColor: Colors.white,
-                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          fillColor:
+                          MaterialStateProperty.resolveWith(getColor),
                           value: conditionsCheckOne,
                           onChanged: (bool? value) {
                             setState(() {
@@ -509,8 +511,9 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           },
                         ),
                       ),
-
-                      const SizedBox(width: 8,),
+                      const SizedBox(
+                        width: 8,
+                      ),
                       Expanded(
                         child: RichText(
                           text: TextSpan(
@@ -518,52 +521,40 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               color: Styles.kTextColor,
                             ),
                             children: [
-                               TextSpan(
-                                  text:
-                                  'CHANGED YOUR FLIGHT? ',
-                                   style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
-                               ),
-
-                              const TextSpan(
-                                  text:
-                                      'Remember to ',
-
-                              ),
-
-                               TextSpan(
-                                  text:
-                                  'UPDATE ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-                              ),
-
-                              const TextSpan(
-                                  text:
-                                  'your insurance coverage if you are '),
-
                               TextSpan(
-                                text:
-                                'EXTENDING YOUR TRAVEL PERIOD, ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+                                text: 'changeFlightView.changeFlightDesc1'.tr(),
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
-
-                              const TextSpan(
-                                  text:
-                                  'to stay protected throughout your journey! You may do so by contacting our '),
-
                               TextSpan(
-                                text: 'Live Chat',
+                                text: 'changeFlightView.changeFlightDesc2'.tr(),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc3'.tr(),
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kPrimaryColor),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc4'.tr(),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc5'.tr(),
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc6'.tr(),
+                              ),
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc7'.tr(),
                                 style: TextStyle(
                                   color: Styles.kPrimaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-
-                              const TextSpan(
-                                text: ' Agent',
-
+                              TextSpan(
+                                text: 'changeFlightView.changeFlightDesc8'.tr(),
                               ),
-
                             ],
                           ),
                         ),
@@ -571,21 +562,21 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24,),
+                const SizedBox(
+                  height: 24,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
-
                       SizedBox(
                         height: 24.0,
                         width: 24.0,
-                        child : Checkbox(
-
+                        child: Checkbox(
                           checkColor: Colors.white,
-                          fillColor: MaterialStateProperty.resolveWith(getColor),
+                          fillColor:
+                          MaterialStateProperty.resolveWith(getColor),
                           value: conditionsCheckTwo,
                           onChanged: (bool? value) {
                             setState(() {
@@ -594,8 +585,9 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           },
                         ),
                       ),
-
-                      const SizedBox(width: 8,),
+                      const SizedBox(
+                        width: 8,
+                      ),
                       Expanded(
                         child: RichText(
                           text: TextSpan(
@@ -603,79 +595,61 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               color: Styles.kTextColor,
                             ),
                             children: [
-
-                              const TextSpan(
-                                text:
-                                'After clicking ',
-
+                              TextSpan(
+                                text: '${'afterCLicking'.tr()} ',
                               ),
 
                               TextSpan(
-                                text:
-                                "'Confirm' ",
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
-                              ),
-
-                              const TextSpan(
-                                text:
-                                ' at the bottom right, the',
-
+                                text: "'${'passengerDetail.confirm'.tr()}' ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
 
                               TextSpan(
-                                text:
-                                " CHANGES ARE ",
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
+                                text: ' ${'atBottomRight'.tr()}',
                               ),
-
-
-
 
                               TextSpan(
-                                text:
-                                'FINAL ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                                text: " ${'changesAre'.tr()} ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
-
-                            TextSpan(
-                              text:
-                              "& YOU WILL ",
-                              style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
-                            ),
 
                               TextSpan(
-                                text:
-                                'NOT ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                                text: '${'final'.tr()} ',
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kPrimaryColor),
                               ),
-
-                        //
-                              TextSpan(
-                                text:
-                                "BE ABLE TO REVERT TO YOUR ORIGINAL FLIGHT DATE/TIME. ",
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
-
-                              ),
-
-                        const TextSpan(
-                                  text:
-                                  'Therefore, '),
 
                               TextSpan(
-                                text:
-                                'PLEASE CHECK ',
-                                style: kMediumSemiBold.copyWith(color: Styles.kTextColor),
+                                text: "${'andYouWill'.tr()} ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
                               ),
 
-                              const TextSpan(
-                                  text:
-                                  'before confirming.'),
+                              TextSpan(
+                                text: '${'notCaps'.tr()} ',
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kPrimaryColor),
+                              ),
 
+                              //
+                              TextSpan(
+                                text:
+                                "${'beAbleToRevertBack'.tr()} ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
 
+                              TextSpan(text: '${'thereFore'.tr()} '),
 
+                              TextSpan(
+                                text: '${'pleaseCheckCaps'.tr()} ',
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+
+                              TextSpan(text: 'beforeConfirming'.tr()),
                             ],
                           ),
                         ),
@@ -683,7 +657,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     ],
                   ),
                 ),
-
                 const SizedBox(
                   height: 200,
                 ),
@@ -691,8 +664,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             ),
           ),
         ),
-
-
         Positioned(
           bottom: 0,
           right: 15,
@@ -708,7 +679,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             child: const Icon(Icons.keyboard_arrow_up),
           ),
         ),
-
         Positioned(
           bottom: 0,
           left: 0,
@@ -721,41 +691,44 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     BookingSummary(
-                      labelToShow: 'Total Amount Due',
-                      isChangeFlight: true,
+                      labelToShow: 'flightResult.totalAmountDue'.tr(),
                       totalAmountToShow: calculateMoneyToShow(
                           changeFlightRequestResponse, discount),
-                      changeFlightCurrency: changeFlightRequestResponse?.result?.changeFlightResponse?.currency ?? 'MYR' ,
                     ),
                     (bloc?.state.loadingCheckoutPayment == true)
                         ? const AppLoading()
                         : ElevatedButton(
-                            onPressed: (conditionsCheckOne == false || conditionsCheckTwo == false) ? null : () async {
-                              final voucher = context
-                                  .read<VoucherCubit>()
-                                  .state
-                                  .appliedVoucher;
+                      onPressed: (conditionsCheckOne == false ||
+                          conditionsCheckTwo == false)
+                          ? null
+                          : () async {
+                        final voucher = context
+                            .read<VoucherCubit>()
+                            .state
+                            .appliedVoucher;
 
-                              var redirectUrl =
-                                  await bloc?.checkOutForPayment(voucher);
+                        var redirectUrl =
+                        await bloc?.checkOutForPayment(voucher);
 
-                              if (redirectUrl != null) {
-                                final result = await context.router.push(
-                                  WebViewRoute(
-                                      url: "", htmlContent: redirectUrl),
-                                );
+                        if (redirectUrl != null) {
+                          final result = await context.router.push(
+                            WebViewRoute(
+                                url: "", htmlContent: redirectUrl),
+                          );
 
-                                if (result != null && result is String) {
-                                  final urlParsed = Uri.parse(result);
-                                  var query = urlParsed.queryParametersAll;
-                                  String? status = query['status']?.first;
-                                  String? superPNR = query['superPNR']?.first;
-                                  if (status != "FAIL") {
-                                    bloc?.reloadDataForConfirmation();
+                          if (result != null && result is String) {
+                            final urlParsed = Uri.parse(result);
+                            var query =
+                                urlParsed.queryParametersAll;
+                            String? status = query['status']?.first;
+                            String? superPNR =
+                                query['superPNR']?.first;
+                            if (status != "FAIL") {
+                              bloc?.reloadDataForConfirmation();
 
-                                    if (true) {
-                                      //mounted
-                                      /*final filter = context
+                              if (true) {
+                                //mounted
+                                /*final filter = context
                                     .read<SearchFlightCubit>()
                                     .state
                                     .filterState;
@@ -776,27 +749,27 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                   superPNR.setNoneIfNullOrEmpty,
                                   UserInsider.of(context).generateProduct(),
                                 );*/
-                                    }
-
-                                    //context.router.popUntilRoot();
-                                    context.router.replaceAll([
-                                      const NavigationRoute(),
-                                      ChangeFlightConfirmationRoute(
-                                        bookingId: superPNR ?? "",
-                                      ),
-                                    ]);
-                                  } else {
-                                    //    if (mounted) {
-                                    //     Toast.of(context).show(message: "Payment failed");
-                                    // }
-
-                                  }
-                                } else {}
                               }
-                              //if (flag == true) {}
-                            },
-                            child: const Text("Continue"),
-                          ),
+
+                              //context.router.popUntilRoot();
+                              context.router.replaceAll([
+                                const NavigationRoute(),
+                                ChangeFlightConfirmationRoute(
+                                  bookingId: superPNR ?? "",
+                                ),
+                              ]);
+                            } else {
+                              //    if (mounted) {
+                              //     Toast.of(context).show(message: "Payment failed");
+                              // }
+
+                            }
+                          } else {}
+                        }
+                        //if (flag == true) {}
+                      },
+                      child: Text('flightResult.continue'.tr()),
+                    ),
                   ],
                 ),
               ),
@@ -812,9 +785,9 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
       num calculateMoneyToShow) {
     try {
       return (changeFlightRequestResponse
-                  ?.result?.changeFlightResponse?.totalReservationAmount
-                  ?.toDouble() ??
-              0.0) -
+          ?.result?.changeFlightResponse?.totalReservationAmount
+          ?.toDouble() ??
+          0.0) -
           calculateMoneyToShow.toDouble();
     } catch (e) {
       return 0.0;
@@ -853,7 +826,7 @@ class PersonHeader extends StatelessWidget {
               bloc?.state.checkedDeparture == true) ...[
             Text(
               bloc?.onePersonTotalToShow(
-                      currentPerson.passengers?.fullName ?? '') ??
+                  currentPerson.passengers?.fullName ?? '') ??
                   '',
               style: kMediumHeavy.copyWith(
                 color: Styles.kPrimaryColor,
@@ -863,7 +836,7 @@ class PersonHeader extends StatelessWidget {
               bloc?.state.checkedDeparture == false) ...[
             Text(
               (bloc?.onePersonTotalToShowReturn(
-                      currentPerson.passengers?.fullName ?? '')) ??
+                  currentPerson.passengers?.fullName ?? '')) ??
                   '',
               style: kMediumHeavy.copyWith(
                 color: Styles.kPrimaryColor,
@@ -873,7 +846,7 @@ class PersonHeader extends StatelessWidget {
               bloc?.state.checkedDeparture == true) ...[
             Text(
               (bloc?.onePersonTotalToShowDepart(
-                      currentPerson.passengers?.fullName ?? '')) ??
+                  currentPerson.passengers?.fullName ?? '')) ??
                   '',
               style: kMediumHeavy.copyWith(
                 color: Styles.kPrimaryColor,
@@ -968,7 +941,7 @@ class PersonDeparture extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Seats',
+              'priceSection.seats'.tr(),
               style: kSmallHeavy.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -1021,7 +994,7 @@ class PersonDeparture extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Meals',
+              'priceSection.mealsTitle'.tr(),
               style: kSmallHeavy.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -1079,7 +1052,7 @@ class PersonDeparture extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Baggage',
+                'priceSection.baggageTitle'.tr(),
                 style: kSmallHeavy.copyWith(color: Styles.kTextColor),
               ),
             ),
@@ -1133,7 +1106,7 @@ class PersonDeparture extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Sports Equipment',
+              'priceSection.sportsEquipmentTitle'.tr(),
               style: kSmallHeavy.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -1186,7 +1159,7 @@ class PersonDeparture extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                'Insurance',
+                'priceSection.insuranceTitle'.tr(),
                 style: kSmallHeavy.copyWith(color: Styles.kTextColor),
               ),
             ),
@@ -1226,8 +1199,8 @@ class PersonDeparture extends StatelessWidget {
             ),
             Row(
               children: [
-                const Text(
-                  'Wheel Chair',
+                Text(
+                  'priceSection.wheelchair'.tr(),
                   style: kSmallRegular,
                 ),
                 const Spacer(),
@@ -1246,8 +1219,8 @@ class PersonDeparture extends StatelessWidget {
           if ((currentPerson.wheelChairReturn != null)) ...[
             Row(
               children: [
-                const Text(
-                  'Wheel Chair',
+                Text(
+                  'priceSection.wheelchair'.tr(),
                   style: kSmallRegular,
                 ),
                 const Spacer(),
@@ -1369,8 +1342,8 @@ class PersonDeparture extends StatelessWidget {
 
   String data(bool flag) {
     if (flag == true) {
-      return 'Departure Flight ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.departDetail?.routeNameToShow ?? ''}';
+      return '${'specialSelection.departureFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.departDetail?.routeNameToShow ?? ''}';
     }
-    return 'Return Flight ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.returnDetail?.routeNameToShow ?? ''}';
+    return '${'specialSelection.returnFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.returnDetail?.routeNameToShow ?? ''}';
   }
 }

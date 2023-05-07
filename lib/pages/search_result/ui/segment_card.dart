@@ -9,6 +9,7 @@ import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -79,7 +80,7 @@ class SegmentCard extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                 child: Column(
                   children: [
-                    Row(
+                   Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
@@ -130,7 +131,7 @@ class SegmentCard extends StatelessWidget {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "Direct flight\n${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
+                               "${'directFlight'.tr()}\n${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
                                 style: kSmallMedium,
                               ),
                             ),
@@ -150,8 +151,8 @@ class SegmentCard extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  "from",
+                                Text(
+                                  "from".tr(),
                                   style: kTinyHeavy,
                                 ),
                                 MoneyWidget(
@@ -191,7 +192,7 @@ class SegmentCard extends StatelessWidget {
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Text(
-                                    "Direct flight - ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
+                                    "${'flightSummary.directFlight'.tr()} ${NumberUtils.getTimeString(segment.segmentDetail?.flightTime)} ",
                                     style: kSmallMedium,
                                   ),
                                 ),
@@ -203,8 +204,8 @@ class SegmentCard extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "from",
+                                  Text(
+                                    "from".tr(),
                                     style: kTinyHeavy,
                                   ),
                                   MoneyWidget(
@@ -232,6 +233,7 @@ class SegmentCard extends StatelessWidget {
                         ),
                       ),
                     ],
+
                     FlightDetail(
                       isDeparture: isDeparture,
                       segment: segment,
@@ -282,7 +284,7 @@ class SegmentCard extends StatelessWidget {
                       }
                     }
                   },
-                  child: const Text("Select"),
+                  child: Text('flightSummary.select'.tr()),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 20),
@@ -309,7 +311,7 @@ class SegmentCard extends StatelessWidget {
                           .changeVisibility(true);
                       //context.router.pop();
                     },
-                    child: const Text("Change Flight"),
+                    child: Text("changeFlight".tr()),
                   ),
                 ),
               ),
@@ -350,6 +352,9 @@ class SegmentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -357,7 +362,7 @@ class SegmentHeader extends StatelessWidget {
         Text(
           AppDateUtils.formatHalfDate(isDeparture
               ? segmentDetail?.departureDate
-              : segmentDetail?.arrivalDate),
+              : segmentDetail?.arrivalDate,locale: locale),
           style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
         ),
         Text(
@@ -365,11 +370,12 @@ class SegmentHeader extends StatelessWidget {
             isDeparture
                 ? segmentDetail?.departureDate
                 : segmentDetail?.arrivalDate,
+          locale: locale
           ),
           style: kLargeHeavy,
         ),
         Text(
-          "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'Departure' : 'Arrival'}",
+          "${isDeparture ? segmentDetail?.origin : segmentDetail?.destination} - ${isDeparture ? 'departure'.tr() : 'arrival'.tr()}",
           style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
         )
       ],

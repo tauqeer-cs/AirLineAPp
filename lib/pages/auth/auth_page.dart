@@ -11,6 +11,7 @@ import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:app/widgets/wrapper/auth_wrapper.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -28,7 +29,7 @@ class AuthPage extends StatelessWidget {
         ],
         child: LoaderOverlay(
           useDefaultLoading: false,
-          overlayWidget: const AppLoadingScreen(message: "Loading"),
+          overlayWidget: AppLoadingScreen(message: "loading".tr()),
           child: MultiBlocListener(
             listeners: [
               BlocListener<LoginCubit, LoginState>(
@@ -90,7 +91,8 @@ class AuthPage extends StatelessWidget {
               "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
           confirmText: "Resend",
           onConfirm: () {
-            AuthenticationRepository().sendEmail(ResendEmailRequest(email: email));
+            AuthenticationRepository()
+                .sendEmail(ResendEmailRequest(email: email));
           },
           child: Column(
             children: [

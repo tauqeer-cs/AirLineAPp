@@ -1,5 +1,6 @@
 
 import 'package:app/pages/new_travel_date/ui/new_travel_date_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +16,7 @@ class NewTravelDatesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppAppBar(
         centerTitle: true,
-        title: 'Change Flight',
+        title: 'changeFlightView.changeFlight'.tr(),
         height: 60.h,
         overrideInnerHeight: true,
       ),

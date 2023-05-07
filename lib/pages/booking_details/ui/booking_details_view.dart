@@ -2,6 +2,7 @@ import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,6 +37,7 @@ class ManageBookingDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
+    final locale = context.locale.toString();
 
     return BlocBuilder<ManageBookingCubit, ManageBookingState>(
       builder: (context, state) {
@@ -72,7 +74,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                           child: FlightDataInfo(
                             headingLabel: 'Departure',
                             dateToShow: state.manageBookingResponse?.result
-                                    ?.departureDateToShow ??
+                                    ?.departureDateToShow(locale) ??
                                 '',
                             departureToDestinationCode: state
                                     .manageBookingResponse
@@ -80,7 +82,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     ?.departureToDestinationCode ??
                                 '',
                             departureDateWithTime: state.manageBookingResponse
-                                    ?.result?.departureDateWithTime ??
+                                    ?.result?.departureDateWithTime(locale) ??
                                 '',
                             departureAirportName: state.manageBookingResponse
                                     ?.result?.departureAirportName ??
@@ -89,7 +91,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     ?.result?.journeyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime: state.manageBookingResponse
-                                    ?.result?.arrivalDateWithTime ??
+                                    ?.result?.arrivalDateWithTime(locale) ??
                                 '',
                             arrivalAirportName: state.manageBookingResponse
                                     ?.result?.arrivalAirportName ??
@@ -121,9 +123,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                           ),
                           Expanded(
                             child: FlightDataInfo(
-                              headingLabel: 'Return',
+                              headingLabel: 'flightCharge.return'.tr(),
                               dateToShow: state.manageBookingResponse?.result
-                                  ?.returnDepartureDateToShow ??
+                                  ?.returnDepartureDateToShow(locale) ??
                                   '',
                               departureToDestinationCode: state.manageBookingResponse
                                   ?.result?.returnToDestinationCode ??
@@ -131,7 +133,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                               departureDateWithTime: state
                                   .manageBookingResponse
                                   ?.result
-                                  ?.returnDepartureDateWithTime ??
+                                  ?.returnDepartureDateWithTime(locale) ??
                                   '',
                               departureAirportName: state
                                   .manageBookingResponse
@@ -143,7 +145,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   ?.result
                                   ?.returnJourneyTimeInHourMin ??
                                   '',
-                              arrivalDateWithTime: state .manageBookingResponse ?.result ?.returnArrivalDateWithTime ?? '',
+                              arrivalDateWithTime: state .manageBookingResponse ?.result ?.returnArrivalDateWithTime(locale) ?? '',
                               arrivalAirportName: state
                                   .manageBookingResponse
                                   ?.result
@@ -161,7 +163,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                         onPressed: () {
                           onSharedTapped();
                         }, //isLoading ? null :
-                        child: const Text("Share"),
+                        child:  Text('flightChange.share'.tr()),
                         /*
                         * isLoading
                             ? const AppLoading(
@@ -185,7 +187,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       Toast.of(context).show(
                                           success: false,
                                           message:
-                                              "Sorry, your flight cannot be changed less than 48 hours before its scheduled departure time");
+                                              'flightCharge.twoDayChangeError'.tr());
                                       return;
                                     }
                                     bool? check = await showDialog(
@@ -194,7 +196,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         return const AlertWarningBeforeProceed();
                                       },
                                     );
-                                    //customSelected
                                     bloc?.setFlightDates();
 
                                     if (check == true) {
@@ -203,7 +204,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       );
                                     }
                                   },
-                        child: const Text('Change Flight'),
+                        child:  Text('flightResult.changeFlight'.tr()),
                       ),
                     ),
                   ],
@@ -246,10 +247,12 @@ class ManageBookingDetailsView extends StatelessWidget {
 
 class PlaneWithTime extends StatelessWidget {
   final String time;
+  final bool showDisabled;
 
   const PlaneWithTime({
     Key? key,
     required this.time,
+   this.showDisabled = false,
   }) : super(key: key);
 
   @override
@@ -259,7 +262,7 @@ class PlaneWithTime extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/images/icons/icoFlightBlack.png",
+          showDisabled ? "assets/images/icons/icoFlightDisabled.png" : "assets/images/icons/icoFlightBlack.png",
           width: 32,
           height: 32,
         ),
@@ -269,7 +272,7 @@ class PlaneWithTime extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
           decoration: BoxDecoration(
-            color: Styles.kTextColor,
+            color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor,
             borderRadius: BorderRadius.circular(18.0),
           ),
           child: Text(
@@ -292,11 +295,14 @@ class FlightInto extends StatelessWidget {
   final String timeString;
   final String location;
 
+  final bool showDisabled;
+
   const FlightInto({
     Key? key,
     required this.label,
     required this.timeString,
     required this.location,
+    this.showDisabled = false,
   }) : super(key: key);
 
   @override
@@ -307,16 +313,16 @@ class FlightInto extends StatelessWidget {
       children: [
         Text(
           label,
-          style: kSmallHeavy.copyWith(color: Styles.kTextColor),
+          style: kSmallHeavy.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
         ),
         Text(
           timeString,
-          style: kSmallMedium.copyWith(color: Styles.kTextColor),
+          style: kSmallMedium.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
         ),
         Text(
           location,
           maxLines: 4,
-          style: kSmallMedium.copyWith(color: Styles.kTextColor),
+          style: kSmallMedium.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
 
           //icoFlightBlack
         ),
@@ -332,6 +338,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -339,7 +346,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Flight Change Requirements",
+            'flightDetail.flightChangeReq'.tr(),
             textAlign: TextAlign.center,
             style: k18Heavy.copyWith(color: Styles.kTextColor),
           ),
@@ -359,29 +366,29 @@ class AlertWarningBeforeProceed extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
+            padding:  EdgeInsets.only(bottom: 16.0),
             child: Text(
-              "Flight ticket changes are subject to the following rules:",
+               'flightDetail.flightChangeRules'.tr(),
               style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              "• You may not change flights if your departure time is less than 48 hours from now.\n"
-              "• Your flight destination must be identical to the original.\n"
-              "• Your new fare cannot be lower than the original fare.\n"
-              "• Meals are subject to availability and the change must be made more than 24 hours before the flight.\n"
-              "• If you're travelling for longer than your travel insurance's coverage period, please ensure you are fully covered for the entire trip. Reach out to customer care to extend your coverage.\n"
-              "• Your baggage will be transferred over to the new flight.\n"
-              "• You may upgrade your baggage upon your flight change.",
+              "• ${'flightChange.rule1'.tr()}\n"
+              "• ${'flightChange.rule2'.tr()}\n"
+              "• ${'flightChange.rule3'.tr()}\n"
+              "• ${'flightChange.rule4'.tr()}.\n"
+              "• ${'flightChange.rule5'.tr()}\n"
+              "• ${'flightChange.rule6'.tr()}\n"
+              "• ${'flightChange.rule7'.tr()}",
               style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              "Proceed with flight change?",
+              'flightChangeProceedFlightChange'.tr(),
               style: kMediumRegular.copyWith(color: Styles.kTextColor),
             ),
           ),
@@ -394,7 +401,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                     }, //isLoading ? null :
-                    child: const Text("NO"),
+                    child:  Text('flightDetail.no'.tr()),
                     /*
                       * isLoading
                           ? const AppLoading(
@@ -405,7 +412,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
                 kHorizontalSpacerSmall,
                 Expanded(
                   child: ElevatedButton(
-                    child: const Text("Yes"),
+                    child: Text('flightDetail.yes'.tr()),
                     onPressed: () async {
                       Navigator.of(context).pop(true);
                     },

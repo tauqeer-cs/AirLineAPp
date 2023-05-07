@@ -10,6 +10,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,16 +53,16 @@ class PassengerSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Passenger",
+          'seatsSelection.passenger'.tr(),
           style: kLargeHeavy,
         ),
         kVerticalSpacerSmall,
         Container(
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             minHeight: 50,
           ),
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +127,7 @@ class PassengerSelector extends StatelessWidget {
         onChanged: (val) {
           context.read<SelectedPersonCubit>().selectPerson(val);
         },
-        dropdownDecoration: const DropDownDecoratorProps(
+        dropdownDecoration:  DropDownDecoratorProps(
             dropdownSearchDecoration: InputDecoration(
           border: InputBorder.none,
           disabledBorder: InputBorder.none,
@@ -134,16 +135,16 @@ class PassengerSelector extends StatelessWidget {
           errorBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
-          hintText: "Passenger",
+          hintText: 'seatsSelection.passenger'.tr(),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         )),
-        sheetTitle: "Passenger",
+        sheetTitle: 'seatsSelection.passenger'.tr(),
         isEnabled: true,
         valueTransformer: (value) {
           return DropdownTransformerWidget<Person>(
             value: value,
             valueCustom: value?.generateText(numberOfPerson),
-            hintText: "Please Select",
+            hintText: 'pleaseSelect'.tr(),
           );
         },
         valueTransformerItem: (value, selected) {

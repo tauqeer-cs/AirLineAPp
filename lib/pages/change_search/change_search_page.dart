@@ -4,6 +4,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +20,7 @@ class ChangeSearchPage extends StatelessWidget {
       create: (context) => PriceRangeCubit(),
       child: Scaffold(
         appBar: AppAppBar(
-          title: "Change Search",
+          title: "changeSearch".tr(),
           height: 100.h,
           flexibleWidget: AppBookingStep(
             passedSteps: const [BookingStep.flights],

@@ -2,6 +2,7 @@ import 'package:app/models/number_person.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/ui/filter/passengers_sheet.dart';
 import 'package:app/widgets/containers/bordered_container.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,16 +34,17 @@ class PassengersWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final numberOfPerson = context.watch<FilterCubit>().state.numberPerson;
     return InkWell(
-      onTap: ()=>_onPeoplePick(context),
+      onTap: () => _onPeoplePick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<NumberPerson>(
           value: numberOfPerson == NumberPerson.empty ? null : numberOfPerson,
-          label: "Passengers",
-          suffix: const Icon(Icons.keyboard_arrow_down_rounded, size: 25,),
+          label: "passengers".tr(),
+          suffix: const Icon(
+            Icons.keyboard_arrow_down_rounded,
+            size: 25,
+          ),
         ),
       ),
     );
   }
 }
-
-

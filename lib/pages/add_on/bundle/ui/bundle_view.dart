@@ -9,6 +9,7 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +37,10 @@ class _BundleViewState extends State<BundleView> {
             shrinkWrap: true,
             children: [
               kVerticalSpacer,
-              FlightDetailWidget(isDeparture: widget.isDeparture, addonType: AddonType.bundle,),
+              FlightDetailWidget(
+                isDeparture: widget.isDeparture,
+                addonType: AddonType.bundle,
+              ),
               kVerticalSpacer,
               BundleSection(isDeparture: widget.isDeparture),
               kVerticalSpacer,
@@ -120,7 +124,7 @@ class ContinueButton extends StatelessWidget {
           context.router.push(SeatsRoute());
         }
       },
-      child: const Text("Continue"),
+      child: Text("continue".tr()),
     );
   }
 }

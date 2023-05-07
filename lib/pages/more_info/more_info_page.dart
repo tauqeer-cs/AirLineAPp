@@ -1,5 +1,6 @@
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/pdf_viewer.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,22 +17,20 @@ class MoreOptionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final agentCms = context.watch<AgentSignUpCubit>().state.agentCms;
-
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: const AppLoadingScreen(message: 'Updating'),
+      overlayWidget: AppLoadingScreen(message: 'updating'.tr()),
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'More Options',
-          height: 80.h,
+          title: 'moreInfo'.tr(),
+          height: 60.h,
           overrideInnerHeight: true,
           child: Column(
             children: [
               Text(
-                'More Options',
+                'moreInfo'.tr(),
                 style: kHugeSemiBold.copyWith(
                   color: Styles.kDartTeal,
                 ),
@@ -58,9 +57,10 @@ class MoreOptionsPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>  PdfViewer(
-                                  title: 'Conditions of Carriage',
-                                  fileName: agentCms?.tnC ?? 'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
+                                builder: (context) => PdfViewer(
+                                  title: 'conditionsOfCarriage'.tr(),
+                                  fileName: agentCms?.tnC ??
+                                      'https://myacontents.blob.core.windows.net/myacontents/v40h1xe5/myairline-terms-conditions-of-carriage-final.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
@@ -69,33 +69,7 @@ class MoreOptionsPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8),
                             child: Text(
-                              'Conditions of Carriage',
-                              style: kLargeMedium.copyWith(
-                                color: Styles.kTextColor,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const Divider(),
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const PdfViewer(
-                                  title: 'Privacy Policy',
-                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
-                                  pdfIsLink: true,
-                                ),
-                              ),
-                            );
-
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 8, top: 16),
-                            child: Text(
-                              'Privacy Policy',
+                              'conditionsOfCarriage'.tr(),
                               style: kLargeMedium.copyWith(
                                 color: Styles.kTextColor,
                               ),
@@ -104,13 +78,14 @@ class MoreOptionsPage extends StatelessWidget {
                         ),
                         const Divider(),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const PdfViewer(
-                                  title: 'Terms of Use',
-                                  fileName: 'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
+                                builder: (context) => PdfViewer(
+                                  title: 'privacyPolicy'.tr(),
+                                  fileName:
+                                      'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                                   pdfIsLink: true,
                                 ),
                               ),
@@ -119,14 +94,38 @@ class MoreOptionsPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8, top: 16),
                             child: Text(
-                              'Terms of Use',
+                              'privacyPolicy'.tr(),
                               style: kLargeMedium.copyWith(
                                 color: Styles.kTextColor,
                               ),
                             ),
                           ),
                         ),
-                        //
+                        const Divider(),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PdfViewer(
+                                  title: 'termsOfUse'.tr(),
+                                  fileName:
+                                      'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/kbyjsapq/myairline_term-of-use_final.pdf',
+                                  pdfIsLink: true,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8, top: 16),
+                            child: Text(
+                              'termsOfUse'.tr(),
+                              style: kLargeMedium.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -135,16 +134,15 @@ class MoreOptionsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Text(
-                    '© 2022 MYAirline Reg No. 202101001075 (1401373-U).\nAll Rights Reserved',
+                    "app.copyright".tr(
+                        namedArgs: {'year': DateTime.now().year.toString()}),
                     style: kTinyRegular.copyWith(
                       color: Styles.kTextColor,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
-
-                const SizedBox(height: 52,),
-
+                const SizedBox(height: 52),
               ],
             ),
           ),

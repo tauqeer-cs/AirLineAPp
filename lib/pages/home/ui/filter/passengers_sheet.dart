@@ -3,6 +3,7 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +34,9 @@ class PassengersSheetState extends State<PassengersSheet> {
       }
     }
     if (peopleType == PeopleType.adult && !isAdd) {
-
+      if(context.read<FilterCubit>().state.numberPerson.hasOneAdult ){
+        return;
+      }
 
       final numOfAdult =
           context.read<FilterCubit>().state.numberPerson.numberOfAdult;
@@ -59,16 +62,16 @@ class PassengersSheetState extends State<PassengersSheet> {
       child: Wrap(
         children: [
           InputWithPlusMinus(
-            title: "Adults",
-            subtitle: "12 years and above",
+            title: 'customerSelect.adults'.tr(),
+            subtitle: 'customerSelect.adultDesc'.tr(),
             number: passengers.numberOfAdult,
             peopleType: PeopleType.adult,
             handler: changeNumber,
             totalNumber: passengers.totalPerson,
           ),
           InputWithPlusMinus(
-            title: "Children",
-            subtitle: "2 to 11 years",
+            title: 'customerSelect.children'.tr(),
+            subtitle: 'childDesc'.tr(),
             number: passengers.numberOfChildren,
             peopleType: PeopleType.child,
             handler: changeNumber,
@@ -76,8 +79,8 @@ class PassengersSheetState extends State<PassengersSheet> {
 
           ),
           InputWithPlusMinus(
-            subtitle: "Below 2 years",
-            title: "Infants",
+            subtitle: 'customerSelect.infantDesc'.tr(),
+            title: 'customerSelect.infant'.tr(),
             number: passengers.numberOfInfant,
             peopleType: PeopleType.infant,
             handler: changeNumber,
@@ -89,7 +92,7 @@ class PassengersSheetState extends State<PassengersSheet> {
               onPressed: () {
                 context.router.pop();
               },
-              child: const Text("Confirm"))
+              child: Text("passengerDetail.confirm".tr()))
         ],
       ),
     );
@@ -151,7 +154,7 @@ class InputWithPlusMinus extends StatelessWidget {
                             shape: const CircleBorder(),
                             padding: EdgeInsets.zero,
                             backgroundColor: Colors.transparent),
-                        onPressed: (peopleType == PeopleType.adult ? (number > 1) : (number > 0))
+                        onPressed: number > 0
                             ? () => handler(peopleType, false)
                             : null,
                         child: const Icon(

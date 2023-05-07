@@ -248,22 +248,22 @@ class FlightSegments extends Equatable {
 
    }
 
-  String get departureDateToTwoLine {
+  String  departureDateToTwoLine(String? locale) {
 
     if(departureDate == null){
       return '';
     }
 
-    return AppDateUtils.formatFullDateTwoLines(DateTime.parse(departureDate!));
+    return AppDateUtils.formatFullDateTwoLines(DateTime.parse(departureDate!),locale: locale);
   }
 
-  String get arrivalDateToTwoLine {
+  String arrivalDateToTwoLine(String? locale) {
 
     if(arrivalDate == null){
       return '';
     }
 
-    return AppDateUtils.formatFullDateTwoLines(DateTime.parse(arrivalDate!));
+    return AppDateUtils.formatFullDateTwoLines(DateTime.parse(arrivalDate!),locale: locale);
   }
 
    //    return AppDateUtils.formatFullDateTwoLines(

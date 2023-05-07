@@ -1,5 +1,6 @@
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,11 +10,13 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../widgets/app_card.dart';
 import '../../booking_details/ui/flight_data.dart';
+import '../../check_in/bloc/check_in_cubit.dart';
 import '../../checkout/pages/booking_confirmation/ui/payment_info.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 
 class ChangeFlightConfirmationView extends StatelessWidget {
-  const ChangeFlightConfirmationView({Key? key, required this.onShare}) : super(key: key);
+  const ChangeFlightConfirmationView({Key? key, required this.onShare})
+      : super(key: key);
 
   final VoidCallback onShare;
 
@@ -33,6 +36,9 @@ class ChangeFlightConfirmationView extends StatelessWidget {
   Widget build(BuildContext context) {
     ManageBookingCubit bloc = context.watch<ManageBookingCubit>();
 
+    CheckInCubit? blocList = context.watch<CheckInCubit>();
+    blocList.resetStates();
+    final locale = context.locale.toString();
     return bloc.state.loadingSummary
         ? const AppLoading()
         : Padding(
@@ -59,29 +65,14 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              true
-                                  ? const SizedBox(
+                             const SizedBox(
                                       width: 16,
-                                    )
-                                  : Padding(
-                                      padding: const EdgeInsets.all(0.0),
-                                      child: Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        value: bloc.state.checkedDeparture,
-                                        onChanged: (bool? value) {
-                                          bloc.setCheckDeparture(
-                                              value ?? false);
-                                        },
-                                      ),
                                     ),
                               Expanded(
                                 child: FlightDataInfo(
-                                  headingLabel: 'Departure',
+                                  headingLabel: 'departure'.tr(),
                                   dateToShow: bloc.state.manageBookingResponse
-                                          ?.result?.departureDateToShow ??
+                                          ?.result?.departureDateToShow(locale) ??
                                       '',
                                   departureToDestinationCode: bloc
                                           .state
@@ -93,7 +84,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                           .state
                                           .manageBookingResponse
                                           ?.result
-                                          ?.departureDateWithTime ??
+                                          ?.departureDateWithTime(locale) ??
                                       '',
                                   departureAirportName: bloc
                                           .state
@@ -111,7 +102,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                           .state
                                           .manageBookingResponse
                                           ?.result
-                                          ?.arrivalDateWithTime ??
+                                          ?.arrivalDateWithTime(locale) ??
                                       '',
                                   arrivalAirportName: bloc
                                           .state
@@ -132,33 +123,21 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                               false) ...[
                             Row(
                               children: [
-                                true
-                                    ? const SizedBox(
+                                 const SizedBox(
                                         width: 16,
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.all(0.0),
-                                        child: Checkbox(
-                                          checkColor: Colors.white,
-                                          fillColor:
-                                              MaterialStateProperty.resolveWith(
-                                                  getColor),
-                                          value: bloc.state.checkReturn,
-                                          onChanged: (bool? value) {
-                                            bloc.setCheckReturn(value ?? false);
-                                          },
-                                        ),
                                       ),
+
                                 Expanded(
                                   child: FlightDataInfo(
-                                    headingLabel: 'Return',
+                                    headingLabel: 'return'.tr(),
                                     dateToShow: bloc
                                             .state
                                             .manageBookingResponse
                                             ?.result
-                                            ?.returnDepartureDateToShow ??
+                                            ?.returnDepartureDateToShow(locale) ??
                                         '',
-                                    departureToDestinationCode: bloc.state
+                                    departureToDestinationCode: bloc
+                                            .state
                                             .manageBookingResponse
                                             ?.result
                                             ?.returnToDestinationCode ??
@@ -167,7 +146,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                             .state
                                             .manageBookingResponse
                                             ?.result
-                                            ?.returnDepartureDateWithTime ??
+                                            ?.returnDepartureDateWithTime(locale) ??
                                         '',
                                     departureAirportName: bloc
                                             .state
@@ -185,7 +164,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                             .state
                                             .manageBookingResponse
                                             ?.result
-                                            ?.returnArrivalDateWithTime ??
+                                            ?.returnArrivalDateWithTime(locale) ??
                                         '',
                                     arrivalAirportName: bloc
                                             .state
@@ -203,10 +182,9 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: OutlinedButton(
                               onPressed: () {
-                                 onSharedTapped();
-
+                                onSharedTapped();
                               }, //isLoading ? null :
-                              child: const Text("Share"),
+                              child:  Text("flightChange.share".tr()),
                               /*
                           * isLoading
                               ? const AppLoading(
@@ -228,7 +206,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                   ManageBookingDetailsRoute(),
                                 ]);
                               },
-                              child: const Text('Change Flight'),
+                              child: Text('changeFlight'.tr()),
                             ),
                           ),
                           const SizedBox(

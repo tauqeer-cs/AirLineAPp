@@ -323,6 +323,34 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    CheckInDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<CheckInDetailsRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: CheckInDetailsPage(
+          key: args.key,
+          isPast: args.isPast,
+        ),
+      );
+    },
+    CheckInBoardingPassRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CheckInBoardingPassPage(),
+      );
+    },
+    CheckInErrorRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const CheckInErrorPage(),
+      );
+    },
+    LanguageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const LanguagePage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
@@ -587,6 +615,22 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           ChangeFlightConfirmationRoute.name,
           path: '/change-flight-confirmation',
+        ),
+        RouteConfig(
+          CheckInDetailsRoute.name,
+          path: '/check_in_details',
+        ),
+        RouteConfig(
+          CheckInBoardingPassRoute.name,
+          path: '/check_in_boarding_pass',
+        ),
+        RouteConfig(
+          CheckInErrorRoute.name,
+          path: '/check_in_error',
+        ),
+        RouteConfig(
+          LanguageRoute.name,
+          path: '/language',
         ),
       ];
 }
@@ -1384,6 +1428,76 @@ class ChangeFlightConfirmationRouteArgs {
   String toString() {
     return 'ChangeFlightConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
   }
+}
+
+/// generated route for
+/// [CheckInDetailsPage]
+class CheckInDetailsRoute extends PageRouteInfo<CheckInDetailsRouteArgs> {
+  CheckInDetailsRoute({
+    Key? key,
+    required bool isPast,
+  }) : super(
+          CheckInDetailsRoute.name,
+          path: '/check_in_details',
+          args: CheckInDetailsRouteArgs(
+            key: key,
+            isPast: isPast,
+          ),
+        );
+
+  static const String name = 'CheckInDetailsRoute';
+}
+
+class CheckInDetailsRouteArgs {
+  const CheckInDetailsRouteArgs({
+    this.key,
+    required this.isPast,
+  });
+
+  final Key? key;
+
+  final bool isPast;
+
+  @override
+  String toString() {
+    return 'CheckInDetailsRouteArgs{key: $key, isPast: $isPast}';
+  }
+}
+
+/// generated route for
+/// [CheckInBoardingPassPage]
+class CheckInBoardingPassRoute extends PageRouteInfo<void> {
+  const CheckInBoardingPassRoute()
+      : super(
+          CheckInBoardingPassRoute.name,
+          path: '/check_in_boarding_pass',
+        );
+
+  static const String name = 'CheckInBoardingPassRoute';
+}
+
+/// generated route for
+/// [CheckInErrorPage]
+class CheckInErrorRoute extends PageRouteInfo<void> {
+  const CheckInErrorRoute()
+      : super(
+          CheckInErrorRoute.name,
+          path: '/check_in_error',
+        );
+
+  static const String name = 'CheckInErrorRoute';
+}
+
+/// generated route for
+/// [LanguagePage]
+class LanguageRoute extends PageRouteInfo<void> {
+  const LanguageRoute()
+      : super(
+          LanguageRoute.name,
+          path: '/language',
+        );
+
+  static const String name = 'LanguageRoute';
 }
 
 /// generated route for

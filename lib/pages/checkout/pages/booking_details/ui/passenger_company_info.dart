@@ -6,6 +6,7 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -77,11 +78,11 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Company Tax Invoice ",
+                          text: 'companyContact.companyTaxInvoice'.tr(),
                           style: k18Heavy.copyWith(color: Styles.kTextColor),
                         ),
                         TextSpan(
-                          text: "(Optional)",
+                          text: "(${'optional'.tr()})",
                           style:
                               kMediumRegular.copyWith(color: Styles.kTextColor),
                         ),
@@ -107,7 +108,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
               AppInputText(
                 name: formNameCompanyName,
                 initialValue: name,
-                hintText: "Company Name",
+                hintText: 'companyName'.tr(),
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -127,7 +128,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
               AppInputText(
                 name: formNameCompanyAddress,
                 initialValue: address,
-                hintText: "Company Address",
+                hintText: 'companyAddress'.tr(),
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -143,7 +144,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 name: formNameCompanyCountry,
                 child: AppCountriesDropdown(
                   dropdownDecoration: Styles.getDefaultFieldDecoration(),
-                  hintText: "Country",
+                  hintText: "country".tr(),
                   isPhoneCode: false,
                 ),
               ),
@@ -153,7 +154,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
               AppInputText(
                 name: formNameCompanyState,
                 initialValue: state,
-                hintText: "State",
+                hintText: 'state'.tr(),
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -167,7 +168,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
               AppInputText(
                 name: formNameCompanyCity,
                 initialValue: city,
-                hintText: "City",
+                hintText: 'city'.tr(),
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -181,7 +182,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
               AppInputText(
                 name: formNameCompanyPostCode,
                 initialValue: postCode,
-                hintText: "Postcode",
+                hintText: 'postcode'.tr(),
                 onChanged: (value) {
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
@@ -194,7 +195,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
               kVerticalSpacer,
               AppInputText(
                 name: formNameCompanyEmailAddress,
-                hintText: "Email Address",
+                hintText: 'emailAddress'.tr(),
                 textEditingController: emailController,
                 validators: [FormBuilderValidators.email()],
                 onChanged: (value) {

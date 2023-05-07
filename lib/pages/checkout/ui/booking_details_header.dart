@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/theme.dart';
@@ -10,8 +11,8 @@ class BookingDetailsHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Booking Details",
+        Text(
+          "bookingDetails".tr(),
           style: kHugeHeavy,
         ),
         kVerticalSpacerSmall,
@@ -19,21 +20,21 @@ class BookingDetailsHeader extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: "Fill in all passenger details as it appears on their passport or government-issued ID. Passport expiry dates are required to be more than",
+                text: "bookingForm.bookingDetailsDesc1".tr(),
                 style: kMediumRegular.copyWith(
                   color: Styles.kTextColor,
                   height: 1.5,
                 ),
               ),
               TextSpan(
-                text: ' 6 months ',
+                text: '  ${'bookingForm.bookingDetailsDesc2'.tr()}',
                 style: kMediumHeavy.copyWith(
                   color: Styles.kTextColor,
                   height: 1.5,
                 ),
               ),
               TextSpan(
-                text: 'away from the flight date. Otherwise, your entry to the destination country may be denied.',
+                text: 'bookingForm.bookingDetailsDesc2'.tr(),
                 style: kMediumRegular.copyWith(
                   color: Styles.kTextColor,
                   height: 1.5,

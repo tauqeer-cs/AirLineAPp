@@ -5,6 +5,7 @@ import 'package:app/pages/checkout/pages/booking_confirmation/bloc/confirmation_
 import 'package:app/pages/checkout/pages/booking_confirmation/ui/fare_detail_widget.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,8 +37,8 @@ class FaresAndBundles extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Text(
-              "Fees and Taxes",
+             Text(
+              "feesTaxes".tr(),
               style: k18Heavy,
             ),
             const Spacer(),
@@ -50,7 +51,7 @@ class FaresAndBundles extends StatelessWidget {
           ],
         ),
         kVerticalSpacerMini,
-        FareDetailWidget(),
+        const FareDetailWidget(),
         kVerticalSpacerSmall,
       ],
     );

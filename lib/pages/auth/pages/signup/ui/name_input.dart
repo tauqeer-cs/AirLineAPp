@@ -5,6 +5,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -42,9 +43,8 @@ class NameInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormHeader(
-          title: title ?? "What's your full name?",
-          subtitle:
-              subText ?? "Please ensure your full name is the same as it appears on your passport or government-issued ID. ",
+          title: title ?? 'fullNameQuestion'.tr(),
+          subtitle: subText ?? 'fullNameDesc'.tr(),
           graySubText: true,
           smallerHeaderText: true,
         ),
@@ -55,10 +55,10 @@ class NameInput extends StatelessWidget {
             children: [
               AppDropDown<String>(
                 items: availableTitle,
-                defaultValue: initialTitle ?? "Mr.",
-                sheetTitle: "Title",
+                defaultValue: initialTitle ?? 'mr'.tr(),
+                sheetTitle: 'title'.tr(),
                 onChanged: (value) {
-                  if(isSignUp){
+                  if (isSignUp) {
                     context.read<SignupCubit>().editTitle(value);
                   }
                   onTitleChanged?.call(value);
@@ -69,7 +69,7 @@ class NameInput extends StatelessWidget {
                 isRequired: false,
                 textInputType: TextInputType.name,
                 name: formNameFirstName,
-                hintText: 'First Name',
+                hintText: 'firstName'.tr(),
                 initialValue: firstNameInitValue,
                 validators: [
                   FormBuilderValidators.required(),
@@ -81,7 +81,7 @@ class NameInput extends StatelessWidget {
                 textInputType: TextInputType.name,
                 name: formNameLastName,
                 initialValue: lastNameInitValue,
-                hintText: 'Last Name',
+                hintText: 'lastName'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                 ],

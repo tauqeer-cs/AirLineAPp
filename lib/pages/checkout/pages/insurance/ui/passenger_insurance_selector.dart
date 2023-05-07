@@ -1,6 +1,7 @@
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +15,7 @@ class PassengerInsuranceSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final insuranceCubit = context.watch<InsuranceCubit>().state;
-    final passengers = insuranceCubit.passengers;
+    final passengers = insuranceCubit.passengersWithOutInfants;
     final selectedPassengers = insuranceCubit.selectedPassenger;
 
     final agentCms = context.watch<AgentSignUpCubit>();
@@ -24,7 +25,7 @@ class PassengerInsuranceSelector extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Passenger",
+          "passenger".tr(),
           style: kLargeHeavy,
         ),
         kVerticalSpacerSmall,
@@ -40,7 +41,7 @@ class PassengerInsuranceSelector extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: passengers.mapIndexed((index,person) {
+                children: passengers.mapIndexed((index, person) {
                   bool isActive = selectedPassengers == index;
                   return GestureDetector(
                     onTap: () {
@@ -86,7 +87,7 @@ class PassengerInsuranceSelector extends StatelessWidget {
   }
 
   String getPersonSelectorText(bool isActive, Passenger passenger,AgentSignUpCubit? agentCms) {
-    if (isActive) return "Selecting";
+    if (isActive) return "selecting".tr();
     if (passenger.ifPassengerHasInsurance != null) {
       if(passenger.passengerInsuranceCode != null) {
         if (passenger.passengerInsuranceCode?.toLowerCase().contains('d') == true){

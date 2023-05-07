@@ -5,6 +5,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:app/utils/widget_utils.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,16 +25,15 @@ class _NavigationPageState extends State<NavigationPage> {
     initDialogSystem();
   }
 
-  initDialogSystem() async{
-    try{
+  initDialogSystem() async {
+    try {
       await RemoteConfigRepository.versionChecking();
-      if(mounted) {
+      if (mounted) {
         WidgetUtils.appUpdateDialog(context);
       }
-    }catch(e,st){
+    } catch (e, st) {
       ErrorUtils.getErrorMessage(e, st);
     }
-
   }
 
   initDynamicLink(BuildContext context) async {}
@@ -50,13 +50,13 @@ class _NavigationPageState extends State<NavigationPage> {
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: [
-            const BottomNavigationBarItem(
-              icon: Icon(MyFlutterApp.icohome),
-              label: "Home",
+            BottomNavigationBarItem(
+              icon: const Icon(MyFlutterApp.icohome),
+              label: 'home'.tr(),
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(MyFlutterApp.ico_deals),
-              label: "Deals",
+            BottomNavigationBarItem(
+              icon: const Icon(MyFlutterApp.ico_deals),
+              label: 'deals'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
@@ -65,7 +65,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 color:
                     tabsRouter.activeIndex == 2 ? Styles.kPrimaryColor : null,
               ),
-              label: "Bookings",
+              label: 'bookings'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
@@ -74,7 +74,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     tabsRouter.activeIndex == 3 ? Styles.kPrimaryColor : null,
                 height: 30,
               ),
-              label: "Check-In",
+              label: 'checkInDash'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
@@ -83,7 +83,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     tabsRouter.activeIndex == 4 ? Styles.kPrimaryColor : null,
                 height: 30,
               ),
-              label: isLogin ? "Account" : "Login",
+              label: isLogin ? 'navBar.account'.tr() : 'logIn'.tr(),
             ),
           ],
         );
@@ -98,4 +98,3 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 }
-

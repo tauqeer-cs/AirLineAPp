@@ -45,13 +45,15 @@ class _CMSProvider implements CMSProvider {
 
   @override
   Future<HomeResponse> getHomeContent(
-    key, {
+    key,
+    timestamp, {
     query =
         "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
+      r'timestamp': timestamp,
       r'query': query,
     };
     queryParameters.removeWhere((k, v) => v == null);
@@ -79,12 +81,14 @@ class _CMSProvider implements CMSProvider {
     key, {
     query = "content,image,title,description,code",
     deep = "6",
+    language = "en",
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
       r'query': query,
       r'deep': deep,
+      r'lang': language,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -199,6 +203,7 @@ class _CMSProvider implements CMSProvider {
     query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
     deep = "6",
     timestamp = '1650012345',
+    lang = 'en_US',
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -206,6 +211,7 @@ class _CMSProvider implements CMSProvider {
       r'query': query,
       r'deep': deep,
       r'timestamp': timestamp,
+      r'lang': lang,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

@@ -3,7 +3,6 @@ import 'package:app/app/app_router.dart';
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/info/info_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
-import 'package:app/pages/checkout/pages/booking_details/ui/booking_details_view.dart';
 import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:app/pages/checkout/pages/insurance/ui/insurance_view.dart';
 import 'package:app/widgets/app_app_bar.dart';
@@ -11,11 +10,13 @@ import 'package:app/widgets/app_booking_step.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../../blocs/auth/auth_bloc.dart';
 import '../../../../blocs/settings/settings_cubit.dart';
 import '../../../../blocs/voucher/voucher_cubit.dart';
 
@@ -28,25 +29,43 @@ class InsurancePage extends StatefulWidget {
 
 class _InsurancePageState extends State<InsurancePage> {
   @override
+  void initState() {
+    print("reinit insurance page");
+    final passengers = context
+            .read<SummaryCubit>()
+            .state
+            .summaryRequest
+            ?.flightSummaryPNRRequest
+            .passengers ??
+        [];
+    context.read<InsuranceCubit>().init(passengers);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final passengers = context.watch<SummaryCubit>().state.summaryRequest?.flightSummaryPNRRequest.passengers ?? [];
+    final user = context.read<AuthBloc>().state.user;
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: "Loading"),
+        overlayWidget: AppLoadingScreen(message: "loading".tr()),
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => InfoCubit()),
-            BlocProvider(create: (context) => InsuranceCubit()..init(passengers)),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
+            listenWhen: (prev, curr) {
+
+              return prev.blocState != curr.blocState;
+            },
             listener: (context, state) {
               blocListenerWrapper(
                 blocState: state.blocState,
                 onLoading: () {
                   context.loaderOverlay.show(
-                    widget: const AppLoadingScreen(message: "Loading"),
+                    widget: AppLoadingScreen(message: "loading".tr()),
                   );
                 },
                 onFailed: () {
@@ -75,10 +94,16 @@ class _InsurancePageState extends State<InsurancePage> {
                     context.read<VoucherCubit>().state.copyWith(
                         flightToken: state.summaryResponse?.token ??
                             state.summaryResponse!.token);
-                    if (token != null) {
+                    if(user?.token == null){
+
+                    }
+                    else if (token != null) {
                       context
                           .read<VoucherCubit>()
                           .getAvailablePromotions(token);
+                    }
+                    else {
+
                     }
                   }
                   //VoucherCubit
@@ -87,7 +112,7 @@ class _InsurancePageState extends State<InsurancePage> {
             },
             child: Scaffold(
               appBar: AppAppBar(
-                title: "You Are Almost There",
+                title: "almostThere".tr(),
                 height: 100.h,
                 flexibleWidget: AppBookingStep(
                   passedSteps: const [

@@ -5,6 +5,7 @@ import 'package:app/pages/search_result/bloc/summary_container_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
@@ -14,17 +15,17 @@ class BookingSummary extends StatelessWidget {
   final bool isChangeFlight;
   final double? totalAmountToShow;
   final double additionalNumber;
-
   final String? changeFlightCurrency;
 
-  const BookingSummary({
-    Key? key,
-    this.labelToShow,
-    this.totalAmountToShow,
-    this.isChangeFlight = false,
-    this.additionalNumber = 0,
-    this.changeFlightCurrency
-  }) : super(key: key);
+  const BookingSummary(
+      {Key? key,
+        this.labelToShow,
+        this.totalAmountToShow,
+        this.isChangeFlight = false,
+        this.additionalNumber = 0,
+      this.changeFlightCurrency,
+      })
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +43,11 @@ class BookingSummary extends StatelessWidget {
         ?.redemptionAmount ??
         0;
 
-    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          labelToShow ?? "Your total booking",
+          labelToShow ?? "yourTotalBooking".tr(),
           style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
         ),
         MoneyWidget(
@@ -58,7 +57,8 @@ class BookingSummary extends StatelessWidget {
               booking.getFinalPriceDisplay +
                   (filterState?.numberPerson.getTotal() ?? 0) -
                   discount -
-                  redeemAmount + additionalNumber,
+                  redeemAmount +
+                  additionalNumber,
         ),
         kVerticalSpacer,
       ],

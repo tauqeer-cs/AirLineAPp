@@ -8,6 +8,7 @@ import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,8 +52,8 @@ class SeatSummaryDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ChildRow(
-            child1: const Text(
-              "Seat",
+            child1: Text(
+              "seat".tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -64,8 +65,8 @@ class SeatSummaryDetail extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-          const Text(
-            "Depart",
+          Text(
+            "depart".tr(),
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
@@ -86,7 +87,7 @@ class SeatSummaryDetail extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 6),
                         child: Text(
-                          "- ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                          "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
                           style:
                               kMediumRegular.copyWith(color: Styles.kActiveGrey),
                         ),
@@ -106,16 +107,16 @@ class SeatSummaryDetail extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Return",
+                Text(
+                  "return".tr(),
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,
                 ...persons.map(
                   (e) {
                     final seats = e.returnSeats;
-                    final row = (rowsReturn ?? [])
-                        .firstWhereOrNull((element) => element.rowId == seats?.rowId);
+                    final row = (rowsReturn ?? []).firstWhereOrNull(
+                        (element) => element.rowId == seats?.rowId);
                     return Visibility(
                       visible: e.getPartialPriceSeatPartial(false) > 0,
                       child: ChildRow(
@@ -125,7 +126,7 @@ class SeatSummaryDetail extends StatelessWidget {
                             Text(
                               e.generateText(numberOfPerson, separator: "& "),
                             ),
-                            SummaryListItem(text: seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}',),
+                            SummaryListItem(text: seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}',),
 
                           ],
                         ),

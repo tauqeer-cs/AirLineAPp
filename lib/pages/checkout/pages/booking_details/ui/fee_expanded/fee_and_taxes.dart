@@ -6,6 +6,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,7 +59,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             child: Row(
               children: [
                 Text(
-                  isPaymentPage ? "Fees and Taxes " : "- Fees and Taxes",
+                  isPaymentPage ? "feesTaxes".tr() : "- ${"feesTaxes".tr()}",
                   style: kMediumHeavy,
                 ),
                 kHorizontalSpacerSmall,
@@ -73,7 +74,6 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             ),
           ),
         ),
-
         FeeAndTaxesDetail(
           isDeparture: widget.isDeparture,
           padding: 0,

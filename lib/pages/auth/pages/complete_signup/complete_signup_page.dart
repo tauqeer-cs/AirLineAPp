@@ -7,6 +7,7 @@ import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_logo_widget.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CompleteSignupPage extends StatelessWidget {
@@ -52,7 +53,7 @@ class CompleteSignupPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Congrats ${signupRequest.firstName}",
+                            "${'signUp3.congrats'.tr()} ${signupRequest.firstName}",
                             style: kGiantHeavy.copyWith(fontSize: 26),
                           ),
                           kVerticalSpacerSmall,
@@ -60,28 +61,28 @@ class CompleteSignupPage extends StatelessWidget {
                             visible: step != 3,
                             child: Text(
                               step == 1
-                                  ? "Tell us more about yourself."
-                                  : "Worry not, all questions are in accordance with MYAirline guidelines",
+                                  ? "signUpDescription".tr()
+                                  : "worryNot".tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kSubTextColor, fontSize: 16),
                             ),
                           ),
                           Text(
-                            "Hi, your MYReward registration is complete!",
+                            "signUp3.congratsDesc".tr(),
                             style: kLargeRegular.copyWith(
                               color: Styles.kSubTextColor,
                             ),
                           ),
                           kVerticalSpacerSmall,
                           Text(
-                            "Check your email ${(signupRequest.email ?? "").sensorEmailFront()} for a verification link to verify your email. If you didn't receive anything",
+                            "${'signUp3.checkEmail1'.tr()} ${(signupRequest.email ?? "").sensorEmailFront()} ",
                             style: kLargeHeavy.copyWith(
                               color: Styles.kSubTextColor,
                             ),
                           ),
                           kVerticalSpacerSmall,
                           Text(
-                            "Click the 'Resend Link' button to resend the email.",
+                            "clickResendLinkMessage".tr(),
                             style: kLargeRegular.copyWith(
                               color: Styles.kSubTextColor,
                             ),
@@ -92,10 +93,13 @@ class CompleteSignupPage extends StatelessWidget {
                               AuthenticationRepository().sendEmail(
                                 ResendEmailRequest(email: signupRequest.email),
                               );
-                              Toast.of(context)
-                                  .show(success: true, message: "Email sent.");
+                              Toast.of(context).show(
+                                  success: true,
+                                  message: "signUp3.emailSuccess".tr());
                             },
-                            child: const Text("Resend Link"),
+                            child: Text(
+                              "signUp3.resendLink".tr(),
+                            ),
                           )
                         ],
                       ),

@@ -1,4 +1,5 @@
 import 'package:app/pages/friends_family/ui/friend_family_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,29 +49,26 @@ class FriendsFamilyPage extends StatelessWidget {
               if (state.blocState == BlocState.loading) {
                 return Container(
                   color: Colors.white,
-                  child: const AppLoadingScreen(message: 'Loading'),
+                  child:  AppLoadingScreen(message: 'loading'.tr()),
                 );
               }
               return LoaderOverlay(
                 useDefaultLoading: false,
-                overlayWidget: const AppLoadingScreen(message: 'Loading'),
+                overlayWidget:  AppLoadingScreen(message: 'loading'.tr()),
                 child: Scaffold(
                   appBar: AppAppBar(
                     centerTitle: true,
-                    title: 'Personal Info',
-                    height: 80.h,
+                    title: 'familyDetail.familyFriends'.tr(),
+                    height: 60.h,
                     overrideInnerHeight: true,
                     child: Column(
                       children: [
                         Text(
-                          'Family and Friends',
+                          'familyDetail.familyFriends'.tr(),
                           style: kHugeSemiBold.copyWith(
                               color: Styles.kDartTeal),
                         ),
-                        kVerticalSpacerSmall,
-                        Text('Your details and contact info.',
-                            style: kLargeRegular.copyWith(
-                                color: Styles.kSubTextColor)),
+
                       ],
                     ),
                   ),

@@ -6,6 +6,7 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -65,7 +66,7 @@ class LoginForm extends StatelessWidget {
               ),
               kHorizontalSpacerMini,
               Text(
-                "Login",
+                'logIn'.tr(),
                 style: kHugeMedium.copyWith(color: Styles.kPrimaryColor),
               ),
             ],
@@ -77,7 +78,8 @@ class LoginForm extends StatelessWidget {
                 kVerticalSpacer,
                 ElevatedButton(
                     onPressed: () => context.router.pop(),
-                    child: const Text("Continue As Guest")),
+                    child:
+                     Text('continueGuest'.tr())),
                 kVerticalSpacerSmall,
                 Row(
                   children: [
@@ -87,12 +89,14 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                    const Text("or"),
+                     Text(
+                        'loginVerify.or'.tr()
+                    ),
                     kHorizontalSpacerMini,
                     Expanded(
                         child: AppDividerWidget(
-                      color: Styles.kSubTextColor,
-                    )),
+                          color: Styles.kSubTextColor,
+                        )),
                   ],
                 ),
                 kVerticalSpacerSmall,
@@ -108,10 +112,9 @@ class LoginForm extends StatelessWidget {
             child: AppInputText(
               topPadding: 0,
               isRequired: false,
-              fillColor: Colors.blueAccent,
               textInputType: TextInputType.emailAddress,
               name: formEmailLoginName,
-              hintText: 'Email Address',
+              hintText: 'emailAddress'.tr(),
               maxLength: 45,
               validators: [
                 FormBuilderValidators.required(),
@@ -127,7 +130,7 @@ class LoginForm extends StatelessWidget {
             ),
             child: AppInputPassword(
               name: formPasswordLoginName,
-              hintText: "Password",
+              hintText: 'password'.tr(),
               validators: [FormBuilderValidators.required()],
               isDarkBackground: false,
             ),
@@ -138,14 +141,16 @@ class LoginForm extends StatelessWidget {
                 context.router.push(const ForgetPasswordRoute());
               },
               child: Text(
-                "Forgotten your password?",
+                'forgottenYourPassword'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               )),
           kVerticalSpacerMini,
           ElevatedButton(
             onPressed: () => onLogin(context),
-            child: const Text(
-              "Login",
+            child:  Text(
+              'loginVerify.logIn'.tr(),
+
+
               style: kLargeHeavy,
             ),
           ),
@@ -154,11 +159,13 @@ class LoginForm extends StatelessWidget {
             onPressed: () => context.router.push(
               const SignupWrapperRoute(),
             ), //kMedium15Heavy
-            child: const Text(
-              "Create Account",
-              style: kLargeHeavy,
+            child:
+               Text('createAccount'.tr(),
+    style: kLargeHeavy,
+    ),
+
             ),
-          )
+
         ],
       ),
     );

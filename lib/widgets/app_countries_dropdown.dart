@@ -5,6 +5,7 @@ import 'package:app/models/country.dart';
 import 'package:app/pages/home/ui/filter/dropdown_transformer.dart';
 import 'package:app/theme/theme.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,8 @@ class AppCountriesDropdown extends StatelessWidget {
   final Function(Country?)? onChanged;
   final DropDownDecoratorProps? dropdownDecoration;
 
+  final String? customSheetTitle;
+  final  bool hideDefualttValue;
   const AppCountriesDropdown({
     Key? key,
     this.initialValue,
@@ -25,6 +28,8 @@ class AppCountriesDropdown extends StatelessWidget {
     this.hintText,
     this.initialCountryCode,
     this.validators,
+    this.customSheetTitle,
+    this.hideDefualttValue = false,
     this.onChanged, this.dropdownDecoration,
   }) : super(key: key);
 
@@ -51,9 +56,9 @@ class AppCountriesDropdown extends StatelessWidget {
         return blocBuilderWrapper(
           blocState: state.blocState,
           finishedBuilder: AppDropDown<Country>(
-            sheetTitle: isPhoneCode ? "Phone" : "Country",
+            sheetTitle: isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue:
-                selectedCountry ?? initialValue ?? Country.defaultCountry,
+                true ? null : selectedCountry ?? initialValue ?? Country.defaultCountry,
             onChanged: onChanged,
             dropdownDecoration: dropdownDecoration,
             valueTransformerItem: (value, selected) {

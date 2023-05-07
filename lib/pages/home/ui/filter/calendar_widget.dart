@@ -6,6 +6,7 @@ import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/containers/bordered_container.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,12 +57,14 @@ class CalendarWidget extends StatelessWidget {
     final origin = filterState.origin;
     final destination = filterState.destination;
     final List<String> texts = [];
+    final locale = context.locale.toString();
+
     if (departDate != null) {
-      final dateText = AppDateUtils.formatDateWithoutLocale(departDate);
+      final dateText = AppDateUtils.formatDateWithoutLocale(departDate,locale: locale);
       texts.add(dateText);
     }
     if (returnDate != null) {
-      final dateText = AppDateUtils.formatDateWithoutLocale(returnDate);
+      final dateText = AppDateUtils.formatDateWithoutLocale(returnDate,locale: locale);
       texts.add(dateText);
     }
     /*if (texts.isEmpty) {
@@ -74,8 +77,8 @@ class CalendarWidget extends StatelessWidget {
           : () => _onCalendarPick(context),
       child: BorderedContainer(
         child: DropdownTransformerWidget<String>(
-          value: texts.isEmpty ? null : texts.join(" to "),
-          hintText: "Dates",
+          value: texts.isEmpty ? null : texts.join(" ${"to".tr()} "),
+          hintText: "dates".tr(),
           prefix: Icon(
             MyFlutterApp.icodate,
             size: 20,

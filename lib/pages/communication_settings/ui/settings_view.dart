@@ -1,5 +1,6 @@
 import 'package:app/blocs/profile/profile_cubit.dart';
 import 'package:app/models/profile.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/flutter_insider.dart';
@@ -23,7 +24,6 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     communicationPreferences =
         context.read<ProfileCubit>().state.profile?.communicationPreferences ??
@@ -38,7 +38,7 @@ class _SettingsViewState extends State<SettingsView> {
         children: [
           SwitchListTile(
             value: communicationPreferences.email ?? false,
-            title: const Text("Email"),
+            title:  Text('loginForm.email'.tr()),
             onChanged: (value) {
               setState(() {
                 communicationPreferences =
@@ -49,7 +49,7 @@ class _SettingsViewState extends State<SettingsView> {
           if(showWebPush) ... [
             SwitchListTile(
               value: communicationPreferences.webPushNotification ?? false,
-              title: const Text("Web Push Notification"),
+              title:  Text('communicationDetail.webNotification'.tr()),
               onChanged: (value) {
                 setState(() {
                   communicationPreferences =
@@ -62,7 +62,7 @@ class _SettingsViewState extends State<SettingsView> {
           if(showSms) ... [
             SwitchListTile(
               value: communicationPreferences.sms ?? false,
-              title: const Text("SMS"),
+              title: Text('communicationDetail.sms'.tr()),
               onChanged: (value) {
                 setState(() {
                   communicationPreferences =
@@ -75,7 +75,7 @@ class _SettingsViewState extends State<SettingsView> {
           if(showWhatsApp) ... [
             SwitchListTile(
               value: communicationPreferences.whatsapp ?? false,
-              title: const Text("Whatsapp"),
+              title:  Text('communicationDetail.whatsapp'.tr()),
               onChanged: (value) {
                 setState(() {
                   communicationPreferences =
@@ -90,7 +90,7 @@ class _SettingsViewState extends State<SettingsView> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Cancel'),
+            child:  Text('cancel'.tr()),
           ),
           kVerticalSpacerSmall,
           ElevatedButton(
@@ -100,7 +100,7 @@ class _SettingsViewState extends State<SettingsView> {
               currentUser?.setEmailOptin(communicationPreferences.email ?? false);
 
             },
-            child: const Text("Save"),
+            child:  Text('accountDetail.save'.tr()),
           ),
         ],
       ),

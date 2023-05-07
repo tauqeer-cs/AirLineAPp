@@ -2,6 +2,7 @@ import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -18,6 +19,30 @@ class NumberPerson extends Equatable {
   static const empty = NumberPerson(persons: []);
 
   static const adult = NumberPerson(persons: [Person.adult]);
+
+  bool get hasAdult {
+
+    var person = persons.where((e) => e.peopleType == PeopleType.adult).toList();
+
+    if(person.isNotEmpty ){
+      return true;
+    }
+
+    return false;
+   }
+
+  bool get hasOneAdult {
+
+    var person = persons.where((e) => e.peopleType == PeopleType.adult).toList();
+    if(person.isNotEmpty ){
+      if(person.length == 1) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+
+  }
 
   List<Seats?> selectedSeats(bool isDeparture) {
     if (isDeparture) {
@@ -61,17 +86,18 @@ class NumberPerson extends Equatable {
   String toString() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
-      final text = "$numberOfAdult ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      final text =
+          "$numberOfAdult ${numberOfAdult > 1 ? 'customerSelect.adults'.tr() : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {
       final text =
-          "$numberOfChildren ${numberOfChildren > 1 ? 'Children' : 'Child'}";
+          "$numberOfChildren ${numberOfChildren > 1 ? 'customerSelect.children'.tr() : 'child'.tr()}";
       texts.add(text);
     }
     if (numberOfInfant > 0) {
       final text =
-          "$numberOfInfant ${numberOfInfant > 1 ? 'Infants' : 'Infant'}";
+          "$numberOfInfant ${numberOfInfant > 1 ? 'infants'.tr() : 'infant'.tr()}";
       texts.add(text);
     }
     return texts.join(", ");
@@ -153,7 +179,8 @@ class NumberPerson extends Equatable {
   String toBeautify() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
-      final text = "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'Adult'}";
+      final text =
+          "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {
@@ -475,25 +502,25 @@ class Person extends Equatable {
   String getPersonSelectorText(
       bool isActive, bool isDeparture, AddonType addonType,
       {List<Rows> rows = const []}) {
-    if (isActive) return "Selecting";
+    if (isActive) return "selecting".tr();
     switch (addonType) {
       case AddonType.seat:
-        if (isDeparture && departureSeats == null) return "No seat selected";
-        if (!isDeparture && returnSeats == null) return "No seat selected";
+        if (isDeparture && departureSeats == null) return "noSeatSelected".tr();
+        if (!isDeparture && returnSeats == null) return "noSeatSelected".tr();
         final seats = isDeparture ? departureSeats : returnSeats;
         final row =
             rows.firstWhereOrNull((element) => element.rowId == seats?.rowId);
         return '${seats?.seatColumn}${row?.rowNumber}';
       case AddonType.meal:
-        if (isDeparture && departureMeal.isEmpty) return "No meal selected";
-        if (!isDeparture && returnMeal.isEmpty) return "No meal selected";
+        if (isDeparture && departureMeal.isEmpty) return "noMeal".tr();
+        if (!isDeparture && returnMeal.isEmpty) return "noMeal".tr();
         final meals = isDeparture ? departureMeal : returnMeal;
         return '${meals.length} ${meals.length > 1 ? " meals" : "meals"}';
       case AddonType.baggage:
         if (isDeparture && departureBaggage == null) {
-          return "No baggage selected";
+          return "noBaggageSelected".tr();
         }
-        if (!isDeparture && returnBaggage == null) return "No baggage selected";
+        if (!isDeparture && returnBaggage == null) return "noBaggageSelected".tr();
         final baggage = isDeparture ? departureBaggage : returnBaggage;
         return '${baggage?.description}';
       case AddonType.special:
@@ -502,12 +529,12 @@ class Person extends Equatable {
         if (!isDeparture && returnWheelChair != null) number = number + 1;
         if (isDeparture && departureInsurance != null) number = number + 1;
         if (!isDeparture && returnInsurance != null) number = number + 1;
-        return "$number ${number > 1 ? 'items' : 'item'} selected";
+        return "$number ${number > 1 ? 'items'.tr() : 'item'.tr()} ${'selected'.tr()}";
       case AddonType.bundle:
         if (isDeparture && departureBundle == null) {
-          return "No bundle selected";
+          return "noBundleSelected".tr();
         }
-        if (!isDeparture && returnBundle == null) return "No bundle selected";
+        if (!isDeparture && returnBundle == null) return "noBundleSelected".tr();
         final bundle = isDeparture ? departureBundle : returnBundle;
         return '${bundle?.detail?.bundleDescription}';
     }
@@ -569,7 +596,10 @@ class Person extends Equatable {
 
   @override
   String toString() {
-    return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
+
+    var cc = peopleType?.name;
+
+    return "${peopleType?.name.tr() ?? ""} $numberOrder";
   }
 
   String toStringShort() {
@@ -579,9 +609,10 @@ class Person extends Equatable {
   String generateText(NumberPerson? numberPerson, {String? separator}) {
     if (peopleType == PeopleType.adult &&
         ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))) {
-      return "${peopleType?.name.capitalize() ?? ""} $numberOrder ${separator ?? "+ "}${PeopleType.infant.name.capitalize()} $numberOrder";
+      return "${peopleType?.name.tr() ?? ""} $numberOrder ${separator ?? "+ "}${PeopleType.infant.name.tr()} $numberOrder";
     }
-    return "${peopleType?.name.capitalize() ?? ""} $numberOrder";
+
+    return "${peopleType?.name.tr() ?? ""} $numberOrder";
   }
 
   DateTime dateLimitEnd(DateTime? departDate) {

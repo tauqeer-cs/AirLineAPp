@@ -10,7 +10,10 @@ import 'package:equatable/equatable.dart';
 part 'cms_ssr_state.dart';
 
 class CmsSsrCubit extends Cubit<CmsSsrState> {
-  CmsSsrCubit() : super(const CmsSsrState());
+  CmsSsrCubit(String? language) : super( CmsSsrState(
+      language
+  ));
+
   final _repository = CMSRepository();
 
   getCmsSSR(List<CMSRoute> cmsRoutes) async {
@@ -28,7 +31,7 @@ class CmsSsrCubit extends Cubit<CmsSsrState> {
         return;
       }
       final cmsSSRs =
-          await _repository.getSSRContent(universalSetting.key ?? "");
+          await _repository.getSSRContent(universalSetting.key ?? "",state.language ?? '');
       final ssr = cmsSSRs.items
           ?.firstWhereOrNull((element) => element.name?.toLowerCase() == "ssr");
       final notifications = cmsSSRs.items?.firstWhereOrNull(

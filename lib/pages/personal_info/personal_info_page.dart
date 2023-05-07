@@ -4,6 +4,7 @@ import 'package:app/pages/personal_info/ui/personal_info_view.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class PersonalInfoPage extends StatelessWidget {
             if (state.blocState == BlocState.finished) {
               Toast.of(context).show(
                 success: true,
-                message: 'User information updated successfully',
+                message: 'personalInfo.infoUpdated'.tr(),
               );
               await Future.delayed(const Duration(seconds: 1), () {
                 context.router.pop();
@@ -41,27 +42,27 @@ class PersonalInfoPage extends StatelessWidget {
               if (state.blocState == BlocState.loading) {
                 return Container(
                   color: Colors.white,
-                  child: const AppLoadingScreen(message: 'Loading'),
+                  child: AppLoadingScreen(message: 'topForm.loading'.tr()),
                 );
               }
               return LoaderOverlay(
                 useDefaultLoading: false,
-                overlayWidget: const AppLoadingScreen(message: 'Loading'),
+                overlayWidget:  AppLoadingScreen(message: 'topForm.loading'.tr()),
                 child: Scaffold(
                   appBar: AppAppBar(
                     centerTitle: true,
-                    title: 'Personal Info',
+                    title: 'personalInfo.personalInfoTitle'.tr(),
                     height: 80.h,
                     overrideInnerHeight: true,
                     child: Column(
                       children: [
                         Text(
-                          'Personal Info',
+                          'personalInfo.personalInfoTitle'.tr(),
                           style: kHugeSemiBold.copyWith(
                               color: Styles.kDartTeal),
                         ),
                         kVerticalSpacerSmall,
-                        Text('Your details and contact info.',
+                        Text('infoDetail.details'.tr(),
                             style: kLargeRegular.copyWith(
                                 color: Styles.kSubTextColor)),
                       ],

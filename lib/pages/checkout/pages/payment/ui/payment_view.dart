@@ -8,6 +8,7 @@ import 'package:app/pages/checkout/pages/payment/ui/discount_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/passenger_card.dart';
 import 'package:app/pages/checkout/pages/payment/ui/reward_and_discount.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,7 +44,7 @@ class _PaymentViewState extends State<PaymentView> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                "Summary & Payment",
+                "summaryPayment".tr() ,
                 style: kHugeHeavy,
               ),
             ),
@@ -51,7 +52,7 @@ class _PaymentViewState extends State<PaymentView> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                "Fill in all passengers’ names as per passport. Your entry may be denied if your passport’s expiry date is within several months of your travel period - please check your passport’s expiry date.",
+                'paymentView.paymentDesc'.tr(),
                 style: kMediumRegular,
               ),
             ),
@@ -85,7 +86,7 @@ class _PaymentViewState extends State<PaymentView> {
               kVerticalSpacer,
               ElevatedButton(
                 onPressed: () => onBook(context),
-                child: const Text("Continue"),
+                child: Text("continue".tr()),
               ),
               kVerticalSpacer,
             ],

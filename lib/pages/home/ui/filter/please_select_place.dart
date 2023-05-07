@@ -5,6 +5,7 @@ import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,10 +25,10 @@ class PleaseSelectPlace extends StatelessWidget {
             AppCardCalendar(
               child: Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: AutoSizeText(
-                        "Departure Date",
+                        "departureDate".tr(),
                         style: kMediumSemiBold,
                         maxLines: 1,
                       ),
@@ -39,11 +40,11 @@ class PleaseSelectPlace extends StatelessWidget {
                   ),
                   Visibility(
                     visible: isRoundTrip,
-                    child: const Expanded(
+                    child: Expanded(
                       child: Center(
                         child: AutoSizeText(
                             maxLines: 1,
-                            "RreturnDate",
+                            "returnDate".tr(),
                             style: kMediumSemiBold),
                       ),
                     ),
@@ -54,7 +55,7 @@ class PleaseSelectPlace extends StatelessWidget {
             kVerticalSpacerSmall,
             const AppDividerWidget(),
             kVerticalSpacerSmall,
-            const Text("Please select the departure airport and destination airport first."),
+            Text("departureEmptyHelper".tr()),
             kVerticalSpacerSmall,
             const AppDividerWidget(),
           ],

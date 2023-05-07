@@ -7,6 +7,7 @@ import 'package:app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../../../utils/constant_utils.dart';
 import '../../../../widgets/forms/app_input_text.dart';
@@ -34,7 +35,7 @@ class SearchFlightWidget extends StatelessWidget {
           AppInputText(
               name: "promoFlight",
               inputDecoration: InputDecoration(
-                hintText: "Promo Code e.g. VISA5",
+                hintText: 'promoCodeExample'.tr(),
                 border: UnderlineInputBorder(
                   borderSide: BorderSide(color: Styles.kBorderColor),
                 ),
@@ -57,7 +58,7 @@ class SearchFlightWidget extends StatelessWidget {
               ),
               onChanged: (value) =>
                   context.read<FilterCubit>().updatePromoCode(value),
-              hintText: "Promo Code e.g. VISA5",
+              hintText: "promoCodeExample".tr(),
               //inputFormatters: [
               //     UpperCaseTextFormatter(),
               //   ]
@@ -79,13 +80,14 @@ class SearchFlightWidget extends StatelessWidget {
 }
 
 enum FlightType {
-  round('Round Trip', true),
-  oneWay('One Way', false);
+  round('Round Trip', true, 'roundTrip'),
+  oneWay('One Way', false, 'oneWayTrip');
 
-  const FlightType(this.message, this.value);
+  const FlightType(this.message, this.value, this.messageTranslated);
 
   final String message;
   final bool value;
+  final String messageTranslated;
 
   @override
   String toString() {

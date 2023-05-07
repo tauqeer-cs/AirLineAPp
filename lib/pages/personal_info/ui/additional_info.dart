@@ -1,4 +1,5 @@
 import 'package:app/utils/form_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app/pages/auth/pages/signup/ui/form_header.dart';
@@ -41,8 +42,8 @@ class AdditionInfoView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormHeader(
-          title: 'Additional Info',
+        FormHeader(
+          title: 'infoDetail.additionalInfo'.tr(),
         ),
         GreyCard(
           margin: 6.0,
@@ -52,7 +53,7 @@ class AdditionInfoView extends StatelessWidget {
             child: Column(
               children: [
                 AppCountriesDropdown(
-                  hintText: 'Nationality',
+                  hintText: 'infoDetail.nationality'.tr(),
                   isPhoneCode: false,
                   onChanged: onCountryChange,
                   initialCountryCode: countrySelected,
@@ -62,7 +63,7 @@ class AdditionInfoView extends StatelessWidget {
                   isRequired: false,
                   textInputType: TextInputType.number,
                   name: formNameMyKad,
-                  hintText: 'MyKad Number',
+                  hintText: 'infoDetail.myKad'.tr(),
                   initialValue: myKadSelected,
                   validators: [
                     FormBuilderValidators.required(),
@@ -78,8 +79,7 @@ class AdditionInfoView extends StatelessWidget {
                   textInputType: TextInputType.emailAddress,
                   name: formNameEmail,
                   initialValue: emailSelected,
-
-                  hintText: 'Email',
+                  hintText: 'infoDetail.emailAddress'.tr(),
                   validators: [
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),
@@ -95,11 +95,11 @@ class AdditionInfoView extends StatelessWidget {
                   onChanged: (newData) {},
                   initialDate: DateTime(2000),
                   initialEntryMode: DatePickerEntryMode.calendar,
-                  decoration: const InputDecoration(
-                      hintText: "Date of Birth",
-                      suffixIcon: Icon(Icons.calendar_month_sharp),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
+                  decoration: InputDecoration(
+                      hintText: "dob".tr(),
+                      suffixIcon: const Icon(Icons.calendar_month_sharp),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 12)),
                   inputType: InputType.date,
                 ),
                 kVerticalSpacer,
@@ -116,7 +116,7 @@ class AdditionInfoView extends StatelessWidget {
                 AppInputText(
                   name: formNamePhone,
                   textInputType: TextInputType.number,
-                  hintText: "Phone Number",
+                  hintText: 'infoDetail.phoneNumber'.tr(),
                   initialValue: phoneSelected,
                   validators: [FormBuilderValidators.required()],
                 ),

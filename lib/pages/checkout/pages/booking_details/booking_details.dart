@@ -23,6 +23,7 @@ import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -41,22 +42,15 @@ class BookingDetailsPage extends StatefulWidget {
 }
 
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
-
-  
-  void isLoggedInPopUp()  {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-       var response = await showLoginDialog();
-        if(response == true){
-
-          await Future.delayed(const Duration(seconds: 2));
-          appRouter.pop(true);
-
-        }
-      });
-
-
+  void isLoggedInPopUp() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var response = await showLoginDialog();
+      if (response == true) {
+        await Future.delayed(const Duration(seconds: 2));
+        appRouter.pop(true);
+      }
+    });
   }
-
 
   @override
   void initState() {
@@ -64,11 +58,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     final isLoggedIn =
         context.read<AuthBloc>().state.status == AppStatus.authenticated;
     if (!isLoggedIn) {
-
       isLoggedInPopUp();
-
     }
-    FlutterInsider.Instance.itemAddedToCart(UserInsider.of(context).generateProduct());
+    FlutterInsider.Instance.itemAddedToCart(
+        UserInsider.of(context).generateProduct());
     UserInsider.of(context).registerPurchasedAddOn();
     temporarySummaryRequest();
   }
@@ -185,7 +178,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
         useDefaultLoading: false,
         overlayWidget: SizedBox(
           height: 0.5.sh,
-          child: const AppLoadingScreen(message: "Loading"),
+          child: AppLoadingScreen(message: "loading".tr()),
         ),
         child: BlocProvider(
           create: (context) => LoginCubit(),
@@ -208,12 +201,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       context.loaderOverlay.hide();
 
                       Toast.of(context)
-                          .show(message: "Welcome back", success: true);
+                          .show(message: "welcomeBack".tr(), success: true);
 
 //                      callBack();
 
                       Navigator.of(dialogContext).pop(true);
-
                     },
                   );
                 },
@@ -256,18 +248,21 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: const AppLoadingScreen(message: "Loading"),
+        overlayWidget: AppLoadingScreen(message: "loading".tr()),
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => InfoCubit()),
           ],
           child: BlocListener<SummaryCubit, SummaryState>(
+            listenWhen: (prev, curr) {
+              return prev.blocState != curr.blocState;
+            },
             listener: (context, state) {
               blocListenerWrapper(
                 blocState: state.blocState,
                 onLoading: () {
                   context.loaderOverlay.show(
-                    widget: const AppLoadingScreen(message: "Loading"),
+                    widget: AppLoadingScreen(message: "loading".tr()),
                   );
                 },
                 onFailed: () {
@@ -280,6 +275,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   Toast.of(context).show(message: state.message);
                 },
                 onFinished: () async {
+                  if(context.router.currentPath != BookingDetailsRoute().path) return;
+                 print("context.router.currentPath ${context.router.currentPath}");
+                  print("BookingDetailsRoute().path ${BookingDetailsRoute().path}");
+
                   context.loaderOverlay.hide();
                   context
                       .read<BookingCubit>()
@@ -310,7 +309,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             },
             child: Scaffold(
               appBar: AppAppBar(
-                title: "You Are Almost There",
+                title: "almostThere".tr(),
                 height: 100.h,
                 flexibleWidget: AppBookingStep(
                   passedSteps: const [

@@ -3,6 +3,7 @@ import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/containers/version_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +52,7 @@ class ProfileView extends StatelessWidget {
                               height: 50.w,
                             ),
                             Text(
-                              "Logout",
+                              'navBar.logout'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kPrimaryColor),
                             ),
@@ -70,7 +71,7 @@ class ProfileView extends StatelessWidget {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: 'Welcome back, ',
+                                    text: 'welcomeBackProfile'.tr(),
                                     style: kGiantRegular.copyWith(
                                         color: Styles.kPrimaryColor),
                                   ),
@@ -86,12 +87,13 @@ class ProfileView extends StatelessWidget {
                               textAlign: TextAlign.left,
                             ),
                             Text(
-                              "MYReward Membership #${state.profile?.userProfile?.memberID ?? ''}",
+                              "${'profile.rewardMemberShipNo'.tr()}${state.profile?.userProfile?.memberID ?? ''}",
                               style: kMediumSemiBold,
                             ),
-                            if(state.profile?.userProfile?.memberPoint != null) ... [
+                            if (state.profile?.userProfile?.memberPoint !=
+                                null) ...[
                               Text(
-                                "${state.profile?.userProfile?.memberPoint ?? 0} pts",
+                                "${state.profile?.userProfile?.memberPoint ?? 0} ${'profile.pts'.tr()}",
                                 style: kGiantMedium,
                               ),
                             ],
@@ -127,7 +129,7 @@ class ProfileView extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Let’s manage your account",
+                                  'personalInfo.manageText'.tr(),
                                   style: kLargeRegular.copyWith(
                                       color: Styles.kSubTextColor),
                                 ),
@@ -153,15 +155,18 @@ class ProfileView extends StatelessWidget {
                                       ),
                                       children: [
                                         ProfileBoxButton(
-                                          text: 'Personal Info',
+                                          text: 'infoDetail.personalInformation'
+                                              .tr(),
                                           imageName: 'iconInfo',
                                           onTap: () {
                                             context.router.push(
-                                                const PersonalInfoRoute());
+                                              const PersonalInfoRoute(),
+                                            );
                                           },
                                         ),
                                         ProfileBoxButton(
-                                          text: 'Account Settings',
+                                          text: 'personalInfo.accountSettings'
+                                              .tr(),
                                           imageName: 'iconSetting',
                                           onTap: () {
                                             context.router.push(
@@ -169,7 +174,9 @@ class ProfileView extends StatelessWidget {
                                           },
                                         ),
                                         ProfileBoxButton(
-                                          text: 'Communication\nPreferences',
+                                          text:
+                                              'personalInfo.communicationPreference'
+                                                  .tr(),
                                           imageName: 'iconPref',
                                           onTap: () {
                                             context.router.push(
@@ -177,9 +184,10 @@ class ProfileView extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                        if(ConstantUtils.showFamily) ... [
+                                        if (ConstantUtils.showFamily) ...[
                                           ProfileBoxButton(
-                                            text: 'Family and Friends',
+                                            text: 'familyDetail.familyFriends'
+                                                .tr(),
                                             imageName: 'iconFamily',
                                             onTap: () {
                                               //Page
@@ -189,10 +197,10 @@ class ProfileView extends StatelessWidget {
                                             },
                                           ),
                                         ],
-
-                                        if(ConstantUtils.showCards) ... [
+                                        if (ConstantUtils.showCards) ...[
                                           ProfileBoxButton(
-                                            text: 'My Payment Cards',
+                                            text: 'personalInfo.paymentCards'
+                                                .tr(),
                                             imageName: 'iconPayment',
                                             onTap: () {
                                               context.router.push(
@@ -201,9 +209,16 @@ class ProfileView extends StatelessWidget {
                                             },
                                           ),
                                         ],
-
                                         ProfileBoxButton(
-                                          text: 'More\nInformation',
+                                          text: 'language'.tr(),
+                                          imageName: 'language',
+                                          onTap: () {
+                                            context.router
+                                                .push(const LanguageRoute());
+                                          },
+                                        ),
+                                        ProfileBoxButton(
+                                          text: 'personalInfo.moreInfo'.tr(),
                                           imageName: 'iconMoreInfo',
                                           onTap: () {
                                             //Page
@@ -212,10 +227,6 @@ class ProfileView extends StatelessWidget {
                                             );
                                           },
                                         ),
-
-
-
-
                                       ],
                                     ),
                                   ),
@@ -227,9 +238,6 @@ class ProfileView extends StatelessWidget {
                                 ],
                               ),
                             ),
-
-
-
                           ],
                         ),
                       ),

@@ -3,6 +3,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,7 @@ class BaggagePage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppAppBar(
-            title: "Your Trip Starts Here",
+            title: 'topBreadCrumb.tripStart'.tr(),
             height: 100.h,
             centerTitle: true,
             flexibleWidget:  AppBookingStep(

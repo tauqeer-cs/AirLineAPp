@@ -1,6 +1,7 @@
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/checkout/pages/booking_details/ui/shadow_input.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/country.dart';
@@ -39,7 +40,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
   @override
   void initState() {
     super.initState();
-    if(widget.relationShip!=null){
+    if (widget.relationShip != null) {
       relationController.text = widget.relationShip!;
     }
   }
@@ -49,9 +50,9 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormHeader(
-          title: 'Emergency Contact Person Details',
-          subtitle: 'We’ll call them when there’s an emergency.',
+        FormHeader(
+          title: 'emergencyContactLabel'.tr(),
+          subtitle: 'infoDetail.emergencyContactDesc'.tr(),
           graySubText: true,
         ),
         GreyCard(
@@ -65,7 +66,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   isRequired: false,
                   textInputType: TextInputType.name,
                   name: formNameFirstNameEmergency,
-                  hintText: 'First Name / Given Name',
+                  hintText: 'familyDetail.fName'.tr(),
                   initialValue: widget.firstName,
                   validators: const [
                     //FormBuilderValidators.required(),
@@ -77,7 +78,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   textInputType: TextInputType.name,
                   name: formNameLastNameEmergency,
                   initialValue: widget.lastName,
-                  hintText: 'Last Name / Surname',
+                  hintText: 'lastNameSurname'.tr(),
                   validators: const [
                     //FormBuilderValidators.required(),
                   ],
@@ -92,7 +93,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                         availableRelations.contains(widget.relationShip)
                             ? widget.relationShip
                             : null,
-                    sheetTitle: "Relationship",
+                    sheetTitle: "relationship".tr(),
                     onChanged: (value) {
                       relationController.text = value ?? "";
                     },
@@ -101,7 +102,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                 kVerticalSpacer,
                 AppCountriesDropdown(
                   isPhoneCode: true,
-                  hintText: "Phone",
+                  hintText: "phone".tr(),
                   onChanged: widget.onPhoneCodeChanged,
                   initialCountryCode: widget.countryCode,
                 ),
@@ -109,7 +110,7 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                 AppInputText(
                   name: formNamePhoneNoRelationship,
                   textInputType: TextInputType.number,
-                  hintText: "Phone Number",
+                  hintText: "phoneNumber".tr(),
                   initialValue: widget.phoneNo,
                   validators: const [
                     //FormBuilderValidators.required(),

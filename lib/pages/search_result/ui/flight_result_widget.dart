@@ -7,6 +7,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,9 @@ class FlightResultWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
+
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     return BlocBuilder<SearchFlightCubit, SearchFlightState>(
       builder: (context, state) {
@@ -27,7 +31,7 @@ class FlightResultWidget extends StatelessWidget {
             padding: kPageHorizontalPadding,
             child: Column(
               children: [
-                Row(
+                  Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
@@ -46,9 +50,9 @@ class FlightResultWidget extends StatelessWidget {
                           child: Expanded(
                             flex: 3,
                             child: OutlinedButton(
-                              child: const FittedBox(
+                              child: FittedBox(
                                 fit: BoxFit.scaleDown,
-                                child: Text("Change Search"),
+                                child: Text("changeSearch".tr()),
                               ),
                               onPressed: () {
                                 context
@@ -65,7 +69,7 @@ class FlightResultWidget extends StatelessWidget {
                 ),
                 kVerticalSpacerSmall,
                 Text(
-                  "Your starter fares include 7kg of carry-on baggage. Next, you can purchase additional baggage, select your seat of choice and meal.",
+                  'starterFareIncludes'.tr(),
                   textAlign: TextAlign.left,
                   style: kMediumRegular.copyWith(
                     color: Styles.kSubTextColor,
@@ -76,8 +80,8 @@ class FlightResultWidget extends StatelessWidget {
                   builder: (context, bookState) {
                     return blocBuilderWrapper(
                       blocState: bookState.blocState,
-                      finishedBuilder: buildFlights(state, bookState,),
-                      initialBuilder: buildFlights(state, bookState,),
+                      finishedBuilder: buildFlights(state, bookState,locale),
+                      initialBuilder: buildFlights(state, bookState,locale),
                       loadingBuilder: const BookingLoader(),
                     );
                   },
@@ -94,6 +98,23 @@ class FlightResultWidget extends StatelessWidget {
                 //     style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                 //   ),
                 // ),
+
+                /*
+                Visibility(
+                  visible: false,
+                  replacement: Text(
+                    'fareCalculation'
+                        .tr(args: [filter?.numberPerson.toBeautify() ?? '']),
+                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                  ),
+                  child: Text(
+                    'flightSummary.rules'
+                        .tr(args: [filter?.numberPerson.toBeautify() ?? '']),
+                    style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                  ),
+                ),*/
+
+
               ],
             ),
           ),
@@ -102,13 +123,14 @@ class FlightResultWidget extends StatelessWidget {
     );
   }
 
-  Column buildFlights(SearchFlightState state, BookingState bookState) {
-    return Column(
+  Column buildFlights(SearchFlightState state, BookingState bookState,String locale) {
+
+    return  Column(
       children: [
         ChooseFlightSegment(
-          title: "Departure",
+          title: "departure".tr(),
           subtitle: state.filterState?.beautifyShort ?? "",
-          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate),
+          dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate,locale: locale),
           segments: bookState.selectedDeparture != null
               ? [bookState.selectedDeparture!]
               : state.flights?.flightResult?.outboundSegment ?? [],
@@ -119,7 +141,7 @@ class FlightResultWidget extends StatelessWidget {
         Visibility(
           visible: state.filterState?.flightType == FlightType.round,
           child: ChooseFlightSegment(
-            title: "Return",
+            title: "return".tr(),
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
                 AppDateUtils.formatHalfDate(state.filterState?.returnDate),

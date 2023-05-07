@@ -3,6 +3,7 @@ import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/pages/checkout/pages/payment/ui/summary/price_row.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
@@ -52,7 +53,7 @@ class SeatsFeeDetailPayment extends StatelessWidget {
                 ? const SizedBox.shrink()
                 : PriceRow(
                     child1: Text(
-                      "${passenger.title} ${passenger.firstName},\n${seats.seatColumn == null ? 'No seat selected' : '${seats.seatColumn}${row?.rowNumber}'}",
+                      "${passenger.title} ${passenger.firstName},\n${seats.seatColumn == null ? 'noSeatSelected'.tr() : '${seats.seatColumn}${row?.rowNumber}'}",
                       style: kMediumRegular,
                     ),
                     child2: MoneyWidgetSmall(

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -51,6 +52,8 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
   Widget build(BuildContext context) {
     //final filterCubit = context.watch<FilterCubit>();
     ManageBookingCubit bloc = context.watch<ManageBookingCubit>();
+
+    final locale = context.locale.toString();
 
     var state = bloc.state;
 
@@ -124,7 +127,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           Expanded(
                             child: Center(
                               child: AutoSizeText(
-                                "DEP ${AppDateUtils.formatDateWithoutLocale(departDate)}",
+                               "${'departureShort'.tr()} ${AppDateUtils.formatDateWithoutLocale(departDate,locale:locale)}",
                                 style: departDate == null
                                     ? kMediumRegular
                                     : kMediumSemiBold,
@@ -142,7 +145,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                               child: Center(
                                 child: AutoSizeText(
                                     maxLines: 1,
-                                    "RET ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
+                                   "${'returnShort'.tr()} ${AppDateUtils.formatDateWithoutLocale(returnDate,locale: locale)}",
                                     style: returnDate == null
                                         ? kMediumRegular
                                         : kMediumSemiBold),
@@ -157,13 +160,13 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        weekText('S'),
-                        weekText('M'),
-                        weekText('T'),
-                        weekText('W'),
-                        weekText('T'),
-                        weekText('F'),
-                        weekText('S'),
+                        weekText('calendar.daySundayShort'.tr()),
+                        weekText('calendar.dayMondayShort'.tr()),
+                        weekText('calendar.dayTuesdayShort'.tr()),
+                        weekText('calendar.dayWednesdayShort'.tr()),
+                        weekText('calendar.dayThursdayShort'.tr()),
+                        weekText('calendar.dayFridayShort'.tr()),
+                        weekText('calendar.daySaturdayShort'.tr()),
                       ],
                     ),
                     kVerticalSpacerMini,
@@ -196,7 +199,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              DateFormat("MMM yyyy").format(
+                              DateFormat("MMM yyyy",locale).format(
                                 DateTime(year, month),
                               ),
                               style: kMediumMedium.copyWith(
@@ -276,7 +279,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
 
 
                             },
-                            child: const Text("Reset"),
+                            child:  Text('changeFlightView.reset'.tr()),
                           ),
                         ),
                         kHorizontalSpacer,
@@ -321,7 +324,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
 
                                 }
                               },
-                              child: const Text("Apply"),
+                              child:  Text('changeFlightView.apply'.tr()),
                             ),
                           ),
                         ],
@@ -372,7 +375,7 @@ class NoFlightsFound extends StatelessWidget {
         children: [
           const SizedBox(height: 12,),
           Text(
-            'We’re sorry',
+            'flightChange.weSorry'.tr(),
             textAlign: TextAlign.center,
             style: k18Heavy.copyWith(color: Styles.kTextColor),
           ),
@@ -395,7 +398,7 @@ class NoFlightsFound extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
-                    child: const Text("Back"),
+                    child:  Text('back'.tr()),
                     onPressed: () async {
                       Navigator.of(context).pop(true);
                     },

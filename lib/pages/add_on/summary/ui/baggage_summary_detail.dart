@@ -7,6 +7,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +37,7 @@ class BaggageSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-              "Baggage",
+              "baggage".tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -49,7 +50,7 @@ class BaggageSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           Text(
-            "Depart",
+            "depart".tr(),
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
@@ -63,7 +64,7 @@ class BaggageSummaryDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Return",
+                  "return".tr(),
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,
@@ -87,7 +88,7 @@ class BaggageSummaryDetail extends StatelessWidget {
     final sport = isDeparture ? e.departureSports : e.returnSports;
 
     return Visibility(
-      visible: baggage!=null || sport!=null,
+      visible: baggage != null || sport != null,
       child: ChildRow(
         child1: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

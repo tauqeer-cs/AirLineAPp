@@ -3,6 +3,7 @@ import 'package:app/pages/checkout/ui/fee_and_taxes_detail.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +32,7 @@ class FaresAndBundlesDetail extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "${e.toString()} : ${bundle?.bundle?.description ?? 'No Bundle'}",
+                          "${e.toString()} : ${bundle?.bundle?.description ?? 'noBundle'.tr()}",
                           style: kSmallRegular.copyWith(
                             color: Styles.kSubTextColor,
                           ),

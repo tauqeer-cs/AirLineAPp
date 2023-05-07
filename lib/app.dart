@@ -18,6 +18,7 @@ import 'package:app/blocs/timer/timer_bloc.dart';
 import 'package:app/blocs/voucher/voucher_cubit.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/repositories/local_repositories.dart';
+import 'package:app/pages/check_in/bloc/check_in_cubit.dart';
 import 'package:app/pages/checkout/bloc/selected_person_cubit.dart';
 import 'package:app/pages/checkout/pages/booking_details/bloc/summary_cubit.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
@@ -29,6 +30,7 @@ import 'package:app/utils/navigation_utils.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +38,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/enum/InsiderCallbackAction.dart';
 import 'package:flutter_insider/flutter_insider.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/date_symbol_data_file.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import 'blocs/manage_booking/manage_booking_cubit.dart';
+import 'pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'widgets/dialogs/app_confirmation_dialog.dart';
 
 final appRouter = AppRouter();
@@ -115,8 +121,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       case InsiderCallbackAction.NOTIFICATION_OPEN:
         logger.d("[INSIDER][NOTIFICATION_OPEN]: $data");
         final scheme = data["ins_dl_url_scheme"];
-        print("is String ${scheme !is String} ${scheme}");
-        if(scheme == null) return;
+        print("is String ${scheme! is String} ${scheme}");
+        if (scheme == null) return;
         NavigationUtils.navigateMainPage(scheme);
         break;
       case InsiderCallbackAction.TEMP_STORE_CUSTOM_ACTION:
@@ -194,9 +200,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           barrierDismissible: false,
           builder: (context) {
             return AppConfirmationDialog(
-              title: "Your session is about to expire in 10 minutes.",
+              title: "sessionExpireTen".tr(),
               subtitle: "",
-              confirmText: "Stay and Continue",
+              confirmText: "stayContinue".tr(),
               onConfirm: () {
                 final filterState =
                     currentContext.read<SearchFlightCubit>().state.filterState;
@@ -236,7 +242,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               onWillPop: () async => true,
               child: AppConfirmationDialog(
                 showCloseButton: false,
-                title: "Your session is expired, please retry your search!",
+                title: "sessionRetrySearch".tr(),
                 subtitle: "",
                 onConfirm: () {
                   currentContext.router.pop();
@@ -254,6 +260,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => CountriesCubit()..getCountries()),
@@ -265,6 +273,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (_) => SearchFlightCubit()),
         BlocProvider(create: (context) => SummaryCubit()),
         BlocProvider(create: (_) => BookingCubit()),
+        BlocProvider(create: (context) => InsuranceCubit()),
         BlocProvider(
           create: (_) => TimerBloc(
             tickerRepository: const TickerRepository(),
@@ -273,8 +282,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(create: (_) => SelectedPersonCubit()),
         BlocProvider(create: (context) => VoucherCubit()),
         BlocProvider(create: (_) => HomeCubit()),
-        BlocProvider(create: (_) => CmsSsrCubit()),
-        BlocProvider(create: (_) => AgentSignUpCubit()),
+        BlocProvider(create: (_) => CmsSsrCubit(locale)),
+        BlocProvider(create: (_) => AgentSignUpCubit(locale)),
+        BlocProvider(create: (_) => CheckInCubit()),
         BlocProvider(create: (_) => ProfileCubit()),
         BlocProvider(
           create: (context) => ManageBookingCubit(),
@@ -283,11 +293,17 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           create: (_) => SummaryContainerCubit(),
         ),
         BlocProvider(
-            create: (_) =>
-                AuthBloc(authenticationRepository: AuthenticationRepository())),
+          create: (_) => AuthBloc(
+            authenticationRepository: AuthenticationRepository(),
+          ),
+        ),
         BlocProvider(create: (_) => RoutesCubit()..getRoutes(), lazy: false),
         BlocProvider(
-            create: (_) => LocalUserBloc()..add(const Init()), lazy: false),
+            create: (_) => LocalUserBloc()
+              ..add(
+                const Init(),
+              ),
+            lazy: false),
         BlocProvider(create: (_) => BookingLocalCubit()..getBooking()),
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
@@ -353,33 +369,41 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             },
           ),
         ],
-        child: VersionBannerWidget(
-          child: ScreenUtilInit(
-            designSize: const Size(375, 812),
-            builder: (_, __) {
-              return MaterialApp.router(
-                routerDelegate: appRouter.delegate(
-                  navigatorObservers: () => [MyObserver()],
-                ),
-                localizationsDelegates: const [
-                  FormBuilderLocalizations.delegate,
-                ],
-                builder: (context, child) {
-                  final mediaQueryData = MediaQuery.of(context);
-                  final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
-                  return MediaQuery(
-                    data:
-                    MediaQuery.of(context).copyWith(textScaleFactor: scale),
-                    child: child!,
-                  );
-                },
-                debugShowCheckedModeBanner: false,
-                routeInformationParser: appRouter.defaultRouteParser(),
-                theme: Styles.theme(true),
-                darkTheme: Styles.theme(false),
-                themeMode: ThemeMode.light,
-              );
-            },
+        child: Phoenix(
+          child: VersionBannerWidget(
+            child: ScreenUtilInit(
+              designSize: const Size(375, 812),
+              builder: (_, __) {
+                return MaterialApp.router(
+                  routerDelegate: appRouter.delegate(
+                    navigatorObservers: () => [MyObserver()],
+                  ),
+                  localizationsDelegates: [
+                    FormBuilderLocalizations.delegate,
+                    EasyLocalization.of(context)!.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: context.supportedLocales,
+                  builder: (context, child) {
+                    final mediaQueryData = MediaQuery.of(context);
+                    final scale =
+                    mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
+                    return MediaQuery(
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaleFactor: scale),
+                      child: child!,
+                    );
+                  },
+                  debugShowCheckedModeBanner: false,
+                  routeInformationParser: appRouter.defaultRouteParser(),
+                  theme: Styles.theme(true),
+                  darkTheme: Styles.theme(false),
+                  themeMode: ThemeMode.light,
+                );
+              },
+            ),
           ),
         ),
       ),

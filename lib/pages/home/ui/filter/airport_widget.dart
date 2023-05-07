@@ -6,6 +6,7 @@ import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/animations/text_field_loader.dart';
 import 'package:app/widgets/forms/app_dropdown.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,8 +32,9 @@ class AirportWidget extends StatelessWidget {
         return blocBuilderWrapper(
           blocState: state.blocState,
           loadingBuilder: const TextFieldLoader(),
-          finishedBuilder: AppDropDown<Airports>(
+          finishedBuilder: AppDropDownAirPort<Airports>(
             items: isOrigin ? airports : connections,
+            itemsAll: isOrigin ? airports : connections,
             defaultValue: selected,
             onChanged: (val) {
               if (isOrigin) {
@@ -49,7 +51,7 @@ class AirportWidget extends StatelessWidget {
                 color: Styles.kIconColor,
               ),
             ),
-            sheetTitle: isOrigin ? "From" : "To",
+            sheetTitle: isOrigin ? "from".tr() : "to".tr(),
             isEnabled: true,
             valueTransformer: (value) {
               return DropdownTransformerWidget<Airports>(

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../models/my_bookings.dart';
 import '../../models/pay_redirection.dart';
 import '../requests/change_flight_request.dart';
 import '../requests/manage_booking_request.dart';
@@ -21,7 +22,8 @@ abstract class ManageBookingProvider {
 
 
   @GET('checkout/managebookingdetail')
-  Future<ManageBookingResponse> getBookingInfo(@Query("pnr") String pnr,@Query("lastname") String lastname);
+  Future<ManageBookingResponse> getBookingInfo(@Query("pnr") String pnr,@Query("lastname") String lastname,@Query("action") String action);
+
 
 
   @POST('checkout/searchchangeflight')
@@ -39,13 +41,16 @@ abstract class ManageBookingProvider {
   @POST('checkout/email-itinerary-via-pnr')
   Future<CommonResponse> emailItineraryViaPnr(@Body() ManageBookingRequest request);
 
+  @GET('user/userbookinglist')
+  Future<MyBookings> userBookingListing();
 
-//https://mya-api.alphareds.com/api/v1/checkout/
 
-//
 
-//
+
+
 
 //https://mya-api.alphareds.com/api/v1/
+// CheckInRequest
+
 
 }

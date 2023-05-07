@@ -1,17 +1,19 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../theme/theme.dart';
 
 enum SeatAvailableLegend {
-  preferred("Preferred Seat", Color.fromRGBO(215, 189, 228, 1)),
-  standard("Standard Seat", Color.fromRGBO(126, 148, 208, 1)),
-  unavailable("Unavailable", Color.fromRGBO(204, 204, 204, 1));
+  preferred("Preferred Seat", Color.fromRGBO(215, 189, 228, 1),'seatsSelection.preferredSeat'),
+  standard("Standard Seat", Color.fromRGBO(126, 148, 208, 1),'seatsSelection.standardSeat'),
+  unavailable("Unavailable", Color.fromRGBO(204, 204, 204, 1),'seatsSelection.unavailable');
 
-  const SeatAvailableLegend(this.name, this.color);
+  const SeatAvailableLegend(this.name, this.color,this.key);
 
   final String name;
   final Color color;
+  final String key;
 }
 
 class SeatLegendSimple extends StatelessWidget {
@@ -23,7 +25,7 @@ class SeatLegendSimple extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacerMini,
-        const Text("Seat Types", style: kMediumRegular),
+        Text('seatTypes'.tr(), style: kMediumRegular),
         kVerticalSpacerSmall,
         Wrap(
           spacing: 8,
@@ -49,7 +51,7 @@ class SeatLegendSimple extends StatelessWidget {
                       kHorizontalSpacerMini,
                       Flexible(
                           child: Text(
-                        e.name,
+                        e.key.tr(),
                         style: kSmallRegular,
                       ))
                     ],
@@ -57,50 +59,7 @@ class SeatLegendSimple extends StatelessWidget {
                 );
               },
             ).toList(),
-            // SizedBox(
-            //   width: 0.4.sw,
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       SizedBox(
-            //         height: 20,
-            //         width: 20,
-            //         child: DecoratedBox(
-            //           decoration: BoxDecoration(
-            //             color: Colors.grey,
-            //             borderRadius: BorderRadius.circular(4),
-            //           ),
-            //         ),
-            //       ),
-            //       kHorizontalSpacerMini,
-            //       const Flexible(
-            //           child: Text(
-            //         "Unavailable",
-            //         style: kSmallRegular,
-            //       ))
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(
-            //   width: 0.4.sw,
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       SizedBox(
-            //         height: 20,
-            //         width: 20,
-            //         child: DecoratedBox(
-            //           decoration: BoxDecoration(
-            //             color: Colors.purpleAccent,
-            //             borderRadius: BorderRadius.circular(4),
-            //           ),
-            //         ),
-            //       ),
-            //       kHorizontalSpacerMini,
-            //       const Flexible(child: Text("No Price Data", style: kSmallRegular,))
-            //     ],
-            //   ),
-            // )
+
           ],
         ),
       ],

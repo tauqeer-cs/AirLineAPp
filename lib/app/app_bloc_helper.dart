@@ -1,11 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/app_error_screen.dart';
 import '../widgets/app_loading_screen.dart';
 
-
-class GenericState extends Equatable{
+class GenericState extends Equatable {
   final BlocState blocState;
   final String message;
 
@@ -32,10 +32,10 @@ enum BlocState { initial, loading, finished, failed }
 
 void blocListenerWrapper(
     {Function()? onInitial,
-      Function()? onLoading,
-      Function()? onFinished,
-      Function()? onFailed,
-      required BlocState blocState}) {
+    Function()? onLoading,
+    Function()? onFinished,
+    Function()? onFailed,
+    required BlocState blocState}) {
   switch (blocState) {
     case BlocState.initial:
       if (onInitial != null) onInitial();
@@ -63,7 +63,7 @@ Widget blocBuilderWrapper({
     case BlocState.initial:
       return initialBuilder ?? const SizedBox.shrink();
     case BlocState.loading:
-      return loadingBuilder ?? const AppLoadingScreen(message: "Loading");
+      return loadingBuilder ?? AppLoadingScreen(message: "loading".tr());
     case BlocState.finished:
       return finishedBuilder ?? const SizedBox.shrink();
     case BlocState.failed:

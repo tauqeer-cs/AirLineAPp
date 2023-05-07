@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -16,7 +17,6 @@ class VoucherCodeUi extends StatelessWidget {
   final BlocState blocState;
   GlobalKey<FormBuilderState> fbKey;
 
-
   final VoidCallback? onRemoveTapped;
 
   final VoidCallback? onButtonTapped;
@@ -25,22 +25,31 @@ class VoucherCodeUi extends StatelessWidget {
 
   final String voucherCodeInitial;
 
-    VoucherCodeUi({Key? key, required this.fbKey,required this.readOnly, required this.blocState, required this.voucherCodeInitial, required this.state, required this.onRemoveTapped, required this.onButtonTapped}) : super(key: key);
+  VoucherCodeUi(
+      {Key? key,
+      required this.fbKey,
+      required this.readOnly,
+      required this.blocState,
+      required this.voucherCodeInitial,
+      required this.state,
+      required this.onRemoveTapped,
+      required this.onButtonTapped})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  FormBuilder(
+    return FormBuilder(
       key: fbKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Voucher Code",
+          Text(
+            'voucherCode'.tr(),
             style: kHugeSemiBold,
           ),
           kVerticalSpacerMini,
-          const Text(
-            "Enter your voucher code below",
+           Text(
+            "enterVoucherCode".tr(),
             style: kMediumRegular,
           ),
           kVerticalSpacerSmall,
@@ -53,7 +62,7 @@ class VoucherCodeUi extends StatelessWidget {
                 readOnly: readOnly,
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
-                  hintText: "Voucher Code",
+                  hintText: 'voucherCode'.tr(),
                   border: InputBorder.none,
                   disabledBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -61,7 +70,7 @@ class VoucherCodeUi extends StatelessWidget {
                   focusedBorder: InputBorder.none,
                   focusedErrorBorder: InputBorder.none,
                   contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
                   isDense: true,
                   suffixIconConstraints: const BoxConstraints(
                     minWidth: 40,
@@ -76,7 +85,7 @@ class VoucherCodeUi extends StatelessWidget {
                     ),
                     failedBuilder: const SizedBox(),
                     finishedBuilder:
-                    Image.asset("assets/images/icons/iconVoucher.png"),
+                        Image.asset("assets/images/icons/iconVoucher.png"),
                   ),
                 ),
               ),
@@ -94,7 +103,7 @@ class VoucherCodeUi extends StatelessWidget {
                       readOnly: readOnly,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        hintText: "Voucher Code",
+                        hintText: 'voucherCode'.tr(),
                         border: InputBorder.none,
                         disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -119,9 +128,9 @@ class VoucherCodeUi extends StatelessWidget {
                           finishedBuilder: state.response == null
                               ? const SizedBox()
                               : Image.asset(
-                            "assets/images/icons/iconVoucher.png",
-                            width: 15,
-                          ),
+                                  "assets/images/icons/iconVoucher.png",
+                                  width: 15,
+                                ),
                         ),
                       ),
                     ),
@@ -139,7 +148,7 @@ class VoucherCodeUi extends StatelessWidget {
                       readOnly: readOnly,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-                        hintText: "PIN",
+                        hintText: 'pin'.tr(),
                         border: InputBorder.none,
                         disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -164,9 +173,9 @@ class VoucherCodeUi extends StatelessWidget {
                           finishedBuilder: state.response == null
                               ? const SizedBox()
                               : Image.asset(
-                            "assets/images/icons/iconVoucher.png",
-                            width: 15,
-                          ),
+                                  "assets/images/icons/iconVoucher.png",
+                                  width: 15,
+                                ),
                         ),
                       ),
                     ),
@@ -195,7 +204,7 @@ class VoucherCodeUi extends StatelessWidget {
             visible: state.blocState == BlocState.failed,
             child: Padding(
               padding:
-              const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+                  const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
               child: Text(
                 state.message,
                 style: kMediumRegular.copyWith(color: Colors.red),
@@ -203,17 +212,16 @@ class VoucherCodeUi extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-            onPressed:onButtonTapped,
+            onPressed: onButtonTapped,
             child: state.blocState == BlocState.loading
                 ? const AppLoading(
-              size: 25,
-              color: Colors.white,
-            )
+                    size: 25,
+                    color: Colors.white,
+                  )
                 : state.insertedVoucher != null
-                ? const Text("Reset")
-                : const Text("Apply"),
+                    ? Text('paymentView.reset'.tr())
+                    : Text('paymentView.apply'.tr()),
           ),
-
         ],
       ),
     );

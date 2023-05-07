@@ -5,6 +5,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,7 +59,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
       children: [
         kVerticalSpacerMini,
         Visibility(
-          visible: padding !=0,
+          visible: padding != 0,
           child: AppDividerWidget(color: Styles.kDisabledButton),
         ),
         PriceContainer(
@@ -67,7 +68,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Ticket",
+                "ticket".tr(),
                 style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
               ),
               Align(

@@ -12,7 +12,7 @@ import '../../../models/cms_route.dart';
 part 'agent_sign_up_state.dart';
 
 class AgentSignUpCubit extends Cubit<AgentSignUpState> {
-  AgentSignUpCubit() : super(const AgentSignUpState());
+  AgentSignUpCubit(String? language) : super( AgentSignUpState(language));
 
   final _repository = CMSRepository();
 
@@ -33,13 +33,28 @@ class AgentSignUpCubit extends Cubit<AgentSignUpState> {
         return;
       }
       final agentCms =
-      await _repository.agentSignUp(universalSetting.key ?? "");
+      await _repository.agentSignUp(universalSetting.key ?? "",state.language ?? '');
 
       final agentCms2 =
-      await _repository.agenInsurance(universalSetting2?.key ?? '');
+      await _repository.agenInsurance(universalSetting2?.key ?? '',state.language ?? '');
 
+
+
+
+      //Carry-On Baggage
       Items? items = agentCms2.items?.firstWhere((element) => element.name == 'SSR');
 
+      Items? meal24HourItems = agentCms2.items?.firstWhere((element) => element.name == 'Meal Overtime Warning');
+
+      //Carry-On Baggage
+      String? titleMeal24;
+      String? contentMeal24;
+
+      if(meal24HourItems != null) {
+
+        titleMeal24 = meal24HourItems.title;
+        contentMeal24 = meal24HourItems.contentHtmlString;
+      }
       Items? localItem;
       Items? internationItem;
 
@@ -52,6 +67,8 @@ class AgentSignUpCubit extends Cubit<AgentSignUpState> {
 
       emit(
         state.copyWith(
+            meal24Title: titleMeal24,
+            mean24Content: contentMeal24,
             blocState: BlocState.finished,
             agentCms: agentCms,
             userSharedRouteResponse: agentCms2,

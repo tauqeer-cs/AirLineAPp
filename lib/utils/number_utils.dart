@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -45,7 +46,7 @@ class NumberUtils {
     final value = (num ?? 0).toInt();
     final int hour = value ~/ 60;
     final int minutes = value % 60;
-    return '${hour.toString().padLeft(2, "0")} hr ${minutes.toString().padLeft(2, "0")} mins';
+    return '${hour.toString().padLeft(2, "0")} ${'hourShort'.tr()} ${minutes.toString().padLeft(2, "0")} ${'minuteShort'.tr()} ';
   }
 }
 

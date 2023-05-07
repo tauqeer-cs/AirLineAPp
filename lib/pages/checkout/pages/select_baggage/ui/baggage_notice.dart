@@ -1,6 +1,7 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -18,7 +19,7 @@ class BaggageNotice extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Carry-on Baggage", style: kGiantSemiBold),
+          Text('carryOnBaggage'.tr(), style: kGiantSemiBold),
           kVerticalSpacer,
           Html(
             data: carryNotice?.content ?? "",
@@ -26,7 +27,8 @@ class BaggageNotice extends StatelessWidget {
           ),
           kVerticalSpacerBig,
           kVerticalSpacer,
-          const Text("Travel with Oversized items? ", style: kGiantSemiBold),
+          Text('travelOversizedItem'.tr(),
+              style: kGiantSemiBold),
           kVerticalSpacer,
           Html(data: oversizedNotice?.content ?? ""),
         ],

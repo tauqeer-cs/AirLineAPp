@@ -1,7 +1,9 @@
 import 'package:app/models/profile.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import '../../../blocs/profile/profile_cubit.dart';
 import '../../../models/country.dart';
@@ -31,6 +33,8 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
   Widget build(BuildContext context) {
     var cubit = context.watch<ProfileCubit>();
     var profile = cubit.state.profile;
+    final locale = context.locale.toString();
+    initializeDateFormatting(locale, null);
     return FormBuilder(
       autoFocusOnValidationFailure: true,
       key: PersonalInfoView._fbKey,
@@ -39,9 +43,8 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
         child: Column(
           children: [
             NameInput(
-              title: 'Full Name',
-              subText:
-                  'Make sure your name is the same as it appears on your driver’s license or other government-issued ID.',
+              title: 'infoDetail.fullName'.tr(),
+              subText: 'infoDetail.fullNameConfirm'.tr(),
               smallerSubText: true,
               greyMargin: 6,
               customGreyEdgeInsets: EdgeInsets.zero,
@@ -63,7 +66,6 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               phoneSelected: profile?.userProfile?.phoneNumber,
               onCountryChange: (newCountry) {
                 selectedCountry = newCountry;
-
               },
               phoneCountryCode: (newPhoneCountry) {
                 phoneCountry = newPhoneCountry;
@@ -71,7 +73,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
             ),
             kVerticalSpacer,
             AddressInput(
-              title: 'Address',
+              title: 'infoDetail.address'.tr(),
               subText: '',
               hideSubText: true,
               greyMargin: 0,
@@ -93,7 +95,8 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               relationShip:
                   profile?.userProfile?.emergencyContact?.relationship,
               countryCode: profile?.userProfile?.emergencyContact?.phoneCode,
-              phoneNo: profile?.userProfile?.emergencyContact?.phoneNumber ?? '',
+              phoneNo:
+                  profile?.userProfile?.emergencyContact?.phoneNumber ?? '',
               onPhoneCodeChanged: (newCountry) {
                 ePhoneCountry = newCountry;
               },
@@ -103,7 +106,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: Text('infoDetail.cancel'.tr()),
             ),
             kVerticalSpacerSmall,
             ElevatedButton(
@@ -122,68 +125,78 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                   String? posCode = value[formNamePostCode];
                   String? eFirstName = value[formNameFirstNameEmergency];
                   String? eLastName = value[formNameLastNameEmergency];
-                  String? eRelationShip =
-                      value[formNameRelationshipEmergency];
-
+                  String? eRelationShip = value[formNameRelationshipEmergency];
 
                   bool relationShipFlag = true;
 
-
-                  if((eFirstName ?? '').isNotEmpty &&  (eLastName ?? '').isEmpty){
-                    PersonalInfoView._fbKey.currentState!.invalidateField(name: formNameLastNameEmergency,errorText: 'Please enter last name');
+                  if ((eFirstName ?? '').isNotEmpty &&
+                      (eLastName ?? '').isEmpty) {
+                    PersonalInfoView._fbKey.currentState!.invalidateField(
+                        name: formNameLastNameEmergency,
+                        errorText: 'enterLastName'.tr());
                     relationShipFlag = false;
                   }
 
-                  if((eLastName ?? '').isNotEmpty &&  (eFirstName ?? '').isEmpty){
-                    PersonalInfoView._fbKey.currentState!.invalidateField(name: formNameFirstNameEmergency,errorText: 'Please enter first name');
+                  if ((eLastName ?? '').isNotEmpty &&
+                      (eFirstName ?? '').isEmpty) {
+                    PersonalInfoView._fbKey.currentState!.invalidateField(
+                        name: formNameFirstNameEmergency,
+                        errorText: 'enterFirstName'.tr());
                     relationShipFlag = false;
                   }
 
-
-                    if( (eFirstName ?? '').isNotEmpty || (eLastName ?? '').isNotEmpty) {
-                      if((eRelationShip ?? '').isEmpty) {
-                        PersonalInfoView._fbKey.currentState!.invalidateField(name: formNameRelationshipEmergency,errorText: 'Please Select relationship');
-                        relationShipFlag = false;
-                      }
+                  if ((eFirstName ?? '').isNotEmpty ||
+                      (eLastName ?? '').isNotEmpty) {
+                    if ((eRelationShip ?? '').isEmpty) {
+                      PersonalInfoView._fbKey.currentState!.invalidateField(
+                          name: formNameRelationshipEmergency,
+                          errorText: 'selectRelationship'.tr());
+                      relationShipFlag = false;
                     }
+                  }
 
-                    if(!relationShipFlag) {
-                      return;
-                    }
+                  if (!relationShipFlag) {
+                    return;
+                  }
                   String? ePhoneNo = value[formNamePhoneNoRelationship];
 
-                  var userProfile = context.read<ProfileCubit>().state.profile!.userProfile!.copyWith(
-                    icNumber: myId,
-                    title: nameTitle ?? profile?.userProfile?.title,
-                    firstName: fName,
-                    lastName: lName,
-                    nationality: selectedCountry?.countryCode2 ??
-                        profile?.userProfile?.nationality,
-                    email: email,
-                    dob: dob,
-                    phoneCode: phoneCountry?.phoneCode ??
-                        profile?.userProfile?.phoneCode,
-                    phoneNumber: phoneNo,
-                    address: address,
-                    country: addressCountry?.countryCode2 ??
-                        profile?.userProfile?.country,
-                    state: state,
-                    city: city,
-                    postCode: posCode,
-                    emergencyContact: EmergencyContact(
-                      firstName: eFirstName,
-                      lastName: eLastName,
-                      phoneNumber: ePhoneNo,
-                      phoneCode: ePhoneCountry?.phoneCode ?? profile?.userProfile?.emergencyContact?.phoneCode,
-                      relationship: eRelationShip,
-                    ),
-                  );
-
+                  var userProfile = context
+                      .read<ProfileCubit>()
+                      .state
+                      .profile!
+                      .userProfile!
+                      .copyWith(
+                        icNumber: myId,
+                        title: nameTitle ?? profile?.userProfile?.title,
+                        firstName: fName,
+                        lastName: lName,
+                        nationality: selectedCountry?.countryCode2 ??
+                            profile?.userProfile?.nationality,
+                        email: email,
+                        dob: dob,
+                        phoneCode: phoneCountry?.phoneCode ??
+                            profile?.userProfile?.phoneCode,
+                        phoneNumber: phoneNo,
+                        address: address,
+                        country: addressCountry?.countryCode2 ??
+                            profile?.userProfile?.country,
+                        state: state,
+                        city: city,
+                        postCode: posCode,
+                        emergencyContact: EmergencyContact(
+                          firstName: eFirstName,
+                          lastName: eLastName,
+                          phoneNumber: ePhoneNo,
+                          phoneCode: ePhoneCountry?.phoneCode ??
+                              profile?.userProfile?.emergencyContact?.phoneCode,
+                          relationship: eRelationShip,
+                        ),
+                      );
 
                   context.read<ProfileCubit>().updateProfile(userProfile);
                 }
               },
-              child: const Text("Save"),
+              child: const Text('infoDetail.save'),
             ),
             kVerticalSpacer,
           ],

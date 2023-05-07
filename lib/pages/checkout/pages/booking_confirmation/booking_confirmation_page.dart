@@ -5,10 +5,13 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/animations/booking_loader.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+
+import '../../../check_in/bloc/check_in_cubit.dart';
 
 class BookingConfirmationPage extends StatefulWidget {
   final String bookingId;
@@ -32,6 +35,11 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
   @override
   Widget build(BuildContext context) {
     print("booking ${widget.bookingId}");
+
+    CheckInCubit? bloc = context.watch<CheckInCubit>();
+    bloc.resetList();
+
+
     return LoaderOverlay(
       useDefaultLoading: false,
       child: BlocProvider(
@@ -39,7 +47,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
             ConfirmationCubit()..getConfirmation(widget.bookingId),
         child: Scaffold(
           appBar: AppAppBar(
-            title: "Confirmation",
+            title: "confirmation".tr(),
             titleColor: Styles.kPrimaryColor,
             height: 60.h,
             centerTitle: true,

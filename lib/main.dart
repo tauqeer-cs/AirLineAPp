@@ -7,6 +7,7 @@ import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/models/booking_local.dart';
 import 'package:app/models/user.dart';
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -24,6 +25,7 @@ main() async {
 
 void run() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: AppFlavor.firebaseOptions,
   );
@@ -50,7 +52,11 @@ void run() async {
     () async {
       // The following lines are the same as previously explained in "Handling uncaught errors"
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-      runApp(const App());
+      runApp(EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('th')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en'),
+          child: const App()));
     },
     (error, stackTrace) {
       // The following lines are the same as previously explained in "Handling uncaught errors"

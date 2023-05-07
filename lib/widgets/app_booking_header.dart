@@ -1,12 +1,14 @@
 import 'package:app/theme/theme.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppBookingHeader extends StatefulWidget {
   final List<BookingStep> passedSteps;
 
-  const AppBookingHeader({Key? key, required this.passedSteps}) : super(key: key);
+  const AppBookingHeader({Key? key, required this.passedSteps})
+      : super(key: key);
 
   @override
   State<AppBookingHeader> createState() => _AppBookingHeaderState();
@@ -33,7 +35,7 @@ class _AppBookingHeaderState extends State<AppBookingHeader> {
       children: [
         kVerticalSpacer,
         Text(
-          "Your trip starts here",
+          "yourTripStartsHere".tr(),
           style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
         ),
         kVerticalSpacer,
@@ -70,7 +72,7 @@ class _AppBookingHeaderState extends State<AppBookingHeader> {
                             : const Radius.circular(12))),
                 child: Center(
                     child: Text(
-                  e.message,
+                  e.messageTranslated.tr(),
                   style: kHugeSemiBold.copyWith(color: Colors.white),
                 )),
               );
@@ -84,12 +86,13 @@ class _AppBookingHeaderState extends State<AppBookingHeader> {
 }
 
 enum BookingStep {
-  flights("Flights"),
-  addOn("Add-On"),
-  bookingDetails("Booking Details"),
-  payment("Payment");
+  flights("Flights", "flights"),
+  addOn("Add-On", "addOn"),
+  bookingDetails("Booking Details", "bookingDetails"),
+  payment("Payment", "payment");
 
-  const BookingStep(this.message);
+  const BookingStep(this.message, this.messageTranslated);
 
   final String message;
+  final String messageTranslated;
 }

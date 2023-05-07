@@ -10,6 +10,7 @@ import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,9 @@ import '../../../../../widgets/app_loading_screen.dart';
 
 class RedeemVoucherView extends StatelessWidget {
   final bool promoReady;
+
   final String? currency;
+
 
   const RedeemVoucherView({Key? key, required this.promoReady,this.currency})
       : super(key: key);
@@ -45,91 +48,98 @@ class RedeemVoucherView extends StatelessWidget {
         promotionsList = bloc.state.redemptionOption?.availableOptions;
       }
     }
-    return !state.promoLoaded
-        ? const AppLoading()
-        : (promoReady && promotionsList == null)
-        ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        kVerticalSpacerSmall,
-        Text(
-          "MYReward",
-          style: kHugeSemiBold.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        kVerticalSpacerMini,
-        Text(
-          "Login to redeem your MYReward Points for further discounts!",
-          style: kMediumRegular.copyWith(),
-        ),
-        kVerticalSpacerMini,
+    final user = context.read<AuthBloc>().state.user;
 
-        ElevatedButton(
-          onPressed: () => showLoginDialog(context),
-          child: Text("Login"),
-        ),
-        kVerticalSpacerSmall,
-      ],
-    )
-        : Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // ElevatedButton(
-        //     onPressed: () {
-        //       LoginCubit().logout();
-        //     },
-        //     child: Text("logout")),
-        kVerticalSpacerSmall,
-        Text(
-          "MYReward",
-          style: kHugeSemiBold.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        kVerticalSpacerSmall,
-        const Text(
-          'Redeem your MYReward Points from options below!',
-          style: kMediumRegular,
-        ),
-        kVerticalSpacer,
-        for (var currenteItem in promotionsList ?? []) ...[
-          AppCard(
-            customColor: Colors.white,
-            edgeInsets: EdgeInsets.zero,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Radio(
-                      fillColor: MaterialStateColor.resolveWith(
-                              (states) => Styles.kDartBlack),
-                      activeColor: Styles.kActiveColor,
-                      value: bloc.getSelectedItem,
-                      groupValue: currenteItem,
-                      onChanged: (value) {
-                        bloc.selectedItem(currenteItem);
-                      }),
-                  Text(
-                    currenteItem.redeemAmountString(currency ?? 'MYR'),
-                    style: kMediumMedium,
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Text(
-                    '${currenteItem.redemptionPoint} points',
-                    style: kMediumMedium,
-                  ),
-                ],
-              ),
+    return
+      user  == null ? Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          kVerticalSpacerSmall,
+          Text(
+            "MYReward",
+            style: kHugeSemiBold.copyWith(
+              fontWeight: FontWeight.bold,
             ),
+          ),
+          kVerticalSpacerMini,
+          Text(
+            "loginToRedeemDiscounts".tr(),
+            style: kMediumRegular.copyWith(),
+          ),
+          kVerticalSpacerMini,
+
+          ElevatedButton(
+            onPressed: () async {
+              showLoginDialog(context);
+
+            },
+            child:  Text("logIn".tr()),
           ),
           kVerticalSpacerSmall,
         ],
-        kVerticalSpacerSmall,
-      ],
-    );
+      ) :
+      !state.promoLoaded
+          ? const AppLoading()
+          : (promoReady && promotionsList == null)
+          ? Container()
+          : Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ElevatedButton(
+          //     onPressed: () {
+          //       LoginCubit().logout();
+          //     },
+          //     child: Text("logout")),
+          kVerticalSpacerSmall,
+          Text(
+            "MYReward",
+            style: kHugeSemiBold.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          kVerticalSpacerSmall,
+          Text(
+            'paymentView.myrewardDesc'.tr(),
+            style: kMediumRegular,
+          ),
+          kVerticalSpacer,
+          for (var currenteItem in promotionsList ?? []) ...[
+            AppCard(
+              customColor: Colors.white,
+              edgeInsets: EdgeInsets.zero,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Radio(
+                        fillColor: MaterialStateColor.resolveWith(
+                                (states) => Styles.kDartBlack),
+                        activeColor: Styles.kActiveColor,
+                        value: bloc.getSelectedItem,
+                        groupValue: currenteItem,
+                        onChanged: (value) {
+                          bloc.selectedItem(currenteItem);
+                        }),
+                    Text(
+                      currenteItem.redeemAmountString(currency ?? 'MYR'),
+                      style: kMediumMedium,
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Text(
+                      '${currenteItem.redemptionPoint} ${'paymentView.points'.tr()}',
+                      style: kMediumMedium,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            kVerticalSpacerSmall,
+          ],
+          kVerticalSpacerSmall,
+        ],
+      );
   }
 
   showLoginDialog(BuildContext context) {
@@ -150,7 +160,7 @@ class RedeemVoucherView extends StatelessWidget {
         useDefaultLoading: false,
         overlayWidget: SizedBox(
           height: 0.5.sh,
-          child: const AppLoadingScreen(message: "Loading"),
+          child:  AppLoadingScreen(message: 'loading'.tr()),
         ),
         child: BlocProvider(
           create: (context) => LoginCubit(),
@@ -172,6 +182,7 @@ class RedeemVoucherView extends StatelessWidget {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
                       var token =context.read<SummaryCubit>().state.summaryResponse?.token;
+
                       print("token is $token");
                       if (token != null) {
                         context
@@ -179,7 +190,7 @@ class RedeemVoucherView extends StatelessWidget {
                             .getAvailablePromotions(token);
                       }
                       Toast.of(context)
-                          .show(message: "Welcome back", success: true);
+                          .show(message: 'welcomeBack'.tr(), success: true);
                       context.router.pop();
                     },
                   );
@@ -226,10 +237,10 @@ class RedeemVoucherView extends StatelessWidget {
       barrierDismissible: false,
       builder: (_) {
         return AppConfirmationDialog(
-          title: "Your email hasn't been verified yet.",
+          title: "verifyEmail.emailVerifyTitle".tr(),
           subtitle:
-          "Hey, you haven't verified your MYReward account yet! Earn points and get amazing deals for your flight experience with MYAirline.",
-          confirmText: "Resend",
+          "verifyEmail.emailVerifyDesc".tr(),
+          confirmText: "verifyEmail.resend".tr(),
           onConfirm: () {
             AuthenticationRepository()
                 .sendEmail(ResendEmailRequest(email: email));
@@ -237,12 +248,12 @@ class RedeemVoucherView extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "We've sent a verification link to your email ${email.sensorEmail()}. Please check your email and click on the link.",
+                "${'verifyEmail.emailVerifyLink1'.tr()} ${email.sensorEmail()}. ${'verifyEmail.emailVerifyLink2'.tr()}",
                 style: kMediumHeavy,
               ),
               kVerticalSpacer,
-              const Text(
-                "Click resend if you didn’t receive the email. ",
+              Text(
+                "verifyEmail.emailVerifyLink3".tr(),
               ),
               kVerticalSpacer,
             ],

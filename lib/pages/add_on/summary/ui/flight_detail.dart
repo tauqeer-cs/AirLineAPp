@@ -6,6 +6,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/app_money_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +32,7 @@ class FlightSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-              isDeparture ? "Departing Flight" : "Returning Flight",
+              isDeparture ? 'departFlight'.tr() : 'returningFlight'.tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -47,7 +48,7 @@ class FlightSummaryDetail extends StatelessWidget {
           kVerticalSpacerMini,
           ChildRow(
             child1: Text(
-              "Depart",
+              'flightDetail.depart'.tr(),
               style: kMediumRegular,
 
             ),
@@ -61,7 +62,7 @@ class FlightSummaryDetail extends StatelessWidget {
           kVerticalSpacerMini,
           ChildRow(
             child1: Text(
-              "Arrive",
+              'arrive'.tr(),
               style: kMediumRegular,
 
             ),

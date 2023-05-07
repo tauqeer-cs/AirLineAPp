@@ -1,4 +1,5 @@
 import 'package:app/pages/change_flight_summary/ui/change_flight_summary_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +15,7 @@ class ChangeFlightSummaryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppAppBar(
         centerTitle: true,
-        title: 'Change Flight',
+        title: 'changeFlightView.changeFlight'.tr(),
         height: 60.h,
         overrideInnerHeight: true,
       ),

@@ -3,6 +3,7 @@ import 'package:app/pages/checkout/ui/cubit/is_payment_page_cubit.dart';
 import 'package:app/pages/checkout/ui/fares_and_bundles_detail.dart';
 import 'package:app/widgets/app_money_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,7 +40,7 @@ class _FaresAndBundlesState extends State<FaresAndBundles> {
             child: Row(
               children: [
                 Text(
-                  isPaymentPage ? "Fares and Bundles" : "- Fares and Bundles",
+                  isPaymentPage ? "priceSection.fareBundles".tr() : "- ${'priceSection.fareBundles'.tr()}",
                   style: kMediumRegular,
                 ),
                 kHorizontalSpacerSmall,

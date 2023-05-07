@@ -4,6 +4,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/utils/number_utils.dart';
 import 'package:app/widgets/app_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,10 +53,10 @@ class _PaymentInfoState extends State<PaymentInfo> {
             },
             child: Row(
               children: [
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Payment",
+                    "paymentView.paymentTitle".tr(),
                     style: kHugeSemiBold,
                   ),
                 ),
@@ -74,7 +75,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
               children: [
                 kVerticalSpacerSmall,
                 ...(payments ?? [])
-                    .map((f) => PaymentDetail(paymentOrder: f, changeFlight: widget.isChange,))
+                    .map((f) => PaymentDetail(paymentOrder: f))
                     .toList(),
               ],
             ),
@@ -88,13 +89,14 @@ class _PaymentInfoState extends State<PaymentInfo> {
 class PaymentDetail extends StatelessWidget {
   final PaymentOrder paymentOrder;
 
-  final bool changeFlight;
-
-  const PaymentDetail({Key? key, required this.paymentOrder, required this.changeFlight}) : super(key: key);
+  const PaymentDetail({Key? key, required this.paymentOrder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     var currency = 'MYR';
+
     if(changeFlight) {
       print('');
     }
@@ -109,7 +111,6 @@ class PaymentDetail extends StatelessWidget {
           'MYR';
     }
 
-
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -118,7 +119,7 @@ class PaymentDetail extends StatelessWidget {
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content:
-                '${paymentOrder.cardOption}',
+            '${paymentOrder.cardOption}',
             makeBoldAll: true,
 
           ),
@@ -143,24 +144,24 @@ class PaymentDetail extends StatelessWidget {
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content:
-                '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate)} Local Time',
+            '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate,locale: locale)} ${'localTime'.tr()}',
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
-            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate),
+            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate,locale: locale),
           ),
           kVerticalSpacer,
           Row(
             children: [
-              const BorderedLeftContainerNoTitle(
+              BorderedLeftContainerNoTitle(
                 content:
-                    "Total ",
+                "flightCharge.total".tr(),
                 makeBoldAll: true,
               ),
 
               Expanded(child: Container(),),
 
-              Text(paymentOrder.currencyCode ?? currency + NumberUtils.formatNum(paymentOrder.paymentAmount), style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+              Text(paymentOrder.currencyCode ?? currency  + NumberUtils.formatNum(paymentOrder.paymentAmount), style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
 
 
               Expanded(

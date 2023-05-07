@@ -6,6 +6,7 @@ import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/wave_background.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -55,7 +56,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                     color: Colors.white,
                   ),
                   title: Text(
-                    'Reset Password',
+                    '${'paymentView.reset'.tr()} ${'personalInfo.password'.tr()}',
                     style: kHugeSemiBold.copyWith(color: Colors.white),
                   ),
                   elevation: 0,

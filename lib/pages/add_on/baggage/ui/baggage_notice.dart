@@ -1,6 +1,7 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +53,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   children: [
                     Expanded(
                       child: Text(
-                        "Travelling with Sports Equipments?",
+                        "travellingSports".tr(),
                         style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
                       ),
                     ),
@@ -78,12 +79,12 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   RichText(
                     text: TextSpan(
                       text:
-                      'You may purchase baggage allowance for any sports equipment that does not exceed a certain size. Please read our ',
+                      'baggageMessage'.tr(),
                       style: kMediumRegular.copyWith(
                           color: Styles.kTextColor, height: 20 / 14),
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'FAQ ',
+                          text: 'checkInTermsFAQ'.tr(),
                           style: kMediumRegular.copyWith(
                             color: Styles.kPrimaryColor,
                             decoration: TextDecoration.underline,
@@ -95,7 +96,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                             },
                         ),
                         TextSpan(
-                          text: 'for more information.',
+                          text: 'forMoreInfo'.tr(),
                           style: kMediumRegular.copyWith(
                               color: Styles.kTextColor, height: 20 / 14),
                         ),
@@ -104,7 +105,6 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   ),
                   kVerticalSpacerSmall,
                   const SportsEquipmentCard(),
-
                 ],
               ),
             ),
@@ -116,9 +116,9 @@ class _BaggageNoticeState extends State<BaggageNotice> {
           ],
           kVerticalSpacer,
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
             child: Text(
-              "Carry-on Baggage",
+              "carryOnBaggage".tr(),
               style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
             ),
           ),
@@ -139,7 +139,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 0.0),
             child: Text(
-              "Oversized Item",
+              "oversizedItem".tr(),
               style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
             ),
           ),
@@ -211,8 +211,6 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     final baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
     final baggageGroup1 = bookingState.verifyResponse?.flightSSR?.baggageGroup;
     var squareDesign = true;
-
-    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     final baggage =
     isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
@@ -287,16 +285,15 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                               ],
                             ),
                             trailing: Container(
-                              constraints: BoxConstraints(
-                                  minWidth: 60
-                              ),
+                              constraints: BoxConstraints(minWidth: 60),
                               child: Column(
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    currentItem.currencyCode ?? currency,
+                                    currentItem.currencyCode ?? 'MYR',
                                     style: kMediumHeavy,
                                   ),
                                   Text(

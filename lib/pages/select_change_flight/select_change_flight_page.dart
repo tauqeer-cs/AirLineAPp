@@ -1,4 +1,5 @@
 import 'package:app/pages/select_change_flight/ui/select_change_flight_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,16 +15,13 @@ class SelectChangeFlightPage extends StatelessWidget {
     return Scaffold(
       appBar: AppAppBar(
         centerTitle: true,
-        title: 'Change Flight',
+        title: 'changeFlightView.changeFlight'.tr(),
         height: 60.h,
         overrideInnerHeight: true,
 
       ),
       body: BlocConsumer<ManageBookingCubit, ManageBookingState>(
         listener: (context, state) {
-
-
-
         },
         builder: (context, state) {
           return const SelectChangeFlightView();

@@ -16,6 +16,7 @@ import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/utils/user_insider.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/flutter_insider.dart';
@@ -32,14 +33,13 @@ class SpecialView extends StatefulWidget {
 class _SpecialViewState extends State<SpecialView> {
   final scrollController = ScrollController();
 
-
   @override
   Widget build(BuildContext context) {
     final flightType =
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
     return BlocProvider(
       create: (context) =>
-      IsDepartureCubit()..changeDeparture(widget.isDeparture),
+          IsDepartureCubit()..changeDeparture(widget.isDeparture),
       child: Stack(
         children: [
           SummaryContainerListener(
@@ -49,7 +49,7 @@ class _SpecialViewState extends State<SpecialView> {
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                const TitleSummaryHeader(title: "Special Add-On"),
+                TitleSummaryHeader(title: "specialAddOn".tr()),
                 kVerticalSpacer,
                 FlightDetailWidget(
                   isDeparture: widget.isDeparture,
@@ -125,19 +125,19 @@ class ContinueButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () async{
+      onPressed: () async {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(SpecialRoute(isDeparture: false));
         } else {
-          FlutterInsider.Instance.visitProductDetailPage(UserInsider.of(context).generateProduct());
+          FlutterInsider.Instance.visitProductDetailPage(
+              UserInsider.of(context).generateProduct());
           var response = await context.router.push(const BookingDetailsRoute());
-          if(response == true) {
+          if (response == true) {
             context.router.push(const BookingDetailsRoute());
           }
-
         }
       },
-      child: const Text("Continue"),
+      child: Text("continue".tr()),
     );
   }
 }

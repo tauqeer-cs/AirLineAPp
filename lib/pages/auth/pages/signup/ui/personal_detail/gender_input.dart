@@ -2,6 +2,7 @@ import 'package:app/pages/auth/pages/signup/ui/form_header.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/typography.dart';
 import 'package:app/widgets/containers/grey_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class GenderInput extends StatefulWidget {
@@ -21,11 +22,11 @@ class _GenderInputState extends State<GenderInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormHeader(
-          title: "What's your gender?",
-          subtitle: "Select the gender as stated on your MyKad/Passport ",
+        FormHeader(
+          title: "genderQuestion".tr(),
+          subtitle: "genderDesc".tr(),
         ),
-        const Text("Gender", style: kLargeSemiBold),
+        Text("gender".tr(), style: kLargeSemiBold),
         kVerticalSpacer,
         InkWell(
           onTap: () {
@@ -36,7 +37,6 @@ class _GenderInputState extends State<GenderInput> {
           },
           child: GreyCard(
             edgeInsets: const EdgeInsets.all(8),
-
             child: Row(
               children: [
                 Radio<String?>(
@@ -55,7 +55,7 @@ class _GenderInputState extends State<GenderInput> {
                   },
                 ),
                 kHorizontalSpacerMini,
-                const Text("Male"),
+                Text("male".tr()),
               ],
             ),
           ),
@@ -87,7 +87,7 @@ class _GenderInputState extends State<GenderInput> {
                   },
                 ),
                 kHorizontalSpacerMini,
-                const Text("Female"),
+                Text("female".tr()),
               ],
             ),
           ),

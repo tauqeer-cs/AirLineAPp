@@ -6,6 +6,7 @@ import 'package:app/utils/user_insider.dart';
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/flutter_insider.dart';
@@ -39,7 +40,6 @@ const formNamePhoneRelationship = "emergency_phone";
 const formNamePhoneCodeRelationship = "emergency_phone_code";
 const formNamePhoneNoRelationship = "emergency_phone_no";
 
-
 class SignupWrapperPage extends StatelessWidget {
   const SignupWrapperPage({Key? key}) : super(key: key);
 
@@ -48,7 +48,7 @@ class SignupWrapperPage extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
-        overlayWidget: const AppLoadingScreen(message: "Loading"),
+        overlayWidget: AppLoadingScreen(message: "loading".tr()),
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
@@ -75,8 +75,8 @@ class SignupWrapperPage extends StatelessWidget {
                   context.loaderOverlay.hide();
                   context.router.root.replace(
                       CompleteSignupRoute(signupRequest: state.signupRequest));
-                  Toast.of(context).show(
-                      message: "Account created", success: true);
+                  Toast.of(context)
+                      .show(message: "Account created", success: true);
                 },
               );
             },

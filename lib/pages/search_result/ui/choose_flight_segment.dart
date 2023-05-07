@@ -9,6 +9,7 @@ import 'package:app/theme/typography.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:app/widgets/app_tooltip.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,7 @@ enum SortFlight {
 
   @override
   String toString() {
-    return name.capitalize();
+    return name.tr();
   }
 }
 
@@ -104,7 +105,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                           size: 25,
                         ),
                         Text(
-                          "Sort by",
+                          'sortBy'.tr(),
                           style: kSmallRegular.copyWith(
                               color: Styles.kBorderColor),
                         ),
@@ -134,8 +135,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                   style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                   children: <TextSpan>[
                     TextSpan(
-                      text:
-                      'All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our ',
+                      text: 'flightSummary.fareRules'.tr(args: [filter?.numberPerson.toBeautify() ?? '']),
                     ),
                     TextSpan(
                       recognizer: TapGestureRecognizer()
@@ -146,7 +146,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                         },
                       style:
                       kMediumMedium.copyWith(color: Styles.kPrimaryColor),
-                      text: 'Fare Rules.',
+                      text: 'flightSummary.fareRules2'.tr(),
                     ),
                   ],
                 ),
@@ -173,11 +173,11 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
           ],
         ),
         sortedSegment.isEmpty
-            ? const Padding(
-                padding: EdgeInsets.all(20.0),
+            ? Padding(
+                padding: const EdgeInsets.all(20.0),
                 child: Center(
                   child: Text(
-                    "No flight available for this date",
+                    'flight.noAvailable'.tr(),
                     style: kHugeSemiBold,
                   ),
                 ),

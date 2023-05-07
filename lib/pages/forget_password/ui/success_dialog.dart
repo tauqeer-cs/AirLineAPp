@@ -1,5 +1,6 @@
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/theme.dart';
@@ -19,13 +20,13 @@ class SuccessDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Padding(
+               Padding(
                 padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
-                child: Text("Check your inbox", style: kGiantHeavy),
+                child: Text("forgotPassword2.checkInbox".tr(), style: kGiantHeavy),
               ),
               kVerticalSpacerMini,
               Text(
-                "We’ll email you a link to reset your password. If you’re using the email registered for your MYAirline account and you still haven’t received it, please check your junk folder. ",
+                "forgotPassword2.checkEmail".tr(),
                 style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               ),
               kVerticalSpacer,
@@ -33,7 +34,7 @@ class SuccessDialog extends StatelessWidget {
                 onPressed: () {
                   context.router.pop();
                 },
-                child: const Text("Okay"),
+                child:  Text("expiredPopup.ok".tr()),
               )
             ],
           ),

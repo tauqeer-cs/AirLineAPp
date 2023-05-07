@@ -6,6 +6,7 @@ import 'package:app/pages/add_on/summary/ui/summary_view.dart';
 import 'package:app/widgets/app_app_bar.dart';
 import 'package:app/widgets/app_booking_step.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +15,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import '../../../app/app_router.dart';
 
 class SummaryPage extends StatelessWidget {
-
   const SummaryPage({Key? key}) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class SummaryPage extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppAppBar(
-            title: "Summary",
+            title: 'summary'.tr(),
             height: 60.h,
           ),
           body: SummaryView(),

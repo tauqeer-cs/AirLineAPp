@@ -119,7 +119,7 @@ class _SeatRowState extends State<SeatRow> {
             child: Visibility(
               visible: selected || otherSelected,
               child: Container(
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle, color: Styles.kPrimaryColor),
                 child: Center(

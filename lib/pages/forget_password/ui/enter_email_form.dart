@@ -1,6 +1,7 @@
 import 'package:app/pages/forget_password/bloc/forget_password_cubit.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -40,21 +41,21 @@ class EnterEmailForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(
+                 Padding(
+                  padding: const EdgeInsets.symmetric(
                       vertical: 0.0, horizontal: 0),
-                  child: Text("Forgot your password?", style: kGiantHeavy),
+                  child: Text("passwordReset.forgotPassword".tr(), style: kGiantHeavy),
                 ),
                 kVerticalSpacerMini,
                 Text(
-                  "Enter the email you registered with. ",
+                  "passwordReset.enterEmail".tr(),
                   style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                 ),
                 kVerticalSpacer,
                 AppInputText(
                   textEditingController: _controller,
                   name: formEmail,
-                  hintText: "Email",
+                  hintText: "loginForm.email".tr(),
                   validators: [
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),
@@ -73,7 +74,7 @@ class EnterEmailForm extends StatelessWidget {
                       }
                       onRequest(context);
                     },
-                    child: const Text("Submit"))
+                    child:  Text("confirmationView.submit".tr()))
               ],
             ),
           ),

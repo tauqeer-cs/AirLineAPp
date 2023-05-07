@@ -2,6 +2,7 @@ import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/pages/delete_account/bloc/delete_account_cubit.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -49,7 +50,7 @@ class DeleteAccountForm extends StatelessWidget {
                 kVerticalSpacer,
                 AppInputPassword(
                   name: formPassword,
-                  hintText: 'Password',
+                  hintText: 'password'.tr(),
                   validators: [
                     FormBuilderValidators.required(),
                     FormBuilderValidators.match(

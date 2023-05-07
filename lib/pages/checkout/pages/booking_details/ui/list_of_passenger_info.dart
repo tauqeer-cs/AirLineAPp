@@ -7,6 +7,7 @@ import 'package:app/pages/checkout/pages/booking_details/ui/pessenger_info.dart'
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/security_utils.dart';
 import 'package:app/widgets/containers/grey_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,33 +30,29 @@ class ListOfPassengerInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Important Information:",
+                "${"importantInformation".tr()}:",
                 style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
               ),
               kVerticalSpacerSmall,
-              RowBulletNumbering(
-                  title: "Names on IDs and passports must match."),
-              RowBulletNumbering(
-                  title:
-                      "The name should be entered in both fields if it consists only of a single word-name."),
-              RowBulletNumbering(
-                  title:
-                      "Once your booking is confirmed, you are not allowed to make any changes"),
+              RowBulletNumbering(title: "idNameMatch".tr()),
+              RowBulletNumbering(title: "nameBothFieldsRequired".tr()),
+              RowBulletNumbering(title: "confirmationNoChanges".tr()),
               Visibility(
-                visible: (persons?.numberOfInfant??0)>0 || (persons?.numberOfChildren??0)>0,
+                visible: (persons?.numberOfInfant ?? 0) > 0 ||
+                    (persons?.numberOfChildren ?? 0) > 0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kVerticalSpacer,
                     Text(
-                      "Travelling with kids?",
+                      "commForm.travelKids".tr(),
                       style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
                     ),
                     kVerticalSpacerSmall,
                     Text(
-                      "Rows 1, 12 and 14 are emergency exit seats and cannot be assigned to a child.",
-                      style: kMediumMedium.copyWith(color: Styles.kSubTextColor),
-
+                      "rowNoEmergency".tr(),
+                      style:
+                          kMediumMedium.copyWith(color: Styles.kSubTextColor),
                     ),
                     kVerticalSpacerSmall,
                   ],
@@ -70,22 +67,21 @@ class ListOfPassengerInfo extends StatelessWidget {
             children: [
               TextSpan(
                 text:
-                    'If you\'re having any issues when filling in your name, please refer to our guidelines on filling in your personal details in our ',
+                    'commForm.commFormFAQ'.tr(),
                 style: kMediumMedium.copyWith(
                     color: Styles.kTextColor, height: 1.5),
               ),
               TextSpan(
                 recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  SecurityUtils.tryLaunch(
-                      'https://www.myairline.my/fares-fees');
-                },
-                text: 'FAQ',
+                  ..onTap = () {
+                    SecurityUtils.tryLaunch(
+                        'https://www.myairline.my/fares-fees');
+                  },
+                text: 'commForm.faq'.tr(),
                 style: kMediumHeavy.copyWith(
-                  color: Colors.blue,
-                  height: 1.5,
-                  decoration: TextDecoration.underline
-                ),
+                    color: Colors.blue,
+                    height: 1.5,
+                    decoration: TextDecoration.underline),
               ),
             ],
           ),

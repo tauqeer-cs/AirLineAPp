@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
 import 'package:app/data/requests/update_password_request.dart';
@@ -10,54 +8,21 @@ import 'package:app/pages/auth/pages/signup/ui/password_input.dart';
 import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-import '../../../app/app_flavor.dart';
-import '../../../blocs/profile/profile_cubit.dart';
-import '../../../data/api.dart';
-import '../../../data/provider/profile_provider.dart';
 import '../../../theme/theme.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:flutter/widgets.dart';
 
 class AccountSettingView extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
 
   const AccountSettingView({Key? key}) : super(key: key);
 
-  void selectImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      final xFile = XFile(pickedFile.path);
-      final file = File(xFile.path);
-
-      var _provider = ProfileProvider(
-        Api.client,
-        baseUrl: '${AppFlavor.baseUrlApi}/v1/',
-      );
-
-      _provider.uploadProfilePicture(file);
-
-      // Do something with the converted File object
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    String? currency = context
-        .watch<ProfileCubit>()
-        .state
-        .profile
-        ?.userProfile
-        ?.profileImageURL;
-
     return FormBuilder(
       key: _fbKey,
       child: SingleChildScrollView(
@@ -65,52 +30,38 @@ class AccountSettingView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            /*if (currency != null) ...[
-              Image.memory(base64Decode(currency ?? '')),
-            ] else ...[
-              TextButton(
-                onPressed: () {
-                  selectImage();
-                },
-                child: const Text('Select Image'),
-              ),
-            ],*/
-
-
-            const FormHeader(
-              title: "Change Password",
+            FormHeader(
+              title: 'accountDetail.changePassword'.tr(),
               graySubText: true,
               smallerHeaderText: true,
-              subtitle: "To verify your identity, enter your current password.",
+              subtitle: 'accountDetail.verifyIdentity'.tr(),
             ),
             GreyCard(
               child: AppInputPassword(
                 name: formNameNewPassword,
-                hintText: 'Password',
+                hintText: 'password'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(
                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                      errorText:
-                          'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.')
+                      errorText: 'minCharsValidation'.tr())
                 ],
               ),
             ),
             kVerticalSpacer,
             kVerticalSpacerSmall,
-            const PasswordInput(title: "Set New Password"),
+            PasswordInput(title: 'accountDetail.setNewPassword'.tr()),
             kVerticalSpacerSmall,
             OutlinedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancel'),
+              child: Text('infoDetail.cancel'.tr()),
             ),
             kVerticalSpacerSmall,
             ElevatedButton(
               onPressed: () => onChangePassword(context),
-              child: const Text("Save"),
+              child: Text('accountDetail.save'.tr()),
             ),
             kVerticalSpacerMini,
             Center(
@@ -119,7 +70,7 @@ class AccountSettingView extends StatelessWidget {
                   context.router.push(const DeleteAccountRoute());
                 },
                 child: Text(
-                  "Delete Account",
+                  'account.deleteAccount'.tr(),
                   style: kMediumRegular.copyWith(color: Styles.kBorderColor),
                 ),
               ),

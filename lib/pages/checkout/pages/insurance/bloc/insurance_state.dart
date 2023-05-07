@@ -2,6 +2,13 @@ part of 'insurance_cubit.dart';
 
 class InsuranceState extends Equatable {
   final List<Passenger> passengers;
+
+  List<Passenger> get passengersWithOutInfants {
+
+
+    return passengers.where((element) => element.paxType != 'INF').toList();
+
+  }
   final SummaryResponse? summaryResponse;
   final BlocState blocState;
   final String message;
@@ -9,14 +16,13 @@ class InsuranceState extends Equatable {
   final int selectedPassenger;
   final Bundle? lastInsuranceSelected;
 
-
   const InsuranceState({
     this.summaryResponse,
     this.passengers = const [],
     this.blocState = BlocState.initial,
     this.message = '',
     this.insuranceType,
-    this.selectedPassenger= 0,
+    this.selectedPassenger = 0,
     this.lastInsuranceSelected,
   });
 
@@ -28,7 +34,6 @@ class InsuranceState extends Equatable {
     InsuranceType? insuranceType,
     int? selectedPassenger,
     Bundle? lastInsuranceSelected,
-
   }) {
     return InsuranceState(
       blocState: blocState ?? this.blocState,
@@ -37,8 +42,8 @@ class InsuranceState extends Equatable {
       passengers: passengers ?? this.passengers,
       insuranceType: insuranceType ?? this.insuranceType,
       selectedPassenger: selectedPassenger ?? this.selectedPassenger,
-      lastInsuranceSelected: lastInsuranceSelected ?? this.lastInsuranceSelected,
-
+      lastInsuranceSelected:
+          lastInsuranceSelected ?? this.lastInsuranceSelected,
     );
   }
 
@@ -49,9 +54,17 @@ class InsuranceState extends Equatable {
         message,
         passengers,
         insuranceType,
-    selectedPassenger,
-    lastInsuranceSelected
+        selectedPassenger,
+        lastInsuranceSelected
       ];
+
+  double totalInsurance() {
+    double totalInsurance = 0;
+    for (var element in passengersWithOutInfants) {
+      totalInsurance = totalInsurance + (element.getInsurance?.price ?? 0);
+    }
+    return totalInsurance;
+  }
 }
 
 enum InsuranceType {
