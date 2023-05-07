@@ -14,6 +14,19 @@ class NumberUtils {
   }
 
   static String formatNumberNoTrailing(num? number) {
+    if(number != null) {
+      if (number >= 1000) {
+        double value = number / 1000;
+        String formattedValue = value.toStringAsFixed(2);
+        if (formattedValue.endsWith('.00')) {
+          formattedValue = formattedValue.substring(0, formattedValue.length - 3);
+        } else if (formattedValue.endsWith('0')) {
+          formattedValue = formattedValue.substring(0, formattedValue.length - 1);
+        }
+        return "${formattedValue}K";
+      }
+    }
+
     NumberFormat numberFormat = NumberFormat("#,##0", "en_US");
     return numberFormat.format(number ?? 0);
   }

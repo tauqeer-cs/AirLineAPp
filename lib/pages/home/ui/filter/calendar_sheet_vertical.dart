@@ -151,6 +151,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         context.read<PriceRangeCubit>().getPrices(
                               filterCubit.state,
                               startFilter: DateTime(year, month, 1),
+                          currency: filterCubit.state.origin?.currency ?? 'MYR'
                             );
                       },
                       startWeekWithSunday: true,
@@ -212,6 +213,11 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                             date, priceState.loadingDate);
                         final event = prices.firstWhereOrNull(
                             (event) => isSameDay(event.date, date));
+
+                        if(event != null){
+                          print('');
+
+                        }
                         final isBefore = date.isBefore(
                             DateTime(now.year, now.month, now.day, 0, 0, 0));
                         return Container(
@@ -253,7 +259,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                             children: [
                                               Flexible(
                                                 child: Text(
-                                                  "MYR",
+                                                  filterCubit.state.origin?.currency ?? 'MYR',
                                                   style: kExtraSmallMedium
                                                       .copyWith(
                                                           color: inRange
@@ -272,7 +278,11 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                                             ? event.returnPrice
                                                             : event.departPrice,
                                                   ),
-                                                  style: kLargeHeavy.copyWith(
+                                                  style: (event.departPrice ?? 0.0) > 999 ? kMediumHeavy.copyWith(
+                                                    color: inRange
+                                                        ? Colors.white
+                                                        : null,
+                                                  ) : kLargeHeavy.copyWith(
                                                     color: inRange
                                                         ? Colors.white
                                                         : null,

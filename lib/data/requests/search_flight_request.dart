@@ -18,14 +18,14 @@ class SearchFlight extends Equatable {
   Map<String, dynamic> toJson() => _$SearchFlightToJson(this);
 
   //todo currency need to be changed
-  factory SearchFlight.fromFilter(FilterState filter) {
+  factory SearchFlight.fromFilter(FilterState filter,String currency) {
     final searchFlightRequest = CommonFlightRequest(
       returnDate: filter.returnDate?.toIso8601String(),
       departDate: filter.departDate?.toIso8601String(),
       adults: filter.numberPerson.numberOfAdult,
       childrens: filter.numberPerson.numberOfChildren,
       infants: filter.numberPerson.numberOfInfant,
-      currency: "MYR",
+      currency: currency,
       destinationAirport: filter.destination?.code,
       isReturn: filter.flightType == FlightType.round,
       originAirport: filter.origin?.code,

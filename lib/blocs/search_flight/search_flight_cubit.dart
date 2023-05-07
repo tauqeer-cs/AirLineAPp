@@ -262,10 +262,10 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
-  searchFlights(FilterState filterState) async {
+  searchFlights(FilterState filterState,String currency) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      final request = SearchFlight.fromFilter(filterState);
+      final request = SearchFlight.fromFilter(filterState,currency);
       final airports = await _repository.searchFlight(request);
       emit(
         state.copyWith(

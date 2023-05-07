@@ -20,7 +20,8 @@ class SubmitSearch extends StatelessWidget {
       onPressed: !isValid
           ? null
           : () {
-              context.read<SearchFlightCubit>().searchFlights(filter);
+              context.read<SearchFlightCubit>().searchFlights(filter,filter.origin?.currency ?? 'MYR');
+
               if (isHomePage) {
                 UserInsider.of(context).registerStandardEvent(
                   InsiderConstants.searchFlightButtonClicked,

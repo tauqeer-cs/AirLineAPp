@@ -74,6 +74,24 @@ class DateRangePrice extends Equatable {
   final num? departPrice;
   final num? returnPrice;
 
+  String get formattedDepartPrice {
+    if (departPrice == null) {
+      return "0";
+    } else if (departPrice! >= 1000) {
+      double value = departPrice! / 1000;
+      String formattedValue = value.toStringAsFixed(2);
+      if (formattedValue.endsWith('.00')) {
+        formattedValue = formattedValue.substring(0, formattedValue.length - 3);
+      } else if (formattedValue.endsWith('0')) {
+        formattedValue = formattedValue.substring(0, formattedValue.length - 1);
+      }
+      return "$formattedValue K";
+    } else {
+      return departPrice.toString();
+    }
+  }
+
+
   final DateTime? date;
 
   DateRangePrice copyWith({

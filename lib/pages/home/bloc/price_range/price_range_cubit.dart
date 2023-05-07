@@ -15,7 +15,7 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
   PriceRangeCubit() : super(const PriceRangeState());
   final _repository = FlightRepository();
 
-  getPrices(FilterState filterState, {required DateTime startFilter, DateTime? endFilter}) async {
+  getPrices(FilterState filterState, {required DateTime startFilter, DateTime? endFilter,String? currency}) async {
     final prevLoaded = List<DateTime>.from(state.loadedDate);
     final checkDate = prevLoaded.firstWhereOrNull((element) => AppDateUtils.sameMonth(element, startFilter));
 
@@ -26,8 +26,11 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
       final newFilter = filterState.copyWith(
         departDate: start.isBefore(DateTime.now()) ? DateTime.now() : start,
         returnDate: DateTime(start.year, start.month+1, 0),
+
       );
-      final request = SearchFlight.fromFilter(newFilter);
+      var request = SearchFlight.fromFilter(newFilter,currency ?? 'MYR');
+
+
       final prices = await _repository.searchFlightDateRange(request);
       final prevList = List<DateRangePrice>.from(state.prices);
       final prevLoaded = List<DateTime>.from(state.loadedDate);
