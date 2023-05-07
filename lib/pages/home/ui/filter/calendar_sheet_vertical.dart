@@ -275,8 +275,8 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                                     departDate == null
                                                         ? event.departPrice
                                                         : returnDate == null
-                                                            ? event.returnPrice
-                                                            : event.departPrice,
+                                                            ? (event.departPrice)
+                                                            : (isRoundTrip ? event.returnPrice : event.departPrice),
                                                   ),
                                                   style: (event.departPrice ?? 0.0) > 999 ? kMediumHeavy.copyWith(
                                                     color: inRange
