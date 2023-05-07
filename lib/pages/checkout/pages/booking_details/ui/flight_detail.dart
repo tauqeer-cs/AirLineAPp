@@ -20,12 +20,14 @@ class FlightDetail extends StatefulWidget {
   final InboundOutboundSegment segment;
   final bool showFees;
   final bool showDetailPayment;
+  final String? currency;
 
   const FlightDetail({
     Key? key,
     required this.isDeparture,
     required this.segment,
     this.showFees = false,
+    this.currency,
     this.showDetailPayment = true,
   }) : super(key: key);
 
@@ -159,11 +161,11 @@ class _FlightDetailState extends State<FlightDetail> {
                   child: BlocProvider(
                     create: (context) => IsPaymentPageCubit(true),
                     child: widget.showFees
-                        ? FeeAndTaxesPayment(isDeparture: widget.isDeparture)
+                        ? FeeAndTaxesPayment(isDeparture: widget.isDeparture,currency: widget.currency,)
                         : Container(
                             padding: const EdgeInsets.all(12),
                             color: const Color.fromRGBO(229, 229, 229, 0.53),
-                            child:   FeeAndTaxes(isDeparture: true),
+                            child:   const FeeAndTaxes(isDeparture: true),
                           ),
                   ),
                 ),

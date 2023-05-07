@@ -17,24 +17,26 @@ class CardSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = context.locale.toString();
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     final state = context.watch<SearchFlightCubit>().state;
     return BlocBuilder<BookingCubit, BookingState>(
       builder: (context, bookState) {
         return blocBuilderWrapper(
           blocState: bookState.blocState,
-          finishedBuilder: buildFlights(state, bookState,locale),
-          initialBuilder: buildFlights(state, bookState,locale),
+          finishedBuilder: buildFlights(state, bookState,locale,currency),
+          initialBuilder: buildFlights(state, bookState,locale,currency),
           loadingBuilder: const BookingLoader(),
         );
       },
     );
   }
 
-  Column buildFlights(SearchFlightState state, BookingState bookState,String local) {
+  Column buildFlights(SearchFlightState state, BookingState bookState,String local,String? currency) {
     return Column(
       children: [
         FlightSegment(
+          currency: currency,
           title: "departure".tr(),
           subtitle: state.filterState?.beautifyShort ?? "",
           dateTitle: AppDateUtils.formatHalfDate(state.filterState?.departDate,locale: local),
@@ -47,6 +49,8 @@ class CardSummary extends StatelessWidget {
         Visibility(
           visible: state.filterState?.flightType == FlightType.round,
           child: FlightSegment(
+            currency: currency,
+
             title: "return".tr(),
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:

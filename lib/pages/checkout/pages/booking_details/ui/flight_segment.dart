@@ -13,6 +13,7 @@ class FlightSegment extends StatelessWidget {
   final bool isDeparture;
   final bool showFees;
 
+  final String? currency;
   const FlightSegment({
     Key? key,
     required this.title,
@@ -20,7 +21,7 @@ class FlightSegment extends StatelessWidget {
     required this.dateTitle,
     required this.segments,
     required this.isDeparture,
-    this.showFees = false,
+    this.showFees = false, this.currency,
   }) : super(key: key);
 
   @override
@@ -72,6 +73,8 @@ class FlightSegment extends StatelessWidget {
               ),
             ),
             FlightDetail(
+              currency: currency,
+
               isDeparture: isDeparture,
               segment: segments.first,
               showFees: showFees,

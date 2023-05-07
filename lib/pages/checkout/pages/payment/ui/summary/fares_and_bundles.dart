@@ -11,7 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FaresAndBundlesPayment extends StatefulWidget {
   final bool isDeparture;
-  const FaresAndBundlesPayment({Key? key, required this.isDeparture}) : super(key: key);
+  final String? currency;
+
+  const FaresAndBundlesPayment({Key? key, required this.isDeparture, this.currency}) : super(key: key);
 
   @override
   State<FaresAndBundlesPayment> createState() => _FaresAndBundlesPaymentState();
@@ -42,7 +44,9 @@ class _FaresAndBundlesPaymentState extends State<FaresAndBundlesPayment> {
                 isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               ),
               const Spacer(),
-              MoneyWidgetSmall(amount:filter?.numberPerson.getTotalBundlesPartial(widget.isDeparture)),
+              MoneyWidgetSmall(
+                  currency: widget.currency,
+                  amount:filter?.numberPerson.getTotalBundlesPartial(widget.isDeparture)),
             ],
           ),
         ),

@@ -10,8 +10,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MealsFeePayment extends StatefulWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const MealsFeePayment({Key? key, required this.isDeparture})
+  const MealsFeePayment({Key? key, required this.isDeparture, this.currency})
       : super(key: key);
 
   @override
@@ -30,6 +31,8 @@ class _MealsFeePaymentState extends State<MealsFeePayment> {
           child1:  Text('priceSection.mealsTitle'.tr(), style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
+            currency: widget.currency,
+
             amount:
                 filter?.numberPerson.getTotalMealPartial(widget.isDeparture),
           ),

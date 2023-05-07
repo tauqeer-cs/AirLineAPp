@@ -16,8 +16,9 @@ import 'insurance_fee_detail.dart';
 class InsuarnceFeePayment extends StatefulWidget {
   final bool isDeparture;
   final bool isSports;
+  final String? currency;
 
-  const InsuarnceFeePayment({Key? key, required this.isDeparture, this.isSports = false}) : super(key: key);
+  const InsuarnceFeePayment({Key? key, required this.isDeparture, this.isSports = false, this.currency}) : super(key: key);
 
   @override
   State<InsuarnceFeePayment> createState() => _InsuarnceFeePaymentState();
@@ -37,6 +38,7 @@ class _InsuarnceFeePaymentState extends State<InsuarnceFeePayment> {
           child1: Text("insurance".tr(), style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
+            currency: widget.currency,
             amount:insurance,
           ),
         ),

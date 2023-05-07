@@ -15,8 +15,9 @@ import '../../../../../../utils/constant_utils.dart';
 
 class FeeAndTaxesDetailPayment extends StatelessWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const FeeAndTaxesDetailPayment({Key? key, required this.isDeparture})
+  const FeeAndTaxesDetailPayment({Key? key, required this.isDeparture, this.currency})
       : super(key: key);
 
   @override
@@ -67,6 +68,7 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
                 style: kMediumRegular,
               ),
               child2: MoneyWidgetSummary(
+                currency: currency,
                 amount: price,
                 isDense: true,
               ),
@@ -83,6 +85,7 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
                 style: kMediumRegular,
               ),
               child2: MoneyWidgetSummary(
+                currency: currency,
                 amount: discountTotal,
                 isDense: true,
                   isNegative : true,

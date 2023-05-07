@@ -8,8 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MealsFeeDetailPayment extends StatelessWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const MealsFeeDetailPayment({Key? key, required this.isDeparture})
+  const MealsFeeDetailPayment({Key? key, required this.isDeparture, this.currency})
       : super(key: key);
 
   @override

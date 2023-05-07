@@ -12,9 +12,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class BaggageFeePayment extends StatefulWidget {
   final bool isDeparture;
   final bool isSports;
+  final String? currency;
 
   const BaggageFeePayment(
-      {Key? key, required this.isDeparture, this.isSports = false})
+      {Key? key, required this.isDeparture, this.isSports = false, this.currency})
       : super(key: key);
 
   @override
@@ -33,6 +34,7 @@ class _BaggageFeePaymentState extends State<BaggageFeePayment> {
               style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
+            currency: widget.currency,
             isSports: widget.isSports,
             amount: buildTotalBaggagePartial(filter),
           ),

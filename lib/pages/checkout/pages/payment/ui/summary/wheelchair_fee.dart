@@ -12,8 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class WheelchairFeePayment extends StatefulWidget {
   final bool isDeparture;
   final bool isSports;
+  final String? currency;
 
-  const WheelchairFeePayment({Key? key, required this.isDeparture, this.isSports = false}) : super(key: key);
+  const WheelchairFeePayment({Key? key, required this.isDeparture, this.isSports = false, this.currency}) : super(key: key);
 
   @override
   State<WheelchairFeePayment> createState() => _WheelchairFeePaymentState();
@@ -31,6 +32,7 @@ class _WheelchairFeePaymentState extends State<WheelchairFeePayment> {
           child1:  Text('wheelChairLabel'.tr(), style: k18Heavy),
           child2: MoneyWidgetSummary(
             isDense: false,
+            currency: widget.currency,
             isSports: widget.isSports,
             amount:filter?.numberPerson.getTotalWheelChairPartial(widget.isDeparture),
           ),

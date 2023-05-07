@@ -18,8 +18,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeeAndTaxesPayment extends StatefulWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const FeeAndTaxesPayment({Key? key, required this.isDeparture})
+  const FeeAndTaxesPayment({Key? key, required this.isDeparture, this.currency})
       : super(key: key);
 
   @override
@@ -44,37 +45,50 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
             style: k18Heavy,
           ),
           child2: MoneyWidgetSummary(
+            currency: widget.currency,
             amount: widget.isDeparture
                 ? bookingTotal.selectedDeparture?.getTotalPriceDisplay
                 : bookingTotal.selectedReturn?.getTotalPriceDisplay,
           ),
         ),
-        FeeAndTaxesDetailPayment(isDeparture: widget.isDeparture),
+        FeeAndTaxesDetailPayment(isDeparture: widget.isDeparture,currency: widget.currency,),
         Visibility(
           visible: (filter?.numberPerson
                       .getTotalBundlesPartial(widget.isDeparture) ??
                   0) >
               0,
-          child: FaresAndBundlesPayment(isDeparture: widget.isDeparture),
+          child: FaresAndBundlesPayment(
+            currency: widget.currency,
+            isDeparture: widget.isDeparture,
+
+          ),
         ),
         Visibility(
           visible:
               (filter?.numberPerson.getTotalSeatsPartial(widget.isDeparture) ??
                       0) >
                   0,
-          child: SeatsFeePayment(isDeparture: widget.isDeparture),
+          child: SeatsFeePayment(
+              currency: widget.currency,
+
+              isDeparture: widget.isDeparture),
         ),
         Visibility(
           visible:
               (filter?.numberPerson.getTotalMealPartial(widget.isDeparture) ??
                       0) >
                   0,
-          child: MealsFeePayment(isDeparture: widget.isDeparture),
+          child: MealsFeePayment(
+              currency: widget.currency,
+              isDeparture: widget.isDeparture),
         ),
         if (widget.isDeparture) ...[
           Visibility(
             visible: insurance > 0,
-            child: const InsuarnceFeePayment(isDeparture: true,),
+            child:  InsuarnceFeePayment(
+              currency: widget.currency,
+
+              isDeparture: true,),
           ),
         ],
         Visibility(
@@ -82,14 +96,19 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
                       .getTotalBaggagePartial(widget.isDeparture) ??
                   0) >
               0,
-          child: BaggageFeePayment(isDeparture: widget.isDeparture),
+          child: BaggageFeePayment(
+              currency: widget.currency,
+
+              isDeparture: widget.isDeparture),
         ),
         Visibility(
           visible: (filter?.numberPerson
                       .getTotalWheelChairPartial(widget.isDeparture) ??
                   0) >
               0,
-          child: WheelchairFeePayment(isDeparture: widget.isDeparture),
+          child: WheelchairFeePayment(
+              currency: widget.currency,
+              isDeparture: widget.isDeparture),
         ),
         Visibility(
           visible:
@@ -97,6 +116,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
                       0) >
                   0,
           child: BaggageFeePayment(
+            currency: widget.currency,
             isDeparture: widget.isDeparture,
             isSports: true,
           ),
