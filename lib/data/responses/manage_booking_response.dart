@@ -282,21 +282,21 @@ class Result {
         flightSegments?.first.outbound?.first.departureDateTime);
   }
 
-  String get returnDepartureDateToShow {
+  String  returnDepartureDateToShow(String? local) {
     return AppDateUtils.formatFullDate(
         flightSegments?.first.inbound?.first.departureDateTime);
   }
 
   String get departureToDestinationCode {
-    return '${flightSegments?.first.outbound?.first.departureAirportLocationCode ?? ''} to ${flightSegments?.first.outbound?.first.arrivalAirportLocationCode ?? ''}';
+    return '${flightSegments?.first.outbound?.first.departureAirportLocationCode ?? ''} ${'to'.tr()} ${flightSegments?.first.outbound?.first.arrivalAirportLocationCode ?? ''}';
   }
 
   String get returnToDestinationCode {
-    return '${flightSegments?.first.inbound?.first.departureAirportLocationCode ?? ''} to ${flightSegments?.first.inbound?.first.arrivalAirportLocationCode ?? ''}';
+    return '${flightSegments?.first.inbound?.first.departureAirportLocationCode ?? ''} ${'to'.tr()} ${flightSegments?.first.inbound?.first.arrivalAirportLocationCode ?? ''}';
   }
 
   String get fromToDestinationName {
-    return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} to ${flightSegments?.first.outbound?.first.arrivalAirportLocationName ?? ''}';
+    return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} ${'to'.tr()} ${flightSegments?.first.outbound?.first.arrivalAirportLocationName ?? ''}';
   }
 
   Result(

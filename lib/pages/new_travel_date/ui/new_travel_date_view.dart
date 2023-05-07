@@ -53,6 +53,8 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
     //final filterCubit = context.watch<FilterCubit>();
     ManageBookingCubit bloc = context.watch<ManageBookingCubit>();
 
+    final locale = context.locale.toString();
+
     var state = bloc.state;
 
     var departDate = bloc.state.manageBookingResponse
@@ -125,7 +127,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           Expanded(
                             child: Center(
                               child: AutoSizeText(
-                               "${'flightChangeDep'.tr()} ${AppDateUtils.formatDateWithoutLocale(departDate)}",
+                               "${'departureShort'.tr()} ${AppDateUtils.formatDateWithoutLocale(departDate,locale:locale)}",
                                 style: departDate == null
                                     ? kMediumRegular
                                     : kMediumSemiBold,
@@ -143,7 +145,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                               child: Center(
                                 child: AutoSizeText(
                                     maxLines: 1,
-                                   "${'flightChangeRet'.tr()} ${AppDateUtils.formatDateWithoutLocale(returnDate)}",
+                                   "${'returnShort'.tr()} ${AppDateUtils.formatDateWithoutLocale(returnDate,locale: locale)}",
                                     style: returnDate == null
                                         ? kMediumRegular
                                         : kMediumSemiBold),
@@ -197,7 +199,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              DateFormat("MMM yyyy").format(
+                              DateFormat("MMM yyyy",locale).format(
                                 DateTime(year, month),
                               ),
                               style: kMediumMedium.copyWith(

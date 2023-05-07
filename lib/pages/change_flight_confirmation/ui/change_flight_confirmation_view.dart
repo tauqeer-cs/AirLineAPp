@@ -65,27 +65,12 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              true
-                                  ? const SizedBox(
+                             const SizedBox(
                                       width: 16,
-                                    )
-                                  : Padding(
-                                      padding: const EdgeInsets.all(0.0),
-                                      child: Checkbox(
-                                        checkColor: Colors.white,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
-                                        value: bloc.state.checkedDeparture,
-                                        onChanged: (bool? value) {
-                                          bloc.setCheckDeparture(
-                                              value ?? false);
-                                        },
-                                      ),
                                     ),
                               Expanded(
                                 child: FlightDataInfo(
-                                  headingLabel: 'Departure',
+                                  headingLabel: 'departure'.tr(),
                                   dateToShow: bloc.state.manageBookingResponse
                                           ?.result?.departureDateToShow(locale) ??
                                       '',
@@ -138,31 +123,18 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                               false) ...[
                             Row(
                               children: [
-                                true
-                                    ? const SizedBox(
+                                 const SizedBox(
                                         width: 16,
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.all(0.0),
-                                        child: Checkbox(
-                                          checkColor: Colors.white,
-                                          fillColor:
-                                              MaterialStateProperty.resolveWith(
-                                                  getColor),
-                                          value: bloc.state.checkReturn,
-                                          onChanged: (bool? value) {
-                                            bloc.setCheckReturn(value ?? false);
-                                          },
-                                        ),
                                       ),
+
                                 Expanded(
                                   child: FlightDataInfo(
-                                    headingLabel: 'Return',
+                                    headingLabel: 'return'.tr(),
                                     dateToShow: bloc
                                             .state
                                             .manageBookingResponse
                                             ?.result
-                                            ?.returnDepartureDateToShow ??
+                                            ?.returnDepartureDateToShow(locale) ??
                                         '',
                                     departureToDestinationCode: bloc
                                             .state
@@ -212,7 +184,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                               onPressed: () {
                                 onSharedTapped();
                               }, //isLoading ? null :
-                              child: const Text("Share"),
+                              child:  Text("flightChange.share".tr()),
                               /*
                           * isLoading
                               ? const AppLoading(

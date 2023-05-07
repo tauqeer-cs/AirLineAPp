@@ -35,8 +35,12 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatFullDate(DateTime? dateTime) {
+  static String formatFullDate(DateTime? dateTime,{String? locale}) {
     if (dateTime == null) return "";
+    if(locale != null) {
+      String formattedDate = DateFormat("EEEE dd MMMM yyyy",locale).format(dateTime);
+      return formattedDate;
+    }
     String formattedDate = DateFormat("EEEE dd MMMM yyyy").format(dateTime);
     return formattedDate;
   }

@@ -199,7 +199,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                             child: FlightDataInfo(
                               headingLabel: 'return'.tr(),
                               dateToShow: state.manageBookingResponse?.result
-                                  ?.returnDepartureDateToShow ??
+                                  ?.returnDepartureDateToShow(locale) ??
                                   '',
                               departureToDestinationCode: state
                                   .manageBookingResponse

@@ -12,10 +12,7 @@ part 'cms_ssr_state.dart';
 class CmsSsrCubit extends Cubit<CmsSsrState> {
   CmsSsrCubit(String? language) : super( CmsSsrState(
       language
-  )){
-
-
-  }
+  ));
 
   final _repository = CMSRepository();
 

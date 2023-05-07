@@ -1,4 +1,5 @@
 import 'package:app/pages/change_flight_confirmation/ui/change_flight_confirmation_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +34,7 @@ class ChangeFlightConfirmationPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'Change Flight Confirmation',
+          title: 'changeFlightConfirmation'.tr(),
           height: 60.h,
           overrideInnerHeight: true,
         ),

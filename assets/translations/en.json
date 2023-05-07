@@ -1019,5 +1019,17 @@
   "boardingPassLine" : "Boarding\nPass",
   "hour" : "hour",
   "min" : "min",
-  "s" : "s"
+  "s" : "s",
+  "afterCLicking" : "After clicking",
+  "atBottomRight" : "at the bottom right, the",
+  "changesAre" : "CHANGES ARE",
+  "final" : "FINAL",
+  "andYouWill" : "& YOU WILL",
+  "notCaps" : "NOT",
+  "beAbleToRevertBack" : "BE ABLE TO REVERT TO YOUR ORIGINAL FLIGHT DATE/TIME.",
+  "thereFore" : "Therefore,",
+  "pleaseCheckCaps" : "PLEASE CHECK",
+  "beforeConfirming" : "before confirming.",
+  "changeFlightConfirmation" : "Change Flight Confirmation"
+
 }

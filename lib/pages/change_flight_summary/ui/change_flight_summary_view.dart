@@ -88,12 +88,13 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
 
     bloc = context.watch<ManageBookingCubit>();
     var state = bloc?.state;
     var voucherBloc = context.watch<VoucherCubit>();
-
     var voucherState = voucherBloc.state;
 
     final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
@@ -179,9 +180,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               if (bloc?.state.checkedDeparture == true &&
                                   bloc?.state.checkReturn == true) ...[
                                 Text(
-                                  '${AppDateUtils.formatFullDate(
-                                    DateTime.parse(departureDate ?? ''),
-                                  )} -',
+                                  '${AppDateUtils.formatFullDate(DateTime.parse(departureDate ?? ''), locale: locale)} -',
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
                                     height: 1.5,
@@ -189,8 +188,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 ),
                                 Text(
                                   AppDateUtils.formatFullDate(
-                                    DateTime.parse(returnDate ?? ''),
-                                  ),
+                                      DateTime.parse(returnDate ?? ''),
+                                      locale: locale),
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
                                     height: 1.5,
@@ -199,8 +198,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               ] else ...[
                                 Text(
                                   AppDateUtils.formatFullDate(
-                                    DateTime.parse(departureDate ?? ''),
-                                  ),
+                                      DateTime.parse(departureDate ?? ''),
+                                      locale: locale),
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
                                     height: 1.5,
@@ -245,7 +244,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                     ?.departureToDestinationCode ??
                                 '',
                             departureDateWithTime:
-                                flightSectionGoing?.departureDateToTwoLine ??
+                                flightSectionGoing?.departureDateToTwoLine(locale) ??
                                     '',
                             departureAirportName: state?.manageBookingResponse
                                     ?.result?.departureAirportName ??
@@ -254,7 +253,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                     ?.result?.journeyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime:
-                                flightSectionGoing?.arrivalDateToTwoLine ?? '',
+                                flightSectionGoing?.arrivalDateToTwoLine(locale) ?? '',
                             arrivalAirportName: state?.manageBookingResponse
                                     ?.result?.arrivalAirportName ??
                                 '',
@@ -278,7 +277,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                     ?.returnToDestinationCode ??
                                 '',
                             departureDateWithTime:
-                                flightSectionBack?.departureDateToTwoLine ?? '',
+                                flightSectionBack?.departureDateToTwoLine(locale) ?? '',
                             departureAirportName: state?.manageBookingResponse
                                     ?.result?.returnDepartureAirportName ??
                                 '',
@@ -286,7 +285,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                     ?.result?.returnJourneyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime:
-                                flightSectionBack?.arrivalDateToTwoLine ?? '',
+                                flightSectionBack?.arrivalDateToTwoLine(locale) ?? '',
                             arrivalAirportName: state?.manageBookingResponse
                                     ?.result?.returnArrivalAirportName ??
                                 '',
@@ -596,40 +595,40 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               color: Styles.kTextColor,
                             ),
                             children: [
-                              const TextSpan(
-                                text: 'After clicking ',
+                               TextSpan(
+                                text: '${'afterCLicking'.tr()} ',
                               ),
 
                               TextSpan(
-                                text: "'Confirm' ",
+                                text: "'${'passengerDetail.confirm'.tr()}' ",
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kTextColor),
                               ),
 
-                              const TextSpan(
-                                text: ' at the bottom right, the',
+                               TextSpan(
+                                text: ' ${'atBottomRight'.tr()}',
                               ),
 
                               TextSpan(
-                                text: " CHANGES ARE ",
+                                text: " ${'changesAre'.tr()} ",
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kTextColor),
                               ),
 
                               TextSpan(
-                                text: 'FINAL ',
+                                text: '${'final'.tr()} ',
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kPrimaryColor),
                               ),
 
                               TextSpan(
-                                text: "& YOU WILL ",
+                                text: "${'andYouWill'.tr()} ",
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kTextColor),
                               ),
 
                               TextSpan(
-                                text: 'NOT ',
+                                text: '${'notCaps'.tr()} ',
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kPrimaryColor),
                               ),
@@ -637,20 +636,20 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               //
                               TextSpan(
                                 text:
-                                    "BE ABLE TO REVERT TO YOUR ORIGINAL FLIGHT DATE/TIME. ",
+                                    "${'beAbleToRevertBack'.tr()} ",
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kTextColor),
                               ),
 
-                              const TextSpan(text: 'Therefore, '),
+                               TextSpan(text: '${'thereFore'.tr()} '),
 
                               TextSpan(
-                                text: 'PLEASE CHECK ',
+                                text: '${'pleaseCheckCaps'.tr()} ',
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kTextColor),
                               ),
 
-                              const TextSpan(text: 'before confirming.'),
+                               TextSpan(text: 'beforeConfirming'.tr()),
                             ],
                           ),
                         ),

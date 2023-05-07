@@ -125,7 +125,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                             child: FlightDataInfo(
                               headingLabel: 'flightCharge.return'.tr(),
                               dateToShow: state.manageBookingResponse?.result
-                                  ?.returnDepartureDateToShow ??
+                                  ?.returnDepartureDateToShow(locale) ??
                                   '',
                               departureToDestinationCode: state.manageBookingResponse
                                   ?.result?.returnToDestinationCode ??
