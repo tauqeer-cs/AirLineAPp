@@ -20,6 +20,9 @@ class FlightSummaryDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
+
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bookingTotal = context.watch<BookingCubit>().state;
     final numberOfPerson = filter?.numberPerson;
@@ -28,6 +31,7 @@ class FlightSummaryDetail extends StatelessWidget {
     final segment = isDeparture
         ? bookingTotal.selectedDeparture
         : bookingTotal.selectedReturn;
+
     return Visibility(
       visible: isDeparture || filter?.flightType == FlightType.round,
       child: Column(
@@ -56,7 +60,7 @@ class FlightSummaryDetail extends StatelessWidget {
 
             ),
             child2: Text(
-              "${AppDateUtils.formatFullDateWithTime(segment?.departureDate)}\n${isDeparture ? filter?.origin?.name : filter?.destination?.name}",
+              "${AppDateUtils.formatFullDateWithTime(segment?.departureDate,locale: locale)}\n${isDeparture ? filter?.origin?.name : filter?.destination?.name}",
               textAlign: TextAlign.end,
               style: kMediumRegular,
 
@@ -70,7 +74,7 @@ class FlightSummaryDetail extends StatelessWidget {
 
             ),
             child2: Text(
-              "${AppDateUtils.formatFullDateWithTime(segment?.arrivalDate)}\n${isDeparture ? filter?.destination?.name : filter?.origin?.name}",
+              "${AppDateUtils.formatFullDateWithTime(segment?.arrivalDate,locale: locale)}\n${isDeparture ? filter?.destination?.name : filter?.origin?.name}",
               textAlign: TextAlign.end,
               style: kMediumRegular,
             ),

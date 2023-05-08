@@ -389,6 +389,9 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
         }
         passengers.add(filledPassenger);
       }
+
+
+
       final pnrRequest = FlightSummaryPnrRequest(
         contactEmail: value[formNameContactEmail],
         contactFullName:
@@ -417,11 +420,16 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
           lastName: value[formNameEmergencyLastName],
           phoneCode: value[formNameEmergencyCountry],
           phoneNumber: value[formNameEmergencyPhone],
-          relationship: value[formNameEmergencyRelation],
+          relationship: availableRelationsMapping[value[formNameEmergencyRelation]],
+
+                    //relationship: value[formNameEmergencyRelation]],
           email: value[formNameEmergencyEmail],
         ),
         passengers: passengers,
       );
+
+
+
       final summaryRequest = SummaryRequest(
           token: verifyToken ?? "", flightSummaryPNRRequest: pnrRequest);
       final savedPnr = pnrRequest.copyWith(

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/utils/string_utils.dart';
@@ -673,13 +675,29 @@ List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
 List<String> get availableRelations {
   return [
-    "Family",
-    "Friends",
-    "Spouse",
-    "Guardian",
-    "Others"
+    "family".tr(),
+    "friends".tr(),
+    "spouse".tr(),
+    "guardian".tr(),
+    "others".tr()
   ];
 }
+
+
+
+
+
+Map<String, String> get availableRelationsMapping {
+  return {
+    'family'.tr(): 'Family',
+    'friends'.tr(): 'Friends',
+    'spouse'.tr(): 'Spouse',
+    'guardian'.tr(): 'Guardian',
+    'others'.tr(): 'Others',
+  };
+}
+
+
 
 List<String> availableTitleAll = [
   "Mr.",

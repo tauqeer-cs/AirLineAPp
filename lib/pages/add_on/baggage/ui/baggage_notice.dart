@@ -186,6 +186,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
   @override
   Widget build(BuildContext context) {
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     final selectedPerson = context.watch<SelectedPersonCubit>().state;
     final isDeparture = context.watch<IsDepartureCubit>().state;
     if (lastPersonUser != selectedPerson) {
@@ -293,7 +295,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                 MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    currentItem.currencyCode ?? 'MYR',
+                                    currentItem.currencyCode ?? currency,
                                     style: kMediumHeavy,
                                   ),
                                   Text(

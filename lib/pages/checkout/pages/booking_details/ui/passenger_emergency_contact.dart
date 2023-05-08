@@ -57,9 +57,22 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
       nationalityController.text = contact!.phoneCode!;
     }
     if (emergency?.relationship?.isNotEmpty ?? false) {
-      relationController.text = emergency!.relationship!;
+      if(availableRelationsMapping[emergency?.relationship?.toLowerCase().tr()] != null) {
+        relationController.text = emergency?.relationship?.toLowerCase().tr() ?? emergency!.relationship!;
+      }
+      else {
+        relationController.text = emergency!.relationship!;
+      }
+
     } else if (contact?.relationship?.isNotEmpty ?? false) {
-      relationController.text = contact!.relationship!;
+
+      if(availableRelationsMapping[contact!.relationship?.toLowerCase().tr()] != null) {
+        relationController.text = contact.relationship?.toLowerCase().tr() ?? contact.relationship!;
+      }
+      else {
+        relationController.text = contact.relationship!;
+      }
+
     }
   }
 

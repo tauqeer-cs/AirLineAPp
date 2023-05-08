@@ -178,12 +178,15 @@ class SeatPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bookingState = context.watch<BookingCubit>().state;
+    var currentcy2 = bookingState.selectedDeparture?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.originalCurrency ?? 'MYR';
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "${currency ?? 'MYR'} ",
+          "${currency ?? currentcy2} ",
           style: kMediumHeavy.copyWith(height: 1.5, fontSize: 10),
         ),
         kHorizontalSpacerMini,
