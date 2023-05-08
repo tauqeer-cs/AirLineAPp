@@ -351,7 +351,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           BlocListener<RoutesCubit, RoutesState>(
             listener: (context, state) {
               context.read<HomeCubit>().getContents(state.routes,locale);
-              context.read<CmsSsrCubit>().getCmsSSR(state.routes);
+              context.read<CmsSsrCubit>().getCmsSSR(state.routes,);
               context.read<AgentSignUpCubit>().getAgentSignUp(state.routes);
             },
           ),

@@ -16,7 +16,7 @@ class CmsSsrCubit extends Cubit<CmsSsrState> {
 
   final _repository = CMSRepository();
 
-  getCmsSSR(List<CMSRoute> cmsRoutes) async {
+  getCmsSSR(List<CMSRoute> cmsRoutes,) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final universalSetting = cmsRoutes.firstWhereOrNull((element) =>
