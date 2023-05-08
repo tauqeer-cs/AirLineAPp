@@ -76,7 +76,7 @@ class _CheckInErrorPageState extends State<CheckInErrorPage> {
                               text: 'ifIssuePersists'.tr(),
                             ),
                             TextSpan(
-                              text: 'changeFlightView.changeFlightDesc7'.tr(),
+                              text: ' ${'changeFlightView.changeFlightDesc7'.tr()}',
                               style: TextStyle(
                                 color: Styles.kPrimaryColor,
                               ),
