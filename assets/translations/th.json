@@ -1106,6 +1106,7 @@
   "flightChange.fee": "การเปลี่ยนแปลงเที่ยวบินดู",
   "sportsEquipmentSubtotal" : "ยอดรวมย่อยอุปกรณ์กีฬา",
   "meals": "อาหาร",
-  "noItemSelected" : "ไม่ได้เลือก"
+  "noItemSelected" : "ไม่ได้เลือก",
+  "paymentDetail.noCardsSaved": "ยังไม่มีบัตรที่บันทึกไว้"
 }
 
