@@ -55,6 +55,7 @@ HomeItems _$HomeItemsFromJson(Map<String, dynamic> json) => HomeItems(
       style: json['style'] as String?,
       title: json['title'] as String?,
       mimg: json['mimg'] as String?,
+      currency: json['currency'] as String?,
       id: json['id'] as int?,
       link: json['link'] as String?,
       key: json['key'] as String?,
@@ -83,5 +84,6 @@ Map<String, dynamic> _$HomeItemsToJson(HomeItems instance) {
   writeNotNull('name', instance.name);
   writeNotNull('link', instance.link);
   writeNotNull('key', instance.key);
+  writeNotNull('currency', instance.currency);
   return val;
 }

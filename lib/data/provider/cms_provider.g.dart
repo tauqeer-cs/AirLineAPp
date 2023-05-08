@@ -48,13 +48,15 @@ class _CMSProvider implements CMSProvider {
     key,
     timestamp, {
     query =
-        "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
+        "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg,currency",
+    lang = 'en_US',
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': key,
       r'timestamp': timestamp,
       r'query': query,
+     r'lang': lang,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -111,38 +113,6 @@ class _CMSProvider implements CMSProvider {
   }
 
   @override
-  Future<AgentSignUpCms> getAgentSignUp(
-    key, {
-    query = "tnC,agreement",
-    deep = "6",
-  }) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'key': key,
-      r'query': query,
-      r'deep': deep,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<AgentSignUpCms>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              'shared/get',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = AgentSignUpCms.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
   Future<HomeDetail> getContentDetail(
     key, {
     query = "content,showBookNow",
@@ -195,7 +165,37 @@ class _CMSProvider implements CMSProvider {
     return value;
   }
 
-
+  @override
+  Future<AgentSignUpCms> getAgentSignUp(
+    key, {
+    query = "tnC,agreement",
+    deep = "6",
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'key': key,
+      r'query': query,
+      r'deep': deep,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AgentSignUpCms>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'shared/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = AgentSignUpCms.fromJson(_result.data!);
+    return value;
+  }
 
   @override
   Future<UniversalSharedSettingsRoutesResponse> getInsuranceName(

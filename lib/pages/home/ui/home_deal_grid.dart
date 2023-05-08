@@ -130,7 +130,7 @@ class HomeDealGrid extends StatelessWidget {
                                       maxLines: 1,
                                     ),
                                     AutoSizeText(
-                                      "MYR ${e.price}",
+                                      "${e.currency ?? 'MYR'} ${e.price}",
                                       style: kMediumMedium.copyWith(
                                           color: Colors.black),
                                       maxLines: 1,

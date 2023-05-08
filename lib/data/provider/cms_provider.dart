@@ -22,7 +22,9 @@ abstract class CMSProvider {
   @GET('shared/get')
   Future<HomeResponse> getHomeContent(@Query("key") String key, @Query("timestamp") String timestamp, {
     @Query("query") String? query =
-    "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg",
+    "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg,currency",
+    @Query("lang") String? lang = 'en_US',
+
   });
 
   @GET('shared/get')

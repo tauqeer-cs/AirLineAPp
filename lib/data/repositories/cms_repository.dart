@@ -42,14 +42,19 @@ class CMSRepository {
     return await _provider.getRoutes();
   }
 
-  Future<HomeResponse> getHomeContent(String id) async {
+  Future<HomeResponse> getHomeContent(String id,String language) async {
+    DateTime now = DateTime.now();
+    int unixTimestamp = now.millisecondsSinceEpoch ~/ 1000; // dividing by 1000 to get seconds instead of milliseconds
+    String unixTimestampString = unixTimestamp.toString();
+
+
     await getCMSToken();
-    return await _provider.getHomeContent(id, DateTime.now().millisecondsSinceEpoch.toString());
+    return await _provider.getHomeContent(id, DateTime.now().millisecondsSinceEpoch.toString(),lang: language == 'th' ? 'th-TH' : 'en-US');
   }
 
   Future<CMSFlight> getSSRContent(String id,String language) async {
     await getCMSToken();
-    return await _provider.getSSRContent(id,language: language);
+    return await _provider.getSSRContent(id,language: language == 'th' ? 'th-TH' : 'en-US');
   }
 
   Future<HomeDetail> getContentDetail(String id) async {
@@ -68,7 +73,7 @@ class CMSRepository {
     String unixTimestampString = unixTimestamp.toString();
 
     await getCMSToken();
-    return await _provider.getInsuranceName(id,timestamp: unixTimestampString,lang: language);
+    return await _provider.getInsuranceName(id,timestamp: DateTime.now().millisecondsSinceEpoch.toString(),lang: language);
   }
 
 }

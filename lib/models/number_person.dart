@@ -671,13 +671,15 @@ extension PeopleTypeToString on PeopleType {
 
 List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
 List<String> availableTitleChild = ["Mstr.", "Miss"];
-List<String> availableRelations = [
-  "Family",
-  "Friends",
-  "Spouse",
-  "Guardian",
-  "Others"
-];
+List<String> get availableRelations {
+  return [
+    "Family",
+    "Friends",
+    "Spouse",
+    "Guardian",
+    "Others"
+  ];
+}
 
 List<String> availableTitleAll = [
   "Mr.",

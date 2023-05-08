@@ -13,12 +13,12 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(const HomeState());
   final _repository = CMSRepository();
 
-  getContents(List<CMSRoute> routes) async {
+  getContents(List<CMSRoute> routes,String lang) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final homeId = routes.firstWhereOrNull(
               (element) => element.contentType?.alias?.toLowerCase() == "home");
-      final response = await _repository.getHomeContent(homeId?.key ?? "");
+      final response = await _repository.getHomeContent(homeId?.key ?? "",lang);
       emit(state.copyWith(
         blocState: BlocState.finished,
         contents: response.items ?? [],
