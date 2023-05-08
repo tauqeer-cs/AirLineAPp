@@ -238,13 +238,13 @@ class FlightSegments extends Equatable {
   DateTime get departureDateObject {
     return DateTime.parse(departureDate ?? '');
   }
-   String get departureDateToShow {
+   String  departureDateToShow(String? locale) {
 
      if(departureDate == null){
        return '';
      }
 
-    return AppDateUtils.formatHalfDateHalfMonth(DateTime.parse(departureDate!));
+    return AppDateUtils.formatHalfDateHalfMonth(DateTime.parse(departureDate!),locale: locale);
 
    }
 

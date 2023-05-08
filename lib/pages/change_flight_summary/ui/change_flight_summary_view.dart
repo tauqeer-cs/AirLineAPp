@@ -188,7 +188,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 ),
                                 Text(
                                   AppDateUtils.formatFullDate(
-                                      DateTime.parse(returnDate ?? ''),
+                                      DateTime.parse(returnDate ?? '',),
                                       locale: locale),
                                   style: kSmallRegular.copyWith(
                                     color: Styles.kTextColor,
@@ -237,7 +237,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           FlightDataInfo(
                             headingLabel: 'flightSummary.departure'.tr(),
                             dateToShow:
-                            flightSectionGoing?.departureDateToShow ?? '',
+                            flightSectionGoing?.departureDateToShow(locale) ?? '',
                             departureToDestinationCode: state
                                 ?.manageBookingResponse
                                 ?.result
@@ -270,7 +270,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           FlightDataInfo(
                             headingLabel: 'flightCharge.return'.tr(),
                             dateToShow:
-                            flightSectionBack?.departureDateToShow ?? '',
+                            flightSectionBack?.departureDateToShow(locale) ?? '',
                             departureToDestinationCode: state
                                 ?.manageBookingResponse
                                 ?.result
