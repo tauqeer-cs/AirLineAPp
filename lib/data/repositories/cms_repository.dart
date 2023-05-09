@@ -43,10 +43,6 @@ class CMSRepository {
   }
 
   Future<HomeResponse> getHomeContent(String id,String language) async {
-    DateTime now = DateTime.now();
-    int unixTimestamp = now.millisecondsSinceEpoch ~/ 1000; // dividing by 1000 to get seconds instead of milliseconds
-    String unixTimestampString = unixTimestamp.toString();
-
 
     await getCMSToken();
     return await _provider.getHomeContent(id, DateTime.now().millisecondsSinceEpoch.toString(),lang: language == 'th' ? 'th-TH' : 'en-US');
@@ -68,8 +64,6 @@ class CMSRepository {
   }
 
   Future<UniversalSharedSettingsRoutesResponse> agenInsurance(String id,String language) async {
-    DateTime now = DateTime.now();
-    int unixTimestamp = now.millisecondsSinceEpoch ~/ 1000; // dividing by 1000 to get seconds instead of milliseconds
 
     await getCMSToken();
     return await _provider.getInsuranceName(id,timestamp: DateTime.now().millisecondsSinceEpoch.toString(),lang: language == 'th' ? 'th-TH' : 'en-US');
