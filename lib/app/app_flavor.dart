@@ -27,17 +27,6 @@ class AppFlavor {
     }
   }
 
-  static String get thaiLanguageCode {
-
-    switch (appFlavor) {
-      case Flavor.staging:
-        return 'th-TH';
-      case Flavor.uat:
-        return 'th-TH';
-      default:
-        return 'th';
-    }
-  }
   static FirebaseOptions get firebaseOptions {
     switch (appFlavor) {
       case Flavor.staging:
