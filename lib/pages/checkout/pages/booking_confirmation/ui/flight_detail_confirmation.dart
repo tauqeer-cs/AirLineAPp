@@ -160,6 +160,8 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.toString();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -230,13 +232,13 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
               BorderedLeftContainer(
                 title: "Departs:",
                 content:
-                "${AppDateUtils.formatFullDateWithTime(widget.bound.departureDateTime)}\n${widget.bound.departureAirportLocationName}",
+                "${AppDateUtils.formatFullDateWithTime(widget.bound.departureDateTime,locale: locale)}\n${widget.bound.departureAirportLocationName}",
               ),
               kVerticalSpacer,
               BorderedLeftContainer(
                 title: "${"arrive".tr()}:",
                 content:
-                "${AppDateUtils.formatFullDateWithTime(widget.bound.arrivalDateTime)}\n${widget.bound.arrivalAirportLocationName}",
+                "${AppDateUtils.formatFullDateWithTime(widget.bound.arrivalDateTime,locale: locale)}\n${widget.bound.arrivalAirportLocationName}",
               ),
             ],
           ),

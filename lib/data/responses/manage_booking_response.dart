@@ -205,7 +205,7 @@ class Result {
             flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
       }
       return AppDateUtils.formatHalfDate(
-          flightSegments?.first.outbound?.first.departureDateTime);
+          flightSegments?.first.outbound?.first.departureDateTime,locale: null);
     }
     return '';
 
@@ -248,14 +248,14 @@ class Result {
         flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
   }
 
-  String get departureDate {
+  String  departureDate(String locale) {
     return AppDateUtils.formatHalfDateHalfMonth(
-        flightSegments?.first.outbound?.first.departureDateTime);
+        flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
   }
 
-  String get returnDate {
+  String  eturnDate(String locale) {
     return AppDateUtils.formatHalfDateHalfMonth(
-        flightSegments?.first.inbound?.first.departureDateTime);
+        flightSegments?.first.inbound?.first.departureDateTime,locale: locale);
   }
 
   String  arrivalDateWithTime(String? locale) {
@@ -279,12 +279,12 @@ class Result {
           flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
     }
     return AppDateUtils.formatHalfDateHalfMonth(
-        flightSegments?.first.outbound?.first.departureDateTime);
+        flightSegments?.first.outbound?.first.departureDateTime,locale: null);
   }
 
   String  returnDepartureDateToShow(String? local) {
     return AppDateUtils.formatFullDate(
-        flightSegments?.first.inbound?.first.departureDateTime);
+        flightSegments?.first.inbound?.first.departureDateTime,locale: local);
   }
 
   String get departureToDestinationCode {

@@ -25,7 +25,9 @@ class BookingDetailsHeader extends StatelessWidget {
                   color: Styles.kTextColor,
                   height: 1.5,
                 ),
+
               ),
+
               TextSpan(
                 text: '  ${'bookingForm.bookingDetailsDesc2'.tr()}',
                 style: kMediumHeavy.copyWith(
@@ -33,13 +35,16 @@ class BookingDetailsHeader extends StatelessWidget {
                   height: 1.5,
                 ),
               ),
+
+
               TextSpan(
-                text: 'bookingForm.bookingDetailsDesc2'.tr(),
+                text: ' ${'bookingForm.bookingDetailsDesc3'.tr()}',
                 style: kMediumRegular.copyWith(
                   color: Styles.kTextColor,
                   height: 1.5,
                 ),
               ),
+
             ],
           ),
           textAlign: TextAlign.left,

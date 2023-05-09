@@ -133,11 +133,11 @@ class FlightDetailWidget extends StatelessWidget {
     );
   }
 
-  Widget flightDate(SearchFlightState state) {
+  Widget flightDate(SearchFlightState state,String locale) {
     return Text(
       AppDateUtils.formatHalfDateHalfMonth(isDeparture
           ? state.filterState?.departDate
-          : state.filterState?.returnDate),
+          : state.filterState?.returnDate,locale: locale),
       style: kLargeHeavy.copyWith(color: Styles.kSubTextColor),
     );
   }

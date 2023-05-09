@@ -109,6 +109,6 @@ class PassengerInsuranceSelector extends StatelessWidget {
       }
       return passenger.ifPassengerHasInsuranceName ?? "";
     }
-    return "No Item Selected";
+    return "noItemSelected".tr();
   }
 }

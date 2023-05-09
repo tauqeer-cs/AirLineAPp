@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 
 class AppDateUtils {
-  static String formatDateWithoutLocale(DateTime? dateTime,{String? locale}) {
+  static String formatDateWithoutLocale(DateTime? dateTime,{required String? locale}) {
     if (dateTime == null) return "";
 
     if(locale != null) {
@@ -14,7 +14,7 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatTimeWithoutLocale(DateTime? dateTime,{String? locale}) {
+  static String formatTimeWithoutLocale(DateTime? dateTime,{required String? locale}) {
     if (dateTime == null) return "";
     if(locale != null) {
       String formattedDate = DateFormat.Hm(locale).format(dateTime);
@@ -25,7 +25,7 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatJM(DateTime? dateTime,{String? locale}) {
+  static String formatJM(DateTime? dateTime,{required String? locale}) {
     if (dateTime == null) return "";
     if(locale != null) {
       String formattedDate = DateFormat.jm(locale).format(dateTime);
@@ -35,7 +35,7 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatFullDate(DateTime? dateTime,{String? locale}) {
+  static String formatFullDate(DateTime? dateTime,{required String? locale}) {
     if (dateTime == null) return "";
     if(locale != null) {
       String formattedDate = DateFormat("EEEE dd MMMM yyyy",locale).format(dateTime);
@@ -45,7 +45,7 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatHalfDate(DateTime? dateTime,{String? locale}) {
+  static String formatHalfDate(DateTime? dateTime,{required String? locale}) {
     if (dateTime == null) return "Invalid Date";
     if(locale != null) {
       String formattedDate = DateFormat("EEE dd MMMM yyyy",locale).format(dateTime);
@@ -55,7 +55,7 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatFullDateWithTime(DateTime? dateTime,{String? locale}) {
+  static String formatFullDateWithTime(DateTime? dateTime,{required String? locale}) {
     if (dateTime == null) return "Invalid Date";
     if(locale != null) {
       final dateFormat = DateFormat("EEE dd MMM yyyy, hh:mm a",locale);
@@ -68,7 +68,7 @@ class AppDateUtils {
     return formattedDate;
   }
 
-  static String formatFullDateTwoLines(DateTime? dateTime,{String? locale}) {
+  static String formatFullDateTwoLines(DateTime? dateTime,{required String? locale}) {
     /*
     Mon 01 Jan 2023,
     12:30 pm
@@ -85,7 +85,7 @@ class AppDateUtils {
   }
 
 
-  static String formatHalfDateHalfMonth(DateTime? dateTime,{String? locale}) {
+  static String formatHalfDateHalfMonth(DateTime? dateTime,{required String? locale}) {
     if (dateTime == null) return "Invalid Date";
     if(locale != null) {
       String formattedDate = DateFormat("EEE dd MMM yyyy",locale).format(dateTime);

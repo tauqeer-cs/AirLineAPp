@@ -73,7 +73,7 @@ class CMSRepository {
     String unixTimestampString = unixTimestamp.toString();
 
     await getCMSToken();
-    return await _provider.getInsuranceName(id,timestamp: DateTime.now().millisecondsSinceEpoch.toString(),lang: language);
+    return await _provider.getInsuranceName(id,timestamp: DateTime.now().millisecondsSinceEpoch.toString(),lang: language == 'th' ? 'th-TH' : 'en-US');
   }
 
 }

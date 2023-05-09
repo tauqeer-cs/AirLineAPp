@@ -144,7 +144,7 @@ class FlightResultWidget extends StatelessWidget {
             title: "return".tr(),
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:
-                AppDateUtils.formatHalfDate(state.filterState?.returnDate),
+                AppDateUtils.formatHalfDate(state.filterState?.returnDate,locale: locale),
             segments: bookState.selectedReturn != null
                 ? [bookState.selectedReturn!]
                 : state.flights?.flightResult?.inboundSegment ?? [],

@@ -942,11 +942,9 @@ class FlightDetail {
   String? currency;
   List<FlightPaxNameList>? flightPaxNameList;
 
-  String get routeNameToShow {
+  String  routeNameToShow(String locale) {
     var datet = DateTime.parse(date ?? '');
-    AppDateUtils.formatHalfDate(datet);
-
-    return '${routeName ?? ''}\n${AppDateUtils.formatHalfDate(datet)}';
+    return '${routeName ?? ''}\n${AppDateUtils.formatHalfDate(datet,locale: locale)}';
   }
 
   FlightDetail(

@@ -72,7 +72,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ),
                         Expanded(
                           child: FlightDataInfo(
-                            headingLabel: 'Departure',
+                            headingLabel: "departure".tr(),
                             dateToShow: state.manageBookingResponse?.result
                                     ?.departureDateToShow(locale) ??
                                 '',

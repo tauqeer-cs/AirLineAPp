@@ -55,6 +55,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
 
     bloc = context.watch<ManageBookingCubit>();
 
+    final locale = context.locale.toString();
 
     String noOfPerson =
         bloc?.state.manageBookingResponse?.result?.toBeautify() ?? '1';
@@ -116,7 +117,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ),
                 ),
                 if (bloc != null) ...[
-                   buildFlights(bloc!.state,bloc?.currentCurrency),
+                   buildFlights(bloc!.state,bloc?.currentCurrency,locale),
                 ],
 
 
@@ -169,7 +170,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
     );
   }
 
-  Column buildFlights(ManageBookingState state,String? currency) {
+  Column buildFlights(ManageBookingState state,String? currency,String locale) {
     return Column(
       children: [
         if (state.checkedDeparture == true) ...[
@@ -212,7 +213,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ],
                 ),
                 kVerticalSpacerBig,
-                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newStartDateSelected ?? DateTime.now()),
+                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newStartDateSelected ?? DateTime.now(),locale: locale),
                     style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
                 kVerticalSpacerBig,
                  AppCard(
@@ -266,7 +267,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ?.flightResult
                   ?.outboundSegment
                   ?.first
-                  .departureDate),
+                  .departureDate , locale: locale),
               segments: state.selectedDepartureFlight != null
                   ? [state.selectedDepartureFlight!]
                   : state.flightSearchResponse?.searchFlightResponse?.flightResult
@@ -320,7 +321,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ],
                 ),
                 kVerticalSpacerBig,
-                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newReturnDateSelected ?? DateTime.now()),
+                Text(AppDateUtils.formatFullDate(state.manageBookingResponse?.newReturnDateSelected ?? DateTime.now(),locale: locale),
                     style: kLargeHeavy.copyWith(color: Styles.kSubTextColor)),
                 kVerticalSpacerBig,
                 AppCard(
@@ -376,7 +377,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                     ?.flightResult
                     ?.inboundSegment
                     ?.first
-                    .departureDate),
+                    .departureDate,locale: locale),
                 segments: state.selectedReturnFlight != null
                     ? [state.selectedReturnFlight!]
                     : state.flightSearchResponse?.searchFlightResponse

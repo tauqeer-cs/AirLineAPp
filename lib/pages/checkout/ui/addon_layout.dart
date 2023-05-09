@@ -20,11 +20,13 @@ class AddonLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final type =
         context.watch<SearchFlightCubit>().state.filterState?.flightType;
+    final locale = context.locale.toString();
+
     final booking = context.watch<BookingCubit>().state;
     final tabs = <Widget>[];
-    tabs.add(buildTabTitle(booking.selectedDeparture, "departure".tr(), false));
+    tabs.add(buildTabTitle(booking.selectedDeparture, "departure".tr(), false,locale));
     if (booking.selectedReturn != null) {
-      tabs.add(buildTabTitle(booking.selectedReturn, "return".tr(), true));
+      tabs.add(buildTabTitle(booking.selectedReturn, "return".tr(), true,locale));
     }
     return Padding(
       padding: kPageHorizontalPadding,
@@ -70,7 +72,9 @@ class AddonLayout extends StatelessWidget {
   }
 
   Widget buildTabTitle(
-      InboundOutboundSegment? segment, String prefix, bool showDivider) {
+      InboundOutboundSegment? segment, String prefix, bool showDivider,String locale) {
+
+
     return Transform.translate(
       offset: Offset(showDivider ? -25 : 0, 0),
       child: Row(
@@ -92,7 +96,7 @@ class AddonLayout extends StatelessWidget {
           ),
           Tab(
             text:
-                "$prefix - ${AppDateUtils.formatFullDate(segment?.departureDate)}",
+                "$prefix - ${AppDateUtils.formatFullDate(segment?.departureDate,locale: locale)}",
           ),
         ],
       ),
