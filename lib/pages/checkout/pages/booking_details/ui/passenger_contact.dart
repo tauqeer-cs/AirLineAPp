@@ -118,7 +118,7 @@ class _PassengerContactState extends State<PassengerContact> {
                       ErrorUtils.getErrorMessage(e, st);
                     }
                   },
-                text: "\n${'privacyPolicy'.tr()}.",
+                text: " ${'privacyPolicy'.tr()}.",
                 style: kMediumHeavy.copyWith(
                     color: Styles.kPrimaryColor, height: 1.5),
               ),

@@ -71,7 +71,7 @@ class InsuranceTerms extends StatelessWidget {
 
                       TextSpan(
                         text:
-                        ' ${'insuranceLongText'.tr()}',
+                        ' ${'insuranceLongText'.tr()} ',
                       ),
                       makeClickableTextSpan(context,
                           text: 'dataPrivacyNotice'.tr(),
