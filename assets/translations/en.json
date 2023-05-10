@@ -126,7 +126,7 @@
   "fieldNotEmpty": "This field cannot be empty.",
   "bookings": "Bookings",
   "onlineCheckIn": "Online Check In",
-  "webCheckInFAQ": "Web check in available from 72 hours and up to 3 hours before departure.",
+  "webCheckInFAQ": "App check in available from 72 hours and up to 1 hour before departure.",
   "checkIn": "Check In",
   "checkInDash": "Check-In",
   "welcomeBack": "Welcome Back!",
