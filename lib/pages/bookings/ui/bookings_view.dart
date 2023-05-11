@@ -29,7 +29,7 @@ class BookingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
-    String? checkInLabel = context.watch<CmsSsrCubit>().state.checkInLabel;
+    String? checkInLabel = context.watch<CmsSsrCubit>().state.manageBookLabel;
 
     return BlocConsumer<ManageBookingCubit, ManageBookingState>(
       listener: (context, state) {
