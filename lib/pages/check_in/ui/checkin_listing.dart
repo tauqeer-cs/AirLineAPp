@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
+import '../../../blocs/cms/ssr/cms_ssr_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
@@ -25,6 +26,10 @@ class CheckingListing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? checkInLabel = context.watch<CmsSsrCubit>().state.checkInLabel;
+
+    print(checkInLabel);
+
     CheckInCubit? bloc = context.watch<CheckInCubit>();
     if (bloc.state.listToCall == false) {
       bloc.getBookingsListing();
@@ -119,7 +124,7 @@ class CheckingListing extends StatelessWidget {
               ],
             ] else ...[
               Text(
-                'onlineCheckHoursMessage'.tr(),
+                   checkInLabel ??  'onlineCheckHoursMessage'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kTextColor),
               ),
               kVerticalSpacer,

@@ -13,6 +13,8 @@ class CmsSsrState extends Equatable {
   final SharedSetting? carryNotice;
   final BlocState blocState;
   final String message;
+  final String? checkInLabel;
+  final String? manageBookLabel;
 
   const CmsSsrState(this.language,  {
     this.bundleGroups = const [],
@@ -25,6 +27,8 @@ class CmsSsrState extends Equatable {
     this.seatNotice,
     this.oversizedNotice,
     this.carryNotice,
+    this.checkInLabel,
+    this.manageBookLabel
   });
 
   CmsSsrState copyWith({
@@ -38,6 +42,8 @@ class CmsSsrState extends Equatable {
     SharedSetting? seatNotice,
     SharedSetting? oversizedNotice,
     SharedSetting? carryNotice,
+    String? checkInLabel,
+    String? manageBookLabel
   }) {
     return CmsSsrState(
       language,
@@ -45,13 +51,14 @@ class CmsSsrState extends Equatable {
       message: message ?? this.message,
       mealGroups: mealGroups ?? this.mealGroups,
       bundleGroups: bundleGroups ?? this.bundleGroups,
-
       notifications: notifications ?? this.notifications,
       notice: notice ?? this.notice,
       bundleNotice: bundleNotice ?? this.bundleNotice,
       seatNotice: seatNotice ?? this.seatNotice,
       oversizedNotice: oversizedNotice ?? this.oversizedNotice,
       carryNotice: carryNotice ?? this.carryNotice,
+        checkInLabel : checkInLabel ?? this.checkInLabel,
+        manageBookLabel : manageBookLabel ?? this.manageBookLabel
     );
   }
 
@@ -66,6 +73,8 @@ class CmsSsrState extends Equatable {
         seatNotice,
         oversizedNotice,
         carryNotice,
-      language
+      language,
+    checkInLabel,
+    manageBookLabel
       ];
 }

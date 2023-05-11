@@ -43,6 +43,8 @@ class CmsSsrCubit extends Cubit<CmsSsrState> {
           (element) => element.name?.toLowerCase() == "mealgroup");
       final bundle = ssrItems.firstWhereOrNull(
               (element) => element.name?.toLowerCase() == "bundlegroup");
+      // manage booking
+
       emit(state.copyWith(
         blocState: BlocState.finished,
         mealGroups: meal?.items ?? [],
@@ -51,6 +53,10 @@ class CmsSsrCubit extends Cubit<CmsSsrState> {
         notice: yptaMessage,
         bundleNotice: cmsSSRs.items?.firstWhereOrNull(
             (element) => element.name == "Meal Bundle Overtime Warning"),
+        checkInLabel: cmsSSRs.items?.firstWhereOrNull(
+                (element) => element.name == "Nav Check In Text")?.content  ?? '',
+        manageBookLabel: cmsSSRs.items?.firstWhereOrNull(
+                (element) => element.name == "Nav Manage Booking Text")?.content  ?? '',
         seatNotice: cmsSSRs.items?.firstWhereOrNull(
             (element) => element.name == "Seat Emergency Exit Warning"),
         oversizedNotice: cmsSSRs.items?.firstWhereOrNull(
