@@ -11,6 +11,7 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:collection/collection.dart';
 
 import '../../../../../theme/theme.dart';
 
@@ -32,6 +33,10 @@ class _PaymentViewState extends State<PaymentView> {
   @override
   Widget build(BuildContext context) {
     final summaryResponse = context.watch<SummaryCubit>().state.summaryResponse;
+    final voucherState = context.watch<VoucherCubit>().state;
+
+    num? discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount;
+    num? redeemAmount = context.watch<VoucherCubit>().state.selectedRedeemOption?.redemptionAmount;
 
     final widgets = <Widget>[
       Padding(
@@ -78,10 +83,10 @@ class _PaymentViewState extends State<PaymentView> {
             children: [
               kVerticalSpacer,
               BookingSummary(
-                totalAmountToShow: summaryResponse
+                totalAmountToShow: (summaryResponse
                         ?.flightSummaryPnrResult?.summaryAmount
                         ?.toDouble() ??
-                    0,
+                    0) - (discount?.toDouble() ?? 0) -  (redeemAmount?.toDouble() ?? 0),
               ),
               kVerticalSpacer,
               ElevatedButton(
