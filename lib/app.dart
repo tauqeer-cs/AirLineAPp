@@ -44,6 +44,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/date_symbol_data_file.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'app/language_manager.dart';
 import 'blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import 'blocs/manage_booking/manage_booking_cubit.dart';
 import 'pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
@@ -261,6 +262,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final locale = context.locale.toString();
+
+    LanguageManager().setLanguage(locale);
 
     return MultiBlocProvider(
       providers: [

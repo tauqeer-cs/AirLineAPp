@@ -1,8 +1,7 @@
-import 'package:app/app/app_flavor.dart';
 import 'package:app/theme/spacer.dart';
 import 'package:app/theme/styles.dart';
 import 'package:app/theme/typography.dart';
-import 'package:app/utils/security_utils.dart';
+
 import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
@@ -10,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import '../../../app/app_router.dart';
+import '../../../blocs/cms/ssr/cms_ssr_cubit.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
@@ -29,6 +28,8 @@ class CheckInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<CheckInCubit>();
+    String? checkInLabel = context.watch<CmsSsrCubit>().state.checkInLabel;
+
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -53,7 +54,7 @@ class CheckInView extends StatelessWidget {
                     ),
                     kVerticalSpacerMini,
                     Text(
-                      'webCheckInFAQ'.tr(),
+                        checkInLabel ?? 'webCheckInFAQ'.tr(),
                       style:
                       kMediumRegular.copyWith(color: Styles.kSubTextColor),
                     ),

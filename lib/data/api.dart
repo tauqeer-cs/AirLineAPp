@@ -10,6 +10,7 @@ import 'dart:developer' as developer;
 import 'dart:convert';
 import 'package:firebase_performance/firebase_performance.dart';
 import '../app/app_logger.dart';
+import '../app/language_manager.dart';
 import '../models/error_response.dart';
 
 /// A class to handle DIO API request
@@ -115,6 +116,10 @@ class MyInterceptor extends Interceptor {
     }
     options.headers['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36";
 
+    options.headers['Language'] = LanguageManager().currentLanguage;
+
+
+    //
     //Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36
     super.onRequest(options, handler);
   }

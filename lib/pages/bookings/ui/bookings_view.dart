@@ -13,6 +13,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../app/app_bloc_helper.dart';
+import '../../../blocs/cms/ssr/cms_ssr_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../blocs/voucher/voucher_cubit.dart';
 import '../../../widgets/app_input_border_text.dart';
@@ -28,6 +29,7 @@ class BookingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
+    String? checkInLabel = context.watch<CmsSsrCubit>().state.manageBookLabel;
 
     return BlocConsumer<ManageBookingCubit, ManageBookingState>(
       listener: (context, state) {
@@ -65,7 +67,7 @@ class BookingsView extends StatelessWidget {
                              Text('manageMyBookings'.tr(), style: kGiantHeavy),
                             kVerticalSpacerMini,
                             Text(
-                            'manageBookingSubText'.tr(),
+                              checkInLabel ?? 'manageBookingSubText'.tr(),
                               style: kMediumRegular.copyWith(
                                   color: Styles.kSubTextColor),
                             ),
