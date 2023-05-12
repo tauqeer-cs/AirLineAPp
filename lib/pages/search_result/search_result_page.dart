@@ -156,7 +156,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                   fbKey: JosKeys.gKeysSearch,
                   showContinueButton: true,
                   formEmailLoginName: "emailSearch",
-                  formPasswordLoginName: "passwordSearch",
+                  formPasswordLoginName: "passwordSearch", fromPopUp: true,
                 ),
               ),
             ),

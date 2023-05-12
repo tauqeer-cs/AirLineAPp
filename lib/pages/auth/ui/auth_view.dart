@@ -62,6 +62,7 @@ class AuthView extends StatelessWidget {
                   showContinueButton: showContinueButton,
                   formEmailLoginName: "emailAuth",
                   formPasswordLoginName: "passwordAuth",
+                  fromPopUp: false,
                 ),
               ),
               kVerticalSpacer,

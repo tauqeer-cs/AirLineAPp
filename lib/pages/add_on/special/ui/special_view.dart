@@ -133,6 +133,8 @@ class ContinueButton extends StatelessWidget {
               UserInsider.of(context).generateProduct());
           var response = await context.router.push(const BookingDetailsRoute());
           if (response == true) {
+            await Future.delayed(const Duration(milliseconds: 100));
+
             context.router.push(const BookingDetailsRoute());
           }
         }

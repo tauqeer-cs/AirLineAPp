@@ -3,6 +3,7 @@ import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_divider_widget.dart';
+import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/forms/app_input_password.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:auto_route/auto_route.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../app/app_bloc_helper.dart';
 import '../../../blocs/profile/profile_cubit.dart';
 
 class JosKeys {
@@ -22,39 +24,76 @@ class JosKeys {
 
 }
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({
     Key? key,
     required this.showContinueButton,
     required this.formEmailLoginName,
     required this.formPasswordLoginName,
-    required this.fbKey,
+    required this.fbKey, required this.fromPopUp,
   }) : super(key: key);
   final GlobalKey<FormBuilderState> fbKey;
   final String formEmailLoginName;
   final String formPasswordLoginName;
   final bool showContinueButton;
+  final bool fromPopUp;
 
-  onLogin(BuildContext context) async {
-    if (fbKey.currentState!.saveAndValidate()) {
-      final value = fbKey.currentState!.value;
-      final email = value[formEmailLoginName];
-      final password = value[formPasswordLoginName];
-      await context
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  onLogin(BuildContext context,bool fromPopUp) async {
+    if (widget.fbKey.currentState!.saveAndValidate()) {
+      final value = widget.fbKey.currentState!.value;
+      final email = value[widget.formEmailLoginName];
+      final password = value[widget.formPasswordLoginName];
+      var result = await context
           .read<LoginCubit>()
           .logInWithCredentialsFromPopUp(email, password);
 
-      context.read<ProfileCubit>().getProfile();
+      setState(() {
+        isLoading = true;
+      });
+
+      if(fromPopUp)
+      {
+
+        setState(() {
+          isLoading = false;
+        });
+
+        if(result == true) {
+          await  context.read<ProfileCubit>().getProfile();
+        }
+        else {
+          return;
+
+        }
+
+
+      }
+      else {
+        setState(() {
+          isLoading = false;
+        });
+        context.read<ProfileCubit>().getProfile();
+      }
+
 
       await context.read<LoginCubit>().changeStatus();
     }
   }
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    var logicCubit =  context.read<LoginCubit>();
+
     return FormBuilder(
       autoFocusOnValidationFailure: true,
-      key: fbKey,
+      key: widget.fbKey,
       child: Column(
         children: [
           Row(
@@ -72,7 +111,7 @@ class LoginForm extends StatelessWidget {
             ],
           ),
           Visibility(
-            visible: showContinueButton,
+            visible: widget.showContinueButton,
             child: Column(
               children: [
                 kVerticalSpacer,
@@ -113,7 +152,7 @@ class LoginForm extends StatelessWidget {
               topPadding: 0,
               isRequired: false,
               textInputType: TextInputType.emailAddress,
-              name: formEmailLoginName,
+              name: widget.formEmailLoginName,
               hintText: 'emailAddress'.tr(),
               maxLength: 45,
               validators: [
@@ -129,7 +168,7 @@ class LoginForm extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: AppInputPassword(
-              name: formPasswordLoginName,
+              name: widget.formPasswordLoginName,
               hintText: 'password'.tr(),
               validators: [FormBuilderValidators.required()],
               isDarkBackground: false,
@@ -145,26 +184,32 @@ class LoginForm extends StatelessWidget {
                 style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               )),
           kVerticalSpacerMini,
-          ElevatedButton(
-            onPressed: () => onLogin(context),
-            child:  Text(
-              'loginVerify.logIn'.tr(),
+          if(isLoading == true) ... [
+
+            AppLoading(),
+          ] else ... [
+            ElevatedButton(
+              onPressed: () => onLogin(context,widget.fromPopUp),
+              child:  Text(
+                'loginVerify.logIn'.tr(),
 
 
-              style: kLargeHeavy,
+                style: kLargeHeavy,
+              ),
             ),
-          ),
-          kVerticalSpacer,
-          OutlinedButton(
-            onPressed: () => context.router.push(
-              const SignupWrapperRoute(),
-            ), //kMedium15Heavy
-            child:
-               Text('createAccount'.tr(),
-    style: kLargeHeavy,
-    ),
+            kVerticalSpacer,
+            OutlinedButton(
+              onPressed: () => context.router.push(
+                const SignupWrapperRoute(),
+              ), //kMedium15Heavy
+              child:
+              Text('createAccount'.tr(),
+                style: kLargeHeavy,
+              ),
 
             ),
+
+          ],
 
         ],
       ),

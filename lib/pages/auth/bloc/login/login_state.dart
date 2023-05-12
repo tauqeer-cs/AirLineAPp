@@ -5,6 +5,8 @@ class LoginState extends Equatable {
   final String message;
   final bool isRememberMe;
 
+
+
   const LoginState({
     this.blocState = BlocState.initial,
     this.message = "",
@@ -12,7 +14,7 @@ class LoginState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [blocState, message, isRememberMe];
+  List<Object?> get props => [blocState, message, isRememberMe,];
 
   LoginState copyWith(
       {BlocState? blocState, String? message, bool? isRememberMe}) {

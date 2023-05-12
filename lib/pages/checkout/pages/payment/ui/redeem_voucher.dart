@@ -218,7 +218,7 @@ class RedeemVoucherView extends StatelessWidget {
                   fbKey: JosKeys.gKeysVoucher,
                   showContinueButton: true,
                   formEmailLoginName: "emailBooking",
-                  formPasswordLoginName: "passwordBooking",
+                  formPasswordLoginName: "passwordBooking", fromPopUp: true,
                 ),
               ),
             ),

@@ -46,7 +46,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var response = await showLoginDialog();
       if (response == true) {
-        await Future.delayed(const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 1));
         appRouter.pop(true);
       }
     });
@@ -160,7 +160,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     return;
   }
 
+  LoginCubit? loginCubit;
+
   showLoginDialog() {
+
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -181,7 +184,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           child: AppLoadingScreen(message: "loading".tr()),
         ),
         child: BlocProvider(
-          create: (context) => LoginCubit(),
+          create: (context) {
+            loginCubit = LoginCubit();
+            return loginCubit ?? LoginCubit();
+
+          },
           child: MultiBlocListener(
             listeners: [
               BlocListener<LoginCubit, LoginState>(
@@ -199,6 +206,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     onFinished: () {
                       FocusManager.instance.primaryFocus?.unfocus();
                       context.loaderOverlay.hide();
+
+
+                  //    if(loginCubit?.state.message == 'Invalid username/password') {
+                    //    return;
+                      //}
 
                       Toast.of(context)
                           .show(message: "welcomeBack".tr(), success: true);
@@ -232,7 +244,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   fbKey: JosKeys.gKeysBooking,
                   showContinueButton: true,
                   formEmailLoginName: "emailBooking",
-                  formPasswordLoginName: "passwordBooking",
+                  formPasswordLoginName: "passwordBooking", fromPopUp: true,
                 ),
               ),
             ),
