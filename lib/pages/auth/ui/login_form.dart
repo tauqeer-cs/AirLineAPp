@@ -45,6 +45,9 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   onLogin(BuildContext context,bool fromPopUp) async {
     if (widget.fbKey.currentState!.saveAndValidate()) {
+      setState(() {
+        isLoading = true;
+      });
       final value = widget.fbKey.currentState!.value;
       final email = value[widget.formEmailLoginName];
       final password = value[widget.formPasswordLoginName];
@@ -52,21 +55,21 @@ class _LoginFormState extends State<LoginForm> {
           .read<LoginCubit>()
           .logInWithCredentialsFromPopUp(email, password);
 
-      setState(() {
-        isLoading = true;
-      });
+
 
       if(fromPopUp)
       {
 
-        setState(() {
-          isLoading = false;
-        });
+
 
         if(result == true) {
           await  context.read<ProfileCubit>().getProfile();
         }
         else {
+          setState(() {
+            isLoading = false;
+          });
+
           return;
 
         }
@@ -74,12 +77,12 @@ class _LoginFormState extends State<LoginForm> {
 
       }
       else {
-        setState(() {
-          isLoading = false;
-        });
+
         context.read<ProfileCubit>().getProfile();
       }
-
+      setState(() {
+        isLoading = false;
+      });
 
       await context.read<LoginCubit>().changeStatus();
     }

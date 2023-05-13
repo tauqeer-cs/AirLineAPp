@@ -46,7 +46,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var response = await showLoginDialog();
       if (response == true) {
-        await Future.delayed(const Duration(seconds: 1));
+        await Future.delayed(const Duration(milliseconds: 100));
         appRouter.pop(true);
       }
     });
@@ -296,26 +296,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
                   context.router.push(const InsuranceRoute());
-                  // if (context.router.currentUrl == '/booking-details') {
-                  //   context.router.push(const PaymentRoute());
-                  //   if (context.read<SettingsCubit>().state.switchSetting.myReward ?? false) {
-                  //     var token = context
-                  //         .read<SummaryCubit>()
-                  //         .state
-                  //         .summaryRequest!
-                  //         .token;
-                  //     context.read<VoucherCubit>().state.copyWith(
-                  //         flightToken: context
-                  //             .read<SummaryCubit>()
-                  //             .state
-                  //             .summaryRequest!
-                  //             .token);
-                  //     context
-                  //         .read<VoucherCubit>()
-                  //         .getAvailablePromotions(token);
-                  //   }
-                  // }
-                  //VoucherCubit
+
                 },
               );
             },

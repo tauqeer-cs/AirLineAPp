@@ -45,6 +45,12 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
     }
   }
 
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
