@@ -39,7 +39,7 @@ class AccountSettingView extends StatelessWidget {
             GreyCard(
               child: AppInputPassword(
                 name: formNameNewPassword,
-                hintText: 'password'.tr(),
+                hintText: 'yourCurrentPass'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                   FormBuilderValidators.match(

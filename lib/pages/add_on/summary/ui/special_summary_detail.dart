@@ -48,7 +48,7 @@ class SpecialSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           Text(
-          'bundleTab.depart'.tr(),
+          'departing'.tr(),
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
@@ -62,7 +62,7 @@ class SpecialSummaryDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'bundleTab.return'.tr(),
+                  'returning'.tr(),
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,

@@ -1085,6 +1085,8 @@
   "changeFlightView.changeFlightDesc7": "แชทสด ",
   "changeFlightView.changeFlightDesc8": "ตัวแทน",
   "changeFlightView.changeFlightDesc5": "ขยายระยะเวลาการเดินทางของคุณ, ",
-  "changeFlightView.changeFlightDesc6": "เพื่อปกป้องตลอดการเดินทางของคุณ! คุณสามารถทำได้โดยติดต่อเรา "
+  "changeFlightView.changeFlightDesc6": "เพื่อปกป้องตลอดการเดินทางของคุณ! คุณสามารถทำได้โดยติดต่อเรา ",
+  "yourCurrentPass" : "รหัสผ่านปัจจุบัน"
+
 }
 

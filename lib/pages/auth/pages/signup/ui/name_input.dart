@@ -64,11 +64,11 @@ class NameInput extends StatelessWidget {
                 },
               ),
               kVerticalSpacer,
-              AppInputText(
+               AppInputText(
                 isRequired: false,
                 textInputType: TextInputType.name,
                 name: formNameFirstName,
-                hintText: 'firstName'.tr(),
+                hintText: 'emergencyContact.firstName'.tr(),
                 initialValue: firstNameInitValue,
                 validators: [
                   FormBuilderValidators.required(),
@@ -80,7 +80,7 @@ class NameInput extends StatelessWidget {
                 textInputType: TextInputType.name,
                 name: formNameLastName,
                 initialValue: lastNameInitValue,
-                hintText: 'lastName'.tr(),
+                hintText: 'emergencyContact.lastName'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
                 ],

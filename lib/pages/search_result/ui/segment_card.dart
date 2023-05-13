@@ -313,7 +313,7 @@ class SegmentCard extends StatelessWidget {
                           .changeVisibility(true);
                       //context.router.pop();
                     },
-                    child: Text("changeFlight".tr()),
+                    child: Text("flightSummary.changeFlight".tr()),
                   ),
                 ),
               ),
