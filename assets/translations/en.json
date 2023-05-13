@@ -196,8 +196,9 @@
   "baggageSelection.page": "page",
   "travelOversizedItem": "Travel with Oversized items?",
   "baggageSelection.sporSt": "SPORT",
-  "bundleTab.depart": "Depart",
+  "bundleTab.depart": "Departure",
   "bundleTab.return": "Return",
+  "bundleTab.bundle": "Bundle",
   "bundleTab.bundle": "Bundle",
   "bundleTab.passenger": "Passenger",
   "bundleTab.infant": "+ Infant",
@@ -848,7 +849,7 @@
   "flightChange.rule5": "If you're travelling for longer than your travel insurance's coverage period, please ensure you are fully covered for the entire trip. Reach out to customer care to extend your coverage.",
   "flightChange.rule6": "Your baggage will be transferred over to the new flight.",
   "flightChange.rule7": "You may upgrade your baggage upon your flight change.",
-  "flightChangeProceedFlightChange": "Proceed with flight change?",
+  "flightChangeProceedFlightChange": "Continue with flight change?",
   "flightChangeDep": "DEP",
   "flightChangeRet": "RET",
   "calendar.daySundayShort": "S",
@@ -1012,5 +1013,6 @@
   "sportsEquipmentSubtotal" : "Sports Equipment Subtotal",
   "meals": "Meal",
   "noItemSelected" : "No Item Selected",
-  "yourCurrentPass" : "Your current password"
+  "yourCurrentPass" : "Your current password",
+  "enterEmailAddress" : "Enter Email Address"
 }

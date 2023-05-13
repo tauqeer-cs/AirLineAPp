@@ -356,7 +356,7 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
                 },
                 keyboardType: TextInputType.emailAddress,
                 decoration:  InputDecoration(
-                  hintText: 'loginForm.email'.tr(),
+                  hintText: 'enterEmailAddress'.tr(),
                 ),
               ),
               kVerticalSpacer,
