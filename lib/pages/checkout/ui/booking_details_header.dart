@@ -29,7 +29,7 @@ class BookingDetailsHeader extends StatelessWidget {
               ),
 
               TextSpan(
-                text: '  ${'bookingForm.bookingDetailsDesc2'.tr()}',
+                text: ' ${'bookingForm.bookingDetailsDesc2'.tr()}',
                 style: kMediumHeavy.copyWith(
                   color: Styles.kTextColor,
                   height: 1.5,

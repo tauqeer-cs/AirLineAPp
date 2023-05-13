@@ -17,6 +17,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../checkout/bloc/selected_person_cubit.dart';
+
 class MealsView extends StatefulWidget {
   final bool isDeparture;
 
@@ -122,12 +124,21 @@ class ContinueButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final numberOfPerson = filter?.numberPerson;
+    List<Person> persons = List<Person>.from(numberOfPerson?.persons ?? []);
+
+
     return ElevatedButton(
       onPressed: () {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(MealsRoute(isDeparture: false));
         } else {
           context.router.push(BaggageRoute());
+        }
+
+        if(persons.isNotEmpty) {
+          context.read<SelectedPersonCubit>().selectPerson(persons.first);
         }
       },
       child: Text("continue".tr()),

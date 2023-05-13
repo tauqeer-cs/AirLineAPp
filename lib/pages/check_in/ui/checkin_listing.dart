@@ -28,8 +28,6 @@ class CheckingListing extends StatelessWidget {
   Widget build(BuildContext context) {
     String? checkInLabel = context.watch<CmsSsrCubit>().state.checkInLabel;
 
-    print(checkInLabel);
-
     CheckInCubit? bloc = context.watch<CheckInCubit>();
     if (bloc.state.listToCall == false) {
       bloc.getBookingsListing();

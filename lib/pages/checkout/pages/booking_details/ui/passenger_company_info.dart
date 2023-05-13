@@ -82,7 +82,7 @@ class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                           style: k18Heavy.copyWith(color: Styles.kTextColor),
                         ),
                         TextSpan(
-                          text: "(${'optional'.tr()})",
+                          text: " (${'optional'.tr()})",
                           style:
                               kMediumRegular.copyWith(color: Styles.kTextColor),
                         ),

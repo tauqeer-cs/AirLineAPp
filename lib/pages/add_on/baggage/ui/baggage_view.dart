@@ -49,14 +49,14 @@ class _BaggageViewState extends State<BaggageView>
           IsDepartureCubit()..changeDeparture(widget.isDeparture),
       child: Stack(
         children: [
-          SummaryContainerListener(
+SummaryContainerListener(
             scrollController: scrollController,
             child: ListView(
               controller: scrollController,
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                TitleSummaryHeader(title: 'priceSection.baggageTitle'.tr()),
+                 TitleSummaryHeader(title: 'priceSection.baggageTitle'.tr()),
                 kVerticalSpacer,
                 FlightDetailWidget(
                   isDeparture: widget.isDeparture,

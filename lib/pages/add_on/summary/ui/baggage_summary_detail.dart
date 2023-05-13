@@ -15,8 +15,9 @@ import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class BaggageSummaryDetail extends StatelessWidget {
-  const BaggageSummaryDetail({Key? key, this.currency}) : super(key: key);
+  const BaggageSummaryDetail({Key? key, this.currency, required this.sports}) : super(key: key);
   final String? currency;
+  final bool sports;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +25,21 @@ class BaggageSummaryDetail extends StatelessWidget {
     final bookingTotal = context.watch<BookingCubit>().state;
     final numberOfPerson = filter?.numberPerson;
     final persons = List<Person>.from(numberOfPerson?.persons ?? []);
-    final totalPrice =
-        (filter?.numberPerson.getTotalBaggagePartial(true) ?? 0) +
-            (filter?.numberPerson.getTotalBaggagePartial(false) ?? 0) +
-            (filter?.numberPerson.getTotalSportsPartial(true) ?? 0) +
-            (filter?.numberPerson.getTotalSportsPartial(false) ?? 0);
+    num totalPrice = 0;
+    if(sports) {
+       totalPrice =
+
+              (filter?.numberPerson.getTotalSportsPartial(true) ?? 0) +
+              (filter?.numberPerson.getTotalSportsPartial(false) ?? 0);
+    }
+    else {
+       totalPrice =
+          (filter?.numberPerson.getTotalBaggagePartial(true) ?? 0) +
+              (filter?.numberPerson.getTotalBaggagePartial(false) ?? 0) ;
+    }
+
+
+
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
 
     return Visibility(
@@ -38,7 +49,7 @@ class BaggageSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-              "baggage".tr(),
+      sports ? "priceSection.sportsEquipmentTitle".tr() : "baggage".tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -98,19 +109,24 @@ class BaggageSummaryDetail extends StatelessWidget {
             Text(
               e.generateText(numberOfPerson, separator: "& "),
             ),
-            Visibility(
-              visible: baggage!=null,
-              child:  SummaryListItem( text: baggage?.description ?? '',),
-            ),
-            Visibility(
-              visible: sport!=null,
-              child: SummaryListItem( text: sport?.description ?? '',),
-            ),
+            if(sports == false ) ... [
+              Visibility(
+                visible: baggage!=null,
+                child:  SummaryListItem( text: baggage?.description ?? '',),
+              ),
+            ] else ...  [
+              Visibility(
+                visible: sport!=null,
+                child: SummaryListItem( text: sport?.description ?? '',),
+              ),
+            ],
+
+
           ],
         ),
         child2: MoneyWidgetCustom(
           currency: currency,
-          amount: e.getPartialPriceBaggage(isDeparture) + e.getPartialPriceSports(isDeparture),
+          amount: sports == false ? e.getPartialPriceBaggage(isDeparture) : e.getPartialPriceSports(isDeparture),
         ),
       ),
     );

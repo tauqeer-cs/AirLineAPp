@@ -53,44 +53,6 @@ class VoucherCodeUi extends StatelessWidget {
             style: kMediumRegular,
           ),
           kVerticalSpacerSmall,
-          if (!ConstantUtils.showPinInVoucher) ...[
-            AppCard(
-              child: FormBuilderTextField(
-                name: "voucherCode",
-                validator: FormBuilderValidators.required(),
-                style: const TextStyle(fontSize: 14),
-                readOnly: readOnly,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  hintText: 'voucherCode'.tr(),
-                  border: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                  isDense: true,
-                  suffixIconConstraints: const BoxConstraints(
-                    minWidth: 40,
-                    minHeight: 20,
-                    maxHeight: 20,
-                    maxWidth: 40,
-                  ),
-                  suffixIcon: blocBuilderWrapper(
-                    blocState: blocState,
-                    loadingBuilder: const AppLoading(
-                      size: 20,
-                    ),
-                    failedBuilder: const SizedBox(),
-                    finishedBuilder:
-                        Image.asset("assets/images/icons/iconVoucher.png"),
-                  ),
-                ),
-              ),
-            ),
-          ] else ...[
             Row(
               children: [
                 Expanded(
@@ -111,7 +73,7 @@ class VoucherCodeUi extends StatelessWidget {
                         focusedBorder: InputBorder.none,
                         focusedErrorBorder: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 0),
+                            horizontal: 8, vertical: 0),
                         isDense: true,
                         suffixIconConstraints: const BoxConstraints(
                           minWidth: 20,
@@ -156,7 +118,7 @@ class VoucherCodeUi extends StatelessWidget {
                         focusedBorder: InputBorder.none,
                         focusedErrorBorder: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 0),
+                            horizontal: 8, vertical: 0),
                         isDense: true,
                         suffixIconConstraints: const BoxConstraints(
                           minWidth: 20,
@@ -198,7 +160,7 @@ class VoucherCodeUi extends StatelessWidget {
                 ),
               ],
             ),
-          ],
+
           kVerticalSpacerSmall,
           Visibility(
             visible: state.blocState == BlocState.failed,

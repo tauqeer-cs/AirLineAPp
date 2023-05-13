@@ -187,7 +187,7 @@ class _LoginFormState extends State<LoginForm> {
                 style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
               )),
           kVerticalSpacerMini,
-          if(isLoading == true) ... [
+          if(isLoading == true && widget.fromPopUp) ... [
 
             AppLoading(),
           ] else ... [

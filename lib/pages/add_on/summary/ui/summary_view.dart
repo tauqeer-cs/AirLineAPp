@@ -25,8 +25,10 @@ class SummaryView extends StatelessWidget {
         FlightSummaryDetail(isDeparture: false,currency: currency,),
         SeatSummaryDetail(currency: currency,),
         MealSummaryDetail(currency: currency,),
-        BaggageSummaryDetail(currency: currency,),
-        //SpecialSummaryDetail(),
+        BaggageSummaryDetail(currency: currency, sports: false,),
+        BaggageSummaryDetail(currency: currency, sports: true,),
+
+        const SpecialSummaryDetail(),
       ],
     );
   }

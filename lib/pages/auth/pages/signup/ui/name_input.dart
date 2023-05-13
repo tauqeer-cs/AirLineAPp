@@ -46,7 +46,6 @@ class NameInput extends StatelessWidget {
           title: title ?? 'fullNameQuestion'.tr(),
           subtitle: subText ?? 'fullNameDesc'.tr(),
           graySubText: true,
-          smallerHeaderText: true,
         ),
         GreyCard(
           margin: 6,

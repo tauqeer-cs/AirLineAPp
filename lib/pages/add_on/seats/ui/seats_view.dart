@@ -16,6 +16,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../checkout/bloc/selected_person_cubit.dart';
+
 class SeatsView extends StatefulWidget {
   final bool isDeparture;
 
@@ -59,7 +61,7 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
                 child: Text('seatAutomatically'.tr()),
               ),
               kVerticalSpacer,
-SeatsSection(
+              SeatsSection(
                 isDeparture: widget.isDeparture,
                 moveToTop: () {
                   if (scrollController.hasClients) {
@@ -135,6 +137,7 @@ SeatsSection(
 
 class TitleSummaryHeader extends StatelessWidget {
   final String title;
+
   const TitleSummaryHeader({
     Key? key,
     required this.title,
@@ -185,12 +188,20 @@ class ContinueButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filter = context.watch<SearchFlightCubit>().state.filterState;
+    final numberOfPerson = filter?.numberPerson;
+    List<Person> persons = List<Person>.from(numberOfPerson?.persons ?? []);
+
     return ElevatedButton(
       onPressed: () {
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(SeatsRoute(isDeparture: false));
         } else {
           context.router.push(MealsRoute());
+        }
+
+        if (persons.isNotEmpty) {
+          context.read<SelectedPersonCubit>().selectPerson(persons.first);
         }
       },
       child: Text("continue".tr()),
