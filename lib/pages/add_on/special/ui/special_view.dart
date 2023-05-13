@@ -163,7 +163,7 @@ class ContinueButton extends StatelessWidget {
           var response = await context.router.push(const BookingDetailsRoute());
           if (response == true) {
             //startShowingLoader();
-            await Future.delayed(const Duration(milliseconds: 300));
+            await Future.delayed(const Duration(seconds: 1));
             //stopShowingLoader();
 
             context.router.push(const BookingDetailsRoute());
