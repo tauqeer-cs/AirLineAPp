@@ -18,27 +18,29 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> logInWithCredentials(String userName, String password) async {
-    emit(state.copyWith(blocState: BlocState.loading));
+    emit(state.copyWith(blocState: BlocState.loading, ));
     try {
       final loginRequest = LoginRequest(userName: userName, password: password);
       await _authenticationRepository.loginWithEmail(loginRequest);
-      emit(state.copyWith(blocState: BlocState.finished));
+
     } catch (e, st) {
       emit(
         state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st),
-          blocState: BlocState.failed,
-        ),
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed,
+            ),
       );
     }
   }
 
-  Future<bool?> logInWithCredentialsFromPopUp(String userName, String password) async {
-    emit(state.copyWith(blocState: BlocState.loading));
+  Future<bool?> logInWithCredentialsFromPopUp(
+      String userName, String password) async {
+    emit(state.copyWith(blocState: BlocState.loading,
+    ));
     try {
       final loginRequest = LoginRequest(userName: userName, password: password);
       await _authenticationRepository.loginWithEmail(loginRequest);
-     // emit(state.copyWith(blocState: BlocState.finished));
+
       return true;
     } catch (e, st) {
       emit(
@@ -48,7 +50,6 @@ class LoginCubit extends Cubit<LoginState> {
         ),
       );
       return false;
-
     }
   }
 
@@ -87,7 +88,11 @@ class LoginCubit extends Cubit<LoginState> {
     _authenticationRepository.logout();
   }
 
+
+
   changeStatus() {
-     emit(state.copyWith(blocState: BlocState.finished));
+    emit(state.copyWith(blocState: BlocState.finished));
   }
+
+
 }

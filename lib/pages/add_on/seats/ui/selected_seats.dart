@@ -69,7 +69,7 @@ class SelectedSeats extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               color: Styles.kPrimaryColor,
                               shape: BoxShape.circle,
