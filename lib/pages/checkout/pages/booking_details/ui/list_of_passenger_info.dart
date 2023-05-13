@@ -30,7 +30,7 @@ class ListOfPassengerInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${"importantInformation".tr()}:",
+                "${"importantInformation".tr()}",
                 style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
               ),
               kVerticalSpacerSmall,
@@ -77,7 +77,7 @@ class ListOfPassengerInfo extends StatelessWidget {
                     SecurityUtils.tryLaunch(
                         'https://www.myairline.my/fares-fees');
                   },
-                text: 'commForm.faq'.tr(),
+                text: " ${'commForm.faq'.tr()}",
                 style: kMediumHeavy.copyWith(
                     color: Colors.blue,
                     height: 1.5,

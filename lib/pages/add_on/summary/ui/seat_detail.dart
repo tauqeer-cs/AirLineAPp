@@ -68,7 +68,7 @@ class SeatSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           Text(
-            "depart".tr(),
+            "departing".tr(),
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
@@ -111,7 +111,7 @@ class SeatSummaryDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "return".tr(),
+                  "returning".tr(),
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,
