@@ -287,7 +287,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                               ],
                             ),
                             trailing: Container(
-                              constraints: BoxConstraints(minWidth: 60),
+                              constraints: const BoxConstraints(minWidth: 60),
                               child: Column(
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
@@ -301,7 +301,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                   Text(
                                     NumberUtils.formatNumber(
                                       (currentItem.amount ?? 0.0)
-                                          .toDouble(),
+                                          .toDouble()  + (currentItem.applicableTaxes?.first.amountToApply ?? 0.0).toDouble(),
                                     ),
                                     style: kHugeHeavy,
                                   ),
