@@ -630,7 +630,6 @@
   "accountDetail.setNewPassword" : "ตั้งรหัสผ่านใหม่",
   "accountDetail.passwordDesc2" : "ตัวอักษรตัวพิมพ์เล็ก",
   "accountDetail.passwordDesc4" : "หมายเลข",
-  "accountDetail.passwordDesc5" : "สัญลักษณ์ (เช่น !@#$%)",
   "accountDetail.newPassword" : "รหัสผ่านใหม่",
   "accountDetail.confirmPassword" :  "ยืนยันรหัสผ่าน",
   "accountDetail.hint" : " อย่างน้อย 8 ตัวอักษร",
@@ -1084,9 +1083,7 @@
   "changeFlightView.changeFlightDesc6": "เพื่อปกป้องตลอดการเดินทางของคุณ! คุณสามารถทำได้โดยติดต่อเรา ",
   "yourCurrentPass" : "รหัสผ่านปัจจุบัน",
   "enterEmailAddress" : "ป้อนที่อยู่อีเมล",
-  "navBar.manageBookingsMy": "จัดการการจอง"
-
-
-
+  "navBar.manageBookingsMy": "จัดการการจอง",
+  "baggageCap": "สัมภาระ"
 }
 

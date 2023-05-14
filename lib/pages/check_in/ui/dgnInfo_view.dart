@@ -107,7 +107,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             kVerticalSpacer,
             Padding(
               padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconBaggage', 'baggage'.tr(),
+              child: buildRow('iconBaggage', 'baggageCap'.tr(),
                   'checkInBaggageInfo'.tr()),
             ),
             kVerticalSpacer,

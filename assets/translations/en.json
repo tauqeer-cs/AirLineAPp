@@ -393,7 +393,7 @@
   "newPassword.passwordDesc2": "Lower case letter",
   "newPassword.passwordDesc3": "Upper case letter",
   "newPassword.passwordDesc4": "Number (0-9)",
-  "newPassword.passwordDesc5": "Symbol (e.g. !@#$%)",
+  "newPassword.passwordDesc5": "Symbol (e.g !@#$%^&*)",
   "newPassword.newPassword": "New Password",
   "newPassword.passwordMustMatch": "Password must match",
   "passwordReset.forgotPassword": "Forgot your password?",
@@ -517,7 +517,7 @@
   "selectedFlightDetail.arrive": "Arrive",
   "selectedFlightDetail.taxInvoice": "Tax Invoice",
   "selectedFlightDetail.emailBoardingPass": "Email Boarding Pass",
-  "navBar.manageBookings": "Manage Bookings",
+  "navBar.manageBookings": "Manage Booking",
   "navBar.checkin": "Check-In",
   "navBar.bookings": "Bookings",
   "navBar.account": "Account",
@@ -543,7 +543,6 @@
   "accountDetail.setNewPassword": "Set New Password",
   "accountDetail.passwordDesc2": "A lower case letter",
   "accountDetail.passwordDesc4": "A Number",
-  "accountDetail.passwordDesc5": "A Symbol (e.g. !@#$%)",
   "accountDetail.newPassword": "New Password",
   "accountDetail.confirmPassword": "Confirm Password",
   "accountDetail.hint": "At least 8 characters",
@@ -696,7 +695,7 @@
   "signUp1.passwordDesc1": "Your password cannot contain part of your first or last name. It must contain 8 characters minimum, with the following requirements",
   "signUp1.passwordDesc2": "Lower case letter",
   "signUp1.passwordDesc4": "Number (0-9)",
-  "signUp1.passwordDesc5": "Symbol (e.g. !@#$%)",
+  "signUp1.passwordDesc5": "Symbol (e.g !@#$%^&*)",
   "signUp1.password": "Password",
   "signUp1.passwordConfirm": "Confirm Password",
   "signUp1.next": "Next",
@@ -1011,5 +1010,6 @@
   "noItemSelected" : "No Item Selected",
   "yourCurrentPass" : "Your current password",
   "enterEmailAddress" : "Enter Email Address",
-  "navBar.manageBookingsMy": "Manage My Bookings"
+  "navBar.manageBookingsMy": "Manage Booking",
+  "baggageCap": "BAGGAGE"
 }
