@@ -533,7 +533,6 @@
   "flightDetail.send" :  "ส่ง",
   "flightDetail.flightChangeReq" : "ข้อกำหนดในการเปลี่ยนแปลงเที่ยวบิน",
   "flightDetail.flightChangeRules" :  "การเปลี่ยนแปลงตั๋วเครื่องบินเป็นไปตามกฎต่อไปนี้:",
-  "flightDetail.flightChangeContinue" : " เปลี่ยนเที่ยวบินต่อหรือไม่",
   "flightDetail.no" : "ไม่",
   "flightDetail.yes" : "ใช่",
   "flightDetail.emailRequired" : "ต้องระบุอีเมล",
@@ -629,9 +628,7 @@
   "accountDetail.verifyIdentity" : "เพื่อยืนยันตัวตนของคุณ ให้ป้อนรหัสผ่านปัจจุบันของคุณ",
   "accountDetail.currentPassword" :  "รหัสผ่านปัจจุบัน",
   "accountDetail.setNewPassword" : "ตั้งรหัสผ่านใหม่",
-  "accountDetail.passwordDesc1" : "รหัสผ่านของคุณต้องไม่ประกอบด้วยชื่อหรือนามสกุลของคุณ ต้องมีอักขระอย่างน้อย 8 ตัวโดยมีข้อกำหนดดังต่อไปนี้",
   "accountDetail.passwordDesc2" : "ตัวอักษรตัวพิมพ์เล็ก",
-  "accountDetail.passwordDesc3" : "ตัวอักษรพิมพ์ใหญ่",
   "accountDetail.passwordDesc4" : "หมายเลข",
   "accountDetail.passwordDesc5" : "สัญลักษณ์ (เช่น !@#$%)",
   "accountDetail.newPassword" : "รหัสผ่านใหม่",
@@ -799,7 +796,6 @@
   "signUp1.passwordTitle" : "มาสร้างรหัสผ่านของคุณกัน",
   "signUp1.passwordDesc1" : "รหัสผ่านของคุณต้องไม่ประกอบด้วยชื่อหรือนามสกุลของคุณ ต้องมีอักขระอย่างน้อย 8 ตัวโดยมีข้อกำหนดดังต่อไปนี้",
   "signUp1.passwordDesc2" : "ตัวอักษรพิมพ์เล็ก",
-  "signUp1.passwordDesc3" : "ตัวอักษรพิมพ์ใหญ่",
   "signUp1.passwordDesc4" : "หมายเลข (0-9)",
   "signUp1.passwordDesc5" : "สัญลักษณ์ (เช่น !@#$%)",
   "signUp1.password" : " รหัสผ่าน",
@@ -1087,7 +1083,9 @@
   "changeFlightView.changeFlightDesc5": "ขยายระยะเวลาการเดินทางของคุณ, ",
   "changeFlightView.changeFlightDesc6": "เพื่อปกป้องตลอดการเดินทางของคุณ! คุณสามารถทำได้โดยติดต่อเรา ",
   "yourCurrentPass" : "รหัสผ่านปัจจุบัน",
-  "enterEmailAddress" : "ป้อนที่อยู่อีเมล"
+  "enterEmailAddress" : "ป้อนที่อยู่อีเมล",
+  "navBar.manageBookingsMy": "จัดการการจอง"
+
 
 
 }

@@ -80,12 +80,15 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                     right: Radius.circular(50),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(widget.title, style: k18Heavy),
-                    Text(widget.subtitle, style: kLargeRegular),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(widget.title, style: k18Heavy),
+                      Text(widget.subtitle, style: kLargeRegular),
+                    ],
+                  ),
                 ),
               ),
             ),

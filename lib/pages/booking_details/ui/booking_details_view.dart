@@ -386,7 +386,7 @@ class AlertWarningBeforeProceed extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(bottom: 24.0,top: 16),
             child: Text(
               'flightChangeProceedFlightChange'.tr(),
               style: kMediumRegular.copyWith(color: Styles.kTextColor),

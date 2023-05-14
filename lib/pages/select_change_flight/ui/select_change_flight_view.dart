@@ -117,7 +117,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                   ),
                 ),
                 if (bloc != null) ...[
-                   buildFlights(bloc!.state,bloc?.currentCurrency,locale),
+                  buildFlights(bloc!.state,bloc?.currentCurrency,locale),
                 ],
 
 

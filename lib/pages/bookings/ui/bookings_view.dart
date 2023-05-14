@@ -64,7 +64,7 @@ class BookingsView extends StatelessWidget {
                           children: [
                             kVerticalSpacer,
                             kVerticalSpacer,
-                             Text('manageMyBookings'.tr(), style: kGiantHeavy),
+                             Text('navBar.manageBookingsMy'.tr(), style: kGiantHeavy),
                             kVerticalSpacerMini,
                             Text(
                               checkInLabel ?? 'manageBookingSubText'.tr(),

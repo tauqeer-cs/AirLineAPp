@@ -29,8 +29,8 @@ class PasswordInput extends StatelessWidget {
         UnorderedList([
           'passwordDesc2'.tr(),
           'passwordDesc3'.tr(),
-          'passwordDesc3'.tr(),
-          'passwordDesc4'.tr(),
+          'newPassword.passwordDesc4'.tr(),
+          'newPassword.passwordDesc5'.tr(),
         ]),
         kVerticalSpacer,
         GreyCard(
