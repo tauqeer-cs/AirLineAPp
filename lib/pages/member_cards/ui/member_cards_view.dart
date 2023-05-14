@@ -101,7 +101,8 @@ class MemberCardViw extends StatelessWidget {
                                     context: context,
                                     barrierDismissible: false,
                                     builder: (context) {
-                                      return AppConfirmationDialog(
+                                      return AppConfirmationDialogOutlined(
+                                        backgroundColor:  Color.fromRGBO(235, 235, 235, 0.85),
                                         title: 'paymentDetail.paymentDelete'.tr(),
                                         subtitle: 'paymentDetail.paymentDelete2'.tr(),
                                         confirmText: 'paymentDetail.delete'.tr(),

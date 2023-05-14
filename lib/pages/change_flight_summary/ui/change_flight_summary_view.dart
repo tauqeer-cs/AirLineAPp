@@ -341,7 +341,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                             changeFlightRequestResponse:
                             changeFlightRequestResponse!,
                             currentPerson: currentPerson,
-                            bloc: bloc!,
+                            bloc: bloc!, local: locale,
                           ),
                           kVerticalSpacerSmall,
                         ],
@@ -883,11 +883,13 @@ class PersonDeparture extends StatelessWidget {
   final PassengersWithSSRFareBreakDown currentPerson;
   final ManageBookingCubit bloc;
 
+  final String local;
+
   const PersonDeparture({
     Key? key,
     required this.changeFlightRequestResponse,
     required this.currentPerson,
-    required this.bloc,
+    required this.bloc, required this.local,
   }) : super(key: key);
 
   @override
@@ -1343,8 +1345,8 @@ class PersonDeparture extends StatelessWidget {
 
   String data(bool flag) {
     if (flag == true) {
-      return '${'specialSelection.departureFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.departDetail?.routeNameToShow ?? ''}';
+      return '${'specialSelection.departureFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.departDetail?.routeNameToShow(local) ?? ''}';
     }
-    return '${'specialSelection.returnFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.returnDetail?.routeNameToShow ?? ''}';
+    return '${'specialSelection.returnFlight'.tr()} ${changeFlightRequestResponse.result?.changeFlightResponse?.flightBreakDown?.returnDetail?.routeNameToShow(local) ?? ''}';
   }
 }

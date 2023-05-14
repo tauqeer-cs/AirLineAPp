@@ -74,7 +74,7 @@ class SegmentCard extends StatelessWidget {
           }
         },
         child: AppCard(
-          isHighlighted: isHighlighted(selected, isVerify),
+          isHighlighted: changeFlight ? false :  isHighlighted(selected, isVerify),
           edgeInsets: EdgeInsets.zero,
           child: Column(
             children: [

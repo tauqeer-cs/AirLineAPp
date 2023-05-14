@@ -14,6 +14,8 @@ class AppConfirmationDialog extends StatelessWidget {
   final Widget? child;
   final Widget? customImage;
 
+  final Color? backgroundColor;
+
   const AppConfirmationDialog({
     Key? key,
     this.onConfirm,
@@ -26,13 +28,15 @@ class AppConfirmationDialog extends StatelessWidget {
     this.confirmPopNavigator = true,
     this.cancelText,
     this.customImage,
-    this.child,
+    this.child, this.backgroundColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
+      backgroundColor: backgroundColor,
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -149,6 +153,156 @@ class AppConfirmationDialog extends StatelessWidget {
                             ],
                           ),
                         ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void onPressed(BuildContext context) {
+    if (onConfirm != null) onConfirm!();
+    if (confirmPopNavigator) {
+      context.router.pop();
+    }
+  }
+}
+
+class AppConfirmationDialogOutlined extends StatelessWidget {
+  final Function()? onConfirm, onCancel;
+  final String title, subtitle;
+  final String? confirmText, cancelText;
+  final bool isWarning;
+  final bool confirmPopNavigator;
+  final bool showCloseButton;
+  final Widget? child;
+  final Widget? customImage;
+
+  final Color? backgroundColor;
+
+  const AppConfirmationDialogOutlined({
+    Key? key,
+    this.onConfirm,
+    this.onCancel,
+    required this.title,
+    required this.subtitle,
+    this.confirmText,
+    this.showCloseButton = true,
+    this.isWarning = false,
+    this.confirmPopNavigator = true,
+    this.cancelText,
+    this.customImage,
+    this.child, this.backgroundColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      scrollable: true,
+      backgroundColor: backgroundColor,
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      contentPadding: const EdgeInsets.all(16),
+      content: Stack(
+        children: [
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Visibility(
+                visible: showCloseButton,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    child: const Icon(
+                      LineIcons.times,
+                      size: 25,
+                    ),
+                    onTap: () {
+                      context.router.pop(true);
+                    },
+                  ),
+                ),
+              ),
+              customImage != null ? customImage! : const SizedBox.shrink(),
+              //SizedBox(height: customImage == null ? 70.w : 20.w),
+              Text(
+                title,
+                textAlign: TextAlign.left,
+                style: kHugeMedium,
+              ),
+              kVerticalSpacerSmall,
+              Text(
+                subtitle,
+                textAlign: TextAlign.left,
+                style: kMediumRegular,
+              ),
+              kVerticalSpacer,
+              Visibility(
+                visible: child != null,
+                child: child ?? const SizedBox(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  cancelText == null
+                      ? const SizedBox.shrink()
+                      : Expanded(
+                    child: Row(
+                      children: [
+                         Expanded(
+                          child:  OutlinedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent), // Replace with your desired background color
+                            ),
+                            onPressed: () {
+
+                              if (onCancel != null) onCancel!();
+                              context.router.pop();
+                            },
+                            child: Text(
+                              cancelText!,
+                              style: kMediumSemiBold.copyWith(
+                                color: Styles.kPrimaryColor,
+                              ),
+                            ),
+                          )
+                           ,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  cancelText == null
+                      ? const SizedBox.shrink()
+                      : kHorizontalSpacer,
+                  Expanded(
+                    child: isWarning
+                        ? OutlinedButton(
+                      onPressed: () {
+                        onPressed(context);
+                      },
+                      child: Text(
+                        confirmText ?? "bestätigen",
+                        style: kMediumSemiBold,
+                      ),
+                    )
+                        : ElevatedButton(
+                      onPressed: () {
+                        onPressed(context);
+                      },
+                      child: Text(
+                        confirmText ?? "bestätigen",
+                        style:
+                        kMediumSemiBold.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
