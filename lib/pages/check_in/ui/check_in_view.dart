@@ -9,8 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../../../app/app_flavor.dart';
 import '../../../app/app_router.dart';
 import '../../../blocs/cms/ssr/cms_ssr_cubit.dart';
+import '../../../utils/security_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
@@ -106,6 +108,19 @@ class CheckInView extends StatelessWidget {
   }
 
   onManageBooking(BuildContext context) async {
+    if(true){
+      if (_fbKey.currentState!.saveAndValidate()) {
+        final value = _fbKey.currentState!.value;
+        final code = value["bookingNumberCheckIn"];
+        final lastName = value["lastNameCheckIn"];
+        final url =
+            "${AppFlavor.thirdPartyUrl}/en/checkin?confirmationNumber=$code&bookingLastName=$lastName";
+        //context.router.push(InAppWebViewRoute(url: url));
+        SecurityUtils.tryLaunch(url);
+      }
+
+      return;
+    }
     if (_fbKey.currentState!.saveAndValidate()) {
       final value = _fbKey.currentState!.value;
       final code = value["bookingNumberCheckIn"];
