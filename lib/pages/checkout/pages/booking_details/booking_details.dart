@@ -46,8 +46,13 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var response = await showLoginDialog();
       if (response == true) {
-        await Future.delayed(const Duration(milliseconds: 100));
-        appRouter.pop(true);
+        await Future.delayed(const Duration(seconds: 2));
+        setState(() {
+          detialsKey.currentState?.rebuild();
+
+
+        });
+        //appRouter.pop(true);
       }
     });
   }
@@ -253,6 +258,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       ),
     );
   }
+  GlobalKey<BookingDetailsViewState> detialsKey = GlobalKey<BookingDetailsViewState>();
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +329,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   },
                 ),
               ),
-              body: const BookingDetailsView(),
+              body:  BookingDetailsView(
+                key: detialsKey,
+              ),
             ),
           ),
         ),

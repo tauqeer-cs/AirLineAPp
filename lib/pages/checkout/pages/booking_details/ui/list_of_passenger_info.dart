@@ -12,16 +12,30 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListOfPassengerInfo extends StatelessWidget {
+import '../../../../auth/bloc/login/login_cubit.dart';
+
+class ListOfPassengerInfo extends StatefulWidget {
   final VoidCallback onInsuranceChanged;
 
   const ListOfPassengerInfo({super.key, required this.onInsuranceChanged});
+
+  @override
+  State<ListOfPassengerInfo> createState() => ListOfPassengerInfoState();
+}
+
+class ListOfPassengerInfoState extends State<ListOfPassengerInfo> {
+
+  GlobalKey<PassengerEmergencyContactState> keyPassE = GlobalKey<PassengerEmergencyContactState>();
 
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<SearchFlightCubit>();
     final state = bloc.state;
     final persons = state.filterState?.numberPerson;
+
+
+
+
     return Column(
       children: [
         GreyCard(
@@ -97,10 +111,10 @@ class ListOfPassengerInfo extends StatelessWidget {
                 insuranceSelected: (bool flag, Bundle insurance) {
                   if (flag) {
                     bloc.addInsuranceToPerson(i, insurance);
-                    onInsuranceChanged.call();
+                    widget.onInsuranceChanged.call();
                   } else {
                     bloc.removeInsuranceFromPerson(i);
-                    onInsuranceChanged.call();
+                    widget.onInsuranceChanged.call();
                   }
                 },
               ),
@@ -108,14 +122,25 @@ class ListOfPassengerInfo extends StatelessWidget {
           ],
         ],
         Column(
-          children: const [
+          children:  [
             PassengerContact(),
-            PassengerEmergencyContact(),
+            PassengerEmergencyContact(
+              key: keyPassE,
+            ),
             PassengerCompanyInfo(),
           ],
         ),
       ],
     );
+  }
+
+  void reload() {
+
+    setState(() {
+
+      keyPassE.currentState?.reloadData();
+
+    });
   }
 }
 

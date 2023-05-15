@@ -59,13 +59,15 @@ class BookingDetailsView extends StatefulWidget {
   const BookingDetailsView({Key? key}) : super(key: key);
 
   @override
-  State<BookingDetailsView> createState() => _BookingDetailsViewState();
+  State<BookingDetailsView> createState() => BookingDetailsViewState();
 }
 
-class _BookingDetailsViewState extends State<BookingDetailsView> {
+class BookingDetailsViewState extends State<BookingDetailsView> {
   final scrollController = ScrollController();
   final keySummary = GlobalKey();
   final bookingSummary = GlobalKey();
+
+   bool callRebuild = false;
 
   void rebuild() {
     void rebuild(Element el) {
@@ -74,6 +76,19 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
     }
 
     (keySummary.currentContext as Element).visitChildren(rebuild);
+
+    callRebuild = true;
+
+    listOfPassengersKey.currentState?.reload();
+
+    //listOfPassengersKey?.currentState?.rebuild();
+
+    setState(() {
+
+
+    });
+
+
   }
 
   void rebuildSummary() {
@@ -95,10 +110,30 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
 
   SearchFlightState? currentState;
 
+  GlobalKey<ListOfPassengerInfoState> listOfPassengersKey = GlobalKey<ListOfPassengerInfoState>();
+
+
+  void rebuildAllChildren(BuildContext context) {
+    callRebuild = false;
+
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (context as Element).visitChildren(rebuild);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<SearchFlightCubit>();
     currentState = bloc.state;
+
+    if(callRebuild) {
+      rebuildAllChildren(context);
+
+    }
+
 
     bool showInsuranceTerms =
         context.watch<SearchFlightCubit>().showInsuranceCheck();
@@ -135,6 +170,7 @@ class _BookingDetailsViewState extends State<BookingDetailsView> {
                         kVerticalSpacerSmall,
                         ListOfPassengerInfo(
 
+                          key: listOfPassengersKey,
                           onInsuranceChanged: () {
                             rebuild();
                             rebuildSummary();

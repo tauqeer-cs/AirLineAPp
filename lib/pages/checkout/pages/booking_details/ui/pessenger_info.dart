@@ -107,6 +107,9 @@ class _PassengerInfoState extends State<PassengerInfo> {
 
   bool isNameExtra = false;
 
+  GlobalKey<AppCountriesDropdownState> countryWidgetKey =
+      GlobalKey<AppCountriesDropdownState>();
+
   @override
   Widget build(BuildContext context) {
     var profileBloc = context.read<ProfileCubit>();
@@ -232,6 +235,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 textEditingController: nationalityController,
                 name: countryKey,
                 child: AppCountriesDropdown(
+                  key: countryWidgetKey,
                   hintText: "Country",
                   dropdownDecoration: Styles.getDefaultFieldDecoration(),
                   isPhoneCode: false,
@@ -241,13 +245,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 ),
               ),
               kVerticalSpacerSmall,
-
               FormBuilderDateTimePicker(
                 key: dateKey,
                 name: dobKey,
                 // locale:  ,
                 //  locale: Locale(locale),
-                locale: Locale(locale, ''), // set the locale to French
+                locale: Locale(locale, ''),
+                // set the locale to French
                 firstDate: widget.person.dateLimitStart(filter.departDate),
                 lastDate: widget.person.peopleType == PeopleType.infant
                     ? infantDOBlimit(DateTime.now())
@@ -294,7 +298,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 child: Container(
                   margin: const EdgeInsets.only(top: 12),
                   padding:
-                  const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
                   width: 500.w,
                   decoration: BoxDecoration(
                     color: const Color(0xFFECBBC0),
@@ -340,10 +344,10 @@ class _PassengerInfoState extends State<PassengerInfo> {
                           context, departureWheelChair, returnWheelChair);
                     } else {
                       context.read<SearchFlightCubit>().addWheelChairToPerson(
-                        widget.person,
-                        null,
-                        null,
-                      );
+                            widget.person,
+                            null,
+                            null,
+                          );
                     }
                     setState(() {
                       isWheelChairChecked = value ?? false;
@@ -368,9 +372,9 @@ class _PassengerInfoState extends State<PassengerInfo> {
                 child: BlocBuilder<InfoCubit, Map<String, String>>(
                   builder: (context, state) {
                     final adultName =
-                    state["Adult ${widget.person.numberOrder}"];
-                    final string =
-                        adultName ?? "${'adult'.tr()} ${widget.person.numberOrder}";
+                        state["Adult ${widget.person.numberOrder}"];
+                    final string = adultName ??
+                        "${'adult'.tr()} ${widget.person.numberOrder}";
                     return Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
@@ -419,11 +423,11 @@ class _PassengerInfoState extends State<PassengerInfo> {
                                 makeClickableTextSpan(context,
                                     text: 'MY${' Travel Shield'}',
                                     pdfName:
-                                    'https://booking.myairline.my/insurance/travel_protection.pdf',
+                                        'https://booking.myairline.my/insurance/travel_protection.pdf',
                                     pdfIsLink: true),
                                 makeClickableTextSpan(context,
                                     text:
-                                    ": MYR ${travelProtectionRate(insuranceGroup.outbound!)}",
+                                        ": MYR ${travelProtectionRate(insuranceGroup.outbound!)}",
                                     makeNormalTextBol: true),
                               ],
                             ),
@@ -458,20 +462,20 @@ class _PassengerInfoState extends State<PassengerInfo> {
       List<Bundle>? returnWheelChair) {
     if (okId?.isNotEmpty ?? false) {
       context.read<SearchFlightCubit>().addWheelChairToPerson(
-        widget.person,
-        departureWheelChair
-            ?.firstWhereOrNull((element) => element.codeType == "WCHC"),
-        returnWheelChair
-            ?.firstWhereOrNull((element) => element.codeType == "WCHC"),
-      );
+            widget.person,
+            departureWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHC"),
+            returnWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHC"),
+          );
     } else {
       context.read<SearchFlightCubit>().addWheelChairToPerson(
-        widget.person,
-        departureWheelChair
-            ?.firstWhereOrNull((element) => element.codeType == "WCHR"),
-        returnWheelChair
-            ?.firstWhereOrNull((element) => element.codeType == "WCHR"),
-      );
+            widget.person,
+            departureWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHR"),
+            returnWheelChair
+                ?.firstWhereOrNull((element) => element.codeType == "WCHR"),
+          );
     }
   }
 
@@ -487,7 +491,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
         profileBloc.state.profile?.userProfile?.dob ?? DateTime.now();
 
     bool showMySelf = false;
-    if(userDob.year == 1){
+    if (userDob.year == 1) {
       showMySelf = true;
     }
     var limitDate = widget.person.dateLimitStart(filter.departDate);
@@ -537,6 +541,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
             keyName: rewardKey,
             value: profileBloc.state.profile?.userProfile?.memberID.toString());
       }
+
+
+
+      nationalityController.text = profileBloc.state.profile?.userProfile?.nationality ?? '';
+      countryWidgetKey.currentState
+          ?.changeCurrentCountry(profileBloc.state.profile?.userProfile?.nationality ?? '');
+
     } else {
       changeSetValue(
           keyName: firstNameKey, value: selectFamily.firstName ?? '');
@@ -549,12 +560,19 @@ class _PassengerInfoState extends State<PassengerInfo> {
       defaultTitle = selectFamily.title ?? '';
       changeSetValue(keyName: titleKey, value: selectFamily.title ?? '');
 
+      nationalityController.text = selectFamily.nationality ?? '';
+      countryWidgetKey.currentState
+          ?.changeCurrentCountry(nationalityController.text);
+
+
       if (selectFamily.memberID != null) {
         if (selectFamily.memberID == 0) {
         } else {
           changeSetValue(keyName: rewardKey, value: selectFamily.memberID!);
         }
       } else {}
+
+      setState(() {});
     }
   }
 
@@ -574,8 +592,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
     var taxAmount = 0.0;
     if (currentInsuranceBundlde!.applicableTaxes != null) {
       taxAmount = currentInsuranceBundlde!
-          .applicableTaxes!.firstOrNull?.taxAmount
-          ?.toDouble() ??
+              .applicableTaxes!.firstOrNull?.taxAmount
+              ?.toDouble() ??
           0;
     }
     return ((taxAmount + (outbound.firstOrNull?.amount! ?? 0)).toDouble())
@@ -652,15 +670,15 @@ class FriendsAndFamilySelectorPopUp extends StatelessWidget {
                           },
                           child: (showMySelf && index == 0)
                               ? Text(
-                            'commForm.iAmFlying'.tr(),
-                            style: kMediumRegular.copyWith(
-                                color: Styles.kPrimaryColor),
-                          )
+                                  'commForm.iAmFlying'.tr(),
+                                  style: kMediumRegular.copyWith(
+                                      color: Styles.kPrimaryColor),
+                                )
                               : Text(
-                            friendsAndFamily[index - (showMySelf ? 1 : 0)]
-                                .fullName,
-                            style: kMediumRegular,
-                          ),
+                                  friendsAndFamily[index - (showMySelf ? 1 : 0)]
+                                      .fullName,
+                                  style: kMediumRegular,
+                                ),
                         ),
                         kVerticalSpacer,
                       ],

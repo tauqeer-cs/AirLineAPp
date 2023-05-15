@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'forms/app_dropdown.dart';
 
-class AppCountriesDropdown extends StatelessWidget {
+class AppCountriesDropdown extends StatefulWidget {
   final Country? initialValue;
   final bool isPhoneCode;
   final String? hintText, initialCountryCode;
@@ -34,10 +34,32 @@ class AppCountriesDropdown extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<AppCountriesDropdown> createState() => AppCountriesDropdownState();
+}
+
+class AppCountriesDropdownState extends State<AppCountriesDropdown> {
+
+  var showOverrideValue = false;
+
+  Country? newSelectedCountry;
+  changeCurrentCountry(String countryName) {
+    var countriesList= newList.where((e) => e.country == countryName).toList();
+    if(countriesList.isNotEmpty) {
+      showOverrideValue = true;
+
+
+      newSelectedCountry = countriesList.first;
+      setState(() {});
+    }
+  }
+
+
+  List<Country> newList = [];
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<CountriesCubit, CountriesState>(
       builder: (context, state) {
-        List<Country> newList = [];
+        newList = [];
         if (state.countries.isNotEmpty) {
           newList = List<Country>.from(state.countries);
           final my = newList
@@ -47,26 +69,26 @@ class AppCountriesDropdown extends StatelessWidget {
             newList.insert(0, my);
           }
         }
-        final selectedCountry = initialCountryCode == null
+        final selectedCountry = widget.initialCountryCode == null
             ? null
-            : state.countries.firstWhereOrNull((element) => isPhoneCode
-                ? element.phoneCode == initialCountryCode
-                : element.countryCode2 == initialCountryCode);
+            : state.countries.firstWhereOrNull((element) => widget.isPhoneCode
+                ? element.phoneCode == widget.initialCountryCode
+                : element.countryCode2 == widget.initialCountryCode);
 
         return blocBuilderWrapper(
           blocState: state.blocState,
           finishedBuilder: AppDropDown<Country>(
-            sheetTitle: isPhoneCode ? "phone".tr() : "country".tr(),
-            defaultValue:
-                true ? null : selectedCountry ?? initialValue ?? Country.defaultCountry,
-            onChanged: onChanged,
-            dropdownDecoration: dropdownDecoration,
+            sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
+            defaultValue: showOverrideValue ? newSelectedCountry : (
+                true ? null : selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
+            onChanged: widget.onChanged,
+            dropdownDecoration: widget.dropdownDecoration,
             valueTransformerItem: (value, selected) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    isPhoneCode
+                    widget.isPhoneCode
                         ? "${value?.country} (${value?.phoneCodeDisplay})"
                         : value?.country ?? "",
                     style: kMediumMedium.copyWith(
@@ -79,7 +101,7 @@ class AppCountriesDropdown extends StatelessWidget {
             valueTransformer: (value) {
               return DropdownTransformerWidget<Country>(
                 value: value,
-                valueCustom: isPhoneCode
+                valueCustom: widget.isPhoneCode
                     ? "${value?.country} (${value?.phoneCodeDisplay})"
                     : value?.country,
               );

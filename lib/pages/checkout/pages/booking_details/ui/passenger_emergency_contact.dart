@@ -23,18 +23,20 @@ class PassengerEmergencyContact extends StatefulWidget {
 
   @override
   State<PassengerEmergencyContact> createState() =>
-      _PassengerEmergencyContactState();
+      PassengerEmergencyContactState();
 }
 
-class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
+class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   String? firstName;
   String? lastName;
   String? phoneNumber;
   String? email;
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
 
   final nationalityController = TextEditingController();
   final relationController = TextEditingController();
-
+  final phoneNoController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -48,8 +50,14 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         ?.emergencyContact;
 
     firstName = emergency?.firstName ?? contact?.firstName;
+    firstNameController.text = firstName ?? '';
+
     lastName = emergency?.lastName ?? contact?.lastName;
+    lastNameController.text = lastName ?? '';
+
     phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
+
+    phoneNoController.text = phoneNumber ?? '';
 
     if (emergency?.phoneCode?.isNotEmpty ?? false) {
       nationalityController.text = emergency!.phoneCode!;
@@ -103,7 +111,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               name: formNameEmergencyFirstName,
               hintText: "firstNameGivenName".tr(),
               validators: [FormBuilderValidators.required()],
-              initialValue: emergency?.firstName ?? firstName,
+              textEditingController: firstNameController,
               onChanged: (value) {
                 final request =
                     context.read<LocalUserBloc>().state.emergencyContact ??
@@ -115,9 +123,9 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameEmergencyLastName,
+              textEditingController: lastNameController,
               hintText: "lastNameSurname".tr(),
               validators: [FormBuilderValidators.required()],
-              initialValue: emergency?.lastName ?? lastName,
               onChanged: (value) {
                 final request =
                     context.read<LocalUserBloc>().state.emergencyContact;
@@ -154,6 +162,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               textEditingController: nationalityController,
               name: formNameEmergencyCountry,
               child: AppCountriesDropdown(
+
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 isPhoneCode: true,
                 hintText: "phone".tr(),
@@ -173,7 +182,7 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameEmergencyPhone,
-              initialValue: emergency?.phoneNumber ?? phoneNumber,
+              textEditingController: phoneNoController,
               textInputType: TextInputType.number,
               hintText: "phoneNumber".tr(),
               validators: [FormBuilderValidators.required()],
@@ -208,5 +217,53 @@ class _PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         ),
       ],
     );
+  }
+
+  void reloadData() {
+
+    final contact =
+    true ? null : context.read<LocalUserBloc>().state.emergencyContact;
+    final emergency = context
+        .read<ProfileCubit>()
+        .state
+        .profile
+        ?.userProfile
+        ?.emergencyContact;
+
+    firstName = emergency?.firstName ?? contact?.firstName;
+    firstNameController.text = firstName ?? '';
+    lastName = emergency?.lastName ?? contact?.lastName;
+    lastNameController.text = lastName ?? '';
+
+    phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
+    phoneNoController.text = phoneNumber ?? '';
+
+    if (emergency?.phoneCode?.isNotEmpty ?? false) {
+      nationalityController.text = emergency!.phoneCode!;
+    } else if (contact?.phoneCode?.isNotEmpty ?? false) {
+      nationalityController.text = contact!.phoneCode!;
+    }
+    if (emergency?.relationship?.isNotEmpty ?? false) {
+      if(availableRelationsMapping[emergency?.relationship?.toLowerCase().tr()] != null) {
+        relationController.text = emergency?.relationship?.toLowerCase().tr() ?? emergency!.relationship!;
+      }
+      else {
+        relationController.text = emergency!.relationship!;
+      }
+
+    } else if (contact?.relationship?.isNotEmpty ?? false) {
+
+      if(availableRelationsMapping[contact!.relationship?.toLowerCase().tr()] != null) {
+        relationController.text = contact.relationship?.toLowerCase().tr() ?? contact.relationship!;
+      }
+      else {
+        relationController.text = contact.relationship!;
+      }
+
+    }
+
+    setState(() {
+
+    });
   }
 }

@@ -20,10 +20,10 @@ class PassengerCompanyInfo extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PassengerCompanyInfo> createState() => _PassengerCompanyInfoState();
+  State<PassengerCompanyInfo> createState() => PassengerCompanyInfoState();
 }
 
-class _PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
+class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
   String? name;
   String? address;
   String? state;
