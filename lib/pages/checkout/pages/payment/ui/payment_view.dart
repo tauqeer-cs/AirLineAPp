@@ -73,7 +73,9 @@ class _PaymentViewState extends State<PaymentView> {
         promoReady: widget.promoReady,
       ),
       kVerticalSpacer,
-      const DiscountSummary(),
+       DiscountSummary(princToShow: summaryResponse
+           ?.flightSummaryPnrResult?.summaryAmount
+           ?.toDouble() ?? 0.0,),
       SummaryContainer(
         overrideExpand: true,
         child: Padding(

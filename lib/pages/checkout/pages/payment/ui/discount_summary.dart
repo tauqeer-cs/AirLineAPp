@@ -8,10 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 
 class DiscountSummary extends StatelessWidget {
-  const DiscountSummary({Key? key}) : super(key: key);
+
+   final double princToShow;
+
+  const DiscountSummary({Key? key, required this.princToShow}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     final booking = context.watch<BookingCubit>().state;
     final filterState = context.watch<SearchFlightCubit>().state.filterState;
     final voucherState = context.watch<VoucherCubit>().state;
@@ -39,8 +43,7 @@ class DiscountSummary extends StatelessWidget {
                   const Spacer(),
                   MoneyWidgetSmall(
                     isDense: false,
-                    amount: booking.getFinalPriceDisplay +
-                        (filterState?.numberPerson.getTotal() ?? 0),
+                    amount: princToShow,
                   ),
                 ],
               ),
