@@ -545,8 +545,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
 
 
       nationalityController.text = profileBloc.state.profile?.userProfile?.nationality ?? '';
-      countryWidgetKey.currentState
-          ?.changeCurrentCountry(profileBloc.state.profile?.userProfile?.nationality ?? '');
+      nationalityController.text =  countryWidgetKey.currentState
+          ?.changeCurrentCountry(profileBloc.state.profile?.userProfile?.nationality ?? '') ?? '';
 
     } else {
       changeSetValue(
@@ -561,8 +561,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
       changeSetValue(keyName: titleKey, value: selectFamily.title ?? '');
 
       nationalityController.text = selectFamily.nationality ?? '';
-      countryWidgetKey.currentState
-          ?.changeCurrentCountry(nationalityController.text);
+      nationalityController.text = countryWidgetKey.currentState
+          ?.changeCurrentCountry(nationalityController.text) ?? '';
 
 
       if (selectFamily.memberID != null) {
