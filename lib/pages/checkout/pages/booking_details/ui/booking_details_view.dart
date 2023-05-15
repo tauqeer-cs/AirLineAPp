@@ -124,6 +124,7 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
 
   }
 
+  int waitToValidate = 0;
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<SearchFlightCubit>();
@@ -142,6 +143,20 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
         FormBuilder(
           //autoFocusOnValidationFailure: true,
           onChanged: () {
+            /*if(waitToValidate < 5){
+              waitToValidate++;
+              return;
+            }*/
+
+            //
+            //const formNameFirstName = "_first_name";
+            // const formNameLastName = "_last_name";
+
+            BookingDetailsView.fbKey.currentState!.save();
+
+            if(BookingDetailsView.fbKey.currentState?.value['Adult 1_title'] == '') {
+              return;
+            }
             if (BookingDetailsView.fbKey.currentState!.validate()) {
               setState(() {
                 isValid = true;

@@ -27,14 +27,17 @@ class PassengerContact extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PassengerContact> createState() => _PassengerContactState();
+  State<PassengerContact> createState() => PassengerContactState();
 }
 
-class _PassengerContactState extends State<PassengerContact> {
+class PassengerContactState extends State<PassengerContact> {
   String? firstName;
+  final fNameController = TextEditingController();
   String? lastName;
+  final lNameController = TextEditingController();
   String? phoneCode;
   String? phoneNumber;
+  final phNoController = TextEditingController();
   String? email;
   final nationalityController = TextEditingController();
 
@@ -62,12 +65,20 @@ class _PassengerContactState extends State<PassengerContact> {
     final contact = true ? null : context.read<LocalUserBloc>().state;
     final profile = context.read<ProfileCubit>().state.profile?.userProfile;
     email = profile?.emailShow ?? contact?.contactEmail.trim();
+
     firstName = profile?.firstName ?? contact?.contactFullName;
+    fNameController.text = firstName ?? '';
     phoneCode = profile?.phoneCode ?? contact?.contactPhoneCode;
+
     phoneNumber = profile?.phoneNumber ?? contact?.contactPhoneNumber;
+    phNoController.text = phoneNumber ?? '';
     lastName = profile?.lastName ?? contact?.comment;
+    lNameController.text = lastName ?? '';
+
     nationalityController.text =
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+
+
     emailController.text = email ?? '';
     emailController.addListener(() {});
     if ((email ?? '').isNotEmpty) {
@@ -133,7 +144,7 @@ class _PassengerContactState extends State<PassengerContact> {
               name: formNameContactFirstName,
               hintText: 'firstName'.tr(),
               validators: [FormBuilderValidators.required()],
-              initialValue: profile?.firstName ?? firstName,
+              textEditingController: fNameController,
               onChanged: (value) {
                 final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(contactFullName: value);
@@ -145,7 +156,7 @@ class _PassengerContactState extends State<PassengerContact> {
               name: formNameContactLastName,
               hintText: 'lastName'.tr(),
               validators: [FormBuilderValidators.required()],
-              initialValue: profile?.lastName ?? lastName,
+              textEditingController: lNameController,
               onChanged: (value) {
                 final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(comment: value);
@@ -173,7 +184,8 @@ class _PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameContactPhoneNumber,
-              initialValue: profile?.phoneNumber ?? phoneNumber,
+
+              textEditingController: phNoController,
               textInputType: TextInputType.number,
               hintText: 'infoDetail.phoneNumber'.tr(),
               validators: [FormBuilderValidators.required()],
@@ -226,5 +238,29 @@ class _PassengerContactState extends State<PassengerContact> {
     context
         .read<LocalUserBloc>()
         .add(UpdateEmailContact(newRequest.contactEmail));
+  }
+
+  void reloadDate() {
+    final contact = true ? null : context.read<LocalUserBloc>().state;
+    final profile = context.read<ProfileCubit>().state.profile?.userProfile;
+    email = profile?.emailShow ?? contact?.contactEmail.trim();
+    firstName = profile?.firstName ?? contact?.contactFullName;
+    fNameController.text = firstName ?? '';
+
+    phoneCode = profile?.phoneCode ?? contact?.contactPhoneCode;
+    phoneNumber = profile?.phoneNumber ?? contact?.contactPhoneNumber;
+
+    phNoController.text = phoneNumber ?? '';
+
+
+    lastName = profile?.lastName ?? contact?.comment;
+    lNameController.text = lastName ?? '';
+
+    nationalityController.text =
+        phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+    emailController.text = email ?? '';
+    emailController.addListener(() {});
+
+
   }
 }

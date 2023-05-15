@@ -26,6 +26,7 @@ class ListOfPassengerInfo extends StatefulWidget {
 class ListOfPassengerInfoState extends State<ListOfPassengerInfo> {
 
   GlobalKey<PassengerEmergencyContactState> keyPassE = GlobalKey<PassengerEmergencyContactState>();
+  GlobalKey<PassengerContactState> keyPassC = GlobalKey<PassengerContactState>();
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +124,7 @@ class ListOfPassengerInfoState extends State<ListOfPassengerInfo> {
         ],
         Column(
           children:  [
-            PassengerContact(),
+            PassengerContact(key: keyPassC,),
             PassengerEmergencyContact(
               key: keyPassE,
             ),
@@ -138,6 +139,7 @@ class ListOfPassengerInfoState extends State<ListOfPassengerInfo> {
 
     setState(() {
 
+      keyPassC.currentState?.reloadDate();
       keyPassE.currentState?.reloadData();
 
     });

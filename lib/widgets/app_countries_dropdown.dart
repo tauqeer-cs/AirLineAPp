@@ -42,8 +42,25 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
   var showOverrideValue = false;
 
   Country? newSelectedCountry;
-  changeCurrentCountry(String countryName) {
+  String changeCurrentCountry(String countryName) {
     var countriesList= newList.where((e) => e.country == countryName).toList();
+    if(countriesList.isNotEmpty) {
+      showOverrideValue = true;
+
+
+
+      newSelectedCountry = countriesList.first;
+      setState(() {});
+      return countriesList.first.countryCode2 ?? '';
+
+    }
+
+    return '';
+  }
+
+  changeCurrentCountryByPhone(String phoneCode) {
+    var countriesList= newList.where((e) => e.phoneCode == phoneCode).toList();
+
     if(countriesList.isNotEmpty) {
       showOverrideValue = true;
 
@@ -52,6 +69,16 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
       setState(() {});
     }
   }
+
+
+
+  @override
+  void initState() {
+    super.initState();
+
+
+  }
+
 
 
   List<Country> newList = [];
@@ -68,6 +95,8 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
             newList.removeWhere((element) => element == my);
             newList.insert(0, my);
           }
+
+
         }
         final selectedCountry = widget.initialCountryCode == null
             ? null
@@ -80,7 +109,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
           finishedBuilder: AppDropDown<Country>(
             sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue: showOverrideValue ? newSelectedCountry : (
-                true ? null : selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
+                 selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
             onChanged: widget.onChanged,
             dropdownDecoration: widget.dropdownDecoration,
             valueTransformerItem: (value, selected) {
