@@ -168,7 +168,6 @@ class _ManageBookingProvider implements ManageBookingProvider {
     return value;
   }
 
-
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

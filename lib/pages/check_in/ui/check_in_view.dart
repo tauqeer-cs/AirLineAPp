@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../app/app_flavor.dart';
 import '../../../app/app_router.dart';
 import '../../../blocs/cms/ssr/cms_ssr_cubit.dart';
@@ -111,12 +112,16 @@ class CheckInView extends StatelessWidget {
     if(true){
       if (_fbKey.currentState!.saveAndValidate()) {
         final value = _fbKey.currentState!.value;
-        final code = value["bookingNumberCheckIn"];
+        final code = value["bookingNumberCheckIn"].toString().toUpperCase();
         final lastName = value["lastNameCheckIn"];
         final url =
             "${AppFlavor.thirdPartyUrl}/en/checkin?confirmationNumber=$code&bookingLastName=$lastName";
-        //context.router.push(InAppWebViewRoute(url: url));
-        SecurityUtils.tryLaunch(url);
+
+          context.router.push(InAppWebViewRoute(url: url,title: "onlineCheckIn".tr()));
+
+
+        // launchUrl(Uri.parse("${AppFlavor.thirdPartyUrl}/en/checkin?confirmationNumber=$code&bookingLastName=$lastName"),mode:LaunchMode.inAppWebView );
+
       }
 
       return;
