@@ -1086,6 +1086,8 @@
   "navBar.manageBookingsMy": "จัดการการจอง",
   "baggageCap": "สัมภาระ",
   "departing": "ขาไป",
-  "returning": "ย้อนกลับ"
+  "returning": "ย้อนกลับ",
+  "subtotal" : "ผลรวมย่อย"
+
 }
 

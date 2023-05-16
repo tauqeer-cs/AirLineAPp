@@ -1011,5 +1011,6 @@
   "yourCurrentPass" : "Your current password",
   "enterEmailAddress" : "Enter Email Address",
   "navBar.manageBookingsMy": "Manage Booking",
-  "baggageCap": "BAGGAGE"
+  "baggageCap": "BAGGAGE",
+  "subtotal" : "Subtotal"
 }
