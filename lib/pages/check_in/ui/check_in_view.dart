@@ -109,7 +109,7 @@ class CheckInView extends StatelessWidget {
   }
 
   onManageBooking(BuildContext context) async {
-    if(true){
+    if(false){
       if (_fbKey.currentState!.saveAndValidate()) {
         final value = _fbKey.currentState!.value;
         final code = value["bookingNumberCheckIn"].toString().toUpperCase();

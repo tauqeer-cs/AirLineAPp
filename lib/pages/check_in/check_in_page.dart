@@ -36,7 +36,7 @@ class CheckInPage extends StatelessWidget {
             },
             builder: (context, state) {
               return SafeArea(
-                child: true ? CheckInView() : AuthWrapper(
+                child: false ? CheckInView() : AuthWrapper(
                   authChild:  CheckingListing(navigateToCheckInDetails: (bool past) {
 
                     context.router.push(
