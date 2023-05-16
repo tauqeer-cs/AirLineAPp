@@ -600,7 +600,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                               ),
 
                               TextSpan(
-                                text: "'${'passengerDetail.confirm'.tr()}' ",
+                                text: "'${'continue'.tr()}'",
                                 style: kMediumSemiBold.copyWith(
                                     color: Styles.kTextColor),
                               ),

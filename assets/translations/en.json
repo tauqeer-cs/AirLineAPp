@@ -72,7 +72,7 @@
   "continueGuest": "Continue as Guest",
   "createAccount": "Create Account",
   "sessionExpireTen": "Your session is about to expire in 10 minutes.",
-  "stayContinue": "stay and continue",
+  "stayContinue": "Stay and Continue",
   "almostThere": "You are almost there,",
   "bookingDetailDesc": "Fill in all passenger details as it appears on their passport or government-issued ID. Passport expiry dates are required to be more than 6 months away from the flight date. Otherwise, your entry to the destination country may be denied.",
   "return": "Return",
@@ -1011,5 +1011,6 @@
   "yourCurrentPass" : "Your current password",
   "enterEmailAddress" : "Enter Email Address",
   "navBar.manageBookingsMy": "Manage Booking",
-  "baggageCap": "BAGGAGE"
+  "baggageCap": "BAGGAGE",
+  "subtotal" : "Subtotal"
 }

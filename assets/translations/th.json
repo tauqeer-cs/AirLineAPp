@@ -1084,6 +1084,10 @@
   "yourCurrentPass" : "รหัสผ่านปัจจุบัน",
   "enterEmailAddress" : "ป้อนที่อยู่อีเมล",
   "navBar.manageBookingsMy": "จัดการการจอง",
-  "baggageCap": "สัมภาระ"
+  "baggageCap": "สัมภาระ",
+  "departing": "ขาไป",
+  "returning": "ย้อนกลับ",
+  "subtotal" : "ผลรวมย่อย"
+
 }
 

@@ -32,10 +32,11 @@ class CheckInPage extends StatelessWidget {
           body: BlocConsumer<CheckInCubit, CheckInState>(
             listener: (context, state) {
 
+
             },
             builder: (context, state) {
               return SafeArea(
-                child: AuthWrapper(
+                child: true ? CheckInView() : AuthWrapper(
                   authChild:  CheckingListing(navigateToCheckInDetails: (bool past) {
 
                     context.router.push(

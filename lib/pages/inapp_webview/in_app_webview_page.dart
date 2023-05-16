@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app/app.dart';
 import 'package:app/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -6,7 +7,9 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 class InAppWebViewPage extends StatefulWidget {
   final String url;
 
-  const InAppWebViewPage({super.key, required this.url});
+  final String? title;
+
+  const InAppWebViewPage({super.key, required this.url, this.title});
 
   @override
   InAppWebViewPageState createState() => InAppWebViewPageState();
@@ -58,7 +61,9 @@ class InAppWebViewPageState extends State<InAppWebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: widget.title != null ? AppBar(title: Text(widget.title ?? ''),) : AppBar(
+
+      ),
       body: Column(
         children: <Widget>[
           Expanded(

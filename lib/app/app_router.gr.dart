@@ -86,6 +86,7 @@ class _$AppRouter extends RootStackRouter {
         child: InAppWebViewPage(
           key: args.key,
           url: args.url,
+          title: args.title,
         ),
       );
     },
@@ -825,12 +826,14 @@ class InAppWebViewRoute extends PageRouteInfo<InAppWebViewRouteArgs> {
   InAppWebViewRoute({
     Key? key,
     required String url,
+    String? title,
   }) : super(
           InAppWebViewRoute.name,
           path: '/in-app-webview',
           args: InAppWebViewRouteArgs(
             key: key,
             url: url,
+            title: title,
           ),
         );
 
@@ -841,15 +844,18 @@ class InAppWebViewRouteArgs {
   const InAppWebViewRouteArgs({
     this.key,
     required this.url,
+    this.title,
   });
 
   final Key? key;
 
   final String url;
 
+  final String? title;
+
   @override
   String toString() {
-    return 'InAppWebViewRouteArgs{key: $key, url: $url}';
+    return 'InAppWebViewRouteArgs{key: $key, url: $url, title: $title}';
   }
 }
 
