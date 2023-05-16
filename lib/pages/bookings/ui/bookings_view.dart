@@ -153,6 +153,18 @@ class BookingsView extends StatelessWidget {
   }
 
   onChangeFlightTapped(BuildContext context) async {
+    if(true) {
+      String code = '4ZCTS0';
+      String lastName = 'Ahmed';
+
+      var flag =
+      await bloc?.getBookingInformation(lastName.trim(), code.trim().toUpperCase());
+      if (flag == true) {
+        moveToNext(context);
+      }
+
+      return;
+    }
     if (_fbKey.currentState!.saveAndValidate()) {
       final value = _fbKey.currentState!.value;
 

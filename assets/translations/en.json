@@ -744,7 +744,6 @@
   "signUp2.oct": "Oct",
   "signUp2.nov": "Nov",
   "signUp2.dec": "Dec",
-  "signUp2.addressValidation": "Address should not include special characters.",
   "signUp3.congrats": "Congrats!",
   "signUp3.congratsDesc": "Hi, your MYReward registration is complete!",
   "signUp3.checkEmail1": "Check your email",
@@ -1012,5 +1011,7 @@
   "enterEmailAddress" : "Enter Email Address",
   "navBar.manageBookingsMy": "Manage Booking",
   "baggageCap": "BAGGAGE",
-  "subtotal" : "Subtotal"
+  "subtotal" : "Subtotal",
+  "invalidTitle" : "Invalid title",
+  "idle" : "Idle"
 }

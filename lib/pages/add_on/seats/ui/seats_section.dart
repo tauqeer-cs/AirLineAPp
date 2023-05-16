@@ -26,7 +26,7 @@ class SeatsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+           Padding(
             padding: kPageHorizontalPadding,
             child: PassengerSelector(
               isDeparture: isDeparture,

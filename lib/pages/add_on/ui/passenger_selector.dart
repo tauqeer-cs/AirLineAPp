@@ -14,6 +14,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../data/responses/manage_booking_response.dart';
+
 class PassengerSelector extends StatelessWidget {
   final bool isContact;
   final bool isDeparture;
@@ -164,3 +167,106 @@ class PassengerSelector extends StatelessWidget {
     );
   }
 }
+
+
+class PassengerSelectorManageBooking extends StatelessWidget {
+
+
+
+  final List<PassengersWithSSR> passengersWithSSR;
+  final bool isSeatSelection;
+
+  const PassengerSelectorManageBooking({
+    Key? key,
+    this.isSeatSelection = false,
+     required this.passengersWithSSR,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    var bloc = context.watch<ManageBookingCubit>();
+    final selectedPax =
+        context.watch<ManageBookingCubit>().state.selectedPax;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "passengers".tr(),
+            style: k18Heavy.copyWith(color: Styles.kTextColor),
+          ),
+        ),
+        kVerticalSpacerSmall,
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: 50,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: passengersWithSSR.map((person) {
+                bool isActive = false;
+
+                if(selectedPax == person) {
+                  isActive = true;
+                }
+
+                person.passengers?.fullName;
+
+                return GestureDetector(
+                  onTap: (){
+
+                    bloc.changeSelectedPax(person);
+
+                   // context.read<SelectedPersonCubit>().selectPerson(person);
+                  },
+                  child: Container(
+                    constraints: const BoxConstraints(minWidth: 160),
+                    margin: EdgeInsets.only(right: 8),
+                    child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        color: isActive ? Styles.kActiveColor : Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  person.passengers?.fullName ?? '',
+                                  style: kMediumSemiBold.copyWith(
+                                      color: isActive ? Colors.white : null),
+                                ),
+                              ),
+                              kVerticalSpacerMini,
+                              Text(
+                                isActive ? 'selecting'.tr() : 'idle'.tr(),
+                                style: kSmallMedium.copyWith(
+                                    color: isActive ? Colors.white : null),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+}
+
+
+

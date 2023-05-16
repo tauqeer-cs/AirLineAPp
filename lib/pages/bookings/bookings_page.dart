@@ -10,9 +10,11 @@ class BookingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WaveBackground(
       color: Colors.white,
-      child:  Scaffold(
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SafeArea(child: BookingsView()),
+        body: SafeArea(
+          child: BookingsView(),
+        ),
       ),
     );
   }

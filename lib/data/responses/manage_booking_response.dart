@@ -72,6 +72,12 @@ class Result {
   BookingContact? bookingContact;
   List<PassengersWithSSR>? passengersWithSSR;
 
+  List<PassengersWithSSR> get passengersWithSSRWithoutInfant{
+
+    return passengersWithSSR?.where((element) => element.isInfant == false).toList() ?? [];
+
+  }
+
   Passenger? infanctWith(String givenName, String lastLame, String dob) {
    var response = passengersWithSSR?.firstWhere((element) =>
         element.passengers?.givenName == givenName ||
@@ -475,6 +481,9 @@ class PassengersWithSSR {
   String? infantDob;
   bool? infantExpanded;
 
+  bool get isInfant {
+    return passengers?.passengerType == 'INF';
+  }
   PassengersWithSSR({
     this.personOrgID,
     this.passengers,
@@ -497,7 +506,6 @@ class PassengersWithSSR {
     haveInfant = json['haveInfant'];
 
 
-    //checkInMemberID = json['checkInMemberID'];
 
     if (haveInfant == true) {
       if (json['haveInfant'] != null) {

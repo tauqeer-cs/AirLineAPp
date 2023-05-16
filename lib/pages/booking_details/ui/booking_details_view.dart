@@ -11,6 +11,7 @@ import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
+import '../../add_on/ui/passenger_selector.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 import 'flight_data.dart';
 
@@ -212,16 +213,12 @@ class ManageBookingDetailsView extends StatelessWidget {
               ),
             ),
 
-            /*
-            ChooseFlightSegment(
-              title: "Depart",
-              subtitle: state.filterState?.beautifyShort ?? "",
-              dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
-              segments: bookState.selectedDeparture != null
-                  ? [bookState.selectedDeparture!]
-                  : state.flights?.flightResult?.outboundSegment ?? [],
-              isDeparture: true,
-            ),*/
+            kVerticalSpacer,
+
+
+
+            PassengerSelectorManageBooking(passengersWithSSR: bloc?.state.manageBookingResponse?.result?.passengersWithSSRWithoutInfant ?? [],),
+
           ],
         );
       },

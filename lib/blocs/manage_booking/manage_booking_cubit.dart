@@ -374,6 +374,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
+            selectedPax: verifyResponse.result?.passengersWithSSR?.first,
             blocState: BlocState.finished,
             dataLoaded: true,
             manageBookingResponse: verifyResponse,
@@ -680,5 +681,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         manageBookingResponse: newBookingObject,
       ),
     );
+  }
+
+  void changeSelectedPax(PassengersWithSSR person) {
+
+    emit(
+      state.copyWith(
+          selectedPax: person,),
+    );
+
   }
 }

@@ -12,7 +12,6 @@ class ManageBookingState extends Equatable {
   final String? pnrEntered;
   final FlightResponse? flightSearchResponse;
   final String flightMessageError;
-
   final bool loadingSummary;
 
   final bool loadingDatesData;
@@ -31,9 +30,12 @@ class ManageBookingState extends Equatable {
   final bool checkedDeparture;
   final bool checkReturn;
 
-  const ManageBookingState({
+  final PassengersWithSSR? selectedPax;
+
+  const ManageBookingState( {
     this.blocState = BlocState.initial,
     this.message = "",
+    this.selectedPax,
     this.loadingSummary = false,
     this.loadingSelectingFlight = false,
     this.loadingCheckoutPayment = false,
@@ -78,7 +80,8 @@ class ManageBookingState extends Equatable {
         loadingSummary,
         superPnrNo,
         orderId,
-        flightMessageError
+        flightMessageError,
+    selectedPax
       ];
 
   ManageBookingState copyWith(
@@ -105,9 +108,11 @@ class ManageBookingState extends Equatable {
       bool? loadingSelectingFlight,
       String? superPnrNo,
       int? orderId,
+        PassengersWithSSR? selectedPax,
       ChangeFlightRequestResponse? changeFlightResponse}) {
     return ManageBookingState(
       message: message ?? this.message,
+
       blocState: blocState ?? this.blocState,
       isRememberMe: isRememberMe ?? this.isRememberMe,
       isManageOpen: isManageOpen ?? this.isManageOpen,
@@ -136,6 +141,7 @@ class ManageBookingState extends Equatable {
       loadingSummary: loadingSummary ?? this.loadingSummary,
       flightMessageError: flightMessageError,
       orderId: orderId ?? this.orderId,
+      selectedPax: selectedPax ?? this.selectedPax,
     );
   }
 }

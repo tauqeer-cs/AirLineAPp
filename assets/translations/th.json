@@ -846,7 +846,6 @@
   "signUp2.oct" : "ต.ค",
   "signUp2.nov" : "พ.ย",
   "signUp2.dec" : "ธ.ค",
-  "signUp2.addressValidation" : "ที่อยู่ต้องไม่มีอักขระพิเศษ",
   "signUp3.congrats" : " ยินดีด้วย!",
   "signUp3.congratsDesc" : " สวัสดี การลงทะเบียน MYReward ของคุณเสร็จสมบูรณ์แล้ว!",
   "signUp3.checkEmail1" : "ตรวจสอบอีเมลของคุณ",
@@ -1087,7 +1086,9 @@
   "baggageCap": "สัมภาระ",
   "departing": "ขาไป",
   "returning": "ย้อนกลับ",
-  "subtotal" : "ผลรวมย่อย"
+  "subtotal" : "ผลรวมย่อย",
+  "idle" : "ไม่ได้ใช้งาน"
+
 
 }
 
