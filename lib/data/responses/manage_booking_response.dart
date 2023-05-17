@@ -4,6 +4,22 @@ import '../../models/confirmation_model.dart';
 import '../../utils/date_utils.dart';
 
 class ManageBookingResponse {
+  ManageBookingResponse copyWith({
+    Result? result,
+    bool? success,
+    String? message,
+    bool? customSelected,
+    DateTime? newStartDateSelected,
+    DateTime? newReturnDateSelected,
+  }) {
+    return ManageBookingResponse(
+      result: result ?? this.result,
+      success: success ?? this.success,
+      message: message ?? this.message,
+      customSelected: customSelected ?? this.customSelected,
+    );
+  }
+
   Result? result;
   bool? success;
   String? message;
@@ -50,7 +66,12 @@ class ManageBookingResponse {
     return result?.flightSegments?.first.inbound?.isEmpty ?? true;
   }
 
-  ManageBookingResponse({this.result, this.success, this.message});
+  ManageBookingResponse({
+    this.result,
+    this.success,
+    this.message,
+    this.customSelected = false,
+  });
 
   ManageBookingResponse.fromJson(Map<String, dynamic> json) {
     result = Result.fromJson(json);
@@ -72,54 +93,33 @@ class Result {
   BookingContact? bookingContact;
   List<PassengersWithSSR>? passengersWithSSR;
 
-  List<PassengersWithSSR> get passengersWithSSRWithoutInfant{
-
-    return passengersWithSSR?.where((element) => element.isInfant == false).toList() ?? [];
-
+  List<PassengersWithSSR> get passengersWithSSRWithoutInfant {
+    return passengersWithSSR
+            ?.where((element) => element.isInfant == false)
+            .toList() ??
+        [];
   }
 
   Passenger? infanctWith(String givenName, String lastLame, String dob) {
-   var response = passengersWithSSR?.firstWhere((element) =>
+    var response = passengersWithSSR?.firstWhere((element) =>
         element.passengers?.givenName == givenName ||
-        element.passengers?.surname == lastLame || element.passengers?.passengerType == 'INF');
+        element.passengers?.surname == lastLame ||
+        element.passengers?.passengerType == 'INF');
 
     return response?.passengers;
   }
 
   PassengersWithSSR? infanct(String givenName, String lastLame, String dob) {
     var response = passengersWithSSR?.firstWhere((element) =>
-    element.passengers?.givenName == givenName ||
-        element.passengers?.surname == lastLame || element.passengers?.passengerType == 'INF');
+        element.passengers?.givenName == givenName ||
+        element.passengers?.surname == lastLame ||
+        element.passengers?.passengerType == 'INF');
 
     return response;
   }
 
   SuperPNR? superPNR;
   SuperPNROrder? superPNROrder;
-  String toBeautify() {
-    List<String> texts = [];
-    int numberOfAdult = 0;
-    int numberOfChildren = 0;
-    int numberOfInfant = 0;
-
-    if (numberOfAdult > 0) {
-      final text =
-          "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
-      texts.add(text);
-    }
-    if (numberOfChildren > 0) {
-      final text =
-          "($numberOfChildren) ${numberOfChildren > 1 ? 'Children' : 'Child'}";
-      texts.add(text);
-    }
-    if (numberOfInfant > 0) {
-      final text =
-          "($numberOfInfant) ${numberOfInfant > 1 ? 'Infants' : 'Infant'}";
-      texts.add(text);
-    }
-    final combine = texts.join(", ");
-    return "$combine passenger(s)";
-  }
 
   List<PaymentOrder>? paymentOrders;
   FareAndBundleDetail? fareAndBundleDetail;
@@ -159,6 +159,31 @@ class Result {
     }
     print('');
     return false;
+  }
+
+  String toBeautify() {
+    List<String> texts = [];
+    int numberOfAdult = 0;
+    int numberOfChildren = 0;
+    int numberOfInfant = 0;
+
+    if (numberOfAdult > 0) {
+      final text =
+          "($numberOfAdult) ${numberOfAdult > 1 ? 'Adults' : 'adult'.tr()}";
+      texts.add(text);
+    }
+    if (numberOfChildren > 0) {
+      final text =
+          "($numberOfChildren) ${numberOfChildren > 1 ? 'Children' : 'Child'}";
+      texts.add(text);
+    }
+    if (numberOfInfant > 0) {
+      final text =
+          "($numberOfInfant) ${numberOfInfant > 1 ? 'Infants' : 'Infant'}";
+      texts.add(text);
+    }
+    final combine = texts.join(", ");
+    return "$combine passenger(s)";
   }
 
   bool get inboundCheckingAllowed {
@@ -204,23 +229,25 @@ class Result {
     return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} to $returnArrivalAirportName -';
   }
 
-  String  departureAirportTime(String? locale) {
+  String departureAirportTime(String? locale) {
     if (flightSegments?.first.outbound?.first.departureDateTime != null) {
-      if(locale != null) {
+      if (locale != null) {
         return AppDateUtils.formatHalfDate(
-            flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
+            flightSegments?.first.outbound?.first.departureDateTime,
+            locale: locale);
       }
       return AppDateUtils.formatHalfDate(
-          flightSegments?.first.outbound?.first.departureDateTime,locale: null);
+          flightSegments?.first.outbound?.first.departureDateTime,
+          locale: null);
     }
     return '';
-
   }
 
   String returnAirportTime(String? locale) {
     if (flightSegments?.first.outbound?.first.departureDateTime != null) {
       return AppDateUtils.formatHalfDate(
-          flightSegments?.first.inbound?.first.departureDateTime,locale: locale);
+          flightSegments?.first.inbound?.first.departureDateTime,
+          locale: locale);
     }
     return '';
     return flightSegments?.first.outbound?.first.departureDateTime.toString() ??
@@ -249,48 +276,57 @@ class Result {
         '';
   }
 
-  String  departureDateWithTime(String? locale) {
+  String departureDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
+        flightSegments?.first.outbound?.first.departureDateTime,
+        locale: locale);
   }
 
-  String  departureDate(String locale) {
+  String departureDate(String locale) {
     return AppDateUtils.formatHalfDateHalfMonth(
-        flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
+        flightSegments?.first.outbound?.first.departureDateTime,
+        locale: locale);
   }
 
-  String  eturnDate(String locale) {
+  String eturnDate(String locale) {
     return AppDateUtils.formatHalfDateHalfMonth(
-        flightSegments?.first.inbound?.first.departureDateTime,locale: locale);
+        flightSegments?.first.inbound?.first.departureDateTime,
+        locale: locale);
   }
 
-  String  arrivalDateWithTime(String? locale) {
+  String arrivalDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.outbound?.first.arrivalDateTime,locale: locale);
+        flightSegments?.first.outbound?.first.arrivalDateTime,
+        locale: locale);
   }
 
-  String  returnArrivalDateWithTime(String? locale) {
+  String returnArrivalDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.inbound?.first.arrivalDateTime,locale: locale);
+        flightSegments?.first.inbound?.first.arrivalDateTime,
+        locale: locale);
   }
 
-  String  returnDepartureDateWithTime(String? locale) {
+  String returnDepartureDateWithTime(String? locale) {
     return AppDateUtils.formatFullDateTwoLines(
-        flightSegments?.first.inbound?.first.departureDateTime,locale: locale);
+        flightSegments?.first.inbound?.first.departureDateTime,
+        locale: locale);
   }
 
-  String  departureDateToShow(String? locale) {
-    if(locale != null) {
+  String departureDateToShow(String? locale) {
+    if (locale != null) {
       return AppDateUtils.formatHalfDateHalfMonth(
-          flightSegments?.first.outbound?.first.departureDateTime,locale: locale);
+          flightSegments?.first.outbound?.first.departureDateTime,
+          locale: locale);
     }
     return AppDateUtils.formatHalfDateHalfMonth(
-        flightSegments?.first.outbound?.first.departureDateTime,locale: null);
+        flightSegments?.first.outbound?.first.departureDateTime,
+        locale: null);
   }
 
-  String  returnDepartureDateToShow(String? local) {
+  String returnDepartureDateToShow(String? local) {
     return AppDateUtils.formatFullDate(
-        flightSegments?.first.inbound?.first.departureDateTime,locale: local);
+        flightSegments?.first.inbound?.first.departureDateTime,
+        locale: local);
   }
 
   String get departureToDestinationCode {
@@ -303,6 +339,38 @@ class Result {
 
   String get fromToDestinationName {
     return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} ${'to'.tr()} ${flightSegments?.first.outbound?.first.arrivalAirportLocationName ?? ''}';
+  }
+
+  Result copyWith(
+      {BookingContact? bookingContact,
+      List<PassengersWithSSR>? passengersWithSSR,
+      List<PaymentOrder>? paymentOrders,
+      FareAndBundleDetail? fareAndBundleDetail,
+      SeatDetail? seatDetail,
+      MealDetail? mealDetail,
+      BaggageDetail? baggageDetail,
+      WheelChairDetail? wheelChairDetail,
+      SportsEquipmentDetail? sportEquipmentDetail,
+      InsuranceDetails? insuranceSSRDetail,
+      List<FlightSegment>? flightSegments,
+      CompanyTaxInvoice? companyTaxInvoice,
+      bool? isReturn,
+      bool? success}) {
+    return Result(
+      bookingContact: bookingContact ?? this.bookingContact,
+      passengersWithSSR: passengersWithSSR ?? this.passengersWithSSR,
+      paymentOrders: paymentOrders ?? this.paymentOrders,
+      fareAndBundleDetail: fareAndBundleDetail ?? this.fareAndBundleDetail,
+      seatDetail: seatDetail ?? this.seatDetail,
+      mealDetail: mealDetail ?? this.mealDetail,
+      baggageDetail: baggageDetail ?? this.baggageDetail,
+      wheelChairDetail: wheelChairDetail ?? this.wheelChairDetail,
+      sportEquipmentDetail: sportEquipmentDetail ?? this.sportEquipmentDetail,
+      insuranceSSRDetail: insuranceSSRDetail ?? this.insuranceSSRDetail,
+      flightSegments: flightSegments ?? this.flightSegments,
+      companyTaxInvoice: companyTaxInvoice ?? this.companyTaxInvoice,
+      isReturn: isReturn ?? this.isReturn,
+    );
   }
 
   Result(
@@ -427,7 +495,6 @@ class Result {
 }
 
 class PassengersWithSSR {
-  //toBeautify
 
   String toBeautify() {
     List<String> texts = [];
@@ -479,11 +546,62 @@ class PassengersWithSSR {
   String? infantGivenName;
   String? infantSurname;
   String? infantDob;
+  String? infantNationality;
+
   bool? infantExpanded;
 
   bool get isInfant {
     return passengers?.passengerType == 'INF';
   }
+
+  PassengersWithSSR copyWith({
+    num? personOrgID,
+    Passenger? passengers,
+    FareAndBundleDetail? fareAndBundleDetail,
+    SeatDetail? seatDetail,
+    MealDetail? mealDetail,
+    BaggageDetail? baggageDetail,
+    WheelChairDetail? wheelChairDetail,
+    SportsEquipmentDetail? sportEquipmentDetail,
+    InsuranceDetails? insuranceSSRDetail,
+    CheckInStatusInOut? checkInStatusInOut,
+    String? checkInMemberID,
+    String? checkInPassportNo,
+    String? passportCountry,
+    String? passExpdate,
+    String? passPortdob,
+    bool? haveInfant,
+    bool? paxSelected,
+    String? infantGivenName,
+    String? infantSurname,
+    String? infantDob,
+    String? infantNationality,
+    bool? infantExpanded,
+  }) {
+    return PassengersWithSSR(
+        personOrgID: personOrgID ?? this.personOrgID,
+        passengers: passengers ?? this.passengers,
+        fareAndBundleDetail: fareAndBundleDetail ?? this.fareAndBundleDetail,
+        mealDetail: mealDetail ?? this.mealDetail,
+        baggageDetail: baggageDetail ?? this.baggageDetail,
+        wheelChairDetail: wheelChairDetail ?? this.wheelChairDetail,
+        sportEquipmentDetail: sportEquipmentDetail ?? this.sportEquipmentDetail,
+        insuranceSSRDetail: insuranceSSRDetail ?? this.insuranceSSRDetail,
+        checkInStatusInOut: checkInStatusInOut ?? this.checkInStatusInOut,
+        checkInMemberID: checkInMemberID ?? this.checkInMemberID,
+        checkInPassportNo: checkInPassportNo ?? this.checkInPassportNo,
+        passportCountry: passportCountry ?? this.passportCountry,
+        passExpdate: passExpdate ?? this.passExpdate,
+        passPortdob: passPortdob ?? this.passPortdob,
+        haveInfant: haveInfant ?? this.haveInfant,
+        paxSelected: paxSelected ?? this.paxSelected,
+        infantGivenName: infantGivenName ?? this.infantGivenName,
+        infantSurname: infantSurname ?? this.infantSurname,
+        infantDob: infantDob ?? this.infantDob,
+        infantNationality: infantNationality ?? this.infantNationality,
+        infantExpanded: infantExpanded ?? this.infantExpanded);
+  }
+
   PassengersWithSSR({
     this.personOrgID,
     this.passengers,
@@ -497,21 +615,28 @@ class PassengersWithSSR {
     this.sportEquipmentDetail,
     this.insuranceSSRDetail,
     this.haveInfant,
+    this.checkInPassportNo,
+    this.passportCountry,
+    this.passExpdate,
+    this.passPortdob,
     this.checkInMemberID,
-    this.infantExpanded
+    this.infantExpanded,
+    this.infantGivenName,
+    this.infantSurname,
+    this.infantDob,
+    this.infantNationality,
   });
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {
     personOrgID = json['personOrgID'];
     haveInfant = json['haveInfant'];
 
-
-
     if (haveInfant == true) {
       if (json['haveInfant'] != null) {
         infantGivenName = json['infantPassengerDetail']['givenName'];
         infantSurname = json['infantPassengerDetail']['surname'];
         infantDob = json['infantPassengerDetail']['dob'];
+        infantNationality = json['infantPassengerDetail']['nationality'];
       }
     }
 
@@ -601,6 +726,18 @@ class CheckInStatusInOut {
     }
     return data;
   }
+
+
+  CheckInStatusInOut copyWith({
+    CheckInStatus? outboundCheckInStatus,
+    CheckInStatus? inboundCheckInStatus,
+  }) {
+    return CheckInStatusInOut(
+      outboundCheckInStatus: outboundCheckInStatus ?? this.outboundCheckInStatus,
+      inboundCheckInStatus: inboundCheckInStatus ?? this.inboundCheckInStatus,
+    );
+  }
+
 }
 
 class CheckInStatus {
@@ -611,7 +748,7 @@ class CheckInStatus {
   String? inkPaxID;
   String? checkInStatus;
 
-  CheckInStatus({this.allowCheckIn});
+  CheckInStatus({this.allowCheckIn,this.flightNumber,this.departureStationCode,this.inkPaxID,this.checkInStatus});
 
   CheckInStatus.fromJson(Map<String, dynamic> json) {
     allowCheckIn = json['allowCheckIn'];
@@ -631,6 +768,23 @@ class CheckInStatus {
 
     return data;
   }
+
+  CheckInStatus copyWith({
+    bool? allowCheckIn,
+    String? flightNumber,
+    String? departureStationCode,
+    String? inkPaxID,
+    String? checkInStatus,
+  }) {
+    return CheckInStatus(
+      allowCheckIn: allowCheckIn ?? this.allowCheckIn,
+      flightNumber: flightNumber ?? this.flightNumber,
+      departureStationCode: departureStationCode ?? this.departureStationCode,
+      inkPaxID: inkPaxID ?? this.inkPaxID,
+      checkInStatus: checkInStatus ?? this.checkInStatus,
+    );
+  }
+
 }
 
 class CompanyTaxInvoice {
@@ -668,6 +822,45 @@ class CompanyTaxInvoice {
       this.modifiedByID,
       this.modifiedDate,
       this.modifiedDateUTC});
+
+  CompanyTaxInvoice copyWith({
+    num? superPNRID,
+    String? companyName,
+    String? companyAddress,
+    String? country,
+    String? state,
+    String? city,
+    String? postCode,
+    String? emailAddress,
+    bool? isTaxInvoiceSent,
+    String? lastGeneratedDate,
+    num? createdByID,
+    String? createdDate,
+    String? createdDateUTC,
+    num? modifiedByID,
+    String? modifiedDate,
+    String? modifiedDateUTC,
+  }) {
+    return CompanyTaxInvoice(
+      superPNRID: superPNRID ?? this.superPNRID,
+      companyName: companyName ?? this.companyName,
+      companyAddress: companyAddress ?? this.companyAddress,
+      country: country ?? this.country,
+      state: state ?? this.state,
+      city: city ?? this.city,
+      postCode: postCode ?? this.postCode,
+      emailAddress: emailAddress ?? this.emailAddress,
+      isTaxInvoiceSent: isTaxInvoiceSent ?? this.isTaxInvoiceSent,
+      lastGeneratedDate: lastGeneratedDate ?? this.lastGeneratedDate,
+      createdByID: createdByID ?? this.createdByID,
+      createdDate: createdDate ?? this.createdDate,
+      createdDateUTC: createdDateUTC ?? this.createdDateUTC,
+      modifiedByID: modifiedByID ?? this.modifiedByID,
+      modifiedDate: modifiedDate ?? this.modifiedDate,
+      modifiedDateUTC: modifiedDateUTC ?? this.modifiedDateUTC,
+    );
+  }
+
 
   CompanyTaxInvoice.fromJson(Map<String, dynamic> json) {
     superPNRID = json['superPNRID'];
@@ -714,29 +907,30 @@ class WheelChairDetail {
   num? wheelChairCount;
   num? totalAmount;
 
-  //List<Null>? wheelChairs;
-
   WheelChairDetail({this.wheelChairCount, this.totalAmount});
 
-//, this.wheelChairs
   WheelChairDetail.fromJson(Map<String, dynamic> json) {
     wheelChairCount = json['wheelChairCount'];
     totalAmount = json['totalAmount'];
-    // if (json['wheelChairs'] != null) {
-    // wheelChairs = <Null>[];
-    // json['wheelChairs'].forEach((v) {
-    //   wheelChairs!.add(new Null.fromJson(v));
-    // });
-    // }
+
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['wheelChairCount'] = wheelChairCount;
     data['totalAmount'] = totalAmount;
-    // if (this.wheelChairs != null) {
-    //   data['wheelChairs'] = this.wheelChairs!.map((v) => v.toJson()).toList();
-    // }
+
     return data;
   }
+
+  WheelChairDetail copyWith({
+    num? wheelChairCount,
+    num? totalAmount,
+  }) {
+    return WheelChairDetail(
+      wheelChairCount: wheelChairCount ?? this.wheelChairCount,
+      totalAmount: totalAmount ?? this.totalAmount,
+    );
+  }
+
 }

@@ -24,6 +24,7 @@ class HomeCubit extends Cubit<HomeState> {
         contents: response.items ?? [],
       ));
     } catch (e, st) {
+
       emit(
         state.copyWith(
             message: ErrorUtils.getErrorMessage(e, st),

@@ -691,4 +691,17 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
 
   }
+
+  void changeInfantSelected(int i) {
+
+    var mResponse = state.manageBookingResponse?.copyWith();
+    mResponse?.result?.passengersWithSSR?[i].infantExpanded = !(mResponse.result?.passengersWithSSR?[i].infantExpanded ?? false);
+
+    emit(
+      state.copyWith(
+        manageBookingResponse: mResponse,),
+    );
+
+
+  }
 }

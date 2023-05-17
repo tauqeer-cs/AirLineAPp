@@ -674,7 +674,6 @@
   "infoDetail.fullName" : "ชื่อเต็ม",
   "infoDetail.fullNameConfirm" : "โปรดตรวจสอบให้แน่ใจว่าชื่อและนามสกุลของคุณตรงกับชื่อที่ปรากฏในหนังสือเดินทางหรือบัตรประจำตัวที่ออกโดยรัฐบาล,",
   "infoDetail.title" : " ื่อ",
-  "infoDetail.firstName" : " ื่อ",
   "infoDetail.lastName" : "นามสกุล",
   "infoDetail.relationship" : "ความสัมพันธ์",
   "infoDetail.additionalInfo" : "ข้อมูลเพิ่มเติม",
@@ -1087,8 +1086,10 @@
   "departing": "ขาไป",
   "returning": "ย้อนกลับ",
   "subtotal" : "ผลรวมย่อย",
-  "idle" : "ไม่ได้ใช้งาน"
-
+  "idle" : "ไม่ได้ใช้งาน",
+  "closeAccount" : "ปิดบัญชี",
+  "deleteYourAccount" : "ลบบัญชีของคุณ?",
+  "allDataWillBeDeleted" : "ข้อมูลทั้งหมดของคุณจะถูกลบ คุณแน่ใจไหม?"
 
 }
 

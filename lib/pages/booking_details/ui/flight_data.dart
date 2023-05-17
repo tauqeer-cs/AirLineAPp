@@ -1,3 +1,4 @@
+import 'package:app/pages/booking_details/ui/plane_time.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +6,7 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import 'booking_details_view.dart';
+import 'flight_intro.dart';
 
 class FlightDataInfo extends StatelessWidget {
   final String headingLabel;

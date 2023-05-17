@@ -199,7 +199,6 @@
   "bundleTab.depart": "Departure",
   "bundleTab.return": "Return",
   "bundleTab.bundle": "Bundle",
-  "bundleTab.bundle": "Bundle",
   "bundleTab.passenger": "Passenger",
   "bundleTab.infant": "+ Infant",
   "insuranceSelection.returnFlight": "Return Flight",
@@ -587,7 +586,6 @@
   "infoDetail.fullName": "Full Name",
   "infoDetail.fullNameConfirm": "Make sure your name is the same as it appears on your driver’s license or other government-issued ID.",
   "infoDetail.title": "Title",
-  "infoDetail.firstName": "First Name/Given Name",
   "infoDetail.lastName": "Last Name/Surname",
   "infoDetail.relationship": "Relationship",
   "infoDetail.additionalInfo": "Additional Info",
@@ -1013,5 +1011,8 @@
   "baggageCap": "BAGGAGE",
   "subtotal" : "Subtotal",
   "invalidTitle" : "Invalid title",
-  "idle" : "Idle"
+  "idle" : "Idle",
+  "closeAccount" : "ปิดบัญชี",
+  "deleteYourAccount" : "Delete Your Account?",
+  "allDataWillBeDeleted" : "All your data will be deleted. are you sure?"
 }

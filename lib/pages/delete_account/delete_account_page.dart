@@ -8,6 +8,7 @@ import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:app/widgets/wave_background.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -50,7 +51,7 @@ class DeleteAccountPage extends StatelessWidget {
                   color: Colors.white,
                 ),
                 title: Text(
-                  'Close Account',
+                  'closeAccount'.tr(),
                   style: kHugeSemiBold.copyWith(color: Colors.white),
                 ),
                 elevation: 0,
