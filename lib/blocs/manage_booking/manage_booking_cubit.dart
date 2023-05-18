@@ -725,9 +725,23 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   }
 
-  void changeContactsExpanded({bool isEmergency = false}) {
+  void changeContactsExpanded({bool isEmergency = false,bool isCompany = false,bool isPayment = false}) {
 
-    if(isEmergency == true) {
+    if(isPayment) {
+      emit(
+        state.copyWith(
+            paymentDetailsExpanded: !state.paymentDetailsExpanded),
+      );
+      return;
+    }
+    else if(isCompany == true) {
+      emit(
+        state.copyWith(
+            companyTaxInvoiceExpanded: !state.companyTaxInvoiceExpanded),
+      );
+      return;
+    }
+    else if(isEmergency == true) {
       emit(
         state.copyWith(
             emergencySectionExpanded: !state.emergencySectionExpanded),

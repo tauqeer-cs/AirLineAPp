@@ -288,7 +288,6 @@
   "commForm.warningMessage": "Travel With Kids Message",
   "companyContact.companyTaxInvoice": "Company Tax Invoice",
   "companyContact.companyName": "Company Name",
-  "companyContact.country": "Country",
   "companyContact.state": "State",
   "companyContact.city": "City",
   "companyContact.emptyList": "Please select the departure city first.",
@@ -498,7 +497,7 @@
   "passengerDetail.baggageTitle": "Baggage",
   "passengerDetail.specialAddonsTitle": "Special Add-on",
   "passengerDetail.confirm": "Confirm",
-  "paymentDetail.paymentDetails": "Payment Details",
+  "paymentDetails": "Payment Details",
   "paymentDetail.paymentDetailTitle": "My Payment Cards",
   "paymentDetail.paymentSaved": "Saved payment methods",
   "paymentDetail.paymentSavedDesc": "Details of your default card will be automatically entered for future MYAirline payments. Payment method can be changed at the time of booking.",
@@ -560,7 +559,6 @@
   "familyDetail.firstName": "First Name/Given Name",
   "familyDetail.lastName": "Last Name/Surname",
   "familyDetail.title": "Title",
-  "familyDetail.country": "Country",
   "familyDetail.myRewardsMembershipID": "MYReward Member ID (Optional)",
   "familyDetail.cancel": "Cancel",
   "familyDetail.save": "Save",
@@ -1012,5 +1010,6 @@
   "idle" : "Idle",
   "closeAccount" : "ปิดบัญชี",
   "deleteYourAccount" : "Delete Your Account?",
-  "allDataWillBeDeleted" : "All your data will be deleted. are you sure?"
+  "allDataWillBeDeleted" : "All your data will be deleted. are you sure?",
+  "creditCard" : "Credit Card"
 }

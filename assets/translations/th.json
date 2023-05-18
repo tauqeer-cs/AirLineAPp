@@ -268,7 +268,6 @@
   "commForm.warningMessage"	: "ข้อความเดินทางกับเด็กเล็ก",
   "companyContact.companyTaxInvoice"	: "ใบกำกับภาษีบริษัท",
   "companyContact.companyName"	: "ชื่อบริษัท",
-  "companyContact.country"	: "ประเทศ",
   "companyContact.state"	: "เมือง",
   "companyContact.city"	: "จังหวัด",
   "companyContact.emptyList"	: "โปรดเลือกเมืองต้นทางก่อน",
@@ -548,7 +547,7 @@
   "passengerDetail.baggageTitle" : "สัมภาระ",
   "passengerDetail.specialAddonsTitle" : "บริการเสริมพิเศษ",
   "passengerDetail.confirm" : "ยืนยัน",
-  "paymentDetail.paymentDetails" : "รายละเอียดการจ่ายเงิน",
+  "paymentDetails" : "รายละเอียดการจ่ายเงิน",
   "paymentDetail.paymentDetailTitle" : "บัตรชำระเงินของฉัน",
   "paymentDetail.paymentSaved" : "วิธีการชำระเงินที่บันทึกไว้",
   "paymentDetail.paymentSavedDesc" : "รายละเอียดของบัตรเริ่มต้นของคุณจะถูกป้อนโดยอัตโนมัติสำหรับการชำระเงินให้กับ MYAirline ในอนาคต สามารถเปลี่ยนแปลงวิธีการชำระเงินได้ในขณะที่ทำการจอง",
@@ -648,7 +647,6 @@
   "familyDetail.firstName" : " ชื่อจริง",
   "familyDetail.lastName" :  "นามสกุล",
   "familyDetail.title" : " ื่อ",
-  "familyDetail.country" : "ประเทศ",
   "familyDetail.myRewardsMembershipID" : " หมายเลขสมาชิก MYReward (ไม่บังคับ)",
   "familyDetail.cancel" : "ยกเลิก",
   "familyDetail.save" :  "บันทึก",
@@ -1087,7 +1085,8 @@
   "idle" : "ไม่ได้ใช้งาน",
   "closeAccount" : "ปิดบัญชี",
   "deleteYourAccount" : "ลบบัญชีของคุณ?",
-  "allDataWillBeDeleted" : "ข้อมูลทั้งหมดของคุณจะถูกลบ คุณแน่ใจไหม?"
+  "allDataWillBeDeleted" : "ข้อมูลทั้งหมดของคุณจะถูกลบ คุณแน่ใจไหม?",
+  "creditCard" : "บัตรเครดิต"
 
 }
 

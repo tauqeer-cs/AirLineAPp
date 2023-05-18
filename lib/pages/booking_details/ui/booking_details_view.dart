@@ -1,4 +1,5 @@
 import 'package:app/models/confirmation_model.dart';
+import 'package:app/pages/booking_details/ui/payment_detials_section.dart';
 import 'package:app/pages/booking_details/ui/selected_passenger_info.dart';
 import 'package:app/pages/booking_details/ui/warning_before_proceed.dart';
 import 'package:app/widgets/app_card.dart';
@@ -22,6 +23,7 @@ import '../../add_on/ui/passenger_selector.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 import 'add_on_options.dart';
 import 'add_ons_card_items.dart';
+import 'company_tax_invoice_section.dart';
 import 'contants_section.dart';
 import 'double_line_text.dart';
 import 'emergency_contect_section.dart';
@@ -260,7 +262,10 @@ class ManageBookingDetailsView extends StatelessWidget {
                 const ContactsSection(),
                 kVerticalSpacer,
                 const EmergencyContactsSection(),
-
+                kVerticalSpacer,
+                const ComapnyTaxInvoiceSection(),
+                kVerticalSpacer,
+                const PaymentDetailsSecond(),
               ],
             ),
           ),
