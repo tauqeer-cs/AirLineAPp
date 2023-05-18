@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
+import '../../../../../blocs/search_flight/search_flight_cubit.dart';
 import '../../../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../../../theme/html_style.dart';
 import '../../../../../utils/security_utils.dart';
@@ -36,6 +37,7 @@ class AvailableInsurance extends StatelessWidget {
 
     final insurancesGroup =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup;
+    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     final insurances =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
@@ -170,6 +172,7 @@ class AvailableInsurance extends StatelessWidget {
                                             buildSubtitle(e, agentCms),
                                             kVerticalSpacerSmall,
                                             MoneyWidgetCustom(
+                                              currency: currency,
                                               myrSize: 20,
                                               amountSize: 20,
                                               mainAxisAlignment:

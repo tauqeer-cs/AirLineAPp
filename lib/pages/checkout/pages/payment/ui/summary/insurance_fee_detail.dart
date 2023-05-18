@@ -9,8 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InsuranceFeeDetail extends StatelessWidget {
   final bool isDeparture;
+  final String? currency;
 
-  const InsuranceFeeDetail({Key? key, required this.isDeparture})
+  const InsuranceFeeDetail({Key? key, required this.isDeparture,this.currency})
       : super(key: key);
 
   @override
@@ -44,7 +45,7 @@ class InsuranceFeeDetail extends StatelessWidget {
                         child2: MoneyWidgetSummary(
                           amount: e.getInsurance?.price,
                           isDense: true,
-                          currency: "MYR",
+                          currency: currency ?? "MYR",
                         ),
                       ),
                       kVerticalSpacerSmall,
