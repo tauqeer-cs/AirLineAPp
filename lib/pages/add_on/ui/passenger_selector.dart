@@ -138,7 +138,7 @@ class PassengerSelector extends StatelessWidget {
           focusedBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
           hintText: 'seatsSelection.passenger'.tr(),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+          contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         )),
         sheetTitle: 'seatsSelection.passenger'.tr(),
         isEnabled: true,
@@ -226,7 +226,7 @@ class PassengerSelectorManageBooking extends StatelessWidget {
                   },
                   child: Container(
                     constraints: const BoxConstraints(minWidth: 160),
-                    margin: EdgeInsets.only(right: 8),
+                    margin: const EdgeInsets.only(right: 8),
                     child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),

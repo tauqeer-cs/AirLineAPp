@@ -48,7 +48,9 @@ class ManageBookingDetailsView extends StatelessWidget {
     final locale = context.locale.toString();
     final selectedPax =
         context.watch<ManageBookingCubit>().state.selectedPax;
-    
+
+    bool isActive = false;
+
     return BlocBuilder<ManageBookingCubit, ManageBookingState>(
       builder: (context, state) {
         return Padding(
@@ -247,7 +249,116 @@ class ManageBookingDetailsView extends StatelessWidget {
                 ),
                 kVerticalSpacer,
                  SelectedPassengerInfo(selectedPax),
-                kVerticalSpacer,
+                kVerticalSpacerSmall,
+
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "flightSummary.addons".tr(),
+                    style: k18Heavy.copyWith(color: Styles.kTextColor),
+                  ),
+                ),
+                kVerticalSpacerSmall,
+
+                Container(
+                  constraints: const BoxConstraints(
+                    minHeight: 50,
+                  ),
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+
+                            //bloc.changeSelectedPax(person);
+
+                            // context.read<SelectedPersonCubit>().selectPerson(person);
+                          },
+                          child: Container(
+                            constraints: const BoxConstraints(minWidth: 160),
+                            margin: const EdgeInsets.only(right: 8),
+                            child: Card(
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                color: isActive ? Styles.kActiveColor : Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          'seat'.tr(),
+                                          style: kMediumSemiBold.copyWith(
+                                              color: isActive ? Colors.white : null),
+                                        ),
+                                      ),
+                                      kVerticalSpacerMini,
+                                      Text(
+                                        isActive ? 'selecting'.tr() : 'No seat selected'.tr(),
+                                        style: kSmallMedium.copyWith(
+                                            color: isActive ? Colors.white : null),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        ),
+
+                        SizedBox(width: 8,),
+
+                        GestureDetector(
+                          onTap: (){
+
+                            //bloc.changeSelectedPax(person);
+
+                            // context.read<SelectedPersonCubit>().selectPerson(person);
+                          },
+                          child: Container(
+                            constraints: const BoxConstraints(minWidth: 160),
+                            margin: const EdgeInsets.only(right: 8),
+                            child: Card(
+                              elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                color: isActive ? Styles.kActiveColor : Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          'Meal',
+                                          style: kMediumSemiBold.copyWith(
+                                              color: isActive ? Colors.white : null),
+                                        ),
+                                      ),
+                                      kVerticalSpacerMini,
+                                      Text(
+                                        isActive ? 'selecting'.tr() : 'No meal selected'.tr(),
+                                        style: kSmallMedium.copyWith(
+                                            color: isActive ? Colors.white : null),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        )
+
+                      ]
+                    ),
+                  ),
+                )
 
 
               ],
@@ -276,6 +387,67 @@ class ManageBookingDetailsView extends StatelessWidget {
 }
 
 
+
+class AddOnsCardItem extends StatelessWidget {
+
+  final String name;
+
+  final bool isActive;
+
+  const AddOnsCardItem({Key? key, required this.isActive, required this.name}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+
+        //bloc.changeSelectedPax(person);
+
+        // context.read<SelectedPersonCubit>().selectPerson(person);
+      },
+      child: Container(
+        constraints: const BoxConstraints(minWidth: 160),
+        margin: const EdgeInsets.only(right: 8),
+        child: Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8)),
+            color: isActive ? Styles.kActiveColor : Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 10.0, horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+
+                      Image.asset(
+                        "assets/images/icons/icoAddseats.png",
+                        width: 32,
+                        height: 32,
+                      ),
+
+                      Text(
+                        name,
+                        style: kMediumSemiBold.copyWith(
+                            color: isActive ? Colors.white : null),
+                      ),
+                    ],
+                  ),
+                  kVerticalSpacerMini,
+                  Text(
+                    isActive ? 'selecting'.tr() : 'No seat selected'.tr(),
+                    style: kSmallMedium.copyWith(
+                        color: isActive ? Colors.white : null),
+                  ),
+                ],
+              ),
+            )),
+      ),
+    );
+  }
+}
 
 
 
