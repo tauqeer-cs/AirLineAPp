@@ -725,8 +725,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   }
 
-  void changeContactsExpanded() {
+  void changeContactsExpanded({bool isEmergency = false}) {
 
+    if(isEmergency == true) {
+      emit(
+        state.copyWith(
+            emergencySectionExpanded: !state.emergencySectionExpanded),
+      );
+      return;
+    }
     emit(
       state.copyWith(
         contactsSectionExpanded: !state.contactsSectionExpanded),

@@ -24,6 +24,7 @@ import 'add_on_options.dart';
 import 'add_ons_card_items.dart';
 import 'contants_section.dart';
 import 'double_line_text.dart';
+import 'emergency_contect_section.dart';
 import 'flight_data.dart';
 
 class ManageBookingDetailsView extends StatelessWidget {
@@ -257,6 +258,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                 kVerticalSpacer,
 
                 const ContactsSection(),
+                kVerticalSpacer,
+                const EmergencyContactsSection(),
+
               ],
             ),
           ),
