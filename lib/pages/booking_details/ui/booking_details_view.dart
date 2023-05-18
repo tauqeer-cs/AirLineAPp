@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/app_router.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../data/responses/manage_booking_response.dart';
+import '../../../models/number_person.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
@@ -19,6 +20,9 @@ import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
+import 'add_on_options.dart';
+import 'add_ons_card_items.dart';
+import 'contants_section.dart';
 import 'double_line_text.dart';
 import 'flight_data.dart';
 
@@ -46,8 +50,7 @@ class ManageBookingDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
     final locale = context.locale.toString();
-    final selectedPax =
-        context.watch<ManageBookingCubit>().state.selectedPax;
+    final selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
 
     bool isActive = false;
 
@@ -248,119 +251,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                       [],
                 ),
                 kVerticalSpacer,
-                 SelectedPassengerInfo(selectedPax),
+                SelectedPassengerInfo(selectedPax),
                 kVerticalSpacerSmall,
+                const AddOnOptions(),
+                kVerticalSpacer,
 
-
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "flightSummary.addons".tr(),
-                    style: k18Heavy.copyWith(color: Styles.kTextColor),
-                  ),
-                ),
-                kVerticalSpacerSmall,
-
-                Container(
-                  constraints: const BoxConstraints(
-                    minHeight: 50,
-                  ),
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-
-                            //bloc.changeSelectedPax(person);
-
-                            // context.read<SelectedPersonCubit>().selectPerson(person);
-                          },
-                          child: Container(
-                            constraints: const BoxConstraints(minWidth: 160),
-                            margin: const EdgeInsets.only(right: 8),
-                            child: Card(
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                color: isActive ? Styles.kActiveColor : Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          'seat'.tr(),
-                                          style: kMediumSemiBold.copyWith(
-                                              color: isActive ? Colors.white : null),
-                                        ),
-                                      ),
-                                      kVerticalSpacerMini,
-                                      Text(
-                                        isActive ? 'selecting'.tr() : 'No seat selected'.tr(),
-                                        style: kSmallMedium.copyWith(
-                                            color: isActive ? Colors.white : null),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ),
-                        ),
-
-                        SizedBox(width: 8,),
-
-                        GestureDetector(
-                          onTap: (){
-
-                            //bloc.changeSelectedPax(person);
-
-                            // context.read<SelectedPersonCubit>().selectPerson(person);
-                          },
-                          child: Container(
-                            constraints: const BoxConstraints(minWidth: 160),
-                            margin: const EdgeInsets.only(right: 8),
-                            child: Card(
-                              elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                color: isActive ? Styles.kActiveColor : Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          'Meal',
-                                          style: kMediumSemiBold.copyWith(
-                                              color: isActive ? Colors.white : null),
-                                        ),
-                                      ),
-                                      kVerticalSpacerMini,
-                                      Text(
-                                        isActive ? 'selecting'.tr() : 'No meal selected'.tr(),
-                                        style: kSmallMedium.copyWith(
-                                            color: isActive ? Colors.white : null),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ),
-                        )
-
-                      ]
-                    ),
-                  ),
-                )
-
-
+                const ContactsSection(),
               ],
             ),
           ),
@@ -385,71 +281,6 @@ class ManageBookingDetailsView extends StatelessWidget {
     return true;
   }
 }
-
-
-
-class AddOnsCardItem extends StatelessWidget {
-
-  final String name;
-
-  final bool isActive;
-
-  const AddOnsCardItem({Key? key, required this.isActive, required this.name}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-
-        //bloc.changeSelectedPax(person);
-
-        // context.read<SelectedPersonCubit>().selectPerson(person);
-      },
-      child: Container(
-        constraints: const BoxConstraints(minWidth: 160),
-        margin: const EdgeInsets.only(right: 8),
-        child: Card(
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8)),
-            color: isActive ? Styles.kActiveColor : Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 10.0, horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-
-                      Image.asset(
-                        "assets/images/icons/icoAddseats.png",
-                        width: 32,
-                        height: 32,
-                      ),
-
-                      Text(
-                        name,
-                        style: kMediumSemiBold.copyWith(
-                            color: isActive ? Colors.white : null),
-                      ),
-                    ],
-                  ),
-                  kVerticalSpacerMini,
-                  Text(
-                    isActive ? 'selecting'.tr() : 'No seat selected'.tr(),
-                    style: kSmallMedium.copyWith(
-                        color: isActive ? Colors.white : null),
-                  ),
-                ],
-              ),
-            )),
-      ),
-    );
-  }
-}
-
-
 
 
 

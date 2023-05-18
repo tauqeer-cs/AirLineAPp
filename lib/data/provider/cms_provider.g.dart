@@ -56,7 +56,7 @@ class _CMSProvider implements CMSProvider {
       r'key': key,
       r'timestamp': timestamp,
       r'query': query,
-     r'lang': lang,
+      r'lang': lang,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

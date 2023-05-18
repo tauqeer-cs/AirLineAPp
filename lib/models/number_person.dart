@@ -539,6 +539,8 @@ class Person extends Equatable {
         if (!isDeparture && returnBundle == null) return "noBundleSelected".tr();
         final bundle = isDeparture ? departureBundle : returnBundle;
         return '${bundle?.detail?.bundleDescription}';
+      case AddonType.none:
+        return '';
     }
   }
 
@@ -652,8 +654,10 @@ enum AddonType {
   seat,
   meal,
   baggage,
-  special;
+  special,
+  none,
 }
+
 
 enum PeopleType {
   adult("ADT"),

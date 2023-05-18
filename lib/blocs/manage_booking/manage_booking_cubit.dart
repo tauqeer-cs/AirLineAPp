@@ -13,6 +13,7 @@ import '../../data/requests/mmb_checkout_request.dart';
 import '../../data/requests/search_change_flight_request.dart';
 import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
+import '../../models/number_person.dart';
 import '../../models/pay_redirection.dart';
 import '../../utils/error_utils.dart';
 import '../../data/responses/change_flight_response.dart';
@@ -28,6 +29,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         );
 
   final _repository = ManageBookingRepository();
+
 
 
   DateTime get minDate {
@@ -702,6 +704,32 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         manageBookingResponse: mResponse,),
     );
 
+  }
 
+  void changeSelectedAddOnOption(AddonType addOnOptionSelected,{bool toNull = false}) {
+
+    if(toNull) {
+
+      emit(
+        state.copyWith(
+        addOnOptionSelected: AddonType.none),
+      );
+
+      return;
+    }
+    emit(
+      state.copyWith(
+        addOnOptionSelected : addOnOptionSelected,),
+    );
+
+
+  }
+
+  void changeContactsExpanded() {
+
+    emit(
+      state.copyWith(
+        contactsSectionExpanded: !state.contactsSectionExpanded),
+    );
   }
 }

@@ -92,7 +92,7 @@ class SelectedPassengerInfo extends StatelessWidget {
           ),
           ExpandedSection(
             expand: state.manageBookingResponse?.result
-                ?.passengersWithSSR?[i].infantExpanded ?? true,
+                ?.passengersWithSSR?[i].infantExpanded ?? false,
             child: Column(
               children: [
                 DoubleLineTextTable( label: 'familyDetail.fName'.tr(), value: passengers?.infantGivenName ?? '',),

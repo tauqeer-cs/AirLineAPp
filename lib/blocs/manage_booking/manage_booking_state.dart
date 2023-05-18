@@ -2,6 +2,8 @@ part of 'manage_booking_cubit.dart';
 
 @CopyWith(copyWithNull: true)
 class ManageBookingState extends Equatable {
+  final AddonType? addOnOptionSelected;
+
   final BlocState blocState;
   final String message;
   final bool isRememberMe;
@@ -32,10 +34,20 @@ class ManageBookingState extends Equatable {
 
   final PassengersWithSSR? selectedPax;
 
-  const ManageBookingState( {
+  final bool contactsSectionExpanded;
+  final bool emergencySectionExpanded;
+  final bool companyTaxInvoiceExpanded;
+  final bool paymentDetailsExpanded;
+
+  const ManageBookingState({
     this.blocState = BlocState.initial,
     this.message = "",
+    this.addOnOptionSelected,
     this.selectedPax,
+    this.contactsSectionExpanded = false,
+  this.emergencySectionExpanded = false,
+  this.companyTaxInvoiceExpanded = false,
+  this.paymentDetailsExpanded = false,
     this.loadingSummary = false,
     this.loadingSelectingFlight = false,
     this.loadingCheckoutPayment = false,
@@ -81,7 +93,12 @@ class ManageBookingState extends Equatable {
         superPnrNo,
         orderId,
         flightMessageError,
-    selectedPax
+        selectedPax,
+        addOnOptionSelected,
+    contactsSectionExpanded,
+     emergencySectionExpanded,
+    companyTaxInvoiceExpanded,
+    paymentDetailsExpanded,
       ];
 
   ManageBookingState copyWith(
@@ -108,11 +125,22 @@ class ManageBookingState extends Equatable {
       bool? loadingSelectingFlight,
       String? superPnrNo,
       int? orderId,
-        PassengersWithSSR? selectedPax,
-      ChangeFlightRequestResponse? changeFlightResponse}) {
+      PassengersWithSSR? selectedPax,
+        AddonType? addOnOptionSelected,
+      ChangeFlightRequestResponse? changeFlightResponse,
+         bool? contactsSectionExpanded,
+         bool? emergencySectionExpanded,
+         bool? companyTaxInvoiceExpanded,
+         bool? paymentDetailsExpanded,
+
+      }) {
     return ManageBookingState(
       message: message ?? this.message,
-
+      contactsSectionExpanded: contactsSectionExpanded ?? this.contactsSectionExpanded,
+      emergencySectionExpanded: emergencySectionExpanded ?? this.emergencySectionExpanded,
+      companyTaxInvoiceExpanded: companyTaxInvoiceExpanded ?? this.companyTaxInvoiceExpanded,
+      paymentDetailsExpanded: paymentDetailsExpanded ?? this.paymentDetailsExpanded,
+      addOnOptionSelected: addOnOptionSelected ?? this.addOnOptionSelected,
       blocState: blocState ?? this.blocState,
       isRememberMe: isRememberMe ?? this.isRememberMe,
       isManageOpen: isManageOpen ?? this.isManageOpen,
@@ -145,4 +173,3 @@ class ManageBookingState extends Equatable {
     );
   }
 }
-
