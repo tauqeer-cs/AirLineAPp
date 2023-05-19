@@ -840,7 +840,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                         hintText: "passportExpiry".tr(),
                                         suffixIcon: const Icon(Icons.calendar_month_sharp),
                                         contentPadding:
-                                        EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
+                                        const EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
                                     inputType: InputType.date,
                                   ),
                                   kVerticalSpacerSmall,
@@ -862,7 +862,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                   kVerticalSpacer,
                   if (widget.isPast == false) ...[
                     ElevatedButton(
-                      onPressed: bloc.showCheckIn == false
+                      onPressed: bloc.showCheckIn == true
                           ? null
                           : () async {
 

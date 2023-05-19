@@ -38,6 +38,9 @@ class _DgnInfoViewState extends State<DgnInfoView> {
 
   bool checked = false;
 
+  EdgeInsets get paddingForTop {
+    return const EdgeInsets.only(left: 28,right: 16);
+  }
   @override
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
@@ -45,6 +48,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
     return AlertDialog(
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+      contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -72,8 +76,9 @@ class _DgnInfoViewState extends State<DgnInfoView> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 20,),
             Padding(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 'checkInfoOne'.tr(),
                 style: kSmallRegular.copyWith(color: Styles.kTextColor),
@@ -82,45 +87,56 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             kVerticalSpacerSmall,
             kVerticalSpacerMini,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding:  paddingForTop,
               child: buildRow(
                   'iconBoarding', 'boarding'.tr(), 'checkInBoardingInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow(
                   'iconCovid', 'covid19'.tr(), 'checkInCovid19Info'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow('iconCheckIn', 'check_in_caps'.tr(),
                   'checkInCheckInInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow('iconDocuments', 'travelDocuments'.tr(),
                   'checkInTravelDocumentsInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow('iconBaggage', 'baggageCap'.tr(),
                   'checkInBaggageInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow('iconProhibited', 'prohibitedItems'.tr(),
                   'checkInProhibitedItemsInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow(
                   'iconInfoSystem', 'apisTitle'.tr(), 'checkInApisInfo'.tr()),
+            ),
+            kVerticalSpacer,
+
+            Container(
+              color: Styles.greyLineColor,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 16),
+                child: Container(
+                    child: Text('Dangerous Goods Are Not to Be Taken Into the Cabin Or As Checked-in Baggage')),
+              ),
             ),
             kVerticalSpacer,
             buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(), 'iconExplosives',
@@ -236,52 +252,57 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                 ),
               ),
             ],
+
+            SizedBox(height: 24,),
           ],
         ),
       ),
     );
   }
 
-  Row buildDoubleRow(
+  Widget buildDoubleRow(
       String imageOne, String textOne, String imageTwo, String textTwo) {
-    return Row(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/images/icons/$imageOne.png",
-                width: 44,
-                height: 44,
-              ),
-              kHorizontalSpacerSmall,
-              Text(
-                textOne,
-                style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/images/icons/$imageTwo.png",
-                width: 44,
-                height: 44,
-              ),
-              kHorizontalSpacerSmall,
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  textTwo,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/images/icons/$imageOne.png",
+                  width: 44,
+                  height: 44,
+                ),
+                kHorizontalSpacerSmall,
+                Text(
+                  textOne,
                   style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/images/icons/$imageTwo.png",
+                  width: 44,
+                  height: 44,
+                ),
+                kHorizontalSpacerSmall,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    textTwo,
+                    style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
