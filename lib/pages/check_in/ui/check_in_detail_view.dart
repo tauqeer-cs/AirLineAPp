@@ -863,7 +863,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                   if (widget.isPast == false) ...[
                     ElevatedButton(
 
-                      onPressed: bloc.showCheckIn == true
+                      onPressed: bloc.showCheckIn == false
                           ? null
                           : () async {
 
