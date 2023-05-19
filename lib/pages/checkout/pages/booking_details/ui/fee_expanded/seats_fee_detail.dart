@@ -22,6 +22,8 @@ class SeatsFeeDetail extends StatelessWidget {
     final flightSeats = bookingState.verifyResponse?.flightSeat;
     final inboundSeats =
         isDeparture ? flightSeats?.outbound : flightSeats?.inbound;
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     final rows = inboundSeats
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -53,10 +55,9 @@ class SeatsFeeDetail extends StatelessWidget {
                           ),
                         ),
                         MoneyWidgetSmall(
+                          currency : currency,
                           amount: seats.seatPriceOffers?.firstOrNull?.amount,
                           isDense: true,
-                          currency:
-                              seats.seatPriceOffers?.firstOrNull?.currency,
                         ),
                       ],
                     ),

@@ -12,8 +12,8 @@ class FlightSegment extends StatelessWidget {
   final List<InboundOutboundSegment> segments;
   final bool isDeparture;
   final bool showFees;
+final String? currency;
 
-  final String? currency;
   const FlightSegment({
     Key? key,
     required this.title,

@@ -17,6 +17,8 @@ class WheelChairFeeDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final persons = filter?.numberPerson.persons ?? [];
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     return Column(
       children: [
         ...persons.map(
@@ -39,9 +41,9 @@ class WheelChairFeeDetail extends StatelessWidget {
                         ),
                         kHorizontalSpacerSmall,
                         MoneyWidgetSmall(
+                            currency : currency,
                             amount: bundle?.finalAmount,
-                            isDense: true,
-                            currency: bundle?.currencyCode),
+                            isDense: true,),
                       ],
                     ),
                   );

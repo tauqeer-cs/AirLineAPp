@@ -184,6 +184,34 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     selectedItem = 0;
   }
 
+  Widget amountToShow(Bundle currentItem) {
+
+    try {
+      if((currentItem.applicableTaxes ?? [] ).isEmpty || currentItem.applicableTaxes?.first.taxActive == false) {
+        return Text(
+          NumberUtils.formatNumber(
+            (currentItem.amount ?? 0.0)
+                .toDouble() ,
+          ),
+          style: kHugeHeavy,
+        );
+      } else {
+
+        return Text(
+          NumberUtils.formatNumber(
+            (currentItem.amount ?? 0.0)
+                .toDouble()  + (currentItem.applicableTaxes?.first.amountToApply ?? 0.0).toDouble(),
+          ),
+          style: kHugeHeavy,
+        );
+      }
+    }
+    catch(e) {
+    return Container();
+    }
+
+
+  }
   @override
   Widget build(BuildContext context) {
     final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
@@ -298,13 +326,10 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                     currentItem.currencyCode ?? currency,
                                     style: kMediumHeavy,
                                   ),
-                                  Text(
-                                    NumberUtils.formatNumber(
-                                      (currentItem.amount ?? 0.0)
-                                          .toDouble()  + (currentItem.applicableTaxes?.first.amountToApply ?? 0.0).toDouble(),
-                                    ),
-                                    style: kHugeHeavy,
-                                  ),
+
+                                  amountToShow(currentItem),
+
+
                                 ],
                               ),
                             ),

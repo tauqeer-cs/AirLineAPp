@@ -96,6 +96,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                       0) >
                   0,
           child: SeatsFee(
+
             isDeparture: widget.isDeparture,
           ),
         ),
