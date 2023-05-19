@@ -1,6 +1,8 @@
+import 'package:app/data/responses/verify_response.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../models/confirmation_model.dart';
+import '../../models/number_person.dart';
 import '../../utils/date_utils.dart';
 
 class ManageBookingResponse {
@@ -523,6 +525,7 @@ class PassengersWithSSR {
 
   num? personOrgID;
   Passenger? passengers;
+
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;
   MealDetail? mealDetail;
@@ -667,6 +670,19 @@ class PassengersWithSSR {
     insuranceSSRDetail = json['insuranceSSRDetail'] != null
         ? InsuranceDetails.fromJson(json['insuranceSSRDetail'])
         : null;
+
+
+    PeopleType personType = PeopleType.adult;
+
+    if(passengers?.passengerType == 'INF'){
+      personType =  PeopleType.infant;
+    }
+    else if(passengers?.passengerType == 'CHD') {
+      personType =  PeopleType.child;
+    }
+
+
+
   }
 
   Map<String, dynamic> toJson() {

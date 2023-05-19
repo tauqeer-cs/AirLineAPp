@@ -1,3 +1,4 @@
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:dio/dio.dart';
@@ -133,7 +134,25 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     var request = VerifyRequest(flightVerifyRequest: commonRuest);
     final verifyResponse = await _repository.verifyFlight(request);
+    List<Person> allPeople = [];
 
+    for(PassengersWithSSR currentPerson in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
+
+      var currentObject = Person(
+        passenger: Passenger(
+          firstName: currentPerson.passengers?.givenName,
+          lastName: currentPerson.passengers?.surname,
+          title: currentPerson.passengers?.titleCode,
+          paxType: currentPerson.passengers?.passengerType
+
+        ),
+
+      );
+
+      print('');
+
+
+    }
     emit(
       state.copyWith(verifyResponse: verifyResponse
     ));

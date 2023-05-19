@@ -233,6 +233,8 @@ class Person extends Equatable {
   final int? numberOrder;
   final Passenger? passenger;
 
+
+
   const Person({
     this.peopleType,
     this.departureBundle,

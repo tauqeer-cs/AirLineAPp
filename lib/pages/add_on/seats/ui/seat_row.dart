@@ -59,6 +59,12 @@ class _SeatRowState extends State<SeatRow> {
     final mapColor = isDeparture
         ? bookingState.departureColorMapping
         : bookingState.returnColorMapping;
+
+    if(seat != null) {
+
+      print('');
+
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
