@@ -862,6 +862,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                   kVerticalSpacer,
                   if (widget.isPast == false) ...[
                     ElevatedButton(
+
                       onPressed: bloc.showCheckIn == true
                           ? null
                           : () async {

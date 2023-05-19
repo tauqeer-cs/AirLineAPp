@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
@@ -39,8 +40,9 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   bool checked = false;
 
   EdgeInsets get paddingForTop {
-    return const EdgeInsets.only(left: 28,right: 16);
+    return const EdgeInsets.only(left: 28, right: 16);
   }
+
   @override
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
@@ -76,7 +78,9 @@ class _DgnInfoViewState extends State<DgnInfoView> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
@@ -87,7 +91,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             kVerticalSpacerSmall,
             kVerticalSpacerMini,
             Padding(
-              padding:  paddingForTop,
+              padding: paddingForTop,
               child: buildRow(
                   'iconBoarding', 'boarding'.tr(), 'checkInBoardingInfo'.tr()),
             ),
@@ -112,8 +116,8 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             kVerticalSpacer,
             Padding(
               padding: paddingForTop,
-              child: buildRow('iconBaggage', 'baggageCap'.tr(),
-                  'checkInBaggageInfo'.tr()),
+              child: buildRow(
+                  'iconBaggage', 'baggageCap'.tr(), 'checkInBaggageInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
@@ -128,22 +132,42 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                   'iconInfoSystem', 'apisTitle'.tr(), 'checkInApisInfo'.tr()),
             ),
             kVerticalSpacer,
-
             Container(
               color: Styles.greyLineColor,
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 16),
-                child: Container(
-                    child: Text('Dangerous Goods Are Not to Be Taken Into the Cabin Or As Checked-in Baggage')),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: RichText(
+                  textAlign: TextAlign.justify,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    children: [
+                      TextSpan(text: 'dangerourGoodAre'.tr()),
+                      TextSpan(
+                        text: 'not'.tr(),
+                        style: const TextStyle(
+                          backgroundColor: Colors.red,
+                        ),
+                      ),
+                      TextSpan(text: 'takenIntoCabin'.tr()),
+                    ],
+                  ),
+                )
+                ,
+
               ),
             ),
             kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(), 'iconExplosives',
-                'explosives'.tr()),
+            buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(),
+                'iconExplosives', 'explosives'.tr()),
             kVerticalSpacer,
-            buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(), 'iconBlunt',
-                'bluntObjects'.tr()),
+            buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(),
+                'iconBlunt', 'bluntObjects'.tr()),
             kVerticalSpacer,
             buildDoubleRow('iconMeals', 'selfHeating'.tr(), 'iconBioHazard',
                 'biohazards'.tr()),
@@ -168,7 +192,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                     setState(() {
                       checked = value ?? false;
                     });
-                    },
+                  },
                 ),
                 Expanded(
                   child: RichText(
@@ -208,52 +232,73 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             if (bloc.state.checkingInFlight == true) ...[
               const AppLoading(),
             ] else ...[
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        }, //isLoading ? null :
-                        child: Text(
-                          'back'.tr(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }, //isLoading ? null :
+                          child: Text(
+                            'back'.tr(),
+                          ),
                         ),
                       ),
-                    ),
-                    kHorizontalSpacerSmall,
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: checked == false
-                            ? null
-                            : () async {
-                                if (checked) {
-                                  var check = await bloc.checkInFlight();
-                                  if (check == true) {
-                                    context.router.replaceAll([
-                                      const NavigationRoute(),
-                                      const CheckInBoardingPassRoute(),
-                                    ]);
-                                  } else {
-                                    if (bloc.showPassport) {
+                      kHorizontalSpacerSmall,
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            ),
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.pressed)) {
+                                  return Styles.kActiveColor.withOpacity(0.5);
+                                } else if (states.contains(MaterialState.disabled)) {
+                                  return Color.fromRGBO(169, 169, 169, 1.0);//rgb(37, 150, 190)
+
+                                }
+                                return Styles.kPrimaryColor; // Use the component's default./ Use the component's default.
+                              },
+                            ),
+
+                          ),
+                          onPressed: checked == false
+                              ? null
+                              : () async {
+                                  if (checked) {
+                                    var check = await bloc.checkInFlight();
+                                    if (check == true) {
                                       context.router.replaceAll([
                                         const NavigationRoute(),
-                                        const CheckInErrorRoute(),
+                                        const CheckInBoardingPassRoute(),
                                       ]);
+                                    } else {
+                                      if (bloc.showPassport) {
+                                        context.router.replaceAll([
+                                          const NavigationRoute(),
+                                          const CheckInErrorRoute(),
+                                        ]);
+                                      }
                                     }
                                   }
-                                }
-                              },
-                        child:  Text('continue'.tr()),
+                                },
+                          child: Text('continue'.tr()),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
-
-            SizedBox(height: 24,),
+            const SizedBox(
+              height: 24,
+            ),
           ],
         ),
       ),

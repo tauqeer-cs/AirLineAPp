@@ -1087,7 +1087,9 @@
   "baggageCap": "สัมภาระ",
   "departing": "ขาไป",
   "returning": "ย้อนกลับ",
-  "subtotal" : "ผลรวมย่อย"
-
+  "subtotal" : "ผลรวมย่อย",
+  "dangerourGoodAre" : "สินค้าอันตรายคือ",
+  "not" : "ไม่" ,
+  "takenIntoCabin" : "เพื่อนำเข้าไปในห้องโดยสารหรือเป็นสัมภาระเช็คอิน"
 }
 

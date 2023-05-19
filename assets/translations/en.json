@@ -1012,5 +1012,8 @@
   "enterEmailAddress" : "Enter Email Address",
   "navBar.manageBookingsMy": "Manage Booking",
   "baggageCap": "BAGGAGE",
-  "subtotal" : "Subtotal"
+  "subtotal" : "Subtotal",
+  "dangerourGoodAre" : "DANGEROUS GOODS ARE ",
+  "not" : "NOT" ,
+  "takenIntoCabin" : " TO BE TAKEN INTO THE CABIN OR AS CHECKED-IN BAGGAGE."
 }
