@@ -6,6 +6,15 @@ class InsuranceState extends Equatable {
   List<Passenger> get passengersWithOutInfants {
 
 
+    /*
+    return passengers.where((element)  {
+
+      var differetnces = DateTime.now().difference(element.dob!).inDays;
+
+      return element.dob!.difference(DateTime.now()).inDays < 8;
+    } ).toList();
+    */
+
     return passengers.where((element) => element.paxType != 'INF').toList();
 
   }
