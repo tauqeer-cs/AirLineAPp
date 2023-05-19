@@ -83,7 +83,7 @@ class SelectedSeats extends StatelessWidget {
                           kHorizontalSpacerMini,
                           Flexible(
                             child: Text(
-                              "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'No seat selected' : '${seats?.seatColumn}${row?.rowNumber}'}",
+                              "${e.generateText(filter?.numberPerson)} : ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
                               style: kSmallRegular.copyWith(
                                   color: Styles.kSubTextColor),
                             ),

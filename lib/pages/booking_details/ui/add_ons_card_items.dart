@@ -76,7 +76,7 @@ class AddOnsCardItem extends StatelessWidget {
                   ),
                   kVerticalSpacerMini,
                   Text(
-                    isActive ? 'selecting'.tr() : 'No seat selected'.tr(),
+                    isActive ? 'selecting'.tr() : 'noSeatSelected'.tr(),
                     style: kSmallMedium.copyWith(
                         color: isActive ? Colors.white : null),
                   ),
