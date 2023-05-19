@@ -150,8 +150,8 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                       TextSpan(text: 'dangerourGoodAre'.tr()),
                       TextSpan(
                         text: 'not'.tr(),
-                        style: const TextStyle(
-                          backgroundColor: Colors.red,
+                        style:  TextStyle(
+                          backgroundColor: Styles.kPrimaryColor,
                         ),
                       ),
                       TextSpan(text: 'takenIntoCabin'.tr()),
