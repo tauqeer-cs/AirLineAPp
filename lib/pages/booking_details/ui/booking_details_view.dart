@@ -19,6 +19,8 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
+import '../../add_on/seats/ui/seat_legend_simple.dart';
+import '../../add_on/seats/ui/seat_plan.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 import 'add_on_options.dart';
@@ -54,8 +56,6 @@ class ManageBookingDetailsView extends StatelessWidget {
     bloc = context.watch<ManageBookingCubit>();
     final locale = context.locale.toString();
     final selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
-
-    bool isActive = false;
 
     return BlocBuilder<ManageBookingCubit, ManageBookingState>(
       builder: (context, state) {
@@ -266,6 +266,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                 const ComapnyTaxInvoiceSection(),
                 kVerticalSpacer,
                 const PaymentDetailsSecond(),
+
+                if(bloc?.state.addOnOptionSelected == AddonType.seat) ... [
+                  const SeatLegendSimple(),
+                  kVerticalSpacer,
+
+                  SeatPlan(
+                    moveToTop: () {
+                      //moveToTop?.call();
+                    },
+                    moveToBottom: () {
+                      //  moveToBottom?.call();
+                    }, isManageBooking: true,
+                  ),
+                ],
+
+
               ],
             ),
           ),

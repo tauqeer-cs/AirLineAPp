@@ -4,6 +4,8 @@ part of 'manage_booking_cubit.dart';
 class ManageBookingState extends Equatable {
   final AddonType? addOnOptionSelected;
 
+  final VerifyResponse? verifyResponse;
+
   final BlocState blocState;
   final String message;
   final bool isRememberMe;
@@ -44,6 +46,7 @@ class ManageBookingState extends Equatable {
     this.message = "",
     this.addOnOptionSelected,
     this.selectedPax,
+    this.verifyResponse,
     this.contactsSectionExpanded = false,
   this.emergencySectionExpanded = false,
   this.companyTaxInvoiceExpanded = false,
@@ -87,6 +90,7 @@ class ManageBookingState extends Equatable {
         flightSearchResponse,
         changeFlightResponse,
         loadingDatesData,
+    verifyResponse,
         loadingSelectingFlight,
         loadingCheckoutPayment,
         loadingSummary,
@@ -132,9 +136,10 @@ class ManageBookingState extends Equatable {
          bool? emergencySectionExpanded,
          bool? companyTaxInvoiceExpanded,
          bool? paymentDetailsExpanded,
-
+        VerifyResponse? verifyResponse,
       }) {
     return ManageBookingState(
+      verifyResponse: verifyResponse ?? this.verifyResponse,
       message: message ?? this.message,
       contactsSectionExpanded: contactsSectionExpanded ?? this.contactsSectionExpanded,
       emergencySectionExpanded: emergencySectionExpanded ?? this.emergencySectionExpanded,

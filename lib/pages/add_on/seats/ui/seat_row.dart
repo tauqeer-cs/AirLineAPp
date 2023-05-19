@@ -15,12 +15,13 @@ class SeatRow extends StatefulWidget {
   final Seats seats;
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
+  final bool isManageBooking;
 
   const SeatRow({
     Key? key,
     required this.seats,
     this.moveToTop,
-    this.moveToBottom,
+    this.moveToBottom, required this.isManageBooking,
   }) : super(key: key);
 
   @override

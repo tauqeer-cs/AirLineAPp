@@ -12,19 +12,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+
 class SeatPlan extends StatelessWidget {
-  const SeatPlan({Key? key, this.moveToTop, this.moveToBottom})
+
+  const SeatPlan({Key? key, this.moveToTop, this.moveToBottom,  this.isManageBooking = false})
       : super(key: key);
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
 
+  final bool isManageBooking;
+
+
   @override
   Widget build(BuildContext context) {
     final bookingState = context.watch<BookingCubit>().state;
-    final flightSeats = bookingState.verifyResponse?.flightSeat;
-    final isDeparture = context.watch<IsDepartureCubit>().state;
-    final inboundSeats =
-        isDeparture ? flightSeats?.outbound : flightSeats?.inbound;
+    var flightSeats = bookingState.verifyResponse?.flightSeat;
+
+    var isDeparture = true;
+    List<InboundSeat>?  inboundSeats;
+
+    if(isManageBooking == true) {
+
+      var bloc = context.watch<ManageBookingCubit>();
+      flightSeats = bloc.state.verifyResponse?.flightSeat;
+
+    }
+    else {
+
+      isDeparture = context.watch<IsDepartureCubit>().state;
+
+
+    }
+    inboundSeats =
+    isDeparture ? flightSeats?.outbound : flightSeats?.inbound;
     final rows = inboundSeats
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -148,7 +169,7 @@ class SeatPlan extends StatelessWidget {
                                   },
                                   moveToBottom: () {
                                     moveToBottom?.call();
-                                  },
+                                  }, isManageBooking: isManageBooking,
                                 ),
                               );
                       }).toList(),
