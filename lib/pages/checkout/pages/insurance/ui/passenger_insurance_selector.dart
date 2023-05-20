@@ -32,11 +32,11 @@ class PassengerInsuranceSelector extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               minHeight: 50,
             ),
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -48,8 +48,8 @@ class PassengerInsuranceSelector extends StatelessWidget {
                       context.read<InsuranceCubit>().selectPassenger(index);
                     },
                     child: Container(
-                      width: 150,
-                      margin: EdgeInsets.only(right: 8),
+                      width: 140,
+                      margin: const EdgeInsets.only(right: 8),
                       child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
@@ -68,8 +68,9 @@ class PassengerInsuranceSelector extends StatelessWidget {
                                 kVerticalSpacerMini,
                                 Text(
                                   getPersonSelectorText(isActive, person,agentCms),
-                                  style: kMediumSemiBold.copyWith(
-                                      color: isActive ? Colors.white : null),
+                                  //style: "noItemSelected".tr() == getPersonSelectorText(isActive, person,agentCms) ? kSmallMedium.copyWith( color: isActive ? Colors.white : null) : kMediumSemiBold.copyWith(
+                                    //  color: isActive ? Colors.white : null),
+                                  style: kSmallMedium.copyWith( color: isActive ? Colors.white : null) ,
                                 ),
                               ],
                             ),
