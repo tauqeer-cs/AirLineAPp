@@ -50,7 +50,7 @@ class AvailableInsurance extends StatelessWidget {
 
     return  Visibility(
       visible: insurances.isNotEmpty,
-      replacement: EmptyAddon(),
+      replacement: const EmptyAddon(),
       child: Column(
         children: InsuranceType.values
             .map(
@@ -65,7 +65,7 @@ class AvailableInsurance extends StatelessWidget {
                       e, firstInsurance.toBound(isInsurance: true));
                 },
                 child:  AppCard(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   child: Column(
                     children: [
                       Row(
@@ -101,7 +101,7 @@ class AvailableInsurance extends StatelessWidget {
                             height: 56,
                             width: 56,
                             child: getAssets(e) == null
-                                ? SizedBox()
+                                ? const SizedBox()
                                 : Image.asset(getAssets(e)!),
                           ),
                         ],

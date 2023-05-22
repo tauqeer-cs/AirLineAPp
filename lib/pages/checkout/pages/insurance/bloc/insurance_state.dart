@@ -4,20 +4,21 @@ class InsuranceState extends Equatable {
   final List<Passenger> passengers;
 
   List<Passenger> get passengersWithOutInfants {
+    if (ConstantUtils.showInfantSepeatlyInsurance == true) {
+      return passengers.where((element) {
+        var differetnces = DateTime
+            .now()
+            .difference(element.dob!)
+            .inDays;
 
-
-    /*
-    return passengers.where((element)  {
-
-      var differetnces = DateTime.now().difference(element.dob!).inDays;
-
-      return element.dob!.difference(DateTime.now()).inDays < 8;
-    } ).toList();
-    */
+        return element.dob!.difference(DateTime.now()).inDays < 8;
+      }).toList();
+    }
 
     return passengers.where((element) => element.paxType != 'INF').toList();
 
   }
+
   final SummaryResponse? summaryResponse;
   final BlocState blocState;
   final String message;
@@ -52,12 +53,13 @@ class InsuranceState extends Equatable {
       insuranceType: insuranceType ?? this.insuranceType,
       selectedPassenger: selectedPassenger ?? this.selectedPassenger,
       lastInsuranceSelected:
-          lastInsuranceSelected ?? this.lastInsuranceSelected,
+      lastInsuranceSelected ?? this.lastInsuranceSelected,
     );
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         summaryResponse,
         blocState,
         message,
