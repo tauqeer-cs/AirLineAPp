@@ -35,6 +35,7 @@ class _BaggageFeeState extends State<BaggageFee> {
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     return Column(
       children: [
@@ -53,6 +54,7 @@ class _BaggageFeeState extends State<BaggageFee> {
               ),
               const Spacer(),
               MoneyWidgetCustom(
+                currency: currency,
                 fontWeight: FontWeight.w700,
                 amount: widget.isSports
                     ? filter?.numberPerson

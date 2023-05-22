@@ -81,6 +81,8 @@ class InsuranceFeeDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final persons = filter?.numberPerson.persons ?? [];
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     return Column(
       children: [
         kVerticalSpacerSmall,

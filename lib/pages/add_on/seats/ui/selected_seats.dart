@@ -38,7 +38,7 @@ class SelectedSeats extends StatelessWidget {
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
     return Visibility(
       visible: rows?.isNotEmpty ?? false,
-      replacement: EmptyAddon(),
+      replacement: const EmptyAddon(),
       child: Padding(
         padding: kPageHorizontalPadding,
         child: Column(

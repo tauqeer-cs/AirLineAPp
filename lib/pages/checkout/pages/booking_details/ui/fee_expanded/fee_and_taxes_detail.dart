@@ -38,6 +38,8 @@ class FeeAndTaxesDetail extends StatelessWidget {
     if (taxes?.isEmpty ?? true) return const SizedBox();
     num discountTotal = 0;
 
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
     if (ConstantUtils.showPromoInFeesAndTaxes) {
       var discountPercent = bookingCubit.selectedDeparture!.discountPCT;
 
@@ -67,6 +69,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
               ),
               Align(
                   child: MoneyWidgetSmall(
+                      currency : currency,
                       amount: info?.baseFareAmt, isDense: true)),
             ],
           ),
@@ -93,7 +96,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                               color: Styles.kSubTextColor),
                         ),
                         kHorizontalSpacerMini,
-                        MoneyWidgetSmall(amount: e.amt, isDense: true),
+                        MoneyWidgetSmall(amount: e.amt, isDense: true,currency: currency,),
                       ],
                     ),
                   ],
@@ -121,6 +124,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                     ),
                     kHorizontalSpacerMini,
                     MoneyWidgetSmall(
+                      currency: currency,
                         amount:
                             infant?.finalAmount ?? segment?.infantPricePerPax,
                         isDense: true),
@@ -144,6 +148,8 @@ class FeeAndTaxesDetail extends StatelessWidget {
                   ),
                   MoneyWidgetSmall(
                     amount: discountTotal,
+                    currency: currency,
+
                     isDense: true,
                     isNegative: true,
                   ),

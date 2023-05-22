@@ -25,6 +25,7 @@ class _SeatsFeeState extends State<SeatsFee> {
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final isPaymentPage = context.watch<IsPaymentPageCubit>().state;
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     return Column(
       children: [
@@ -38,6 +39,7 @@ class _SeatsFeeState extends State<SeatsFee> {
             kHorizontalSpacerSmall,
             Spacer(),
             MoneyWidgetCustom(
+              currency: currency,
               fontWeight: FontWeight.w700,
               amount:
                   filter?.numberPerson.getTotalSeatsPartial(widget.isDeparture),

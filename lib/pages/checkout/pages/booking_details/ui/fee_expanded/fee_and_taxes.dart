@@ -39,6 +39,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
     var discountPercent = booking.selectedDeparture?.discountPCT;
 
     var discountTotal = 0;
+    var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
     if (filter?.promoCode != null &&
         discountPercent != null &&
@@ -65,6 +66,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                 kHorizontalSpacerSmall,
                 const Spacer(),
                 MoneyWidgetCustom(
+                  currency: currency,
                   fontWeight: FontWeight.w700,
                   amount: widget.isDeparture
                       ? bookingTotal.selectedDeparture?.getTotalPriceDisplay
@@ -94,6 +96,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
                       0) >
                   0,
           child: SeatsFee(
+
             isDeparture: widget.isDeparture,
           ),
         ),

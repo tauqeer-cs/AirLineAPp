@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
@@ -38,6 +39,10 @@ class _DgnInfoViewState extends State<DgnInfoView> {
 
   bool checked = false;
 
+  EdgeInsets get paddingForTop {
+    return const EdgeInsets.only(left: 28, right: 16);
+  }
+
   @override
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
@@ -45,6 +50,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
     return AlertDialog(
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
+      contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -72,8 +78,11 @@ class _DgnInfoViewState extends State<DgnInfoView> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 20,
+            ),
             Padding(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 'checkInfoOne'.tr(),
                 style: kSmallRegular.copyWith(color: Styles.kTextColor),
@@ -82,52 +91,83 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             kVerticalSpacerSmall,
             kVerticalSpacerMini,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow(
                   'iconBoarding', 'boarding'.tr(), 'checkInBoardingInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow(
                   'iconCovid', 'covid19'.tr(), 'checkInCovid19Info'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow('iconCheckIn', 'check_in_caps'.tr(),
                   'checkInCheckInInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow('iconDocuments', 'travelDocuments'.tr(),
                   'checkInTravelDocumentsInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: buildRow('iconBaggage', 'baggageCap'.tr(),
-                  'checkInBaggageInfo'.tr()),
+              padding: paddingForTop,
+              child: buildRow(
+                  'iconBaggage', 'baggageCap'.tr(), 'checkInBaggageInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow('iconProhibited', 'prohibitedItems'.tr(),
                   'checkInProhibitedItemsInfo'.tr()),
             ),
             kVerticalSpacer,
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: paddingForTop,
               child: buildRow(
                   'iconInfoSystem', 'apisTitle'.tr(), 'checkInApisInfo'.tr()),
             ),
             kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(), 'iconExplosives',
-                'explosives'.tr()),
+            Container(
+              color: Styles.greyLineColor,
+              width: double.infinity,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: RichText(
+                  textAlign: TextAlign.justify,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    children: [
+                      TextSpan(text: 'dangerourGoodAre'.tr()),
+                      TextSpan(
+                        text: 'not'.tr(),
+                        style:  TextStyle(
+                          backgroundColor: Styles.kPrimaryColor,
+                        ),
+                      ),
+                      TextSpan(text: 'takenIntoCabin'.tr()),
+                    ],
+                  ),
+                )
+                ,
+
+              ),
+            ),
             kVerticalSpacer,
-            buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(), 'iconBlunt',
-                'bluntObjects'.tr()),
+            buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(),
+                'iconExplosives', 'explosives'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(),
+                'iconBlunt', 'bluntObjects'.tr()),
             kVerticalSpacer,
             buildDoubleRow('iconMeals', 'selfHeating'.tr(), 'iconBioHazard',
                 'biohazards'.tr()),
@@ -152,7 +192,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                     setState(() {
                       checked = value ?? false;
                     });
-                    },
+                  },
                 ),
                 Expanded(
                   child: RichText(
@@ -192,96 +232,122 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             if (bloc.state.checkingInFlight == true) ...[
               const AppLoading(),
             ] else ...[
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        }, //isLoading ? null :
-                        child: Text(
-                          'back'.tr(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }, //isLoading ? null :
+                          child: Text(
+                            'back'.tr(),
+                          ),
                         ),
                       ),
-                    ),
-                    kHorizontalSpacerSmall,
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: checked == false
-                            ? null
-                            : () async {
-                                if (checked) {
-                                  var check = await bloc.checkInFlight();
-                                  if (check == true) {
-                                    context.router.replaceAll([
-                                      const NavigationRoute(),
-                                      const CheckInBoardingPassRoute(),
-                                    ]);
-                                  } else {
-                                    if (bloc.showPassport) {
+                      kHorizontalSpacerSmall,
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            ),
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.pressed)) {
+                                  return Styles.kActiveColor.withOpacity(0.5);
+                                } else if (states.contains(MaterialState.disabled)) {
+                                  return Color.fromRGBO(169, 169, 169, 1.0);//rgb(37, 150, 190)
+
+                                }
+                                return Styles.kPrimaryColor; // Use the component's default./ Use the component's default.
+                              },
+                            ),
+
+                          ),
+                          onPressed: checked == false
+                              ? null
+                              : () async {
+                                  if (checked) {
+                                    var check = await bloc.checkInFlight();
+                                    if (check == true) {
                                       context.router.replaceAll([
                                         const NavigationRoute(),
-                                        const CheckInErrorRoute(),
+                                        const CheckInBoardingPassRoute(),
                                       ]);
+                                    } else {
+                                      if (bloc.showPassport) {
+                                        context.router.replaceAll([
+                                          const NavigationRoute(),
+                                          const CheckInErrorRoute(),
+                                        ]);
+                                      }
                                     }
                                   }
-                                }
-                              },
-                        child:  Text('continue'.tr()),
+                                },
+                          child: Text('continue'.tr()),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
+            const SizedBox(
+              height: 24,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Row buildDoubleRow(
+  Widget buildDoubleRow(
       String imageOne, String textOne, String imageTwo, String textTwo) {
-    return Row(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/images/icons/$imageOne.png",
-                width: 44,
-                height: 44,
-              ),
-              kHorizontalSpacerSmall,
-              Text(
-                textOne,
-                style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/images/icons/$imageTwo.png",
-                width: 44,
-                height: 44,
-              ),
-              kHorizontalSpacerSmall,
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  textTwo,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/images/icons/$imageOne.png",
+                  width: 44,
+                  height: 44,
+                ),
+                kHorizontalSpacerSmall,
+                Text(
+                  textOne,
                   style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Row(
+              children: [
+                Image.asset(
+                  "assets/images/icons/$imageTwo.png",
+                  width: 44,
+                  height: 44,
+                ),
+                kHorizontalSpacerSmall,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    textTwo,
+                    style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

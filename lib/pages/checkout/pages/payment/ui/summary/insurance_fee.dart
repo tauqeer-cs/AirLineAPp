@@ -42,7 +42,10 @@ class _InsuarnceFeePaymentState extends State<InsuarnceFeePayment> {
             amount:insurance,
           ),
         ),
-        InsuranceFeeDetail(isDeparture: widget.isDeparture,),
+        InsuranceFeeDetail(isDeparture: widget.isDeparture,
+          currency: widget.currency,
+
+        ),
       ],
     );
   }

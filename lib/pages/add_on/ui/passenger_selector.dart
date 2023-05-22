@@ -75,8 +75,8 @@ class PassengerSelector extends StatelessWidget {
                     context.read<SelectedPersonCubit>().selectPerson(person);
                   },
                   child: Container(
-                    constraints: BoxConstraints(minWidth: 160),
-                    margin: EdgeInsets.only(right: 8),
+                    constraints: const BoxConstraints(minWidth: 160),
+                    margin: const EdgeInsets.only(right: 8),
                     child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),

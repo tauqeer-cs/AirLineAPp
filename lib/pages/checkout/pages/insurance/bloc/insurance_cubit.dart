@@ -5,6 +5,8 @@ import 'package:app/data/responses/verify_response.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../utils/constant_utils.dart';
+
 part 'insurance_state.dart';
 
 class InsuranceCubit extends Cubit<InsuranceState> {
