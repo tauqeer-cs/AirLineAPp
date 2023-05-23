@@ -47,7 +47,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
 
-    double width = MediaQuery.of(context).size.width / 20.5;
+    double width = MediaQuery.of(context).size.width / 19;
 
     return AlertDialog(
       backgroundColor: Colors.white,
