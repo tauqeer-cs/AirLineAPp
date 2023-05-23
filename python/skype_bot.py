@@ -1,3 +1,4 @@
+"""
 h='r'
 g='System.Title'
 f='System.WorkItemType'
@@ -47,3 +48,4 @@ for (b,c) in a:
     if b in('-n','--name'):E=c
 B(E)
 U.sendMsg('New release version: '+C+'\nEnv: IOS and Android '+E+'\nDeployed Task:\n\n'+K)
+"""
