@@ -78,7 +78,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -132,67 +132,78 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                   'iconInfoSystem', 'apisTitle'.tr(), 'checkInApisInfo'.tr()),
             ),
             kVerticalSpacer,
-            Container(
-              color: Styles.greyLineColor,
-              width: double.infinity,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: RichText(
-                  textAlign: TextAlign.justify,
-                  text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                    children: [
-                      TextSpan(text: 'dangerourGoodAre'.tr()),
-                      TextSpan(
-                        text: 'not'.tr(),
-                        style:  TextStyle(
-                          backgroundColor: Styles.kPrimaryColor,
-                        ),
-                      ),
-                      TextSpan(text: 'takenIntoCabin'.tr()),
-                    ],
-                  ),
-                )
-                ,
+            Image.asset(
+              "assets/images/design/dg_mobile.png",
 
-              ),
             ),
-            kVerticalSpacer,
-            buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(),
-                'iconExplosives', 'explosives'.tr()),
-            kVerticalSpacer,
-            buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(),
-                'iconBlunt', 'bluntObjects'.tr()),
-            kVerticalSpacer,
-            buildDoubleRow('iconMeals', 'selfHeating'.tr(), 'iconBioHazard',
-                'biohazards'.tr()),
-            kVerticalSpacer,
-            buildDoubleRow('iconCorrosive', 'chemicals'.tr(), 'iconGas',
-                'compressed'.tr()),
-            kVerticalSpacer,
-            buildDoubleRow('iconBattery', 'batteries'.tr(), 'iconFirearm',
-                'firearms'.tr()),
-            kVerticalSpacer,
-            buildDoubleRow('iconPlants', 'livePlants'.tr(),
-                'iconDisablingDevice', 'disablingDevices'.tr()),
-            kVerticalSpacer,
+            if(false) ... [
+              Container(
+                color: Styles.greyLineColor,
+                width: double.infinity,
+                child: Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: RichText(
+                    textAlign: TextAlign.justify,
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      children: [
+                        TextSpan(text: 'dangerourGoodAre'.tr()),
+                        TextSpan(
+                          text: 'not'.tr(),
+                          style:  TextStyle(
+                            backgroundColor: Styles.kPrimaryColor,
+                          ),
+                        ),
+                        TextSpan(text: 'takenIntoCabin'.tr()),
+                      ],
+                    ),
+                  )
+                  ,
+
+                ),
+              ),
+              kVerticalSpacer,
+              buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(),
+                  'iconExplosives', 'explosives'.tr()),
+              kVerticalSpacer,
+              buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(),
+                  'iconBlunt', 'bluntObjects'.tr()),
+              kVerticalSpacer,
+              buildDoubleRow('iconMeals', 'selfHeating'.tr(), 'iconBioHazard',
+                  'biohazards'.tr()),
+              kVerticalSpacer,
+              buildDoubleRow('iconCorrosive', 'chemicals'.tr(), 'iconGas',
+                  'compressed'.tr()),
+              kVerticalSpacer,
+              buildDoubleRow('iconBattery', 'batteries'.tr(), 'iconFirearm',
+                  'firearms'.tr()),
+              kVerticalSpacer,
+              buildDoubleRow('iconPlants', 'livePlants'.tr(),
+                  'iconDisablingDevice', 'disablingDevices'.tr()),
+              kVerticalSpacer,
+            ],
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Checkbox(
-                  checkColor: Colors.white,
-                  fillColor: MaterialStateProperty.resolveWith(getColor),
-                  value: checked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      checked = value ?? false;
-                    });
-                  },
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Checkbox(
+                    checkColor: Colors.white,
+                    fillColor: MaterialStateProperty.resolveWith(getColor),
+                    value: checked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        checked = value ?? false;
+                      });
+                    },
+                  ),
                 ),
                 Expanded(
                   child: RichText(
@@ -225,7 +236,8 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                       ],
                     ),
                   ),
-                )
+                ),
+                SizedBox(width: 16,),
               ],
             ),
             kVerticalSpacer,

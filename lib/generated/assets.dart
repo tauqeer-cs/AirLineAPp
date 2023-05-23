@@ -5,6 +5,7 @@ class Assets {
   static const String designAuthBg = 'assets/images/design/auth_bg.png';
   static const String designBaggageSmall = 'assets/images/design/baggageSmall.png';
   static const String designBgsky = 'assets/images/design/bgsky.png';
+  static const String designDgMobile = 'assets/images/design/dg_mobile.png';
   static const String designDisclaimer = 'assets/images/design/disclaimer.png';
   static const String designGridBackground = 'assets/images/design/gridBackground.png';
   static const String designHomeBg = 'assets/images/design/home_bg.png';
@@ -38,16 +39,36 @@ class Assets {
   static const String fontsEncodeSansThin = 'assets/fonts/EncodeSans-Thin.ttf';
   static const String fontsMyFlutterApp = 'assets/fonts/MyFlutterApp.ttf';
   static const String iconsIcoFlightBlack = 'assets/images/icons/icoFlightBlack.png';
+  static const String iconsIcoFlightDisabled = 'assets/images/icons/icoFlightDisabled.png';
   static const String iconsIcoVisa = 'assets/images/icons/icoVisa.png';
+  static const String iconsIconBaggage = 'assets/images/icons/iconBaggage.png';
+  static const String iconsIconBattery = 'assets/images/icons/iconBattery.png';
+  static const String iconsIconBioHazard = 'assets/images/icons/iconBioHazard.png';
+  static const String iconsIconBlunt = 'assets/images/icons/iconBlunt.png';
+  static const String iconsIconBoarding = 'assets/images/icons/iconBoarding.png';
+  static const String iconsIconCheckIn = 'assets/images/icons/iconCheckIn.png';
+  static const String iconsIconCorrosive = 'assets/images/icons/iconCorrosive.png';
+  static const String iconsIconCovid = 'assets/images/icons/iconCovid.png';
+  static const String iconsIconDisablingDevice = 'assets/images/icons/iconDisablingDevice.png';
+  static const String iconsIconDocuments = 'assets/images/icons/iconDocuments.png';
+  static const String iconsIconExplosives = 'assets/images/icons/iconExplosives.png';
   static const String iconsIconFamily = 'assets/images/icons/iconFamily.png';
+  static const String iconsIconFirearm = 'assets/images/icons/iconFirearm.png';
+  static const String iconsIconFlamable = 'assets/images/icons/iconFlamable.png';
   static const String iconsIconFlight = 'assets/images/icons/iconFlight.png';
+  static const String iconsIconGas = 'assets/images/icons/iconGas.png';
   static const String iconsIconHide = 'assets/images/icons/iconHide.png';
   static const String iconsIconInfo = 'assets/images/icons/iconInfo.png';
+  static const String iconsIconInfoSystem = 'assets/images/icons/iconInfoSystem.png';
+  static const String iconsIconKnife = 'assets/images/icons/iconKnife.png';
   static const String iconsIconLogout = 'assets/images/icons/iconLogout.png';
+  static const String iconsIconMeals = 'assets/images/icons/iconMeals.png';
   static const String iconsIconMoreInfo = 'assets/images/icons/iconMoreInfo.png';
   static const String iconsIconNoFlight = 'assets/images/icons/iconNoFlight.png';
   static const String iconsIconPayment = 'assets/images/icons/iconPayment.png';
+  static const String iconsIconPlants = 'assets/images/icons/iconPlants.png';
   static const String iconsIconPref = 'assets/images/icons/iconPref.png';
+  static const String iconsIconProhibited = 'assets/images/icons/iconProhibited.png';
   static const String iconsIconSetting = 'assets/images/icons/iconSetting.png';
   static const String iconsIconShow = 'assets/images/icons/iconShow.png';
   static const String iconsIconVoucher = 'assets/images/icons/iconVoucher.png';
@@ -55,7 +76,9 @@ class Assets {
   static const String iconsInsuranceAll = 'assets/images/icons/insurance_all.png';
   static const String iconsInsuranceInactive = 'assets/images/icons/insurance_inactive.png';
   static const String iconsInsuranceSingle = 'assets/images/icons/insurance_single.png';
+  static const String iconsLanguage = 'assets/images/icons/language.png';
   static const String iconsMc = 'assets/images/icons/mc.png';
+  static const String iconsPlaneCircle = 'assets/images/icons/planeCircle.png';
   static const String iconsTrash = 'assets/images/icons/trash.png';
   static const String iconsUnionpayLogo = 'assets/images/icons/unionpay_logo.png';
   static const String iconsVisa = 'assets/images/icons/visa.png';
@@ -83,5 +106,7 @@ class Assets {
   static const String pdfZurich = 'assets/pdf/zurich.pdf';
   static const String svgSeatsArrowLeft = 'assets/images/svg/seats_arrow_left.svg';
   static const String svgSeatsArrowRight = 'assets/images/svg/seats_arrow_right.svg';
+  static const String translationsEn = 'assets/translations/en.json';
+  static const String translationsTh = 'assets/translations/th.json';
 
 }
