@@ -47,6 +47,8 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
 
+    double width = MediaQuery.of(context).size.width / 20.5;
+
     return AlertDialog(
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -142,9 +144,9 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                   child: RichText(
                     textAlign: TextAlign.left,
                     text: TextSpan(
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: Colors.white,
-                        fontSize: 19,
+                        fontSize: width ,
                         fontWeight: FontWeight.w900,
                       ),
                       children: [
