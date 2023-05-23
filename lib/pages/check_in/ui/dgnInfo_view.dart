@@ -140,30 +140,42 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                 width: double.infinity,
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  child: RichText(
-                    textAlign: TextAlign.left,
-                    text: TextSpan(
-                      style:  TextStyle(
-                        color: Colors.white,
-                        fontSize: width ,
-                        fontWeight: FontWeight.w900,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: 'dangerourGoodAre'.tr(),
-                        ),
-                        TextSpan(
-                          text: 'not'.tr(),
-                          style: TextStyle(
-                            backgroundColor: Styles.kPrimaryColor,
+                      const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    children: [
+                      Expanded(child: Container()),
+
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width/1.27,
+                        child: RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            style:  TextStyle(
+                              color: Colors.white,
+                              fontSize: (MediaQuery.of(context).size.width/1.27)/16.4 ,
+                              fontWeight: FontWeight.w900,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: 'dangerourGoodAre'.tr(),
+                              ),
+                              TextSpan(
+                                text: 'not'.tr(),
+                                style: TextStyle(
+                                  backgroundColor: Styles.kPrimaryColor,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'takenIntoCabin'.tr(),
+                              ),
+                            ],
                           ),
                         ),
-                        TextSpan(
-                          text: 'takenIntoCabin'.tr(),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Expanded(child: Container()),
+
+
+                    ],
                   ),
                 ),
               ),
