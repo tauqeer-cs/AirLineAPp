@@ -132,39 +132,37 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                   'iconInfoSystem', 'apisTitle'.tr(), 'checkInApisInfo'.tr()),
             ),
             kVerticalSpacer,
-            Image.asset(
-              "assets/images/design/dg_mobile.png",
-
-            ),
-            if(false) ... [
+            if (true) ...[
               Container(
                 color: Styles.greyLineColor,
                 width: double.infinity,
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: RichText(
-                    textAlign: TextAlign.justify,
+                    textAlign: TextAlign.left,
                     text: TextSpan(
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 19,
                         fontWeight: FontWeight.w900,
                       ),
                       children: [
-                        TextSpan(text: 'dangerourGoodAre'.tr()),
+                        TextSpan(
+                          text: 'dangerourGoodAre'.tr(),
+                        ),
                         TextSpan(
                           text: 'not'.tr(),
-                          style:  TextStyle(
+                          style: TextStyle(
                             backgroundColor: Styles.kPrimaryColor,
                           ),
                         ),
-                        TextSpan(text: 'takenIntoCabin'.tr()),
+                        TextSpan(
+                          text: 'takenIntoCabin'.tr(),
+                        ),
                       ],
                     ),
-                  )
-                  ,
-
+                  ),
                 ),
               ),
               kVerticalSpacer,
@@ -187,7 +185,6 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                   'iconDisablingDevice', 'disablingDevices'.tr()),
               kVerticalSpacer,
             ],
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -237,7 +234,9 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                     ),
                   ),
                 ),
-                SizedBox(width: 16,),
+                SizedBox(
+                  width: 16,
+                ),
               ],
             ),
             kVerticalSpacer,
@@ -265,20 +264,24 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
                             ),
-                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.pressed)) {
                                   return Styles.kActiveColor.withOpacity(0.5);
-                                } else if (states.contains(MaterialState.disabled)) {
-                                  return Color.fromRGBO(169, 169, 169, 1.0);//rgb(37, 150, 190)
+                                } else if (states
+                                    .contains(MaterialState.disabled)) {
+                                  return Color.fromRGBO(
+                                      169, 169, 169, 1.0); //rgb(37, 150, 190)
 
                                 }
-                                return Styles.kPrimaryColor; // Use the component's default./ Use the component's default.
+                                return Styles
+                                    .kPrimaryColor; // Use the component's default./ Use the component's default.
                               },
                             ),
-
                           ),
                           onPressed: checked == false
                               ? null
@@ -320,7 +323,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   Widget buildDoubleRow(
       String imageOne, String textOne, String imageTwo, String textTwo) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(left: 20,right: 12),
       child: Row(
         children: [
           Expanded(
@@ -328,13 +331,13 @@ class _DgnInfoViewState extends State<DgnInfoView> {
               children: [
                 Image.asset(
                   "assets/images/icons/$imageOne.png",
-                  width: 44,
-                  height: 44,
+                  width: 56,
+                  height: 56,
                 ),
                 kHorizontalSpacerSmall,
                 Text(
                   textOne,
-                  style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
+                  style: kTinySemiBold.copyWith(color: Styles.kSubTextColor),
                 ),
               ],
             ),
@@ -344,15 +347,15 @@ class _DgnInfoViewState extends State<DgnInfoView> {
               children: [
                 Image.asset(
                   "assets/images/icons/$imageTwo.png",
-                  width: 44,
-                  height: 44,
+                  width: 56,
+                  height: 56,
                 ),
                 kHorizontalSpacerSmall,
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
                     textTwo,
-                    style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
+                    style: kTinySemiBold.copyWith(color: Styles.kSubTextColor),
                   ),
                 ),
               ],
