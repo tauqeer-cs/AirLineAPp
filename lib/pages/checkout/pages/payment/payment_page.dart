@@ -126,7 +126,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             if (mounted) {
                               Toast.of(context).show(
                                   message:
-                                      'Oops sorry, this promo is not applicable for your card type.');
+                                      'visa_ops'.tr());
+
                             }
                           } else if (status != "FAIL") {
                             if (mounted) {
@@ -154,7 +155,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             context.router.replaceAll([
                               const NavigationRoute(),
                               BookingConfirmationRoute(
-                                  bookingId: superPNR ?? "",)
+                                  bookingId: superPNR ?? "", status: status ?? '',)
                             ]);
                           } else {
                             if (mounted) {

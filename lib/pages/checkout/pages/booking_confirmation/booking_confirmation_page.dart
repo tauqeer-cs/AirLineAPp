@@ -16,9 +16,11 @@ import '../../../check_in/bloc/check_in_cubit.dart';
 class BookingConfirmationPage extends StatefulWidget {
   final String bookingId;
 
+  final String status;
+
   const BookingConfirmationPage({
     Key? key,
-    @PathParam('id') required this.bookingId,
+    @PathParam('id') required this.bookingId, required this.status,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,9 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
   @override
   void initState() {
     super.initState();
+
+    print('object');
+    //CON == sucess
   }
 
   @override
@@ -44,7 +49,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
       useDefaultLoading: false,
       child: BlocProvider(
         create: (context) =>
-            ConfirmationCubit()..getConfirmation(widget.bookingId),
+            ConfirmationCubit()..getConfirmation(widget.bookingId,widget.status),
         child: Scaffold(
           appBar: AppAppBar(
             title: "confirmation".tr(),
@@ -56,7 +61,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
             builder: (context, state) {
               return blocBuilderWrapper(
                 blocState: state.blocState,
-                finishedBuilder: const ConfirmationView(),
+                finishedBuilder:  ConfirmationView(pnr: widget.bookingId, status: widget.status,),
                 loadingBuilder: const SingleChildScrollView(
                   padding: kPagePadding,
                   child: BookingLoader(),

@@ -18,8 +18,11 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ConfirmationView extends StatefulWidget {
+  final String pnr;
+  final String status;
+
   const ConfirmationView({
-    Key? key,
+    Key? key, required this.pnr, required this.status,
   }) : super(key: key);
 
   @override
@@ -64,18 +67,53 @@ class _ConfirmationViewState extends State<ConfirmationView> {
             padding: kPagePadding,
             children: [
               kVerticalSpacerSmall,
-              Text(
-                "confirmationView.bookingConfirm".tr(),
-                style: kMediumRegular.copyWith(
-                    color: Styles.kSubTextColor, height: 1.5),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "${confirmationDetail.confirmationModel?.value?.bookingContact?.email}",
-                style: kMediumMedium.copyWith(
-                    color: Styles.kTextColor, height: 1.5),
-                textAlign: TextAlign.center,
-              ),
+
+              if(widget.status == 'PPB' || widget.status == 'BIP') ... [
+
+                Text(
+                  'confirmationView.statusPending'.tr(),
+                  style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                  textAlign: TextAlign.center,
+                ),
+                kVerticalSpacerMini,
+
+                Text(
+                  "confirmationView.bookingPayment".tr(),
+                  style: kMediumRegular.copyWith(
+                      color: Styles.kSubTextColor, height: 1.5),
+                  textAlign: TextAlign.center,
+                ),
+
+              ] else if(widget.status == 'EXP') ... [
+                Text(
+                  "confirmationView.statusExpired".tr(),
+                  style: kMediumRegular.copyWith(
+                      color: Styles.kSubTextColor, height: 1.5),
+                  textAlign: TextAlign.center,
+                ),
+              ] else if(widget.status == 'CON') ... [
+                Text(
+                  "confirmationView.bookingConfirm".tr(),
+                  style: kMediumRegular.copyWith(
+                      color: Styles.kSubTextColor, height: 1.5),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  "${confirmationDetail.confirmationModel?.value?.bookingContact?.email}",
+                  style: kMediumMedium.copyWith(
+                      color: Styles.kTextColor, height: 1.5),
+                  textAlign: TextAlign.center,
+                ),
+              ] else ... [
+                Text(
+                  "confirmationView.statusDefault".tr(),
+                  style: kMediumRegular.copyWith(
+                      color: Styles.kSubTextColor, height: 1.5),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+
+
               kVerticalSpacerSmall,
               Text(
                 "${'confirmationView.bookingReference'.tr()} :  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
