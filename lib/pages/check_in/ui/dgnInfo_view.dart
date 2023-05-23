@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
@@ -47,7 +48,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
 
-    double width = MediaQuery.of(context).size.width / 19;
+    double width = MediaQuery.of(context).size.width;
 
     return AlertDialog(
       backgroundColor: Colors.white,
@@ -152,7 +153,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                           text: TextSpan(
                             style:  TextStyle(
                               color: Colors.white,
-                              fontSize: (MediaQuery.of(context).size.width/1.27)/16.4 ,
+                              fontSize: true ? 20.w : (MediaQuery.of(context).size.width/1.27)/16.4 ,
                               fontWeight: FontWeight.w900,
                             ),
                             children: [
