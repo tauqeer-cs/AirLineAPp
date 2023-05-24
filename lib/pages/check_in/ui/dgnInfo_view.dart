@@ -1,11 +1,10 @@
+import 'package:app/pages/check_in/bloc/check_in_cubit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
 import '../../../theme/spacer.dart';
@@ -13,8 +12,6 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/security_utils.dart';
 import '../../../widgets/app_loading_screen.dart';
-import '../bloc/check_in_cubit.dart';
-import '../check_in_error_page.dart';
 
 class DgnInfoView extends StatefulWidget {
   final Function(bool) valueChanged;
@@ -139,45 +136,62 @@ class _DgnInfoViewState extends State<DgnInfoView> {
               Container(
                 color: Styles.greyLineColor,
                 width: double.infinity,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    children: [
-                      Expanded(child: Container()),
-
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width/1.27,
-                        child: RichText(
-                          textAlign: TextAlign.left,
-                          text: TextSpan(
-                            style:  TextStyle(
-                              color: Colors.white,
-                              fontSize: true ? ScreenUtil().setSp(20) : (MediaQuery.of(context).size.width/1.27)/16.4 ,
-                              fontWeight: FontWeight.w900,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: 'dangerourGoodAre'.tr(),
-                              ),
-                              TextSpan(
-                                text: 'not'.tr(),
-                                style: TextStyle(
-                                  backgroundColor: Styles.kPrimaryColor,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'takenIntoCabin'.tr(),
-                              ),
-                            ],
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.fill,
+                      child: RichText(
+                        textAlign: TextAlign.justify,
+                        text: TextSpan(
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: true
+                                ? ScreenUtil().setSp(40)
+                                : (MediaQuery.of(context).size.width / 1.27) / 16.4,
+                            fontWeight: FontWeight.w900,
                           ),
+                          children: [
+                            TextSpan(
+                              text: 'dangerourGoodAre'.tr(),
+                            ),
+                            TextSpan(
+                              text: 'not'.tr(),
+                              style: TextStyle(
+                                backgroundColor: Styles.kPrimaryColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Expanded(child: Container()),
-
-
-                    ],
-                  ),
+                    ),
+                    FittedBox(
+                      child: Text(
+                        'takenIntoCabin'.tr(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: true
+                              ? ScreenUtil().setSp(40)
+                              : (MediaQuery.of(context).size.width / 1.27) / 16.4,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                    FittedBox(
+                      child: Text(
+                        'orAsCheckedIn'.tr(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: true
+                              ? ScreenUtil().setSp(40)
+                              : (MediaQuery.of(context).size.width / 1.27) / 16.4,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               kVerticalSpacer,
@@ -338,7 +352,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   Widget buildDoubleRow(
       String imageOne, String textOne, String imageTwo, String textTwo) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20,right: 12),
+      padding: const EdgeInsets.only(left: 20, right: 12),
       child: Row(
         children: [
           Expanded(
