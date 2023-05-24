@@ -83,7 +83,7 @@
   "passengerServiceCharge": "Passenger Service Charge (Domestic)",
   "regulatoryServiceCharge": "Regulatory Service Charge",
   "salesServiceTax": "Sales & Service Tax",
-  "importantInformation": "Important Information:",
+  "importantInformation": "Important Information",
   "idNameMatch": "Names on IDs and passports must match.",
   "nameBothFieldsRequired": "The name should be entered in both fields if it consists only of a single word-name.",
   "confirmationNoChanges": "Once your booking is confirmed, you are not allowed to make any changes",
