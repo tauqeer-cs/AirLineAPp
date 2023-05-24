@@ -153,7 +153,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                           text: TextSpan(
                             style:  TextStyle(
                               color: Colors.white,
-                              fontSize: true ? 20.w : (MediaQuery.of(context).size.width/1.27)/16.4 ,
+                              fontSize: true ? ScreenUtil().setSp(20) : (MediaQuery.of(context).size.width/1.27)/16.4 ,
                               fontWeight: FontWeight.w900,
                             ),
                             children: [
