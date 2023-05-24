@@ -44,9 +44,6 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   @override
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
-
-    double width = MediaQuery.of(context).size.width;
-
     return AlertDialog(
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -132,117 +129,50 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                   'iconInfoSystem', 'apisTitle'.tr(), 'checkInApisInfo'.tr()),
             ),
             kVerticalSpacer,
-            if (true) ...[
-              /*Container(
-                color: Styles.greyLineColor,
-                width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(
-                      fit: BoxFit.fill,
-                      child: RichText(
-                        textAlign: TextAlign.justify,
-                        text: TextSpan(
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: true
-                                ? ScreenUtil().setSp(40)
-                                : (MediaQuery.of(context).size.width / 1.27) / 16.4,
-                            fontWeight: FontWeight.w900,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'dangerourGoodAre'.tr(),
-                            ),
-                            TextSpan(
-                              text: 'not'.tr(),
-                              style: TextStyle(
-                                backgroundColor: Styles.kPrimaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    FittedBox(
-                      child: Text(
-                        'takenIntoCabin'.tr(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: true
-                              ? ScreenUtil().setSp(40)
-                              : (MediaQuery.of(context).size.width / 1.27) / 16.4,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
-                    FittedBox(
-                      child: Text(
-                        'orAsCheckedIn'.tr(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: true
-                              ? ScreenUtil().setSp(40)
-                              : (MediaQuery.of(context).size.width / 1.27) / 16.4,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),*/
-              Container(
-                color: Styles.greyLineColor,
-                width: MediaQuery.of(context).size.width,
-                height: 110,
-                padding:
-                const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                child: AutoSizeText.rich(
+            Container(
+              color: Styles.greyLineColor,
+              width: MediaQuery.of(context).size.width,
+              height: 110,
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              child: AutoSizeText.rich(
+                TextSpan(text: 'dangerourGoodAre'.tr(), children: [
                   TextSpan(
-                      text: 'dangerourGoodAre'.tr(),
-                      children: [
-                        TextSpan(
-                          text: "${'not'.tr()}\n",
-                          style: TextStyle(
-                            backgroundColor: Styles.kPrimaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'takenIntoCabin'.tr(),
-                        ),
-                      ]
+                    text: "${'not'.tr()}\n",
+                    style: TextStyle(
+                      backgroundColor: Styles.kPrimaryColor,
+                    ),
                   ),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                    fontWeight: FontWeight.w900,
+                  TextSpan(
+                    text: 'takenIntoCabin'.tr(),
                   ),
-                  minFontSize: 5,
+                ]),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 50,
+                  fontWeight: FontWeight.w900,
                 ),
+                minFontSize: 5,
               ),
-              kVerticalSpacer,
-              buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(),
-                  'iconExplosives', 'explosives'.tr()),
-              kVerticalSpacer,
-              buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(),
-                  'iconBlunt', 'bluntObjects'.tr()),
-              kVerticalSpacer,
-              buildDoubleRow('iconMeals', 'selfHeating'.tr(), 'iconBioHazard',
-                  'biohazards'.tr()),
-              kVerticalSpacer,
-              buildDoubleRow('iconCorrosive', 'chemicals'.tr(), 'iconGas',
-                  'compressed'.tr()),
-              kVerticalSpacer,
-              buildDoubleRow('iconBattery', 'batteries'.tr(), 'iconFirearm',
-                  'firearms'.tr()),
-              kVerticalSpacer,
-              buildDoubleRow('iconPlants', 'livePlants'.tr(),
-                  'iconDisablingDevice', 'disablingDevices'.tr()),
-              kVerticalSpacer,
-            ],
+            ),
+            kVerticalSpacer,
+            buildDoubleRow('iconKnife', 'shareObjWeapons'.tr(),
+                'iconExplosives', 'explosives'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconFlamable', 'flammableSubstances'.tr(),
+                'iconBlunt', 'bluntObjects'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconMeals', 'selfHeating'.tr(), 'iconBioHazard',
+                'biohazards'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconCorrosive', 'chemicals'.tr(), 'iconGas',
+                'compressed'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconBattery', 'batteries'.tr(), 'iconFirearm',
+                'firearms'.tr()),
+            kVerticalSpacer,
+            buildDoubleRow('iconPlants', 'livePlants'.tr(),
+                'iconDisablingDevice', 'disablingDevices'.tr()),
+            kVerticalSpacer,
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -282,17 +212,13 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                               // add your navigation or on tap logic here
                               SecurityUtils.tryLaunch(
                                   'https://www.myairline.my/faq');
-
-                              /*
-
-                              * */
                             },
                         ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
               ],
@@ -332,7 +258,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                                   return Styles.kActiveColor.withOpacity(0.5);
                                 } else if (states
                                     .contains(MaterialState.disabled)) {
-                                  return Color.fromRGBO(
+                                  return const Color.fromRGBO(
                                       169, 169, 169, 1.0); //rgb(37, 150, 190)
 
                                 }
