@@ -130,28 +130,31 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             ),
             kVerticalSpacer,
             Container(
+
               color: Styles.greyLineColor,
               width: MediaQuery.of(context).size.width,
               height: 110,
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-              child: AutoSizeText.rich(
-                TextSpan(text: 'dangerourGoodAre'.tr(), children: [
-                  TextSpan(
-                    text: "${'not'.tr()}\n",
-                    style: TextStyle(
-                      backgroundColor: Styles.kPrimaryColor,
+              child: Center(
+                child: AutoSizeText.rich(
+                  TextSpan(text: 'dangerourGoodAre'.tr(), children: [
+                    TextSpan(
+                      text: "${'not'.tr()}\n",
+                      style: TextStyle(
+                        backgroundColor: Styles.kPrimaryColor,
+                      ),
                     ),
+                    TextSpan(
+                      text: 'takenIntoCabin'.tr(),
+                    ),
+                  ]),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.w900,
                   ),
-                  TextSpan(
-                    text: 'takenIntoCabin'.tr(),
-                  ),
-                ]),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 50,
-                  fontWeight: FontWeight.w900,
+                  minFontSize: 5,
                 ),
-                minFontSize: 5,
               ),
             ),
             kVerticalSpacer,
