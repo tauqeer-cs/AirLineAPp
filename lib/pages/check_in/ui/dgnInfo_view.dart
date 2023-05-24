@@ -1,10 +1,10 @@
 import 'package:app/pages/check_in/bloc/check_in_cubit.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../app/app_router.dart';
 import '../../../theme/spacer.dart';
@@ -133,7 +133,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             ),
             kVerticalSpacer,
             if (true) ...[
-              Container(
+              /*Container(
                 color: Styles.greyLineColor,
                 width: double.infinity,
                 padding:
@@ -192,6 +192,35 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                       ),
                     ),
                   ],
+                ),
+              ),*/
+              Container(
+                color: Styles.greyLineColor,
+                width: MediaQuery.of(context).size.width,
+                height: 110,
+                padding:
+                const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                child: AutoSizeText.rich(
+                  TextSpan(
+                      text: 'dangerourGoodAre'.tr(),
+                      children: [
+                        TextSpan(
+                          text: "${'not'.tr()}\n",
+                          style: TextStyle(
+                            backgroundColor: Styles.kPrimaryColor,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'takenIntoCabin'.tr(),
+                        ),
+                      ]
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.w900,
+                  ),
+                  minFontSize: 5,
                 ),
               ),
               kVerticalSpacer,

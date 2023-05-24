@@ -1015,8 +1015,6 @@
   "subtotal" : "Subtotal",
   "dangerourGoodAre" : "DANGEROUS GOODS ARE ",
   "not" : "NOT" ,
-  "takenIntoCabin" : "TO BE TAKEN INTO THE CABIN",
-  "orAsCheckedIn" : "OR AS CHECKED-IN BAGGAGE.",
-
+  "takenIntoCabin" : "TO BE TAKEN INTO THE CABIN\nOR AS CHECKED-IN BAGGAGE.",
   "visa_ops" : "Oops sorry, this promo is not applicable for your card type."
 }
