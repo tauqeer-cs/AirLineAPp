@@ -625,7 +625,7 @@
   "confirmationView.passengers": "Passengers",
   "confirmationView.bookingReference": "Booking Reference:",
   "confirmationView.bookingConfirm": "Your booking has been confirmed.\nA confirmation email has been sent to",
-  "confirmationView.bookingPayment": "Your payment is currently being processed. Please refresh this page after 5 minutes to receive your updated payment details.",
+  "confirmationView.bookingPayment": "Your payment is currently being processed.\nPlease stay on this page and refresh after 5 mins to receive your updated payment details.",
   "confirmationView.email": "Email",
   "confirmationView.manageBooking": "Manage Booking",
   "confirmationView.emailAddress": "Email Address",

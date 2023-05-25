@@ -14,7 +14,8 @@ class PaymentInfo extends StatefulWidget {
   final bool isChange;
   final List<PaymentOrder>? paymentOrders;
 
-  const PaymentInfo({Key? key,  this.isChange = false,this.paymentOrders}) : super(key: key);
+  const PaymentInfo({Key? key, this.isChange = false, this.paymentOrders})
+      : super(key: key);
 
   @override
   State<PaymentInfo> createState() => _PaymentInfoState();
@@ -23,63 +24,100 @@ class PaymentInfo extends StatefulWidget {
 class _PaymentInfoState extends State<PaymentInfo> {
   bool isExpand = true;
 
+  ConfirmationCubit? confirmationBloc;
+
+
   @override
   Widget build(BuildContext context) {
     List<PaymentOrder>? payments = [];
 
-    if(widget.isChange) {
-
-      payments  = widget.paymentOrders;
-
-    }
-    else {
-      payments  = context
+    String paymentState = '';
+    if (widget.isChange) {
+      payments = widget.paymentOrders;
+    } else {
+      payments = context
           .watch<ConfirmationCubit>()
           .state
           .confirmationModel
           ?.value
           ?.paymentOrders;
-    }
 
+      confirmationBloc = context
+          .watch<ConfirmationCubit>();
+
+      paymentState = context.watch<ConfirmationCubit>().state.bookingStatus;
+      print('');
+    }
 
     return AppCard(
       child: Column(
         children: [
-          InkWell(
-            onTap: () {
-              setState(() {
-                isExpand = !isExpand;
-              });
-            },
-            child: Row(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "paymentView.paymentTitle".tr(),
-                    style: kHugeSemiBold,
+          if ((payments?.isEmpty ?? false) &&
+              (paymentState == 'PPB' || paymentState == 'BIP')) ...[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "paymentView.paymentTitle".tr(),
+                style: kHugeSemiBold,
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 120, horizontal: 60),
+              child: OutlinedButton(
+                onPressed: () {
+
+                  if(widget.isChange) {
+
+                  }
+                  else {
+                    confirmationBloc?.refreshData();
+
+                  }
+                },
+                child: const Text('Refresh'),
+              ),
+            ),
+          ] else ...[
+            InkWell(
+              onTap: () {
+                setState(() {
+                  isExpand = !isExpand;
+                });
+              },
+              child: Row(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "paymentView.paymentTitle".tr(),
+                      style: kHugeSemiBold,
+                    ),
                   ),
-                ),
-                Icon(
-                  isExpand
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                  size: 24,
-                ),
-              ],
+                  Icon(
+                    isExpand
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    size: 24,
+                  ),
+                ],
+              ),
             ),
-          ),
-          ExpandedSection(
-            expand: isExpand,
-            child: Column(
-              children: [
-                kVerticalSpacerSmall,
-                ...(payments ?? [])
-                    .map((f) => PaymentDetail(paymentOrder: f, changeFlight: widget.isChange,))
-                    .toList(),
-              ],
+            ExpandedSection(
+              expand: isExpand,
+              child: Column(
+                children: [
+                  kVerticalSpacerSmall,
+                  ...(payments ?? [])
+                      .map((f) => PaymentDetail(
+                            paymentOrder: f,
+                            changeFlight: widget.isChange,
+                          ))
+                      .toList(),
+                ],
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
@@ -89,7 +127,10 @@ class _PaymentInfoState extends State<PaymentInfo> {
 class PaymentDetail extends StatelessWidget {
   final PaymentOrder paymentOrder;
   final bool changeFlight;
-  const PaymentDetail({Key? key, required this.paymentOrder, required this.changeFlight}) : super(key: key);
+
+  const PaymentDetail(
+      {Key? key, required this.paymentOrder, required this.changeFlight})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,17 +138,16 @@ class PaymentDetail extends StatelessWidget {
 
     var currency = 'MYR';
 
-    if(changeFlight) {
+    if (changeFlight) {
       print('');
-    }
-    else {
+    } else {
       currency = context
-          .watch<ConfirmationCubit>()
-          .state
-          .confirmationModel
-          ?.value
-          ?.fareAndBundleDetail
-          ?.currencyToShow ??
+              .watch<ConfirmationCubit>()
+              .state
+              .confirmationModel
+              ?.value
+              ?.fareAndBundleDetail
+              ?.currencyToShow ??
           'MYR';
     }
 
@@ -118,55 +158,53 @@ class PaymentDetail extends StatelessWidget {
         children: [
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
-            content:
-            '${paymentOrder.cardOption}',
+            content: '${paymentOrder.cardOption}',
             makeBoldAll: true,
-
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content: paymentOrder.cardNumber ?? "",
             makeBoldAll: true,
-
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content: paymentOrder.paymentStatusCode ?? "",
             makeBoldAll: true,
-
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content: paymentOrder.cardHolderName ?? "",
             makeBoldAll: true,
-
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content:
-            '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate,locale: locale)} ${'localTime'.tr()}',
+                '${AppDateUtils.formatTimeWithoutLocale(paymentOrder.paymentDate, locale: locale)} ${'localTime'.tr()}',
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
-            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate,locale: locale),
+            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate,
+                locale: locale),
           ),
           kVerticalSpacer,
           Row(
             children: [
               BorderedLeftContainerNoTitle(
-                content:
-                "flightCharge.total".tr(),
+                content: "flightCharge.total".tr(),
                 makeBoldAll: true,
               ),
-
-              Expanded(child: Container(),),
-
-              Text(paymentOrder.currencyCode ?? currency  + NumberUtils.formatNum(paymentOrder.paymentAmount), style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
-
-
+              Expanded(
+                child: Container(),
+              ),
+              Text(
+                  paymentOrder.currencyCode ??
+                      currency +
+                          NumberUtils.formatNum(paymentOrder.paymentAmount),
+                  style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
               Expanded(
                 flex: 2,
-                child: Container(),),
+                child: Container(),
+              ),
             ],
           ),
         ],
@@ -196,11 +234,12 @@ class BorderedLeftContainerNoTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if(makeBoldAll) ... [
-            Text(content, style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
-          ] else ... [
-            Text(content, style: kLargeRegular.copyWith(color: Styles.kTextColor)),
-
+          if (makeBoldAll) ...[
+            Text(content,
+                style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+          ] else ...[
+            Text(content,
+                style: kLargeRegular.copyWith(color: Styles.kTextColor)),
           ]
         ],
       ),

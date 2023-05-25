@@ -37,6 +37,8 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
     //CON == sucess
   }
 
+  ConfirmationCubit? confirmationBloc;
+
   @override
   Widget build(BuildContext context) {
     print("booking ${widget.bookingId}");
@@ -48,11 +50,16 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
     return LoaderOverlay(
       useDefaultLoading: false,
       child: BlocProvider(
-        create: (context) =>
-            ConfirmationCubit()..getConfirmation(widget.bookingId,widget.status),
+        create: (context) {
+          confirmationBloc = ConfirmationCubit()..getConfirmation(widget.bookingId,widget.status);
+          setState(() {
+
+          });
+          return confirmationBloc!;
+        },
         child: Scaffold(
           appBar: AppAppBar(
-            title: "confirmation".tr(),
+            title: confirmationBloc == null ? "confirmation".tr()  : confirmationBloc!.bookingViewHeading,
             titleColor: Styles.kPrimaryColor,
             height: 60.h,
             centerTitle: true,
