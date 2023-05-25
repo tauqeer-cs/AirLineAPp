@@ -14,6 +14,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../../../data/responses/verify_response.dart';
 
 class InsuranceView extends StatefulWidget {
@@ -65,6 +66,31 @@ class _InsuranceViewState extends State<InsuranceView> {
 
     final firstInsurance = insurances.firstOrNull;
 
+    String? logoImage = '';
+    if(insurances.isNotEmpty) {
+      final agentCms = context.watch<AgentSignUpCubit>().state;
+
+      String insuranceCode = firstInsurance?.codeType ?? '';
+
+      if(agentCms.locationItem != null) {
+        if(agentCms.locationItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+          logoImage = agentCms.locationItem?.bannerUrl;
+        }
+      }
+
+      if((logoImage ?? '').isEmpty) {
+        if(agentCms.internationalItem != null) {
+          if(agentCms.internationalItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+            logoImage = agentCms.internationalItem?.bannerUrl;
+          }
+        }
+      }
+
+      print('');
+
+
+    }
+
     print("insurance is ${insuranceState.totalInsurance()}");
     return Stack(
       children: [
@@ -78,10 +104,15 @@ class _InsuranceViewState extends State<InsuranceView> {
                 "myAirTravelInsurance".tr(),
                 style: kHugeHeavy,
               ),
+              if(insurances.isNotEmpty) ... [
+                kVerticalSpacer,
+                const ZurichContainer(),
+              ],
+
               kVerticalSpacer,
-              const ZurichContainer(),
-              kVerticalSpacer,
+
               AvailableInsurance(),
+
               InsuranceTerms(
                 isInternational:
                     firstInsurance?.codeType?.contains('SL') == true,
