@@ -81,7 +81,7 @@ class _CMSProvider implements CMSProvider {
   @override
   Future<CMSFlight> getSSRContent(
     key, {
-    query = "content,image,title,description,code",
+    query = "content,image,title,description,code,banner,bannerUrl",
     deep = "6",
     language = "en",
   }) async {

@@ -260,8 +260,21 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
   }
   GlobalKey<BookingDetailsViewState> detialsKey = GlobalKey<BookingDetailsViewState>();
 
+  bool noInsurance = false;
+
   @override
   Widget build(BuildContext context) {
+
+    final bookingState = context.watch<BookingCubit>().state;
+
+
+
+    final insurances =
+        bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+
+    if(insurances.isEmpty) {
+      noInsurance = true;
+    }
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: LoaderOverlay(
@@ -301,7 +314,14 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
-                  context.router.push(const InsuranceRoute());
+                  if(noInsurance) {
+                    //context.router.push(const PaymentRoute());
+
+                  }
+                  else {
+                    context.router.push(const InsuranceRoute());
+                  }
+
 
                 },
               );
