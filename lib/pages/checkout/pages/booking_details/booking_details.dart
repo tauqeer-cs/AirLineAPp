@@ -316,6 +316,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       .summaryFlight(state.summaryRequest);
                   if(noInsurance) {
                     //context.router.push(const PaymentRoute());
+                    context.router.push(const InsuranceRoute());
 
                   }
                   else {
