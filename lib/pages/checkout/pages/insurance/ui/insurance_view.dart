@@ -74,19 +74,30 @@ class _InsuranceViewState extends State<InsuranceView> {
 
       if(agentCms.locationItem != null) {
         if(agentCms.locationItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
-          logoImage = agentCms.locationItem?.bannerUrl;
+          logoImage = agentCms.locationItem?.banner;
         }
       }
 
       if((logoImage ?? '').isEmpty) {
         if(agentCms.internationalItem != null) {
           if(agentCms.internationalItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
-            logoImage = agentCms.internationalItem?.bannerUrl;
+            logoImage = agentCms.internationalItem?.banner;
           }
         }
       }
 
-      print('');
+      if((logoImage ?? '').isEmpty){
+        if(insuranceCode.contains('DL')){
+          logoImage = agentCms.locationItem?.banner;
+        }
+
+      }
+
+      if((logoImage ?? '').isEmpty){
+        logoImage = agentCms.internationalItem?.banner;
+      }
+
+
 
 
     }
@@ -106,7 +117,7 @@ class _InsuranceViewState extends State<InsuranceView> {
               ),
               if(insurances.isNotEmpty) ... [
                 kVerticalSpacer,
-                const ZurichContainer(),
+                 ZurichContainer(bannerImageUrl: logoImage,),
               ],
 
               kVerticalSpacer,
