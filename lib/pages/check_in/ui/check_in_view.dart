@@ -89,7 +89,7 @@ class CheckInView extends StatelessWidget {
                       onPressed: () {
                         onManageBooking(context);
                       },
-                      child:  Text('Search'.tr()),
+                      child:  Text('search'.tr()),
                     )
                   ],
                 ),

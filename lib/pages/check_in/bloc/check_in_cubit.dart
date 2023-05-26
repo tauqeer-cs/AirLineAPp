@@ -383,8 +383,12 @@ class CheckInCubit extends Cubit<CheckInState> {
       if (verifyResponse.success == false) {
         ErrorUtils.showErrorMessage(verifyResponse.errorMessages);
 
+        ///                                    bloc.resetStatesForBoarding();
         emit(
-          state.copyWith(checkingInFlight: false),
+          state.copyWith(checkingInFlight: false,
+            inboundBoardingPassPassenger: [],
+            outboundBoardingPassPassenger: [],
+          ),
         );
 
         return false;
@@ -508,7 +512,11 @@ class CheckInCubit extends Cubit<CheckInState> {
     return state.manageBookingResponse?.result?.isReturn ?? false;
   }
 
-  void loadBoardingDate({bool inside = false}) async {
+  void loadBoardingDate({bool inside = false,bool forceCall = false}) async {
+
+    if(forceCall == true ){
+
+    } else
     if ((state.inboundBoardingPassPassenger ?? []).isNotEmpty ||
         (state.outboundBoardingPassPassenger ?? []).isNotEmpty) {
       return;
@@ -528,11 +536,6 @@ class CheckInCubit extends Cubit<CheckInState> {
           getOutboundPassenger:
               inside ? state.checkedDeparture : outBoundCheckInDoneForAnyUser);
 
-      // var request = GetBoardingPassPassengerRequest(
-      //   pNR: state.pnrEntered,
-      //    lastName: state.lastName,
-      //  getInboundPassenger:  inBoundCheckInDoneForAnyUser,
-      // getOutboundPassenger: outBoundCheckInDoneForAnyUser);
 
       BoardingpassPassengerResponse? response =
           await _checkInRepository.getBoardingpassPassenger(request);
@@ -600,7 +603,7 @@ class CheckInCubit extends Cubit<CheckInState> {
     }
   }
 
-  void updateBothSidesStatusForDownload(
+  void updateOutBoundtatusForDownload(
       BoardingPassPassenger currentItem, bool value) {
     var inbound = state.outboundBoardingPassPassenger;
 
@@ -613,26 +616,12 @@ class CheckInCubit extends Cubit<CheckInState> {
 
         emit(
           state.copyWith(
-              loadBoardingDate: false, inboundBoardingPassPassenger: inbound),
+              loadBoardingDate: false, outboundBoardingPassPassenger: inbound),
         );
       }
     }
 
-    if (index != null) {
-      var outbound = state.outboundBoardingPassPassenger;
 
-      index = outbound?.indexOf(currentItem);
-
-      BoardingPassPassenger? found = outbound?[index!];
-      if (found != null) {
-        found.checkedToDownload = value;
-
-        emit(
-          state.copyWith(
-              loadBoardingDate: false, outboundBoardingPassPassenger: outbound),
-        );
-      }
-    }
   }
 
   void resetList() {
@@ -653,6 +642,18 @@ class CheckInCubit extends Cubit<CheckInState> {
       outboundBoardingPassPassenger: false,
     ));
   }
+
+  Future<void> resetStatesForBoarding() async {
+
+
+    state.copyWith(
+      inboundBoardingPassPassenger: [],
+      outboundBoardingPassPassenger: [],
+
+    );
+
+  }
+
 
 /*
   bool get isReturn {

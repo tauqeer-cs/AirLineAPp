@@ -62,6 +62,8 @@ SSRItem _$SSRItemFromJson(Map<String, dynamic> json) => SSRItem(
           ?.map((e) => SSRItemType.fromJson(e as Map<String, dynamic>))
           .toList(),
       content: json['content'] as String?,
+      banner: json['banner'] as String?,
+      bannerUrl: json['bannerUrl'] as String?,
     );
 
 Map<String, dynamic> _$SSRItemToJson(SSRItem instance) {
@@ -77,6 +79,8 @@ Map<String, dynamic> _$SSRItemToJson(SSRItem instance) {
   writeNotNull('name', instance.name);
   writeNotNull('items', instance.items);
   writeNotNull('content', instance.content);
+  writeNotNull('banner', instance.banner);
+  writeNotNull('bannerUrl', instance.bannerUrl);
   return val;
 }
 
