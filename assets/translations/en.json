@@ -1017,5 +1017,6 @@
   "takenIntoCabin" : "TO BE TAKEN INTO THE CABIN\nOR AS CHECKED-IN BAGGAGE.",
   "visa_ops" : "Oops sorry, this promo is not applicable for your card type.",
   "paymentFailed" : "Payment failed",
+  "insuranceTempUnavailable" : "Insurance purchase\ntemporarily unavailable"
 
 }
