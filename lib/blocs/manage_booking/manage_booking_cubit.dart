@@ -572,11 +572,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.copyWith(loadingCheckoutPayment: true, message: ''),
       );
 
+
+
       var request = MmbCheckoutRequest(
         superPNRNo: state.superPnrNo ?? '',
         insertVoucher: voucher ?? '',
         orderId: state.orderId ?? 0,
         paymentDetail: PaymentDetail(
+        currency: state.manageBookingResponse?.result?.passengersWithSSR?.first.fareAndBundleDetail?.currencyToShow ?? 'MYR',
           frontendUrl: AppFlavor.paymentRedirectUrl,
           promoCode: '',
           totalAmountNeedToPay: state.changeFlightResponse?.result
