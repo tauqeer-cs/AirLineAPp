@@ -18,67 +18,69 @@ class ConfirmationCubit extends Cubit<ConfirmationState> {
   ConfirmationCubit() : super(const ConfirmationState());
 
   String get bookingViewHeading {
-
-    if(state.bookingStatus.isEmpty) {
+    if (state.bookingStatus.isEmpty) {
       return 'confirmation'.tr();
-    }
-    else if(state.bookingStatus == 'PPB' || state.bookingStatus == 'BIP') {
+    } else if (state.bookingStatus == 'PPB' || state.bookingStatus == 'BIP') {
       return 'confirmationView.statusPending'.tr();
-    }
-    else if(state.bookingStatus == 'EXP') {
+    } else if (state.bookingStatus == 'EXP') {
       return 'confirmationView.statusExpired'.tr();
     }
 
     return 'confirmation'.tr();
-
-
   }
-  getConfirmation(String id,String status) async {
-    emit(state.copyWith(blocState: BlocState.loading));
+
+  getConfirmation(String id, String status) async {
+    emit(state.copyWith(
+      blocState: BlocState.loading,
+      bookingStatus: status,
+    ));
     try {
       ConfirmationModel response = await _repository.bookingDetail(id);
 
-      if(status != 'CON'){
-
-
+      if (status != 'CON') {
 //        final manageRequest = ManageBookingRequest(pnr: id,lastname: false ? 'Ahmed' :response.value?.passengers?.first.surname ?? '');
 
-
-  //      _repositoryManage.getBookingInfo(manageRequest,);
+        //      _repositoryManage.getBookingInfo(manageRequest,);
 
       }
       emit(
         state.copyWith(
-          blocState: BlocState.finished,
-          confirmationModel: response,
-          bookingStatus: status,
-          bookingId: id
-        ),
+            blocState: BlocState.finished,
+            confirmationModel: response,
+            bookingStatus: status,
+            bookingId: id),
       );
     } catch (e, st) {
       emit(
         state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st),
-          blocState: BlocState.failed,
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed,
             bookingStatus: status,
-            bookingId: id
-        ),
+            bookingId: id),
       );
     }
   }
 
   void refreshData() async {
     emit(state.copyWith(blocState: BlocState.loading));
-    ConfirmationModel response = await _repository.bookingDetail(state.bookingId);
+    ConfirmationModel response =
+        await _repository.bookingDetail(false ? 'D5ZUO0P' : state.bookingId);
 
+    if (response.value == null) {
+      emit(
+        state.copyWith(
+          blocState: BlocState.finished,
+        ),
+      );
+      return;
+    }
     emit(
       state.copyWith(
-          blocState: BlocState.finished,
-          confirmationModel: response,
-        bookingId: response.value?.superPNROrder?.bookingStatusCode,
+        blocState: BlocState.finished,
+        confirmationModel: response,
+        bookingStatus: response.value?.superPNROrder?.bookingStatusCode,
 
       ),
     );
-
   }
 }
