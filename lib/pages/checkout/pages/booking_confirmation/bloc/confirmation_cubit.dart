@@ -5,17 +5,30 @@ import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../data/repositories/manage_book_repository.dart';
+import '../../../../../data/requests/manage_booking_request.dart';
+
 part 'confirmation_state.dart';
 
 class ConfirmationCubit extends Cubit<ConfirmationState> {
   final _repository = FlightRepository();
+  final _repositoryManage = ManageBookingRepository();
 
   ConfirmationCubit() : super(const ConfirmationState());
 
-  getConfirmation(String id) async {
+  getConfirmation(String id,String status) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      final response = await _repository.bookingDetail(id);
+      ConfirmationModel response = await _repository.bookingDetail(id);
+      if(status != 'CON'){
+
+
+//        final manageRequest = ManageBookingRequest(pnr: id,lastname: false ? 'Ahmed' :response.value?.passengers?.first.surname ?? '');
+
+
+  //      _repositoryManage.getBookingInfo(manageRequest,);
+
+      }
       emit(
         state.copyWith(
           blocState: BlocState.finished,

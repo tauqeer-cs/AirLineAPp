@@ -28,7 +28,7 @@ abstract class CMSProvider {
 
   @GET('shared/get')
   Future<CMSFlight> getSSRContent(@Query("key",) String key, {
-    @Query("query") String? query = "content,image,title,description,code",
+    @Query("query") String? query = "content,image,title,description,code,banner,bannerUrl",
     @Query("deep") String? deep = "6",
     @Query("lang") String? language = "en",
 

@@ -21,7 +21,7 @@ import '../../../../../theme/html_style.dart';
 import '../../../../../utils/security_utils.dart';
 
 class AvailableInsurance extends StatelessWidget {
-   AvailableInsurance({Key? key}) : super(key: key);
+   const AvailableInsurance({Key? key}) : super(key: key);
 
 
 

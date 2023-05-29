@@ -44,11 +44,14 @@ class SSRItem extends Equatable {
   final String? name;
   final List<SSRItemType>? items;
   final String? content;
+  final String? banner;
+  final String? bannerUrl;
 
-  const SSRItem({this.id, this.name, this.items, this.content});
+
+  const SSRItem( {this.id, this.name, this.items, this.content,this.banner, this.bannerUrl,});
 
   @override
-  List<Object?> get props => [id, name, items, content];
+  List<Object?> get props => [id, name, items, content,banner,bannerUrl];
 
   factory SSRItem.fromJson(Map<String, dynamic> json) =>
       _$SSRItemFromJson(json);

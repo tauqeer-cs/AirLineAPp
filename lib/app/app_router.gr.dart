@@ -216,15 +216,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     BookingConfirmationRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<BookingConfirmationRouteArgs>(
-          orElse: () => BookingConfirmationRouteArgs(
-              bookingId: pathParams.getString('id')));
+      final args = routeData.argsAs<BookingConfirmationRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: BookingConfirmationPage(
           key: args.key,
           bookingId: args.bookingId,
+          status: args.status,
         ),
       );
     },
@@ -1190,12 +1188,14 @@ class BookingConfirmationRoute
   BookingConfirmationRoute({
     Key? key,
     required String bookingId,
+    required String status,
   }) : super(
           BookingConfirmationRoute.name,
           path: '/booking-confirmation/:id',
           args: BookingConfirmationRouteArgs(
             key: key,
             bookingId: bookingId,
+            status: status,
           ),
           rawPathParams: {'id': bookingId},
         );
@@ -1207,15 +1207,18 @@ class BookingConfirmationRouteArgs {
   const BookingConfirmationRouteArgs({
     this.key,
     required this.bookingId,
+    required this.status,
   });
 
   final Key? key;
 
   final String bookingId;
 
+  final String status;
+
   @override
   String toString() {
-    return 'BookingConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
+    return 'BookingConfirmationRouteArgs{key: $key, bookingId: $bookingId, status: $status}';
   }
 }
 

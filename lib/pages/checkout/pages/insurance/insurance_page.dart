@@ -82,7 +82,9 @@ class _InsurancePageState extends State<InsurancePage> {
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);
+
                   context.router.push(const PaymentRoute());
+
                   if (context
                           .read<SettingsCubit>()
                           .state

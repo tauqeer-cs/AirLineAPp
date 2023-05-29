@@ -5,6 +5,7 @@ class Assets {
   static const String designAuthBg = 'assets/images/design/auth_bg.png';
   static const String designBaggageSmall = 'assets/images/design/baggageSmall.png';
   static const String designBgsky = 'assets/images/design/bgsky.png';
+  static const String designDgMobile = 'assets/images/design/dg_mobile.png';
   static const String designDisclaimer = 'assets/images/design/disclaimer.png';
   static const String designGridBackground = 'assets/images/design/gridBackground.png';
   static const String designHomeBg = 'assets/images/design/home_bg.png';
@@ -36,16 +37,8 @@ class Assets {
   static const String fontsEncodeSansSemiBold = 'assets/fonts/EncodeSans-SemiBold.ttf';
   static const String fontsEncodeSansThin = 'assets/fonts/EncodeSans-Thin.ttf';
   static const String fontsMyFlutterApp = 'assets/fonts/MyFlutterApp.ttf';
-  static const String iconsIcoAddbaggage = 'assets/images/icons/icoAddbaggage.png';
-  static const String iconsIcoAddbaggageSelected = 'assets/images/icons/icoAddbaggageSelected.png';
-  static const String iconsIcoAddmeals = 'assets/images/icons/icoAddmeals.png';
-  static const String iconsIcoAddmealsSelected = 'assets/images/icons/icoAddmealsSelected.png';
-  static const String iconsIcoAddseats = 'assets/images/icons/icoAddseats.png';
-  static const String iconsIcoAddseatsSelected = 'assets/images/icons/icoAddseatsSelected.png';
   static const String iconsIcoFlightBlack = 'assets/images/icons/icoFlightBlack.png';
   static const String iconsIcoFlightDisabled = 'assets/images/icons/icoFlightDisabled.png';
-  static const String iconsIcoGeneric = 'assets/images/icons/icoGeneric.png';
-  static const String iconsIcoGenericSelected = 'assets/images/icons/icoGenericSelected.png';
   static const String iconsIcoVisa = 'assets/images/icons/icoVisa.png';
   static const String iconsIconBaggage = 'assets/images/icons/iconBaggage.png';
   static const String iconsIconBattery = 'assets/images/icons/iconBattery.png';
@@ -91,7 +84,6 @@ class Assets {
   static const String iconsVisa2 = 'assets/images/icons/visa2.png';
   static const String iconsVisa3 = 'assets/images/icons/visa3.png';
   static const String iconsVisaRound = 'assets/images/icons/visa_round.png';
-  static const String iconsWheelchair = 'assets/images/icons/wheelchair.png';
   static const String iconsZurich = 'assets/images/icons/zurich.png';
   static const String imagesDesignIcoLuggage20 = 'assets/images/design/icoLuggage20.svg';
   static const String imagesNativeIcon = 'assets/images/native/icon.png';

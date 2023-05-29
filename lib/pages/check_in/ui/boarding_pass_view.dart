@@ -23,7 +23,6 @@ class BoardingPassView extends StatelessWidget {
     var bloc = context.watch<CheckInCubit>();
     var state = bloc.state;
 
-    bloc.loadBoardingDate(inside: true);
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -72,9 +71,20 @@ class BoardingPassView extends StatelessWidget {
               ),
             ] else ...[
               if (state.checkedDeparture == true &&
-                  state.checkReturn == false) ...[
+                  state.checkReturn == true) ...[
+
+                Text(
+                  'departFlight'.tr(),
+                  style: kLargeHeavy.copyWith(
+                    color: Styles.kTextColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+
+                    kVerticalSpacerSmall,
+
                 for (BoardingPassPassenger currentItem
-                    in state.outboundBoardingPassPassenger ?? []) ...[
+                in state.outboundBoardingPassPassenger ?? []) ...[
                   Column(
                     children: [
                       Padding(
@@ -82,7 +92,7 @@ class BoardingPassView extends StatelessWidget {
                         child: MyCheckbox(
                           label: currentItem.fullName ?? '',
                           changed: (bool value) {
-                            bloc.updateStatusOfOutBoundCheckUserForDownload(
+                            bloc.updateOutBoundtatusForDownload(
                                 currentItem, value);
                           },
                         ),
@@ -90,8 +100,22 @@ class BoardingPassView extends StatelessWidget {
                     ],
                   ),
                 ],
-              ] else if (state.checkedDeparture == false &&
+              ],
+
+
+              if (
                   state.checkReturn == true) ...[
+                kVerticalSpacer,
+                Text(
+                  'returningFlight'.tr(),
+                  style: kLargeHeavy.copyWith(
+                    color: Styles.kTextColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                kVerticalSpacerSmall,
+
+
                 for (BoardingPassPassenger currentItem
                     in state.inboundBoardingPassPassenger ?? []) ...[
                   Column(
@@ -109,26 +133,9 @@ class BoardingPassView extends StatelessWidget {
                     ],
                   ),
                 ],
-              ] else if (state.checkedDeparture == true &&
-                  state.checkReturn == true) ...[
-                for (BoardingPassPassenger currentItem
-                    in state.outboundBoardingPassPassenger ?? []) ...[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: MyCheckbox(
-                          label: currentItem.fullName ?? '',
-                          changed: (bool value) {
-                            bloc.updateBothSidesStatusForDownload(
-                                currentItem, value);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ]
+              ] ,
+
+
             ],
             if (state.isDownloading == true) ...[
               const AppLoading(),

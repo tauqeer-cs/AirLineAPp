@@ -45,6 +45,8 @@ class Items {
   String? ssrName;
   List<Items>? items;
 
+  String? banner;// "https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/uboogsfi/website-zurich-travel-insurance-desktop.jpg",
+  String? bannerUrl;
   String? content;
   String? title;
 
@@ -54,7 +56,10 @@ class Items {
         this.image,
         this.id,
         this.name,
-        this.ssrName});
+        this.ssrName,
+      this.banner,
+        this.bannerUrl
+      });
 
   String get contentHtmlString {
 
@@ -81,6 +86,8 @@ class Items {
     id = json['id'];
     name = json['name'];
     ssrName = json['ssrName'];
+    banner = json['banner'];
+    bannerUrl = json['bannerUrl'];
     items = <Items>[];
 
     title = json['title'];

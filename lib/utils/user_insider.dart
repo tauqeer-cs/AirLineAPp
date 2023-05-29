@@ -8,9 +8,8 @@ import 'package:app/utils/string_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_insider/flutter_insider.dart';
-import 'package:flutter_insider/flutter_insider.dart';
-import 'package:flutter_insider/src/product.dart';
 import 'package:flutter_insider/src/event.dart';
+import 'package:flutter_insider/src/product.dart';
 
 class UserInsider {
   BuildContext? context;
@@ -42,8 +41,8 @@ class UserInsider {
       );
     }
     final filterState = context!.read<FilterCubit>().state;
-    final filter =
-        context!.read<SearchFlightCubit>().state.filterState ?? const FilterState();
+    final filter = context!.read<SearchFlightCubit>().state.filterState ??
+        const FilterState();
     final bookingState = context!.read<BookingCubit>().state;
     FlutterInsiderProduct insiderProduct =
         FlutterInsider.Instance.createNewProduct(
@@ -64,6 +63,12 @@ class UserInsider {
     insiderProduct
         .setCustomAttributeWithString(
             "from", filterState.origin?.code?.nullIfEmpty ?? "none")
+        .setCustomAttributeWithString(
+          "PNR",
+          bookingState.superPnrNo?.nullIfEmpty ??
+              bookingState.verifyResponse?.token?.nullIfEmpty ??
+              "none",
+        )
         .setCustomAttributeWithString(
             "to", filterState.destination?.code?.nullIfEmpty ?? "none")
         .setCustomAttributeWithString("trip_type", filterState.flightType.name)

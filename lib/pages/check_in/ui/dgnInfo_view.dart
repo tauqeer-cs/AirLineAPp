@@ -1,10 +1,10 @@
+import 'package:app/pages/check_in/bloc/check_in_cubit.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:screenshot/screenshot.dart';
 
 import '../../../app/app_router.dart';
 import '../../../theme/spacer.dart';
@@ -12,8 +12,6 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/security_utils.dart';
 import '../../../widgets/app_loading_screen.dart';
-import '../bloc/check_in_cubit.dart';
-import '../check_in_error_page.dart';
 
 class DgnInfoView extends StatefulWidget {
   final Function(bool) valueChanged;
@@ -46,7 +44,6 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   @override
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
-
     return AlertDialog(
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
@@ -78,7 +75,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
@@ -133,33 +130,31 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             ),
             kVerticalSpacer,
             Container(
-              color: Styles.greyLineColor,
-              width: double.infinity,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: RichText(
-                  textAlign: TextAlign.justify,
-                  text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                    children: [
-                      TextSpan(text: 'dangerourGoodAre'.tr()),
-                      TextSpan(
-                        text: 'not'.tr(),
-                        style:  TextStyle(
-                          backgroundColor: Styles.kPrimaryColor,
-                        ),
-                      ),
-                      TextSpan(text: 'takenIntoCabin'.tr()),
-                    ],
-                  ),
-                )
-                ,
 
+              color: Styles.greyLineColor,
+              width: MediaQuery.of(context).size.width,
+              height: 110,
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              child: Center(
+                child: AutoSizeText.rich(
+                  TextSpan(text: 'dangerourGoodAre'.tr(), children: [
+                    TextSpan(
+                      text: "${'not'.tr()}\n",
+                      style: TextStyle(
+                        backgroundColor: Styles.kPrimaryColor,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'takenIntoCabin'.tr(),
+                    ),
+                  ]),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.w900,
+                  ),
+                  minFontSize: 5,
+                ),
               ),
             ),
             kVerticalSpacer,
@@ -183,16 +178,20 @@ class _DgnInfoViewState extends State<DgnInfoView> {
             kVerticalSpacer,
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Checkbox(
-                  checkColor: Colors.white,
-                  fillColor: MaterialStateProperty.resolveWith(getColor),
-                  value: checked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      checked = value ?? false;
-                    });
-                  },
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Checkbox(
+                    checkColor: Colors.white,
+                    fillColor: MaterialStateProperty.resolveWith(getColor),
+                    value: checked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        checked = value ?? false;
+                      });
+                    },
+                  ),
                 ),
                 Expanded(
                   child: RichText(
@@ -216,16 +215,15 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                               // add your navigation or on tap logic here
                               SecurityUtils.tryLaunch(
                                   'https://www.myairline.my/faq');
-
-                              /*
-
-                              * */
                             },
                         ),
                       ],
                     ),
                   ),
-                )
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
               ],
             ),
             kVerticalSpacer,
@@ -253,29 +251,40 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
                             ),
-                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
                                 if (states.contains(MaterialState.pressed)) {
                                   return Styles.kActiveColor.withOpacity(0.5);
-                                } else if (states.contains(MaterialState.disabled)) {
-                                  return Color.fromRGBO(169, 169, 169, 1.0);//rgb(37, 150, 190)
+                                } else if (states
+                                    .contains(MaterialState.disabled)) {
+                                  return const Color.fromRGBO(
+                                      169, 169, 169, 1.0); //rgb(37, 150, 190)
 
                                 }
-                                return Styles.kPrimaryColor; // Use the component's default./ Use the component's default.
+                                return Styles
+                                    .kPrimaryColor; // Use the component's default./ Use the component's default.
                               },
                             ),
-
                           ),
                           onPressed: checked == false
                               ? null
                               : () async {
                                   if (checked) {
+
+
                                     var check = await bloc.checkInFlight();
+
                                     if (check == true) {
+                                      bloc.loadBoardingDate(inside: true,forceCall: true);
+
+
                                       context.router.replaceAll([
                                         const NavigationRoute(),
+
                                         const CheckInBoardingPassRoute(),
                                       ]);
                                     } else {
@@ -308,7 +317,7 @@ class _DgnInfoViewState extends State<DgnInfoView> {
   Widget buildDoubleRow(
       String imageOne, String textOne, String imageTwo, String textTwo) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(left: 20, right: 12),
       child: Row(
         children: [
           Expanded(
@@ -316,13 +325,13 @@ class _DgnInfoViewState extends State<DgnInfoView> {
               children: [
                 Image.asset(
                   "assets/images/icons/$imageOne.png",
-                  width: 44,
-                  height: 44,
+                  width: 56,
+                  height: 56,
                 ),
                 kHorizontalSpacerSmall,
                 Text(
                   textOne,
-                  style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
+                  style: kTinySemiBold.copyWith(color: Styles.kSubTextColor),
                 ),
               ],
             ),
@@ -332,15 +341,15 @@ class _DgnInfoViewState extends State<DgnInfoView> {
               children: [
                 Image.asset(
                   "assets/images/icons/$imageTwo.png",
-                  width: 44,
-                  height: 44,
+                  width: 56,
+                  height: 56,
                 ),
                 kHorizontalSpacerSmall,
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
                     textTwo,
-                    style: kSmallMedium.copyWith(color: Styles.kSubTextColor),
+                    style: kTinySemiBold.copyWith(color: Styles.kSubTextColor),
                   ),
                 ),
               ],
