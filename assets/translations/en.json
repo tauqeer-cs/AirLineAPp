@@ -792,7 +792,6 @@
   "paymentView.totalBooking": "Your Total Booking",
   "paymentView.continue": "Continue",
   "paymentView.ok": "OK",
-  "paymentView.bookingInterrupt": "Dear customer, your booking was interrupted. Please choose a different seat or fare.",
   "paymentView.leaveConfirm": "Do you really want to leave? Any Add-Ons selected will be refreshed. You can Cancel to continue or OK to proceed.",
   "personalInfo.personalInfoTitle": "Personal Info",
   "personalInfo.paymentCards": "My Payment Cards",
@@ -1016,5 +1015,7 @@
   "dangerourGoodAre" : "DANGEROUS GOODS ARE ",
   "not" : "NOT" ,
   "takenIntoCabin" : "TO BE TAKEN INTO THE CABIN\nOR AS CHECKED-IN BAGGAGE.",
-  "visa_ops" : "Oops sorry, this promo is not applicable for your card type."
+  "visa_ops" : "Oops sorry, this promo is not applicable for your card type.",
+  "paymentFailed" : "Payment failed",
+
 }
