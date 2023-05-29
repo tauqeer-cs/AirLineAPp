@@ -577,6 +577,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         insertVoucher: voucher ?? '',
         orderId: state.orderId ?? 0,
         paymentDetail: PaymentDetail(
+          currency: state.manageBookingResponse?.result?.passengersWithSSR?.first.fareAndBundleDetail?.currencyToShow ?? 'MYR',
           frontendUrl: AppFlavor.paymentRedirectUrl,
           promoCode: '',
           totalAmountNeedToPay: state.changeFlightResponse?.result
