@@ -752,7 +752,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 );*/
                               }
 
-                              //context.router.popUntilRoot();
+
                               context.router.replaceAll([
                                 const NavigationRoute(),
                                 ChangeFlightConfirmationRoute(

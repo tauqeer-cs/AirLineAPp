@@ -197,9 +197,8 @@ class PaymentDetail extends StatelessWidget {
                 child: Container(),
               ),
               Text(
-                  paymentOrder.currencyCode ??
-                      currency +
-                          NumberUtils.formatNum(paymentOrder.paymentAmount),
+                  '${paymentOrder.currencyCode ??
+                      currency} ${NumberUtils.formatNum(paymentOrder.paymentAmount)}',
                   style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
               Expanded(
                 flex: 2,
