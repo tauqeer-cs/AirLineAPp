@@ -153,6 +153,17 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
                 return true;
               }
 
+              if(widget.isPhoneCode) {
+                if(country.phoneCode?.toLowerCase().contains(b) == true){
+
+                  return true;
+                }
+                if(country.phoneCode?.toLowerCase().contains(b) == true){
+                  return true;
+                }
+
+              }
+
 
               return false;
 
