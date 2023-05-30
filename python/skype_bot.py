@@ -1,4 +1,4 @@
-"""h='r'
+h='r'
 g='System.Title'
 f='System.WorkItemType'
 e='{0} {1}: {2}'
@@ -46,4 +46,4 @@ except F.GetoptError:B('python skypebot.py -n Staging|Production');sys.exit(2)
 for (b,c) in a:
     if b in('-n','--name'):E=c
 B(E)
-U.sendMsg('New release version: '+C+'\nEnv: IOS and Android '+E+'\nDeployed Task:\n\n'+K)"""
+U.sendMsg('New release version: '+C+'\nEnv: IOS and Android '+E+'\nDeployed Task:\n\n'+K)
