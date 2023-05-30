@@ -137,11 +137,24 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
             },
             items: (newList.isNotEmpty ? newList : [Country.defaultCountry]),
             onSearch: (a,b){
+              String searchQuery = b;
+              Country country = a;
+              if(searchQuery.isEmpty) {
+                return true;
+              }
 
-              print('object');
+              if(country.countryCode?.toLowerCase().contains(b) == true){
+                return true;
+              }
+              if(country.countryCode2?.toLowerCase().contains(b) == true){
+                return true;
+              }
+              if(country.country?.toLowerCase().contains(b) == true){
+                return true;
+              }
 
 
-              return true;
+              return false;
 
             },
           ),
