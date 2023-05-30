@@ -37,6 +37,8 @@ class Assets {
   static const String fontsEncodeSansRegular = 'assets/fonts/EncodeSans-Regular.ttf';
   static const String fontsEncodeSansSemiBold = 'assets/fonts/EncodeSans-SemiBold.ttf';
   static const String fontsEncodeSansThin = 'assets/fonts/EncodeSans-Thin.ttf';
+  static const String fontsMontserratBlack = 'assets/fonts/Montserrat-Black.ttf';
+  static const String fontsMontserratSemiBold = 'assets/fonts/Montserrat-SemiBold.ttf';
   static const String fontsMyFlutterApp = 'assets/fonts/MyFlutterApp.ttf';
   static const String iconsIcoFlightBlack = 'assets/images/icons/icoFlightBlack.png';
   static const String iconsIcoFlightDisabled = 'assets/images/icons/icoFlightDisabled.png';

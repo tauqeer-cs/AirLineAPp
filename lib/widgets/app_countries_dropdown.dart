@@ -63,8 +63,6 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
 
     if(countriesList.isNotEmpty) {
       showOverrideValue = true;
-
-
       newSelectedCountry = countriesList.first;
       setState(() {});
     }
@@ -107,6 +105,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
         return blocBuilderWrapper(
           blocState: state.blocState,
           finishedBuilder: AppDropDownWithSearch<Country>(
+            numKey: widget.isPhoneCode,
             sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue: showOverrideValue ? newSelectedCountry : (
                  selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
@@ -135,6 +134,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
                     : value?.country,
               );
             },
+
             items: (newList.isNotEmpty ? newList : [Country.defaultCountry]),
             onSearch: (a,b){
               String searchQuery = b;

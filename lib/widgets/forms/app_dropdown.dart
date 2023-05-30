@@ -180,6 +180,7 @@ class AppDropDownWithSearch<T> extends StatelessWidget {
   final bool isEnabled, isMinimalism;
   final DropDownDecoratorProps? dropdownDecoration;
 
+  final bool numKey;
   const AppDropDownWithSearch({
     Key? key,
     this.defaultValue,
@@ -191,6 +192,7 @@ class AppDropDownWithSearch<T> extends StatelessWidget {
     this.isEnabled = true,
     this.isMinimalism = false,
     this.prefix,
+    this.numKey = false,
     this.dropdownDecoration, required this.onSearch,
   }) : super(key: key);
 
@@ -308,6 +310,9 @@ class AppDropDownWithSearch<T> extends StatelessWidget {
           },
           listViewProps: const ListViewProps(
             padding: EdgeInsets.zero,
+          ),
+          searchFieldProps:   TextFieldProps(
+            keyboardType: numKey ? TextInputType.number : TextInputType.text,
           ),
           dialogProps: const DialogProps(
             backgroundColor: Color.fromRGBO(235, 235, 235, 0.85),
@@ -442,6 +447,7 @@ class AppDropDownAirPort<T> extends StatelessWidget {
       popupProps: PopupProps.dialog(
           title: AppSheetHandler(title: sheetTitle),
           showSelectedItems: true,
+
           showSearchBox: true,
           scrollbarProps: ScrollbarProps(
             thumbColor: Styles.kBorderActionColor,
