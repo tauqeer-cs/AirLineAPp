@@ -49,6 +49,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
       print('');
     }
 
+
     return AppCard(
       child: Column(
         children: [
@@ -160,21 +161,25 @@ class PaymentDetail extends StatelessWidget {
           BorderedLeftContainerNoTitle(
             content: '${paymentOrder.cardOption}',
             makeBoldAll: true,
+
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content: paymentOrder.cardNumber ?? "",
             makeBoldAll: true,
+
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content: paymentOrder.paymentStatusCode ?? "",
             makeBoldAll: true,
+
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
             content: paymentOrder.cardHolderName ?? "",
             makeBoldAll: true,
+
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
@@ -183,8 +188,7 @@ class PaymentDetail extends StatelessWidget {
           ),
           kVerticalSpacer,
           BorderedLeftContainerNoTitle(
-            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate,
-                locale: locale),
+            content: AppDateUtils.formatHalfDate(paymentOrder.paymentDate,locale: locale),
           ),
           kVerticalSpacer,
           Row(
@@ -233,12 +237,11 @@ class BorderedLeftContainerNoTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (makeBoldAll) ...[
-            Text(content,
-                style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
-          ] else ...[
-            Text(content,
-                style: kLargeRegular.copyWith(color: Styles.kTextColor)),
+          if(makeBoldAll) ... [
+            Text(content, style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+          ] else ... [
+            Text(content, style: kLargeRegular.copyWith(color: Styles.kTextColor)),
+
           ]
         ],
       ),

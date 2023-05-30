@@ -106,7 +106,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
 
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: AppDropDown<Country>(
+          finishedBuilder: AppDropDownWithSearch<Country>(
             sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue: showOverrideValue ? newSelectedCountry : (
                  selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
@@ -136,6 +136,38 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
               );
             },
             items: (newList.isNotEmpty ? newList : [Country.defaultCountry]),
+            onSearch: (a,b){
+              String searchQuery = b;
+              Country country = a;
+              if(searchQuery.isEmpty) {
+                return true;
+              }
+
+              if(country.countryCode?.toLowerCase().contains(b) == true){
+                return true;
+              }
+              if(country.countryCode2?.toLowerCase().contains(b) == true){
+                return true;
+              }
+              if(country.country?.toLowerCase().contains(b) == true){
+                return true;
+              }
+
+              if(widget.isPhoneCode) {
+                if(country.phoneCode?.toLowerCase().contains(b) == true){
+
+                  return true;
+                }
+                if(country.phoneCode?.toLowerCase().contains(b) == true){
+                  return true;
+                }
+
+              }
+
+
+              return false;
+
+            },
           ),
         );
       },

@@ -159,7 +159,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             ]);
                           } else {
                             if (mounted) {
-                              Toast.of(context).show(message: "Payment failed");
+                              Toast.of(context).show(message: 'paymentFailed'.tr());
                             }
                           }
                         } else {}
