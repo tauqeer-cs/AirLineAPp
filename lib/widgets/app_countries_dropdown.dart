@@ -106,7 +106,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
 
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: AppDropDown<Country>(
+          finishedBuilder: AppDropDownWithSearch<Country>(
             sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue: showOverrideValue ? newSelectedCountry : (
                  selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
@@ -136,6 +136,14 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
               );
             },
             items: (newList.isNotEmpty ? newList : [Country.defaultCountry]),
+            onSearch: (a,b){
+
+              print('object');
+
+
+              return true;
+
+            },
           ),
         );
       },
