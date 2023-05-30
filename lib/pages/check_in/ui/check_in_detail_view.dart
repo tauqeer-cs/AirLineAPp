@@ -1,3 +1,4 @@
+
 import 'package:app/data/responses/manage_booking_response.dart';
 import 'package:app/widgets/app_card.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -26,13 +27,13 @@ import 'check_in_steps.dart';
 import 'dgnInfo_view.dart';
 
 class CheckInDetailView extends StatefulWidget {
-  final bool isPast;
-  static final _fbKey = GlobalKey<FormBuilderState>();
+final bool isPast;
+static final _fbKey = GlobalKey<FormBuilderState>();
 
-  const CheckInDetailView({Key? key, required this.isPast}) : super(key: key);
+const CheckInDetailView({Key? key, required this.isPast}) : super(key: key);
 
-  @override
-  State<CheckInDetailView> createState() => _CheckInDetailViewState();
+@override
+State<CheckInDetailView> createState() => _CheckInDetailViewState();
 }
 
 class _CheckInDetailViewState extends State<CheckInDetailView> {
@@ -85,11 +86,11 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                   kVerticalSpacerSmall,
                   AppCard(
                     edgeInsets:
-                        const EdgeInsets.only(right: 15, top: 15, bottom: 15),
+                    const EdgeInsets.only(right: 15, top: 15, bottom: 15),
                     child: Row(
                       children: [
                         if (state.manageBookingResponse?.result
-                                ?.outboundCheckingAllowed ==
+                            ?.outboundCheckingAllowed ==
                             false) ...[
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -111,7 +112,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           Checkbox(
                             checkColor: Colors.white,
                             fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
+                            MaterialStateProperty.resolveWith(getColor),
                             value: state.checkedDeparture,
                             onChanged: (bool? value) {
                               setState(() {
@@ -125,30 +126,30 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           child: FlightDataInfo(
                             headingLabel: 'departure'.tr(),
                             disabledView: state.manageBookingResponse?.result
-                                    ?.outboundCheckingAllowed ==
+                                ?.outboundCheckingAllowed ==
                                 false,
                             dateToShow: state.manageBookingResponse?.result
-                                    ?.departureDateToShow(locale) ??
+                                ?.departureDateToShow(locale) ??
                                 '',
                             departureToDestinationCode: state
-                                    .manageBookingResponse
-                                    ?.result
-                                    ?.departureToDestinationCode ??
+                                .manageBookingResponse
+                                ?.result
+                                ?.departureToDestinationCode ??
                                 '',
                             departureDateWithTime: state.manageBookingResponse
-                                    ?.result?.departureDateWithTime(locale) ??
+                                ?.result?.departureDateWithTime(locale) ??
                                 '',
                             departureAirportName: state.manageBookingResponse
-                                    ?.result?.departureAirportName ??
+                                ?.result?.departureAirportName ??
                                 '',
                             journeyTimeInHourMin: state.manageBookingResponse
-                                    ?.result?.journeyTimeInHourMin ??
+                                ?.result?.journeyTimeInHourMin ??
                                 '',
                             arrivalDateWithTime: state.manageBookingResponse
-                                    ?.result?.arrivalDateWithTime(locale) ??
+                                ?.result?.arrivalDateWithTime(locale) ??
                                 '',
                             arrivalAirportName: state.manageBookingResponse
-                                    ?.result?.arrivalAirportName ??
+                                ?.result?.arrivalAirportName ??
                                 '',
                           ),
                         ),
@@ -241,191 +242,191 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         .isNotEmpty) ...[
                       AppCard(
                           child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              'boardingPass'.tr(),
-                              style: kHugeSemiBold.copyWith(
-                                color: Styles.kTextColor,
-                              ),
-                            ),
-                            kVerticalSpacerSmall,
-                            Text(
-                              'departFlight'.tr(),
-                              style: kMediumHeavy.copyWith(
-                                  color: Styles.kPrimaryColor),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                style: kMediumRegular.copyWith(
-                                    color: Styles.kTextColor),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: state.manageBookingResponse?.result
-                                        ?.departureAirportToDestinationName,
-                                    //'Kuala Lumpur to Penang —'
-                                    style: kMediumSemiBold.copyWith(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  'boardingPass'.tr(),
+                                  style: kHugeSemiBold.copyWith(
+                                    color: Styles.kTextColor,
+                                  ),
+                                ),
+                                kVerticalSpacerSmall,
+                                Text(
+                                  'departFlight'.tr(),
+                                  style: kMediumHeavy.copyWith(
+                                      color: Styles.kPrimaryColor),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    style: kMediumRegular.copyWith(
                                         color: Styles.kTextColor),
-                                  ),
-                                  TextSpan(
-                                    text: state.manageBookingResponse?.result
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: state.manageBookingResponse?.result
+                                            ?.departureAirportToDestinationName,
+                                        //'Kuala Lumpur to Penang —'
+                                        style: kMediumSemiBold.copyWith(
+                                            color: Styles.kTextColor),
+                                      ),
+                                      TextSpan(
+                                        text: state.manageBookingResponse?.result
                                             ?.departureAirportTime(locale) ??
-                                        '',
+                                            '',
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                kVerticalSpacerSmall,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () async {
+
+                                            await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+
+                                                return const EmailBoardingPassView(
+                                                  departure: true,
+                                                  bothSides: false,
+                                                  onlySelected: false,
+                                                );
+                                              },
+                                            );
+
+                                          }, //isLoading ? null :
+                                          child:  Text('flightChange.share'.tr()),
+                                        ),
+                                      ),
+                                      kHorizontalSpacerSmall,
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            //Navigator.of(context).pop(true);
+                                            bool? check = await bloc
+                                                .getBoardingPassPassengers(true);
+
+                                            if (check == true) {
+                                              Fluttertoast.showToast(
+                                                  msg: 'fileDownloadedSuccessfully'.tr(),
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.SNACKBAR,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            }
+
+
+                                          },
+                                          child:  Text('download'.tr()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
-                            kVerticalSpacerSmall,
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: OutlinedButton(
-                                      onPressed: () async {
-
-                                        await showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-
-                                          return const EmailBoardingPassView(
-                                            departure: true,
-                                            bothSides: false,
-                                            onlySelected: false,
-                                          );
-                                        },
-                                        );
-
-                                      }, //isLoading ? null :
-                                      child:  Text('flightChange.share'.tr()),
-                                    ),
-                                  ),
-                                  kHorizontalSpacerSmall,
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        //Navigator.of(context).pop(true);
-                                        bool? check = await bloc
-                                            .getBoardingPassPassengers(true);
-
-                                        if (check == true) {
-                                          Fluttertoast.showToast(
-                                              msg: 'fileDownloadedSuccessfully'.tr(),
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.SNACKBAR,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.red,
-                                              textColor: Colors.white,
-                                              fontSize: 16.0);
-                                        }
-
-
-                                      },
-                                      child:  Text('download'.tr()),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
+                          )),
                     ],
                     if ((state.inboundBoardingPassPassenger ?? [])
                         .isNotEmpty) ...[
-                          kVerticalSpacer,
+                      kVerticalSpacer,
                       AppCard(
                           child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              'boardingPass'.tr(),
-                              style: kHugeSemiBold.copyWith(
-                                color: Styles.kTextColor,
-                              ),
-                            ),
-                            kVerticalSpacerSmall,
-                            Text(
-                              'seatsSelection.returnFlight'.tr(),
-                              style: kMediumHeavy.copyWith(
-                                  color: Styles.kPrimaryColor),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                style: kMediumRegular.copyWith(
-                                    color: Styles.kTextColor),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: state.manageBookingResponse?.result
-                                        ?.returnAirportToDestinationName,
-                                    style: kMediumSemiBold.copyWith(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  'boardingPass'.tr(),
+                                  style: kHugeSemiBold.copyWith(
+                                    color: Styles.kTextColor,
+                                  ),
+                                ),
+                                kVerticalSpacerSmall,
+                                Text(
+                                  'seatsSelection.returnFlight'.tr(),
+                                  style: kMediumHeavy.copyWith(
+                                      color: Styles.kPrimaryColor),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    style: kMediumRegular.copyWith(
                                         color: Styles.kTextColor),
-                                  ),
-                                  TextSpan(
-                                    text: state.manageBookingResponse?.result
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: state.manageBookingResponse?.result
+                                            ?.returnAirportToDestinationName,
+                                        style: kMediumSemiBold.copyWith(
+                                            color: Styles.kTextColor),
+                                      ),
+                                      TextSpan(
+                                        text: state.manageBookingResponse?.result
                                             ?.returnAirportTime(locale) ??
-                                        '',
+                                            '',
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            kVerticalSpacerSmall,
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: OutlinedButton(
-                                      onPressed: () async {
+                                ),
+                                kVerticalSpacerSmall,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () async {
 
-                                        await showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
 
-                                            return const EmailBoardingPassView(
-                                              departure: false,
-                                              bothSides: false,
-                                              onlySelected: false,
+                                                return const EmailBoardingPassView(
+                                                  departure: false,
+                                                  bothSides: false,
+                                                  onlySelected: false,
 
+                                                );
+                                              },
                                             );
+                                          }, //isLoading ? null :
+                                          child:  Text('flightChange.share'.tr()),
+                                        ),
+                                      ),
+                                      kHorizontalSpacerSmall,
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            bool? check = await bloc
+                                                .getBoardingPassPassengers(false);
+
+                                            if (check == true) {
+                                              Fluttertoast.showToast(
+                                                  msg: 'fileDownloadedSuccessfully'.tr(),
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.SNACKBAR,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                            }
+
                                           },
-                                        );
-                                      }, //isLoading ? null :
-                                      child:  Text('flightChange.share'.tr()),
-                                    ),
+                                          child:  Text('download'.tr()),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  kHorizontalSpacerSmall,
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        bool? check = await bloc
-                                            .getBoardingPassPassengers(false);
-
-                                        if (check == true) {
-                                          Fluttertoast.showToast(
-                                              msg: 'fileDownloadedSuccessfully'.tr(),
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.SNACKBAR,
-                                              timeInSecForIosWeb: 1,
-                                              backgroundColor: Colors.red,
-                                              textColor: Colors.white,
-                                              fontSize: 16.0);
-                                        }
-
-                                      },
-                                      child:  Text('download'.tr()),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
+                                )
+                              ],
+                            ),
+                          )),
                     ],
                   ],
                   kVerticalSpacer,
@@ -438,12 +439,12 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                   ),
                   kVerticalSpacerSmall,
                   for (int i = 0;
-                      i <
-                          (state.manageBookingResponse?.result
-                                      ?.passengersWithSSR ??
-                                  [])
-                              .length;
-                      i++) ...[
+                  i <
+                      (state.manageBookingResponse?.result
+                          ?.passengersWithSSR ??
+                          [])
+                          .length;
+                  i++) ...[
 
                     if(state.manageBookingResponse?.result
                         ?.passengersWithSSR?[i].passengers?.passengerType != 'INF') ... [
@@ -471,14 +472,16 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                             },
                           ),
 
-                          Text(
-                            state.manageBookingResponse?.result
-                                ?.passengersWithSSR?[i].passengers?.fullName ??
-                                '',
-                            style: kLargeHeavy.copyWith(
-                              color: Styles.kTextColor,
+                          Expanded(
+                            child: Text(
+                              state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i].passengers?.fullName ??
+                                  '',
+                              style: kLargeHeavy.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            textAlign: TextAlign.left,
                           ),
                         ],
                       ),
@@ -535,20 +538,20 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           textInputType: TextInputType.text,
 
                           validators: [
-                            (value){
+                                (value){
 
-                            if(state.manageBookingResponse?.result
-                                ?.passengersWithSSR?[i].paxSelected == true) {
+                              if(state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i].paxSelected == true) {
 
 
-                              if(value == null) {
-                                return 'passportRequired'.tr();
+                                if(value == null) {
+                                  return 'passportRequired'.tr();
+                                }
+                                if(value.isEmpty) {
+                                  return 'passportRequired'.tr();
+                                }
                               }
-                              if(value.isEmpty) {
-                                return 'passportRequired'.tr();
-                              }
-                            }
-                            return null;
+                              return null;
                             }
                           ],
                           //validators: [
@@ -675,16 +678,11 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                             child: Column(
                               children: [
                                 AppInputText(
-                                  hintText: "firstNameGivenName".tr(),
+                                  hintText: "firstNameGivenNameInf".tr(),
                                   readOnly: true,
                                   validators: [FormBuilderValidators.required()],
                                   initialValue: state.manageBookingResponse?.result
-                                      ?.infanctWith(state.manageBookingResponse?.result
                                       ?.passengersWithSSR?[i].infantGivenName ?? '',
-                                      state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].infantSurname ?? '',
-                                      state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].infantDob ?? '')?.givenName ?? '',
                                   name: 'firstNameKeyInfant$i',
                                   fillDisabledColor: true,
                                 ),
@@ -694,12 +692,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   readOnly: true,
                                   validators: [FormBuilderValidators.required()],
                                   initialValue: state.manageBookingResponse?.result
-                                      ?.infanctWith(state.manageBookingResponse?.result
-                                      ?.passengersWithSSR?[i].infantGivenName ?? '',
-                                      state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].infantSurname ?? '',
-                                      state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].infantDob ?? '')?.surname ?? '',
+                                      ?.passengersWithSSR?[i].infantSurname ?? '',
                                   name: 'lastNameKeyInfant$i',
                                   fillDisabledColor: true,
                                 ),
@@ -732,13 +725,13 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     onChanged: (newValue){
                                       if (newValue != null) {
 
-                                          state.manageBookingResponse?.result
-                                              ?.infanct(state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantGivenName ?? '',
-                                              state.manageBookingResponse?.result
-                                                  ?.passengersWithSSR?[i].infantSurname ?? '',
-                                              state.manageBookingResponse?.result
-                                                  ?.passengersWithSSR?[i].infantDob ?? '')?.checkInPassportNo = newValue;
+                                        state.manageBookingResponse?.result
+                                            ?.infanct(state.manageBookingResponse?.result
+                                            ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                            state.manageBookingResponse?.result
+                                                ?.passengersWithSSR?[i].infantSurname ?? '',
+                                            state.manageBookingResponse?.result
+                                                ?.passengersWithSSR?[i].infantDob ?? '')?.checkInPassportNo = newValue;
 
 
 
@@ -779,16 +772,16 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     keyName: 'infpassportNation$i', onChange: (String newValue) {
 
 
-                                      state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].passportCountry = newValue;
+                                    state.manageBookingResponse?.result
+                                        ?.passengersWithSSR?[i].passportCountry = newValue;
 
-                                      state.manageBookingResponse?.result
-                                          ?.infanct(state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].infantGivenName ?? '',
-                                          state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantSurname ?? '',
-                                          state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
+                                    state.manageBookingResponse?.result
+                                        ?.infanct(state.manageBookingResponse?.result
+                                        ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                        state.manageBookingResponse?.result
+                                            ?.passengersWithSSR?[i].infantSurname ?? '',
+                                        state.manageBookingResponse?.result
+                                            ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
 
 
 
@@ -891,7 +884,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
 
-                            },
+                      },
                       child:  Text('checkIn'.tr()),
                     ),
                   ],
@@ -997,8 +990,8 @@ class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
   Widget build(BuildContext context) {
     return
       ShadowInput(
-      name: widget.keyName,
-      textEditingController: _controller,
+        name: widget.keyName,
+        textEditingController: _controller,
         validators: [
               (value) {
             if(widget.doValidation == true){
@@ -1010,27 +1003,28 @@ class _CheckInDropDownCountryState extends State<CheckInDropDownCountry> {
           },
         ],
         child: AppCountriesDropdown(
-        validators: [
-          (value) {
-          if(widget.doValidation == true){
+          validators: [
+                (value) {
+              if(widget.doValidation == true){
 
-            if(value == null) {
-              return 'passportCountryRequired'.tr();
-            }
-          }
+                if(value == null) {
+                  return 'passportCountryRequired'.tr();
+                }
+              }
+            },
+          ],
+          hintText: "passportIssuingCountry".tr(),
+          customSheetTitle: 'passportIssuingCountry'.tr(),
+          dropdownDecoration: Styles.getDefaultFieldDecoration(),
+          hideDefualttValue: true,
+          isPhoneCode: false,
+          onChanged: (value) {
+            //nationalityController.text = value?.countryCode2 ?? "";
+            widget.onChange(value?.countryCode ?? '');
+            _controller.text = value?.country ?? '';
           },
-        ],
-        hintText: "passportIssuingCountry".tr(),
-        customSheetTitle: 'passportIssuingCountry'.tr(),
-        dropdownDecoration: Styles.getDefaultFieldDecoration(),
-        hideDefualttValue: true,
-        isPhoneCode: false,
-        onChanged: (value) {
-          //nationalityController.text = value?.countryCode2 ?? "";
-          widget.onChange(value?.countryCode ?? '');
-          _controller.text = value?.country ?? '';
-        },
-      ),
-    );
+        ),
+      );
   }
 }
+
