@@ -8,6 +8,7 @@ import '../../../app/app_router.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
+import '../../../theme/typography.dart';
 import '../../../widgets/app_card.dart';
 import '../../booking_details/ui/flight_data.dart';
 import '../../check_in/bloc/check_in_cubit.dart';
@@ -71,6 +72,15 @@ class ChangeFlightConfirmationView extends StatelessWidget {
 
                   if(showPending == true) ... [
 
+                    Text(
+                      "confirmationView.bookingPayment".tr(),
+                      style: kMediumRegular.copyWith(
+                          color: Styles.kSubTextColor, height: 1.5),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
 
                     AppCard(
                       edgeInsets: EdgeInsets.zero,

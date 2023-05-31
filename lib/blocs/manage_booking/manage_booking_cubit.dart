@@ -698,7 +698,37 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
-  void refreshData() {
+  void refreshData() async {
 
+    //
+
+    emit(
+      state.copyWith(
+          loadingSummary: true, message: '', blocState: BlocState.initial,),
+    );
+
+    try {
+
+      final verifyResponse = await _repository.getBookingInfo(
+        ManageBookingRequest(pnr: false ? 'AGBBRY' : state.pnrEntered, lastname: state.lastName),
+      );
+
+      emit(
+        state.copyWith(
+          blocState: BlocState.finished,
+          manageBookingResponse: verifyResponse,
+          loadingSummary: false,
+          showPending: false
+        ),
+      );
+      return;
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          loadingSummary: false,
+        ),
+      );
+      return;
+    }
   }
 }
