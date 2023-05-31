@@ -12,9 +12,15 @@ import '../../../../../widgets/containers/app_expanded_section.dart';
 
 class PaymentInfo extends StatefulWidget {
   final bool isChange;
+  final bool showPending;
+
   final List<PaymentOrder>? paymentOrders;
 
-  const PaymentInfo({Key? key, this.isChange = false, this.paymentOrders})
+  const PaymentInfo(
+      {Key? key,
+      this.isChange = false,
+      this.paymentOrders,
+      this.showPending = false})
       : super(key: key);
 
   @override
@@ -129,8 +135,13 @@ class PaymentDetail extends StatelessWidget {
   final PaymentOrder paymentOrder;
   final bool changeFlight;
 
+  final bool showPending;
+
   const PaymentDetail(
-      {Key? key, required this.paymentOrder, required this.changeFlight})
+      {Key? key,
+      required this.paymentOrder,
+      required this.changeFlight,
+      this.showPending = false})
       : super(key: key);
 
   @override
@@ -201,9 +212,9 @@ class PaymentDetail extends StatelessWidget {
                 child: Container(),
               ),
               Text(
-                  '${paymentOrder.currencyCode ??
-                      currency} ${NumberUtils.formatNum(paymentOrder.paymentAmount)}',
-                  style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+                '${paymentOrder.currencyCode ?? currency} ${NumberUtils.formatNum(paymentOrder.paymentAmount)}',
+                style: kLargeHeavy.copyWith(color: Styles.kTextColor),
+              ),
               Expanded(
                 flex: 2,
                 child: Container(),
@@ -237,11 +248,12 @@ class BorderedLeftContainerNoTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if(makeBoldAll) ... [
-            Text(content, style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
-          ] else ... [
-            Text(content, style: kLargeRegular.copyWith(color: Styles.kTextColor)),
-
+          if (makeBoldAll) ...[
+            Text(content,
+                style: kLargeHeavy.copyWith(color: Styles.kTextColor)),
+          ] else ...[
+            Text(content,
+                style: kLargeRegular.copyWith(color: Styles.kTextColor)),
           ]
         ],
       ),

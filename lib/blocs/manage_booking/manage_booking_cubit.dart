@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
 import '../../app/app_bloc_helper.dart';
 import '../../app/app_flavor.dart';
+import '../../data/repositories/flight_repository.dart';
 import '../../data/repositories/manage_book_repository.dart';
 import '../../data/requests/book_request.dart';
 import '../../data/requests/change_flight_request.dart';
@@ -13,6 +14,7 @@ import '../../data/requests/mmb_checkout_request.dart';
 import '../../data/requests/search_change_flight_request.dart';
 import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
+import '../../models/confirmation_model.dart';
 import '../../models/pay_redirection.dart';
 import '../../utils/error_utils.dart';
 import '../../data/responses/change_flight_response.dart';
@@ -206,13 +208,24 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
-  Future<void> reloadDataForConfirmation() async {
+  Future<void> reloadDataForConfirmation(String status,String superPnr) async {
     emit(
       state.copyWith(
-          loadingSummary: true, message: '', blocState: BlocState.initial),
+          loadingSummary: true, message: '', blocState: BlocState.initial,showPending: status == 'PPB'),
     );
 
     try {
+      if(status == 'PPB') {
+        print('');
+
+        emit(
+          state.copyWith(
+            loadingSummary: false,
+          ),
+        );
+       return;
+
+      }
       final verifyResponse = await _repository.getBookingInfo(
         ManageBookingRequest(pnr: state.pnrEntered, lastname: state.lastName),
       );

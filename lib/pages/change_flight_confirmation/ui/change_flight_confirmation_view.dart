@@ -36,7 +36,18 @@ class ChangeFlightConfirmationView extends StatelessWidget {
   Widget build(BuildContext context) {
     ManageBookingCubit bloc = context.watch<ManageBookingCubit>();
 
+    bool showPending = bloc.state.showPending;
+
     CheckInCubit? blocList = context.watch<CheckInCubit>();
+
+    var state = bloc.state;
+
+    var flightSectionGoing = state.changeFlightResponse?.result
+        ?.flightVerifyResponse?.result?.flightSegments?.first;
+    var flightSectionBack = state.changeFlightResponse?.result
+        ?.flightVerifyResponse?.result?.flightSegments?.last;
+
+
     blocList.resetStates();
     final locale = context.locale.toString();
     return bloc.state.loadingSummary
@@ -53,173 +64,256 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                   BookingReferenceLabel(
                     refText: bloc.state.pnrEntered,
                   ),
+
                   const SizedBox(
                     height: 16,
                   ),
-                  AppCard(
-                    edgeInsets: EdgeInsets.zero,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 16),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                             const SizedBox(
-                                      width: 16,
-                                    ),
-                              Expanded(
-                                child: FlightDataInfo(
-                                  headingLabel: 'departure'.tr(),
-                                  dateToShow: bloc.state.manageBookingResponse
-                                          ?.result?.departureDateToShow(locale) ??
-                                      '',
-                                  departureToDestinationCode: bloc
-                                          .state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.departureToDestinationCode ??
-                                      '',
-                                  departureDateWithTime: bloc
-                                          .state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.departureDateWithTime(locale) ??
-                                      '',
-                                  departureAirportName: bloc
-                                          .state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.departureAirportName ??
-                                      '',
-                                  journeyTimeInHourMin: bloc
-                                          .state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.journeyTimeInHourMin ??
-                                      '',
-                                  arrivalDateWithTime: bloc
-                                          .state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.arrivalDateWithTime(locale) ??
-                                      '',
-                                  arrivalAirportName: bloc
-                                          .state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.arrivalAirportName ??
-                                      '',
-                                ),
+
+                  if(showPending == true) ... [
+
+
+                    AppCard(
+                      edgeInsets: EdgeInsets.zero,
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: double.infinity,
+                              height: 4,
+                            ),
+                            if ((bloc.state.checkedDeparture == true)) ...[
+                              FlightDataInfo(
+                                headingLabel: 'flightSummary.departure'.tr(),
+                                dateToShow:
+                                flightSectionGoing?.departureDateToShow(locale) ?? '',
+                                departureToDestinationCode: state
+                                    .manageBookingResponse
+                                    ?.result
+                                    ?.departureToDestinationCode ??
+                                    '',
+                                departureDateWithTime:
+                                flightSectionGoing?.departureDateToTwoLine(locale) ??
+                                    '',
+                                departureAirportName: state.manageBookingResponse
+                                    ?.result?.departureAirportName ??
+                                    '',
+                                journeyTimeInHourMin: state.manageBookingResponse
+                                    ?.result?.journeyTimeInHourMin ??
+                                    '',
+                                arrivalDateWithTime:
+                                flightSectionGoing?.arrivalDateToTwoLine(locale) ?? '',
+                                arrivalAirportName: state.manageBookingResponse
+                                    ?.result?.arrivalAirportName ??
+                                    '',
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Divider(),
                               ),
                             ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            child: Divider(),
-                          ),
-                          if (bloc.state.manageBookingResponse?.isTwoWay ??
-                              false) ...[
+                            if ((bloc.state.manageBookingResponse?.isTwoWay ??
+                                false) &&
+                                (bloc.state.checkReturn == true)) ...[
+                              FlightDataInfo(
+                                headingLabel: 'flightCharge.return'.tr(),
+                                dateToShow:
+                                flightSectionBack?.departureDateToShow(locale) ?? '',
+                                departureToDestinationCode: state.manageBookingResponse
+                                    ?.result
+                                    ?.returnToDestinationCode ??
+                                    '',
+                                departureDateWithTime:
+                                flightSectionBack?.departureDateToTwoLine(locale) ?? '',
+                                departureAirportName: state.manageBookingResponse
+                                    ?.result?.returnDepartureAirportName ??
+                                    '',
+                                journeyTimeInHourMin: state.manageBookingResponse
+                                    ?.result?.returnJourneyTimeInHourMin ??
+                                    '',
+                                arrivalDateWithTime:
+                                flightSectionBack?.arrivalDateToTwoLine(locale) ?? '',
+                                arrivalAirportName: state.manageBookingResponse
+                                    ?.result?.returnArrivalAirportName ??
+                                    '',
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ] else ... [
+                    AppCard(
+                      edgeInsets: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 16),
+                        child: Column(
+                          children: [
                             Row(
                               children: [
-                                 const SizedBox(
-                                        width: 16,
-                                      ),
-
+                                const SizedBox(
+                                  width: 16,
+                                ),
                                 Expanded(
                                   child: FlightDataInfo(
-                                    headingLabel: 'return'.tr(),
-                                    dateToShow: bloc
-                                            .state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.returnDepartureDateToShow(locale) ??
+                                    headingLabel: 'departure'.tr(),
+                                    dateToShow: bloc.state.manageBookingResponse
+                                        ?.result?.departureDateToShow(locale) ??
                                         '',
                                     departureToDestinationCode: bloc
-                                            .state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.returnToDestinationCode ??
+                                        .state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.departureToDestinationCode ??
                                         '',
                                     departureDateWithTime: bloc
-                                            .state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.returnDepartureDateWithTime(locale) ??
+                                        .state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.departureDateWithTime(locale) ??
                                         '',
                                     departureAirportName: bloc
-                                            .state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.returnDepartureAirportName ??
+                                        .state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.departureAirportName ??
                                         '',
                                     journeyTimeInHourMin: bloc
-                                            .state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.returnJourneyTimeInHourMin ??
+                                        .state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.journeyTimeInHourMin ??
                                         '',
                                     arrivalDateWithTime: bloc
-                                            .state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.returnArrivalDateWithTime(locale) ??
+                                        .state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.arrivalDateWithTime(locale) ??
                                         '',
                                     arrivalAirportName: bloc
-                                            .state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.returnArrivalAirportName ??
+                                        .state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.arrivalAirportName ??
                                         '',
                                   ),
                                 ),
                               ],
                             ),
-                          ],
-                          kVerticalSpacer,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: OutlinedButton(
-                              onPressed: () {
-                                onSharedTapped();
-                              }, //isLoading ? null :
-                              child:  Text("flightChange.share".tr()),
-                              /*
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Divider(),
+                            ),
+                            if (bloc.state.manageBookingResponse?.isTwoWay ??
+                                false) ...[
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+
+                                  Expanded(
+                                    child: FlightDataInfo(
+                                      headingLabel: 'return'.tr(),
+                                      dateToShow: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.returnDepartureDateToShow(locale) ??
+                                          '',
+                                      departureToDestinationCode: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.returnToDestinationCode ??
+                                          '',
+                                      departureDateWithTime: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.returnDepartureDateWithTime(locale) ??
+                                          '',
+                                      departureAirportName: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.returnDepartureAirportName ??
+                                          '',
+                                      journeyTimeInHourMin: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.returnJourneyTimeInHourMin ??
+                                          '',
+                                      arrivalDateWithTime: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.returnArrivalDateWithTime(locale) ??
+                                          '',
+                                      arrivalAirportName: bloc
+                                          .state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.returnArrivalAirportName ??
+                                          '',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                            kVerticalSpacer,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  onSharedTapped();
+                                }, //isLoading ? null :
+                                child:  Text("flightChange.share".tr()),
+                                /*
                           * isLoading
                               ? const AppLoading(
                             size: 20,
                           )*/
+                              ),
                             ),
-                          ),
-                          kVerticalSpacerSmall,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                bloc.resetData();
+                            kVerticalSpacerSmall,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  bloc.resetData();
 
-                                await bloc.reloadDataForConfirmation();
+                                  await bloc.reloadDataForConfirmation('','');
 
-                                context.router.replaceAll([
-                                  const NavigationRoute(),
-                                  ManageBookingDetailsRoute(),
-                                ]);
-                              },
-                              child: Text('changeFlight'.tr()),
+                                  context.router.replaceAll([
+                                    const NavigationRoute(),
+                                    ManageBookingDetailsRoute(),
+                                  ]);
+                                },
+                                child: Text('changeFlight'.tr()),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 24,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
+
                   const SizedBox(
                     height: 16,
                   ),
                   PaymentInfo(
+                    showPending: showPending,
                     isChange: true,
                     paymentOrders:
                         bloc.state.manageBookingResponse?.result?.paymentOrders,

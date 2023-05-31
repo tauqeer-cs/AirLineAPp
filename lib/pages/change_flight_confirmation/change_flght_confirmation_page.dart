@@ -13,9 +13,11 @@ import '../../widgets/app_app_bar.dart';
 class ChangeFlightConfirmationPage extends StatelessWidget {
   final String bookingId;
 
+  final String status;
+
   ScreenshotController screenshotController = ScreenshotController();
 
-  ChangeFlightConfirmationPage({Key? key, required this.bookingId})
+  ChangeFlightConfirmationPage({Key? key, required this.bookingId, required this.status})
       : super(key: key);
 
   onShare() async {
