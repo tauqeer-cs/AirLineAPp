@@ -319,6 +319,7 @@ class _$AppRouter extends RootStackRouter {
         child: ChangeFlightConfirmationPage(
           key: args.key,
           bookingId: args.bookingId,
+          status: args.status,
         ),
       );
     },
@@ -1411,12 +1412,14 @@ class ChangeFlightConfirmationRoute
   ChangeFlightConfirmationRoute({
     Key? key,
     required String bookingId,
+    required String status,
   }) : super(
           ChangeFlightConfirmationRoute.name,
           path: '/change-flight-confirmation',
           args: ChangeFlightConfirmationRouteArgs(
             key: key,
             bookingId: bookingId,
+            status: status,
           ),
         );
 
@@ -1427,15 +1430,18 @@ class ChangeFlightConfirmationRouteArgs {
   const ChangeFlightConfirmationRouteArgs({
     this.key,
     required this.bookingId,
+    required this.status,
   });
 
   final Key? key;
 
   final String bookingId;
 
+  final String status;
+
   @override
   String toString() {
-    return 'ChangeFlightConfirmationRouteArgs{key: $key, bookingId: $bookingId}';
+    return 'ChangeFlightConfirmationRouteArgs{key: $key, bookingId: $bookingId, status: $status}';
   }
 }
 
