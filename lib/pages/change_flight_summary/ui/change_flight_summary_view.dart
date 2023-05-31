@@ -726,6 +726,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 query['pnr']?.first;
 
                             if (status != "FAIL") {
+
                               bloc?.reloadDataForConfirmation(status ?? '',superPNR ?? '');
 
                               if (true) {

@@ -697,4 +697,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       ),
     );
   }
+
+  void refreshData() {
+
+  }
 }

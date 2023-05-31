@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../widgets/containers/app_expanded_section.dart';
 
 class PaymentInfo extends StatefulWidget {
@@ -37,9 +38,11 @@ class _PaymentInfoState extends State<PaymentInfo> {
   Widget build(BuildContext context) {
     List<PaymentOrder>? payments = [];
 
+    ManageBookingCubit? bloc;
     String paymentState = '';
     if (widget.isChange) {
       payments = widget.paymentOrders;
+      bloc = context.watch<ManageBookingCubit>();
     } else {
       payments = context
           .watch<ConfirmationCubit>()
@@ -59,8 +62,13 @@ class _PaymentInfoState extends State<PaymentInfo> {
     return AppCard(
       child: Column(
         children: [
-          if ((payments?.isEmpty ?? false) &&
-              (paymentState == 'PPB' || paymentState == 'BIP')) ...[
+          if ((
+              (
+              (payments?.isEmpty ?? false) ) &&
+              (paymentState == 'PPB' || paymentState == 'BIP') )
+          || (widget.isChange && widget.showPending)
+
+          ) ...[
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -76,6 +84,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
 
                   if(widget.isChange) {
 
+                    bloc?.refreshData();
                   }
                   else {
                     confirmationBloc?.refreshData();
