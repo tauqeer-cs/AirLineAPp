@@ -12,9 +12,15 @@ import '../../../../../widgets/containers/app_expanded_section.dart';
 
 class PaymentInfo extends StatefulWidget {
   final bool isChange;
+  final bool showPending;
+
   final List<PaymentOrder>? paymentOrders;
 
-  const PaymentInfo({Key? key, this.isChange = false, this.paymentOrders})
+  const PaymentInfo(
+      {Key? key,
+      this.isChange = false,
+      this.paymentOrders,
+      this.showPending = false})
       : super(key: key);
 
   @override
@@ -72,10 +78,13 @@ class _PaymentInfoState extends State<PaymentInfo> {
               children: [
                 kVerticalSpacerSmall,
                 ...(payments ?? [])
-                    .map((f) => PaymentDetail(
-                          paymentOrder: f,
-                          changeFlight: widget.isChange,
-                        ))
+                    .map(
+                      (f) => PaymentDetail(
+                        paymentOrder: f,
+                        changeFlight: widget.isChange,
+                        showPending: widget.showPending,
+                      ),
+                    )
                     .toList(),
               ],
             ),
@@ -90,8 +99,13 @@ class PaymentDetail extends StatelessWidget {
   final PaymentOrder paymentOrder;
   final bool changeFlight;
 
+  final bool showPending;
+
   const PaymentDetail(
-      {Key? key, required this.paymentOrder, required this.changeFlight})
+      {Key? key,
+      required this.paymentOrder,
+      required this.changeFlight,
+      this.showPending = false})
       : super(key: key);
 
   @override
