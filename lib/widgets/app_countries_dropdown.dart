@@ -143,13 +143,16 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
                 return true;
               }
 
-              if(country.countryCode?.toLowerCase().contains(b) == true){
+              searchQuery = searchQuery.toLowerCase();
+
+
+              if(country.countryCode?.toLowerCase().contains(searchQuery) == true){
                 return true;
               }
-              if(country.countryCode2?.toLowerCase().contains(b) == true){
+              if(country.countryCode2?.toLowerCase().contains(searchQuery) == true){
                 return true;
               }
-              if(country.country?.toLowerCase().contains(b) == true){
+              if(country.country?.toLowerCase().contains(searchQuery) == true){
                 return true;
               }
 
