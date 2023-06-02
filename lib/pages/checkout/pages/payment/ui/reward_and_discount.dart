@@ -32,7 +32,13 @@ class RewardAndDiscount extends StatelessWidget {
     final state = bloc.state;
     final bookingState = context.read<BookingCubit>().state;
 
-    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+    final currency = context
+            .watch<SearchFlightCubit>()
+            .state
+            .flights
+            ?.flightResult
+            ?.requestedCurrencyOfFareQuote ??
+        'MYR';
 
     return Padding(
       padding: kPageHorizontalPadding,
@@ -56,19 +62,23 @@ class RewardAndDiscount extends StatelessWidget {
             blocState: state.blocState,
             voucherCodeInitial: state.insertedVoucher?.voucherCode ?? '',
             state: state,
-            onRemoveTapped: () {
-              if (state.response != null) {
-                removeVoucher(bookingState, context);
-              } else {
-                _fbKey.currentState!.reset();
-              }
-            },
+            onRemoveTapped: bookingState.superPnrNo != null
+                ? () {
+                    if (state.response != null) {
+                      removeVoucher(bookingState, context);
+                    } else {
+                      _fbKey.currentState!.reset();
+                    }
+                  }
+                : null,
             onButtonTapped: state.blocState == BlocState.loading ||
                     bookingState.superPnrNo != null
                 ? null
                 : (state.response != null)
                     ? () => removeVoucher(bookingState, context)
                     : () {
+
+
                         if (_fbKey.currentState!.saveAndValidate()) {
                           if (ConstantUtils.showPinInVoucher) {
                             final value = _fbKey.currentState!.value;
@@ -108,6 +118,10 @@ class RewardAndDiscount extends StatelessWidget {
   }
 
   void removeVoucher(BookingState bookingState, BuildContext context) {
+    if (bookingState.superPnrNo != null) {
+      return;
+    }
+
     _fbKey.currentState!.reset();
     final token = bookingState.verifyResponse?.token;
     final voucherRequest = VoucherRequest(
