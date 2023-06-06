@@ -112,7 +112,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Infant",
+                  'infant'.tr(),
                   style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
                 ),
                 Row(
@@ -143,7 +143,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Promo\n${filter?.promoCode ?? ''}",
+                    "${'promo'.tr()}\n${filter?.promoCode ?? ''}",
                     style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
                   ),
                   MoneyWidgetSmall(
