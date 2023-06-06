@@ -32,6 +32,15 @@ class BookingCubit extends Cubit<BookingState> {
     Colors.purple,
   ];
 
+  bool get hasPnr {
+
+    if(state.superPnrNo != null) {
+      return true;
+    }
+    return false;
+
+  }
+
   resetState() {
     emit(const BookingState());
   }

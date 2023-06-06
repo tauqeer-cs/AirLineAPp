@@ -37,6 +37,7 @@ class _PaymentViewState extends State<PaymentView> {
 
     num? discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount;
     num? redeemAmount = context.watch<VoucherCubit>().state.selectedRedeemOption?.redemptionAmount;
+    final bookinbBloc = context.read<BookingCubit>();
 
     final widgets = <Widget>[
       Padding(

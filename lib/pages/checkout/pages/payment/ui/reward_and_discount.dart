@@ -30,6 +30,8 @@ class RewardAndDiscount extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = context.watch<VoucherCubit>();
     final state = bloc.state;
+    final bookinbBloc = context.read<BookingCubit>();
+
     final bookingState = context.read<BookingCubit>().state;
 
     final currency = context
@@ -64,7 +66,12 @@ class RewardAndDiscount extends StatelessWidget {
             state: state,
             onRemoveTapped: bookingState.superPnrNo != null
                 ? () {
+              if(bookinbBloc.hasPnr == true) {
+                return;
+
+              }
                     if (state.response != null) {
+
                       removeVoucher(bookingState, context);
                     } else {
                       _fbKey.currentState!.reset();
@@ -77,7 +84,6 @@ class RewardAndDiscount extends StatelessWidget {
                 : (state.response != null)
                     ? () => removeVoucher(bookingState, context)
                     : () {
-
 
                         if (_fbKey.currentState!.saveAndValidate()) {
                           if (ConstantUtils.showPinInVoucher) {
