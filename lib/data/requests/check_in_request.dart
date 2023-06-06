@@ -80,9 +80,6 @@ class OutboundCheckInPassengerDetails {
     memberID = json['MemberID'];
     passportIssueCountryCode = json['PassportIssueCountryCode'];
 
-    print('');
-
-
   }
 
   Map<String, dynamic> toJson() {

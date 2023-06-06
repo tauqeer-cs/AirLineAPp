@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
+import '../../../blocs/countries/countries_cubit.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
@@ -45,6 +46,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
       bloc.loadBoardingDate();
     }
     final locale = context.locale.toString();
+    CountriesCubit? cbloc = context.read<CountriesCubit>();
+
 
     return BlocBuilder<CheckInCubit, CheckInState>(
       bloc: bloc,
@@ -469,6 +472,39 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                               setState(() {
                                 bloc.setPerson(value ?? false, i);
                               });
+                              if(bloc.showPassport) {
+
+                                var natioanlity = state.manageBookingResponse?.result
+                                    ?.passengersWithSSR?[i].passengers?.nationality ?? '';
+
+                                var countries = cbloc.state.countries.where((e) => e.country == natioanlity).toList();
+
+                                String newValue = 'MYS';
+                                if(countries.isNotEmpty) {
+                                  newValue = countries.first.countryCode ?? 'MYS';
+                                }
+
+                                state.manageBookingResponse?.result
+                                    ?.passengersWithSSR?[i].passportCountry = newValue;
+                                if(state.manageBookingResponse?.result
+                                    ?.passengersWithSSR?[i].haveInfant == true) {
+
+
+
+                                  state.manageBookingResponse?.result
+                                      ?.infanct(state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantSurname ?? '',
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
+
+
+
+                                }
+                              }
+
+
                             },
                           ),
 
@@ -560,25 +596,27 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           //],
 
                         ),
-                        kVerticalSpacerSmall,
-                        CheckInDropDownCountry(
-                          doValidation: state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].paxSelected == true,
-                          keyName: 'passportNation$i', onChange: (String newValue) {
+                        if(false) ... [
+                          kVerticalSpacerSmall,
+                          CheckInDropDownCountry(
+                            doValidation: state.manageBookingResponse?.result
+                                ?.passengersWithSSR?[i].paxSelected == true,
+                            keyName: 'passportNation$i', onChange: (String newValue) {
 
-                          if(newValue != null) {
-                            state.manageBookingResponse?.result
-                                ?.passengersWithSSR?[i].passportCountry = newValue;
-                          }
+                            if(newValue != null) {
+                              state.manageBookingResponse?.result
+                                  ?.passengersWithSSR?[i].passportCountry = newValue;
+                            }
 
-                        },
-                        ),
+                          },
+                          ),
+                        ],
+
                         kVerticalSpacerSmall,
                         FormBuilderDateTimePicker(
                           name: 'formNameDob${i.toString()}',
-                          firstDate: DateTime(1920),
-                          lastDate: DateTime.now(),
-                          //initialValue: dobSelected,
+                          firstDate: DateTime.now().add(const Duration(days: 1)),
+                          lastDate: DateTime.now().add(Duration(days: 5475)),
                           format: DateFormat("dd MMM yyyy"),
                           onChanged: (newData) {
 
@@ -590,7 +628,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                           },
-                          initialDate: DateTime(2000),
+                          initialDate: DateTime.now().add(const Duration(days: 365)),
                           initialEntryMode: DatePickerEntryMode.calendar,
                           validator: (value){
 
@@ -765,35 +803,38 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     //],
 
                                   ),
-                                  kVerticalSpacerSmall,
-                                  CheckInDropDownCountry(
-                                    doValidation: state.manageBookingResponse?.result
-                                        ?.passengersWithSSR?[i].paxSelected == true,
-                                    keyName: 'infpassportNation$i', onChange: (String newValue) {
+
+                                  if(false) ... [
+                                    kVerticalSpacerSmall,
+                                    CheckInDropDownCountry(
+                                      doValidation: state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].paxSelected == true,
+                                      keyName: 'infpassportNation$i', onChange: (String newValue) {
 
 
-                                    state.manageBookingResponse?.result
-                                        ?.passengersWithSSR?[i].passportCountry = newValue;
+                                      state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].passportCountry = newValue;
 
-                                    state.manageBookingResponse?.result
-                                        ?.infanct(state.manageBookingResponse?.result
-                                        ?.passengersWithSSR?[i].infantGivenName ?? '',
-                                        state.manageBookingResponse?.result
-                                            ?.passengersWithSSR?[i].infantSurname ?? '',
-                                        state.manageBookingResponse?.result
-                                            ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
-
-
+                                      state.manageBookingResponse?.result
+                                          ?.infanct(state.manageBookingResponse?.result
+                                          ?.passengersWithSSR?[i].infantGivenName ?? '',
+                                          state.manageBookingResponse?.result
+                                              ?.passengersWithSSR?[i].infantSurname ?? '',
+                                          state.manageBookingResponse?.result
+                                              ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
 
 
 
-                                  },),
+
+
+                                    },),
+                                  ],
+
                                   kVerticalSpacerSmall,
                                   FormBuilderDateTimePicker(
                                     name: 'infformNameDob${i.toString()}',
-                                    firstDate: DateTime(1920),
-                                    lastDate: DateTime.now(),
-                                    //initialValue: dobSelected,
+                                    firstDate: DateTime.now().add(Duration(days: 1)),
+                                    lastDate: DateTime.now().add(Duration(days: 5475)),
                                     format: DateFormat("dd MMM yyyy"),
                                     onChanged: (newData) {
 

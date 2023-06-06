@@ -63,8 +63,6 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
 
     if(countriesList.isNotEmpty) {
       showOverrideValue = true;
-
-
       newSelectedCountry = countriesList.first;
       setState(() {});
     }
@@ -106,7 +104,8 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
 
         return blocBuilderWrapper(
           blocState: state.blocState,
-          finishedBuilder: AppDropDown<Country>(
+          finishedBuilder: AppDropDownWithSearch<Country>(
+            numKey: widget.isPhoneCode,
             sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue: showOverrideValue ? newSelectedCountry : (
                  selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
@@ -135,7 +134,43 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
                     : value?.country,
               );
             },
+
             items: (newList.isNotEmpty ? newList : [Country.defaultCountry]),
+            onSearch: (a,b){
+              String searchQuery = b;
+              Country country = a;
+              if(searchQuery.isEmpty) {
+                return true;
+              }
+
+              searchQuery = searchQuery.toLowerCase();
+
+
+              if(country.countryCode?.toLowerCase().contains(searchQuery) == true){
+                return true;
+              }
+              if(country.countryCode2?.toLowerCase().contains(searchQuery) == true){
+                return true;
+              }
+              if(country.country?.toLowerCase().contains(searchQuery) == true){
+                return true;
+              }
+
+              if(widget.isPhoneCode) {
+                if(country.phoneCode?.toLowerCase().contains(b) == true){
+
+                  return true;
+                }
+                if(country.phoneCode?.toLowerCase().contains(b) == true){
+                  return true;
+                }
+
+              }
+
+
+              return false;
+
+            },
           ),
         );
       },

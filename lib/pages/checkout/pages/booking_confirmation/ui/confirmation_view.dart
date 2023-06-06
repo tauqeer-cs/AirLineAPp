@@ -70,12 +70,6 @@ class _ConfirmationViewState extends State<ConfirmationView> {
 
               if(widget.status == 'PPB' || widget.status == 'BIP') ... [
 
-                Text(
-                  'confirmationView.statusPending'.tr(),
-                  style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
-                  textAlign: TextAlign.center,
-                ),
-                kVerticalSpacerMini,
 
                 Text(
                   "confirmationView.bookingPayment".tr(),
