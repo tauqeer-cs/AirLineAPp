@@ -134,14 +134,13 @@ class ManageBookingState extends Equatable {
       String? superPnrNo,
       int? orderId,
         bool? showPending,
-      ChangeFlightRequestResponse? changeFlightResponse}) {
-      PassengersWithSSR? selectedPax,
-        AddonType? addOnOptionSelected,
       ChangeFlightRequestResponse? changeFlightResponse,
-         bool? contactsSectionExpanded,
-         bool? emergencySectionExpanded,
-         bool? companyTaxInvoiceExpanded,
-         bool? paymentDetailsExpanded,
+        PassengersWithSSR? selectedPax,
+        AddonType? addOnOptionSelected,
+        bool? contactsSectionExpanded,
+        bool? emergencySectionExpanded,
+        bool? companyTaxInvoiceExpanded,
+        bool? paymentDetailsExpanded,
         VerifyResponse? verifyResponse,
       }) {
     return ManageBookingState(

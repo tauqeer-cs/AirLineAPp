@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
@@ -543,6 +544,8 @@ class Person extends Equatable {
         return '${bundle?.detail?.bundleDescription}';
       case AddonType.none:
         return '';
+      case AddonType.insurance:
+        return '';
     }
   }
 
@@ -657,6 +660,7 @@ enum AddonType {
   meal,
   baggage,
   special,
+  insurance,
   none,
 }
 

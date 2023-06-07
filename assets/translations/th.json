@@ -1091,7 +1091,8 @@
   "closeAccount" : "ปิดบัญชี",
   "deleteYourAccount" : "ลบบัญชีของคุณ?",
   "allDataWillBeDeleted" : "ข้อมูลทั้งหมดของคุณจะถูกลบ คุณแน่ใจไหม?",
-  "creditCard" : "บัตรเครดิต"
+  "creditCard" : "บัตรเครดิต",
+  "flightCharge.twoDayChangeError" : "ไม่สามารถเปลี่ยนเที่ยวบินที่จะบินในวันนี้ได้"
 
 }
 

@@ -139,13 +139,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     for(PassengersWithSSR currentPerson in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
 
       var currentObject = Person(
-        passenger: Passenger(
+
+        /*passenger: Passenger(
           firstName: currentPerson.passengers?.givenName,
           lastName: currentPerson.passengers?.surname,
           title: currentPerson.passengers?.titleCode,
           paxType: currentPerson.passengers?.passengerType
 
-        ),
+        ),*/
+
 
       );
 

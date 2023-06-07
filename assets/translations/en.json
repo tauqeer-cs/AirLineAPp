@@ -1020,5 +1020,6 @@
   "closeAccount" : "ปิดบัญชี",
   "deleteYourAccount" : "Delete Your Account?",
   "allDataWillBeDeleted" : "All your data will be deleted. are you sure?",
-  "creditCard" : "Credit Card"
+  "creditCard" : "Credit Card",
+  "flightCharge.twoDayChangeError" : "Can not change flight which is taking off today"
 }
