@@ -41,7 +41,6 @@ import 'package:flutter_insider/flutter_insider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app/language_manager.dart';

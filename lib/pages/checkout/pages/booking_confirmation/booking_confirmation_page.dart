@@ -20,7 +20,8 @@ class BookingConfirmationPage extends StatefulWidget {
 
   const BookingConfirmationPage({
     Key? key,
-    @PathParam('id') required this.bookingId, required this.status,
+    @PathParam('id') required this.bookingId,
+    required this.status,
   }) : super(key: key);
 
   @override
@@ -37,6 +38,10 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
     //CON == sucess
   }
 
+  ConfirmationCubit? confirmationBloc;
+
+  String? appAppNewTitle;
+
   @override
   Widget build(BuildContext context) {
     print("booking ${widget.bookingId}");
@@ -44,33 +49,75 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
     CheckInCubit? bloc = context.watch<CheckInCubit>();
     bloc.resetList();
 
-
     return LoaderOverlay(
       useDefaultLoading: false,
       child: BlocProvider(
-        create: (context) =>
-            ConfirmationCubit()..getConfirmation(widget.bookingId,widget.status),
+        create: (context) {
+          confirmationBloc = ConfirmationCubit()
+            ..getConfirmation(widget.bookingId, widget.status);
+
+          return confirmationBloc!;
+        },
         child: Scaffold(
           appBar: AppAppBar(
-            title: "confirmation".tr(),
+            title: appAppNewTitle ??
+                (confirmationBloc == null
+                    ? buildTr()
+                    : confirmationBloc!.bookingViewHeading),
             titleColor: Styles.kPrimaryColor,
             height: 60.h,
             centerTitle: true,
           ),
-          body: BlocBuilder<ConfirmationCubit, ConfirmationState>(
-            builder: (context, state) {
-              return blocBuilderWrapper(
-                blocState: state.blocState,
-                finishedBuilder:  ConfirmationView(pnr: widget.bookingId, status: widget.status,),
-                loadingBuilder: const SingleChildScrollView(
-                  padding: kPagePadding,
-                  child: BookingLoader(),
-                ),
-              );
+          body: BlocListener<ConfirmationCubit, ConfirmationState>(
+            listener: (context, state) {
+              //widget.status == 'PPB' || widget.status == 'BIP'
+              if (state.bookingStatus.isNotEmpty) {
+                if (state.bookingStatus == 'PPB' ||
+                    state.bookingStatus == 'BIP') {
+                  setState(() {
+                    appAppNewTitle = 'confirmationView.statusPending'.tr();
+                  });
+                } else if (state.bookingStatus == 'EXP') {
+                  setState(() {
+                    appAppNewTitle = 'confirmationView.statusExpired'.tr();
+                  });
+                } else if (state.bookingStatus == 'CON') {
+                  setState(() {
+                    appAppNewTitle = ("confirmation".tr());
+                  });
+                }
+              }
+              print('');
             },
+            child: BlocBuilder<ConfirmationCubit, ConfirmationState>(
+              builder: (context, state) {
+                return blocBuilderWrapper(
+                  blocState: state.blocState,
+                  finishedBuilder: ConfirmationView(
+                    pnr: widget.bookingId,
+                    status: widget.status,
+                  ),
+                  loadingBuilder: const SingleChildScrollView(
+                    padding: kPagePadding,
+                    child: BookingLoader(),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
     );
+  }
+
+  String buildTr() {
+    if (widget.status == 'PPB' || widget.status == 'BIP') {
+      return 'confirmationView.statusPending'.tr();
+    }
+    if (widget.status == 'EXP') {
+      return 'confirmationView.statusExpired'.tr();
+    }
+
+    return ("confirmation".tr());
   }
 }

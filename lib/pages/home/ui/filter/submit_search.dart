@@ -20,7 +20,9 @@ class SubmitSearch extends StatelessWidget {
       onPressed: !isValid
           ? null
           : () {
-              context.read<SearchFlightCubit>().searchFlights(filter,filter.origin?.currency ?? 'MYR');
+              context
+                  .read<SearchFlightCubit>()
+                  .searchFlights(filter,  filter.origin?.currency ?? 'MYR');
 
               if (isHomePage) {
                 UserInsider.of(context).registerStandardEvent(
@@ -32,7 +34,9 @@ class SubmitSearch extends StatelessWidget {
                 context.router.pop();
               }
             },
-      child: Text("searchFlight".tr()),
+      child: Text(
+        "searchFlight".tr(),
+      ),
     );
   }
 }

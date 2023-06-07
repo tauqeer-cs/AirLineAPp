@@ -8,6 +8,8 @@ class ManageBookingState extends Equatable {
 
   final BlocState blocState;
   final String message;
+  final bool showPending;
+
   final bool isRememberMe;
   final bool isManageOpen;
   final bool isLoadingInfo;
@@ -56,6 +58,7 @@ class ManageBookingState extends Equatable {
     this.loadingCheckoutPayment = false,
     this.selectedDepartureFlight,
     this.orderId,
+    this.showPending = false,
     this.selectedReturnFlight,
     this.isRememberMe = true,
     this.isManageOpen = true,
@@ -87,6 +90,7 @@ class ManageBookingState extends Equatable {
         checkedDeparture,
         checkReturn,
         lastName,
+    showPending,
         flightSearchResponse,
         changeFlightResponse,
         loadingDatesData,
@@ -129,6 +133,8 @@ class ManageBookingState extends Equatable {
       bool? loadingSelectingFlight,
       String? superPnrNo,
       int? orderId,
+        bool? showPending,
+      ChangeFlightRequestResponse? changeFlightResponse}) {
       PassengersWithSSR? selectedPax,
         AddonType? addOnOptionSelected,
       ChangeFlightRequestResponse? changeFlightResponse,
@@ -174,7 +180,11 @@ class ManageBookingState extends Equatable {
       loadingSummary: loadingSummary ?? this.loadingSummary,
       flightMessageError: flightMessageError,
       orderId: orderId ?? this.orderId,
+      showPending: showPending ?? this.showPending,
+
+
       selectedPax: selectedPax ?? this.selectedPax,
     );
   }
 }
+

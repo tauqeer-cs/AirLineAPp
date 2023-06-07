@@ -492,6 +492,7 @@ class CheckInCubit extends Cubit<CheckInState> {
       );
       return true;
     } catch (e, st) {
+
       emit(
         state.copyWith(
           message: ErrorUtils.getErrorMessage(e, st, dontShowError: false),

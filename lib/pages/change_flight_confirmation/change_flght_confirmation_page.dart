@@ -13,9 +13,11 @@ import '../../widgets/app_app_bar.dart';
 class ChangeFlightConfirmationPage extends StatelessWidget {
   final String bookingId;
 
+  final String status;
+
   ScreenshotController screenshotController = ScreenshotController();
 
-  ChangeFlightConfirmationPage({Key? key, required this.bookingId})
+  ChangeFlightConfirmationPage({Key? key, required this.bookingId, required this.status})
       : super(key: key);
 
   onShare() async {
@@ -29,12 +31,14 @@ class ChangeFlightConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ManageBookingCubit bloc = context.watch<ManageBookingCubit>();
+
     return Screenshot(
       controller: screenshotController,
       child: Scaffold(
         appBar: AppAppBar(
           centerTitle: true,
-          title: 'changeFlightConfirmation'.tr(),
+          title: bloc.state.showPending == true ? 'confirmationView.statusPending'.tr() : 'changeFlightConfirmation'.tr(),
           height: 60.h,
           overrideInnerHeight: true,
         ),

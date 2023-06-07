@@ -160,6 +160,9 @@ class _PaymentPageState extends State<PaymentPage> {
                           } else {
                             if (mounted) {
                               Toast.of(context).show(message: 'paymentFailed'.tr());
+                              setState(() {
+
+                              });
                             }
                           }
                         } else {}

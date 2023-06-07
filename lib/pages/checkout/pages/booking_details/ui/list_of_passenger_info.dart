@@ -45,7 +45,7 @@ class ListOfPassengerInfoState extends State<ListOfPassengerInfo> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${"importantInformation".tr()}",
+                "importantInformation".tr(),
                 style: kMediumHeavy.copyWith(color: Styles.kSubTextColor),
               ),
               kVerticalSpacerSmall,

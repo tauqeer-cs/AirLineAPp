@@ -13,6 +13,7 @@ import '../../../../../widgets/app_card.dart';
 import '../../../../../widgets/app_loading_screen.dart';
 
 class VoucherCodeUi extends StatelessWidget {
+
   final bool readOnly;
   final BlocState blocState;
   GlobalKey<FormBuilderState> fbKey;
@@ -144,12 +145,12 @@ class VoucherCodeUi extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: onRemoveTapped,
+                  onTap:  readOnly ? null : onRemoveTapped,
                   child: Container(
                     padding: const EdgeInsets.all(3),
                     margin: const EdgeInsets.only(left: 6),
                     decoration: BoxDecoration(
-                      color: Styles.kPrimaryColor,
+                      color: readOnly ? Styles.kDisabledButton :Styles.kPrimaryColor,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(

@@ -723,9 +723,11 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 urlParsed.queryParametersAll;
                             String? status = query['status']?.first;
                             String? superPNR =
-                                query['superPNR']?.first;
+                                query['pnr']?.first;
+
                             if (status != "FAIL") {
-                              bloc?.reloadDataForConfirmation();
+
+                              bloc?.reloadDataForConfirmation(status ?? '',superPNR ?? '');
 
                               if (true) {
                                 //mounted
@@ -752,17 +754,17 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                 );*/
                               }
 
-                              //context.router.popUntilRoot();
+
                               context.router.replaceAll([
                                 const NavigationRoute(),
                                 ChangeFlightConfirmationRoute(
-                                  bookingId: superPNR ?? "",
+                                  bookingId: superPNR ?? "", status: status ?? '',
                                 ),
                               ]);
-                            } else {
-                              //    if (mounted) {
-                              //     Toast.of(context).show(message: "Payment failed");
-                              // }
+                            }
+
+                            else {
+
 
                             }
                           } else {}

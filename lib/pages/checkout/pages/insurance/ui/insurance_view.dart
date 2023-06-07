@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../../../data/responses/verify_response.dart';
+import '../../../ui/empty_addon.dart';
 
 class InsuranceView extends StatefulWidget {
   const InsuranceView({Key? key}) : super(key: key);
@@ -111,25 +112,31 @@ class _InsuranceViewState extends State<InsuranceView> {
             controller: scrollController,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
-              Text(
-                "myAirTravelInsurance".tr(),
-                style: kHugeHeavy,
-              ),
+
               if(insurances.isNotEmpty) ... [
+                Text(
+                  "myAirTravelInsurance".tr(),
+                  style: kHugeHeavy,
+                ),
                 kVerticalSpacer,
                  ZurichContainer(bannerImageUrl: logoImage,),
+                kVerticalSpacer,
+
+                const AvailableInsurance(),
+
+                InsuranceTerms(
+                  isInternational:
+                  firstInsurance?.codeType?.contains('SL') == true,
+                ),
+                kSummaryContainerSpacing,
+                kSummaryContainerSpacing,
+              ] else ... [
+                //icoNoInsurance
+
+                 EmptyAddon(icon : "assets/images/icons/icoNoInsurance.png" ,customText: 'insuranceTempUnavailable'.tr(),),
               ],
 
-              kVerticalSpacer,
 
-              AvailableInsurance(),
-
-              InsuranceTerms(
-                isInternational:
-                    firstInsurance?.codeType?.contains('SL') == true,
-              ),
-              kSummaryContainerSpacing,
-              kSummaryContainerSpacing,
             ],
           ),
         ),
