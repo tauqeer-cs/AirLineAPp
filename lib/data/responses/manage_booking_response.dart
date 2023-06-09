@@ -95,6 +95,22 @@ class Result {
   BookingContact? bookingContact;
   List<PassengersWithSSR>? passengersWithSSR;
 
+  List<Person> get allPersonObject {
+
+    List<Person> persons = [];
+
+    for(PassengersWithSSR currnetItem in passengersWithSSR ?? []) {
+      if(currnetItem.personObject != null) {
+        persons.add(currnetItem.personObject!);
+
+      }
+
+    }
+    return persons;
+
+  }
+
+
   List<PassengersWithSSR> get passengersWithSSRWithoutInfant {
     return passengersWithSSR
             ?.where((element) => element.isInfant == false)
@@ -335,9 +351,19 @@ class Result {
     return '${flightSegments?.first.outbound?.first.departureAirportLocationCode ?? ''} ${'to'.tr()} ${flightSegments?.first.outbound?.first.arrivalAirportLocationCode ?? ''}';
   }
 
+  String get departureToDestinationCodeDash {
+    return '${flightSegments?.first.outbound?.first.departureAirportLocationCode ?? ''}${'—'.tr()}${flightSegments?.first.outbound?.first.arrivalAirportLocationCode ?? ''}';
+  }
+
+
   String get returnToDestinationCode {
     return '${flightSegments?.first.inbound?.first.departureAirportLocationCode ?? ''} ${'to'.tr()} ${flightSegments?.first.inbound?.first.arrivalAirportLocationCode ?? ''}';
   }
+
+  String get returnToDestinationCodeDash {
+    return '${flightSegments?.first.inbound?.first.departureAirportLocationCode ?? ''}-${'to'.tr()}-${flightSegments?.first.inbound?.first.arrivalAirportLocationCode ?? ''}';
+  }
+
 
   String get fromToDestinationName {
     return '${flightSegments?.first.inbound?.first.departureAirportLocationName ?? ''} ${'to'.tr()} ${flightSegments?.first.outbound?.first.arrivalAirportLocationName ?? ''}';
@@ -526,6 +552,8 @@ class PassengersWithSSR {
   num? personOrgID;
   Passenger? passengers;
 
+  Person? personObject;
+
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;
   MealDetail? mealDetail;
@@ -580,12 +608,15 @@ class PassengersWithSSR {
     String? infantDob,
     String? infantNationality,
     bool? infantExpanded,
+    Person? personObject
+
   }) {
     return PassengersWithSSR(
         personOrgID: personOrgID ?? this.personOrgID,
         passengers: passengers ?? this.passengers,
         fareAndBundleDetail: fareAndBundleDetail ?? this.fareAndBundleDetail,
         mealDetail: mealDetail ?? this.mealDetail,
+        personObject: personObject ?? this.personObject,
         baggageDetail: baggageDetail ?? this.baggageDetail,
         wheelChairDetail: wheelChairDetail ?? this.wheelChairDetail,
         sportEquipmentDetail: sportEquipmentDetail ?? this.sportEquipmentDetail,
@@ -611,6 +642,7 @@ class PassengersWithSSR {
     this.fareAndBundleDetail,
     this.seatDetail,
     this.mealDetail,
+    this.personObject,
     this.checkInStatusInOut,
     this.paxSelected = false,
     this.baggageDetail,

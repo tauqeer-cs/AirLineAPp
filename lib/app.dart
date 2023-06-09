@@ -193,7 +193,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
         return;
       }
-      if (durationRemaining == 600) {
+      if (durationRemaining == 2100) {
         FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
         showDialog(
           context: currentContext,
@@ -212,25 +212,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           },
         );
       }
-      /* else if (durationRemaining == 85) {
-        FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog_five");
-        showDialog(
-          context: currentContext,
-          barrierDismissible: false,
-          builder: (context) {
-            return AppConfirmationDialog(
-              title: "Your session is about to expire in 5 minutes.",
-              subtitle: "",
-              confirmText: "Stay and Continue",
-              onConfirm: () {
-                final filterState =
-                    currentContext.read<SearchFlightCubit>().state.filterState;
-                currentContext.read<BookingCubit>().reVerifyFlight(filterState);
-              },
-            );
-          },
-        );
-      } */
       else if (durationRemaining == 0) {
         //return;
         FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");

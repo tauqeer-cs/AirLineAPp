@@ -88,7 +88,7 @@ class PaymentDetailsSecond extends StatelessWidget {
                         if(payment?.cardOption == 'FPX' ) ... [
                           Expanded(
                             child: Text(
-                              'paymentDetails'.tr() +  ' - '  + (payment?.cardOption ?? '')  ,
+                              '${'paymentDetails'.tr()} - ${payment?.cardOption ?? ''}'  ,
                               style: kMediumRegular.copyWith(color: Styles.kTextColor),
                             ),
                           ),

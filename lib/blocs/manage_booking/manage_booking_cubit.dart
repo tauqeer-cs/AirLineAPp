@@ -18,10 +18,12 @@ import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
 import '../../models/confirmation_model.dart';
 import '../../data/responses/verify_response.dart';
+import '../../data/responses/verify_response.dart' as Vs;
 import '../../models/number_person.dart';
 import '../../models/pay_redirection.dart';
 import '../../utils/error_utils.dart';
 import '../../data/responses/change_flight_response.dart';
+import 'package:flutter/material.dart';
 
 part 'manage_booking_state.dart';
 
@@ -96,14 +98,25 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return passengersWithSSRNotBaby.length.toDouble();
   }
 
+  final List<Color> availableSeatsColor = [
+    Colors.blue,
+    Colors.greenAccent,
+    Colors.green,
+    Colors.yellowAccent,
+    Colors.yellow,
+    Colors.orangeAccent,
+    Colors.orange,
+    Colors.purple,
+  ];
+
   void makeVerifyRequest() async {
     final _repository = FlightRepository();
 
-    const outboundLFID = 66701;
-    const outboundFBCode = 'WLH001NM';
+    const outboundLFID = 68563;
+    const outboundFBCode = 'WLH001MM';
 
-    const inboundLFID = 67006;
-    const inboundFBCode = 'WLH001NM';
+    const inboundLFID = 68640;
+    const inboundFBCode = 'WLH001MM';
 
     final inboundFares =
         OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
@@ -136,10 +149,168 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     final verifyResponse = await _repository.verifyFlight(request);
     List<Person> allPeople = [];
 
-    for(PassengersWithSSR currentPerson in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
+    var outBoundSeatRows = verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows;
+    var inBoundSeatRows = verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows;
 
+
+    var  mainObject = state.manageBookingResponse;
+
+
+
+    final seatsDeparture =
+        verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
+    final seatsReturn = verifyResponse.flightSSR?.seatGroup?.inbound ?? [];
+
+
+
+     Map<num?, Color> departureColorMapping = {};
+     Map<num?, Color> returnColorMapping = {};
+
+    for (int i = 0; i < seatsDeparture.length; i++) {
+      final seat = seatsDeparture[i];
+      departureColorMapping.putIfAbsent(
+          seat.serviceID, () => availableSeatsColor[i]);
+    }
+
+    for (int i = 0; i < seatsReturn.length; i++) {
+      final seat = seatsReturn[i];
+      returnColorMapping.putIfAbsent(
+          seat.serviceID, () => availableSeatsColor[i]);
+    }
+
+
+
+    for(PassengersWithSSR currentPerson in mainObject?.result?.passengersWithSSR ?? []) {
+
+
+      var result = currentPerson.seatDetail?.seats?.where((e) => e.departReturn == 'Depart').toList();
+
+      var result2 = currentPerson.seatDetail?.seats?.where((e) => e.departReturn == 'Return').toList();
+
+
+
+      Vs.Seats? departureSeats;
+
+      if(result?.isNotEmpty ?? false) {
+        String input = result?.first.seatPosition ?? '';
+        if(input.isNotEmpty) {
+
+
+          RegExp regex = RegExp(r'([A-Za-z]+)(\d+)');
+          var match = regex.firstMatch(input);
+
+          String? characterPart = match?.group(1); // C
+          String? numberPart = match?.group(2); // 17
+
+          int seatNo  = int.tryParse(numberPart ?? '') ?? 0;
+
+          var ress = outBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
+
+          if(ress?.isNotEmpty ?? false) {
+            var finalSeat = ress?.first.seats?.where((e) => e.seatColumn == characterPart).toList().first;
+
+            departureSeats = finalSeat;
+            print('');
+
+
+          }
+
+          print('');
+
+        }
+      }
+      Vs.Seats? returnSeats;
+
+      if(result2?.isNotEmpty ?? false) {
+        String input = result2?.first.seatPosition ?? '';
+        if(input.isNotEmpty) {
+
+
+          RegExp regex = RegExp(r'([A-Za-z]+)(\d+)');
+          var match = regex.firstMatch(input);
+
+          String? characterPart = match?.group(1); // C
+          String? numberPart = match?.group(2); // 17
+
+          int seatNo  = int.tryParse(numberPart ?? '') ?? 0;
+
+          var ress = inBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
+
+          if(ress?.isNotEmpty ?? false) {
+            var finalSeat = ress?.first.seats?.where((e) => e.seatColumn == characterPart).toList().first;
+
+            returnSeats = finalSeat;
+            print('');
+
+
+          }
+
+          print('');
+
+        }
+      }
+
+       List<Bundle> departureMeal = [];
+       List<Bundle> returnMeal = [];
+
+       //Depart
+
+
+      var departMealsSelected = currentPerson.mealDetail?.departureMealsOnly;
+      var returnMealsSelected = currentPerson.mealDetail?.returnMealsOnly;
+
+      for(MealList currentIte in departMealsSelected ?? []) {
+
+        //Nasi Lemak Combo
+        List<Bundle> result = verifyResponse.flightSSR?.mealGroup?.outbound?.where((e) => e.description?.toLowerCase() == currentIte.mealName?.toLowerCase()).toList() ?? [];
+
+        if(result.isNotEmpty) {
+
+          departureMeal.add(result.first);
+
+        }
+        print('');
+
+      }
+
+
+      for(MealList currentIte in returnMealsSelected ?? []) {
+
+        //Nasi Lemak Combo
+        List<Bundle> result = verifyResponse.flightSSR?.mealGroup?.inbound?.where((e) => e.description?.toLowerCase() == currentIte.mealName?.toLowerCase()).toList() ?? [];
+
+        if(result.isNotEmpty) {
+
+          returnMeal.add(result.first);
+
+        }
+        print('');
+
+      }
+
+      //currentPerson.mealDetail?.meals?.where((e) => e!.titleToShow)
+
+      PeopleType type ;
+
+      if(currentPerson.passengers?.passengerType  == 'INF') {
+        type = PeopleType.infant;
+      }
+      else if(currentPerson.passengers?.passengerType  == 'CHD') {
+        type = PeopleType.child;
+      }
+      else {
+        type = PeopleType.adult;
+      }
+
+
+      //
       var currentObject = Person(
 
+        peopleType: type,
+        departureMeal: departureMeal,
+        returnMeal: returnMeal,
+        departureSeats: departureSeats,
+        returnSeats: returnSeats
         /*passenger: Passenger(
           firstName: currentPerson.passengers?.givenName,
           lastName: currentPerson.passengers?.surname,
@@ -151,12 +322,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       );
 
+      currentPerson.personObject = currentObject;
+    //  currentPerson.copyWith(personObject: currentObject);
       print('');
 
 
     }
+
     emit(
-      state.copyWith(verifyResponse: verifyResponse
+      state.copyWith(verifyResponse: verifyResponse,
+        manageBookingResponse: mainObject,
+        departureColorMapping: departureColorMapping,
+        returnColorMapping: returnColorMapping
     ));
 
     print('');

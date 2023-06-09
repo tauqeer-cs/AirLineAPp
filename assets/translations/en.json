@@ -500,7 +500,7 @@
   "passengerDetail.baggageTitle": "Baggage",
   "passengerDetail.specialAddonsTitle": "Special Add-on",
   "passengerDetail.confirm": "Confirm",
-  "paymentDetail.paymentDetails": "Payment Details",
+  "paymentDetails": "Payment Details",
   "paymentDetail.paymentDetailTitle": "My Payment Cards",
   "paymentDetail.paymentSaved": "Saved payment methods",
   "paymentDetail.paymentSavedDesc": "Details of your default card will be automatically entered for future MYAirline payments. Payment method can be changed at the time of booking.",
@@ -1021,5 +1021,7 @@
   "deleteYourAccount" : "Delete Your Account?",
   "allDataWillBeDeleted" : "All your data will be deleted. are you sure?",
   "creditCard" : "Credit Card",
-  "flightCharge.twoDayChangeError" : "Can not change flight which is taking off today"
+  "flightCharge.twoDayChangeError" : "Can not change flight which is taking off today",
+  "weSorrySeatSelected" : "We’re sorry, this seat has been taken. Please select another seat.",
+  "seatTotal" : "Seat Total"
 }

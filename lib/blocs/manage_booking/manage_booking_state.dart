@@ -38,12 +38,18 @@ class ManageBookingState extends Equatable {
 
   final PassengersWithSSR? selectedPax;
 
+
   final bool contactsSectionExpanded;
   final bool emergencySectionExpanded;
   final bool companyTaxInvoiceExpanded;
   final bool paymentDetailsExpanded;
 
-  const ManageBookingState({
+
+
+  final Map<num?, Color>? departureColorMapping;
+  final Map<num?, Color>? returnColorMapping;
+
+  const ManageBookingState( {
     this.blocState = BlocState.initial,
     this.message = "",
     this.addOnOptionSelected,
@@ -74,6 +80,8 @@ class ManageBookingState extends Equatable {
     this.flightSearchResponse,
     this.loadingDatesData = false,
     this.flightMessageError = '',
+    this.departureColorMapping,
+    this.returnColorMapping,
   });
 
   @override
@@ -81,6 +89,8 @@ class ManageBookingState extends Equatable {
         blocState,
         message,
         isRememberMe,
+    departureColorMapping,
+    returnColorMapping,
         selectedDepartureFlight,
         selectedReturnFlight,
         isLoadingInfo,
@@ -142,6 +152,8 @@ class ManageBookingState extends Equatable {
         bool? companyTaxInvoiceExpanded,
         bool? paymentDetailsExpanded,
         VerifyResponse? verifyResponse,
+         Map<num?, Color>? departureColorMapping,
+         Map<num?, Color>? returnColorMapping,
       }) {
     return ManageBookingState(
       verifyResponse: verifyResponse ?? this.verifyResponse,
@@ -180,9 +192,9 @@ class ManageBookingState extends Equatable {
       flightMessageError: flightMessageError,
       orderId: orderId ?? this.orderId,
       showPending: showPending ?? this.showPending,
-
-
       selectedPax: selectedPax ?? this.selectedPax,
+      returnColorMapping: returnColorMapping ?? this.returnColorMapping,
+      departureColorMapping: departureColorMapping ?? this.departureColorMapping,
     );
   }
 }

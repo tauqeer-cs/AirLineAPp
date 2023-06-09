@@ -21,6 +21,7 @@ import 'flight_list_item.dart';
 class CheckingListing extends StatelessWidget {
   final void Function(bool) navigateToCheckInDetails;
 
+
   const CheckingListing({Key? key, required this.navigateToCheckInDetails})
       : super(key: key);
 
@@ -245,8 +246,10 @@ class CheckingListing extends StatelessWidget {
 
 class CustomSegmentControl extends StatefulWidget {
   final Function(bool) statusChange;
+  final String? textOne;
+  final String? textTwo;
 
-  const CustomSegmentControl({super.key, required this.statusChange});
+  const CustomSegmentControl({super.key, required this.statusChange, this.textOne, this.textTwo});
 
   @override
   _CustomSegmentControlState createState() => _CustomSegmentControlState();

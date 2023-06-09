@@ -17,6 +17,7 @@ import '../../../models/number_person.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
+import '../../../utils/custom_segment.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
 import '../../add_on/seats/ui/seat_legend_simple.dart';
@@ -258,16 +259,42 @@ class ManageBookingDetailsView extends StatelessWidget {
                 kVerticalSpacerSmall,
                 const AddOnOptions(),
                 kVerticalSpacer,
+                if (bloc?.state.addOnOptionSelected == AddonType.seat) ...[
+                  kVerticalSpacerMini,
 
-                const ContactsSection(),
-                kVerticalSpacer,
-                const EmergencyContactsSection(),
-                kVerticalSpacer,
-                const ComapnyTaxInvoiceSection(),
-                kVerticalSpacer,
-                const PaymentDetailsSecond(),
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Styles.kActiveGrey),
+                      color: Styles.kActiveGrey,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: Text('weSorrySeatSelected'.tr(),
+                          style: kMediumMedium.copyWith(
+                            color: Styles.kCanvasColor,
+                          )),
+                    ),
+                  ),
+                  //.tr
+                  kVerticalSpacerSmall,
 
-                if(bloc?.state.addOnOptionSelected == AddonType.seat) ... [
+                  CustomSegmentControl(
+                    optionOneTapped: () {},
+                    optionTwoTapped: () {},
+                    textOne: '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                    textTwo: '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                    customRadius: 12,
+                    customBorderWidth: 1,
+                    customVerticalPadding: 8,
+                    customSelectedStyle: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                    customNoSelectedStyle: kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+
+                  ),
+                  kVerticalSpacer,
+
                   const SeatLegendSimple(),
                   kVerticalSpacer,
 
@@ -277,11 +304,19 @@ class ManageBookingDetailsView extends StatelessWidget {
                     },
                     moveToBottom: () {
                       //  moveToBottom?.call();
-                    }, isManageBooking: true,
+                    },
+                    isManageBooking: true,
                   ),
+                  kVerticalSpacer,
+
                 ],
-
-
+                const ContactsSection(),
+                kVerticalSpacer,
+                const EmergencyContactsSection(),
+                kVerticalSpacer,
+                const ComapnyTaxInvoiceSection(),
+                kVerticalSpacer,
+                const PaymentDetailsSecond(),
               ],
             ),
           ),
@@ -306,7 +341,3 @@ class ManageBookingDetailsView extends StatelessWidget {
     return true;
   }
 }
-
-
-
-

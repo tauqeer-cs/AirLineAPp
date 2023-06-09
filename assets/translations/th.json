@@ -1092,7 +1092,10 @@
   "deleteYourAccount" : "ลบบัญชีของคุณ?",
   "allDataWillBeDeleted" : "ข้อมูลทั้งหมดของคุณจะถูกลบ คุณแน่ใจไหม?",
   "creditCard" : "บัตรเครดิต",
-  "flightCharge.twoDayChangeError" : "ไม่สามารถเปลี่ยนเที่ยวบินที่จะบินในวันนี้ได้"
+  "flightCharge.twoDayChangeError" : "ไม่สามารถเปลี่ยนเที่ยวบินที่จะบินในวันนี้ได้",
+  "weSorrySeatSelected" : "ขออภัย ที่นั่งนี้ถูกจองแล้ว กรุณาเลือกที่นั่งอื่น",
+  "seatTotal" : "จำนวนที่นั่งทั้งหมด"
+
 
 }
 

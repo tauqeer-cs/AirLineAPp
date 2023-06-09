@@ -1144,7 +1144,28 @@ class MealDetail extends Equatable {
 
   final List<Meal>? meals;
 
+
+
+  List<MealList> get returnMealsOnly {
+
+
+    return meals?.first.mealList?.where((element) => element.departReturn == 'Return').toList() ?? [];
+
+  }
+
+
+  List<MealList> get departureMealsOnly {
+
+
+    return meals?.first.mealList?.where((element) => element.departReturn == 'Depart').toList() ?? [];
+
+  }
+
+
   List<Meal> get departureMeals {
+
+
+
     return meals?.where((element) {
           final mealList = element.mealList?.firstWhereOrNull(
               (element) => element.departReturn == "Depart");

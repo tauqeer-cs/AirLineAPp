@@ -11,6 +11,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+
 class SeatRow extends StatefulWidget {
   final Seats seats;
   final VoidCallback? moveToTop;
@@ -21,7 +23,8 @@ class SeatRow extends StatefulWidget {
     Key? key,
     required this.seats,
     this.moveToTop,
-    this.moveToBottom, required this.isManageBooking,
+    this.moveToBottom,
+    required this.isManageBooking,
   }) : super(key: key);
 
   @override
@@ -44,43 +47,82 @@ class _SeatRowState extends State<SeatRow> {
   @override
   Widget build(BuildContext context) {
     final bookingState = context.watch<BookingCubit>().state;
-    final selectedPerson = context.watch<SelectedPersonCubit>().state;
-    final state = context.watch<SearchFlightCubit>().state;
-    final persons = state.filterState?.numberPerson;
-    final focusedPerson = persons?.persons
-        .firstWhereOrNull((element) => element == selectedPerson);
-    final isDeparture = context.watch<IsDepartureCubit>().state;
-    final otherSeats = persons?.selectedSeats(isDeparture);
+    Person? selectedPerson = context.watch<SelectedPersonCubit>().state;
+    if (widget.isManageBooking) {
+      var state = context.watch<ManageBookingCubit>().state;
+      selectedPerson = state.selectedPax?.personObject;
+      print('');
+    } else {
+      selectedPerson = context.watch<SelectedPersonCubit>().state;
+    }
+    NumberPerson? persons;
+    Person? focusedPerson;
+    List<Seats?>? otherSeats;
+
+    bool isDeparture = true;
+
+    Map<num?, Color>? mapColor;
+
+
+    if (widget.isManageBooking) {
+      var no = context
+              .watch<ManageBookingCubit>()
+              .state
+              .manageBookingResponse
+              ?.result
+              ?.allPersonObject ??
+          [];
+
+      persons = NumberPerson(persons: no);
+
+      focusedPerson =
+          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+      isDeparture = true;
+
+      otherSeats = persons.selectedSeats(isDeparture);
+
+
+      mapColor = isDeparture
+          ? context.watch<ManageBookingCubit>().state.departureColorMapping
+          : context.watch<ManageBookingCubit>().state.returnColorMapping;
+
+    } else {
+      final state = context.watch<SearchFlightCubit>().state;
+      persons = state.filterState?.numberPerson;
+      focusedPerson = persons?.persons
+          .firstWhereOrNull((element) => element == selectedPerson);
+      isDeparture = context.watch<IsDepartureCubit>().state;
+      otherSeats = persons?.selectedSeats(isDeparture);
+      mapColor = isDeparture
+          ? bookingState.departureColorMapping
+          : bookingState.returnColorMapping;
+    }
+
+
     final seat = isDeparture
         ? focusedPerson?.departureSeats
         : focusedPerson?.returnSeats;
     final selected = seat == widget.seats;
     final otherSelected = otherSeats?.contains(widget.seats) ?? false;
-    final mapColor = isDeparture
-        ? bookingState.departureColorMapping
-        : bookingState.returnColorMapping;
 
-    if(seat != null) {
 
+
+    if (seat != null) {
       print('');
-
     }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
-          print("is selected ${widget.seats.isSeatAvailable}");
-          //if ((mapColor ?? {})[widget.seats.serviceId]==null) return;
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
-          if(selected){
+          if (selected) {
             print("is selected $selected");
             context
                 .read<SearchFlightCubit>()
                 .addSeatToPerson(selectedPerson, null, isDeparture);
           }
           if (otherSelected) return;
-
 
           var responseCheck = context
               .read<SearchFlightCubit>()
