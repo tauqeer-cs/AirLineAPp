@@ -145,11 +145,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         final nowUTC = DateTime.now().toUtc();
         final diff = expiredDate.difference(nowUTC);
         currentContext?.read<TimerBloc>().add(
-          TimerStarted(
-            duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
-            expiredTime: expiredDate,
-          ),
-        );
+              TimerStarted(
+                duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
+                expiredTime: expiredDate,
+              ),
+            );
       } catch (e) {
         logger.e("Cannot start timer from resume");
       }
@@ -193,7 +193,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         );
         return;
       }
-      if (durationRemaining == 600) {
+      if (durationRemaining == 1500) {
         FirebaseAnalytics.instance.logEvent(name: "session_prompt_dialog");
         showDialog(
           context: currentContext,
@@ -249,7 +249,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   appRouter.replaceAll([const NavigationRoute()]);
                   currentContext.read<TimerBloc>().add(const TimerReset());
                 },
-                confirmText: "Okay",
+                confirmText: "okay".tr(),
               ),
             );
           },
@@ -266,28 +266,54 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => CountriesCubit()..getCountries()),
+        BlocProvider(
+          create: (_) => CountriesCubit()..getCountries(),
+        ),
         BlocProvider(
           create: (_) => SettingsCubit()..getSettings(),
           lazy: false,
         ),
-        BlocProvider(create: (_) => FilterCubit()),
-        BlocProvider(create: (_) => SearchFlightCubit()),
-        BlocProvider(create: (context) => SummaryCubit()),
-        BlocProvider(create: (_) => BookingCubit()),
-        BlocProvider(create: (context) => InsuranceCubit()),
+        BlocProvider(
+          create: (_) => FilterCubit(),
+        ),
+        BlocProvider(
+          create: (_) => SearchFlightCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SummaryCubit(),
+        ),
+        BlocProvider(
+          create: (_) => BookingCubit(),
+        ),
+        BlocProvider(
+          create: (context) => InsuranceCubit(),
+        ),
         BlocProvider(
           create: (_) => TimerBloc(
             tickerRepository: const TickerRepository(),
           ),
         ),
-        BlocProvider(create: (_) => SelectedPersonCubit()),
-        BlocProvider(create: (context) => VoucherCubit()),
-        BlocProvider(create: (_) => HomeCubit()),
-        BlocProvider(create: (_) => CmsSsrCubit(locale)),
-        BlocProvider(create: (_) => AgentSignUpCubit(locale)),
-        BlocProvider(create: (_) => CheckInCubit()),
-        BlocProvider(create: (_) => ProfileCubit()),
+        BlocProvider(
+          create: (_) => SelectedPersonCubit(),
+        ),
+        BlocProvider(
+          create: (context) => VoucherCubit(),
+        ),
+        BlocProvider(
+          create: (_) => HomeCubit(),
+        ),
+        BlocProvider(
+          create: (_) => CmsSsrCubit(locale),
+        ),
+        BlocProvider(
+          create: (_) => AgentSignUpCubit(locale),
+        ),
+        BlocProvider(
+          create: (_) => CheckInCubit(),
+        ),
+        BlocProvider(
+          create: (_) => ProfileCubit(),
+        ),
         BlocProvider(
           create: (context) => ManageBookingCubit(),
         ),
@@ -306,7 +332,9 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 const Init(),
               ),
             lazy: false),
-        BlocProvider(create: (_) => BookingLocalCubit()..getBooking()),
+        BlocProvider(
+          create: (_) => BookingLocalCubit()..getBooking(),
+        ),
         BlocProvider(
           create: (_) => AirportsCubit()..getAirports(),
           lazy: false,
@@ -330,13 +358,13 @@ class _AppState extends State<App> with WidgetsBindingObserver {
               final nowUTC = DateTime.now().toUtc();
               final diff = expiredInUTC.difference(nowUTC);
               context.read<TimerBloc>().add(
-                TimerStarted(
-                  duration: state.superPnrNo != null ? 900 : diff.inSeconds,
-                  expiredTime: state.superPnrNo != null
-                      ? nowUTC.add(const Duration(seconds: 900))
-                      : expiredInUTC,
-                ),
-              );
+                    TimerStarted(
+                      duration: state.superPnrNo != null ? 900 : diff.inSeconds,
+                      expiredTime: state.superPnrNo != null
+                          ? nowUTC.add(const Duration(seconds: 900))
+                          : expiredInUTC,
+                    ),
+                  );
               if (state.blocState == BlocState.failed) {
                 if (state.message ==
                     "The outbound seat chosen is not available anymore") {
@@ -352,14 +380,16 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           ),
           BlocListener<RoutesCubit, RoutesState>(
             listener: (context, state) {
-              context.read<HomeCubit>().getContents(state.routes,locale);
-              context.read<CmsSsrCubit>().getCmsSSR(state.routes,);
+              context.read<HomeCubit>().getContents(state.routes, locale);
+              context.read<CmsSsrCubit>().getCmsSSR(
+                    state.routes,
+                  );
               context.read<AgentSignUpCubit>().getAgentSignUp(state.routes);
             },
           ),
           BlocListener<SearchFlightCubit, SearchFlightState>(
             listenWhen: (previous, current) =>
-            previous.blocState != BlocState.finished &&
+                previous.blocState != BlocState.finished &&
                 current.blocState == BlocState.finished,
             listener: (context, state) {
               context.read<BookingCubit>().resetState();
@@ -391,7 +421,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                   builder: (context, child) {
                     final mediaQueryData = MediaQuery.of(context);
                     final scale =
-                    mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
+                        mediaQueryData.textScaleFactor.clamp(1.0, 1.2);
                     return MediaQuery(
                       data: MediaQuery.of(context)
                           .copyWith(textScaleFactor: scale),
@@ -484,8 +514,8 @@ class MyObserver extends AutoRouterObserver {
           .setCurrentScreen(screenName: screenName)
           .catchError(
             (Object error) {},
-        test: (Object error) => error is PlatformException,
-      );
+            test: (Object error) => error is PlatformException,
+          );
     }
   }
 }

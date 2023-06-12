@@ -20,8 +20,9 @@ import 'flight_list_item.dart';
 
 class CheckingListing extends StatelessWidget {
   final void Function(bool) navigateToCheckInDetails;
+  final void Function(String) showErrorMessage;
 
-  const CheckingListing({Key? key, required this.navigateToCheckInDetails})
+  const CheckingListing({Key? key, required this.navigateToCheckInDetails, required this.showErrorMessage})
       : super(key: key);
 
   @override
@@ -181,8 +182,14 @@ class CheckingListing extends StatelessWidget {
                                       }
                                       var flag = await bloc
                                           .getBookingInformation('', '',
-                                              bookSelected: bloc.state
-                                                  .upcomingBookings?[index]);
+                                          bookSelected: bloc.state
+                                              .upcomingBookings?[index],errorToShow: (String error) {
+
+                                            showErrorMessage(error);
+
+                                            return;
+
+                                          });
 
                                       if (flag == true) {
                                         navigateToCheckInDetails(false);

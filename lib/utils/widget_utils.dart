@@ -1,5 +1,6 @@
 import 'package:app/data/repositories/remote_config_repository.dart';
 import 'package:app/widgets/dialogs/app_confirmation_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:store_redirect/store_redirect.dart';
@@ -28,7 +29,7 @@ class WidgetUtils {
             showCloseButton: appVersion >= minimumVersion,
             title: RemoteConfigRepository.title ?? "",
             subtitle: RemoteConfigRepository.subtitle ?? "",
-            confirmText: "Okay",
+            confirmText: "okay".tr(),
             onConfirm: () {
               StoreRedirect.redirect(
                 androidAppId: "com.myairline.mobileapp",

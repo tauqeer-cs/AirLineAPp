@@ -128,6 +128,7 @@ class Result {
   bool? isReturn;
   bool? success;
 
+  String? message;
   bool? isRequiredPassport;
 
   bool get outboundCheckingAllowed {
@@ -313,6 +314,7 @@ class Result {
       this.flightSegments,
       this.companyTaxInvoice,
       this.isReturn,
+        this.message,
       this.success});
 
   Result.fromJson(Map<String, dynamic> json) {
@@ -372,6 +374,10 @@ class Result {
     isRequiredPassport = json['isRequiredPassport'];
 
     success = json['success'];
+    message = json['message'];
+
+
+
   }
 
   Map<String, dynamic> toJson() {

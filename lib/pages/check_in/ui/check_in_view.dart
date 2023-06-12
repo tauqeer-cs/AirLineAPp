@@ -20,8 +20,6 @@ import '../../../widgets/app_loading_screen.dart';
 import '../bloc/check_in_cubit.dart';
 
 class CheckInView extends StatelessWidget {
-
-
   CheckInView({Key? key}) : super(key: key);
 
   static final _fbKey = GlobalKey<FormBuilderState>();
@@ -32,7 +30,6 @@ class CheckInView extends StatelessWidget {
   Widget build(BuildContext context) {
     bloc = context.watch<CheckInCubit>();
     String? checkInLabel = context.watch<CmsSsrCubit>().state.checkInLabel;
-
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -50,16 +47,16 @@ class CheckInView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     kVerticalSpacer,
-                     Padding(
+                    Padding(
                       padding:
-                      EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
                       child: Text("onlineCheckIn".tr(), style: kGiantHeavy),
                     ),
                     kVerticalSpacerMini,
                     Text(
-                        checkInLabel ?? 'webCheckInFAQ'.tr(),
+                      checkInLabel ?? 'webCheckInFAQ'.tr(),
                       style:
-                      kMediumRegular.copyWith(color: Styles.kSubTextColor),
+                          kMediumRegular.copyWith(color: Styles.kSubTextColor),
                     ),
                     kVerticalSpacer,
                     AppInputTextWithBorder(
@@ -69,11 +66,9 @@ class CheckInView extends StatelessWidget {
                       validators: [
                         FormBuilderValidators.required(),
                         FormBuilderValidators.minLength(6,
-                            errorText:
-                            "navBar.bookingReferenceValid".tr()),
+                            errorText: "navBar.bookingReferenceValid".tr()),
                         FormBuilderValidators.maxLength(6,
-                            errorText:
-                            'navBar.bookingReferenceValid'.tr()),
+                            errorText: 'navBar.bookingReferenceValid'.tr()),
                       ],
                     ),
                     kVerticalSpacerSmall,
@@ -86,11 +81,11 @@ class CheckInView extends StatelessWidget {
                     bloc?.state.isLoadingInfo == true
                         ? const AppLoading()
                         : ElevatedButton(
-                      onPressed: () {
-                        onManageBooking(context);
-                      },
-                      child:  Text('search'.tr()),
-                    )
+                            onPressed: () {
+                              onManageBooking(context);
+                            },
+                            child: Text('search'.tr()),
+                          )
                   ],
                 ),
               ),
@@ -102,14 +97,13 @@ class CheckInView extends StatelessWidget {
   }
 
   void moveToNext(BuildContext context) {
-
     context.router.push(
       CheckInDetailsRoute(isPast: false),
     );
   }
 
   onManageBooking(BuildContext context) async {
-    if(false){
+    if (false) {
       if (_fbKey.currentState!.saveAndValidate()) {
         final value = _fbKey.currentState!.value;
         final code = value["bookingNumberCheckIn"].toString().toUpperCase();
@@ -117,8 +111,8 @@ class CheckInView extends StatelessWidget {
         final url =
             "${AppFlavor.thirdPartyUrl}/en/checkin?confirmationNumber=$code&bookingLastName=$lastName";
 
-          context.router.push(InAppWebViewRoute(url: url,title: "onlineCheckIn".tr()));
-
+        context.router
+            .push(InAppWebViewRoute(url: url, title: "onlineCheckIn".tr()));
 
         // launchUrl(Uri.parse("${AppFlavor.thirdPartyUrl}/en/checkin?confirmationNumber=$code&bookingLastName=$lastName"),mode:LaunchMode.inAppWebView );
 
@@ -132,11 +126,46 @@ class CheckInView extends StatelessWidget {
       final lastName = value["lastNameCheckIn"];
 
       var flag = await bloc?.getBookingInformation(
-          lastName.trim(), code.trim().toUpperCase());
+          lastName.trim(), code.trim().toUpperCase(),
+          errorToShow: false
+              ? null
+              : (String error) {
+                  showErrorDialog(context, error);
+                });
 
       if (flag == true) {
         moveToNext(context);
       }
     }
   }
+}
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: const Color.fromRGBO(40, 41, 51, 1.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        contentPadding: const EdgeInsets.fromLTRB(16, 16, 15, 0),
+        content: Text(
+          errorMessage,
+          style: const TextStyle(color: Colors.white),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'OK',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
