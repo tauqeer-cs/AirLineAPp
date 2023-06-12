@@ -207,11 +207,9 @@
   "bundleTab.depart": "ขาไป",
   "bundleTab.return": "ขากลับ",
   "bundleTab.bundle": "ชุดบันเดิล",
-  "bundleTab.passenger": "ผู้โดยสาร",
   "bundleTab.infant":  "เด็กทารก",
   "insuranceSelection.returnFlight": "เที่ยวบินขากลับ",
   "mealSelection.returnFlight": "เที่ยวบินขากลับ",
-  "mealSelection.passenger": "ผู้โดยสาร",
   "mealSelection.selecting": "การเลือก",
   "mealSelection.noImage": "ไม่มีรูป",
   "mealSelection.soldOut": "ขายหมดแล้ว",
@@ -221,12 +219,10 @@
   "mealSelection.infant": "เด็กทารก",
   "seatsSelection.departureFlight": "เที่ยวบินขาไป",
   "seatsSelection.returnFlight": "เที่ยวบินกลับ",
-  "seatsSelection.passenger": "ผู้โดยสาร",
   "seatsSelection.departingFlight": "เที่ยวบินขาไป",
   "seatsSelection.warningMessage": "คำเตือนที่นั่งบริเวณทางออกฉุกเฉิน",
   "specialSelection.departureFlight": "เที่ยวบินขาไป",
   "specialSelection.returnFlight": "เที่ยวบินกลับ",
-  "specialSelection.passenger": "ผู้โดยสาร",
   "specialSelection.selecting": "การเลือก",
   "specialSelection.needWheelchair": "ฉันต้องการรถเข็น",
   "specialSelection.disabledIDCard": "หมายเลขบัตรประจำตัวคนพิการ (ไม่บังคับ)",
@@ -512,7 +508,6 @@
   "flightCharge.notAvailable" : "ไม่ว่าง",
   "flightCharge.meal" : "อาหาร",
   "flightCharge.flightChange" : "การเปลี่ยนแปลงเที่ยวบิน",
-  "flightCharge.passenger" : "ผู้โดยสาร",
   "flightCharge.name" :  "ชื่อ",
   "flightCharge.totalAmount" : "จำนวนเงินทั้งหมดที่ต้องชำระ",
   "flightCharge.changes" : "การเปลี่ยนแปลง",
@@ -537,7 +532,6 @@
   "flightDetail.emailValidation" : "อีเมลต้องถูกต้อง",
   "flightDetail.selectFlight" :  "กรุณาเลือกเที่ยวบิน",
   "flightDetail.emailItineraryTitle" : "ส่งกำหนดการเดินทางทางอีเมล",
-  "passengerDetail.passenger" :  "ผู้โดยสาร",
   "passengerDetail.firstName" :  "ชื่อจริง",
   "passengerDetail.lastName" : "นามสกุล",
   "passengerDetail.nationality" : "สัญชาติ",
@@ -1094,7 +1088,8 @@
   "creditCard" : "บัตรเครดิต",
   "flightCharge.twoDayChangeError" : "ไม่สามารถเปลี่ยนเที่ยวบินที่จะบินในวันนี้ได้",
   "weSorrySeatSelected" : "ขออภัย ที่นั่งนี้ถูกจองแล้ว กรุณาเลือกที่นั่งอื่น",
-  "seatTotal" : "จำนวนที่นั่งทั้งหมด"
+  "seatTotal" : "จำนวนที่นั่งทั้งหมด",
+  "mealAddOnsAreUnavailable" : "ไม่มีบริการเสริมอาหารสำหรับการสั่งซื้อออนไลน์น้อยกว่า 24 ชั่วโมงก่อนเวลาออกเดินทาง"
 
 
 }

@@ -55,7 +55,7 @@ class PassengerSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'seatsSelection.passenger'.tr(),
+          'passenger'.tr(),
           style: kLargeHeavy,
         ),
         kVerticalSpacerSmall,
@@ -137,10 +137,10 @@ class PassengerSelector extends StatelessWidget {
           errorBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
-          hintText: 'seatsSelection.passenger'.tr(),
+          hintText: 'passenger'.tr(),
           contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         )),
-        sheetTitle: 'seatsSelection.passenger'.tr(),
+        sheetTitle: 'passenger'.tr(),
         isEnabled: true,
         valueTransformer: (value) {
           return DropdownTransformerWidget<Person>(

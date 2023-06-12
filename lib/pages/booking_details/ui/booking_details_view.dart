@@ -20,6 +20,7 @@ import '../../../theme/typography.dart';
 import '../../../utils/custom_segment.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
+import '../../add_on/meals/ui/meals_section.dart';
 import '../../add_on/seats/ui/seat_legend_simple.dart';
 import '../../add_on/seats/ui/seat_plan.dart';
 import '../../add_on/ui/passenger_selector.dart';
@@ -261,43 +262,26 @@ class ManageBookingDetailsView extends StatelessWidget {
                 kVerticalSpacer,
                 if (bloc?.state.addOnOptionSelected == AddonType.seat) ...[
                   kVerticalSpacerMini,
-
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Styles.kActiveGrey),
-                      color: Styles.kActiveGrey,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: Text('weSorrySeatSelected'.tr(),
-                          style: kMediumMedium.copyWith(
-                            color: Styles.kCanvasColor,
-                          )),
-                    ),
-                  ),
-                  //.tr
+                  WarningLabel(message: 'weSorrySeatSelected'.tr(),),
                   kVerticalSpacerSmall,
-
                   CustomSegmentControl(
                     optionOneTapped: () {},
                     optionTwoTapped: () {},
-                    textOne: '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                    textTwo: '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                    textOne:
+                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                    textTwo:
+                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                     customRadius: 12,
                     customBorderWidth: 1,
                     customVerticalPadding: 8,
-                    customSelectedStyle: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-                    customNoSelectedStyle: kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
-
+                    customSelectedStyle:
+                        kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                    customNoSelectedStyle:
+                        kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
                   ),
                   kVerticalSpacer,
-
                   const SeatLegendSimple(),
                   kVerticalSpacer,
-
                   SeatPlan(
                     moveToTop: () {
                       //moveToTop?.call();
@@ -308,8 +292,34 @@ class ManageBookingDetailsView extends StatelessWidget {
                     isManageBooking: true,
                   ),
                   kVerticalSpacer,
+                ] else if (bloc?.state.addOnOptionSelected ==
+                    AddonType.meal) ...[
 
+                  WarningLabel(message: 'mealAddOnsAreUnavailable'.tr(),),
+                  kVerticalSpacerSmall,
+                  CustomSegmentControl(
+                    optionOneTapped: () {},
+                    optionTwoTapped: () {},
+                    textOne:
+                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                    textTwo:
+                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                    customRadius: 12,
+                    customBorderWidth: 1,
+                    customVerticalPadding: 8,
+                    customSelectedStyle:
+                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                    customNoSelectedStyle:
+                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                  ),
+                  kVerticalSpacerSmall,
+
+                  const MealsSection(
+                    isDeparture: true,
+                    isManageBooking: true,
+                  ),
                 ],
+
                 const ContactsSection(),
                 kVerticalSpacer,
                 const EmergencyContactsSection(),
@@ -339,5 +349,35 @@ class ManageBookingDetailsView extends StatelessWidget {
       return false;
     }
     return true;
+  }
+}
+
+
+class WarningLabel extends StatelessWidget {
+
+  final String message;
+
+  const WarningLabel({Key? key, required this.message}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(color: Styles.kActiveGrey),
+        color: Styles.kActiveGrey,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            vertical: 8, horizontal: 16),
+        child: Text(
+            message ,
+          style: kMediumMedium.copyWith(
+            color: Styles.kCanvasColor,
+          ),
+        ),
+      ),
+    );
   }
 }
