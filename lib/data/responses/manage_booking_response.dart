@@ -138,6 +138,7 @@ class Result {
 
   SuperPNR? superPNR;
   SuperPNROrder? superPNROrder;
+  String? message;
 
   List<PaymentOrder>? paymentOrders;
   FareAndBundleDetail? fareAndBundleDetail;
@@ -151,6 +152,7 @@ class Result {
   CompanyTaxInvoice? companyTaxInvoice;
   bool? isReturn;
   bool? success;
+
 
   bool? isRequiredPassport;
 
@@ -383,9 +385,14 @@ class Result {
       List<FlightSegment>? flightSegments,
       CompanyTaxInvoice? companyTaxInvoice,
       bool? isReturn,
-      bool? success}) {
+        String? message,
+
+        bool? success}) {
     return Result(
       bookingContact: bookingContact ?? this.bookingContact,
+
+      message: message ?? this.message,
+
       passengersWithSSR: passengersWithSSR ?? this.passengersWithSSR,
       paymentOrders: paymentOrders ?? this.paymentOrders,
       fareAndBundleDetail: fareAndBundleDetail ?? this.fareAndBundleDetail,
@@ -415,10 +422,11 @@ class Result {
       this.flightSegments,
       this.companyTaxInvoice,
       this.isReturn,
+        this.message,
       this.success});
 
   Result.fromJson(Map<String, dynamic> json) {
-    superPNR =
+     superPNR =
         json['superPNR'] != null ? SuperPNR.fromJson(json['superPNR']) : null;
     superPNROrder = json['superPNROrder'] != null
         ? SuperPNROrder.fromJson(json['superPNROrder'])
@@ -473,6 +481,8 @@ class Result {
     isReturn = json['isReturn'];
     isRequiredPassport = json['isRequiredPassport'];
 
+     message = json['message'];
+     
     success = json['success'];
   }
 

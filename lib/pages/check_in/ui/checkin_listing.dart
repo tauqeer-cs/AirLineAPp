@@ -20,9 +20,9 @@ import 'flight_list_item.dart';
 
 class CheckingListing extends StatelessWidget {
   final void Function(bool) navigateToCheckInDetails;
+  final void Function(String) showErrorMessage;
 
-
-  const CheckingListing({Key? key, required this.navigateToCheckInDetails})
+  const CheckingListing({Key? key, required this.navigateToCheckInDetails, required this.showErrorMessage})
       : super(key: key);
 
   @override
@@ -123,7 +123,7 @@ class CheckingListing extends StatelessWidget {
               ],
             ] else ...[
               Text(
-                   checkInLabel ??  'onlineCheckHoursMessage'.tr(),
+                checkInLabel ?? 'onlineCheckHoursMessage'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kTextColor),
               ),
               kVerticalSpacer,
@@ -135,9 +135,10 @@ class CheckingListing extends StatelessWidget {
                   child: bloc.state.isLoadingInfo == true
                       ? const Center(
                           child: Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: AppLoading(),
-                        ))
+                            padding: EdgeInsets.only(bottom: 24),
+                            child: AppLoading(),
+                          ),
+                        )
                       : ListView.separated(
                           itemBuilder: (context, index) {
                             if (bloc.state.loadingListDetailItem == true &&
@@ -183,7 +184,12 @@ class CheckingListing extends StatelessWidget {
                                       var flag = await bloc
                                           .getBookingInformation('', '',
                                               bookSelected: bloc.state
-                                                  .upcomingBookings?[index]);
+                                                  .upcomingBookings?[index],errorToShow: (String error) {
+                                            showErrorMessage(error);
+
+                                            return;
+
+                                          });
 
                                       if (flag == true) {
                                         navigateToCheckInDetails(false);
@@ -249,7 +255,8 @@ class CustomSegmentControl extends StatefulWidget {
   final String? textOne;
   final String? textTwo;
 
-  const CustomSegmentControl({super.key, required this.statusChange, this.textOne, this.textTwo});
+  const CustomSegmentControl(
+      {super.key, required this.statusChange, this.textOne, this.textTwo});
 
   @override
   _CustomSegmentControlState createState() => _CustomSegmentControlState();

@@ -43,6 +43,9 @@ class CheckInPage extends StatelessWidget {
                       CheckInDetailsRoute(isPast: false),
                     );
 
+                  }, showErrorMessage: (String error) {
+                    showErrorDialog(context, error);
+
                   },),
                   child: CheckInView(),
                 ),
