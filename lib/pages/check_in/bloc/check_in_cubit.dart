@@ -452,7 +452,7 @@ class CheckInCubit extends Cubit<CheckInState> {
   }
 
   Future<bool?> getBookingInformation(String lastName, String pnr,
-      {UpcomingBookings? bookSelected}) async {
+      {UpcomingBookings? bookSelected,Function(String error)? errorToShow}) async {
     emit(state.copyWithNull(
       inboundBoardingPassPassenger: false,
       outboundBoardingPassPassenger: false,
@@ -495,12 +495,20 @@ class CheckInCubit extends Cubit<CheckInState> {
 
       emit(
         state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st, dontShowError: false),
+          message: ErrorUtils.getErrorMessage(e, st, dontShowError: errorToShow != null),
           blocState: BlocState.failed,
           loadingListDetailItem: false,
           isLoadingInfo: false,
         ),
       );
+
+      if(errorToShow != null) {
+
+        errorToShow.call(ErrorUtils.getErrorMessage(e, st, dontShowError: true));
+
+
+      }
+
       return false;
     }
   }

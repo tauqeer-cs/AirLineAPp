@@ -20,6 +20,7 @@ import '../../../theme/typography.dart';
 import '../../../utils/custom_segment.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
+import '../../add_on/baggage/ui/baggage_section.dart';
 import '../../add_on/meals/ui/meals_section.dart';
 import '../../add_on/seats/ui/seat_legend_simple.dart';
 import '../../add_on/seats/ui/seat_plan.dart';
@@ -318,7 +319,20 @@ class ManageBookingDetailsView extends StatelessWidget {
                     isDeparture: true,
                     isManageBooking: true,
                   ),
-                ],
+                ]
+                else if (bloc?.state.addOnOptionSelected == AddonType.baggage) ... [
+
+                    BaggageSection(
+                      isManageBooking : true,
+                      isDeparture: true,
+                      moveToTop: () {
+
+                      },
+                      moveToBottom: () {
+
+                      },
+                    ),
+                  ],
 
                 const ContactsSection(),
                 kVerticalSpacer,

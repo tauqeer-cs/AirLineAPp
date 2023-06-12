@@ -9,6 +9,7 @@ import 'package:flutter_html/flutter_html.dart';
 
 import '../../../../blocs/booking/booking_cubit.dart';
 import '../../../../blocs/is_departure/is_departure_cubit.dart';
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../blocs/search_flight/search_flight_cubit.dart';
 import '../../../../data/responses/verify_response.dart';
 import '../../../../models/number_person.dart';
@@ -19,7 +20,9 @@ import '../../../../widgets/containers/app_expanded_section.dart';
 import '../../../checkout/bloc/selected_person_cubit.dart';
 
 class BaggageNotice extends StatefulWidget {
-  const BaggageNotice({Key? key}) : super(key: key);
+  final bool isManageBooking;
+
+  const BaggageNotice({Key? key, required this.isManageBooking}) : super(key: key);
 
   @override
   State<BaggageNotice> createState() => _BaggageNoticeState();
@@ -104,7 +107,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                     ),
                   ),
                   kVerticalSpacerSmall,
-                  const SportsEquipmentCard(),
+                   SportsEquipmentCard(isManageBooking: widget.isManageBooking,),
                 ],
               ),
             ),
@@ -163,7 +166,8 @@ class _BaggageNoticeState extends State<BaggageNotice> {
 }
 
 class SportsEquipmentCard extends StatefulWidget {
-  const SportsEquipmentCard({Key? key}) : super(key: key);
+  final bool isManageBooking;
+  const SportsEquipmentCard({Key? key, required this.isManageBooking}) : super(key: key);
 
   @override
   State<SportsEquipmentCard> createState() => _SportsEquipmentCardState();
@@ -212,12 +216,40 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
 
   }
+  int _currentIndex = 0;
+  
   @override
   Widget build(BuildContext context) {
-    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
 
-    final selectedPerson = context.watch<SelectedPersonCubit>().state;
-    final isDeparture = context.watch<IsDepartureCubit>().state;
+    String currency = 'MYR';
+    Person? selectedPerson;
+    bool isDeparture = false;
+    BundleGroupSeat? baggageGroup;
+
+    if(widget.isManageBooking){
+      var bloc = context
+          .watch<ManageBookingCubit>();
+
+      currency = bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ?? 'MYR';
+      selectedPerson =
+          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
+      baggageGroup = bloc.state.verifyResponse?.flightSSR?.sportGroup;
+      isDeparture = true;
+
+    }
+    else {
+      currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+      selectedPerson = context.watch<SelectedPersonCubit>().state;
+      isDeparture = context.watch<IsDepartureCubit>().state;
+
+      final bookingState = context.watch<BookingCubit>().state;
+      baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
+
+    }
+
+
+
     if (lastPersonUser != selectedPerson) {
       selectedItem = 0;
 
@@ -236,20 +268,60 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       }
 
       lastPersonUser = selectedPerson;
+
+
     }
-    final bookingState = context.watch<BookingCubit>().state;
-    final baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
-    final baggageGroup1 = bookingState.verifyResponse?.flightSSR?.baggageGroup;
-    var squareDesign = true;
+
+
 
     final baggage =
     isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
-    return Container(
+    return  widget.isManageBooking
+        ? Row(
+      children: [
+        IconButton(
+          onPressed: () {
+            // Scroll the column to the left
+            // Implement the logic to scroll left
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        Expanded(
+
+          child: SizedBox(
+            height: 200,
+            child: PageView.builder(
+                itemCount: 5,
+                scrollDirection: Axis.horizontal,
+                controller: PageController(
+                  initialPage: _currentIndex,
+
+                ),
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Center(child: Text('One'),);
+                }),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            // Scroll the column to the right
+            // Implement the logic to scroll right
+          },
+          icon: Icon(Icons.arrow_forward),
+        ),
+      ],
+    ) : Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: IntrinsicHeight(
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -270,8 +342,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                               : currentItem,
                           isDeparture);
                     },
-                    child: squareDesign
-                        ? AppCard(
+                    child: AppCard(
                       edgeInsets: EdgeInsets.zero,
                       child: Stack(
                         children: [
@@ -349,60 +420,6 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    )
-                        : AppCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          kVerticalSpacerMini,
-                          const SizedBox(
-                            width: double.infinity,
-                          ),
-                          FractionallySizedBox(
-                            widthFactor: 0.34,
-                            child: Image.asset(
-                                "assets/images/design/icoSports.png"),
-                          ),
-                          kVerticalSpacerSmall,
-                          Text(
-                            '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'
-                                .replaceAll('NOSELECT', '0'),
-                            style: kHeaderHeavy.copyWith(
-                                fontSize: 32,
-                                color: Styles.kBorderActionColor),
-                          ),
-                          kVerticalSpacerSmall,
-                          if (showDescribtion) ...[
-                            Text(
-                              'Save at least 90% on\nairport prince.',
-                              textAlign: TextAlign.center,
-                              style: kMediumMedium.copyWith(
-                                fontSize: 14,
-                                color: Styles.kBorderActionColor,
-                              ),
-                            ),
-                            kVerticalSpacerMini,
-                          ],
-                          Text(
-                            '${currentItem.currencyCode ?? 'MYR'} ${(currentItem.amount ?? 0.0).toStringAsFixed(2)}',
-                            style: kHeaderHeavy.copyWith(
-                                color: Styles.kPrimaryColor),
-                          ),
-                          kVerticalSpacerMini,
-                          IgnorePointer(
-                            child: Radio<Bundle?>(
-                              activeColor: Styles.kBorderColor,
-                              value: selectedItem ==
-                                  currentItem.serviceID!.toInt()
-                                  ? currentItem
-                                  : null,
-                              groupValue: currentItem,
-                              onChanged: (value) async {},
-                            ),
-                          ),
-                          kVerticalSpacerMini,
                         ],
                       ),
                     ),

@@ -716,7 +716,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                             child: Column(
                               children: [
                                 AppInputText(
-                                  hintText: "firstNameGivenNameInf".tr(),
+                                  hintText: "firstNameGivenName".tr(),
                                   readOnly: true,
                                   validators: [FormBuilderValidators.required()],
                                   initialValue: state.manageBookingResponse?.result

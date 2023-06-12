@@ -16,7 +16,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+
 class BaggageSection extends StatelessWidget {
+  final bool isManageBooking;
   final bool isDeparture;
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
@@ -26,30 +29,44 @@ class BaggageSection extends StatelessWidget {
     this.isDeparture = true,
     this.moveToTop,
     this.moveToBottom,
+    this.isManageBooking = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bookingState = context.watch<BookingCubit>().state;
-    final baggageGroup = bookingState.verifyResponse?.flightSSR?.baggageGroup;
+    BaggageGroup? baggageGroup;
+
+    if(isManageBooking) {
+      var state = context.watch<ManageBookingCubit>().state;
+      baggageGroup = state.verifyResponse?.flightSSR?.baggageGroup;
+
+    }
+     else {
+      final bookingState = context.watch<BookingCubit>().state;
+
+      baggageGroup = bookingState.verifyResponse?.flightSSR?.baggageGroup;
+    }
+
     final baggages =
     isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Padding(
       padding: kPageHorizontalPadding,
       child: Visibility(
         visible: baggages?.isNotEmpty ?? false,
-        replacement: EmptyAddon(),
+        replacement: const EmptyAddon(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             PassengerSelector(
-              isDeparture: isDeparture,
-              addonType: AddonType.baggage,
-            ),
-            kVerticalSpacer,
+            if(isManageBooking == false) ... [
+              PassengerSelector(
+                isDeparture: isDeparture,
+                addonType: AddonType.baggage,
+              ),
+              kVerticalSpacer,
+            ],
             buildBaggageCards(baggages, isDeparture),
             kVerticalSpacer,
-            const BaggageNotice(),
+             BaggageNotice(isManageBooking: isManageBooking,),
             kVerticalSpacer,
           ],
         ),
@@ -72,7 +89,7 @@ class BaggageSection extends StatelessWidget {
                   },
                   moveToTop: () {
                     moveToTop?.call();
-                  },
+                  }, isManageBooking: isManageBooking,
                 ),
                 kVerticalSpacerSmall,
               ],
@@ -86,6 +103,7 @@ class BaggageSection extends StatelessWidget {
 }
 
 class NewBaggageCard extends StatefulWidget {
+  final bool isManageBooking;
   final Bundle selectedBaggage;
   final bool isDeparture;
   final VoidCallback? moveToTop;
@@ -96,7 +114,7 @@ class NewBaggageCard extends StatefulWidget {
     required this.selectedBaggage,
     required this.isDeparture,
     this.moveToBottom,
-    this.moveToTop,
+    this.moveToTop, required this.isManageBooking,
   }) : super(key: key);
 
   @override
@@ -106,23 +124,54 @@ class NewBaggageCard extends StatefulWidget {
 class _NewBaggageCardState extends State<NewBaggageCard> {
   @override
   Widget build(BuildContext context) {
-    final selectedPerson = context.watch<SelectedPersonCubit>().state;
-    final state = context.watch<SearchFlightCubit>().state;
-    final persons = state.filterState?.numberPerson;
-    final focusedPerson = persons?.persons
-        .firstWhereOrNull((element) => element == selectedPerson);
-    final baggage = widget.isDeparture
+
+    Person?  focusedPerson;
+    Person? selectedPerson;
+    NumberPerson? persons;
+    String currency = 'MYR';
+    if(widget.isManageBooking) {
+      var bloc = context
+          .watch<ManageBookingCubit>();
+
+
+      selectedPerson =
+          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
+      var no = context
+          .watch<ManageBookingCubit>()
+          .state
+          .manageBookingResponse
+          ?.result
+          ?.allPersonObject ??
+          [];
+
+      persons = NumberPerson(persons: no);
+      selectedPerson =
+          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
+      currency = bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ?? 'MYR';
+
+    }
+    else {
+      final state = context.watch<SearchFlightCubit>().state;
+      selectedPerson = context.watch<SelectedPersonCubit>().state;
+      persons = state.filterState?.numberPerson;
+      focusedPerson = persons?.persons
+          .firstWhereOrNull((element) => element == selectedPerson);
+      currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+    }
+
+
+
+
+    Bundle? baggage = widget.isDeparture
         ? focusedPerson?.departureBaggage
         : focusedPerson?.returnBaggage;
-    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
 
 
     return InkWell(
       onTap: () async {
-        /*
-        context.read<SearchFlightCubit>().addBaggageToPerson(
-            selectedPerson, widget.selectedBaggage, widget.isDeparture);
-        */
 
         var responseFlag = context.read<SearchFlightCubit>().addBaggageToPerson(
             selectedPerson,
