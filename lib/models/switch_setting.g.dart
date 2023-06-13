@@ -11,6 +11,14 @@ abstract class _$SwitchSettingCWProxy {
 
   SwitchSetting myReward(bool? myReward);
 
+  SwitchSetting passwordMaxLength(int passwordMaxLength);
+
+  SwitchSetting passwordMinLength(int passwordMinLength);
+
+  SwitchSetting passwordRegex(String passwordRegex);
+
+  SwitchSetting passwordRegexErrorMessage(String? passwordRegexErrorMessage);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `SwitchSetting(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -20,6 +28,10 @@ abstract class _$SwitchSettingCWProxy {
   SwitchSetting call({
     bool? insurance,
     bool? myReward,
+    int? passwordMaxLength,
+    int? passwordMinLength,
+    String? passwordRegex,
+    String? passwordRegexErrorMessage,
   });
 }
 
@@ -36,6 +48,22 @@ class _$SwitchSettingCWProxyImpl implements _$SwitchSettingCWProxy {
   SwitchSetting myReward(bool? myReward) => this(myReward: myReward);
 
   @override
+  SwitchSetting passwordMaxLength(int passwordMaxLength) =>
+      this(passwordMaxLength: passwordMaxLength);
+
+  @override
+  SwitchSetting passwordMinLength(int passwordMinLength) =>
+      this(passwordMinLength: passwordMinLength);
+
+  @override
+  SwitchSetting passwordRegex(String passwordRegex) =>
+      this(passwordRegex: passwordRegex);
+
+  @override
+  SwitchSetting passwordRegexErrorMessage(String? passwordRegexErrorMessage) =>
+      this(passwordRegexErrorMessage: passwordRegexErrorMessage);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `SwitchSetting(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -46,6 +74,10 @@ class _$SwitchSettingCWProxyImpl implements _$SwitchSettingCWProxy {
   SwitchSetting call({
     Object? insurance = const $CopyWithPlaceholder(),
     Object? myReward = const $CopyWithPlaceholder(),
+    Object? passwordMaxLength = const $CopyWithPlaceholder(),
+    Object? passwordMinLength = const $CopyWithPlaceholder(),
+    Object? passwordRegex = const $CopyWithPlaceholder(),
+    Object? passwordRegexErrorMessage = const $CopyWithPlaceholder(),
   }) {
     return SwitchSetting(
       insurance: insurance == const $CopyWithPlaceholder()
@@ -56,6 +88,26 @@ class _$SwitchSettingCWProxyImpl implements _$SwitchSettingCWProxy {
           ? _value.myReward
           // ignore: cast_nullable_to_non_nullable
           : myReward as bool?,
+      passwordMaxLength: passwordMaxLength == const $CopyWithPlaceholder() ||
+              passwordMaxLength == null
+          ? _value.passwordMaxLength
+          // ignore: cast_nullable_to_non_nullable
+          : passwordMaxLength as int,
+      passwordMinLength: passwordMinLength == const $CopyWithPlaceholder() ||
+              passwordMinLength == null
+          ? _value.passwordMinLength
+          // ignore: cast_nullable_to_non_nullable
+          : passwordMinLength as int,
+      passwordRegex:
+          passwordRegex == const $CopyWithPlaceholder() || passwordRegex == null
+              ? _value.passwordRegex
+              // ignore: cast_nullable_to_non_nullable
+              : passwordRegex as String,
+      passwordRegexErrorMessage:
+          passwordRegexErrorMessage == const $CopyWithPlaceholder()
+              ? _value.passwordRegexErrorMessage
+              // ignore: cast_nullable_to_non_nullable
+              : passwordRegexErrorMessage as String?,
     );
   }
 }
@@ -74,10 +126,17 @@ extension $SwitchSettingCopyWith on SwitchSetting {
   SwitchSetting copyWithNull({
     bool insurance = false,
     bool myReward = false,
+    bool passwordRegexErrorMessage = false,
   }) {
     return SwitchSetting(
       insurance: insurance == true ? null : this.insurance,
       myReward: myReward == true ? null : this.myReward,
+      passwordMaxLength: passwordMaxLength,
+      passwordMinLength: passwordMinLength,
+      passwordRegex: passwordRegex,
+      passwordRegexErrorMessage: passwordRegexErrorMessage == true
+          ? null
+          : this.passwordRegexErrorMessage,
     );
   }
 }
@@ -90,6 +149,11 @@ SwitchSetting _$SwitchSettingFromJson(Map<String, dynamic> json) =>
     SwitchSetting(
       myReward: json['myReward'] as bool?,
       insurance: json['insurance'] as bool?,
+      passwordMinLength: json['passwordMinLength'] as int? ?? 8,
+      passwordMaxLength: json['passwordMaxLength'] as int? ?? 30,
+      passwordRegex: json['passwordRegex'] as String? ??
+          '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}\$',
+      passwordRegexErrorMessage: json['passwordRegexErrorMessage'] as String?,
     );
 
 Map<String, dynamic> _$SwitchSettingToJson(SwitchSetting instance) {
@@ -103,5 +167,9 @@ Map<String, dynamic> _$SwitchSettingToJson(SwitchSetting instance) {
 
   writeNotNull('myReward', instance.myReward);
   writeNotNull('insurance', instance.insurance);
+  val['passwordMinLength'] = instance.passwordMinLength;
+  val['passwordMaxLength'] = instance.passwordMaxLength;
+  val['passwordRegex'] = instance.passwordRegex;
+  writeNotNull('passwordRegexErrorMessage', instance.passwordRegexErrorMessage);
   return val;
 }
