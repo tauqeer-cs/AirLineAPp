@@ -53,6 +53,8 @@ abstract class _$ManageBookingStateCWProxy {
   ManageBookingState selectedReturnFlight(
       InboundOutboundSegment? selectedReturnFlight);
 
+  ManageBookingState showPending(bool showPending);
+
   ManageBookingState superPnrNo(String? superPnrNo);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ManageBookingState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
@@ -83,6 +85,7 @@ abstract class _$ManageBookingStateCWProxy {
     String? pnrEntered,
     InboundOutboundSegment? selectedDepartureFlight,
     InboundOutboundSegment? selectedReturnFlight,
+    bool? showPending,
     String? superPnrNo,
   });
 }
@@ -180,6 +183,10 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
       this(selectedReturnFlight: selectedReturnFlight);
 
   @override
+  ManageBookingState showPending(bool showPending) =>
+      this(showPending: showPending);
+
+  @override
   ManageBookingState superPnrNo(String? superPnrNo) =>
       this(superPnrNo: superPnrNo);
 
@@ -213,6 +220,7 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
     Object? pnrEntered = const $CopyWithPlaceholder(),
     Object? selectedDepartureFlight = const $CopyWithPlaceholder(),
     Object? selectedReturnFlight = const $CopyWithPlaceholder(),
+    Object? showPending = const $CopyWithPlaceholder(),
     Object? superPnrNo = const $CopyWithPlaceholder(),
   }) {
     return ManageBookingState(
@@ -315,6 +323,11 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
           ? _value.selectedReturnFlight
           // ignore: cast_nullable_to_non_nullable
           : selectedReturnFlight as InboundOutboundSegment?,
+      showPending:
+          showPending == const $CopyWithPlaceholder() || showPending == null
+              ? _value.showPending
+              // ignore: cast_nullable_to_non_nullable
+              : showPending as bool,
       superPnrNo: superPnrNo == const $CopyWithPlaceholder()
           ? _value.superPnrNo
           // ignore: cast_nullable_to_non_nullable
@@ -373,6 +386,7 @@ extension $ManageBookingStateCopyWith on ManageBookingState {
           selectedDepartureFlight == true ? null : this.selectedDepartureFlight,
       selectedReturnFlight:
           selectedReturnFlight == true ? null : this.selectedReturnFlight,
+      showPending: showPending,
       superPnrNo: superPnrNo == true ? null : this.superPnrNo,
     );
   }
