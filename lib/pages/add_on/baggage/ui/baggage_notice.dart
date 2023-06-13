@@ -22,7 +22,8 @@ import '../../../checkout/bloc/selected_person_cubit.dart';
 class BaggageNotice extends StatefulWidget {
   final bool isManageBooking;
 
-  const BaggageNotice({Key? key, required this.isManageBooking}) : super(key: key);
+  const BaggageNotice({Key? key, required this.isManageBooking})
+      : super(key: key);
 
   @override
   State<BaggageNotice> createState() => _BaggageNoticeState();
@@ -81,8 +82,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text:
-                      'baggageMessage'.tr(),
+                      text: 'baggageMessage'.tr(),
                       style: kMediumRegular.copyWith(
                           color: Styles.kTextColor, height: 20 / 14),
                       children: <TextSpan>[
@@ -107,7 +107,9 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                     ),
                   ),
                   kVerticalSpacerSmall,
-                   SportsEquipmentCard(isManageBooking: widget.isManageBooking,),
+                  SportsEquipmentCard(
+                    isManageBooking: widget.isManageBooking,
+                  ),
                 ],
               ),
             ),
@@ -167,7 +169,9 @@ class _BaggageNoticeState extends State<BaggageNotice> {
 
 class SportsEquipmentCard extends StatefulWidget {
   final bool isManageBooking;
-  const SportsEquipmentCard({Key? key, required this.isManageBooking}) : super(key: key);
+
+  const SportsEquipmentCard({Key? key, required this.isManageBooking})
+      : super(key: key);
 
   @override
   State<SportsEquipmentCard> createState() => _SportsEquipmentCardState();
@@ -188,67 +192,72 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     selectedItem = 0;
   }
 
-  Widget amountToShow(Bundle currentItem) {
-
+  Widget amountToShow(Bundle currentItem, {bool red = false}) {
     try {
-      if((currentItem.applicableTaxes ?? [] ).isEmpty || currentItem.applicableTaxes?.first.taxActive == false) {
+      if ((currentItem.applicableTaxes ?? []).isEmpty ||
+          currentItem.applicableTaxes?.first.taxActive == false) {
         return Text(
           NumberUtils.formatNumber(
-            (currentItem.amount ?? 0.0)
-                .toDouble() ,
+            (currentItem.amount ?? 0.0).toDouble(),
           ),
-          style: kHugeHeavy,
+          style: red
+              ? kHugeHeavy.copyWith(color: Styles.kPrimaryColor)
+              : kHugeHeavy,
         );
       } else {
-
         return Text(
           NumberUtils.formatNumber(
-            (currentItem.amount ?? 0.0)
-                .toDouble()  + (currentItem.applicableTaxes?.first.amountToApply ?? 0.0).toDouble(),
+            (currentItem.amount ?? 0.0).toDouble() +
+                (currentItem.applicableTaxes?.first.amountToApply ?? 0.0)
+                    .toDouble(),
           ),
-          style: kHugeHeavy,
+          style: red
+              ? kHugeHeavy.copyWith(color: Styles.kPrimaryColor)
+              : kHugeHeavy,
         );
       }
+    } catch (e) {
+      return Container();
     }
-    catch(e) {
-    return Container();
-    }
-
-
   }
+
   int _currentIndex = 0;
-  
+  var pageController = PageController(
+    initialPage: 0,
+  );
+
   @override
   Widget build(BuildContext context) {
-
     String currency = 'MYR';
     Person? selectedPerson;
     bool isDeparture = false;
     BundleGroupSeat? baggageGroup;
 
-    if(widget.isManageBooking){
-      var bloc = context
-          .watch<ManageBookingCubit>();
+    if (widget.isManageBooking) {
+      var bloc = context.watch<ManageBookingCubit>();
 
-      currency = bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ?? 'MYR';
+      currency = bloc.state.manageBookingResponse?.result?.superPNROrder
+              ?.currencyCode ??
+          'MYR';
       selectedPerson =
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
 
       baggageGroup = bloc.state.verifyResponse?.flightSSR?.sportGroup;
       isDeparture = true;
-
-    }
-    else {
-      currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+    } else {
+      currency = context
+              .watch<SearchFlightCubit>()
+              .state
+              .flights
+              ?.flightResult
+              ?.requestedCurrencyOfFareQuote ??
+          'MYR';
       selectedPerson = context.watch<SelectedPersonCubit>().state;
       isDeparture = context.watch<IsDepartureCubit>().state;
 
       final bookingState = context.watch<BookingCubit>().state;
       baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
-
     }
-
-
 
     if (lastPersonUser != selectedPerson) {
       selectedItem = 0;
@@ -268,168 +277,232 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       }
 
       lastPersonUser = selectedPerson;
-
-
     }
 
-
-
     final baggage =
-    isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
-    return  widget.isManageBooking
+        isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+    return widget.isManageBooking
         ? Row(
-      children: [
-        IconButton(
-          onPressed: () {
-            // Scroll the column to the left
-            // Implement the logic to scroll left
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-        Expanded(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (_currentIndex == 0) {
+                    return;
+                  }
 
-          child: SizedBox(
-            height: 200,
-            child: PageView.builder(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                controller: PageController(
-                  initialPage: _currentIndex,
+                  _currentIndex = _currentIndex - 1;
 
-                ),
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
+
+                  pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+
                 },
-                itemBuilder: (context, index) {
-                  return Center(child: Text('One'),);
-                }),
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            // Scroll the column to the right
-            // Implement the logic to scroll right
-          },
-          icon: Icon(Icons.arrow_forward),
-        ),
-      ],
-    ) : Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: IntrinsicHeight(
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
+                child: ImageIcon(
+                  const AssetImage(
+                      "assets/images/icons/iconPreviousDisabled.png"),
+                  color: _currentIndex == 0
+                      ? Styles.kDisabledGrey
+                      : Styles.kPrimaryColor,
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  height: 240,
+                  child: PageView.builder(
+                      itemCount: (baggage ?? []).length,
+                      scrollDirection: Axis.horizontal,
+                      controller: pageController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        var currentItem = baggage![index];
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                for (var currentItem in baggage!) ...[
-                  kVerticalSpacer,
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        selectedItem = currentItem.serviceID!.toInt();
-                      });
-
-                      var responseFlag = context
-                          .read<SearchFlightCubit>()
-                          .addSportEquipmentToPerson(
-                          selectedPerson,
-                          (currentItem.serviceID ?? 0) == 0
-                              ? null
-                              : currentItem,
-                          isDeparture);
-                    },
-                    child: AppCard(
-                      edgeInsets: EdgeInsets.zero,
-                      child: Stack(
-                        children: [
-                          ListTile(
-                            contentPadding: const EdgeInsets.only(
-                              top: 20,
-                              right: 50,
-                              left: 15,
-                              bottom: 20,
+                        return Column(
+                          children: [
+                            Image.asset(
+                              "assets/images/design/icoSportsGrey.png",
+                              color: Styles.kSubTextColor,
+                              height: 96,
                             ),
-                            leading: Column(
+                            kVerticalSpacerMini,
+                            Text(
+                              currentItem.ssrCodeToShow ?? '',
+                              style: kLargeHeavy.copyWith(
+                                  color: Styles.kTextColor),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              currentItem.description ?? '',
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kTextColor),
+                            ),
+                            kVerticalSpacerMini,
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                IgnorePointer(
-                                  child: Radio<Bundle?>(
-                                    activeColor: Styles.kActiveColor,
-                                    value: selectedItem ==
-                                        currentItem.serviceID!.toInt()
-                                        ? currentItem
-                                        : null,
-                                    groupValue: currentItem,
-                                    onChanged: (value) async {},
-                                  ),
+                                Text(
+                                  currentItem.currencyCode ?? currency,
+                                  style: kHugeHeavy.copyWith(
+                                      color: Styles.kPrimaryColor),
                                 ),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                                amountToShow(currentItem, red: true),
                               ],
                             ),
-                            title: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            IgnorePointer(
+                              child: Radio<Bundle?>(
+                                activeColor: Styles.kActiveColor,
+                                value: selectedItem ==
+                                        currentItem.serviceID!.toInt()
+                                    ? currentItem
+                                    : null,
+                                groupValue: currentItem,
+                                onChanged: (value) async {},
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  if (_currentIndex == ((baggage ?? []).length - 1)) {
+                    return;
+                  }
+
+                  _currentIndex = _currentIndex + 1;
+
+                  pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+
+                },
+                child: ImageIcon(
+                  const AssetImage("assets/images/icons/iconNext.png"),
+                  color: _currentIndex == ((baggage ?? []).length - 1)
+                      ? Styles.kDisabledGrey
+                      : Styles.kPrimaryColor,
+                ),
+              ),
+            ],
+          )
+        : Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            child: IntrinsicHeight(
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      for (var currentItem in baggage!) ...[
+                        kVerticalSpacer,
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedItem = currentItem.serviceID!.toInt();
+                            });
+
+                            var responseFlag = context
+                                .read<SearchFlightCubit>()
+                                .addSportEquipmentToPerson(
+                                    selectedPerson,
+                                    (currentItem.serviceID ?? 0) == 0
+                                        ? null
+                                        : currentItem,
+                                    isDeparture);
+                          },
+                          child: AppCard(
+                            edgeInsets: EdgeInsets.zero,
+                            child: Stack(
                               children: [
-                                /*Text(
+                                ListTile(
+                                  contentPadding: const EdgeInsets.only(
+                                    top: 20,
+                                    right: 50,
+                                    left: 15,
+                                    bottom: 20,
+                                  ),
+                                  leading: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IgnorePointer(
+                                        child: Radio<Bundle?>(
+                                          activeColor: Styles.kActiveColor,
+                                          value: selectedItem ==
+                                                  currentItem.serviceID!.toInt()
+                                              ? currentItem
+                                              : null,
+                                          groupValue: currentItem,
+                                          onChanged: (value) async {},
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      /*Text(
                                   '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'.replaceAll('NOSELECT', '0'),
                                   style: kLargeHeavy,
                                 ),*/
-                                Text(
-                                  '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'
-                                      .replaceAll('NOSELECT', '0'),
-                                  style: kGiantHeavy,
+                                      Text(
+                                        '${(currentItem.ssrCode ?? '').replaceAll('SP', '')}kg'
+                                            .replaceAll('NOSELECT', '0'),
+                                        style: kGiantHeavy,
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Container(
+                                    constraints:
+                                        const BoxConstraints(minWidth: 60),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          currentItem.currencyCode ?? currency,
+                                          style: kMediumHeavy,
+                                        ),
+                                        amountToShow(currentItem),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 6.0),
+                                    child: Center(
+                                      child: Image.asset(
+                                        "assets/images/design/icoSport2.png",
+                                        color: Styles.kSubTextColor,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                            trailing: Container(
-                              constraints: const BoxConstraints(minWidth: 60),
-                              child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    currentItem.currencyCode ?? currency,
-                                    style: kMediumHeavy,
-                                  ),
-
-                                  amountToShow(currentItem),
-
-
-                                ],
-                              ),
-                            ),
                           ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 6.0),
-                              child: Center(
-                                child: Image.asset(
-                                  "assets/images/design/icoSport2.png",
-                                  color: Styles.kSubTextColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
-              ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 }

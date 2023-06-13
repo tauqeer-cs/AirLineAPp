@@ -74,7 +74,12 @@ class BaggageSection extends StatelessWidget {
     );
   }
 
-  Column buildBaggageCards(List<Bundle>? baggages, bool isDeparture) {
+  Widget buildBaggageCards(List<Bundle>? baggages, bool isDeparture) {
+    if(isManageBooking) {
+      return HorizontalBaggageCards(isDeparture: isDeparture,);
+    }
+
+
     return Column(
       children: [
         ...baggages?.map(
@@ -291,6 +296,188 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class HorizontalBaggageCards extends StatefulWidget {
+  final bool isDeparture;
+
+  const HorizontalBaggageCards({Key? key, required this.isDeparture}) : super(key: key);
+
+  @override
+  State<HorizontalBaggageCards> createState() => _HorizontalBaggageCardsState();
+}
+
+class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
+  int _currentIndex = 0;
+  var pageController = PageController(
+    initialPage: 0,
+  );
+
+
+  Widget amountToShow(Bundle currentItem, {bool red = false}) {
+    try {
+      if ((currentItem.applicableTaxes ?? []).isEmpty ||
+          currentItem.applicableTaxes?.first.taxActive == false) {
+        return Text(
+          NumberUtils.formatNumber(
+            (currentItem.amount ?? 0.0).toDouble(),
+          ),
+          style: red
+              ? kHugeHeavy.copyWith(color: Styles.kPrimaryColor)
+              : kHugeHeavy,
+        );
+      } else {
+        return Text(
+          NumberUtils.formatNumber(
+            (currentItem.amount ?? 0.0).toDouble() +
+                (currentItem.applicableTaxes?.first.amountToApply ?? 0.0)
+                    .toDouble(),
+          ),
+          style: red
+              ? kHugeHeavy.copyWith(color: Styles.kPrimaryColor)
+              : kHugeHeavy,
+        );
+      }
+    } catch (e) {
+      return Container();
+    }
+  }
+  var selectedItem = 0;
+
+  @override
+  void initState() {
+
+    super.initState();
+    selectedItem = 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    BaggageGroup? baggageGroup;
+    var state = context.watch<ManageBookingCubit>().state;
+    baggageGroup = state.verifyResponse?.flightSSR?.baggageGroup;
+    String currency = 'MYR';
+    currency = state.manageBookingResponse?.result?.superPNROrder
+        ?.currencyCode ??
+        'MYR';
+    final baggage =
+    widget.isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+
+    return  Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            if (_currentIndex == 0) {
+              return;
+            }
+
+            _currentIndex = _currentIndex - 1;
+
+
+            pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+
+          },
+
+          child: ImageIcon(
+            const AssetImage(
+                "assets/images/icons/iconPreviousDisabled.png"),
+            color: _currentIndex == 0
+                ? Styles.kDisabledGrey
+                : Styles.kPrimaryColor,
+          ),
+        ),
+
+
+        Expanded(
+          child: SizedBox(
+            height: 240,
+            child: PageView.builder(
+                itemCount: (baggage ?? []).length,
+                scrollDirection: Axis.horizontal,
+                controller: pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  var currentItem = baggage![index];
+
+                  return Column(
+                    children: [
+                      Image.asset(
+                        "assets/images/design/icoSportsGrey.png",
+                        color: Styles.kSubTextColor,
+                        height: 96,
+                      ),
+                      kVerticalSpacerMini,
+                      Text(
+                        currentItem.ssrCodeToShow ?? '',
+                        style: kLargeHeavy.copyWith(
+                            color: Styles.kTextColor),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        currentItem.description ?? '',
+                        style: kMediumRegular.copyWith(
+                            color: Styles.kTextColor),
+                      ),
+                      kVerticalSpacerMini,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            currentItem.currencyCode ?? currency,
+                            style: kHugeHeavy.copyWith(
+                                color: Styles.kPrimaryColor),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          amountToShow(currentItem, red: true),
+                        ],
+                      ),
+                      IgnorePointer(
+                        child: Radio<Bundle?>(
+                          activeColor: Styles.kActiveColor,
+                          value: selectedItem ==
+                              currentItem.serviceID!.toInt()
+                              ? currentItem
+                              : null,
+                          groupValue: currentItem,
+                          onChanged: (value) async {},
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+          ),
+        ),
+
+        GestureDetector(
+          onTap: (){
+            if (_currentIndex == ((baggage ?? []).length - 1)) {
+              return;
+            }
+
+            _currentIndex = _currentIndex + 1;
+
+            pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+
+          },
+          child: ImageIcon(
+            const AssetImage("assets/images/icons/iconNext.png"),
+            color: _currentIndex == ((baggage ?? []).length - 1)
+                ? Styles.kDisabledGrey
+                : Styles.kPrimaryColor,
+          ),
+        ),
+
+      ],
     );
   }
 }

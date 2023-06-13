@@ -4,6 +4,7 @@ import 'package:app/data/responses/aplicable_taxes.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/add_on/seats/ui/seat_legend_simple.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -697,6 +698,16 @@ class Bundle extends Equatable {
   final bool? amountActive;
   final num? categoryID;
   final String? ssrCode;
+
+  String get ssrCodeToShow {
+
+    if(ssrCode == 'NOSELECT'){
+      return 'noEquipment'.tr();
+    }
+    return ssrCode ?? '';
+
+  }
+
   final bool? display;
   final num? maxCountServiceLevel;
   final bool? refundable;
