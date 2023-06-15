@@ -24,6 +24,9 @@ class SelectedPassengerInfo extends StatelessWidget {
     var state  = context.watch<ManageBookingCubit>().state;
     int i = state.manageBookingResponse?.result?.passengersWithSSR?.indexOf(passengers!) ?? 1;
 
+    if(i == -1) {
+      i = 0;
+    }
     return Column(
       children: [
         Align(

@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/seats/ui/seat_legend_simple.dart';
@@ -47,8 +48,14 @@ class _SeatRowState extends State<SeatRow> {
   @override
   Widget build(BuildContext context) {
     final bookingState = context.watch<BookingCubit>().state;
-    Person? selectedPerson = context.watch<SelectedPersonCubit>().state;
+    Person? selectedPerson;
+
+    int indexToShow = 0;
+    ManageBookingCubit? manageCubit;
+
     if (widget.isManageBooking) {
+      manageCubit = context.watch<ManageBookingCubit>();
+
       var state = context.watch<ManageBookingCubit>().state;
       selectedPerson = state.selectedPax?.personObject;
       print('');
@@ -62,7 +69,6 @@ class _SeatRowState extends State<SeatRow> {
     bool isDeparture = true;
 
     Map<num?, Color>? mapColor;
-
 
     if (widget.isManageBooking) {
       var no = context
@@ -81,11 +87,9 @@ class _SeatRowState extends State<SeatRow> {
 
       otherSeats = persons.selectedSeats(isDeparture);
 
-
       mapColor = isDeparture
           ? context.watch<ManageBookingCubit>().state.departureColorMapping
           : context.watch<ManageBookingCubit>().state.returnColorMapping;
-
     } else {
       final state = context.watch<SearchFlightCubit>().state;
       persons = state.filterState?.numberPerson;
@@ -98,24 +102,30 @@ class _SeatRowState extends State<SeatRow> {
           : bookingState.returnColorMapping;
     }
 
-
     final seat = isDeparture
         ? focusedPerson?.departureSeats
         : focusedPerson?.returnSeats;
     final selected = seat == widget.seats;
     final otherSelected = otherSeats?.contains(widget.seats) ?? false;
 
-
-
     if (seat != null) {
       print('');
     }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: InkWell(
         onTap: () async {
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
+          if(widget.isManageBooking) {
+            //if(selected){
+
+              manageCubit?.addSeatToPerson(selectedPerson, widget.seats, isDeparture);
+           // }
+            return;
+
+          }
           if (selected) {
             print("is selected $selected");
             context
@@ -172,12 +182,17 @@ class _SeatRowState extends State<SeatRow> {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle, color: Styles.kPrimaryColor),
                 child: Center(
-                  child: Text(
-                    selected
-                        ? "${persons?.getPersonIndex(focusedPerson)}"
-                        : "${persons?.getPersonIndexBySeat(widget.seats, isDeparture)}",
-                    style: kLargeHeavy.copyWith(color: Colors.white),
-                  ),
+                  child: (widget.isManageBooking)
+                      ? (selected
+                          ? buildPersonTextFocused(focusedPerson, manageCubit)
+                          : seatTextPerson(
+                              widget.seats.seatId?.toInt() ?? 0, manageCubit))
+                      : Text(
+                          selected
+                              ? "${persons?.getPersonIndex(focusedPerson)}"
+                              : "${persons?.getPersonIndexBySeat(widget.seats, isDeparture)}",
+                          style: kLargeHeavy.copyWith(color: Colors.white),
+                        ),
                 ),
               ),
             ),
@@ -185,5 +200,40 @@ class _SeatRowState extends State<SeatRow> {
         ),
       ),
     );
+  }
+
+  Text buildPersonTextFocused(Person? focusedPerson, ManageBookingCubit? bloc) {
+    var respone = bloc?.state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject == focusedPerson)
+        .toList();
+
+    if ((respone ?? []).isNotEmpty) {
+      int? index = bloc?.state.manageBookingResponse?.result?.passengersWithSSR
+          ?.indexOf((respone ?? []).first);
+
+      if (index != null) {
+        return Text((index + 1).toString(),style: kLargeHeavy.copyWith(color: Colors.white),);
+      }
+    }
+    return Text('0');
+  }
+
+  Text seatTextPerson(int seatId, ManageBookingCubit? bloc) {
+    var respone = bloc?.state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject?.departureSeats?.seatId == seatId)
+        .toList();
+    if ((respone ?? []).isNotEmpty) {
+      int? index = bloc?.state.manageBookingResponse?.result?.passengersWithSSR
+          ?.indexOf((respone ?? []).first);
+
+      if (index != null) {
+        return Text(
+          (index + 1).toString(),
+          style: kLargeHeavy.copyWith(color: Colors.white),
+        );
+      }
+    }
+
+    return Text('2');
   }
 }

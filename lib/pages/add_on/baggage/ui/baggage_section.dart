@@ -24,7 +24,7 @@ class BaggageSection extends StatelessWidget {
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
 
-  const BaggageSection({
+  const  BaggageSection({
     Key? key,
     this.isDeparture = true,
     this.moveToTop,
@@ -39,6 +39,7 @@ class BaggageSection extends StatelessWidget {
     if(isManageBooking) {
       var state = context.watch<ManageBookingCubit>().state;
       baggageGroup = state.verifyResponse?.flightSSR?.baggageGroup;
+
 
     }
      else {
@@ -351,19 +352,51 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
     super.initState();
     selectedItem = 0;
+
   }
+
+  ManageBookingCubit? bloc;
+
+  bool onlyOneTime = false;
 
   @override
   Widget build(BuildContext context) {
     BaggageGroup? baggageGroup;
+    bloc = context.watch<ManageBookingCubit>();
+
     var state = context.watch<ManageBookingCubit>().state;
     baggageGroup = state.verifyResponse?.flightSSR?.baggageGroup;
+
     String currency = 'MYR';
     currency = state.manageBookingResponse?.result?.superPNROrder
         ?.currencyCode ??
         'MYR';
     final baggage =
     widget.isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+    Person? selectedPerson =
+        context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
+    var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureBaggage?.description).toList();
+
+    if((resultIndexFinder ?? []).isNotEmpty) {
+
+
+      int indexOf = baggage?.indexOf((resultIndexFinder ?? []).first) ?? 0;
+      print('');
+
+      selectedItem = (resultIndexFinder ?? []).first.serviceID?.toInt() ?? 0;
+
+
+
+      if(indexOf != pageController.initialPage){
+        name(indexOf);
+
+
+      }
+
+    }
+
+
 
     return  Row(
       children: [
@@ -405,54 +438,67 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                 itemBuilder: (context, index) {
                   var currentItem = baggage![index];
 
-                  return Column(
-                    children: [
-                      Image.asset(
-                        "assets/images/design/icoSportsGrey.png",
-                        color: Styles.kSubTextColor,
-                        height: 96,
-                      ),
-                      kVerticalSpacerMini,
-                      Text(
-                        currentItem.ssrCodeToShow ?? '',
-                        style: kLargeHeavy.copyWith(
-                            color: Styles.kTextColor),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        currentItem.description ?? '',
-                        style: kMediumRegular.copyWith(
-                            color: Styles.kTextColor),
-                      ),
-                      kVerticalSpacerMini,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            currentItem.currencyCode ?? currency,
-                            style: kHugeHeavy.copyWith(
-                                color: Styles.kPrimaryColor),
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          amountToShow(currentItem, red: true),
-                        ],
-                      ),
-                      IgnorePointer(
-                        child: Radio<Bundle?>(
-                          activeColor: Styles.kActiveColor,
-                          value: selectedItem ==
-                              currentItem.serviceID!.toInt()
-                              ? currentItem
-                              : null,
-                          groupValue: currentItem,
-                          onChanged: (value) async {},
+                  return InkWell(
+                    onTap: (){
+                      selectedItem = (baggage ?? [])[index].serviceID?.toInt() ?? 0;
+                      bloc?.addBaggageToPerson(selectedPerson,(baggage ?? [])[index],widget.isDeparture);
+                      setState(() {
+
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          "assets/images/design/icoSportsGrey.png",
+                          color: Styles.kSubTextColor,
+                          height: 96,
                         ),
-                      ),
-                    ],
+                        kVerticalSpacerMini,
+                        Text(
+                          currentItem.ssrCodeToShow ?? '',
+                          style: kLargeHeavy.copyWith(
+                              color: Styles.kTextColor),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          currentItem.description ?? '',
+                          style: kMediumRegular.copyWith(
+                              color: Styles.kTextColor),
+                        ),
+                        kVerticalSpacerMini,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              currentItem.currencyCode ?? currency,
+                              style: kHugeHeavy.copyWith(
+                                  color: Styles.kPrimaryColor),
+                            ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            amountToShow(currentItem, red: true),
+                          ],
+                        ),
+                        IgnorePointer(
+                          child: Radio<Bundle?>(
+                            activeColor: Styles.kActiveColor,
+                            value: selectedItem ==
+                                currentItem.serviceID!.toInt()
+                                ? currentItem
+                                : null,
+                            groupValue: currentItem,
+                            onChanged: (value) async {
+
+
+
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 }),
           ),
@@ -463,10 +509,8 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
             if (_currentIndex == ((baggage ?? []).length - 1)) {
               return;
             }
-
             _currentIndex = _currentIndex + 1;
-
-            pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+            pageController.animateToPage(_currentIndex, duration: const Duration(milliseconds: 500), curve: Curves.ease);
 
           },
           child: ImageIcon(
@@ -479,5 +523,18 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
       ],
     );
+  }
+
+  void name(int indexOf) async {
+    if(onlyOneTime ){
+    return;
+
+    }
+    onlyOneTime = true;
+
+    await Future.delayed(Duration(milliseconds: 500));
+    selectedItem = indexOf;
+
+    pageController.animateToPage(indexOf, duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 }

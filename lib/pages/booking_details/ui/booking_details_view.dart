@@ -11,20 +11,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/app_router.dart';
+import '../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../data/responses/manage_booking_response.dart';
+import '../../../data/responses/verify_response.dart';
 import '../../../models/number_person.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/custom_segment.dart';
+import '../../../widgets/app_money_widget.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
 import '../../add_on/baggage/ui/baggage_section.dart';
 import '../../add_on/meals/ui/meals_section.dart';
 import '../../add_on/seats/ui/seat_legend_simple.dart';
 import '../../add_on/seats/ui/seat_plan.dart';
+import '../../add_on/special/ui/wheelchair_section.dart';
 import '../../add_on/ui/passenger_selector.dart';
+import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
+import '../../checkout/pages/insurance/ui/available_insurance.dart';
+import '../../checkout/pages/insurance/ui/insurance_view.dart';
+import '../../checkout/pages/insurance/ui/passenger_insurance_selector.dart';
+import '../../checkout/pages/insurance/ui/zurich_container.dart';
+import '../../checkout/ui/empty_addon.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 import 'add_on_options.dart';
 import 'add_ons_card_items.dart';
@@ -33,6 +43,7 @@ import 'contants_section.dart';
 import 'double_line_text.dart';
 import 'emergency_contect_section.dart';
 import 'flight_data.dart';
+import 'package:app/data/responses/verify_response.dart' as VRR;
 
 class ManageBookingDetailsView extends StatelessWidget {
   final VoidCallback onSharedTapped;
@@ -263,7 +274,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                 kVerticalSpacer,
                 if (bloc?.state.addOnOptionSelected == AddonType.seat) ...[
                   kVerticalSpacerMini,
-                  WarningLabel(message: 'weSorrySeatSelected'.tr(),),
+                  WarningLabel(
+                    message: 'weSorrySeatSelected'.tr(),
+                  ),
                   kVerticalSpacerSmall,
                   CustomSegmentControl(
                     optionOneTapped: () {},
@@ -295,45 +308,65 @@ class ManageBookingDetailsView extends StatelessWidget {
                   kVerticalSpacer,
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.meal) ...[
-
-                  WarningLabel(message: 'mealAddOnsAreUnavailable'.tr(),),
+                  WarningLabel(
+                    message: 'mealAddOnsAreUnavailable'.tr(),
+                  ),
                   kVerticalSpacerSmall,
                   CustomSegmentControl(
                     optionOneTapped: () {},
                     optionTwoTapped: () {},
                     textOne:
-                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                     textTwo:
-                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                     customRadius: 12,
                     customBorderWidth: 1,
                     customVerticalPadding: 8,
                     customSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                        kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
                     customNoSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                        kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
                   ),
                   kVerticalSpacerSmall,
-
                   const MealsSection(
                     isDeparture: true,
                     isManageBooking: true,
                   ),
-                ]
-                else if (bloc?.state.addOnOptionSelected == AddonType.baggage) ... [
+                ] else if (bloc?.state.addOnOptionSelected ==
+                    AddonType.baggage) ...[
+                  kVerticalSpacerSmall,
+                  CustomSegmentControl(
+                    optionOneTapped: () {},
+                    optionTwoTapped: () {},
+                    textOne:
+                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                    textTwo:
+                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                    customRadius: 12,
+                    customBorderWidth: 1,
+                    customVerticalPadding: 8,
+                    customSelectedStyle:
+                        kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                    customNoSelectedStyle:
+                        kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                  ),
+                  kVerticalSpacerSmall,
+                  BaggageSection(
+                    isManageBooking: true,
+                    isDeparture: true,
+                    moveToTop: () {},
+                    moveToBottom: () {},
+                  ),
+                ] else if (bloc?.state.addOnOptionSelected ==
+                    AddonType.special) ...[
+                  kVerticalSpacer,
+                  const WheelchairSection(isDeparture: true, isManageBooking : true),
+                  kVerticalSpacer,
 
-                    BaggageSection(
-                      isManageBooking : true,
-                      isDeparture: true,
-                      moveToTop: () {
-
-                      },
-                      moveToBottom: () {
-
-                      },
-                    ),
-                  ],
-
+                ] else if (bloc?.state.addOnOptionSelected == AddonType.insurance) ... [
+                  //InsuranceView(isManageBooking: true,),
+                  const InsuranceManageView(),
+                ],
                 const ContactsSection(),
                 kVerticalSpacer,
                 const EmergencyContactsSection(),
@@ -366,9 +399,7 @@ class ManageBookingDetailsView extends StatelessWidget {
   }
 }
 
-
 class WarningLabel extends StatelessWidget {
-
   final String message;
 
   const WarningLabel({Key? key, required this.message}) : super(key: key);
@@ -383,10 +414,9 @@ class WarningLabel extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Text(
-            message ,
+          message,
           style: kMediumMedium.copyWith(
             color: Styles.kCanvasColor,
           ),
@@ -395,3 +425,267 @@ class WarningLabel extends StatelessWidget {
     );
   }
 }
+
+
+
+class InsuranceManageView extends StatelessWidget {
+  const InsuranceManageView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    Bundle? firstInsurance;
+
+    var bloc = context.watch<ManageBookingCubit>();
+    var state = bloc.state;
+
+    BundleGroupSeat? insuranceGroup = state.verifyResponse?.flightSSR?.insuranceGroup;
+    List<Bundle> insurances =
+        state.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+    List<PassengersWithSSR> passengers = state.manageBookingResponse?.result?.passengersWithSSRWithoutInfant ?? [];
+    firstInsurance = insurances.firstOrNull;
+
+    String? logoImage = '';
+
+    int selectedPassengers = 0;
+    Bundle? lastInsuranceSelected;
+    InsuranceType? selected;
+    BundleGroupSeat? insurancesGroup =
+        state.verifyResponse?.flightSSR?.insuranceGroup;
+
+    String currency = 'MYR';
+
+
+
+    if((insurances ?? []).isNotEmpty) {
+      final agentCms = context.watch<AgentSignUpCubit>().state;
+
+      String insuranceCode = firstInsurance?.codeType ?? '';
+
+      if(agentCms.locationItem != null) {
+        if(agentCms.locationItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+          logoImage = agentCms.locationItem?.banner;
+        }
+      }
+
+      if((logoImage ?? '').isEmpty) {
+        if(agentCms.internationalItem != null) {
+          if(agentCms.internationalItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+            logoImage = agentCms.internationalItem?.banner;
+          }
+        }
+      }
+
+      if((logoImage ?? '').isEmpty){
+        if(insuranceCode.contains('DL')){
+          logoImage = agentCms.locationItem?.banner;
+        }
+
+      }
+
+      if((logoImage ?? '').isEmpty){
+        logoImage = agentCms.internationalItem?.banner;
+      }
+
+    }
+
+    final agentCms = context.watch<AgentSignUpCubit>();
+
+    return Column(
+      children: [
+        if(insurances.isNotEmpty) ... [
+          Text(
+            "myAirTravelInsurance".tr(),
+            style: kHugeHeavy,
+          ),
+          kVerticalSpacer,
+          ZurichContainer(bannerImageUrl: logoImage,),
+          kVerticalSpacer,
+          Visibility(
+            visible: insurances.isNotEmpty,
+            replacement: const EmptyAddon(),
+            child: Column(
+              children: InsuranceType.values
+                  .map(
+                    (e) => InkWell(
+                  onTap: () {
+                    /*
+                    final bookingState = context.read<BookingCubit>().state;
+                    final firstInsurance = bookingState.verifyResponse?.flightSSR
+                        ?.insuranceGroup?.outbound?.firstOrNull;
+                    if (firstInsurance == null) return;
+                    print("first insurance not null $e");
+                    context.read<InsuranceCubit>().changeInsuranceType(
+                        e, firstInsurance.toBound(isInsurance: true));*/
+
+
+                  },
+                  child:  AppCard(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Theme(
+                              data: ThemeData(
+                                unselectedWidgetColor: Styles.kActiveGrey,
+                              ),
+                              child: IgnorePointer(
+                                ignoring: true,
+                                child: Radio<InsuranceType?>(
+                                  value: e,
+                                  visualDensity: const VisualDensity(
+                                    horizontal: -2,
+                                    vertical: -2,
+                                  ),
+                                  activeColor: Styles.kPrimaryColor,
+                                  materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                                  groupValue: selected,
+                                  onChanged: (value) {},
+                                ),
+                              ),
+                            ),
+                            kHorizontalSpacerSmall,
+                            Expanded(
+                              child:
+                              AvailableInsurance.getTitle(e, lastInsuranceSelected ?? firstInsurance,  passengers.length ),
+                            ),
+
+                            kHorizontalSpacerSmall,
+                            SizedBox(
+                              height: 56,
+                              width: 56,
+                              child: AvailableInsurance.getAssets(e) == null
+                                  ? const SizedBox()
+                                  : Image.asset(AvailableInsurance.getAssets(e)!),
+                            ),
+                          ],
+                        ),
+                        Visibility(
+                          visible: e == selected && e != InsuranceType.none,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            child: Column(
+                              children: [
+                                Visibility(
+                                  visible: e == InsuranceType.selected,
+                                  child: const PassengerInsuranceSelector(),
+                                ),
+                                ...insurances.map(
+                                      (e) {
+                                    final bound = e.toBound(isInsurance: true);
+
+                                   var tmp =  Bound();
+
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8),
+                                      child: InkWell(
+                                        onTap: () {
+
+                                          /*
+                                          if (selected == InsuranceType.all) {
+
+                                            insuranceBloc.setLast(insurancesGroup?.outbound?.firstWhereOrNull((element) => element == e));
+
+
+
+                                            context
+                                                .read<InsuranceCubit>()
+                                                .updateInsuranceToAllPassenger(
+                                                bound);
+
+                                          } else {
+                                            Bound? currentInsurance =
+                                                passengers[selectedPassengers]
+                                                    .getInsurance;
+
+
+                                            if (currentInsurance == null) {
+
+                                              context
+                                                  .read<InsuranceCubit>()
+                                                  .updateInsuranceToPassenger(
+                                                  selectedPassengers, bound,e.codeType);
+                                            } else {
+
+                                              context
+                                                  .read<InsuranceCubit>()
+                                                  .updateInsuranceToPassenger(
+                                                  selectedPassengers, null,e.codeType);
+                                            }
+                                          }*/
+
+
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(8),
+                                              border: Border.all(
+                                                  color: Styles.kDisabledButton)),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                AvailableInsurance.dataTitle(e, agentCms),
+                                                style: kLargeHeavy,
+                                              ),
+                                              AvailableInsurance.buildSubtitle(e, agentCms),
+                                              kVerticalSpacerSmall,
+                                              MoneyWidgetCustom(
+                                                currency: currency,
+                                                myrSize: 20,
+                                                amountSize: 20,
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                textColor: Styles.kPrimaryColor,
+                                                amount: e.finalAmount,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              kVerticalSpacer,
+                                              IgnorePointer(
+                                                ignoring: true,
+                                                child: Radio<Bound?>(
+                                                  value: tmp,
+                                                  visualDensity:
+                                                  const VisualDensity(
+                                                    horizontal: -2,
+                                                    vertical: -2,
+                                                  ),
+                                                  materialTapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                                  groupValue:
+                                                  passengers[selectedPassengers]
+                                                      .getInsurance,
+                                                  onChanged: (value) {},
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).toList()
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+                  .toList(),
+            ),
+          ),
+        ] else ... [
+          EmptyAddon(icon : "assets/images/icons/icoNoInsurance.png" ,customText: 'insuranceTempUnavailable'.tr(),),
+        ],
+      ],
+    );
+  }
+}
+

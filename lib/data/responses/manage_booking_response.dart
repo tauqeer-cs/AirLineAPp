@@ -110,6 +110,22 @@ class Result {
 
   }
 
+  List<Passenger> get allPessengerObject {
+
+    List<Passenger> persons = [];
+
+    for(PassengersWithSSR currnetItem in passengersWithSSR ?? []) {
+      if(currnetItem.passengers != null) {
+        persons.add(currnetItem.passengers!);
+
+      }
+
+    }
+    return persons;
+
+  }
+
+
 
   List<PassengersWithSSR> get passengersWithSSRWithoutInfant {
     return passengersWithSSR
@@ -534,6 +550,23 @@ class Result {
 
 class PassengersWithSSR {
 
+  Bound? get getInsurance {
+
+    /*if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+        if(object.isNotEmpty){
+          return object.first;
+        }
+        return null;
+      }
+    }*/
+
+
+    return null;
+  }
+
   String toBeautify() {
     List<String> texts = [];
     int numberOfAdult = 0;
@@ -665,7 +698,7 @@ class PassengersWithSSR {
     this.passExpdate,
     this.passPortdob,
     this.checkInMemberID,
-    this.infantExpanded,
+    this.infantExpanded = false,
     this.infantGivenName,
     this.infantSurname,
     this.infantDob,

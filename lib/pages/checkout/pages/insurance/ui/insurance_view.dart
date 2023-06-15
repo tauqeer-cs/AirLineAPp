@@ -15,11 +15,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
+import '../../../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../../../data/responses/verify_response.dart';
 import '../../../ui/empty_addon.dart';
 
 class InsuranceView extends StatefulWidget {
-  const InsuranceView({Key? key}) : super(key: key);
+  final bool isManageBooking;
+
+  const InsuranceView({Key? key, this.isManageBooking = false}) : super(key: key);
 
   @override
   State<InsuranceView> createState() => _InsuranceViewState();
@@ -53,22 +56,37 @@ class _InsuranceViewState extends State<InsuranceView> {
 
   @override
   Widget build(BuildContext context) {
-    final bookingState = context.watch<BookingCubit>().state;
-
-    insuranceGroup = bookingState.verifyResponse?.flightSSR?.insuranceGroup;
-
-    insuranceCubit = context.watch<InsuranceCubit>();
-
+    BundleGroupSeat? insuranceGroup;
+    List<Passenger> passengers = [];
+    List<Bundle> insurances = [];
+    Bundle? firstInsurance;
     final insuranceState = context.watch<InsuranceCubit>().state;
-    final passengers = insuranceState.passengers;
+    if(widget.isManageBooking) {
 
-    final insurances =
-        bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+    }
+    else {
+      final bookingState = context.watch<BookingCubit>().state;
+      insuranceGroup = bookingState.verifyResponse?.flightSSR?.insuranceGroup;
 
-    final firstInsurance = insurances.firstOrNull;
+      insuranceCubit = context.watch<InsuranceCubit>();
+
+
+      passengers = insuranceState.passengers;
+
+      insurances =
+          bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+
+      firstInsurance = insurances.firstOrNull;
+
+
+    }
+
+
+
+
 
     String? logoImage = '';
-    if(insurances.isNotEmpty) {
+    if((insurances ?? []).isNotEmpty) {
       final agentCms = context.watch<AgentSignUpCubit>().state;
 
       String insuranceCode = firstInsurance?.codeType ?? '';
@@ -103,7 +121,6 @@ class _InsuranceViewState extends State<InsuranceView> {
 
     }
 
-    print("insurance is ${insuranceState.totalInsurance()}");
     return Stack(
       children: [
         SummaryContainerListener(
@@ -122,7 +139,7 @@ class _InsuranceViewState extends State<InsuranceView> {
                  ZurichContainer(bannerImageUrl: logoImage,),
                 kVerticalSpacer,
 
-                const AvailableInsurance(),
+                 AvailableInsurance(isManageBooking: widget.isManageBooking,),
 
                 InsuranceTerms(
                   isInternational:

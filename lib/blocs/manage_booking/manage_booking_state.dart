@@ -14,6 +14,8 @@ class ManageBookingState extends Equatable {
   final bool isManageOpen;
   final bool isLoadingInfo;
   final bool dataLoaded;
+  final InsuranceType? insuranceType;
+
   final ManageBookingResponse? manageBookingResponse;
   final String? pnrEntered;
   final FlightResponse? flightSearchResponse;
@@ -49,11 +51,12 @@ class ManageBookingState extends Equatable {
   final Map<num?, Color>? departureColorMapping;
   final Map<num?, Color>? returnColorMapping;
 
-  const ManageBookingState( {
+  const ManageBookingState(  {
     this.blocState = BlocState.initial,
     this.message = "",
     this.addOnOptionSelected,
     this.selectedPax,
+    this.insuranceType,
     this.verifyResponse,
     this.contactsSectionExpanded = false,
   this.emergencySectionExpanded = false,
@@ -101,6 +104,7 @@ class ManageBookingState extends Equatable {
         checkReturn,
         lastName,
     showPending,
+    insuranceType,
         flightSearchResponse,
         changeFlightResponse,
         loadingDatesData,
@@ -154,6 +158,7 @@ class ManageBookingState extends Equatable {
         VerifyResponse? verifyResponse,
          Map<num?, Color>? departureColorMapping,
          Map<num?, Color>? returnColorMapping,
+        InsuranceType? insuranceType,
       }) {
     return ManageBookingState(
       verifyResponse: verifyResponse ?? this.verifyResponse,
@@ -195,6 +200,8 @@ class ManageBookingState extends Equatable {
       selectedPax: selectedPax ?? this.selectedPax,
       returnColorMapping: returnColorMapping ?? this.returnColorMapping,
       departureColorMapping: departureColorMapping ?? this.departureColorMapping,
+      insuranceType: insuranceType ?? this.insuranceType,
+
     );
   }
 }

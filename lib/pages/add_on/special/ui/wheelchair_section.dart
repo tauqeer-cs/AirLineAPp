@@ -20,45 +20,94 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+
 class WheelchairSection extends StatelessWidget {
   final bool isDeparture;
 
-  const WheelchairSection({Key? key, this.isDeparture = true})
-      : super(key: key);
+  final bool isManageBooking;
+
+  const WheelchairSection({
+    Key? key,
+    this.isDeparture = true,
+    this.isManageBooking = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final selectedPerson = context.watch<SelectedPersonCubit>().state;
-    final bookingState = context.watch<BookingCubit>().state;
-    final state = context.watch<SearchFlightCubit>().state;
-    final wheelChairGroup =
-        bookingState.verifyResponse?.flightSSR?.wheelChairGroup;
-    final wheelChairs =
-        isDeparture ? wheelChairGroup?.outbound : wheelChairGroup?.inbound;
-    final persons = state.filterState?.numberPerson;
-    final focusedPerson = persons?.persons
-        .firstWhereOrNull((element) => element == selectedPerson);
-    final selectedWheelchair = isDeparture
-        ? focusedPerson?.departureWheelChair
-        : focusedPerson?.returnWheelChair;
-    final okId =
-        isDeparture ? focusedPerson?.departureOkId : focusedPerson?.returnOkId;
-    print("rebuild here $okId");
-    print("selectedWheelchair $selectedWheelchair");
+    Person? selectedPerson;
+    BundleGroupSeat? wheelChairGroup;
+    NumberPerson? persons;
+    Person? focusedPerson;
+    List<Bundle>? wheelChairs;
+    String? okId;
+    Bundle? selectedWheelchair;
+
+    if(isManageBooking) {
+      var state = context.watch<ManageBookingCubit>().state;
+      selectedPerson = state.selectedPax?.personObject;
+      wheelChairGroup = state.verifyResponse?.flightSSR?.wheelChairGroup;
+      wheelChairs =
+      isDeparture ? wheelChairGroup?.outbound : wheelChairGroup?.inbound;
+      var no = context
+          .watch<ManageBookingCubit>()
+          .state
+          .manageBookingResponse
+          ?.result
+          ?.allPersonObject ??
+          [];
+
+      persons = NumberPerson(persons: no);
+
+      focusedPerson =
+          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+      selectedWheelchair = isDeparture
+          ? focusedPerson?.departureWheelChair
+          : focusedPerson?.returnWheelChair;
+      okId =
+      isDeparture ? focusedPerson?.departureOkId : focusedPerson?.returnOkId;
+
+    }
+    else {
+      final bookingState = context.watch<BookingCubit>().state;
+      final state = context.watch<SearchFlightCubit>().state;
+      selectedPerson = context.watch<SelectedPersonCubit>().state;
+
+
+      wheelChairGroup = bookingState.verifyResponse?.flightSSR?.wheelChairGroup;
+
+      wheelChairs =
+      isDeparture ? wheelChairGroup?.outbound : wheelChairGroup?.inbound;
+
+      persons = state.filterState?.numberPerson;
+      focusedPerson = persons?.persons
+          .firstWhereOrNull((element) => element == selectedPerson);
+
+      selectedWheelchair = isDeparture
+          ? focusedPerson?.departureWheelChair
+          : focusedPerson?.returnWheelChair;
+      okId =
+      isDeparture ? focusedPerson?.departureOkId : focusedPerson?.returnOkId;
+
+    }
+
 
     return Padding(
       padding: kPageHorizontalPadding,
       child: Visibility(
         visible: wheelChairs?.isNotEmpty ?? false,
-        replacement: EmptyAddon(),
+        replacement: const EmptyAddon(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PassengerSelector(
-              isDeparture: isDeparture,
-              addonType: AddonType.special,
-            ),
-            kVerticalSpacer,
+            if(isManageBooking == false) ... [
+              PassengerSelector(
+                isDeparture: isDeparture,
+                addonType: AddonType.special,
+              ),
+              kVerticalSpacer,
+            ],
+
             wheelChairs?.isEmpty ?? true
                 ? Center(
                     child: Text(
@@ -67,7 +116,7 @@ class WheelchairSection extends StatelessWidget {
                     ),
                   )
                 : AppCard(
-                    edgeInsets: EdgeInsets.all(12),
+                    edgeInsets: const EdgeInsets.all(12),
                     child: Column(
                       children: [
                         Row(
@@ -114,7 +163,8 @@ class WheelchairSection extends StatelessWidget {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 50.0, top: 10,right: 50),
+                          padding: const EdgeInsets.only(
+                              left: 50.0, top: 10, right: 50),
                           child: Visibility(
                             visible: selectedWheelchair != null,
                             child: BorderedAppInputText(

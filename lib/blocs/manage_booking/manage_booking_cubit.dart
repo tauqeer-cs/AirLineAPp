@@ -16,11 +16,13 @@ import '../../data/requests/search_flight_request.dart';
 import '../../data/requests/verify_request.dart';
 import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
+import '../../data/responses/manage_booking_response.dart' as MBR;
 import '../../models/confirmation_model.dart';
 import '../../data/responses/verify_response.dart';
 import '../../data/responses/verify_response.dart' as Vs;
 import '../../models/number_person.dart';
 import '../../models/pay_redirection.dart';
+import '../../pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../utils/error_utils.dart';
 import '../../data/responses/change_flight_response.dart';
 import 'package:flutter/material.dart';
@@ -123,48 +125,61 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     final outboundFares =
         OutboundFares(fbCode: outboundFBCode, lfid: outboundLFID);
 
-    var outboundSegment = state.manageBookingResponse?.result?.flightSegments?.first.outbound;
-    var inboundSegment = state.manageBookingResponse?.result?.flightSegments?.first.inbound;
-
-
+    var outboundSegment =
+        state.manageBookingResponse?.result?.flightSegments?.first.outbound;
+    var inboundSegment =
+        state.manageBookingResponse?.result?.flightSegments?.first.inbound;
 
     var commonRuest = CommonFlightRequest(
-      originAirport: outboundSegment?.first.departureAirportLocationCode ?? '',
-      destinationAirport: outboundSegment?.first.arrivalAirportLocationCode ?? '',
-      departDate: outboundSegment?.first.departureDateTime?.toIso8601String(),
-      returnDate: inboundSegment?.first.departureDateTime?.toIso8601String(),
-      adults: 2,
-      childrens: 1,
-      infants: 1,
-      isReturn: true,
-      tripType: 'Round Trip',
-      outboundFares: [outboundFares],
-      inboundFares: [inboundFares],
-      totalAmount: 426.0,
-      promoCode: ''
-    );
+        originAirport:
+            outboundSegment?.first.departureAirportLocationCode ?? '',
+        destinationAirport:
+            outboundSegment?.first.arrivalAirportLocationCode ?? '',
+        departDate: outboundSegment?.first.departureDateTime?.toIso8601String(),
+        returnDate: inboundSegment?.first.departureDateTime?.toIso8601String(),
+        adults: 2,
+        childrens: 1,
+        infants: 1,
+        isReturn: true,
+        tripType: 'Round Trip',
+        outboundFares: [outboundFares],
+        inboundFares: [inboundFares],
+        totalAmount: 426.0,
+        promoCode: '');
     print('');
 
     var request = VerifyRequest(flightVerifyRequest: commonRuest);
     final verifyResponse = await _repository.verifyFlight(request);
     List<Person> allPeople = [];
 
-    var outBoundSeatRows = verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows;
-    var inBoundSeatRows = verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows;
+    var outBoundSeatRows = verifyResponse
+        .flightSeat
+        ?.outbound
+        ?.first
+        .retrieveFlightSeatMapResponse
+        ?.physicalFlights
+        ?.first
+        .physicalFlightSeatMap
+        ?.seatConfiguration
+        ?.rows;
+    var inBoundSeatRows = verifyResponse
+        .flightSeat
+        ?.outbound
+        ?.first
+        .retrieveFlightSeatMapResponse
+        ?.physicalFlights
+        ?.first
+        .physicalFlightSeatMap
+        ?.seatConfiguration
+        ?.rows;
 
+    var mainObject = state.manageBookingResponse;
 
-    var  mainObject = state.manageBookingResponse;
-
-
-
-    final seatsDeparture =
-        verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
+    final seatsDeparture = verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
     final seatsReturn = verifyResponse.flightSSR?.seatGroup?.inbound ?? [];
 
-
-
-     Map<num?, Color> departureColorMapping = {};
-     Map<num?, Color> returnColorMapping = {};
+    Map<num?, Color> departureColorMapping = {};
+    Map<num?, Color> returnColorMapping = {};
 
     for (int i = 0; i < seatsDeparture.length; i++) {
       final seat = seatsDeparture[i];
@@ -178,139 +193,174 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           seat.serviceID, () => availableSeatsColor[i]);
     }
 
+    for (PassengersWithSSR currentPerson
+        in mainObject?.result?.passengersWithSSR ?? []) {
+      var result = currentPerson.seatDetail?.seats
+          ?.where((e) => e.departReturn == 'Depart')
+          .toList();
 
-
-    for(PassengersWithSSR currentPerson in mainObject?.result?.passengersWithSSR ?? []) {
-
-
-      var result = currentPerson.seatDetail?.seats?.where((e) => e.departReturn == 'Depart').toList();
-
-      var result2 = currentPerson.seatDetail?.seats?.where((e) => e.departReturn == 'Return').toList();
-
-
+      var result2 = currentPerson.seatDetail?.seats
+          ?.where((e) => e.departReturn == 'Return')
+          .toList();
 
       Vs.Seats? departureSeats;
 
-      if(result?.isNotEmpty ?? false) {
+      if (result?.isNotEmpty ?? false) {
         String input = result?.first.seatPosition ?? '';
-        if(input.isNotEmpty) {
-
-
+        if (input.isNotEmpty) {
           RegExp regex = RegExp(r'([A-Za-z]+)(\d+)');
           var match = regex.firstMatch(input);
 
           String? characterPart = match?.group(1); // C
           String? numberPart = match?.group(2); // 17
 
-          int seatNo  = int.tryParse(numberPart ?? '') ?? 0;
+          int seatNo = int.tryParse(numberPart ?? '') ?? 0;
 
-          var ress = outBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
+          var ress =
+              outBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
 
-          if(ress?.isNotEmpty ?? false) {
-            var finalSeat = ress?.first.seats?.where((e) => e.seatColumn == characterPart).toList().first;
+          if (ress?.isNotEmpty ?? false) {
+            var finalSeat = ress?.first.seats
+                ?.where((e) => e.seatColumn == characterPart)
+                .toList()
+                .first;
 
             departureSeats = finalSeat;
             print('');
-
-
           }
 
           print('');
-
         }
       }
       Vs.Seats? returnSeats;
 
-      if(result2?.isNotEmpty ?? false) {
+      if (result2?.isNotEmpty ?? false) {
         String input = result2?.first.seatPosition ?? '';
-        if(input.isNotEmpty) {
-
-
+        if (input.isNotEmpty) {
           RegExp regex = RegExp(r'([A-Za-z]+)(\d+)');
           var match = regex.firstMatch(input);
 
           String? characterPart = match?.group(1); // C
           String? numberPart = match?.group(2); // 17
 
-          int seatNo  = int.tryParse(numberPart ?? '') ?? 0;
+          int seatNo = int.tryParse(numberPart ?? '') ?? 0;
 
-          var ress = inBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
+          var ress =
+              inBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
 
-          if(ress?.isNotEmpty ?? false) {
-            var finalSeat = ress?.first.seats?.where((e) => e.seatColumn == characterPart).toList().first;
+          if (ress?.isNotEmpty ?? false) {
+            var finalSeat = ress?.first.seats
+                ?.where((e) => e.seatColumn == characterPart)
+                .toList()
+                .first;
 
             returnSeats = finalSeat;
             print('');
-
-
           }
 
           print('');
-
         }
       }
 
-       List<Bundle> departureMeal = [];
-       List<Bundle> returnMeal = [];
+      List<Bundle> departureMeal = [];
+      List<Bundle> returnMeal = [];
 
-       //Depart
+      Bundle? departureBaggage;
+      Bundle? returnBaggage;
 
+      Bundle? departureSports;
+      Bundle? returnSports;
+
+      //Depart
 
       var departMealsSelected = currentPerson.mealDetail?.departureMealsOnly;
       var returnMealsSelected = currentPerson.mealDetail?.returnMealsOnly;
 
-      for(MealList currentIte in departMealsSelected ?? []) {
-
+      for (MealList currentIte in departMealsSelected ?? []) {
         //Nasi Lemak Combo
-        List<Bundle> result = verifyResponse.flightSSR?.mealGroup?.outbound?.where((e) => e.description?.toLowerCase() == currentIte.mealName?.toLowerCase()).toList() ?? [];
+        List<Bundle> result = verifyResponse.flightSSR?.mealGroup?.outbound
+                ?.where((e) =>
+                    e.description?.toLowerCase() ==
+                    currentIte.mealName?.toLowerCase())
+                .toList() ??
+            [];
 
-        if(result.isNotEmpty) {
-
+        if (result.isNotEmpty) {
           departureMeal.add(result.first);
-
         }
         print('');
-
       }
 
-
-      for(MealList currentIte in returnMealsSelected ?? []) {
-
+      for (MealList currentIte in returnMealsSelected ?? []) {
         //Nasi Lemak Combo
-        List<Bundle> result = verifyResponse.flightSSR?.mealGroup?.inbound?.where((e) => e.description?.toLowerCase() == currentIte.mealName?.toLowerCase()).toList() ?? [];
+        List<Bundle> result = verifyResponse.flightSSR?.mealGroup?.inbound
+                ?.where((e) =>
+                    e.description?.toLowerCase() ==
+                    currentIte.mealName?.toLowerCase())
+                .toList() ??
+            [];
 
-        if(result.isNotEmpty) {
-
+        if (result.isNotEmpty) {
           returnMeal.add(result.first);
-
         }
         print('');
-
       }
 
-      //currentPerson.mealDetail?.meals?.where((e) => e!.titleToShow)
+      var departBagSelected = currentPerson.baggageDetail?.departureBaggages;
+      var returnBagSelected = currentPerson.baggageDetail?.returnBaggages;
 
-      PeopleType type ;
+      for (Baggage currentIte in departBagSelected ?? []) {
+        //Nasi Lemak Combo
+        List<Bundle> result = verifyResponse.flightSSR?.baggageGroup?.outbound
+                ?.where((e) =>
+                    e.description?.toLowerCase() ==
+                    currentIte.baggageName?.toLowerCase())
+                .toList() ??
+            [];
 
-      if(currentPerson.passengers?.passengerType  == 'INF') {
+        if (result.isNotEmpty) {
+          departureBaggage = result.first;
+        }
+        print('');
+      }
+
+      for (Baggage currentIte in returnBagSelected ?? []) {
+        //Nasi Lemak Combo
+        List<Bundle> result = verifyResponse.flightSSR?.baggageGroup?.inbound
+                ?.where((e) =>
+                    e.description?.toLowerCase() ==
+                    currentIte.baggageName?.toLowerCase())
+                .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          returnBaggage = result.first;
+        }
+        print('');
+      }
+
+      print('');
+
+      PeopleType type;
+
+      if (currentPerson.passengers?.passengerType == 'INF') {
         type = PeopleType.infant;
-      }
-      else if(currentPerson.passengers?.passengerType  == 'CHD') {
+      } else if (currentPerson.passengers?.passengerType == 'CHD') {
         type = PeopleType.child;
-      }
-      else {
+      } else {
         type = PeopleType.adult;
       }
 
-
       //
       var currentObject = Person(
-
         peopleType: type,
         departureMeal: departureMeal,
         returnMeal: returnMeal,
         departureSeats: departureSeats,
-        returnSeats: returnSeats
+        returnSeats: returnSeats,
+        departureBaggage: departureBaggage,
+        returnBaggage: returnBaggage,
+
         /*passenger: Passenger(
           firstName: currentPerson.passengers?.givenName,
           lastName: currentPerson.passengers?.surname,
@@ -318,23 +368,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           paxType: currentPerson.passengers?.passengerType
 
         ),*/
-
-
       );
 
       currentPerson.personObject = currentObject;
-    //  currentPerson.copyWith(personObject: currentObject);
+      //  currentPerson.copyWith(personObject: currentObject);
       print('');
-
-
     }
 
-    emit(
-      state.copyWith(verifyResponse: verifyResponse,
+    emit(state.copyWith(
+        verifyResponse: verifyResponse,
         manageBookingResponse: mainObject,
         departureColorMapping: departureColorMapping,
-        returnColorMapping: returnColorMapping
-    ));
+        returnColorMapping: returnColorMapping));
 
     print('');
 
@@ -459,14 +504,17 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
-  Future<void> reloadDataForConfirmation(String status,String superPnr) async {
+  Future<void> reloadDataForConfirmation(String status, String superPnr) async {
     emit(
       state.copyWith(
-          loadingSummary: true, message: '', blocState: BlocState.initial,showPending: status == 'PPB'),
+          loadingSummary: true,
+          message: '',
+          blocState: BlocState.initial,
+          showPending: status == 'PPB'),
     );
 
     try {
-      if(status == 'PPB') {
+      if (status == 'PPB') {
         print('');
 
         emit(
@@ -474,8 +522,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             loadingSummary: false,
           ),
         );
-       return;
-
+        return;
       }
       final verifyResponse = await _repository.getBookingInfo(
         ManageBookingRequest(pnr: state.pnrEntered, lastname: state.lastName),
@@ -635,7 +682,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ManageBookingRequest(pnr: bookingReference, lastname: lastName),
       );
 
-
       emit(
         state.copyWith(
             selectedPax: verifyResponse.result?.passengersWithSSR?.first,
@@ -649,7 +695,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             orderId: 0,
             pnrEntered: bookingReference,
             lastName: lastName),
-
       );
       makeVerifyRequest();
 
@@ -840,14 +885,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.copyWith(loadingCheckoutPayment: true, message: ''),
       );
 
-
-
       var request = MmbCheckoutRequest(
         superPNRNo: state.superPnrNo ?? '',
         insertVoucher: voucher ?? '',
         orderId: state.orderId ?? 0,
         paymentDetail: PaymentDetail(
-        currency: state.manageBookingResponse?.result?.passengersWithSSR?.first.fareAndBundleDetail?.currencyToShow ?? 'MYR',
+          currency: state.manageBookingResponse?.result?.passengersWithSSR
+                  ?.first.fareAndBundleDetail?.currencyToShow ??
+              'MYR',
           frontendUrl: AppFlavor.paymentRedirectUrl,
           promoCode: '',
           totalAmountNeedToPay: state.changeFlightResponse?.result
@@ -954,27 +999,28 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   void refreshData() async {
-
     //
 
     emit(
       state.copyWith(
-          loadingSummary: true, message: '', blocState: BlocState.initial,),
+        loadingSummary: true,
+        message: '',
+        blocState: BlocState.initial,
+      ),
     );
 
     try {
-
       final verifyResponse = await _repository.getBookingInfo(
-        ManageBookingRequest(pnr: false ? 'AGBBRY' : state.pnrEntered, lastname: state.lastName),
+        ManageBookingRequest(
+            pnr: false ? 'AGBBRY' : state.pnrEntered, lastname: state.lastName),
       );
 
       emit(
         state.copyWith(
-          blocState: BlocState.finished,
-          manageBookingResponse: verifyResponse,
-          loadingSummary: false,
-          showPending: false
-        ),
+            blocState: BlocState.finished,
+            manageBookingResponse: verifyResponse,
+            loadingSummary: false,
+            showPending: false),
       );
       return;
     } catch (e, st) {
@@ -1048,5 +1094,69 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     emit(
       state.copyWith(contactsSectionExpanded: !state.contactsSectionExpanded),
     );
+  }
+
+  void addSeatToPerson(
+      Person? selectedPerson, Vs.Seats seats, bool isDeparture) {
+    var manageResponse = state.manageBookingResponse;
+    var tmpObj = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject == selectedPerson)
+        .toList();
+
+    if ((tmpObj ?? []).isNotEmpty) {
+      var item = (tmpObj ?? []).first;
+
+      int index = 0;
+      index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(item) ??
+          0;
+
+      var newPerson = item.personObject?.copyWith(departureSeats: () => seats);
+      var newSSR = item.copyWith(personObject: newPerson);
+      var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+      copyList?.removeAt(index);
+      copyList?.insert(index, newSSR);
+
+      MBR.Result? cc = manageResponse?.result;
+      var result2 = cc?.copyWith(passengersWithSSR: copyList);
+      var finalResult = manageResponse?.copyWith(result: result2);
+
+      emit(
+        state.copyWith(manageBookingResponse: finalResult,selectedPax: newSSR),
+      );
+
+      print('');
+    }
+  }
+
+  void addBaggageToPerson(Person? person, Bundle? baggage, bool isDeparture) {
+    var manageResponse = state.manageBookingResponse;
+    var tmpObj = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject == person)
+        .toList();
+
+    if ((tmpObj ?? []).isNotEmpty) {
+      var item = (tmpObj ?? []).first;
+
+      int index = 0;
+      index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(item) ??
+          0;
+
+      var newPerson =
+          item.personObject?.copyWith(departureBaggage: () => baggage);
+      var newSSR = item.copyWith(personObject: newPerson);
+
+      var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+      copyList?.removeAt(index);
+      copyList?.insert(index, newSSR);
+      MBR.Result? cc = manageResponse?.result;
+      var result2 = cc?.copyWith(passengersWithSSR: copyList);
+      var finalResult = manageResponse?.copyWith(result: result2);
+
+      emit(
+        state.copyWith(manageBookingResponse: finalResult,selectedPax: newSSR),
+      );
+    }
   }
 }

@@ -702,6 +702,10 @@ class Bundle extends Equatable {
   String get ssrCodeToShow {
 
     if(ssrCode == 'NOSELECT'){
+
+      if(description == 'No Baggage') {
+        return 'noBaggage'.tr();
+      }
       return 'noEquipment'.tr();
     }
     return ssrCode ?? '';
