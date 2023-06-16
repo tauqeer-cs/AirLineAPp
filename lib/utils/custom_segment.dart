@@ -19,12 +19,15 @@ class CustomSegmentControl extends StatefulWidget {
   final String textOne;
   final String textTwo;
 
+  final bool isSelectedOption1;
+
   const CustomSegmentControl(
       {super.key,
         this.primaryColor,
         required this.optionOneTapped,
         required this.optionTwoTapped,
         required this.textOne,
+         this.isSelectedOption1 = true,
         required this.textTwo, this.customRadius,  this.customBorderWidth, this.customVerticalPadding, this.customSelectedStyle, this.customNoSelectedStyle});
 
   @override
@@ -34,8 +37,14 @@ class CustomSegmentControl extends StatefulWidget {
 class CustomSegmentControlState extends State<CustomSegmentControl> {
   bool _isSelectedOption1 = true;
 
-  //                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-  //                style: kMediumSemiBold,
+
+  @override
+  void initState() {
+    super.initState();
+    _isSelectedOption1 = widget.isSelectedOption1;
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,6 +64,8 @@ class CustomSegmentControlState extends State<CustomSegmentControl> {
                 setState(() {
                   _isSelectedOption1 = true;
                 });
+                widget.optionOneTapped();
+
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -84,6 +95,8 @@ class CustomSegmentControlState extends State<CustomSegmentControl> {
                 setState(() {
                   _isSelectedOption1 = false;
                 });
+                widget.optionTwoTapped();
+
               },
               child: Container(
                 decoration: BoxDecoration(

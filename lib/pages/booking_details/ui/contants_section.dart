@@ -8,6 +8,7 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
+import '../../checkout/pages/booking_details/ui/passenger_contact.dart';
 import 'double_line_text.dart';
 
 class ContactsSection extends StatelessWidget {
@@ -50,6 +51,12 @@ class ContactsSection extends StatelessWidget {
           ),
         ),
 
+        true ? ExpandedSection(
+            expand: state.contactsSectionExpanded,
+            child:  PassengerContact(
+              manageBooking: true,
+              bookingContact: bloc.state.manageBookingResponse?.result?.bookingContact,
+            ),) :
         ExpandedSection(
           expand: state.contactsSectionExpanded,
           child: Column(

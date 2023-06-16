@@ -180,6 +180,7 @@ class BookingContact extends Equatable {
   final String? email;
   final String? phone1;
   final String? phone1LocationCode;
+
   @JsonKey(toJson: AppDateUtils.toDateWithoutTimeToJson)
   final DateTime? dob;
   final String? nationality;

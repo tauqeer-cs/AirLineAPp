@@ -339,6 +339,43 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         print('');
       }
 
+      var departSportSelected =
+          currentPerson.sportEquipmentDetail?.departureBaggages;
+      var returnSportsSelected =
+          currentPerson.sportEquipmentDetail?.returnBaggages;
+
+      for (Baggage currentIte in departSportSelected ?? []) {
+        //Nasi Lemak Combo
+        List<Bundle> result = verifyResponse.flightSSR?.sportGroup?.outbound
+                ?.where((e) =>
+                    e.description?.toLowerCase() ==
+                    currentIte.sportEquipmentName?.toLowerCase())
+                .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          departureSports = result.first;
+        }
+        print('');
+      }
+
+      for (Baggage currentIte in returnSportsSelected ?? []) {
+        //Nasi Lemak Combo
+        List<Bundle> result = verifyResponse.flightSSR?.sportGroup?.inbound
+                ?.where((e) =>
+                    e.description?.toLowerCase() ==
+                    currentIte.sportEquipmentName?.toLowerCase())
+                .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          returnSports = result.first;
+        }
+        print('');
+      }
+
+      //
+
       print('');
 
       PeopleType type;
@@ -360,6 +397,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         returnSeats: returnSeats,
         departureBaggage: departureBaggage,
         returnBaggage: returnBaggage,
+        departureSports: departureSports,
+        returnSports: returnSports,
 
         /*passenger: Passenger(
           firstName: currentPerson.passengers?.givenName,
@@ -1111,7 +1150,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
               ?.indexOf(item) ??
           0;
 
-      var newPerson = item.personObject?.copyWith(departureSeats: () => seats);
+      Person? newPerson;
+
+      if(isDeparture) {
+        newPerson = item.personObject?.copyWith(departureSeats: () => seats);
+      }
+      else {
+        newPerson = item.personObject?.copyWith(returnSeats: () => seats);
+      }
+
+
       var newSSR = item.copyWith(personObject: newPerson);
       var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
       copyList?.removeAt(index);
@@ -1122,7 +1170,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       var finalResult = manageResponse?.copyWith(result: result2);
 
       emit(
-        state.copyWith(manageBookingResponse: finalResult,selectedPax: newSSR),
+        state.copyWith(manageBookingResponse: finalResult, selectedPax: newSSR),
       );
 
       print('');
@@ -1143,8 +1191,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
               ?.indexOf(item) ??
           0;
 
-      var newPerson =
-          item.personObject?.copyWith(departureBaggage: () => baggage);
+      Person? newPerson;
+
+      if(isDeparture) {
+
+        newPerson =
+            item.personObject?.copyWith(departureBaggage: () => baggage);
+      }
+      else {
+        newPerson = item.personObject?.copyWith(returnBaggage: () => baggage);
+
+      }
+
       var newSSR = item.copyWith(personObject: newPerson);
 
       var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
@@ -1155,8 +1213,163 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       var finalResult = manageResponse?.copyWith(result: result2);
 
       emit(
-        state.copyWith(manageBookingResponse: finalResult,selectedPax: newSSR),
+        state.copyWith(manageBookingResponse: finalResult, selectedPax: newSSR),
       );
     }
   }
+
+  void addSportToPerson(Person? person, Bundle? baggage, bool isDeparture) {
+    var manageResponse = state.manageBookingResponse;
+    var tmpObj = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject == person)
+        .toList();
+
+    if ((tmpObj ?? []).isNotEmpty) {
+      var item = (tmpObj ?? []).first;
+
+      int index = 0;
+      index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(item) ??
+          0;
+
+      Person? newPerson;
+
+      if(isDeparture) {
+        newPerson =
+            item.personObject?.copyWith(departureSports: () => baggage);
+      }
+      else {
+        newPerson =
+            item.personObject?.copyWith(returnSports: () => baggage);
+      }
+
+      var newSSR = item.copyWith(personObject: newPerson);
+
+      var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+      copyList?.removeAt(index);
+      copyList?.insert(index, newSSR);
+      MBR.Result? cc = manageResponse?.result;
+      var result2 = cc?.copyWith(passengersWithSSR: copyList);
+      var finalResult = manageResponse?.copyWith(result: result2);
+
+      emit(
+        state.copyWith(manageBookingResponse: finalResult, selectedPax: newSSR),
+      );
+    }
+  }
+
+
+
+  void addOrRemoveMealFromPerson({required bool isDeparture, required bool isAdd, Person? person, required Bundle meal}) {
+
+    var manageResponse = state.manageBookingResponse;
+    var tmpObj = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject == person)
+        .toList();
+
+    if ((tmpObj ?? []).isNotEmpty) {
+      var item = (tmpObj ?? []).first;
+
+      int index = 0;
+      index = state.manageBookingResponse?.result?.passengersWithSSR
+          ?.indexOf(item) ??
+          0;
+
+      List<Bundle> meals = [];
+      if(isDeparture) {
+        meals = item.personObject?.departureMeal ?? [];
+      }
+      else {
+        meals = item.personObject?.returnMeal ?? [];
+      }
+
+      if(isAdd) {
+        meals.add(meal);
+      }
+      else {
+        meals.remove(meal);
+      }
+
+      Person? newPerson;
+
+      if(isDeparture) {
+        newPerson =
+            item.personObject?.copyWith(departureMeal:  meals);
+      }
+      else {
+        newPerson =
+            item.personObject?.copyWith(returnMeal:  meals);
+      }
+
+
+      var newSSR = item.copyWith(personObject: newPerson);
+
+      var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+      copyList?.removeAt(index);
+      copyList?.insert(index, newSSR);
+      MBR.Result? cc = manageResponse?.result;
+      var result2 = cc?.copyWith(passengersWithSSR: copyList);
+      var finalResult = manageResponse?.copyWith(result: result2);
+
+      emit(
+        state.copyWith(manageBookingResponse: finalResult, selectedPax: newSSR),
+      );
+    }
+
+  }
+
+  void setSelectionDeparture(bool value,
+      {bool isSeat = false,
+        bool isFood = false,
+        bool isBaggage = false,
+        bool isSpecial = false}) {
+    if (isSeat) {
+      emit(
+        state.copyWith(seatDeparture: value),
+      );
+    } else if (isFood) {
+      emit(
+        state.copyWith(foodDepearture: value),
+      );
+    } else if (isBaggage) {
+      emit(
+        state.copyWith(baggageDeparture: value),
+      );
+    } else if (isSpecial) {
+      emit(
+        state.copyWith(specialAppOpsDeparture: value),
+      );
+    }
+  }
+
+  void setContactnewValue(String value,
+      {bool isFirstName = false,
+        bool isLastName = false,
+        bool isPhoneCode = false,
+        bool isPhoneNo = false,
+      bool isEmail = false}) {
+    if (isFirstName) {
+      emit(
+        state.copyWith(newContactFirstName: value),
+      );
+    } else if (isLastName) {
+      emit(
+        state.copyWith(newContactLastName: value),
+      );
+    } else if (isPhoneCode) {
+      emit(
+        state.copyWith(newContactCountryPhCode: value),
+      );
+    } else if (isPhoneNo) {
+      emit(
+        state.copyWith(newContactPhNo: value),
+      );
+    }
+    else if (isEmail) {
+      emit(
+        state.copyWith(newContactEmail: value),
+      );
+    }
+  }
+
 }

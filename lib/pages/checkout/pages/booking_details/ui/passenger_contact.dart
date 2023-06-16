@@ -19,11 +19,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../models/confirmation_model.dart';
 import '../../../../../widgets/pdf_viewer.dart';
 
 class PassengerContact extends StatefulWidget {
+  final bool manageBooking;
+
+  final BookingContact? bookingContact;
+
   const PassengerContact({
     Key? key,
+    this.manageBooking = false, this.bookingContact,
   }) : super(key: key);
 
   @override
@@ -59,25 +65,84 @@ class PassengerContactState extends State<PassengerContact> {
     }
   }
 
+  String getFirstName(String fullName) {
+    List<String> names = fullName.split(' ');
+
+    if (names.length >= 2) {
+      String firstName = names[0];
+      String lastName = names[names.length - 1];
+
+      return firstName;
+
+
+    } else {
+      print('Invalid full name');
+    }
+    return '';
+  }
+
+
+  String getLastName(String fullName) {
+    List<String> names = fullName.split(' ');
+
+    if (names.length >= 2) {
+      String lastName = names[names.length - 1];
+      return lastName;
+
+
+    } else {
+    }
+    return '';
+  }
+
+
+
   @override
   void initState() {
     super.initState();
     final contact = true ? null : context.read<LocalUserBloc>().state;
     final profile = context.read<ProfileCubit>().state.profile?.userProfile;
-    email = profile?.emailShow ?? contact?.contactEmail.trim();
 
-    firstName = profile?.firstName ?? contact?.contactFullName;
-    fNameController.text = firstName ?? '';
-    phoneCode = profile?.phoneCode ?? contact?.contactPhoneCode;
 
-    phoneNumber = profile?.phoneNumber ?? contact?.contactPhoneNumber;
-    phNoController.text = phoneNumber ?? '';
-    lastName = profile?.lastName ?? contact?.comment;
-    lNameController.text = lastName ?? '';
+    if(widget.manageBooking){
 
-    nationalityController.text =
-        phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+      email = widget.bookingContact?.email ?? (profile?.emailShow ?? contact?.contactEmail.trim());
+      firstName = getFirstName(widget.bookingContact?.fullName ?? '');
+      fNameController.text = firstName ?? '';
+      phoneCode = widget.bookingContact?.phone1LocationCode;
+      phoneNumber = widget.bookingContact?.phone1 ?? '';
+      phNoController.text = phoneNumber ?? '';
 
+      lastName = getLastName(widget.bookingContact?.fullName ?? '');
+
+      lNameController.text = lastName ?? '';
+      nationalityController.text =
+          phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+      //   .email
+      print('');
+  //  fullName
+  //  phone1 60182144125
+  //  emergencyPhoneCode 60
+
+    ///      nationalityController.text =
+    //           phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+    }
+    else {
+      email = profile?.emailShow ?? contact?.contactEmail.trim();
+
+      firstName = profile?.firstName ?? contact?.contactFullName;
+      fNameController.text = firstName ?? '';
+      phoneCode = profile?.phoneCode ?? contact?.contactPhoneCode;
+
+      phoneNumber = profile?.phoneNumber ?? contact?.contactPhoneNumber;
+      phNoController.text = phoneNumber ?? '';
+      lastName = profile?.lastName ?? contact?.comment;
+      lNameController.text = lastName ?? '';
+
+      nationalityController.text =
+          phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+
+    }
 
     emailController.text = email ?? '';
     emailController.addListener(() {});
@@ -119,7 +184,7 @@ class PassengerContactState extends State<PassengerContact> {
                           builder: (context) => PdfViewer(
                             title: 'privacyPolicy'.tr(),
                             fileName:
-                            'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
+                                'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                             pdfIsLink: true,
                           ),
                         ),
@@ -158,6 +223,11 @@ class PassengerContactState extends State<PassengerContact> {
               validators: [FormBuilderValidators.required()],
               textEditingController: lNameController,
               onChanged: (value) {
+                if(widget.manageBooking) {
+
+                  return;
+
+                }
                 final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(comment: value);
                 context.read<LocalUserBloc>().add(UpdateData(newRequest));
@@ -176,7 +246,7 @@ class PassengerContactState extends State<PassengerContact> {
                   nationalityController.text = value?.phoneCode ?? "";
                   final request = context.read<LocalUserBloc>().state;
                   final newRequest =
-                  request.copyWith(contactPhoneCode: value?.phoneCode);
+                      request.copyWith(contactPhoneCode: value?.phoneCode);
                   context.read<LocalUserBloc>().add(UpdateData(newRequest));
                 },
               ),
@@ -184,7 +254,6 @@ class PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameContactPhoneNumber,
-
               textEditingController: phNoController,
               textInputType: TextInputType.number,
               hintText: 'infoDetail.phoneNumber'.tr(),
@@ -252,7 +321,6 @@ class PassengerContactState extends State<PassengerContact> {
 
     phNoController.text = phoneNumber ?? '';
 
-
     lastName = profile?.lastName ?? contact?.comment;
     lNameController.text = lastName ?? '';
 
@@ -260,7 +328,5 @@ class PassengerContactState extends State<PassengerContact> {
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
     emailController.text = email ?? '';
     emailController.addListener(() {});
-
-
   }
 }

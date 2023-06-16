@@ -225,7 +225,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
   var pageController = PageController(
     initialPage: 0,
   );
-
+  ManageBookingCubit? managebloc;
   @override
   Widget build(BuildContext context) {
     String currency = 'MYR';
@@ -234,7 +234,10 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     BundleGroupSeat? baggageGroup;
 
     if (widget.isManageBooking) {
+
       var bloc = context.watch<ManageBookingCubit>();
+
+      managebloc = bloc;
 
       currency = bloc.state.manageBookingResponse?.result?.superPNROrder
               ?.currencyCode ??
@@ -244,6 +247,30 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       baggageGroup = bloc.state.verifyResponse?.flightSSR?.sportGroup;
       isDeparture = true;
+      final baggage =
+      isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+
+
+      var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureSports?.description).toList();
+
+      if((resultIndexFinder ?? []).isNotEmpty) {
+
+
+        int indexOf = baggage?.indexOf((resultIndexFinder ?? []).first) ?? 0;
+        print('');
+
+        selectedItem = (resultIndexFinder ?? []).first.serviceID?.toInt() ?? 0;
+
+
+
+        if(indexOf != pageController.initialPage){
+          scrollToPositionInStart(indexOf);
+
+
+        }
+
+      }
+
     } else {
       currency = context
               .watch<SearchFlightCubit>()
@@ -257,6 +284,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       final bookingState = context.watch<BookingCubit>().state;
       baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
+
+
     }
 
     if (lastPersonUser != selectedPerson) {
@@ -289,12 +318,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                   if (_currentIndex == 0) {
                     return;
                   }
-
                   _currentIndex = _currentIndex - 1;
-
-
                   pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
-
                 },
                 child: ImageIcon(
                   const AssetImage(
@@ -319,54 +344,65 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                       itemBuilder: (context, index) {
                         var currentItem = baggage![index];
 
-                        return Column(
-                          children: [
-                            Image.asset(
-                              "assets/images/design/icoSportsGrey.png",
-                              color: Styles.kSubTextColor,
-                              height: 96,
-                            ),
-                            kVerticalSpacerMini,
-                            Text(
-                              currentItem.ssrCodeToShow ?? '',
-                              style: kLargeHeavy.copyWith(
-                                  color: Styles.kTextColor),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              currentItem.description ?? '',
-                              style: kMediumRegular.copyWith(
-                                  color: Styles.kTextColor),
-                            ),
-                            kVerticalSpacerMini,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  currentItem.currencyCode ?? currency,
-                                  style: kHugeHeavy.copyWith(
-                                      color: Styles.kPrimaryColor),
-                                ),
-                                SizedBox(
-                                  width: 2,
-                                ),
-                                amountToShow(currentItem, red: true),
-                              ],
-                            ),
-                            IgnorePointer(
-                              child: Radio<Bundle?>(
-                                activeColor: Styles.kActiveColor,
-                                value: selectedItem ==
-                                        currentItem.serviceID!.toInt()
-                                    ? currentItem
-                                    : null,
-                                groupValue: currentItem,
-                                onChanged: (value) async {},
+                        //addSportToPerson
+                        return InkWell(
+                          onTap: (){
+
+                            selectedItem = (baggage ?? [])[index].serviceID?.toInt() ?? 0;
+                            managebloc?.addSportToPerson(selectedPerson,(baggage ?? [])[index],isDeparture);
+                            setState(() {
+
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                "assets/images/design/icoSportsGrey.png",
+                                color: Styles.kSubTextColor,
+                                height: 96,
                               ),
-                            ),
-                          ],
+                              kVerticalSpacerMini,
+                              Text(
+                                currentItem.ssrCodeToShow ?? '',
+                                style: kLargeHeavy.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                currentItem.description ?? '',
+                                style: kMediumRegular.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                              kVerticalSpacerMini,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    currentItem.currencyCode ?? currency,
+                                    style: kHugeHeavy.copyWith(
+                                        color: Styles.kPrimaryColor),
+                                  ),
+                                  SizedBox(
+                                    width: 2,
+                                  ),
+                                  amountToShow(currentItem, red: true),
+                                ],
+                              ),
+                              IgnorePointer(
+                                child: Radio<Bundle?>(
+                                  activeColor: Styles.kActiveColor,
+                                  value: selectedItem ==
+                                          currentItem.serviceID!.toInt()
+                                      ? currentItem
+                                      : null,
+                                  groupValue: currentItem,
+                                  onChanged: (value) async {},
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       }),
                 ),
@@ -505,4 +541,21 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
             ),
           );
   }
+
+  bool onlyOneTime = false;
+
+
+  void scrollToPositionInStart(int indexOf) async {
+    if(onlyOneTime ){
+      return;
+
+    }
+    onlyOneTime = true;
+
+    await Future.delayed(Duration(milliseconds: 500));
+    selectedItem = indexOf;
+
+    pageController.animateToPage(indexOf, duration: const Duration(milliseconds: 500), curve: Curves.ease);
+  }
+
 }

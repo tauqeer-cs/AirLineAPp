@@ -158,11 +158,24 @@ class NewMealCard extends StatelessWidget {
   final bool isDeparture;
   final bool isManageBooking;
 
-  const NewMealCard({Key? key, required this.meal, required this.isDeparture, required this.isManageBooking})
+   NewMealCard({Key? key, required this.meal, required this.isDeparture, required this.isManageBooking})
       : super(key: key);
 
   changeNumber(
       BuildContext context, Person? person, bool isAdd, bool isDeparture) {
+
+    if(isManageBooking) {
+
+      manageCubit?.addOrRemoveMealFromPerson(
+        isDeparture: isDeparture,
+        isAdd: isAdd,
+        person: person,
+        meal: meal,
+      );
+
+      return;
+
+    }
     context.read<SearchFlightCubit>().addOrRemoveMealFromPerson(
           isDeparture: isDeparture,
           isAdd: isAdd,
@@ -171,6 +184,8 @@ class NewMealCard extends StatelessWidget {
         );
   }
 
+  ManageBookingCubit? manageCubit;
+
   @override
   Widget build(BuildContext context) {
     Person? selectedPerson;
@@ -178,7 +193,9 @@ class NewMealCard extends StatelessWidget {
     bool isDeparture = false;
 
     if (isManageBooking == true) {
+      manageCubit = context.watch<ManageBookingCubit>();
 
+      isDeparture = context.watch<ManageBookingCubit>().state.foodDepearture;
       var no = context
           .watch<ManageBookingCubit>()
           .state
@@ -191,7 +208,7 @@ class NewMealCard extends StatelessWidget {
       selectedPerson =
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
 
-      isDeparture = true;
+
 
     }
     else {
@@ -308,7 +325,9 @@ class InputWithPlusMinus extends StatelessWidget {
     bool isDeparture = false;
 
     if(isManageBooking) {
-      isDeparture = true;
+
+      isDeparture =  context.watch<ManageBookingCubit>().state.foodDepearture;
+
     }
     else {
       isDeparture = context.watch<IsDepartureCubit>().state;

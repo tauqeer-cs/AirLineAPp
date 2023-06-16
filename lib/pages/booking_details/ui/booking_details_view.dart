@@ -279,8 +279,13 @@ class ManageBookingDetailsView extends StatelessWidget {
                   ),
                   kVerticalSpacerSmall,
                   CustomSegmentControl(
-                    optionOneTapped: () {},
-                    optionTwoTapped: () {},
+                    optionOneTapped: () {
+                      bloc?.setSelectionDeparture(true, isSeat: true);
+                    },
+                    optionTwoTapped: () {
+                      bloc?.setSelectionDeparture(false, isSeat: true);
+                    },
+                    isSelectedOption1: bloc?.state.seatDeparture ?? true,
                     textOne:
                         '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                     textTwo:
@@ -308,13 +313,18 @@ class ManageBookingDetailsView extends StatelessWidget {
                   kVerticalSpacer,
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.meal) ...[
-                  WarningLabel(
+                  false ? Container() : WarningLabel(
                     message: 'mealAddOnsAreUnavailable'.tr(),
                   ),
                   kVerticalSpacerSmall,
                   CustomSegmentControl(
-                    optionOneTapped: () {},
-                    optionTwoTapped: () {},
+                    optionOneTapped: () {
+                      bloc?.setSelectionDeparture(true, isFood: true);
+                    },
+                    optionTwoTapped: () {
+                      bloc?.setSelectionDeparture(false, isFood: true);
+                    },
+                    isSelectedOption1: bloc?.state.foodDepearture ?? true,
                     textOne:
                         '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                     textTwo:
@@ -328,16 +338,21 @@ class ManageBookingDetailsView extends StatelessWidget {
                         kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
                   ),
                   kVerticalSpacerSmall,
-                  const MealsSection(
-                    isDeparture: true,
+                   MealsSection(
+                    isDeparture: bloc?.state.foodDepearture ?? false,
                     isManageBooking: true,
                   ),
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.baggage) ...[
                   kVerticalSpacerSmall,
                   CustomSegmentControl(
-                    optionOneTapped: () {},
-                    optionTwoTapped: () {},
+                    optionOneTapped: () {
+                      bloc?.setSelectionDeparture(true, isBaggage: true);
+                    },
+                    optionTwoTapped: () {
+                      bloc?.setSelectionDeparture(false, isBaggage: true);
+                    },
+                    isSelectedOption1: bloc?.state.baggageDeparture ?? true,
                     textOne:
                         '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                     textTwo:
@@ -360,10 +375,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.special) ...[
                   kVerticalSpacer,
-                  const WheelchairSection(isDeparture: true, isManageBooking : true),
+                  const WheelchairSection(
+                      isDeparture: true, isManageBooking: true),
                   kVerticalSpacer,
-
-                ] else if (bloc?.state.addOnOptionSelected == AddonType.insurance) ... [
+                ] else if (bloc?.state.addOnOptionSelected ==
+                    AddonType.insurance) ...[
                   //InsuranceView(isManageBooking: true,),
                   const InsuranceManageView(),
                 ],
@@ -426,23 +442,23 @@ class WarningLabel extends StatelessWidget {
   }
 }
 
-
-
 class InsuranceManageView extends StatelessWidget {
   const InsuranceManageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     Bundle? firstInsurance;
 
     var bloc = context.watch<ManageBookingCubit>();
     var state = bloc.state;
 
-    BundleGroupSeat? insuranceGroup = state.verifyResponse?.flightSSR?.insuranceGroup;
+    BundleGroupSeat? insuranceGroup =
+        state.verifyResponse?.flightSSR?.insuranceGroup;
     List<Bundle> insurances =
         state.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
-    List<PassengersWithSSR> passengers = state.manageBookingResponse?.result?.passengersWithSSRWithoutInfant ?? [];
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSRWithoutInfant ??
+            [];
     firstInsurance = insurances.firstOrNull;
 
     String? logoImage = '';
@@ -455,51 +471,57 @@ class InsuranceManageView extends StatelessWidget {
 
     String currency = 'MYR';
 
-
-
-    if((insurances ?? []).isNotEmpty) {
+    if ((insurances ?? []).isNotEmpty) {
       final agentCms = context.watch<AgentSignUpCubit>().state;
 
       String insuranceCode = firstInsurance?.codeType ?? '';
 
-      if(agentCms.locationItem != null) {
-        if(agentCms.locationItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+      if (agentCms.locationItem != null) {
+        if (agentCms.locationItem?.items
+                ?.where((e) => e.code == insuranceCode)
+                .toList()
+                .isNotEmpty ==
+            true) {
           logoImage = agentCms.locationItem?.banner;
         }
       }
 
-      if((logoImage ?? '').isEmpty) {
-        if(agentCms.internationalItem != null) {
-          if(agentCms.internationalItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+      if ((logoImage ?? '').isEmpty) {
+        if (agentCms.internationalItem != null) {
+          if (agentCms.internationalItem?.items
+                  ?.where((e) => e.code == insuranceCode)
+                  .toList()
+                  .isNotEmpty ==
+              true) {
             logoImage = agentCms.internationalItem?.banner;
           }
         }
       }
 
-      if((logoImage ?? '').isEmpty){
-        if(insuranceCode.contains('DL')){
+      if ((logoImage ?? '').isEmpty) {
+        if (insuranceCode.contains('DL')) {
           logoImage = agentCms.locationItem?.banner;
         }
-
       }
 
-      if((logoImage ?? '').isEmpty){
+      if ((logoImage ?? '').isEmpty) {
         logoImage = agentCms.internationalItem?.banner;
       }
-
     }
 
     final agentCms = context.watch<AgentSignUpCubit>();
 
     return Column(
       children: [
-        if(insurances.isNotEmpty) ... [
+        if (insurances.isNotEmpty) ...[
           Text(
             "myAirTravelInsurance".tr(),
             style: kHugeHeavy,
           ),
           kVerticalSpacer,
-          ZurichContainer(bannerImageUrl: logoImage,),
+          ZurichContainer(
+            bannerImageUrl: logoImage,
+          ),
           kVerticalSpacer,
           Visibility(
             visible: insurances.isNotEmpty,
@@ -508,8 +530,8 @@ class InsuranceManageView extends StatelessWidget {
               children: InsuranceType.values
                   .map(
                     (e) => InkWell(
-                  onTap: () {
-                    /*
+                      onTap: () {
+                        /*
                     final bookingState = context.read<BookingCubit>().state;
                     final firstInsurance = bookingState.verifyResponse?.flightSSR
                         ?.insuranceGroup?.outbound?.firstOrNull;
@@ -517,73 +539,74 @@ class InsuranceManageView extends StatelessWidget {
                     print("first insurance not null $e");
                     context.read<InsuranceCubit>().changeInsuranceType(
                         e, firstInsurance.toBound(isInsurance: true));*/
-
-
-                  },
-                  child:  AppCard(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: Column(
-                      children: [
-                        Row(
+                      },
+                      child: AppCard(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Column(
                           children: [
-                            Theme(
-                              data: ThemeData(
-                                unselectedWidgetColor: Styles.kActiveGrey,
-                              ),
-                              child: IgnorePointer(
-                                ignoring: true,
-                                child: Radio<InsuranceType?>(
-                                  value: e,
-                                  visualDensity: const VisualDensity(
-                                    horizontal: -2,
-                                    vertical: -2,
-                                  ),
-                                  activeColor: Styles.kPrimaryColor,
-                                  materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                                  groupValue: selected,
-                                  onChanged: (value) {},
-                                ),
-                              ),
-                            ),
-                            kHorizontalSpacerSmall,
-                            Expanded(
-                              child:
-                              AvailableInsurance.getTitle(e, lastInsuranceSelected ?? firstInsurance,  passengers.length ),
-                            ),
-
-                            kHorizontalSpacerSmall,
-                            SizedBox(
-                              height: 56,
-                              width: 56,
-                              child: AvailableInsurance.getAssets(e) == null
-                                  ? const SizedBox()
-                                  : Image.asset(AvailableInsurance.getAssets(e)!),
-                            ),
-                          ],
-                        ),
-                        Visibility(
-                          visible: e == selected && e != InsuranceType.none,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Column(
+                            Row(
                               children: [
-                                Visibility(
-                                  visible: e == InsuranceType.selected,
-                                  child: const PassengerInsuranceSelector(),
+                                Theme(
+                                  data: ThemeData(
+                                    unselectedWidgetColor: Styles.kActiveGrey,
+                                  ),
+                                  child: IgnorePointer(
+                                    ignoring: true,
+                                    child: Radio<InsuranceType?>(
+                                      value: e,
+                                      visualDensity: const VisualDensity(
+                                        horizontal: -2,
+                                        vertical: -2,
+                                      ),
+                                      activeColor: Styles.kPrimaryColor,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      groupValue: selected,
+                                      onChanged: (value) {},
+                                    ),
+                                  ),
                                 ),
-                                ...insurances.map(
+                                kHorizontalSpacerSmall,
+                                Expanded(
+                                  child: AvailableInsurance.getTitle(
+                                      e,
+                                      lastInsuranceSelected ?? firstInsurance,
+                                      passengers.length),
+                                ),
+                                kHorizontalSpacerSmall,
+                                SizedBox(
+                                  height: 56,
+                                  width: 56,
+                                  child: AvailableInsurance.getAssets(e) == null
+                                      ? const SizedBox()
+                                      : Image.asset(
+                                          AvailableInsurance.getAssets(e)!),
+                                ),
+                              ],
+                            ),
+                            Visibility(
+                              visible: e == selected && e != InsuranceType.none,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: Column(
+                                  children: [
+                                    Visibility(
+                                      visible: e == InsuranceType.selected,
+                                      child: const PassengerInsuranceSelector(),
+                                    ),
+                                    ...insurances.map(
                                       (e) {
-                                    final bound = e.toBound(isInsurance: true);
+                                        final bound =
+                                            e.toBound(isInsurance: true);
 
-                                   var tmp =  Bound();
+                                        var tmp = Bound();
 
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 8),
-                                      child: InkWell(
-                                        onTap: () {
-
-                                          /*
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8),
+                                          child: InkWell(
+                                            onTap: () {
+                                              /*
                                           if (selected == InsuranceType.all) {
 
                                             insuranceBloc.setLast(insurancesGroup?.outbound?.firstWhereOrNull((element) => element == e));
@@ -615,77 +638,83 @@ class InsuranceManageView extends StatelessWidget {
                                                   selectedPassengers, null,e.codeType);
                                             }
                                           }*/
-
-
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.all(16),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(8),
-                                              border: Border.all(
-                                                  color: Styles.kDisabledButton)),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                AvailableInsurance.dataTitle(e, agentCms),
-                                                style: kLargeHeavy,
-                                              ),
-                                              AvailableInsurance.buildSubtitle(e, agentCms),
-                                              kVerticalSpacerSmall,
-                                              MoneyWidgetCustom(
-                                                currency: currency,
-                                                myrSize: 20,
-                                                amountSize: 20,
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                                textColor: Styles.kPrimaryColor,
-                                                amount: e.finalAmount,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              kVerticalSpacer,
-                                              IgnorePointer(
-                                                ignoring: true,
-                                                child: Radio<Bound?>(
-                                                  value: tmp,
-                                                  visualDensity:
-                                                  const VisualDensity(
-                                                    horizontal: -2,
-                                                    vertical: -2,
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(16),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: Border.all(
+                                                      color: Styles
+                                                          .kDisabledButton)),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    AvailableInsurance
+                                                        .dataTitle(e, agentCms),
+                                                    style: kLargeHeavy,
                                                   ),
-                                                  materialTapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
-                                                  groupValue:
-                                                  passengers[selectedPassengers]
-                                                      .getInsurance,
-                                                  onChanged: (value) {},
-                                                ),
+                                                  AvailableInsurance
+                                                      .buildSubtitle(
+                                                          e, agentCms),
+                                                  kVerticalSpacerSmall,
+                                                  MoneyWidgetCustom(
+                                                    currency: currency,
+                                                    myrSize: 20,
+                                                    amountSize: 20,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    textColor:
+                                                        Styles.kPrimaryColor,
+                                                    amount: e.finalAmount,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  kVerticalSpacer,
+                                                  IgnorePointer(
+                                                    ignoring: true,
+                                                    child: Radio<Bound?>(
+                                                      value: tmp,
+                                                      visualDensity:
+                                                          const VisualDensity(
+                                                        horizontal: -2,
+                                                        vertical: -2,
+                                                      ),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      groupValue: passengers[
+                                                              selectedPassengers]
+                                                          .getInsurance,
+                                                      onChanged: (value) {},
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ).toList()
-                              ],
+                                        );
+                                      },
+                                    ).toList()
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              )
+                  )
                   .toList(),
             ),
           ),
-        ] else ... [
-          EmptyAddon(icon : "assets/images/icons/icoNoInsurance.png" ,customText: 'insuranceTempUnavailable'.tr(),),
+        ] else ...[
+          EmptyAddon(
+            icon: "assets/images/icons/icoNoInsurance.png",
+            customText: 'insuranceTempUnavailable'.tr(),
+          ),
         ],
       ],
     );
   }
 }
-

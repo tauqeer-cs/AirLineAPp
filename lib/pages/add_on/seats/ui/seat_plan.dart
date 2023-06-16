@@ -38,6 +38,8 @@ class SeatPlan extends StatelessWidget {
     if (isManageBooking == true) {
       var bloc = context.watch<ManageBookingCubit>();
       flightSeats = bloc.state.verifyResponse?.flightSeat;
+      isDeparture = bloc.state.seatDeparture;
+
     } else {
       isDeparture = context.watch<IsDepartureCubit>().state;
     }

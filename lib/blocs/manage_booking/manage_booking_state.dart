@@ -6,6 +6,12 @@ class ManageBookingState extends Equatable {
 
   final VerifyResponse? verifyResponse;
 
+  final String? newContactFirstName;
+  final String? newContactLastName;
+  final String? newContactCountryPhCode;
+  final String? newContactPhNo;
+  final String? newContactEmail;
+
   final BlocState blocState;
   final String message;
   final bool showPending;
@@ -15,6 +21,11 @@ class ManageBookingState extends Equatable {
   final bool isLoadingInfo;
   final bool dataLoaded;
   final InsuranceType? insuranceType;
+
+  final bool seatDeparture;
+  final bool foodDepearture;
+  final bool baggageDeparture;
+  final bool specialAppOpsDeparture;
 
   final ManageBookingResponse? manageBookingResponse;
   final String? pnrEntered;
@@ -40,29 +51,30 @@ class ManageBookingState extends Equatable {
 
   final PassengersWithSSR? selectedPax;
 
-
   final bool contactsSectionExpanded;
   final bool emergencySectionExpanded;
   final bool companyTaxInvoiceExpanded;
   final bool paymentDetailsExpanded;
 
-
-
   final Map<num?, Color>? departureColorMapping;
   final Map<num?, Color>? returnColorMapping;
 
-  const ManageBookingState(  {
+  const ManageBookingState({
     this.blocState = BlocState.initial,
     this.message = "",
     this.addOnOptionSelected,
     this.selectedPax,
+    this.foodDepearture = true,
+    this.baggageDeparture = true,
+    this.specialAppOpsDeparture = true,
     this.insuranceType,
     this.verifyResponse,
     this.contactsSectionExpanded = false,
-  this.emergencySectionExpanded = false,
-  this.companyTaxInvoiceExpanded = false,
-  this.paymentDetailsExpanded = false,
+    this.emergencySectionExpanded = false,
+    this.companyTaxInvoiceExpanded = false,
+    this.paymentDetailsExpanded = false,
     this.loadingSummary = false,
+    this.seatDeparture = true,
     this.loadingSelectingFlight = false,
     this.loadingCheckoutPayment = false,
     this.selectedDepartureFlight,
@@ -85,6 +97,12 @@ class ManageBookingState extends Equatable {
     this.flightMessageError = '',
     this.departureColorMapping,
     this.returnColorMapping,
+    this.newContactFirstName,
+    this.newContactLastName,
+    this.newContactCountryPhCode,
+    this.newContactPhNo,
+    this.newContactEmail,
+
   });
 
   @override
@@ -92,8 +110,8 @@ class ManageBookingState extends Equatable {
         blocState,
         message,
         isRememberMe,
-    departureColorMapping,
-    returnColorMapping,
+        departureColorMapping,
+        returnColorMapping,
         selectedDepartureFlight,
         selectedReturnFlight,
         isLoadingInfo,
@@ -103,12 +121,12 @@ class ManageBookingState extends Equatable {
         checkedDeparture,
         checkReturn,
         lastName,
-    showPending,
-    insuranceType,
+        showPending,
+        insuranceType,
         flightSearchResponse,
         changeFlightResponse,
         loadingDatesData,
-    verifyResponse,
+        verifyResponse,
         loadingSelectingFlight,
         loadingCheckoutPayment,
         loadingSummary,
@@ -117,56 +135,83 @@ class ManageBookingState extends Equatable {
         flightMessageError,
         selectedPax,
         addOnOptionSelected,
-    contactsSectionExpanded,
-     emergencySectionExpanded,
-    companyTaxInvoiceExpanded,
-    paymentDetailsExpanded,
+        contactsSectionExpanded,
+        emergencySectionExpanded,
+        companyTaxInvoiceExpanded,
+        paymentDetailsExpanded,
+        seatDeparture,
+        foodDepearture,
+        baggageDeparture,
+        specialAppOpsDeparture,
+
       ];
 
-  ManageBookingState copyWith(
-      {BlocState? blocState,
-      String? message,
-      bool? isRememberMe,
-      bool? isManageOpen,
-      bool? isLoadingInfo,
-      bool? dataLoaded,
-      ManageBookingResponse? manageBookingResponse,
-      String? pnrEntered,
-      bool? checkedDeparture,
-      bool? checkReturn,
-      bool? loadingCheckoutPayment,
-      String? lastName,
-      bool? loadingSummary,
-      FlightResponse? flightSearchResponse,
-      InboundOutboundSegment? selectedDepartureFlight,
-      InboundOutboundSegment? selectedReturnFlight,
-      bool removeSelectedDeparture = false,
-      bool removeSelectedReturn = false,
-      bool? loadingDatesData,
-      String flightMessageError = '',
-      bool? loadingSelectingFlight,
-      String? superPnrNo,
-      int? orderId,
-        bool? showPending,
-      ChangeFlightRequestResponse? changeFlightResponse,
-        PassengersWithSSR? selectedPax,
-        AddonType? addOnOptionSelected,
-        bool? contactsSectionExpanded,
-        bool? emergencySectionExpanded,
-        bool? companyTaxInvoiceExpanded,
-        bool? paymentDetailsExpanded,
-        VerifyResponse? verifyResponse,
-         Map<num?, Color>? departureColorMapping,
-         Map<num?, Color>? returnColorMapping,
-        InsuranceType? insuranceType,
-      }) {
+  ManageBookingState copyWith({
+    BlocState? blocState,
+    String? message,
+    bool? isRememberMe,
+    bool? isManageOpen,
+    bool? isLoadingInfo,
+    bool? dataLoaded,
+    ManageBookingResponse? manageBookingResponse,
+    String? pnrEntered,
+    bool? checkedDeparture,
+    bool? checkReturn,
+    bool? loadingCheckoutPayment,
+    String? lastName,
+    bool? loadingSummary,
+    FlightResponse? flightSearchResponse,
+    InboundOutboundSegment? selectedDepartureFlight,
+    InboundOutboundSegment? selectedReturnFlight,
+    bool removeSelectedDeparture = false,
+    bool removeSelectedReturn = false,
+    bool? loadingDatesData,
+    String flightMessageError = '',
+    bool? loadingSelectingFlight,
+    String? superPnrNo,
+    int? orderId,
+    bool? showPending,
+    ChangeFlightRequestResponse? changeFlightResponse,
+    PassengersWithSSR? selectedPax,
+    AddonType? addOnOptionSelected,
+    bool? contactsSectionExpanded,
+    bool? emergencySectionExpanded,
+    bool? companyTaxInvoiceExpanded,
+    bool? paymentDetailsExpanded,
+    VerifyResponse? verifyResponse,
+    Map<num?, Color>? departureColorMapping,
+    Map<num?, Color>? returnColorMapping,
+    InsuranceType? insuranceType,
+    bool? seatDeparture,
+    bool? foodDepearture,
+    bool? baggageDeparture,
+    bool? specialAppOpsDeparture,
+    String? newContactFirstName,
+    String? newContactLastName,
+    String? newContactCountryPhCode,
+    String? newContactPhNo,
+    String? newContactEmail,
+  }) {
     return ManageBookingState(
+      newContactFirstName :  newContactFirstName ?? this.newContactFirstName,
+      newContactLastName :  newContactLastName ?? this.newContactLastName,
+      newContactCountryPhCode  : newContactCountryPhCode ?? this.newContactCountryPhCode,
+      newContactPhNo  :  newContactPhNo ?? this.newContactPhNo,
+      newContactEmail  :  newContactEmail ?? this.newContactEmail,
+      foodDepearture : foodDepearture ?? this.foodDepearture,
+      seatDeparture :  seatDeparture ?? this.seatDeparture,
+      baggageDeparture  : baggageDeparture ?? this.baggageDeparture,
+      specialAppOpsDeparture : specialAppOpsDeparture ?? this.specialAppOpsDeparture,
       verifyResponse: verifyResponse ?? this.verifyResponse,
       message: message ?? this.message,
-      contactsSectionExpanded: contactsSectionExpanded ?? this.contactsSectionExpanded,
-      emergencySectionExpanded: emergencySectionExpanded ?? this.emergencySectionExpanded,
-      companyTaxInvoiceExpanded: companyTaxInvoiceExpanded ?? this.companyTaxInvoiceExpanded,
-      paymentDetailsExpanded: paymentDetailsExpanded ?? this.paymentDetailsExpanded,
+      contactsSectionExpanded:
+          contactsSectionExpanded ?? this.contactsSectionExpanded,
+      emergencySectionExpanded:
+          emergencySectionExpanded ?? this.emergencySectionExpanded,
+      companyTaxInvoiceExpanded:
+          companyTaxInvoiceExpanded ?? this.companyTaxInvoiceExpanded,
+      paymentDetailsExpanded:
+          paymentDetailsExpanded ?? this.paymentDetailsExpanded,
       addOnOptionSelected: addOnOptionSelected ?? this.addOnOptionSelected,
       blocState: blocState ?? this.blocState,
       isRememberMe: isRememberMe ?? this.isRememberMe,
@@ -199,10 +244,9 @@ class ManageBookingState extends Equatable {
       showPending: showPending ?? this.showPending,
       selectedPax: selectedPax ?? this.selectedPax,
       returnColorMapping: returnColorMapping ?? this.returnColorMapping,
-      departureColorMapping: departureColorMapping ?? this.departureColorMapping,
+      departureColorMapping:
+          departureColorMapping ?? this.departureColorMapping,
       insuranceType: insuranceType ?? this.insuranceType,
-
     );
   }
 }
-

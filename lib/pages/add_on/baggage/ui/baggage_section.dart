@@ -389,7 +389,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
 
       if(indexOf != pageController.initialPage){
-        name(indexOf);
+        scrollToPositionInStart(indexOf);
 
 
       }
@@ -525,7 +525,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     );
   }
 
-  void name(int indexOf) async {
+  void scrollToPositionInStart(int indexOf) async {
     if(onlyOneTime ){
     return;
 
