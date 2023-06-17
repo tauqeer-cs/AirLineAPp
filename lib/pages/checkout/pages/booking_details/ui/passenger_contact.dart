@@ -19,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../models/confirmation_model.dart';
 import '../../../../../widgets/pdf_viewer.dart';
 
@@ -154,12 +155,19 @@ class PassengerContactState extends State<PassengerContact> {
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<ProfileCubit>().state.profile?.userProfile;
+    ManageBookingCubit? manageBloc = context.watch<ManageBookingCubit>();
+
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const AppDividerWidget(),
-        kVerticalSpacer,
-        Text("contact".tr(), style: k18Heavy),
+
+        if(widget.manageBooking == false) ... [
+          kVerticalSpacer,
+          Text("contact".tr(), style: k18Heavy),
+        ],
+
         kVerticalSpacerSmall,
         RichText(
           text: TextSpan(
@@ -211,7 +219,15 @@ class PassengerContactState extends State<PassengerContact> {
               validators: [FormBuilderValidators.required()],
               textEditingController: fNameController,
               onChanged: (value) {
-                final request = context.read<LocalUserBloc>().state;
+                if(widget.manageBooking) {
+
+                  manageBloc.setContactnewValue(value ?? '',isFirstName: true);
+                  
+                  return;
+
+                }
+
+                  final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(contactFullName: value);
                 context.read<LocalUserBloc>().add(UpdateData(newRequest));
               },
@@ -225,8 +241,8 @@ class PassengerContactState extends State<PassengerContact> {
               onChanged: (value) {
                 if(widget.manageBooking) {
 
-                  return;
-
+                    manageBloc.setContactnewValue(value ?? '',isLastName: true);
+                    return;
                 }
                 final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(comment: value);
@@ -243,6 +259,12 @@ class PassengerContactState extends State<PassengerContact> {
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 initialCountryCode: profile?.phoneCode ?? phoneCode,
                 onChanged: (value) {
+                  if(widget.manageBooking) {
+
+                    manageBloc.setContactnewValue(value?.phoneCode ?? '',isPhoneCode: true);
+
+                    return;
+                  }
                   nationalityController.text = value?.phoneCode ?? "";
                   final request = context.read<LocalUserBloc>().state;
                   final newRequest =
@@ -259,6 +281,11 @@ class PassengerContactState extends State<PassengerContact> {
               hintText: 'infoDetail.phoneNumber'.tr(),
               validators: [FormBuilderValidators.required()],
               onChanged: (value) {
+                if(widget.manageBooking) {
+                  manageBloc.setContactnewValue(value ?? '',isPhoneNo: true);
+                  return;
+                }
+
                 final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(contactPhoneNumber: value);
                 context.read<LocalUserBloc>().add(UpdateData(newRequest));
@@ -282,10 +309,16 @@ class PassengerContactState extends State<PassengerContact> {
                       if (alreadySpaceRemoved) {
                         return;
                       } else {
+
+
                         removeEmptyFromEmail(value);
                       }
                     }
                   }
+                }
+                if(widget.manageBooking) {
+                  manageBloc.setContactnewValue(value ?? '',isEmail: true);
+                  return;
                 }
                 updateEmail(context, value);
               },

@@ -8,6 +8,7 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
+import '../../checkout/pages/booking_details/ui/passenger_emergency_contact.dart';
 import 'double_line_text.dart';
 
 class EmergencyContactsSection extends StatelessWidget {
@@ -18,7 +19,8 @@ class EmergencyContactsSection extends StatelessWidget {
     final bloc = context.watch<ManageBookingCubit>();
     final state = bloc.state;
 
-    BookingContact? bookingContact = state.manageBookingResponse?.result?.bookingContact;
+    BookingContact? bookingContact =
+        state.manageBookingResponse?.result?.bookingContact;
 
     return Column(
       children: [
@@ -50,28 +52,45 @@ class EmergencyContactsSection extends StatelessWidget {
           ),
         ),
 
-        ExpandedSection(
+        true
+            ? ExpandedSection(
           expand: state.emergencySectionExpanded,
-          child: Column(
-            children: [
-              kVerticalSpacerSmall,
-              DoubleLineTextTable( label: 'familyDetail.fName'.tr(), value: bookingContact?.emergencyGivenName ?? '',),
-              kVerticalSpacer,
-              DoubleLineTextTable( label: 'familyDetail.lName'.tr(), value: bookingContact?.emergencySurname ?? '',),
-              kVerticalSpacer,
-              DoubleLineTextTable( label: 'relationship'.tr(), value: bookingContact?.emergencyRelationship ?? '',),
-              kVerticalSpacer,
-              //kVerticalSpacer,
-              //DoubleLineTextTable( label: 'passengerDetail.nationality'.tr(), value: bookingContact?.nationality ?? '',),
-              kVerticalSpacer,
-              DoubleLineTextTable( label: 'phoneNumber'.tr(), value: bookingContact?.emergencyPhone ?? '',),
-              kVerticalSpacer,
-
-
-            ],
-          ),
-
-        ),
+                child:  PassengerEmergencyContact(
+                  isManageBooking: true,
+                  bookingContact: bloc.state.manageBookingResponse?.result?.bookingContact,
+                ),
+              )
+            : ExpandedSection(
+                expand: state.emergencySectionExpanded,
+                child: Column(
+                  children: [
+                    kVerticalSpacerSmall,
+                    DoubleLineTextTable(
+                      label: 'familyDetail.fName'.tr(),
+                      value: bookingContact?.emergencyGivenName ?? '',
+                    ),
+                    kVerticalSpacer,
+                    DoubleLineTextTable(
+                      label: 'familyDetail.lName'.tr(),
+                      value: bookingContact?.emergencySurname ?? '',
+                    ),
+                    kVerticalSpacer,
+                    DoubleLineTextTable(
+                      label: 'relationship'.tr(),
+                      value: bookingContact?.emergencyRelationship ?? '',
+                    ),
+                    kVerticalSpacer,
+                    //kVerticalSpacer,
+                    //DoubleLineTextTable( label: 'passengerDetail.nationality'.tr(), value: bookingContact?.nationality ?? '',),
+                    kVerticalSpacer,
+                    DoubleLineTextTable(
+                      label: 'phoneNumber'.tr(),
+                      value: bookingContact?.emergencyPhone ?? '',
+                    ),
+                    kVerticalSpacer,
+                  ],
+                ),
+              ),
 
         Divider(
           height: 1,

@@ -12,6 +12,20 @@ class ManageBookingState extends Equatable {
   final String? newContactPhNo;
   final String? newContactEmail;
 
+  final String? newEmergencyFirstName;
+  final String? newEmergencyLastName;
+  final String? newEmergencyCountryPhCode;
+  final String? newEmergencyPhNo;
+  final String? newEmergencyRelation;
+
+  final String? newCompanyTaxName;
+  final String? newCompanyTaxAddress;
+  final String? newCompanyTaxState;
+  final String? newCompanyTaxCity;
+  final String? newCompanyTaxPostCode;
+  final String? newCompanyTaxEmailAddress;
+
+
   final BlocState blocState;
   final String message;
   final bool showPending;
@@ -102,7 +116,17 @@ class ManageBookingState extends Equatable {
     this.newContactCountryPhCode,
     this.newContactPhNo,
     this.newContactEmail,
-
+    this.newEmergencyFirstName,
+    this.newEmergencyLastName,
+    this.newEmergencyCountryPhCode,
+    this.newEmergencyPhNo,
+    this.newEmergencyRelation,
+    this.newCompanyTaxName,
+    this.newCompanyTaxAddress,
+    this.newCompanyTaxState,
+    this.newCompanyTaxCity,
+    this.newCompanyTaxPostCode,
+    this.newCompanyTaxEmailAddress,
   });
 
   @override
@@ -143,8 +167,19 @@ class ManageBookingState extends Equatable {
         foodDepearture,
         baggageDeparture,
         specialAppOpsDeparture,
+    newEmergencyFirstName,
+    newEmergencyLastName,
+    newEmergencyCountryPhCode,
+    newEmergencyPhNo,
+    newEmergencyRelation,
+    newCompanyTaxName,
+    newCompanyTaxAddress,
+    newCompanyTaxState,
+    newCompanyTaxCity,
+    newCompanyTaxPostCode,
+    newCompanyTaxEmailAddress,
 
-      ];
+  ];
 
   ManageBookingState copyWith({
     BlocState? blocState,
@@ -191,8 +226,24 @@ class ManageBookingState extends Equatable {
     String? newContactCountryPhCode,
     String? newContactPhNo,
     String? newContactEmail,
+    String? newEmergencyFirstName,
+    String? newEmergencyLastName,
+    String? newEmergencyCountryPhCode,
+    String? newEmergencyPhNo,
+    String? newEmergencyRelation,
+    String? newCompanyTaxAame,
+    String? newCompanyTaxAddress,
+    String? newCompanyTaxState,
+    String? newCompanyTaxCity,
+    String? newCompanyTaxPostCode,
+    String? newCompanyTaxEmailAddress,
   }) {
     return ManageBookingState(
+      newEmergencyFirstName :  newEmergencyFirstName ?? this.newEmergencyFirstName,
+      newEmergencyLastName :  newEmergencyLastName ?? this.newEmergencyLastName,
+      newEmergencyCountryPhCode  : newEmergencyCountryPhCode  ?? this.newEmergencyCountryPhCode,
+      newEmergencyPhNo :  newEmergencyPhNo ?? this.newEmergencyPhNo,
+      newEmergencyRelation :  newEmergencyRelation ?? this.newEmergencyRelation,
       newContactFirstName :  newContactFirstName ?? this.newContactFirstName,
       newContactLastName :  newContactLastName ?? this.newContactLastName,
       newContactCountryPhCode  : newContactCountryPhCode ?? this.newContactCountryPhCode,
@@ -247,6 +298,13 @@ class ManageBookingState extends Equatable {
       departureColorMapping:
           departureColorMapping ?? this.departureColorMapping,
       insuranceType: insuranceType ?? this.insuranceType,
+      newCompanyTaxName : newCompanyTaxAame  ?? this.newCompanyTaxName,
+      newCompanyTaxAddress :  newCompanyTaxAddress ?? this.newCompanyTaxAddress,
+      newCompanyTaxState  : newCompanyTaxState ?? this.newCompanyTaxState,
+      newCompanyTaxCity : newCompanyTaxCity ?? this.newCompanyTaxCity,
+      newCompanyTaxPostCode : newCompanyTaxPostCode ?? this.newCompanyTaxPostCode,
+      newCompanyTaxEmailAddress : newCompanyTaxEmailAddress ?? this.newCompanyTaxEmailAddress,
+
     );
   }
 }

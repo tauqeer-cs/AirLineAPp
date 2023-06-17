@@ -1372,4 +1372,78 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     }
   }
 
+  void setEmergencynewValue(String value,
+      {bool isFirstName = false,
+        bool isLastName = false,
+        bool isPhoneCode = false,
+        bool isPhoneNo = false,
+        bool isRelation = false}) {
+    if (isFirstName) {
+      emit(
+        state.copyWith(newEmergencyFirstName: value),
+      );
+    } else if (isLastName) {
+      emit(
+        state.copyWith(newEmergencyLastName: value),
+      );
+    } else if (isPhoneCode) {
+      emit(
+        state.copyWith(newEmergencyCountryPhCode: value),
+      );
+    } else if (isPhoneNo) {
+      emit(
+        state.copyWith(newEmergencyPhNo: value),
+      );
+    }
+    else if (isRelation) {
+      emit(
+        state.copyWith(newEmergencyRelation: value),
+      );
+    }
+  }
+
+
+  void setCompanyTaxValue(String value,
+      {bool isName = false,
+        bool isAddress = false,
+        bool isState = false,
+        bool isCity = false,
+        bool isPosCode = false,
+        bool isEmail = false,
+      }) {
+    if (isName) {
+      emit(
+        state.copyWith(newCompanyTaxAame: value),
+      );
+    } else if (isAddress) {
+      emit(
+        state.copyWith(newEmergencyLastName: value),
+      );
+    } else if (isAddress) {
+      emit(
+        state.copyWith(newEmergencyCountryPhCode: value),
+      );
+    } else if (isState) {
+      emit(
+        state.copyWith(newCompanyTaxAddress: value),
+      );
+    }
+    else if (isCity) {
+      emit(
+        state.copyWith(newCompanyTaxCity: value),
+      );
+    }
+    else if (isPosCode) {
+      emit(
+        state.copyWith(newCompanyTaxPostCode: value),
+      );
+    }
+    else if (isEmail) {
+      emit(
+        state.copyWith(newCompanyTaxEmailAddress: value),
+      );
+    }
+  }
+
+
 }
