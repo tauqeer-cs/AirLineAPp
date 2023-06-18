@@ -18,6 +18,8 @@ import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
 import '../../data/responses/manage_booking_response.dart' as MBR;
 import '../../models/confirmation_model.dart';
+import '../../models/confirmation_model.dart' as CN;
+
 import '../../data/responses/verify_response.dart';
 import '../../data/responses/verify_response.dart' as Vs;
 import '../../models/number_person.dart';
@@ -192,9 +194,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       returnColorMapping.putIfAbsent(
           seat.serviceID, () => availableSeatsColor[i]);
     }
+    int personIndex = 0;
+
+
+    List<int> seatIdsToMakeAvailableDep = [];
+    List<int> seatIdsToMakeAvailableReturn = [];
 
     for (PassengersWithSSR currentPerson
         in mainObject?.result?.passengersWithSSR ?? []) {
+      personIndex = personIndex + 1;
+
       var result = currentPerson.seatDetail?.seats
           ?.where((e) => e.departReturn == 'Depart')
           .toList();
@@ -226,6 +235,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
                 .first;
 
             departureSeats = finalSeat;
+
+ seatIdsToMakeAvailableDep.add(finalSeat?.seatId?.toInt() ?? 0);
+ //           List<int> seatIdsToMakeAvailableReturn = [];
             print('');
           }
 
@@ -255,6 +267,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
                 .first;
 
             returnSeats = finalSeat;
+
+            seatIdsToMakeAvailableReturn.add(finalSeat?.seatId?.toInt() ?? 0);
+
             print('');
           }
 
@@ -359,6 +374,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         print('');
       }
 
+
       for (Baggage currentIte in returnSportsSelected ?? []) {
         //Nasi Lemak Combo
         List<Bundle> result = verifyResponse.flightSSR?.sportGroup?.inbound
@@ -399,20 +415,56 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         returnBaggage: returnBaggage,
         departureSports: departureSports,
         returnSports: returnSports,
-
-        /*passenger: Passenger(
-          firstName: currentPerson.passengers?.givenName,
-          lastName: currentPerson.passengers?.surname,
-          title: currentPerson.passengers?.titleCode,
-          paxType: currentPerson.passengers?.passengerType
-
-        ),*/
+        numberOrder: personIndex
       );
 
       currentPerson.personObject = currentObject;
       //  currentPerson.copyWith(personObject: currentObject);
       print('');
     }
+
+    var outboundRows = verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows;
+
+    int indexItem = 0;
+
+
+    for(Rows currentItem in outboundRows ?? []) {
+      //seatIdsToMakeAvailableDep
+      var res = currentItem.seats?.where((e) => seatIdsToMakeAvailableDep.contains(e.seatId) ).toList();
+
+
+
+      if((res ?? []).isNotEmpty) {
+        var indexOfSeat = currentItem.seats?.indexOf((res ?? []).first);
+
+        var copyObject =  (res ?? []).first.copyWith(isSeatAvailable: true);
+        var currenT =  currentItem.seats ?? [];
+       print('');
+
+         currenT.removeAt(indexOfSeat ?? 0);
+        currenT.insert(indexOfSeat ?? 0, copyObject);
+
+
+
+        //var currentRows = currentItem.copyWith(
+        //  seats: currenT
+        //);
+
+        //verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows?.removeAt(indexItem);
+        //var cc = verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows?.insert(indexItem, currentRows);
+
+        print('');
+
+
+      }
+
+      indexItem++;
+
+    }
+
+    //seatIdsToMakeAvailableDep;
+
+    print('');
 
     emit(state.copyWith(
         verifyResponse: verifyResponse,

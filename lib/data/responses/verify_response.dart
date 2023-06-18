@@ -1102,6 +1102,25 @@ class Rows extends Equatable {
       this.rowNumber,
       this.seatConfigId,
       this.seats});
+
+  Rows copyWith({
+    num? deckId,
+    List<dynamic>? restrictions,
+    num? rowId,
+    num? rowNumber,
+    num? seatConfigId,
+    List<Seats>? seats,
+  }) {
+    return Rows(
+      deckId: deckId ?? this.deckId,
+      restrictions: restrictions ?? this.restrictions,
+      rowId: rowId ?? this.rowId,
+      rowNumber: rowNumber ?? this.rowNumber,
+      seatConfigId: seatConfigId ?? this.seatConfigId,
+      seats: seats ?? this.seats,
+    );
+  }
+
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -1190,6 +1209,7 @@ class Seats extends Equatable {
     );
   }
 
+
   Color get toColor {
     if(serviceDescription?.toLowerCase().contains("PREFERRED") ?? false){
       return SeatAvailableLegend.unavailable.color;
@@ -1199,6 +1219,49 @@ class Seats extends Equatable {
       return SeatAvailableLegend.preferred.color;
     }
   }
+
+  Seats copyWith({
+    bool? blockChild,
+    bool? blockInfant,
+    bool? isEmergencyRow,
+    num? cabinClassId,
+    bool? isSeatAvailable,
+    List<Restrictions>? restrictions,
+    num? rowId,
+    List<SeatAttributes>? seatAttributes,
+    num? seatCabinId,
+    String? seatColumn,
+    num? seatId,
+    num? seatOrder,
+    List<SeatPriceOffers>? seatPriceOffers,
+    num? seatWBZoneId,
+    String? serviceCode,
+    String? serviceDescription,
+    num? serviceId,
+    num? weightIndex,
+  }) {
+    return Seats(
+      blockChild: blockChild ?? this.blockChild,
+      blockInfant: blockInfant ?? this.blockInfant,
+      isEmergencyRow: isEmergencyRow ?? this.isEmergencyRow,
+      cabinClassId: cabinClassId ?? this.cabinClassId,
+      isSeatAvailable: isSeatAvailable ?? this.isSeatAvailable,
+      restrictions: restrictions ?? this.restrictions,
+      rowId: rowId ?? this.rowId,
+      seatAttributes: seatAttributes ?? this.seatAttributes,
+      seatCabinId: seatCabinId ?? this.seatCabinId,
+      seatColumn: seatColumn ?? this.seatColumn,
+      seatId: seatId ?? this.seatId,
+      seatOrder: seatOrder ?? this.seatOrder,
+      seatPriceOffers: seatPriceOffers ?? this.seatPriceOffers,
+      seatWBZoneId: seatWBZoneId ?? this.seatWBZoneId,
+      serviceCode: serviceCode ?? this.serviceCode,
+      serviceDescription: serviceDescription ?? this.serviceDescription,
+      serviceId: serviceId ?? this.serviceId,
+      weightIndex: weightIndex ?? this.weightIndex,
+    );
+  }
+
 }
 
 @JsonSerializable(includeIfNull: false)

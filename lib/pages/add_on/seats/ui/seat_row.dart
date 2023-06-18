@@ -104,9 +104,24 @@ class _SeatRowState extends State<SeatRow> {
     final seat = isDeparture
         ? focusedPerson?.departureSeats
         : focusedPerson?.returnSeats;
-    final selected = seat == widget.seats;
-    final otherSelected = otherSeats?.contains(widget.seats) ?? false;
+    bool selected = seat == widget.seats;
+    if(widget.isManageBooking ){
+      selected = seat?.seatId == widget.seats.seatId;
+    }
+    bool otherSelected = otherSeats?.contains(widget.seats) ?? false;
 
+    if(widget.isManageBooking) {
+
+      //otherSelected =
+      var res = otherSeats?.where((e) => e?.seatId == widget.seats.seatId).toList();
+      if(res?.isNotEmpty ?? false) {
+        otherSelected = true;
+      }
+      else {
+        otherSelected = false;
+
+      }
+    }
     if (seat != null) {
       print('');
     }
@@ -224,6 +239,12 @@ class _SeatRowState extends State<SeatRow> {
     if ((respone ?? []).isNotEmpty) {
       int? index = bloc?.state.manageBookingResponse?.result?.passengersWithSSR
           ?.indexOf((respone ?? []).first);
+      return Text(
+        (respone?.first.personObject?.numberOrder ?? 0).toString(),
+        style: kLargeHeavy.copyWith(color: Colors.white),
+      );
+
+
 
       if (index != null) {
         return Text(
