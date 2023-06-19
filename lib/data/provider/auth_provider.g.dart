@@ -9,8 +9,7 @@ part of 'auth_provider.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
 class _AuthProvider implements AuthProvider {
-  _AuthProvider(
-    this._dio, {
+  _AuthProvider(this._dio, {
     this.baseUrl,
   });
 
@@ -26,18 +25,18 @@ class _AuthProvider implements AuthProvider {
     final _data = <String, dynamic>{};
     _data.addAll(loginRequest.toJson());
     final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              'user/sign-in',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+      _dio.options,
+      'user/sign-in',
+      queryParameters: queryParameters,
+      data: _data,
+    )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = User.fromJson(_result.data!);
     return value;
   }
@@ -50,18 +49,18 @@ class _AuthProvider implements AuthProvider {
     final _data = <String, dynamic>{};
     _data.addAll(loginRequest.toJson());
     final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              'Public/oauth',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+      _dio.options,
+      'Public/oauth',
+      queryParameters: queryParameters,
+      data: _data,
+    )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = User.fromJson(_result.data!);
     return value;
   }
@@ -74,18 +73,18 @@ class _AuthProvider implements AuthProvider {
     final _data = <String, dynamic>{};
     _data.addAll(signupRequest.toJson());
     final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+    await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              'user/sign-up',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+      _dio.options,
+      'user/sign-up',
+      queryParameters: queryParameters,
+      data: _data,
+    )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = User.fromJson(_result.data!);
     return value;
   }
@@ -102,11 +101,11 @@ class _AuthProvider implements AuthProvider {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          'token',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      'token',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     return null;
   }
@@ -124,11 +123,11 @@ class _AuthProvider implements AuthProvider {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          'user/resendverifyemail',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      'user/resendverifyemail',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     return null;
   }
@@ -146,11 +145,11 @@ class _AuthProvider implements AuthProvider {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          'user/user-passwordupdate',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      'user/user-passwordupdate',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     return null;
   }
@@ -168,11 +167,11 @@ class _AuthProvider implements AuthProvider {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          'user/user-request-password-reset',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      'user/user-request-password-reset',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     return null;
   }
@@ -190,11 +189,11 @@ class _AuthProvider implements AuthProvider {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          'user/user-validate-password-reset',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      'user/user-validate-password-reset',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     return null;
   }
@@ -212,13 +211,13 @@ class _AuthProvider implements AuthProvider {
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              'user/emailvalidation',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+        .compose(
+      _dio.options,
+      'user/emailvalidation',
+      queryParameters: queryParameters,
+      data: _data,
+    )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CommonResponse.fromJson(_result.data!);
     return value;
   }
@@ -236,11 +235,11 @@ class _AuthProvider implements AuthProvider {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          'user/user-reset-password',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      'user/user-reset-password',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     return null;
   }
@@ -258,11 +257,11 @@ class _AuthProvider implements AuthProvider {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          'user/user-remove-account',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      'user/user-remove-account',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     return null;
   }
@@ -278,5 +277,30 @@ class _AuthProvider implements AuthProvider {
       }
     }
     return requestOptions;
+  }
+
+  @override
+  Future<CommonResponse> checkToken2() async {
+    // TODO: implement checkToken2
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CommonResponse>(Options(
+          method: 'GET',
+          headers: _headers,
+          extra: _extra,
+        )
+            .compose(
+          _dio.options,
+          'user/checktoken',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CommonResponse.fromJson(_result.data!);
+    return value;
   }
 }

@@ -798,7 +798,7 @@
   "signUp1.passwordDesc5" : "สัญลักษณ์ (เช่น !@#$%)",
   "signUp1.password" : " รหัสผ่าน",
   "signUp1.passwordConfirm" : "ยืนยันรหัสผ่าน",
-  "signUp1.next" : " ถัดไป",
+  "signUp1.next" : "ถัดไป",
   "signUp1.mandatoryField" : "ฟิลด์บังคับ",
   "signUp1.firstNameValidation" : "ชื่อต้องไม่มีตัวเลขและอักขระพิเศษ",
   "signUp1.surnameValidation" : "นามสกุลต้องไม่มีตัวเลขและอักขระพิเศษ",
@@ -1092,6 +1092,7 @@
   "visa_ops" : "อ๊ะ ขออภัย โปรโมชันนี้ไม่สามารถใช้ได้กับประเภทบัตรของคุณ",
   "paymentFailed" : "การชำระเงินล้มเหลว",
   "insuranceTempUnavailable" : "การซื้อประกันภัยไม่สามารถใช้ได้ชั่วคราว",
-  "okay": "ตกลง"
+  "okay": "ตกลง",
+  "signUp2.continue" : "ถัดไป"
 }
 

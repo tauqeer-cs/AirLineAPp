@@ -104,8 +104,14 @@ class SignupAddressPage extends StatelessWidget {
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
                           ElevatedButton(
-                            onPressed: () => onSignup(context),
-                            child: Text('signUp3.continue'.tr()),
+                            onPressed: () {
+
+                              //context
+                                //  .read<SignupCubit>().valideAddress();
+
+                              onSignup(context);
+                            },
+                            child: Text('signUp2.continue'.tr()),
                           ),
                           kVerticalSpacer,
                         ],

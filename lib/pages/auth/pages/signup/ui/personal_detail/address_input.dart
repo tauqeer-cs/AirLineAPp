@@ -59,8 +59,11 @@ class AddressInput extends StatelessWidget {
           child: Column(
             children: [
               AppInputText(
-                isRequired: false,
+                isRequired: true,
                 name: formNameAddress,
+                validators: [
+                  FormBuilderValidators.required(),
+                ],
                 hintText: 'infoDetail.address'.tr(),
                 initialValue: selectedAddress,
                 inputFormatters: [
@@ -79,14 +82,18 @@ class AddressInput extends StatelessWidget {
                         onAddressCountryChange?.call(newCountry);
                         context
                             .read<SignupCubit>()
-                            .editCountry(newCountry?.countryCode2 ?? "");
+                            .editCountry(newCountry?.countryCode ?? "");
                       },
                     ),
                   ),
                   kHorizontalSpacerMini,
                   Expanded(
                     child: AppInputText(
-                      isRequired: false,
+                      isRequired: true,
+                      maxLength: 3,
+                      validators: [
+                        FormBuilderValidators.required(),
+                      ],
                       name: formNameState,
                       hintText: 'state'.tr(),
                       initialValue: selectedState,
@@ -99,7 +106,10 @@ class AddressInput extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppInputText(
-                      isRequired: false,
+                      isRequired: true,
+                      validators: [
+                        FormBuilderValidators.required(),
+                      ],
                       name: formNameCity,
                       hintText: 'city'.tr(),
                       initialValue: selectedCity,
@@ -111,7 +121,10 @@ class AddressInput extends StatelessWidget {
                   kHorizontalSpacerMini,
                   Expanded(
                     child: AppInputText(
-                      isRequired: false,
+                      isRequired: true,
+                      validators: [
+                        FormBuilderValidators.required(),
+                      ],
                       name: formNamePostCode,
                       hintText: 'postalCode'.tr(),
                       initialValue: selectedPosCode,
@@ -126,6 +139,7 @@ class AddressInput extends StatelessWidget {
               if (withEmail) ...[
                 AppInputText(
                   isRequired: false,
+
                   textInputType: TextInputType.emailAddress,
                   name: formNameAddressEmail,
                   hintText: 'signUp1.email'.tr(),

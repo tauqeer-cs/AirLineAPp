@@ -1017,6 +1017,7 @@
   "visa_ops" : "Oops sorry, this promo is not applicable for your card type.",
   "paymentFailed" : "Payment failed",
   "insuranceTempUnavailable" : "Insurance purchase\ntemporarily unavailable",
-  "okay" : "Okay"
+  "okay" : "Okay",
+  "signUp2.continue" : "Next"
 
 }

@@ -156,7 +156,7 @@ class _LoginFormState extends State<LoginForm> {
               isRequired: false,
               textInputType: TextInputType.emailAddress,
               name: widget.formEmailLoginName,
-              hintText: 'emailAddress'.tr(),
+              hintText: 'loginVerify.username'.tr(),
               maxLength: 45,
               validators: [
                 FormBuilderValidators.required(),
