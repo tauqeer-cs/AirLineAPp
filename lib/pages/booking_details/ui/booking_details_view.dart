@@ -375,6 +375,30 @@ class ManageBookingDetailsView extends StatelessWidget {
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.special) ...[
                   kVerticalSpacer,
+
+                  CustomSegmentControl(
+                    optionOneTapped: () {
+                      bloc?.setSelectionDeparture(true, isSpecial: true);
+                    },
+                    optionTwoTapped: () {
+                      bloc?.setSelectionDeparture(false, isSpecial: true);
+                    },
+                    isSelectedOption1: bloc?.state.specialAppOpsDeparture ?? true,
+                    textOne:
+                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                    textTwo:
+                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                    customRadius: 12,
+                    customBorderWidth: 1,
+                    customVerticalPadding: 8,
+                    customSelectedStyle:
+                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                    customNoSelectedStyle:
+                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                  ),
+
+                  kVerticalSpacerSmall,
+
                   const WheelchairSection(
                       isDeparture: true, isManageBooking: true),
                   kVerticalSpacer,

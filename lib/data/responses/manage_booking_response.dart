@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../models/confirmation_model.dart';
 import '../../models/number_person.dart';
 import '../../utils/date_utils.dart';
-
+import '../../data/responses/verify_response.dart' as Vs;
 class ManageBookingResponse {
   ManageBookingResponse copyWith({
     Result? result,
@@ -550,6 +550,38 @@ class Result {
 
 class PassengersWithSSR {
 
+  Vs.Seats? newDepartSeatSelected;
+  Vs.Seats? newReturnSeatSelected;
+
+
+  int? originalDepartSeatId;
+  int? originalReturnSeatId;
+
+  double? originalDepartSeatPrice;
+  double? originalReturnSeatPrice;
+
+   List<Bundle>? newDepartureMeal;
+   List<Bundle>? newReturnMeal;
+
+   Bundle? newDepartBaggageSelected;
+  Bundle? newReturnBaggageSelected;
+
+  String? originalDepartBaggageCode;
+  String? originalReturnBaggageCode;
+
+  double? originalDepartBaggagePrice;
+  double? originalReturnBaggagePrice;
+
+  Bundle? newDepartSportsSelected;
+  Bundle? newReturnSportsSelected;
+  String? originalDepartSportsCode;
+  String? originalReturnSportsCode;
+  double? originalDepartSportsPrice;
+  double? originalReturnSportsPrice;
+
+  //Bundle? baggage
+
+
   Bound? get getInsurance {
 
     /*if(ssr != null) {
@@ -593,6 +625,9 @@ class PassengersWithSSR {
   }
 
   num? personOrgID;
+
+
+
   Passenger? passengers;
 
   Person? personObject;
@@ -651,11 +686,50 @@ class PassengersWithSSR {
     String? infantDob,
     String? infantNationality,
     bool? infantExpanded,
-    Person? personObject
-
+    Person? personObject,
+    int? originalDepartSeatId,
+  int? originalReturnSeatId,
+    Vs.Seats? newDepartSeatSelected,
+    Vs.Seats? newReturnSeatSelected,
+    double? originalDepartSeatPrice,
+    double? originalReturnSeatPrice,
+    List<Bundle>? newDepartureMeal,
+    List<Bundle>? newReturnMeal,
+    Bundle? newDepartBaggageSelected,
+    String? originalDepartBaggageCode,
+    String? originalReturnBaggageCode,
+    double? originalDepartBaggagePrice,
+    double? originalReturnBaggagePrice,
+    Bundle? newReturnBaggageSelected,
+    Bundle? newDepartSportsSelected,
+    Bundle? newReturnSportsSelected,
+    String? originalDepartSportsCode,
+    String? originalReturnSportsCode,
+    double? originalDepartSportsPrice,
+    double? originalReturnSportsPrice,
   }) {
     return PassengersWithSSR(
-        personOrgID: personOrgID ?? this.personOrgID,
+      newDepartSportsSelected :  newDepartSportsSelected ?? this.newDepartSportsSelected,
+      newReturnSportsSelected :  newReturnSportsSelected ?? this.newReturnSportsSelected,
+      originalDepartSportsCode : originalDepartSportsCode ?? this.originalDepartSportsCode,
+      originalReturnSportsCode  : originalReturnSportsCode ?? this.originalReturnSportsCode,
+      originalDepartSportsPrice  : originalDepartSportsPrice ?? this.originalDepartSportsPrice,
+      originalReturnSportsPrice : originalReturnSportsPrice ?? this.originalReturnSportsPrice,
+      newReturnBaggageSelected : newReturnBaggageSelected ?? this.newReturnBaggageSelected,
+      originalDepartBaggagePrice :  originalDepartBaggagePrice ?? this.originalDepartBaggagePrice,
+      originalReturnBaggagePrice :   originalReturnBaggagePrice ?? this.originalReturnBaggagePrice,
+      originalDepartBaggageCode :  originalDepartBaggageCode ?? this.originalDepartBaggageCode,
+      originalReturnBaggageCode :  originalReturnBaggageCode ?? this.originalReturnBaggageCode,
+      newDepartureMeal :  newDepartureMeal ?? this.newDepartureMeal,
+      newDepartBaggageSelected :  newDepartBaggageSelected ?? this.newDepartBaggageSelected,
+      newReturnMeal : newReturnMeal ?? this.newReturnMeal,
+      originalDepartSeatPrice :  originalDepartSeatPrice ?? this.originalDepartSeatPrice,
+      originalReturnSeatPrice : originalReturnSeatPrice ?? this.originalReturnSeatPrice,
+      personOrgID: personOrgID ?? this.personOrgID,
+      newDepartSeatSelected: newDepartSeatSelected ?? this.newDepartSeatSelected,
+      newReturnSeatSelected: newReturnSeatSelected ?? this.newReturnSeatSelected,
+      originalReturnSeatId: originalReturnSeatId ?? this.originalReturnSeatId,
+      originalDepartSeatId: originalDepartSeatId ?? this.originalDepartSeatId,
         passengers: passengers ?? this.passengers,
         fareAndBundleDetail: fareAndBundleDetail ?? this.fareAndBundleDetail,
         mealDetail: mealDetail ?? this.mealDetail,
@@ -676,7 +750,9 @@ class PassengersWithSSR {
         infantSurname: infantSurname ?? this.infantSurname,
         infantDob: infantDob ?? this.infantDob,
         infantNationality: infantNationality ?? this.infantNationality,
-        infantExpanded: infantExpanded ?? this.infantExpanded);
+        infantExpanded: infantExpanded ?? this.infantExpanded,
+
+    );
   }
 
   PassengersWithSSR({
@@ -703,6 +779,27 @@ class PassengersWithSSR {
     this.infantSurname,
     this.infantDob,
     this.infantNationality,
+    this.newDepartSeatSelected,
+    this.originalDepartSeatId,
+    this.originalReturnSeatId,
+    this.newReturnSeatSelected,
+    this.originalDepartSeatPrice,
+    this.originalReturnSeatPrice,
+    this.newDepartureMeal,
+    this.newReturnMeal,
+    this.newDepartBaggageSelected,
+    this.originalDepartBaggageCode,
+    this.originalReturnBaggageCode,
+    this.originalDepartBaggagePrice,
+    this.originalReturnBaggagePrice,
+    this.newReturnBaggageSelected,
+    this.newDepartSportsSelected,
+    this.newReturnSportsSelected,
+    this.originalDepartSportsCode,
+    this.originalReturnSportsCode,
+    this.originalDepartSportsPrice,
+    this.originalReturnSportsPrice,
+
   });
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {
