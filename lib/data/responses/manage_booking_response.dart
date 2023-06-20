@@ -5,6 +5,7 @@ import '../../models/confirmation_model.dart';
 import '../../models/number_person.dart';
 import '../../utils/date_utils.dart';
 import '../../data/responses/verify_response.dart' as Vs;
+import 'change_flight_response.dart' as CR;
 class ManageBookingResponse {
   ManageBookingResponse copyWith({
     Result? result,
@@ -161,7 +162,7 @@ class Result {
   SeatDetail? seatDetail;
   MealDetail? mealDetail;
   BaggageDetail? baggageDetail;
-  WheelChairDetail? wheelChairDetail;
+  CR.WheelChairDetail? wheelChairDetail;
   SportsEquipmentDetail? sportEquipmentDetail;
   InsuranceDetails? insuranceSSRDetail;
   List<FlightSegment>? flightSegments;
@@ -395,7 +396,7 @@ class Result {
       SeatDetail? seatDetail,
       MealDetail? mealDetail,
       BaggageDetail? baggageDetail,
-      WheelChairDetail? wheelChairDetail,
+        CR.WheelChairDetail? wheelChairDetail,
       SportsEquipmentDetail? sportEquipmentDetail,
       InsuranceDetails? insuranceSSRDetail,
       List<FlightSegment>? flightSegments,
@@ -477,7 +478,7 @@ class Result {
         ? BaggageDetail.fromJson(json['baggageDetail'])
         : null;
     wheelChairDetail = json['wheelChairDetail'] != null
-        ? WheelChairDetail.fromJson(json['wheelChairDetail'])
+        ? CR.WheelChairDetail.fromJson(json['wheelChairDetail'])
         : null;
     sportEquipmentDetail = json['sportEquipmentDetail'] != null
         ? SportsEquipmentDetail.fromJson(json['sportEquipmentDetail'])
@@ -527,7 +528,7 @@ class Result {
       data['baggageDetail'] = baggageDetail!.toJson();
     }
     if (wheelChairDetail != null) {
-      data['wheelChairDetail'] = wheelChairDetail!.toJson();
+      //data['wheelChairDetail'] = wheelChairDetail!.toJson();
     }
     if (sportEquipmentDetail != null) {
       data['sportEquipmentDetail'] = sportEquipmentDetail!.toJson();
@@ -636,7 +637,7 @@ class PassengersWithSSR {
   SeatDetail? seatDetail;
   MealDetail? mealDetail;
   BaggageDetail? baggageDetail;
-  WheelChairDetail? wheelChairDetail;
+  CR.WheelChairDetail? wheelChairDetail;
   SportsEquipmentDetail? sportEquipmentDetail;
   InsuranceDetails? insuranceSSRDetail;
   CheckInStatusInOut? checkInStatusInOut;
@@ -670,7 +671,7 @@ class PassengersWithSSR {
     SeatDetail? seatDetail,
     MealDetail? mealDetail,
     BaggageDetail? baggageDetail,
-    WheelChairDetail? wheelChairDetail,
+    CR.WheelChairDetail? wheelChairDetail,
     SportsEquipmentDetail? sportEquipmentDetail,
     InsuranceDetails? insuranceSSRDetail,
     CheckInStatusInOut? checkInStatusInOut,
@@ -834,7 +835,7 @@ class PassengersWithSSR {
         ? BaggageDetail.fromJson(json['baggageDetail'])
         : null;
     wheelChairDetail = json['wheelChairDetail'] != null
-        ? WheelChairDetail.fromJson(json['wheelChairDetail'])
+        ? CR.WheelChairDetail.fromJson(json['wheelChairDetail'])
         : null;
     sportEquipmentDetail = json['sportEquipmentDetail'] != null
         ? SportsEquipmentDetail.fromJson(json['sportEquipmentDetail'])
@@ -877,7 +878,7 @@ class PassengersWithSSR {
       data['baggageDetail'] = baggageDetail!.toJson();
     }
     if (wheelChairDetail != null) {
-      data['wheelChairDetail'] = wheelChairDetail!.toJson();
+     // data['wheelChairDetail'] = wheelChairDetail!.toJson();
     }
     if (sportEquipmentDetail != null) {
       data['sportEquipmentDetail'] = sportEquipmentDetail!.toJson();
@@ -1091,34 +1092,3 @@ class CompanyTaxInvoice {
   }
 }
 
-class WheelChairDetail {
-  num? wheelChairCount;
-  num? totalAmount;
-
-  WheelChairDetail({this.wheelChairCount, this.totalAmount});
-
-  WheelChairDetail.fromJson(Map<String, dynamic> json) {
-    wheelChairCount = json['wheelChairCount'];
-    totalAmount = json['totalAmount'];
-
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['wheelChairCount'] = wheelChairCount;
-    data['totalAmount'] = totalAmount;
-
-    return data;
-  }
-
-  WheelChairDetail copyWith({
-    num? wheelChairCount,
-    num? totalAmount,
-  }) {
-    return WheelChairDetail(
-      wheelChairCount: wheelChairCount ?? this.wheelChairCount,
-      totalAmount: totalAmount ?? this.totalAmount,
-    );
-  }
-
-}

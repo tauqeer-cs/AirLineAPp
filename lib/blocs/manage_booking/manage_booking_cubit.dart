@@ -289,6 +289,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       Bundle? departureSports;
       Bundle? returnSports;
 
+
+
       //Depart
 
       var departMealsSelected = currentPerson.mealDetail?.departureMealsOnly;
@@ -378,6 +380,21 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       }
 
 
+      Bundle? wheelDeparts;
+     // if(currentPerson.wheelChairDetail.)
+      var departWheelChaorOdThisUser = currentPerson.wheelChairDetail?.wheelChairs
+          ?.where((e) => e.departReturn == 'Depart')
+          .toList();
+      if((departWheelChaorOdThisUser ?? []).isNotEmpty) {
+        wheelDeparts = departWheelChaorOdThisUser ?? [].first;
+      }
+      Bundle? wheelReturn;
+      departWheelChaorOdThisUser = currentPerson.wheelChairDetail?.wheelChairs
+          ?.where((e) => e.departReturn != 'Depart')
+          .toList();
+      if((departWheelChaorOdThisUser ?? []).isNotEmpty) {
+        wheelReturn = departWheelChaorOdThisUser ?? [].first;
+      }
       for (Baggage currentIte in returnSportsSelected ?? []) {
         //Nasi Lemak Combo
         List<Bundle> result = verifyResponse.flightSSR?.sportGroup?.inbound
@@ -407,7 +424,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         type = PeopleType.adult;
       }
 
-      //
+
       var currentObject = Person(
         peopleType: type,
         departureMeal: departureMeal,
