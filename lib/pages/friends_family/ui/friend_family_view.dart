@@ -34,6 +34,7 @@ class FriendsFamilyView extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = context.read<ProfileCubit>();
 
+    final locale = context.locale.toString();
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return Padding(
