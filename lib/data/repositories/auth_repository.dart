@@ -67,7 +67,7 @@ class AuthenticationRepository {
   Future<void> signUp(SignupRequest signupRequest) async{
 
 
-    await _provider.signup(signupRequest.copyWith(title: signupRequest.title?.toUpperCase().replaceAll('.', '')));
+    await _provider.signup(signupRequest);
     //setCurrentUser(user);
     //storeAccessToken(user.token);
   }
