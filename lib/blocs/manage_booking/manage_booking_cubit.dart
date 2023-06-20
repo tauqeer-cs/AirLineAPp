@@ -180,6 +180,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     final seatsDeparture = verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
     final seatsReturn = verifyResponse.flightSSR?.seatGroup?.inbound ?? [];
 
+    final wheelChairDeparture = verifyResponse.flightSSR?.wheelChairGroup?.outbound ?? [];
+    final wheelChairReturn = verifyResponse.flightSSR?.wheelChairGroup?.inbound ?? [];
+
     Map<num?, Color> departureColorMapping = {};
     Map<num?, Color> returnColorMapping = {};
 
@@ -415,7 +418,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         returnBaggage: returnBaggage,
         departureSports: departureSports,
         returnSports: returnSports,
-        numberOrder: personIndex
+        numberOrder: personIndex,
       );
       currentPerson.personObject = currentObject;
       currentPerson.originalDepartSeatId = departureSeats?.seatId?.toInt();
@@ -435,7 +438,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       currentPerson.originalDepartBaggagePrice = departureBaggage?.finalAmount.toDouble();
       currentPerson.originalReturnBaggageCode = returnBaggage?.codeType;
       currentPerson.originalReturnBaggagePrice = returnBaggage?.finalAmount.toDouble();
-
 
       currentPerson.originalDepartSportsCode = departureSports?.codeType;
       currentPerson.originalReturnSportsCode = returnSports?.codeType;
@@ -467,18 +469,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
          currenT.removeAt(indexOfSeat ?? 0);
         currenT.insert(indexOfSeat ?? 0, copyObject);
-
-
-
-        //var currentRows = currentItem.copyWith(
-        //  seats: currenT
-        //);
-
-        //verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows?.removeAt(indexItem);
-        //var cc = verifyResponse.flightSeat?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows?.insert(indexItem, currentRows);
-
-        print('');
-
 
       }
 
