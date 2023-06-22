@@ -1454,6 +1454,67 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
 
+  void addWheelToPerson(bool isAdd,Person? person, Bundle? wheelChair, bool isDeparture) {
+
+    var manageResponse = state.manageBookingResponse;
+    var tmpObj = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject == person)
+        .toList();
+
+    if ((tmpObj ?? []).isNotEmpty) {
+      var item = (tmpObj ?? []).first;
+      int index = 0;
+      index = state.manageBookingResponse?.result?.passengersWithSSR
+          ?.indexOf(item) ??
+          0;
+      Person? newPerson;
+
+      if(isDeparture) {
+        if(item.originalHadWheelChairDepart == true) {
+          return;
+        }
+        if(isAdd == true){
+          newPerson =
+              item.personObject?.copyWith(departureWheelChair: () => wheelChair);
+          item.newDepartWheelChair = wheelChair;
+        }
+
+      }
+      else {
+        if(item.originalHadWheelChairReturn == true) {
+          return;
+        }
+
+        if(isAdd == true){
+          newPerson =
+              item.personObject?.copyWith(returnWheelChair: () => wheelChair);
+
+          item.newReturnWheelChair = wheelChair;
+        }
+        else {
+          newPerson =
+              item.personObject?.copyWith(returnWheelChair: () => wheelChair);
+          item.newReturnWheelChair = null;
+        }
+
+      }
+
+      var newSSR = item.copyWith(personObject: newPerson);
+
+      var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+      copyList?.removeAt(index);
+      copyList?.insert(index, newSSR);
+      MBR.Result? cc = manageResponse?.result;
+      var result2 = cc?.copyWith(passengersWithSSR: copyList);
+      var finalResult = manageResponse?.copyWith(result: result2);
+
+      emit(
+        state.copyWith(manageBookingResponse: finalResult, selectedPax: newSSR),
+      );
+    }
+  }
+
+
 
   void addOrRemoveMealFromPerson({required bool isDeparture, required bool isAdd, Person? person, required Bundle meal}) {
 
@@ -1537,6 +1598,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     }
 
   }
+
 
   void setSelectionDeparture(bool value,
       {bool isSeat = false,

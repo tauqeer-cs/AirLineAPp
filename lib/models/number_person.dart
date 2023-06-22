@@ -5,6 +5,7 @@ import 'package:app/data/responses/verify_response.dart';
 import 'package:app/utils/string_utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -220,6 +221,7 @@ class NumberPerson extends Equatable {
   List<Object?> get props => [persons];
 }
 
+@CopyWith(copyWithNull: true)
 @JsonSerializable()
 class Person extends Equatable {
   final PeopleType? peopleType;

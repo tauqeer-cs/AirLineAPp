@@ -133,7 +133,7 @@ class WheelchairSection extends StatelessWidget {
                               onChanged: (value) {
                                 if(isManageBooking) {
 
-                                  manageBookingCubit;
+                                  manageBookingCubit?.addWheelToPerson(value ?? false, focusedPerson, (wheelChairs ?? []).first, isDeparture);
 
                                   return;
 
