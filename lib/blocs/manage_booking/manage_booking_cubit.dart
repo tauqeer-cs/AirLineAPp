@@ -1478,6 +1478,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
               item.personObject?.copyWith(departureWheelChair: () => wheelChair);
           item.newDepartWheelChair = wheelChair;
         }
+        else {
+          newPerson =
+              item.personObject?.copyWithNull(departureWheelChair: true);
+
+          item.newReturnWheelChair = null;
+        }
 
       }
       else {
@@ -1492,8 +1498,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           item.newReturnWheelChair = wheelChair;
         }
         else {
+
           newPerson =
-              item.personObject?.copyWith(returnWheelChair: () => wheelChair);
+              item.personObject?.copyWithNull(returnWheelChair: true);
+
           item.newReturnWheelChair = null;
         }
 
