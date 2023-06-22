@@ -110,6 +110,7 @@ flutter_native_splash:
 
 dependency_overrides:
   font_awesome_flutter: ^10.4.0
+  intl: ^0.17.0
 
 flutter:
   uses-material-design: true
