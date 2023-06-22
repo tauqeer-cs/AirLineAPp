@@ -567,6 +567,12 @@ class PassengersWithSSR {
    Bundle? newDepartBaggageSelected;
   Bundle? newReturnBaggageSelected;
 
+  bool originalHadWheelChairDepart = false;
+  bool originalHadWheelChairReturn = false;
+
+  Bundle? newReturnWheelChair;
+  Bundle? newDepartWheelChair;
+
   String? originalDepartBaggageCode;
   String? originalReturnBaggageCode;
 
@@ -708,8 +714,16 @@ class PassengersWithSSR {
     String? originalReturnSportsCode,
     double? originalDepartSportsPrice,
     double? originalReturnSportsPrice,
+    bool? originalHadWheelChairDepart,
+    bool? originalHadWheelChairReturn,
+    Bundle? newReturnWheelChair,
+    Bundle? newDepartWheelChair
   }) {
     return PassengersWithSSR(
+      originalHadWheelChairDepart :  originalHadWheelChairDepart ?? this.originalHadWheelChairDepart,
+      originalHadWheelChairReturn :  originalHadWheelChairReturn ?? this.originalHadWheelChairReturn,
+      newReturnWheelChair :  newReturnWheelChair ?? this.newReturnWheelChair,
+      newDepartWheelChair :  newDepartWheelChair ?? this.newDepartWheelChair,
       newDepartSportsSelected :  newDepartSportsSelected ?? this.newDepartSportsSelected,
       newReturnSportsSelected :  newReturnSportsSelected ?? this.newReturnSportsSelected,
       originalDepartSportsCode : originalDepartSportsCode ?? this.originalDepartSportsCode,
@@ -800,6 +814,10 @@ class PassengersWithSSR {
     this.originalReturnSportsCode,
     this.originalDepartSportsPrice,
     this.originalReturnSportsPrice,
+    this.originalHadWheelChairDepart = false,
+    this.originalHadWheelChairReturn = false,
+    this.newReturnWheelChair,
+    this.newDepartWheelChair,
 
   });
 

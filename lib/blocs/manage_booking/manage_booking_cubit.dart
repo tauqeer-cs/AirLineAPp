@@ -380,20 +380,45 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       }
 
 
-      Bundle? wheelDeparts;
+      Baggage? wheelDeparts;
      // if(currentPerson.wheelChairDetail.)
       var departWheelChaorOdThisUser = currentPerson.wheelChairDetail?.wheelChairs
           ?.where((e) => e.departReturn == 'Depart')
           .toList();
       if((departWheelChaorOdThisUser ?? []).isNotEmpty) {
-        wheelDeparts = departWheelChaorOdThisUser ?? [].first;
+        wheelDeparts = (departWheelChaorOdThisUser ?? []).first;
       }
-      Bundle? wheelReturn;
+      Baggage? wheelReturn;
       departWheelChaorOdThisUser = currentPerson.wheelChairDetail?.wheelChairs
           ?.where((e) => e.departReturn != 'Depart')
           .toList();
       if((departWheelChaorOdThisUser ?? []).isNotEmpty) {
         wheelReturn = departWheelChaorOdThisUser ?? [].first;
+      }
+
+      Bundle? selectedDepartWheelChairItem;
+      Bundle? selectedReturnWheelChairItem;
+
+      if(wheelDeparts != null) {
+        //yes here
+        var selectedWheels = wheelChairDeparture.where((e) => e.finalAmount.toInt() == wheelDeparts?.amount?.toInt()).toList();
+
+        if((selectedWheels ?? []).isNotEmpty ) {
+          selectedDepartWheelChairItem  = selectedWheels.first;
+          print('');
+
+        }
+      }
+
+      if(wheelReturn != null) {
+        //yes here
+        var selectedWheels = wheelChairReturn.where((e) => e.finalAmount.toInt() == wheelReturn?.amount?.toInt()).toList();
+
+        if((selectedWheels ?? []).isNotEmpty ) {
+          selectedReturnWheelChairItem  = selectedWheels.first;
+          print('');
+
+        }
       }
       for (Baggage currentIte in returnSportsSelected ?? []) {
         //Nasi Lemak Combo
@@ -436,6 +461,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         departureSports: departureSports,
         returnSports: returnSports,
         numberOrder: personIndex,
+        departureWheelChair: selectedDepartWheelChairItem,
+        returnWheelChair: selectedReturnWheelChairItem
       );
       currentPerson.personObject = currentObject;
       currentPerson.originalDepartSeatId = departureSeats?.seatId?.toInt();
@@ -450,7 +477,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       if(princrTlist.isNotEmpty) {
         currentPerson.originalReturnSeatPrice = (princrTlist.first.amount?.toDouble() ?? 0.0) + (princrTlist.first.applicableTaxes?.first.taxAmount?.toDouble() ?? 0.0);
+
       }
+      currentPerson.originalHadWheelChairDepart = selectedDepartWheelChairItem != null;
+      currentPerson.originalHadWheelChairReturn = selectedReturnWheelChairItem != null;
+
       currentPerson.originalDepartBaggageCode = departureBaggage?.codeType;
       currentPerson.originalDepartBaggagePrice = departureBaggage?.finalAmount.toDouble();
       currentPerson.originalReturnBaggageCode = returnBaggage?.codeType;
@@ -459,7 +490,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       currentPerson.originalDepartSportsCode = departureSports?.codeType;
       currentPerson.originalReturnSportsCode = returnSports?.codeType;
       currentPerson.originalDepartSportsPrice = departureSports?.finalAmount.toDouble();
-      currentPerson.originalReturnSportsPrice = returnSports?.finalAmount.toDouble();;
+      currentPerson.originalReturnSportsPrice = returnSports?.finalAmount.toDouble();
 
 
       //  currentPerson.copyWith(personObject: currentObject);
@@ -474,8 +505,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     for(Rows currentItem in outboundRows ?? []) {
       //seatIdsToMakeAvailableDep
       var res = currentItem.seats?.where((e) => seatIdsToMakeAvailableDep.contains(e.seatId) ).toList();
-
-
 
       if((res ?? []).isNotEmpty) {
         var indexOfSeat = currentItem.seats?.indexOf((res ?? []).first);

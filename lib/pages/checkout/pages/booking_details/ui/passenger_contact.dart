@@ -278,7 +278,7 @@ class PassengerContactState extends State<PassengerContact> {
               name: formNameContactPhoneNumber,
               textEditingController: phNoController,
               textInputType: TextInputType.number,
-              hintText: 'infoDetail.phoneNumber'.tr(),
+              hintText: 'phoneNumber'.tr(),
               validators: [FormBuilderValidators.required()],
               onChanged: (value) {
                 if(widget.manageBooking) {

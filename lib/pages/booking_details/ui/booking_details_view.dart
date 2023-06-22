@@ -368,14 +368,13 @@ class ManageBookingDetailsView extends StatelessWidget {
                   kVerticalSpacerSmall,
                   BaggageSection(
                     isManageBooking: true,
-                    isDeparture: true,
+                    isDeparture: bloc?.state.baggageDeparture ?? false,
                     moveToTop: () {},
                     moveToBottom: () {},
                   ),
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.special) ...[
                   kVerticalSpacer,
-
                   CustomSegmentControl(
                     optionOneTapped: () {
                       bloc?.setSelectionDeparture(true, isSpecial: true);
@@ -399,8 +398,9 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                   kVerticalSpacerSmall,
 
-                  const WheelchairSection(
-                      isDeparture: true, isManageBooking: true),
+                   WheelchairSection(
+                      isDeparture: bloc?.state.specialAppOpsDeparture ?? false,
+                      isManageBooking: true),
                   kVerticalSpacer,
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.insurance) ...[

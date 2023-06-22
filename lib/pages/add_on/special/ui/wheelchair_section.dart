@@ -42,8 +42,11 @@ class WheelchairSection extends StatelessWidget {
     List<Bundle>? wheelChairs;
     String? okId;
     Bundle? selectedWheelchair;
+    ManageBookingCubit? manageBookingCubit;
 
     if(isManageBooking) {
+      manageBookingCubit = context.watch<ManageBookingCubit>();
+
       var state = context.watch<ManageBookingCubit>().state;
       selectedPerson = state.selectedPax?.personObject;
       wheelChairGroup = state.verifyResponse?.flightSSR?.wheelChairGroup;
@@ -128,6 +131,14 @@ class WheelchairSection extends StatelessWidget {
                               borderColor: Styles.kActiveGrey,
                               value: selectedWheelchair != null,
                               onChanged: (value) {
+                                if(isManageBooking) {
+
+                                  manageBookingCubit;
+
+                                  return;
+
+                                }
+
                                 print("value is $value");
                                 if (value) {
                                   context
