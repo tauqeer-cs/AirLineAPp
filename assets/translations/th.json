@@ -882,6 +882,15 @@
   "mealAddOnsAreUnavailable" : "ไม่มีบริการเสริมอาหารสำหรับการสั่งซื้อออนไลน์น้อยกว่า 24 ชั่วโมงก่อนเวลาออกเดินทาง",
   "noEquipment" : "ไม่มีอุปกรณ์",
   "bookReference" : "การอ้างอิงการจอง",
-  "passengerDetail.nationality" : "สัญชาติ"
+  "passengerDetail.nationality" : "สัญชาติ",
+  "profile.moreInfo": "ข้อมูลเพิ่มเติม",
+  "manageBooking.title": "จัดการการจอง",
+  "manageBooking.subtext": "Please enter your flight details to view and manage your booking.",
+  "manageBooking.bookingReference": "หมายเลขอ้างอิงการจอง",
+  "seatsSelection.seatTypes" : "ประเภทที่นั่ง",
+  "seatsSelection.preferredSeat" : "Preferred Seat",
+  "seatsSelection.standardSeat" : "Standard Seat",
+  "seatsSelection.unavailable" : "Unavailable",
+  "okay" : "Okay"
 }
 

@@ -882,6 +882,14 @@
   "mealAddOnsAreUnavailable" : "Meal add-ons are unavailable for online purchase less than 24 hours before departure time.",
   "noEquipment" : "No Equipment",
   "bookReference": "Booking Reference",
-  "passengerDetail.nationality" : "Nationality"
-
+  "passengerDetail.nationality" : "Nationality",
+  "profile.moreInfo": "More\nInfo",
+  "manageBooking.title": "Manage Booking",
+  "manageBooking.subtext": "Please enter your flight details to view and manage your booking.",
+  "manageBooking.bookingReference": "Booking Reference Number",
+  "seatsSelection.seatTypes" : "Seat Types",
+  "seatsSelection.preferredSeat" : "Preferred Seat",
+  "seatsSelection.standardSeat" : "Standard Seat",
+  "seatsSelection.unavailable" : "Unavailable",
+  "okay" : "Okay"
 }
