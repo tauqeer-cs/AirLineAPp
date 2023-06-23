@@ -880,6 +880,8 @@
   "weSorrySeatSelected" : "ขออภัย ที่นั่งนี้ถูกจองแล้ว กรุณาเลือกที่นั่งอื่น",
   "seatTotal" : "จำนวนที่นั่งทั้งหมด",
   "mealAddOnsAreUnavailable" : "ไม่มีบริการเสริมอาหารสำหรับการสั่งซื้อออนไลน์น้อยกว่า 24 ชั่วโมงก่อนเวลาออกเดินทาง",
-  "noEquipment" : "ไม่มีอุปกรณ์"
+  "noEquipment" : "ไม่มีอุปกรณ์",
+  "bookReference" : "การอ้างอิงการจอง",
+  "passengerDetail.nationality" : "สัญชาติ"
 }
 

@@ -86,6 +86,41 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return '80.0';
   }
 
+  num get departureTotal {
+    return 50;
+  }
+
+  num get returnTotal {
+    return 60;
+  }
+
+  num get newSeatsTotalPrice {
+
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for(PassengersWithSSR currentUser in passengers) {
+      total  += currentUser.newDepartSeatSelected?.seatPriceOffers?.first.amount ?? 0.0;
+      total  += currentUser.newReturnSeatSelected?.seatPriceOffers?.first.amount ?? 0.0;
+
+    }
+    return total;
+  }
+
+  num get confirmedSeatsTotalPrice {
+
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for(PassengersWithSSR currentUser in passengers) {
+      total  += currentUser.confirmedDepartSeatSelected?.seatPriceOffers?.first.amount ?? 0.0;
+      total  += currentUser.confirmedReturnSeatSelected?.seatPriceOffers?.first.amount ?? 0.0;
+    }
+    return total;
+  }
+
   void selectedDepartureFlight(InboundOutboundSegment segment) {
     emit(
       state.copyWith(selectedDepartureFlight: segment),
@@ -1196,6 +1231,70 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
+  bool get hasAnySeatChanged {
+
+
+    var passengers = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for(PassengersWithSSR currentPassenger in passengers) {
+
+      if(currentPassenger.newDepartSeatSelected != null) {
+        return true;
+      }
+
+      if(currentPassenger.newReturnSeatSelected != null) {
+        return true;
+      }
+
+      print('');
+
+    }
+    print('');
+
+    return false;
+
+  }
+
+  bool get hasAnyDepartSeatChanged {
+    var passengers = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for(PassengersWithSSR currentPassenger in passengers) {
+
+      if(currentPassenger.newDepartSeatSelected != null) {
+        return true;
+      }
+
+
+      print('');
+
+    }
+    print('');
+
+    return false;
+
+  }
+
+  bool get hasAnyReturnSeatChanged {
+    var passengers = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for(PassengersWithSSR currentPassenger in passengers) {
+
+      if(currentPassenger.newDepartSeatSelected != null) {
+        return true;
+      }
+
+
+      print('');
+
+    }
+    print('');
+
+    return false;
+
+  }
+
+
+
   void changeSelectedAddOnOption(AddonType addOnOptionSelected,
       {bool toNull = false}) {
     if (toNull) {
@@ -1239,6 +1338,59 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
+  void seatConfirmSeatChange() {
+    var manageResponse = state.manageBookingResponse;
+    var userList = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.newDepartSeatSelected != null || e.newReturnSeatSelected != null)
+        .toList();
+    if((userList ?? []).isNotEmpty){
+      var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+      for(PassengersWithSSR currentUser in (userList ?? [])){
+
+        if(currentUser.newDepartSeatSelected  != null && currentUser.newReturnSeatSelected != null) {
+          int index = 0;
+          index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(currentUser) ??
+              0;
+          PassengersWithSSR? newSSR = currentUser;
+          newSSR.confirmedDepartSeatSelected = currentUser.newDepartSeatSelected;
+          newSSR.confirmedReturnSeatSelected = currentUser.newReturnSeatSelected;
+          copyList?.removeAt(index);
+          copyList?.insert(index, newSSR);
+        }
+        else if(currentUser.newDepartSeatSelected  != null) {
+          int index = 0;
+          index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(currentUser) ??
+              0;
+          PassengersWithSSR? newSSR = currentUser;
+          newSSR.confirmedDepartSeatSelected = currentUser.newDepartSeatSelected;
+          copyList?.removeAt(index);
+          copyList?.insert(index, newSSR);
+        }
+        if(currentUser.newReturnSeatSelected != null) {
+          int index = 0;
+          index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(currentUser) ??
+              0;
+          PassengersWithSSR? newSSR = currentUser;
+          newSSR.confirmedReturnSeatSelected = currentUser.newReturnSeatSelected;
+          copyList?.removeAt(index);
+          copyList?.insert(index, newSSR);
+        }
+      }
+
+      MBR.Result? cc = manageResponse?.result;
+      var result2 = cc?.copyWith(passengersWithSSR: copyList);
+      var finalResult = manageResponse?.copyWith(result: result2);
+
+      emit(
+        state.copyWith(manageBookingResponse: finalResult),
+      );
+
+    }
+
+  }
   void addSeatToPerson(
       Person? selectedPerson, Vs.Seats seats, bool isDeparture) {
     var manageResponse = state.manageBookingResponse;
@@ -1504,6 +1656,51 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
           item.newReturnWheelChair = null;
         }
+
+      }
+
+      var newSSR = item.copyWith(personObject: newPerson);
+
+      var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+      copyList?.removeAt(index);
+      copyList?.insert(index, newSSR);
+      MBR.Result? cc = manageResponse?.result;
+      var result2 = cc?.copyWith(passengersWithSSR: copyList);
+      var finalResult = manageResponse?.copyWith(result: result2);
+
+      emit(
+        state.copyWith(manageBookingResponse: finalResult, selectedPax: newSSR),
+      );
+    }
+  }
+
+  void addWheelId(bool isAdd,Person? person, bool isDeparture,String okId) {
+
+    var manageResponse = state.manageBookingResponse;
+    var tmpObj = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) => e.personObject == person)
+        .toList();
+
+    if ((tmpObj ?? []).isNotEmpty) {
+      var item = (tmpObj ?? []).first;
+      int index = 0;
+      index = state.manageBookingResponse?.result?.passengersWithSSR
+          ?.indexOf(item) ??
+          0;
+      Person? newPerson;
+
+      if(isDeparture) {
+        if(item.originalHadWheelChairDepart == true) {
+          return;
+        }
+
+
+      }
+      else {
+        if(item.originalHadWheelChairReturn == true) {
+          return;
+        }
+        item.wheelChairIdReturn = okId;
 
       }
 

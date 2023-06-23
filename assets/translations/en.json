@@ -880,5 +880,8 @@
   "weSorrySeatSelected" : "We’re sorry, this seat has been taken. Please select another seat.",
   "seatTotal" : "Seat Total",
   "mealAddOnsAreUnavailable" : "Meal add-ons are unavailable for online purchase less than 24 hours before departure time.",
-  "noEquipment" : "No Equipment"
+  "noEquipment" : "No Equipment",
+  "bookReference": "Booking Reference",
+  "passengerDetail.nationality" : "Nationality"
+
 }

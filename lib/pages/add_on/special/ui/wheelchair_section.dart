@@ -184,6 +184,12 @@ class WheelchairSection extends StatelessWidget {
                               hintText: "specialSelection.disabledIDCard".tr(),
                               initialValue: okId,
                               onChanged: (id) {
+                                if(isManageBooking){
+                                  manageBookingCubit?.addWheelId(true, focusedPerson,  isDeparture,id ?? '');
+//value ?? false, focusedPerson, (wheelChairs ?? []).first, isDeparture
+                                  return;
+
+                                }
                                 context
                                     .read<SearchFlightCubit>()
                                     .addWheelChairToPersonPartial(

@@ -554,6 +554,9 @@ class PassengersWithSSR {
   Vs.Seats? newDepartSeatSelected;
   Vs.Seats? newReturnSeatSelected;
 
+  Vs.Seats? confirmedDepartSeatSelected;
+  Vs.Seats? confirmedReturnSeatSelected;
+
 
   int? originalDepartSeatId;
   int? originalReturnSeatId;
@@ -571,6 +574,10 @@ class PassengersWithSSR {
   bool originalHadWheelChairReturn = false;
 
   Bundle? newReturnWheelChair;
+
+  String? wheelChairIdDepart;
+  String? wheelChairIdReturn;
+
   Bundle? newDepartWheelChair;
 
   String? originalDepartBaggageCode;
@@ -698,6 +705,8 @@ class PassengersWithSSR {
   int? originalReturnSeatId,
     Vs.Seats? newDepartSeatSelected,
     Vs.Seats? newReturnSeatSelected,
+    Vs.Seats? confirmedDepartSeatSelected,
+    Vs.Seats? confirmedSeatSelected,
     double? originalDepartSeatPrice,
     double? originalReturnSeatPrice,
     List<Bundle>? newDepartureMeal,
@@ -717,9 +726,15 @@ class PassengersWithSSR {
     bool? originalHadWheelChairDepart,
     bool? originalHadWheelChairReturn,
     Bundle? newReturnWheelChair,
-    Bundle? newDepartWheelChair
+    Bundle? newDepartWheelChair,
+    String? wheelChairIdDepart,
+    String? wheelChairIdReturn,
   }) {
     return PassengersWithSSR(
+      confirmedDepartSeatSelected :  confirmedDepartSeatSelected ?? this.confirmedDepartSeatSelected,
+      confirmedReturnSeatSelected :  confirmedSeatSelected ?? this.confirmedReturnSeatSelected,
+      wheelChairIdDepart :  wheelChairIdDepart ?? this.wheelChairIdDepart,
+      wheelChairIdReturn :  wheelChairIdReturn ?? this.wheelChairIdReturn,
       originalHadWheelChairDepart :  originalHadWheelChairDepart ?? this.originalHadWheelChairDepart,
       originalHadWheelChairReturn :  originalHadWheelChairReturn ?? this.originalHadWheelChairReturn,
       newReturnWheelChair :  newReturnWheelChair ?? this.newReturnWheelChair,
@@ -818,6 +833,13 @@ class PassengersWithSSR {
     this.originalHadWheelChairReturn = false,
     this.newReturnWheelChair,
     this.newDepartWheelChair,
+    this.wheelChairIdDepart,
+    this.wheelChairIdReturn,
+   this.confirmedDepartSeatSelected,
+    this.confirmedReturnSeatSelected,
+
+
+
 
   });
 

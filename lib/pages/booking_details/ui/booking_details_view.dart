@@ -21,13 +21,13 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/custom_segment.dart';
 import '../../../widgets/app_money_widget.dart';
-import '../../../widgets/containers/app_expanded_section.dart';
-import '../../../widgets/forms/app_input_text.dart';
 import '../../add_on/baggage/ui/baggage_section.dart';
 import '../../add_on/meals/ui/meals_section.dart';
 import '../../add_on/seats/ui/seat_legend_simple.dart';
 import '../../add_on/seats/ui/seat_plan.dart';
 import '../../add_on/special/ui/wheelchair_section.dart';
+import '../../add_on/summary/ui/flight_detail.dart';
+import '../../add_on/summary/ui/seat_detail.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../checkout/pages/insurance/ui/available_insurance.dart';
@@ -313,9 +313,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                   kVerticalSpacer,
                 ] else if (bloc?.state.addOnOptionSelected ==
                     AddonType.meal) ...[
-                  false ? Container() : WarningLabel(
-                    message: 'mealAddOnsAreUnavailable'.tr(),
-                  ),
+                  false
+                      ? Container()
+                      : WarningLabel(
+                          message: 'mealAddOnsAreUnavailable'.tr(),
+                        ),
                   kVerticalSpacerSmall,
                   CustomSegmentControl(
                     optionOneTapped: () {
@@ -338,7 +340,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                         kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
                   ),
                   kVerticalSpacerSmall,
-                   MealsSection(
+                  MealsSection(
                     isDeparture: bloc?.state.foodDepearture ?? false,
                     isManageBooking: true,
                   ),
@@ -382,23 +384,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                     optionTwoTapped: () {
                       bloc?.setSelectionDeparture(false, isSpecial: true);
                     },
-                    isSelectedOption1: bloc?.state.specialAppOpsDeparture ?? true,
+                    isSelectedOption1:
+                        bloc?.state.specialAppOpsDeparture ?? true,
                     textOne:
-                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                     textTwo:
-                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                     customRadius: 12,
                     customBorderWidth: 1,
                     customVerticalPadding: 8,
                     customSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                        kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
                     customNoSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                        kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
                   ),
-
                   kVerticalSpacerSmall,
-
-                   WheelchairSection(
+                  WheelchairSection(
                       isDeparture: bloc?.state.specialAppOpsDeparture ?? false,
                       isManageBooking: true),
                   kVerticalSpacer,
@@ -406,6 +407,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                     AddonType.insurance) ...[
                   //InsuranceView(isManageBooking: true,),
                   const InsuranceManageView(),
+                ] else ...[
+                  const ManageFlightSummary(),
                 ],
                 const ContactsSection(),
                 kVerticalSpacer,
@@ -490,8 +493,6 @@ class InsuranceManageView extends StatelessWidget {
     int selectedPassengers = 0;
     Bundle? lastInsuranceSelected;
     InsuranceType? selected;
-    BundleGroupSeat? insurancesGroup =
-        state.verifyResponse?.flightSSR?.insuranceGroup;
 
     String currency = 'MYR';
 
@@ -739,6 +740,44 @@ class InsuranceManageView extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+}
+
+class ManageFlightSummary extends StatelessWidget {
+  const ManageFlightSummary({Key? key}) : super(key: key);
+
+  //String currency = 'MYR';
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.watch<ManageBookingCubit>();
+
+    String currency =
+        bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
+            'MYR';
+
+    return AppCard(
+      child: Column(
+        children: [
+          FlightSummaryDetail(
+            isDeparture: true,
+            currency: currency,
+            isManageBooking: true,
+          ),
+          FlightSummaryDetail(
+            isDeparture: false,
+            currency: currency,
+            isManageBooking: true,
+          ),
+
+          SeatSummaryDetail(
+            currency: currency,
+            isManageBooking: true,
+          ),
+
+        ],
+      ),
     );
   }
 }

@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../models/number_person.dart';
 import '../../../../widgets/app_money_widget.dart';
 
 class SeatPlan extends StatelessWidget {
@@ -34,12 +35,15 @@ class SeatPlan extends StatelessWidget {
 
     var isDeparture = true;
     List<InboundSeat>? inboundSeats;
+    ManageBookingCubit? manageBookingCubit;
 
     if (isManageBooking == true) {
+
       var bloc = context.watch<ManageBookingCubit>();
+      manageBookingCubit = bloc;
+
       flightSeats = bloc.state.verifyResponse?.flightSeat;
       isDeparture = bloc.state.seatDeparture;
-
     } else {
       isDeparture = context.watch<IsDepartureCubit>().state;
     }
@@ -200,32 +204,55 @@ class SeatPlan extends StatelessWidget {
             );
           }),
           kVerticalSpacer,
-
-          if(isManageBooking) ... [
+          if (isManageBooking) ...[
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.0),
               child: Divider(),
             ),
             kVerticalSpacerSmall,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal : 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Row(
                 children: [
-                  Text('seatTotal'.tr(),style: kHugeSemiBold.copyWith(color: Styles.kTextColor ),),
+                  Text(
+                    'seatTotal'.tr(),
+                    style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                  ),
                   Expanded(
                     child: Container(),
                   ),
-                  const MoneyWidget(amount: 0.00,isDense: true,isNormalMYR : true,
-
+                  const MoneyWidget(
+                    amount: 0.00,
+                    isDense: true,
+                    isNormalMYR: true,
                   ),
-
                 ],
               ),
             ),
+            kVerticalSpacerSmall,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: manageBookingCubit?.hasAnySeatChanged == false ? null : () {
+                      manageBookingCubit?.seatConfirmSeatChange();
+
+                      manageBookingCubit?.changeSelectedAddOnOption(AddonType.none,toNull: true);
+
+                    },
+                    child: Text('selectDateView.confirm'.tr()),
+                  ),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+              ],
+            ),
             kVerticalSpacer,
-
           ],
-
         ],
       ),
     );
