@@ -280,7 +280,7 @@ class ApplicableTaxDetails {
 }
 
 class FlightLegDetails {
-  num? pfid;
+  String? pfid;
   String? departureDate;
 
   FlightLegDetails({this.pfid, this.departureDate});
@@ -354,8 +354,8 @@ class ChangeFlightRequestObject {
 }
 
 class Fares {
-  num? lfid;
-  num? pfid;
+  String? lfid;
+  String? pfid;
   String? fbCode;
 
   Fares({this.lfid, this.pfid, this.fbCode});

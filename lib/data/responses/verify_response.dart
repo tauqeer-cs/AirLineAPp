@@ -427,7 +427,7 @@ class FlightLegDetails extends Equatable {
       _$FlightLegDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightLegDetailsToJson(this);
-  final num? pfid;
+  final String? pfid;
   final String? departureDate;
 
   const FlightLegDetails({this.pfid, this.departureDate});
@@ -442,7 +442,7 @@ class LegDetails extends Equatable {
       _$LegDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$LegDetailsToJson(this);
-  final num? pfid;
+  final String? pfid;
   final String? departureDate;
   final String? origin;
   final String? destination;

@@ -34,7 +34,7 @@ Map<String, dynamic> _$VerifyRequestToJson(VerifyRequest instance) {
 
 OutboundFares _$OutboundFaresFromJson(Map<String, dynamic> json) =>
     OutboundFares(
-      lfid: json['LFID'] as num?,
+      lfid: json['LFID'],
       fbCode: json['FBCode'] as String?,
     );
 

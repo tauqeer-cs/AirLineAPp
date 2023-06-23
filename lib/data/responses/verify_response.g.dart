@@ -349,7 +349,7 @@ Map<String, dynamic> _$ApplicableTaxDetailsToJson(
 
 FlightLegDetails _$FlightLegDetailsFromJson(Map<String, dynamic> json) =>
     FlightLegDetails(
-      pfid: json['pfid'] as num?,
+      pfid: json['pfid'],
       departureDate: json['departureDate'] as String?,
     );
 
@@ -368,7 +368,7 @@ Map<String, dynamic> _$FlightLegDetailsToJson(FlightLegDetails instance) {
 }
 
 LegDetails _$LegDetailsFromJson(Map<String, dynamic> json) => LegDetails(
-      pfid: json['pfid'] as num?,
+      pfid: json['pfid'],
       departureDate: json['departureDate'] as String?,
       origin: json['origin'] as String?,
       destination: json['destination'] as String?,

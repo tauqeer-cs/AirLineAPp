@@ -323,7 +323,6 @@ class FlightInto extends StatelessWidget {
           location,
           maxLines: 4,
           style: kSmallMedium.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
-
           //icoFlightBlack
         ),
       ],

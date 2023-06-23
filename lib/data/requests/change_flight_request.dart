@@ -75,7 +75,7 @@ class ChangeFlightRequest {
 }
 
 class OutboundFares {
-  int? lFID;
+  String? lFID;
   String? fBCode;
 
   OutboundFares({this.lFID, this.fBCode});

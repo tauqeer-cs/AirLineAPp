@@ -476,13 +476,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           returnDate: returnDate,
           inboundFares: [
             OutboundFares(
-              lFID: state.selectedReturnFlight?.lfid?.toInt() ?? 0,
+              lFID: state.selectedReturnFlight?.lfid ?? '',
               fBCode: state.selectedReturnFlight?.fbCode ?? '',
             ),
           ],
           outboundFares: [
             OutboundFares(
-              lFID: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+              lFID: state.selectedDepartureFlight?.lfid ?? '',
               fBCode: state.selectedDepartureFlight?.fbCode ?? '',
             ),
           ]);
@@ -497,7 +497,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             inboundFares: [],
             outboundFares: [
               OutboundFares(
-                lFID: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+                lFID: state.selectedDepartureFlight?.lfid ?? '',
                 fBCode: state.selectedDepartureFlight?.fbCode ?? '',
               ),
             ]);
@@ -511,7 +511,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             inboundFares: [],
             outboundFares: [
               OutboundFares(
-                lFID: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+                lFID: state.selectedDepartureFlight?.lfid ?? '',
                 fBCode: state.selectedDepartureFlight?.fbCode ?? '',
               ),
             ]);
@@ -524,7 +524,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             returnDate: returnDate,
             inboundFares: [
               OutboundFares(
-                lFID: state.selectedReturnFlight?.lfid?.toInt() ?? 0,
+                lFID: state.selectedReturnFlight?.lfid ?? '',
                 fBCode: state.selectedReturnFlight?.fbCode ?? '',
               ),
             ],

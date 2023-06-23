@@ -35,7 +35,7 @@ class Countries extends Equatable {
 class Country extends Equatable {
   const Country({
     this.countryCode,
-    this.countryCode2,
+    //this.countryCode2,
     this.country,
     this.phoneCode,
     this.phoneCodeDisplay,
@@ -43,7 +43,7 @@ class Country extends Equatable {
 
   final String? countryCode;
   @JsonKey(name: 'countryCode_2')
-  final String? countryCode2;
+  //final String? countryCode2;
   final String? country;
   final String? phoneCode;
   final String? phoneCodeDisplay;
@@ -57,7 +57,7 @@ class Country extends Equatable {
   }) =>
       Country(
         countryCode: countryCode ?? this.countryCode,
-        countryCode2: countryCode2 ?? this.countryCode2,
+       // countryCode2: countryCode2 ?? this.countryCode2,
         country: country ?? this.country,
         phoneCode: phoneCode ?? this.phoneCode,
         phoneCodeDisplay: phoneCodeDisplay ?? this.phoneCodeDisplay,
@@ -80,6 +80,6 @@ class Country extends Equatable {
     phoneCode: "60",
     phoneCodeDisplay: "+60",
     country: "Malaysia",
-    countryCode2: "MY",
+    //countryCode2: "MY",
   );
 }

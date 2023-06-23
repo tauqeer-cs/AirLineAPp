@@ -64,12 +64,12 @@ class OutboundFares {
   });
 
   @JsonKey(name: 'LFID')
-  final num? lfid;
+  final String? lfid;
   @JsonKey(name: 'FBCode')
   final String? fbCode;
 
   OutboundFares copyWith({
-    num? lfid,
+    String? lfid,
     String? fbCode,
   }) =>
       OutboundFares(

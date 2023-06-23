@@ -204,7 +204,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                     isPhoneCode: false,
                     initialValue: selectedCountryObject,
                     onChanged: (value) {
-                      nationalityController.text = value?.countryCode2 ?? "";
+                      nationalityController.text = value?.countryCode ?? "";
                     },
                   ),
                 ),

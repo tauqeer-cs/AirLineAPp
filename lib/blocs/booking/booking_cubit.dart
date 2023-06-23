@@ -98,7 +98,7 @@ class BookingCubit extends Cubit<BookingState> {
             : [outboundFares],
         totalAmount: state.getFinalPrice,
       );
-      final verifyResponse = await _repository.verifyFlight(request);
+      final verifyResponse = await _repository.verifyFlightProv(request);
       final seatsDeparture =
           verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
       final seatsReturn = verifyResponse.flightSSR?.seatGroup?.inbound ?? [];

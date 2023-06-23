@@ -90,7 +90,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
   @override
   void initState() {
     super.initState();
-    nationality = widget.person.passenger?.nationality ?? "MY";
+    nationality = widget.person.passenger?.nationality ?? "MYS";
     nationalityController.text = nationality;
 
     if (widget.person.insuranceGroup != null) {
@@ -240,7 +240,7 @@ class _PassengerInfoState extends State<PassengerInfo> {
                   dropdownDecoration: Styles.getDefaultFieldDecoration(),
                   isPhoneCode: false,
                   onChanged: (value) {
-                    nationalityController.text = value?.countryCode2 ?? "";
+                    nationalityController.text = value?.countryCode ?? "";
                   },
                 ),
               ),

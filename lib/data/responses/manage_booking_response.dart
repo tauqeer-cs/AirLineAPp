@@ -454,7 +454,7 @@ class PassengersWithSSR {
     return "$combine passenger(s)";
   }
 
-  num? personOrgID;
+  String? personOrgID;
   Passenger? passengers;
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;
