@@ -87,6 +87,7 @@ class PassengerCard extends StatelessWidget {
                           child: OutlinedButton(
                             onPressed: () {
                               Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: Text(
                               "paymentView.edit".tr(),

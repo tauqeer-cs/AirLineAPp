@@ -184,7 +184,6 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
                        const CardSummary(showFees: false),
                         kVerticalSpacerSmall,
                         ListOfPassengerInfo(
-
                           key: listOfPassengersKey,
                           onInsuranceChanged: () {
                             rebuild();
