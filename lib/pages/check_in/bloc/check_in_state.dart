@@ -12,9 +12,9 @@ class CheckInState extends Equatable {
 
   final bool showUpcoming;
   final bool loadBoardingDate;
+  final bool boardingPassHasError;
 
   final bool checkedDeparture;
-
 
   final bool isDownloading;
 
@@ -31,11 +31,11 @@ class CheckInState extends Equatable {
 
   final bool checkingInFlight;
 
-  const CheckInState( {
+  const CheckInState({
     this.blocState = BlocState.initial,
     this.message = "",
     this.pastBookings,
-
+    this.boardingPassHasError = false,
     this.checkingInFlight = false,
     this.checkedDeparture = false,
     this.manageBookingResponse,
@@ -50,7 +50,7 @@ class CheckInState extends Equatable {
     this.checkReturn = false,
     this.showUpcoming = true,
     this.outboundBoardingPassPassenger,
-    this.inboundBoardingPassPassenger ,
+    this.inboundBoardingPassPassenger,
     this.isDownloading = false,
   });
 
@@ -58,50 +58,51 @@ class CheckInState extends Equatable {
   List<Object?> get props => [
         blocState,
         message,
-
+        boardingPassHasError,
         manageBookingResponse,
         pnrEntered,
         lastName,
         isLoadingInfo,
         upcomingBookings,
-    loadingListDetailItem,
-    bookingSelected,
-    listToCall,
-    checkedDeparture,
-    checkReturn,
-    showUpcoming,
-    pastBookings,
-    isDownloading,
-    loadBoardingDate,
-    outboundBoardingPassPassenger,
-    inboundBoardingPassPassenger,
-    checkingInFlight,
+        loadingListDetailItem,
+        bookingSelected,
+        listToCall,
+        checkedDeparture,
+        checkReturn,
+        showUpcoming,
+        pastBookings,
+        isDownloading,
+        loadBoardingDate,
+        outboundBoardingPassPassenger,
+        inboundBoardingPassPassenger,
+        checkingInFlight,
       ];
 
-
-  CheckInState copyWith(
-      {BlocState? blocState,
-      String? message,
-      bool? isRememberMe,
-      bool? isLoadingInfo,
-      ManageBookingResponse? manageBookingResponse,
-      String? pnrEntered,
-      String? lastName,
-        bool? loadingListDetailItem,
-        UpcomingBookings? bookingSelected,
-        bool? listToCall,
-        bool? checkedDeparture,
-        bool? checkReturn,
-        bool? showUpcoming,
-      bool? loadBoardingDate,
-        bool? checkingInFlight,
-      List<UpcomingBookings>? upcomingBookings,
-        List<UpcomingBookings>? pastBookings,
-        List<BoardingPassPassenger>? outboundBoardingPassPassenger,
-        List<BoardingPassPassenger>? inboundBoardingPassPassenger,
-        bool? isDownloading,
-      }) {
+  CheckInState copyWith({
+    BlocState? blocState,
+    String? message,
+    bool? isRememberMe,
+    bool? isLoadingInfo,
+    ManageBookingResponse? manageBookingResponse,
+    String? pnrEntered,
+    String? lastName,
+    bool? loadingListDetailItem,
+    UpcomingBookings? bookingSelected,
+    bool? listToCall,
+    bool? checkedDeparture,
+    bool? checkReturn,
+    bool? showUpcoming,
+    bool? loadBoardingDate,
+    bool? checkingInFlight,
+    List<UpcomingBookings>? upcomingBookings,
+    List<UpcomingBookings>? pastBookings,
+    List<BoardingPassPassenger>? outboundBoardingPassPassenger,
+    List<BoardingPassPassenger>? inboundBoardingPassPassenger,
+    bool? isDownloading,
+    bool? boardingPassHasError,
+  }) {
     return CheckInState(
+      boardingPassHasError: boardingPassHasError ?? this.boardingPassHasError,
       message: message ?? this.message,
       blocState: blocState ?? this.blocState,
       manageBookingResponse:
@@ -110,7 +111,8 @@ class CheckInState extends Equatable {
       lastName: lastName ?? this.lastName,
       isLoadingInfo: isLoadingInfo ?? this.isLoadingInfo,
       upcomingBookings: upcomingBookings ?? this.upcomingBookings,
-      loadingListDetailItem: loadingListDetailItem ?? this.loadingListDetailItem,
+      loadingListDetailItem:
+          loadingListDetailItem ?? this.loadingListDetailItem,
       bookingSelected: bookingSelected ?? this.bookingSelected,
       listToCall: listToCall ?? this.listToCall,
       checkedDeparture: checkedDeparture ?? this.checkedDeparture,
@@ -119,10 +121,11 @@ class CheckInState extends Equatable {
       pastBookings: pastBookings ?? this.pastBookings,
       checkingInFlight: checkingInFlight ?? this.checkingInFlight,
       loadBoardingDate: loadBoardingDate ?? this.loadBoardingDate,
-      outboundBoardingPassPassenger: outboundBoardingPassPassenger ?? this.outboundBoardingPassPassenger,
-      inboundBoardingPassPassenger: inboundBoardingPassPassenger ?? this.inboundBoardingPassPassenger,
+      outboundBoardingPassPassenger:
+          outboundBoardingPassPassenger ?? this.outboundBoardingPassPassenger,
+      inboundBoardingPassPassenger:
+          inboundBoardingPassPassenger ?? this.inboundBoardingPassPassenger,
       isDownloading: isDownloading ?? this.isDownloading,
-
     );
   }
 }

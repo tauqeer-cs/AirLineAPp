@@ -42,6 +42,9 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
 
+    if(bloc.state.boardingPassHasError == true){
+    }
+    else
     if (bloc.showCheckInButton == true) {
       bloc.loadBoardingDate();
     }

@@ -1018,5 +1018,6 @@
   "paymentFailed" : "Payment failed",
   "insuranceTempUnavailable" : "Insurance purchase\ntemporarily unavailable",
   "okay" : "Okay",
-  "signUp2.continue" : "Next"
+  "signUp2.continue" : "Next",
+  "noSpaceErrorInPassword" : "Password is invalid! Unrecognized special character"
 }

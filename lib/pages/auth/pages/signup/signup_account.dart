@@ -121,7 +121,7 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
                           kVerticalSpacer,
                           CredentialInput(focusNode: focusNodeEmail),
                           kVerticalSpacer,
-                          const PasswordInput(),
+                           PasswordInput(),
                           kVerticalSpacer,
                           BlocBuilder<ValidateEmailCubit, GenericState>(
                             builder: (context, state) {

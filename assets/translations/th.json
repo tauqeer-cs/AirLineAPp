@@ -1093,6 +1093,7 @@
   "paymentFailed" : "การชำระเงินล้มเหลว",
   "insuranceTempUnavailable" : "การซื้อประกันภัยไม่สามารถใช้ได้ชั่วคราว",
   "okay": "ตกลง",
-  "signUp2.continue" : "ถัดไป"
+  "signUp2.continue" : "ถัดไป",
+  "noSpaceErrorInPassword" : "รหัสผ่านไม่ถูกต้อง! อักขระพิเศษที่ไม่รู้จัก"
 }
 

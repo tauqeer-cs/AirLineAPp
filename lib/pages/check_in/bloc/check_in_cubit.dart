@@ -578,6 +578,7 @@ class CheckInCubit extends Cubit<CheckInState> {
           ),
           blocState: BlocState.failed,
           loadBoardingDate: false,
+          boardingPassHasError: true
         ),
       );
       return;

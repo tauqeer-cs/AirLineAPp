@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/country.dart';
 import '../../../theme/spacer.dart';
+import '../../../utils/form_utils.dart';
 import '../../../widgets/app_countries_dropdown.dart';
 import '../../../widgets/containers/grey_card.dart';
 import '../../../widgets/forms/app_input_text.dart';
@@ -118,6 +119,9 @@ class _EmergencyInfoViewState extends State<EmergencyInfoView> {
                   textInputType: TextInputType.number,
                   hintText: "phoneNumber".tr(),
                   initialValue: widget.phoneNo,
+                  inputFormatters: [
+                    AppFormUtils.onlyNumber(),
+                  ],
                   validators: const [
                     //FormBuilderValidators.required(),
                   ],
