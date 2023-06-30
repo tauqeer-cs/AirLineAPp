@@ -63,9 +63,9 @@ class OutboundFares {
     this.fbCode,
   });
 
-  @JsonKey(name: 'LFID')
+  @JsonKey(name: 'JourneyKey')
   final String? lfid;
-  @JsonKey(name: 'FBCode')
+  @JsonKey(name: 'FareKey')
   final String? fbCode;
 
   OutboundFares copyWith({

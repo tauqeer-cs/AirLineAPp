@@ -34,8 +34,8 @@ Map<String, dynamic> _$VerifyRequestToJson(VerifyRequest instance) {
 
 OutboundFares _$OutboundFaresFromJson(Map<String, dynamic> json) =>
     OutboundFares(
-      lfid: json['LFID'],
-      fbCode: json['FBCode'] as String?,
+      lfid: json['JourneyKey'],
+      fbCode: json['FareKey'] as String?,
     );
 
 Map<String, dynamic> _$OutboundFaresToJson(OutboundFares instance) {
@@ -47,7 +47,7 @@ Map<String, dynamic> _$OutboundFaresToJson(OutboundFares instance) {
     }
   }
 
-  writeNotNull('LFID', instance.lfid);
-  writeNotNull('FBCode', instance.fbCode);
+  writeNotNull('JourneyKey', instance.lfid);
+  writeNotNull('FareKey', instance.fbCode);
   return val;
 }

@@ -275,8 +275,8 @@ class Person extends Equatable {
   Passenger toPassenger({
     required List<Rows> outboundRows,
     required List<Rows> inboundRows,
-    num? inboundPhysicalId,
-    num? outboundPhysicalId,
+    String? inboundPhysicalId,
+    String? outboundPhysicalId,
     NumberPerson? numberPerson,
     BundleGroupSeat? infantGroup,
   }) {

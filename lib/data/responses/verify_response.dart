@@ -685,7 +685,7 @@ class Bundle extends Equatable {
   factory Bundle.fromJson(Map<String, dynamic> json) => _$BundleFromJson(json);
 
   Map<String, dynamic> toJson() => _$BundleToJson(this);
-  final num? logicalFlightID;
+  final String? logicalFlightID;
   final num? serviceID;
   final String? departureDate;
   final String? operatingCarrier;
@@ -922,7 +922,7 @@ class PhysicalFlights extends Equatable {
   final String? flightNum;
   final String? origin;
   final String? originName;
-  final num? physicalFlightID;
+  final String? physicalFlightID;
   final PhysicalFlightSeatMap? physicalFlightSeatMap;
 
   const PhysicalFlights(
@@ -1126,7 +1126,7 @@ class Seats extends Equatable {
   final List<SeatAttributes>? seatAttributes;
   final num? seatCabinId;
   final String? seatColumn;
-  final num? seatId;
+  final String? seatId;
   final num? seatOrder;
   final List<SeatPriceOffers>? seatPriceOffers;
   final num? seatWBZoneId;

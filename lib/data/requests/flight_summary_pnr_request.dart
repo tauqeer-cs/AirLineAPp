@@ -478,14 +478,14 @@ class Outbound extends Equatable {
   @JsonKey(name: 'SeatColumn')
   final String? seatColumn;
   @JsonKey(name: 'PhysicalFlightID')
-  final num? physicalFlightId;
+  final String? physicalFlightId;
   @JsonKey(name: 'price')
   final List<Price>? price;
 
   Outbound copyWith({
     num? seatRow,
     String? seatColumn,
-    num? physicalFlightId,
+    String? physicalFlightId,
     List<Price>? price,
   }) =>
       Outbound(
@@ -593,7 +593,7 @@ class Bound extends Equatable {
   });
 
   @JsonKey(name: 'LogicalFlightID')
-  final num? logicalFlightId;
+  final String? logicalFlightId;
   @JsonKey(name: 'ServiceID')
   final num? serviceId;
   @JsonKey(name: 'ServicesType')
@@ -608,7 +608,7 @@ class Bound extends Equatable {
   final String? code;
 
   Bound copyWith({
-    num? logicalFlightId,
+    String? logicalFlightId,
     num? serviceId,
     String? servicesType,
     num? quantity,

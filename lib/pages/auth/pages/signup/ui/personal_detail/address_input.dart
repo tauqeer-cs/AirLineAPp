@@ -60,10 +60,10 @@ class AddressInput extends StatelessWidget {
           child: Column(
             children: [
               AppInputText(
-                isRequired: true,
+                //isRequired: true,
                 name: formNameAddress,
                 validators: [
-                  FormBuilderValidators.required(),
+                  //FormBuilderValidators.required(),
                 ],
                 hintText: 'infoDetail.address'.tr(),
                 initialValue: selectedAddress,
@@ -90,12 +90,12 @@ class AddressInput extends StatelessWidget {
                   kHorizontalSpacerMini,
                   Expanded(
                     child: AppInputText(
-                      isRequired: true,
+                      //isRequired: true,
                       inputFormatters: [
                         AppFormUtils.onlyLetterAndSpace(),
                       ],
                       validators: [
-                        FormBuilderValidators.required(),
+                        //FormBuilderValidators.required(),
                       ],
                       name: formNameState,
                       hintText: 'state'.tr(),
@@ -109,10 +109,10 @@ class AddressInput extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppInputText(
-                      isRequired: true,
+                    //  isRequired: true,
 
                       validators: [
-                        FormBuilderValidators.required(),
+                       // FormBuilderValidators.required(),
                       ],
                       name: formNameCity,
                       hintText: 'city'.tr(),
@@ -125,9 +125,9 @@ class AddressInput extends StatelessWidget {
                   kHorizontalSpacerMini,
                   Expanded(
                     child: AppInputText(
-                      isRequired: true,
+                     // isRequired: true,
                       validators: [
-                        FormBuilderValidators.required(),
+                       // FormBuilderValidators.required(),
                       ],
                       name: formNamePostCode,
                       hintText: 'postalCode'.tr(),

@@ -358,7 +358,6 @@ class FareInfoWithTaxDetails extends Equatable {
         returnFlightSegmentDetails,
         fareID,
         fcCode,
-        fbCode,
         baseFareAmtNoTaxes,
         baseFareAmt,
         fareAmtNoTaxes,
@@ -392,7 +391,7 @@ class FareInfoWithTaxDetails extends Equatable {
   final List<dynamic>? returnFlightSegmentDetails;
   final String? fareID;
   final String? fcCode;
-  final String? fbCode;
+
   final num? baseFareAmtNoTaxes;
   final num? baseFareAmt;
   final num? fareAmtNoTaxes;
@@ -426,7 +425,6 @@ class FareInfoWithTaxDetails extends Equatable {
       this.returnFlightSegmentDetails,
       this.fareID,
       this.fcCode,
-      this.fbCode,
       this.baseFareAmtNoTaxes,
       this.baseFareAmt,
       this.fareAmtNoTaxes,

@@ -1021,7 +1021,7 @@ Map<String, dynamic> _$SeatToJson(Seat instance) {
 Outbound _$OutboundFromJson(Map<String, dynamic> json) => Outbound(
       seatRow: json['SeatRow'] as num?,
       seatColumn: json['SeatColumn'] as String?,
-      physicalFlightId: json['PhysicalFlightID'] as num?,
+      physicalFlightId: json['PhysicalFlightID'] as String?,
       price: (json['price'] as List<dynamic>?)
           ?.map((e) => Price.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1088,7 +1088,7 @@ Map<String, dynamic> _$SsrToJson(Ssr instance) {
 }
 
 Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
-      logicalFlightId: json['LogicalFlightID'] as num?,
+      logicalFlightId: json['LogicalFlightID'] as String?,
       serviceId: json['ServiceID'] as num?,
       servicesType: json['ServicesType'] as String?,
       quantity: json['Quantity'] as num?,

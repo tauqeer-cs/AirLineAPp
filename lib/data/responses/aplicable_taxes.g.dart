@@ -12,7 +12,7 @@ ApplicableTaxes _$ApplicableTaxesFromJson(Map<String, dynamic> json) =>
       codeType: json['codeType'] as String?,
       taxCode: json['taxCode'] as String?,
       taxDescription: json['taxDescription'] as String?,
-      taxType: json['taxType'] as String?,
+      taxType: json['taxType'] as int?,
       taxAmount: json['taxAmount'] as num?,
       taxCurrenyCode: json['taxCurrenyCode'] as String?,
       amountToApply: json['amountToApply'] as num?,

@@ -80,9 +80,11 @@ class BookingCubit extends Cubit<BookingState> {
     emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
     try {
       final inboundLFID = state.selectedReturn?.lfid;
-      final inboundFBCode = state.selectedReturn?.fbCode;
+      String? inboundFBCode = state.selectedReturn?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID;
+
       final outboundLFID = state.selectedDeparture?.lfid;
-      final outboundFBCode = state.selectedDeparture?.fbCode;
+
+      String? outboundFBCode = state.selectedDeparture?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID;
       final inboundFares =
           OutboundFares(fbCode: inboundFBCode, lfid: inboundLFID);
       final outboundFares =

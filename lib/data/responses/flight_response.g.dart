@@ -313,7 +313,6 @@ FareInfoWithTaxDetails _$FareInfoWithTaxDetailsFromJson(
           json['returnFlightSegmentDetails'] as List<dynamic>?,
       fareID: json['fareID'],
       fcCode: json['fcCode'] as String?,
-      fbCode: json['fbCode'] as String?,
       baseFareAmtNoTaxes: json['baseFareAmtNoTaxes'] as num?,
       baseFareAmt: json['baseFareAmt'] as num?,
       fareAmtNoTaxes: json['fareAmtNoTaxes'] as num?,
@@ -360,7 +359,6 @@ Map<String, dynamic> _$FareInfoWithTaxDetailsToJson(
       'returnFlightSegmentDetails', instance.returnFlightSegmentDetails);
   writeNotNull('fareID', instance.fareID);
   writeNotNull('fcCode', instance.fcCode);
-  writeNotNull('fbCode', instance.fbCode);
   writeNotNull('baseFareAmtNoTaxes', instance.baseFareAmtNoTaxes);
   writeNotNull('baseFareAmt', instance.baseFareAmt);
   writeNotNull('fareAmtNoTaxes', instance.fareAmtNoTaxes);

@@ -576,7 +576,7 @@ Map<String, dynamic> _$InboundBundleToJson(InboundBundle instance) {
 }
 
 Bundle _$BundleFromJson(Map<String, dynamic> json) => Bundle(
-      logicalFlightID: json['logicalFlightID'] as num?,
+      logicalFlightID: json['logicalFlightID'] as String?,
       serviceID: json['serviceID'] as num?,
       departureDate: json['departureDate'] as String?,
       operatingCarrier: json['operatingCarrier'] as String?,
@@ -823,7 +823,7 @@ PhysicalFlights _$PhysicalFlightsFromJson(Map<String, dynamic> json) =>
       flightNum: json['flightNum'] as String?,
       origin: json['origin'] as String?,
       originName: json['originName'] as String?,
-      physicalFlightID: json['physicalFlightID'] as num?,
+      physicalFlightID: json['physicalFlightID'] as String?,
       physicalFlightSeatMap: json['physicalFlightSeatMap'] == null
           ? null
           : PhysicalFlightSeatMap.fromJson(
@@ -1040,7 +1040,7 @@ Seats _$SeatsFromJson(Map<String, dynamic> json) => Seats(
           .toList(),
       seatCabinId: json['seatCabinId'] as num?,
       seatColumn: json['seatColumn'] as String?,
-      seatId: json['seatId'] as num?,
+      seatId: json['seatId'] as String?,
       seatOrder: json['seatOrder'] as num?,
       seatPriceOffers: (json['seatPriceOffers'] as List<dynamic>?)
           ?.map((e) => SeatPriceOffers.fromJson(e as Map<String, dynamic>))

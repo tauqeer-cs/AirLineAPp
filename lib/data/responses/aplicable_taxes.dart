@@ -30,7 +30,7 @@ class ApplicableTaxes extends Equatable {
   final String? codeType;
   final String? taxCode;
   final String? taxDescription;
-  final String? taxType;
+  final int? taxType;
   final num? taxAmount;
   final String? taxCurrenyCode;
   final num? amountToApply;
