@@ -11,12 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../blocs/profile/profile_cubit.dart';
+import '../../../../../data/responses/manage_booking_response.dart';
 import '../../../../../theme/theme.dart';
 
 class PassengerCompanyInfo extends StatefulWidget {
+  final bool isManageBooking;
+  final CompanyTaxInvoice? companyTaxInvoice;
+
+
   const PassengerCompanyInfo({
-    Key? key,
+    Key? key,  this.isManageBooking = false, this.companyTaxInvoice,
   }) : super(key: key);
 
   @override
@@ -39,13 +45,25 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
   @override
   void initState() {
     super.initState();
-    final contact = context.read<LocalUserBloc>().state.companyTaxInvoice;
-    name = contact?.companyName;
-    address = contact?.companyAddress;
-    state = contact?.state;
-    city = contact?.city;
-    emailAddress = contact?.emailAddress;
-    postCode = contact?.postCode;
+    if(widget.isManageBooking) {
+      name = widget.companyTaxInvoice?.companyName ?? '';
+      address = widget.companyTaxInvoice?.companyAddress ?? '';
+      state = widget.companyTaxInvoice?.state ?? '';
+      city = widget.companyTaxInvoice?.city ?? '';
+      emailAddress = widget.companyTaxInvoice?.emailAddress ?? '';
+      postCode = widget.companyTaxInvoice?.postCode ?? '';
+    }
+    else {
+      final contact = context.read<LocalUserBloc>().state.companyTaxInvoice;
+      name = contact?.companyName;
+      address = contact?.companyAddress;
+      state = contact?.state;
+      city = contact?.city;
+      emailAddress = contact?.emailAddress;
+      postCode = contact?.postCode;
+    }
+
+
   }
 
   void fillEmail() {
@@ -57,6 +75,8 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
 
   @override
   Widget build(BuildContext context) {
+    ManageBookingCubit? manageBloc = context.watch<ManageBookingCubit>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -110,6 +130,11 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 initialValue: name,
                 hintText: 'companyName'.tr(),
                 onChanged: (value) {
+                  if(widget.isManageBooking) {
+                    manageBloc.setCompanyTaxValue(value ?? '',isName: true);
+                    return;
+                  }
+
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
                   final newRequest = request?.copyWith(companyName: value);
@@ -130,6 +155,11 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 initialValue: address,
                 hintText: 'companyAddress'.tr(),
                 onChanged: (value) {
+                  if(widget.isManageBooking) {
+                    manageBloc.setCompanyTaxValue(value ?? '',isAddress: true);
+                    return;
+                  }
+
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
                   final newRequest = request?.copyWith(companyAddress: value);
@@ -143,6 +173,12 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 textEditingController: nationalityController,
                 name: formNameCompanyCountry,
                 child: AppCountriesDropdown(
+                  onChanged: (value){
+                    if(widget.isManageBooking) {
+                      manageBloc.setCompanyTaxValue(value?.country ?? '',isAddress: true);
+                      return;
+                    }
+                  },
                   dropdownDecoration: Styles.getDefaultFieldDecoration(),
                   hintText: "country".tr(),
                   isPhoneCode: false,
@@ -156,6 +192,11 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 initialValue: state,
                 hintText: 'state'.tr(),
                 onChanged: (value) {
+                  if(widget.isManageBooking) {
+                    manageBloc.setCompanyTaxValue(value ?? '',isState: true);
+                    return;
+                  }
+
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
                   final newRequest = request?.copyWith(state: value);
@@ -170,6 +211,10 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 initialValue: city,
                 hintText: 'city'.tr(),
                 onChanged: (value) {
+                  if(widget.isManageBooking) {
+                    manageBloc.setCompanyTaxValue(value ?? '',isCity: true);
+                    return;
+                  }
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
                   final newRequest = request?.copyWith(city: value);
@@ -184,6 +229,11 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 initialValue: postCode,
                 hintText: 'postcode'.tr(),
                 onChanged: (value) {
+                  if(widget.isManageBooking) {
+                    manageBloc.setCompanyTaxValue(value ?? '',isPosCode: true);
+                    return;
+                  }
+
                   final request =
                       context.read<LocalUserBloc>().state.companyTaxInvoice;
                   final newRequest = request?.copyWith(postCode: value);
@@ -199,6 +249,13 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 textEditingController: emailController,
                 validators: [FormBuilderValidators.email()],
                 onChanged: (value) {
+
+                  if(widget.isManageBooking) {
+                    manageBloc.setCompanyTaxValue(value ?? '',isEmail: true);
+                    return;
+                  }
+
+
                   emailAddress = value;
 
                   final request =

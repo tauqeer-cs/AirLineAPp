@@ -15,37 +15,71 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
+import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../blocs/search_flight/search_flight_cubit.dart';
 import '../../../../../data/requests/flight_summary_pnr_request.dart';
+import '../../../../../data/responses/manage_booking_response.dart';
 import '../../../../../theme/html_style.dart';
 import '../../../../../utils/security_utils.dart';
 
 class AvailableInsurance extends StatelessWidget {
-   const AvailableInsurance({Key? key}) : super(key: key);
+  final bool isManageBooking;
 
-
+  const AvailableInsurance({Key? key,  this.isManageBooking = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final insuranceBloc = context.watch<InsuranceCubit>();
+    List<Bundle> insurances = [];
+    Bundle? firstInsurance;
+    int selectedPassengers = 0;
+    Bundle? lastInsuranceSelected;
+    InsuranceType? selected;
+    List<Passenger> passengers = [];
+    List<PassengersWithSSR> passengersWithSSR = [];
+    BundleGroupSeat? insurancesGroup;
+
+    String currency = 'MYR';
 
     final insuranceCubit = context.watch<InsuranceCubit>().state;
-    final selected = insuranceCubit.insuranceType;
 
-    final bookingState = context.watch<BookingCubit>().state;
-    final passengers = insuranceCubit.passengersWithOutInfants;
+    if(isManageBooking) {
+      var state = context.watch<ManageBookingCubit>().state;
+      selected =  state.insuranceType;
+      passengersWithSSR = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+      insurances =
+          state.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+      insurancesGroup =
+          state.verifyResponse?.flightSSR?.insuranceGroup;
+      selectedPassengers = 0;
+      firstInsurance = insurances.firstOrNull;
 
-    final insurancesGroup =
-        bookingState.verifyResponse?.flightSSR?.insuranceGroup;
-    final currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+      currency = state.manageBookingResponse?.result?.superPNROrder?.currencyCode ?? 'MYR';
 
-    final insurances =
-        bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
-    final selectedPassengers = insuranceCubit.selectedPassenger;
-    final firstInsurance = insurances.firstOrNull;
+
+
+    }
+    else {
+      selected = insuranceCubit.insuranceType;
+      final bookingState = context.watch<BookingCubit>().state;
+      passengers = insuranceCubit.passengersWithOutInfants;
+      insurancesGroup =
+          bookingState.verifyResponse?.flightSSR?.insuranceGroup;
+      insurances =
+          bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+      selectedPassengers = insuranceCubit.selectedPassenger;
+      firstInsurance = insurances.firstOrNull;
+      lastInsuranceSelected = insuranceCubit.lastInsuranceSelected;
+      currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+
+    }
+
+
+
+
+
 
     final agentCms = context.watch<AgentSignUpCubit>();
-    Bundle? lastInsuranceSelected = insuranceCubit.lastInsuranceSelected;
 
 
     return  Visibility(
@@ -93,7 +127,7 @@ class AvailableInsurance extends StatelessWidget {
                           kHorizontalSpacerSmall,
                           Expanded(
                             child:
-                                getTitle(e, lastInsuranceSelected ?? firstInsurance, passengers.length ),
+                                getTitle(e, lastInsuranceSelected ?? firstInsurance,  isManageBooking ? passengersWithSSR.length :  passengers.length ),
                           ),
 
                           kHorizontalSpacerSmall,
@@ -123,7 +157,7 @@ class AvailableInsurance extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(vertical: 8),
                                     child: InkWell(
                                       onTap: () {
-                                        print("update insurance");
+
                                         if (selected == InsuranceType.all) {
 
                                           insuranceBloc.setLast(insurancesGroup?.outbound?.firstWhereOrNull((element) => element == e));
@@ -221,7 +255,7 @@ class AvailableInsurance extends StatelessWidget {
     );
   }
 
-  Widget buildSubtitle(Bundle e, AgentSignUpCubit? agentCms) {
+  static Widget buildSubtitle(Bundle e, AgentSignUpCubit? agentCms) {
     if (agentCms != null) {
       if (e.codeType?.toLowerCase().contains('d') == true) {
         Items? item = agentCms.state.locationItem?.items
@@ -302,7 +336,7 @@ class AvailableInsurance extends StatelessWidget {
     );
   }
 
-  String dataTitle(Bundle e, AgentSignUpCubit? agentCms) {
+  static String dataTitle(Bundle e, AgentSignUpCubit? agentCms) {
     if (agentCms != null) {
       if (e.codeType?.toLowerCase().contains('d') == true) {
         Items? item = agentCms.state.locationItem?.items
@@ -326,7 +360,7 @@ class AvailableInsurance extends StatelessWidget {
     return e.description ?? "";
   }
 
-  RichText getTitle(
+  static RichText getTitle(
       InsuranceType insuranceType, Bundle? insurance, int numOfPassengers) {
     switch (insuranceType) {
       case InsuranceType.all:
@@ -386,7 +420,7 @@ class AvailableInsurance extends StatelessWidget {
     }
   }
 
-  String? getAssets(InsuranceType insuranceType) {
+  static String? getAssets(InsuranceType insuranceType) {
     switch (insuranceType) {
       case InsuranceType.all:
         return "assets/images/icons/insurance_all.png";

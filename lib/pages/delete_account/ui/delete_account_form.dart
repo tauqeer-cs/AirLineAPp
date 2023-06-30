@@ -38,13 +38,13 @@ class DeleteAccountForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
-                  child: Text("Delete Your Account?", style: kGiantHeavy),
+                  child: Text("deleteYourAccount".tr(), style: kGiantHeavy),
                 ),
                 kVerticalSpacerMini,
                 Text(
-                  "All your data will be deleted. are you sure?",
+                  "allDataWillBeDeleted".tr(),
                   style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
                 ),
                 kVerticalSpacer,
@@ -55,16 +55,18 @@ class DeleteAccountForm extends StatelessWidget {
                     FormBuilderValidators.required(),
                     FormBuilderValidators.match(
                         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                        errorText:
-                            'Minimum 8 characters with at least one lower case letter, upper case letter, a number and a symbol.'),
+                        errorText: 'accountDetail.minCharsValidation'.tr()),
                   ],
                 ),
                 kVerticalSpacerSmall,
                 ElevatedButton(
-                    onPressed: () {
-                      onRequest(context);
-                    },
-                    child: const Text("Submit"))
+                  onPressed: () {
+                    onRequest(context);
+                  },
+                  child: Text(
+                    "confirmationView.submit".tr(),
+                  ),
+                )
               ],
             ),
           ),

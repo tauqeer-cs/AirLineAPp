@@ -25,7 +25,7 @@ class PersonSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacer,
-        Text("passenger".tr(), style: kHugeSemiBold),
+        Text('passenger'.tr(), style: kHugeSemiBold),
         kVerticalSpacer,
         PhysicalModel(
           elevation: 5.0,

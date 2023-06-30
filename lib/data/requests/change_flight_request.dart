@@ -1,3 +1,5 @@
+import 'package:app/data/requests/verify_request.dart';
+
 class ChangingFlightRequest {
   ChangeFlightRequest? changeFlightRequest;
 

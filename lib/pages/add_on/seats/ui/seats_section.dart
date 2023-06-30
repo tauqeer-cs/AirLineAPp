@@ -26,7 +26,7 @@ class SeatsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+           Padding(
             padding: kPageHorizontalPadding,
             child: PassengerSelector(
               isDeparture: isDeparture,
@@ -40,8 +40,6 @@ class SeatsSection extends StatelessWidget {
             child: SeatLegendSimple(),
           ),
           kVerticalSpacer,
-          // SelectedSeats(isDeparture: isDeparture),
-          // kVerticalSpacer,
           SeatPlan(
             moveToTop: () {
               moveToTop?.call();
@@ -50,8 +48,6 @@ class SeatsSection extends StatelessWidget {
               moveToBottom?.call();
             },
           ),
-          // kVerticalSpacer,
-          // const SeatRemove(),
         ],
       ),
     );

@@ -17,6 +17,7 @@ import '../../ui/summary_list_item.dart';
 class BaggageSummaryDetail extends StatelessWidget {
   const BaggageSummaryDetail({Key? key, this.currency, required this.sports}) : super(key: key);
   final String? currency;
+
   final bool sports;
 
   @override

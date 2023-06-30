@@ -222,6 +222,9 @@ class EmergencyContact extends HiveObject with EquatableMixin {
 @JsonSerializable()
 @CopyWith(copyWithNull: true)
 class Passenger extends HiveObject with EquatableMixin {
+
+
+
   @override
   List<Object?> get props => [
         dob,

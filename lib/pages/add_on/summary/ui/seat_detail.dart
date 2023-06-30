@@ -12,20 +12,31 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class SeatSummaryDetail extends StatelessWidget {
-  const SeatSummaryDetail({Key? key, this.currency}) : super(key: key);
+  const SeatSummaryDetail(
+      {Key? key, this.currency, this.isManageBooking = false})
+      : super(key: key);
   final String? currency;
+  final bool isManageBooking;
 
   @override
   Widget build(BuildContext context) {
+    ManageBookingCubit? manageBookingCubit;
+
+    num totalPrice = 0;
+
+
+
+
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bookingTotal = context.watch<BookingCubit>().state;
     final numberOfPerson = filter?.numberPerson;
-    final persons = List<Person>.from(numberOfPerson?.persons ?? []);
-    final totalPrice = ((filter?.numberPerson.getTotalSeatsPartial(true) ?? 0) +
+    List<Person> persons = List<Person>.from(numberOfPerson?.persons ?? []);
+     totalPrice = ((filter?.numberPerson.getTotalSeatsPartial(true) ?? 0) +
         (filter?.numberPerson.getTotalSeatsPartial(false) ?? 0));
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
     final flightSeats = bookingTotal.verifyResponse?.flightSeat;
@@ -47,6 +58,28 @@ class SeatSummaryDetail extends StatelessWidget {
         ?.physicalFlightSeatMap
         ?.seatConfiguration
         ?.rows;
+    if(isManageBooking) {
+      manageBookingCubit = context.watch<ManageBookingCubit>();
+
+      totalPrice = manageBookingCubit.confirmedSeatsTotalPrice;
+
+      manageBookingCubit.hasAnySeatChanged;
+
+    }
+    else {
+
+persons =  context
+          .watch<ManageBookingCubit>()
+          .state
+          .manageBookingResponse
+          ?.result
+          ?.allPersonObject ??
+          [];
+
+
+
+    }
+
     return Visibility(
       visible: totalPrice > 0,
       child: Column(
@@ -90,8 +123,8 @@ class SeatSummaryDetail extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 6),
                         child: Text(
                           "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
-                          style:
-                              kMediumRegular.copyWith(color: Styles.kActiveGrey),
+                          style: kMediumRegular.copyWith(
+                              color: Styles.kActiveGrey),
                         ),
                       ),
                     ],
@@ -129,8 +162,11 @@ class SeatSummaryDetail extends StatelessWidget {
                             Text(
                               e.generateText(numberOfPerson, separator: "& "),
                             ),
-                            SummaryListItem(text: seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}',),
-
+                            SummaryListItem(
+                              text: seats?.seatColumn == null
+                                  ? 'noSeatSelected'.tr()
+                                  : '${seats?.seatColumn}${row?.rowNumber}',
+                            ),
                           ],
                         ),
                         child2: MoneyWidgetCustom(
@@ -146,6 +182,7 @@ class SeatSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacer,
           AppDividerWidget(),
+
           kVerticalSpacer,
         ],
       ),

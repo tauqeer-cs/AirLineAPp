@@ -4,7 +4,7 @@ class FilterState extends Equatable {
   final BlocState blocState;
   final String message;
   final FlightType flightType;
-  final NumberPerson numberPerson;
+  final NumberPerson  numberPerson;
   final Airports? destination;
   final Airports? origin;
   final DateTime? departDate;

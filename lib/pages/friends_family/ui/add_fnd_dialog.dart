@@ -298,7 +298,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                         if (!check) {
                           //error here of form
                           formKey.currentState!.invalidateField(
-                              name: 'title', errorText: 'Invalid title');
+                              name: 'title'.tr(), errorText: 'invalidTitle'.tr());
                           return;
                         }
                       }

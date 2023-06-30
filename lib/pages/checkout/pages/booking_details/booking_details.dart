@@ -307,8 +307,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 },
                 onFinished: () async {
                   context.loaderOverlay.hide();
-                  if(context.router.currentPath != const BookingDetailsRoute().path) return;
 
+
+                  if(context.router.currentPath != BookingDetailsRoute().path) return;
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);

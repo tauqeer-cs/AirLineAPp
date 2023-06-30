@@ -180,6 +180,7 @@ class BookingContact extends Equatable {
   final String? email;
   final String? phone1;
   final String? phone1LocationCode;
+
   @JsonKey(toJson: AppDateUtils.toDateWithoutTimeToJson)
   final DateTime? dob;
   final String? nationality;
@@ -1144,7 +1145,28 @@ class MealDetail extends Equatable {
 
   final List<Meal>? meals;
 
+
+
+  List<MealList> get returnMealsOnly {
+
+
+    return meals?.first.mealList?.where((element) => element.departReturn == 'Return').toList() ?? [];
+
+  }
+
+
+  List<MealList> get departureMealsOnly {
+
+
+    return meals?.first.mealList?.where((element) => element.departReturn == 'Depart').toList() ?? [];
+
+  }
+
+
   List<Meal> get departureMeals {
+
+
+
     return meals?.where((element) {
           final mealList = element.mealList?.firstWhereOrNull(
               (element) => element.departReturn == "Depart");

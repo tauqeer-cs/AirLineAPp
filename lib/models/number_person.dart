@@ -3,7 +3,9 @@ import 'dart:collection';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -56,9 +58,19 @@ class NumberPerson extends Equatable {
   }
 
   Person? getPersonBySeat(Seats seat, bool isDeparture) {
-    if (isDeparture) {
-      return persons
+    if(seat.seatId?.toInt() == 13483 || seat.seatId?.toInt() == 13490 ||  seat.seatId?.toInt() == 13497){
+
+      print('');
+
+      var returnValue = persons
           .firstWhereOrNull((element) => element.departureSeats == seat);
+      return returnValue;
+
+    }
+    if (isDeparture) {
+      var returnValue = persons
+        .firstWhereOrNull((element) => element.departureSeats == seat);
+      return returnValue;
     }
     return persons.firstWhereOrNull((element) => element.returnSeats == seat);
   }
@@ -209,6 +221,7 @@ class NumberPerson extends Equatable {
   List<Object?> get props => [persons];
 }
 
+@CopyWith(copyWithNull: true)
 @JsonSerializable()
 class Person extends Equatable {
   final PeopleType? peopleType;
@@ -232,6 +245,8 @@ class Person extends Equatable {
   final bool? useWheelChair;
   final int? numberOrder;
   final Passenger? passenger;
+
+
 
   const Person({
     this.peopleType,
@@ -539,6 +554,10 @@ class Person extends Equatable {
         if (!isDeparture && returnBundle == null) return "noBundleSelected".tr();
         final bundle = isDeparture ? departureBundle : returnBundle;
         return '${bundle?.detail?.bundleDescription}';
+      case AddonType.none:
+        return '';
+      case AddonType.insurance:
+        return '';
     }
   }
 
@@ -652,8 +671,11 @@ enum AddonType {
   seat,
   meal,
   baggage,
-  special;
+  special,
+  insurance,
+  none,
 }
+
 
 enum PeopleType {
   adult("ADT"),

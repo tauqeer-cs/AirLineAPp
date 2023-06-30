@@ -116,7 +116,7 @@ class AdditionInfoView extends StatelessWidget {
                 AppInputText(
                   name: formNamePhone,
                   textInputType: TextInputType.number,
-                  hintText: 'infoDetail.phoneNumber'.tr(),
+                  hintText: 'phoneNumber'.tr(),
                   initialValue: phoneSelected,
                   inputFormatters: [
                     AppFormUtils.onlyNumber(),

@@ -24,6 +24,7 @@ class SummaryCubit extends Cubit<SummaryState> {
         blocState: BlocState.finished,
         summaryResponse: response,
         summaryRequest: summaryRequest,
+
       ));
     } catch (e, st) {
       emit(

@@ -790,9 +790,7 @@ mixin StringResources {
         name: 'additionalInfo');
   }
 
-  String get fullName {
-    return Intl.message("Full Name", name: 'fullName');
-  }
+
 
   String get nickName {
     return Intl.message("Nick Name", name: 'nickName');
@@ -936,9 +934,6 @@ mixin StringResources {
     return Intl.message("Name", name: 'name');
   }
 
-  String get phoneNumber {
-    return Intl.message("Phone Number", name: 'phoneNumber');
-  }
 
   String get password {
     return Intl.message("Password", name: 'password');
