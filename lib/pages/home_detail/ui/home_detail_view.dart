@@ -40,8 +40,11 @@ class HomeDetailView extends StatelessWidget {
                   data: state.content?.data?.current?.content ?? "",
                 ),
                 ElevatedButton(
-                    onPressed: () => context.router.pop(),
-                    child: Text("searchFlight".tr())),
+                  onPressed: () => context.router.pop(),
+                  child: Text(
+                    "searchFlight".tr(),
+                  ),
+                ),
                 kVerticalSpacer,
               ],
             ),

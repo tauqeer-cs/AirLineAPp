@@ -200,7 +200,7 @@ class _SeatRowState extends State<SeatRow> {
                       ? (selected
                           ? buildPersonTextFocused(focusedPerson, manageCubit)
                           : seatTextPerson(
-                              widget.seats.seatId?.toInt() ?? 0, manageCubit))
+                      int.parse((widget.seats.seatId ?? '')), manageCubit))
                       : Text(
                           selected
                               ? "${persons?.getPersonIndex(focusedPerson)}"

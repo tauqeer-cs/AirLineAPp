@@ -76,21 +76,3 @@ class ChangeFlightRequest {
   }
 }
 
-class OutboundFares {
-  String? lFID;
-  String? fBCode;
-
-  OutboundFares({this.lFID, this.fBCode});
-
-  OutboundFares.fromJson(Map<String, dynamic> json) {
-    lFID = json['LFID'];
-    fBCode = json['FBCode'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['LFID'] = lFID;
-    data['FBCode'] = fBCode;
-    return data;
-  }
-}

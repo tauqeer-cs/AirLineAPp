@@ -1,3 +1,4 @@
+import 'package:app/data/responses/verify_response.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../../models/confirmation_model.dart';
@@ -170,7 +171,6 @@ class Result {
   bool? success;
 
 
-  String? message;
   bool? isRequiredPassport;
 
   bool get outboundCheckingAllowed {
@@ -642,7 +642,6 @@ class PassengersWithSSR {
 
 
 
-  String? personOrgID;
   Passenger? passengers;
 
   Person? personObject;

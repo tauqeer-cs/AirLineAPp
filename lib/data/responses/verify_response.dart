@@ -1231,7 +1231,7 @@ class Seats extends Equatable {
     List<SeatAttributes>? seatAttributes,
     num? seatCabinId,
     String? seatColumn,
-    num? seatId,
+    String? seatId,
     num? seatOrder,
     List<SeatPriceOffers>? seatPriceOffers,
     num? seatWBZoneId,

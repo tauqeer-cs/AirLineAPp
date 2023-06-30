@@ -151,10 +151,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   void makeVerifyRequest() async {
     final _repository = FlightRepository();
 
-    const outboundLFID = 68563;
+    const outboundLFID = '68563';
     const outboundFBCode = 'WLH001MM';
 
-    const inboundLFID = 68640;
+    const inboundLFID = '68640';
     const inboundFBCode = 'WLH001MM';
 
     final inboundFares =
@@ -274,9 +274,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
             departureSeats = finalSeat;
 
- seatIdsToMakeAvailableDep.add(finalSeat?.seatId?.toInt() ?? 0);
- //           List<int> seatIdsToMakeAvailableReturn = [];
-            print('');
+
+
+ seatIdsToMakeAvailableDep.add(int.parse(finalSeat?.seatId ?? ''));
+
           }
 
           print('');
@@ -306,7 +307,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
             returnSeats = finalSeat;
 
-            seatIdsToMakeAvailableReturn.add(finalSeat?.seatId?.toInt() ?? 0);
+            seatIdsToMakeAvailableReturn.add(int.parse(finalSeat?.seatId  ?? '') ?? 0);
 
             print('');
           }
@@ -500,14 +501,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         returnWheelChair: selectedReturnWheelChairItem
       );
       currentPerson.personObject = currentObject;
-      currentPerson.originalDepartSeatId = departureSeats?.seatId?.toInt();
+      currentPerson.originalDepartSeatId = int.parse(departureSeats?.seatId ?? '');
       var princrTlist = seatsDeparture.where((e) => e.description?.toLowerCase() == departureSeats?.serviceDescription?.toLowerCase()).toList();
 
       if(princrTlist.isNotEmpty) {
         currentPerson.originalDepartSeatPrice = (princrTlist.first.amount?.toDouble() ?? 0.0) + (princrTlist.first.applicableTaxes?.first.taxAmount?.toDouble() ?? 0.0);;
       }
 
-      currentPerson.originalReturnSeatId = returnSeats?.seatId?.toInt();
+      currentPerson.originalReturnSeatId = int.parse(returnSeats?.seatId ?? '');
       princrTlist = seatsReturn.where((e) => e.description?.toLowerCase() == returnSeats?.serviceDescription?.toLowerCase()).toList();
 
       if(princrTlist.isNotEmpty) {
@@ -867,7 +868,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
-            selectedPax: verifyResponse.result?.passengersWithSSR?.first,
             blocState: BlocState.finished,
             dataLoaded: true,
             manageBookingResponse: verifyResponse,
@@ -954,13 +954,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           returnDate: returnDate,
           inboundFares: [
             OutboundFares(
-              lfid: state.selectedReturnFlight?.lfid?.toInt() ?? 0,
+              lfid: state.selectedReturnFlight?.lfid ?? '',
               fbCode: state.selectedReturnFlight?.fbCode ?? '',
             ),
           ],
           outboundFares: [
             OutboundFares(
-              lfid: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+              lfid: state.selectedDepartureFlight?.lfid ?? '',
               fbCode: state.selectedDepartureFlight?.fbCode ?? '',
             ),
           ]);
@@ -975,7 +975,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             inboundFares: [],
             outboundFares: [
               OutboundFares(
-                lfid: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+                lfid: state.selectedDepartureFlight?.lfid ?? '',
                 fbCode: state.selectedDepartureFlight?.fbCode ?? '',
               ),
             ]);
@@ -989,7 +989,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             inboundFares: [],
             outboundFares: [
               OutboundFares(
-                lfid: state.selectedDepartureFlight?.lfid?.toInt() ?? 0,
+                lfid: state.selectedDepartureFlight?.lfid ?? '',
                 fbCode: state.selectedDepartureFlight?.fbCode ?? '',
               ),
             ]);
@@ -1002,7 +1002,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             returnDate: returnDate,
             inboundFares: [
               OutboundFares(
-                lfid: state.selectedReturnFlight?.lfid?.toInt() ?? 0,
+                lfid: state.selectedReturnFlight?.lfid ?? '',
                 fbCode: state.selectedReturnFlight?.fbCode ?? '',
               ),
             ],
@@ -1413,7 +1413,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         newPerson = item.personObject?.copyWith(departureSeats: () => seats);
 
         if(item.originalDepartSeatId == seats.seatId){
-          newSSR = item.copyWith(personObject: newPerson,newDepartSeatSelected: Vs.Seats(seatId: 0));
+          //newSSR = item.copyWith(personObject: newPerson,newDepartSeatSelected: Vs.Seats(seatId: 0));
         }
         else {
           newSSR = item.copyWith(personObject: newPerson,newDepartSeatSelected: seats);
@@ -1425,7 +1425,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
         newPerson = item.personObject?.copyWith(returnSeats: () => seats);
         if(item.originalReturnSeatId == seats.seatId) {
-          newSSR = item.copyWith(personObject: newPerson,newReturnSeatSelected: const Vs.Seats(seatId: 0));
+          print('');
+
+         // newSSR = item.copyWith(personObject: newPerson,newReturnSeatSelected: const Vs.Seats(seatId: 0));
         }
         else {
           newSSR = item.copyWith(personObject: newPerson,newReturnSeatSelected: seats);
@@ -1438,7 +1440,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
       copyList?.removeAt(index);
-      copyList?.insert(index, newSSR);
+      copyList?.insert(index, newSSR!);
 
       MBR.Result? cc = manageResponse?.result;
       var result2 = cc?.copyWith(passengersWithSSR: copyList);

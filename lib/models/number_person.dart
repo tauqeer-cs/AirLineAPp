@@ -58,15 +58,6 @@ class NumberPerson extends Equatable {
   }
 
   Person? getPersonBySeat(Seats seat, bool isDeparture) {
-    if(seat.seatId?.toInt() == 13483 || seat.seatId?.toInt() == 13490 ||  seat.seatId?.toInt() == 13497){
-
-      print('');
-
-      var returnValue = persons
-          .firstWhereOrNull((element) => element.departureSeats == seat);
-      return returnValue;
-
-    }
     if (isDeparture) {
       var returnValue = persons
         .firstWhereOrNull((element) => element.departureSeats == seat);

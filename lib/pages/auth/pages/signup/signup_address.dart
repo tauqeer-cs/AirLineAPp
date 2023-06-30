@@ -111,7 +111,7 @@ class SignupAddressPage extends StatelessWidget {
 
                               onSignup(context);
                             },
-                            child: Text('signUp2.continue'.tr()),
+                            child: Text('continue'.tr()),
                           ),
                           kVerticalSpacer,
                         ],
