@@ -879,7 +879,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             pnrEntered: bookingReference,
             lastName: lastName),
       );
-      makeVerifyRequest();
+      //makeVerifyRequest();
 
       return true;
     } catch (e, st) {
@@ -955,13 +955,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           inboundFares: [
             OutboundFares(
               lfid: state.selectedReturnFlight?.lfid ?? '',
-              fbCode: state.selectedReturnFlight?.fbCode ?? '',
+              fbCode: state.selectedReturnFlight?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID ?? '',
             ),
           ],
           outboundFares: [
             OutboundFares(
               lfid: state.selectedDepartureFlight?.lfid ?? '',
-              fbCode: state.selectedDepartureFlight?.fbCode ?? '',
+              fbCode: state.selectedDepartureFlight?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID ?? '',
             ),
           ]);
 
@@ -976,7 +976,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             outboundFares: [
               OutboundFares(
                 lfid: state.selectedDepartureFlight?.lfid ?? '',
-                fbCode: state.selectedDepartureFlight?.fbCode ?? '',
+                fbCode: state.selectedDepartureFlight?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID ?? '',
               ),
             ]);
       } else if (state.checkedDeparture == true && state.checkReturn == false) {
@@ -990,7 +990,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             outboundFares: [
               OutboundFares(
                 lfid: state.selectedDepartureFlight?.lfid ?? '',
-                fbCode: state.selectedDepartureFlight?.fbCode ?? '',
+                fbCode: state.selectedDepartureFlight?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID ?? '',
               ),
             ]);
       } else if (state.checkedDeparture == false && state.checkReturn == true) {
@@ -1003,7 +1003,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             inboundFares: [
               OutboundFares(
                 lfid: state.selectedReturnFlight?.lfid ?? '',
-                fbCode: state.selectedReturnFlight?.fbCode ?? '',
+                fbCode: state.selectedReturnFlight?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID ?? '',
               ),
             ],
             outboundFares: []);

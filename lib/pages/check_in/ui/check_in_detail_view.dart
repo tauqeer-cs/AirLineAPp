@@ -551,7 +551,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         readOnly: true,
                         validators: [FormBuilderValidators.required()],
                         initialValue: state.manageBookingResponse?.result
-                            ?.passengersWithSSR?[i].passengers?.nationality ??
+                            ?.passengersWithSSR?[i].passengers?.nationalityToShow ??
                             '',
                         name: 'nationalityKey$i',
                         fillDisabledColor: true,

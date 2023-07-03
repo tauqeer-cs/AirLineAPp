@@ -1352,6 +1352,15 @@ class Passenger extends Equatable {
   final String? passengerType;
   final DateTime? dob;
   final String? nationality;
+  String get nationalityToShow {
+    if(nationality != null || nationality != ''){
+      if(nationality == ''){
+        return 'Malaysia';
+      }
+      return nationality ?? 'Malaysia';
+    }
+    return 'Malaysia';
+  }
   final String? passport;
   final DateTime? passportExpiryDate;
   final String? titleCode;

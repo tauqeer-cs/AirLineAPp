@@ -32,7 +32,7 @@ class MealsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BundleGroupSeat? mealGroup;
-    List<Bundle>? meals;
+    List<Bundle> meals = [];
     bool isFlightUnderAnHour = false;
     bool isFlightOver24Hour = false;
 
@@ -41,7 +41,7 @@ class MealsSection extends StatelessWidget {
       var state = bloc.state;
       mealGroup = state.verifyResponse?.flightSSR?.mealGroup;
 
-      meals = isDeparture ? mealGroup?.outbound : mealGroup?.inbound;
+      meals = (isDeparture ? mealGroup?.outbound : mealGroup?.inbound) ?? [];
       DateTime departDate = state.manageBookingResponse?.result?.flightSegments
               ?.first.outbound![0].departureDateTime ??
           DateTime.now();
@@ -78,7 +78,7 @@ class MealsSection extends StatelessWidget {
 
       final state = context.watch<SearchFlightCubit>().state;
 
-      meals = isDeparture ? mealGroup?.outbound : mealGroup?.inbound;
+      meals = (isDeparture ? mealGroup?.outbound : mealGroup?.inbound) ?? [];
 
       isFlightUnderAnHour = isDeparture
           ? state.filterState!.departDate!
@@ -104,7 +104,7 @@ class MealsSection extends StatelessWidget {
     return isFlightOver24Hour
         ? const FlightWithin24Hour()
         : Visibility(
-            visible: meals?.isNotEmpty ?? false,
+            visible: meals.isNotEmpty ?? false,
             replacement: const EmptyAddon(),
             child: Padding(
               padding: kPageHorizontalPadding,
@@ -134,7 +134,9 @@ class MealsSection extends StatelessWidget {
   }
 
   Column buildMealCards(List<Bundle>? bundles, bool isDeparture) {
+
     bundles?.removeWhere((element) => element.serviceID == 0);
+
     return Column(
       children: [
         ...bundles?.map(

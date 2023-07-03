@@ -217,7 +217,7 @@ class FlightSegments extends Equatable {
       _$FlightSegmentsFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightSegmentsToJson(this);
-  final num? lfid;
+  final String? lfid;
   final String? departureDate;
 
   final String? arrivalDate;
@@ -334,7 +334,7 @@ class FareInfos extends Equatable {
 
   Map<String, dynamic> toJson() => _$FareInfosToJson(this);
   final List<dynamic>? returnFlightSegmentDetails;
-  final num? fareID;
+  final String? fareID;
   final String? fcCode;
   final String? fbCode;
   final num? baseFareAmtNoTaxes;

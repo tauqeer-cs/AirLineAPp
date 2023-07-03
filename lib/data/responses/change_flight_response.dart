@@ -41,9 +41,20 @@ class Result {
       this.fromCache});
 
   Result.fromJson(Map<String, dynamic> json) {
-    flightVerifyResponse = json['flightVerifyResponse'] != null
-        ? FlightVerifyResponse.fromJson(json['flightVerifyResponse'])
-        : null;
+    if(json['flightVerifyResponseV2']['result'] == null) {
+      final gasGiants = {'result': json['flightVerifyResponseV2']};
+
+      flightVerifyResponse = FlightVerifyResponse.fromJson(gasGiants);
+
+    }
+    else{
+      flightVerifyResponse = json['flightVerifyResponseV2'] != null
+          ? FlightVerifyResponse.fromJson(json['flightVerifyResponseV2'])
+          : null;
+
+    }
+      //json['result']
+
     changeFlightRequest = json['changeFlightRequest'] != null
         ? ChangeFlightRequestObject.fromJson(json['changeFlightRequest'])
         : null;
@@ -354,23 +365,28 @@ class ChangeFlightRequestObject {
 }
 
 class Fares {
-  String? lfid;
-  String? pfid;
-  String? fbCode;
+  dynamic? lfid;
+  dynamic? pfid;
+  String? journeyKey;
+  String? fareKey;
 
-  Fares({this.lfid, this.pfid, this.fbCode});
+  Fares({this.lfid, this.pfid, this.journeyKey,this.fareKey});
 
   Fares.fromJson(Map<String, dynamic> json) {
     lfid = json['lfid'];
     pfid = json['pfid'];
-    fbCode = json['fbCode'];
+    journeyKey = json['journeyKey'];
+    fareKey = json['fareKey'];
+
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['lfid'] = lfid;
     data['pfid'] = pfid;
-    data['fbCode'] = fbCode;
+    data['journeyKey'] = journeyKey;
+    data['fareKey'] = fareKey;
+
     return data;
   }
 }
@@ -445,7 +461,7 @@ class ChangeFlightResponse {
 }
 
 class PassengersWithSSRFareBreakDown {
-  num? personOrgID;
+  String? personOrgID;
   Passenger? passengers;
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;

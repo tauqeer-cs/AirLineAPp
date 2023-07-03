@@ -69,8 +69,21 @@ class ManageBookingDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
     final locale = context.locale.toString();
-    final selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
+    var selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
 
+    bool showSsr = false;
+
+    if(selectedPax == null) {
+      print('');
+
+      var tmpSelectedPax =  context.watch<ManageBookingCubit>().state.manageBookingResponse?.result?.passengersWithSSR?.first;
+
+      if(tmpSelectedPax != null) {
+        bloc?.changeSelectedPax(tmpSelectedPax);
+      }
+
+
+    }
     return BlocBuilder<ManageBookingCubit, ManageBookingState>(
       builder: (context, state) {
         return Padding(
@@ -268,148 +281,152 @@ class ManageBookingDetailsView extends StatelessWidget {
                       [],
                 ),
                 kVerticalSpacer,
+
                 SelectedPassengerInfo(selectedPax),
                 kVerticalSpacerSmall,
-                const AddOnOptions(),
-                kVerticalSpacer,
-                if (bloc?.state.addOnOptionSelected == AddonType.seat) ...[
-                  kVerticalSpacerMini,
-                  WarningLabel(
-                    message: 'weSorrySeatSelected'.tr(),
-                  ),
-                  kVerticalSpacerSmall,
-                  CustomSegmentControl(
-                    optionOneTapped: () {
-                      bloc?.setSelectionDeparture(true, isSeat: true);
-                    },
-                    optionTwoTapped: () {
-                      bloc?.setSelectionDeparture(false, isSeat: true);
-                    },
-                    isSelectedOption1: bloc?.state.seatDeparture ?? true,
-                    textOne:
-                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                    textTwo:
-                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                    customRadius: 12,
-                    customBorderWidth: 1,
-                    customVerticalPadding: 8,
-                    customSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-                    customNoSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
-                  ),
+                if(showSsr == true) ... [
+                  const AddOnOptions(),
                   kVerticalSpacer,
-                  const SeatLegendSimple(),
-                  kVerticalSpacer,
-                  SeatPlan(
-                    moveToTop: () {
-                      //moveToTop?.call();
-                    },
-                    moveToBottom: () {
-                      //  moveToBottom?.call();
-                    },
-                    isManageBooking: true,
-                  ),
-                  kVerticalSpacer,
-                ] else if (bloc?.state.addOnOptionSelected ==
-                    AddonType.meal) ...[
-                  false
-                      ? Container()
-                      : WarningLabel(
-                    message: 'mealAddOnsAreUnavailable'.tr(),
-                  ),
-                  kVerticalSpacerSmall,
-                  CustomSegmentControl(
-                    optionOneTapped: () {
-                      bloc?.setSelectionDeparture(true, isFood: true);
-                    },
-                    optionTwoTapped: () {
-                      bloc?.setSelectionDeparture(false, isFood: true);
-                    },
-                    isSelectedOption1: bloc?.state.foodDepearture ?? true,
-                    textOne:
-                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                    textTwo:
-                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                    customRadius: 12,
-                    customBorderWidth: 1,
-                    customVerticalPadding: 8,
-                    customSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-                    customNoSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
-                  ),
-                  kVerticalSpacerSmall,
-                  MealsSection(
-                    isDeparture: bloc?.state.foodDepearture ?? false,
-                    isManageBooking: true,
-                  ),
-                ] else if (bloc?.state.addOnOptionSelected ==
-                    AddonType.baggage) ...[
-                  kVerticalSpacerSmall,
-                  CustomSegmentControl(
-                    optionOneTapped: () {
-                      bloc?.setSelectionDeparture(true, isBaggage: true);
-                    },
-                    optionTwoTapped: () {
-                      bloc?.setSelectionDeparture(false, isBaggage: true);
-                    },
-                    isSelectedOption1: bloc?.state.baggageDeparture ?? true,
-                    textOne:
-                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                    textTwo:
-                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                    customRadius: 12,
-                    customBorderWidth: 1,
-                    customVerticalPadding: 8,
-                    customSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-                    customNoSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
-                  ),
-                  kVerticalSpacerSmall,
-                  BaggageSection(
-                    isManageBooking: true,
-                    isDeparture: bloc?.state.baggageDeparture ?? false,
-                    moveToTop: () {},
-                    moveToBottom: () {},
-                  ),
-                ] else if (bloc?.state.addOnOptionSelected ==
-                    AddonType.special) ...[
-                  kVerticalSpacer,
-                  CustomSegmentControl(
-                    optionOneTapped: () {
-                      bloc?.setSelectionDeparture(true, isSpecial: true);
-                    },
-                    optionTwoTapped: () {
-                      bloc?.setSelectionDeparture(false, isSpecial: true);
-                    },
-                    isSelectedOption1:
-                    bloc?.state.specialAppOpsDeparture ?? true,
-                    textOne:
-                    '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                    textTwo:
-                    '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                    customRadius: 12,
-                    customBorderWidth: 1,
-                    customVerticalPadding: 8,
-                    customSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-                    customNoSelectedStyle:
-                    kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
-                  ),
-                  kVerticalSpacerSmall,
-                  WheelchairSection(
-                      isDeparture: bloc?.state.specialAppOpsDeparture ?? false,
-                      isManageBooking: true),
-                  kVerticalSpacer,
-                ] else if (bloc?.state.addOnOptionSelected ==
-                    AddonType.insurance) ...[
-                  //InsuranceView(isManageBooking: true,),
-                  const InsuranceManageView(),
-                ] else ...[
-                  const ManageFlightSummary(),
+                  if (bloc?.state.addOnOptionSelected == AddonType.seat) ...[
+                    kVerticalSpacerMini,
+                    WarningLabel(
+                      message: 'weSorrySeatSelected'.tr(),
+                    ),
+                    kVerticalSpacerSmall,
+                    CustomSegmentControl(
+                      optionOneTapped: () {
+                        bloc?.setSelectionDeparture(true, isSeat: true);
+                      },
+                      optionTwoTapped: () {
+                        bloc?.setSelectionDeparture(false, isSeat: true);
+                      },
+                      isSelectedOption1: bloc?.state.seatDeparture ?? true,
+                      textOne:
+                      '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                      textTwo:
+                      '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                      customRadius: 12,
+                      customBorderWidth: 1,
+                      customVerticalPadding: 8,
+                      customSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                      customNoSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                    ),
+                    kVerticalSpacer,
+                    const SeatLegendSimple(),
+                    kVerticalSpacer,
+                    SeatPlan(
+                      moveToTop: () {
+                        //moveToTop?.call();
+                      },
+                      moveToBottom: () {
+                        //  moveToBottom?.call();
+                      },
+                      isManageBooking: true,
+                    ),
+                    kVerticalSpacer,
+                  ] else if (bloc?.state.addOnOptionSelected ==
+                      AddonType.meal) ...[
+                    false
+                        ? Container()
+                        : WarningLabel(
+                      message: 'mealAddOnsAreUnavailable'.tr(),
+                    ),
+                    kVerticalSpacerSmall,
+                    CustomSegmentControl(
+                      optionOneTapped: () {
+                        bloc?.setSelectionDeparture(true, isFood: true);
+                      },
+                      optionTwoTapped: () {
+                        bloc?.setSelectionDeparture(false, isFood: true);
+                      },
+                      isSelectedOption1: bloc?.state.foodDepearture ?? true,
+                      textOne:
+                      '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                      textTwo:
+                      '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                      customRadius: 12,
+                      customBorderWidth: 1,
+                      customVerticalPadding: 8,
+                      customSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                      customNoSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                    ),
+                    kVerticalSpacerSmall,
+                    MealsSection(
+                      isDeparture: bloc?.state.foodDepearture ?? false,
+                      isManageBooking: true,
+                    ),
+                  ] else if (bloc?.state.addOnOptionSelected ==
+                      AddonType.baggage) ...[
+                    kVerticalSpacerSmall,
+                    CustomSegmentControl(
+                      optionOneTapped: () {
+                        bloc?.setSelectionDeparture(true, isBaggage: true);
+                      },
+                      optionTwoTapped: () {
+                        bloc?.setSelectionDeparture(false, isBaggage: true);
+                      },
+                      isSelectedOption1: bloc?.state.baggageDeparture ?? true,
+                      textOne:
+                      '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                      textTwo:
+                      '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                      customRadius: 12,
+                      customBorderWidth: 1,
+                      customVerticalPadding: 8,
+                      customSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                      customNoSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                    ),
+                    kVerticalSpacerSmall,
+                    BaggageSection(
+                      isManageBooking: true,
+                      isDeparture: bloc?.state.baggageDeparture ?? false,
+                      moveToTop: () {},
+                      moveToBottom: () {},
+                    ),
+                  ] else if (bloc?.state.addOnOptionSelected ==
+                      AddonType.special) ...[
+                    kVerticalSpacer,
+                    CustomSegmentControl(
+                      optionOneTapped: () {
+                        bloc?.setSelectionDeparture(true, isSpecial: true);
+                      },
+                      optionTwoTapped: () {
+                        bloc?.setSelectionDeparture(false, isSpecial: true);
+                      },
+                      isSelectedOption1:
+                      bloc?.state.specialAppOpsDeparture ?? true,
+                      textOne:
+                      '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                      textTwo:
+                      '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                      customRadius: 12,
+                      customBorderWidth: 1,
+                      customVerticalPadding: 8,
+                      customSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
+                      customNoSelectedStyle:
+                      kMediumSemiBold.copyWith(color: Styles.kLightBgColor),
+                    ),
+                    kVerticalSpacerSmall,
+                    WheelchairSection(
+                        isDeparture: bloc?.state.specialAppOpsDeparture ?? false,
+                        isManageBooking: true),
+                    kVerticalSpacer,
+                  ] else if (bloc?.state.addOnOptionSelected ==
+                      AddonType.insurance) ...[
+                    //InsuranceView(isManageBooking: true,),
+                    const InsuranceManageView(),
+                  ] else ...[
+                    const ManageFlightSummary(),
+                  ],
                 ],
+
                 const ContactsSection(),
                 kVerticalSpacer,
                 const EmergencyContactsSection(),
