@@ -424,7 +424,7 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
               ? null
               : (value["${person.toString()}$formNameMYRewardId"] as String?),
           title: (value["${person.toString()}$formNameTitle"] as String?)
-              ?.toUpperCase(),
+              ?.toUpperCase().replaceAll('.', ''),
           nationality: value["${person.toString()}$formNameNationality"],
           dob: value["${person.toString()}$formNameDob"],
           gender: "Male",
@@ -444,8 +444,8 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
 
       final pnrRequest = FlightSummaryPnrRequest(
         contactEmail: value[formNameContactEmail],
-        contactFullName:
-            "${value[formNameContactFirstName]} ${value[formNameContactLastName]}",
+        contactLastName: value[formNameContactFirstName],
+        contactFirstName: value[formNameContactLastName],
         contactPhoneCode: value[formNameContactPhoneCode],
         contactPhoneNumber: value[formNameContactPhoneNumber],
         displayCurrency: "MYR",
@@ -457,7 +457,7 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
         companyTaxInvoice: CompanyTaxInvoice(
           companyName: value[formNameCompanyName],
           companyAddress: value[formNameCompanyAddress],
-          country: value[formNameCompanyCountry],
+          country: true ? 'MYS' : value[formNameCompanyCountry],
           state: value[formNameCompanyState],
           city: value[formNameCompanyCity],
           emailAddress: (companyName ?? '').isNotEmpty
@@ -470,10 +470,8 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
           lastName: value[formNameEmergencyLastName],
           phoneCode: value[formNameEmergencyCountry],
           phoneNumber: value[formNameEmergencyPhone],
-          relationship: availableRelationsMapping[value[formNameEmergencyRelation]],
-
-                    //relationship: value[formNameEmergencyRelation]],
-          email: value[formNameEmergencyEmail],
+          relationship: false ? null : availableRelationsMapping[value[formNameEmergencyRelation]],
+          email: false ? 'emergen@gmail.com' : value[formNameEmergencyEmail],
         ),
         passengers: passengers,
       );

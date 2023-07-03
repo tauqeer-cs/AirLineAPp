@@ -43,6 +43,8 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
     this.contactPhoneNumber = "",
     this.contactFullName = "",
     this.acceptNewsAndPromotionByEmail = false,
+    this.contactLastName = '',
+    this.contactFirstName = ''
   });
 
   @HiveField(0)
@@ -57,6 +59,15 @@ class FlightSummaryPnrRequest extends HiveObject with EquatableMixin {
   @HiveField(3)
   @JsonKey(name: 'ContactFullName')
   final String contactFullName;
+
+  @HiveField(3)
+  @JsonKey(name: 'BookingContactFirstName')
+  final String contactFirstName;
+
+  @HiveField(3)
+  @JsonKey(name: 'BookingContactLastName')
+  final String contactLastName;
+
   @JsonKey(name: 'AcceptNewsAndPromotionByEmail')
   final bool acceptNewsAndPromotionByEmail;
   @JsonKey(name: 'DisplayCurrency')
@@ -95,6 +106,7 @@ class CompanyTaxInvoice extends HiveObject with EquatableMixin {
         state,
         city,
         emailAddress,
+
       ];
 
   factory CompanyTaxInvoice.fromJson(Map<String, dynamic> json) =>

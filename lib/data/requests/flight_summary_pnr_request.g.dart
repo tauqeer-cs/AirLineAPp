@@ -840,6 +840,8 @@ FlightSummaryPnrRequest _$FlightSummaryPnrRequestFromJson(
       contactPhoneCode: json['ContactPhoneCode'] as String? ?? "",
       contactPhoneNumber: json['ContactPhoneNumber'] as String? ?? "",
       contactFullName: json['ContactFullName'] as String? ?? "",
+      contactFirstName: json['BookingContactFirstName'] as String? ?? "",
+      contactLastName: json['BookingContactLastName'] as String? ?? "",
       acceptNewsAndPromotionByEmail:
           json['AcceptNewsAndPromotionByEmail'] as bool? ?? false,
     );
@@ -850,12 +852,14 @@ Map<String, dynamic> _$FlightSummaryPnrRequestToJson(
     'ContactEmail': instance.contactEmail,
     'ContactPhoneCode': instance.contactPhoneCode,
     'ContactPhoneNumber': instance.contactPhoneNumber,
-    'ContactFullName': instance.contactFullName,
+   // 'ContactFullName': instance.contactFullName,
     'AcceptNewsAndPromotionByEmail': instance.acceptNewsAndPromotionByEmail,
     'DisplayCurrency': instance.displayCurrency,
     'PreferredContactMethod': instance.preferredContactMethod,
     'Comment': instance.comment,
     'PromoCode': instance.promoCode,
+    'BookingContactFirstName': instance.contactFirstName,
+    'BookingContactLastName': instance.contactLastName,
   };
 
   void writeNotNull(String key, dynamic value) {

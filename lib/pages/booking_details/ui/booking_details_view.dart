@@ -73,6 +73,8 @@ class ManageBookingDetailsView extends StatelessWidget {
 
     bool showSsr = false;
 
+    bool showPax = false;
+
     if(selectedPax == null) {
       print('');
 
@@ -275,15 +277,19 @@ class ManageBookingDetailsView extends StatelessWidget {
                   ),
                 ),
                 kVerticalSpacer,
-                PassengerSelectorManageBooking(
-                  passengersWithSSR: bloc?.state.manageBookingResponse?.result
-                      ?.passengersWithSSRWithoutInfant ??
-                      [],
-                ),
-                kVerticalSpacer,
+                if(showPax == true) ... [
+                  PassengerSelectorManageBooking(
+                    passengersWithSSR: bloc?.state.manageBookingResponse?.result
+                        ?.passengersWithSSRWithoutInfant ??
+                        [],
+                  ),
+                  kVerticalSpacer,
 
-                SelectedPassengerInfo(selectedPax),
-                kVerticalSpacerSmall,
+
+                  SelectedPassengerInfo(selectedPax),
+                  kVerticalSpacerSmall,
+                ],
+
                 if(showSsr == true) ... [
                   const AddOnOptions(),
                   kVerticalSpacer,
@@ -427,13 +433,16 @@ class ManageBookingDetailsView extends StatelessWidget {
                   ],
                 ],
 
-                const ContactsSection(),
-                kVerticalSpacer,
-                const EmergencyContactsSection(),
-                kVerticalSpacer,
-                const ComapnyTaxInvoiceSection(),
-                kVerticalSpacer,
-                const PaymentDetailsSecond(),
+                if(showPax == true) ... [
+                  const ContactsSection(),
+                  kVerticalSpacer,
+                  const EmergencyContactsSection(),
+                  kVerticalSpacer,
+                  const ComapnyTaxInvoiceSection(),
+                  kVerticalSpacer,
+                  const PaymentDetailsSecond(),
+                ],
+
               ],
             ),
           ),
