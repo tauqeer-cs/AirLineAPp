@@ -105,8 +105,8 @@ FlightVerifyResponse _$FlightVerifyResponseFromJson(
     FlightVerifyResponse(
       errors: json['errors'] as List<dynamic>?,
       result: json['result'] == null
-          ? null
-          : Result.fromJson(json['result'] as Map<String, dynamic>),
+          ? Result.fromJson(json)
+          : Result.fromJson(json['result'] ),
       session: json['session'] as String?,
       success: json['success'] as bool?,
     );
@@ -181,7 +181,7 @@ Map<String, dynamic> _$ResultToJson(Result instance) {
 
 FlightSegments _$FlightSegmentsFromJson(Map<String, dynamic> json) =>
     FlightSegments(
-      lfid: json['lfid'] as num?,
+      lfid: json['lfid'] as String?,
       departureDate: json['departureDate'] as String?,
       arrivalDate: json['arrivalDate'] as String?,
       legCount: json['legCount'] as num?,
@@ -241,7 +241,7 @@ Map<String, dynamic> _$FareTypesToJson(FareTypes instance) {
 FareInfos _$FareInfosFromJson(Map<String, dynamic> json) => FareInfos(
       returnFlightSegmentDetails:
           json['returnFlightSegmentDetails'] as List<dynamic>?,
-      fareID: json['fareID'] as num?,
+      fareID: json['fareID'] as String?,
       fcCode: json['fcCode'] as String?,
       fbCode: json['fbCode'] as String?,
       baseFareAmtNoTaxes: json['baseFareAmtNoTaxes'] as num?,
