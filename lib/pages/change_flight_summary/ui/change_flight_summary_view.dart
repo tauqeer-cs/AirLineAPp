@@ -1,3 +1,4 @@
+import 'package:app/utils/utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
 
   bool conditionsCheckOne = false;
   bool conditionsCheckTwo = false;
+  bool conditionsCheckThree = false;
 
   final _fbKey = GlobalKey<FormBuilderState>();
 
@@ -658,6 +660,56 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   ),
                 ),
                 const SizedBox(
+                  height: 24,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 24.0,
+                        width: 24.0,
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                          MaterialStateProperty.resolveWith(getColor),
+                          value: conditionsCheckThree,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              conditionsCheckThree = value ?? false;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            style: kMediumRegular.copyWith(
+                              color: Styles.kTextColor,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: '${'afterPayment'.tr()} ',
+                              ),
+                              TextSpan(
+                                text: " ${'reprintYour'.tr().toUpperCase()} ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                              TextSpan(text: 'reflectYour'.tr()),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(
                   height: 200,
                 ),
               ],
@@ -700,7 +752,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         ? const AppLoading()
                         : ElevatedButton(
                       onPressed: (conditionsCheckOne == false ||
-                          conditionsCheckTwo == false)
+                          conditionsCheckTwo == false || conditionsCheckThree == false)
                           ? null
                           : () async {
                         final voucher = context

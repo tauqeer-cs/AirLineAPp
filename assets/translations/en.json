@@ -887,5 +887,8 @@
   "seatsSelection.preferredSeat" : "Preferred Seat",
   "seatsSelection.standardSeat" : "Standard Seat",
   "seatsSelection.unavailable" : "Unavailable",
-  "okay" : "Okay"
+  "okay" : "Okay",
+  "afterPayment" : "After payment is complete, do remember to ",
+  "reprintYour" : "reprint your flight itinerary / boarding pass to ",
+  "reflectYour" : "reflect your latest booking changes!"
 }

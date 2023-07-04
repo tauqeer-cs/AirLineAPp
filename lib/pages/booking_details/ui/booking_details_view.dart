@@ -73,7 +73,7 @@ class ManageBookingDetailsView extends StatelessWidget {
 
     bool showSsr = false;
 
-    bool showPax = false;
+    bool showPax = true;
 
     if(selectedPax == null) {
       print('');
@@ -440,7 +440,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                   kVerticalSpacer,
                   const ComapnyTaxInvoiceSection(),
                   kVerticalSpacer,
-                  const PaymentDetailsSecond(),
+                //  const PaymentDetailsSecond(),
                 ],
 
               ],

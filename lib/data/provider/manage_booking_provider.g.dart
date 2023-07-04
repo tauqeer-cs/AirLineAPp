@@ -145,6 +145,63 @@ class _ManageBookingProvider implements ManageBookingProvider {
     return value;
   }
 
+
+  @override
+  Future<CommonResponse> updateContacts(UpdateBookingContact request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CommonResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+      _dio.options,
+      'checkout/modifypnr',
+      queryParameters: queryParameters,
+      data: _data,
+    )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CommonResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CommonResponse> loadFlightAddonRequest(GetFlightAddonRequest request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CommonResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+      _dio.options,
+      'checkout/getflightaddon',
+      queryParameters: queryParameters,
+      data: _data,
+    )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CommonResponse.fromJson(_result.data!);
+    return value;
+  }
+
+
+
+
+
+  //  @POST('checkout/getflightaddon')
+  //   Future<CommonResponse> loadFlightAddonRequest(@Body() GetFlightAddonRequest request);
+
+
   @override
   Future<MyBookings> userBookingListing() async {
     const _extra = <String, dynamic>{};

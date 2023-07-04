@@ -30,43 +30,13 @@ class ComapnyTaxInvoiceSection extends StatelessWidget {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: InkWell(
-            onTap: () {
-              bloc.changeContactsExpanded(isCompany: true);
-            },
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'companyContact.companyTaxInvoice'.tr(),
-                    style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    (state.companyTaxInvoiceExpanded)
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    size: 25,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
 
         true
-            ? ExpandedSection(
-                expand: state.companyTaxInvoiceExpanded,
-                child: PassengerCompanyInfo(
+            ? PassengerCompanyInfo(
                   isManageBooking: true,
                   companyTaxInvoice: bookingContact,
+                )
 
-                ),
-              )
             : ExpandedSection(
                 expand: state.companyTaxInvoiceExpanded,
                 child: Column(

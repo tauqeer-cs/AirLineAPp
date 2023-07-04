@@ -80,9 +80,14 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        kVerticalSpacer,
-        const AppDividerFadeWidget(),
-        kVerticalSpacer,
+
+     if(widget.isManageBooking == false) ... [
+       kVerticalSpacer,
+
+       const AppDividerFadeWidget(),
+       kVerticalSpacer,
+     ],
+
         Visibility(
           visible: true,
           child: InkWell(
@@ -101,11 +106,14 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                           text: 'companyContact.companyTaxInvoice'.tr(),
                           style: k18Heavy.copyWith(color: Styles.kTextColor),
                         ),
-                        TextSpan(
-                          text: " (${'optional'.tr()})",
-                          style:
-                              kMediumRegular.copyWith(color: Styles.kTextColor),
-                        ),
+                        if(widget.isManageBooking == false) ... [
+                          TextSpan(
+                            text: " (${'optional'.tr()})",
+                            style:
+                            kMediumRegular.copyWith(color: Styles.kTextColor),
+                          ),
+                        ],
+
                       ],
                     ),
                     textAlign: TextAlign.left,
