@@ -9,11 +9,13 @@ import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/widgets/app_toast.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../app/app_router.dart';
 import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../../../data/responses/verify_response.dart';
@@ -171,6 +173,11 @@ class _InsuranceViewState extends State<InsuranceView> {
                       additionalNumber: insuranceState.totalInsurance()),
                   ElevatedButton(
                     onPressed: () {
+
+                      context.router.push(const PaymentRoute());
+
+                      return;
+
                       final bookingState = context.read<BookingCubit>().state;
                       final token = bookingState.verifyResponse?.token;
                       if (token == null) {

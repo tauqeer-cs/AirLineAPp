@@ -73,7 +73,7 @@ class ManageBookingDetailsView extends StatelessWidget {
 
     bool showSsr = false;
 
-    bool showPax = true;
+    bool showPax = false;
 
     if(selectedPax == null) {
       print('');

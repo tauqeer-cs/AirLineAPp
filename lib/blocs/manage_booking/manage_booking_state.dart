@@ -18,6 +18,9 @@ class ManageBookingState extends Equatable {
   final String? newEmergencyPhNo;
   final String? newEmergencyRelation;
 
+  final bool anyContactValueChange;
+
+
   final String? newCompanyTaxName;
   final String? newCompanyTaxAddress;
   final String? newCompanyTaxState;
@@ -77,6 +80,7 @@ class ManageBookingState extends Equatable {
     this.blocState = BlocState.initial,
     this.message = "",
     this.addOnOptionSelected,
+    this.anyContactValueChange = false,
     this.selectedPax,
     this.foodDepearture = true,
     this.baggageDeparture = true,
@@ -133,6 +137,7 @@ class ManageBookingState extends Equatable {
   List<Object?> get props => [
         blocState,
         message,
+    anyContactValueChange,
         isRememberMe,
         departureColorMapping,
         returnColorMapping,
@@ -237,8 +242,10 @@ class ManageBookingState extends Equatable {
     String? newCompanyTaxCity,
     String? newCompanyTaxPostCode,
     String? newCompanyTaxEmailAddress,
+    bool? anyContactValueChange,
   }) {
     return ManageBookingState(
+      anyContactValueChange : anyContactValueChange ?? this.anyContactValueChange,
       newEmergencyFirstName :  newEmergencyFirstName ?? this.newEmergencyFirstName,
       newEmergencyLastName :  newEmergencyLastName ?? this.newEmergencyLastName,
       newEmergencyCountryPhCode  : newEmergencyCountryPhCode  ?? this.newEmergencyCountryPhCode,
