@@ -106,6 +106,7 @@ class CompanyTaxInvoice extends HiveObject with EquatableMixin {
         state,
         city,
         emailAddress,
+    postCode,
 
       ];
 

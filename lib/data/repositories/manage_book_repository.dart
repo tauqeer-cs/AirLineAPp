@@ -1,5 +1,6 @@
 import 'package:app/app/app_flavor.dart';
 import 'package:app/data/api.dart';
+import 'package:app/data/responses/common_response.dart';
 
 import '../../models/my_bookings.dart';
 import '../../models/pay_redirection.dart';
@@ -8,6 +9,7 @@ import '../requests/change_flight_request.dart';
 import '../requests/manage_booking_request.dart';
 import '../requests/mmb_checkout_request.dart';
 import '../requests/search_change_flight_request.dart';
+import '../requests/update_booking_contacts.dart';
 import '../responses/change_flight_response.dart';
 
 import '../responses/flight_response.dart';
@@ -74,10 +76,12 @@ class ManageBookingRepository {
   }
 
 
+  Future<CommonResponse> changeContactsInfo(UpdateBookingContact contactInfo) async {
+    final profile = await _provider.updateContacts(contactInfo);
+    return profile;
+  }
 
 
-
-  //
 
 
 }

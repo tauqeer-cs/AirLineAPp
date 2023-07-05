@@ -1,5 +1,6 @@
 
 import '../../models/confirmation_model.dart';
+import 'boarding_pass_request.dart';
 import 'check_in_request.dart';
 import 'flight_summary_pnr_request.dart';
 
@@ -9,7 +10,7 @@ class UpdateBookingContact {
   int? superPNRID;
   String? superPNRNo;
   List<UpdateInfantAssociation>? updateInfantAssociation;
-  List<OutboundCheckInPassengerDetails>? updatePassengerList;
+  List<BoardingPassPax>? updatePassengerList;
   UpdateContact? updateContact;
 
   UpdateBookingContact(
@@ -33,9 +34,9 @@ class UpdateBookingContact {
       });
     }
     if (json['UpdatePassengerList'] != null) {
-      updatePassengerList = <OutboundCheckInPassengerDetails>[];
+      updatePassengerList = <BoardingPassPax>[];
       json['UpdatePassengerList'].forEach((v) {
-        updatePassengerList!.add( OutboundCheckInPassengerDetails.fromJson(v));
+        updatePassengerList!.add( BoardingPassPax.fromJson(v));
       });
     }
     updateContact = json['UpdateContact'] != null
@@ -89,22 +90,22 @@ class UpdateInfantAssociation {
 
 
 class UpdateContact {
-  BookingContact? bookingContact;
+  TempBookingContact? bookingContact;
   EmergencyContact? emergencyContact;
-  CompanyContact? companyContact;
+  CompanyTaxInvoice? companyContact;
 
   UpdateContact(
       {this.bookingContact, this.emergencyContact, this.companyContact});
 
   UpdateContact.fromJson(Map<String, dynamic> json) {
     bookingContact = json['BookingContact'] != null
-        ? new BookingContact.fromJson(json['BookingContact'])
+        ?  TempBookingContact.fromJson(json['BookingContact'])
         : null;
     emergencyContact = json['EmergencyContact'] != null
         ? new EmergencyContact.fromJson(json['EmergencyContact'])
         : null;
     companyContact = json['CompanyContact'] != null
-        ? new CompanyContact.fromJson(json['CompanyContact'])
+        ? CompanyTaxInvoice.fromJson(json['CompanyContact'])
         : null;
   }
 
@@ -162,6 +163,39 @@ class CompanyContact {
     data['City'] = this.city;
     data['PostCode'] = this.postCode;
     data['EmailAddress'] = this.emailAddress;
+    return data;
+  }
+}
+
+class TempBookingContact {
+  String? email;
+  String? lastName;
+  String? firstName;
+  String? phoneCode;
+  String? phoneNumber;
+
+  TempBookingContact(
+      {this.email,
+        this.lastName,
+        this.firstName,
+        this.phoneCode,
+        this.phoneNumber});
+
+  TempBookingContact.fromJson(Map<String, dynamic> json) {
+    email = json['Email'];
+    lastName = json['LastName'];
+    firstName = json['FirstName'];
+    phoneCode = json['PhoneCode'];
+    phoneNumber = json['PhoneNumber'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Email'] = this.email;
+    data['LastName'] = this.lastName;
+    data['FirstName'] = this.firstName;
+    data['PhoneCode'] = this.phoneCode;
+    data['PhoneNumber'] = this.phoneNumber;
     return data;
   }
 }

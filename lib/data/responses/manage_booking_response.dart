@@ -5,6 +5,7 @@ import '../../models/confirmation_model.dart';
 import '../../models/number_person.dart';
 import '../../utils/date_utils.dart';
 import '../../data/responses/verify_response.dart' as Vs;
+import '../requests/flight_summary_pnr_request.dart' as FS;
 import 'change_flight_response.dart' as CR;
 class ManageBookingResponse {
   ManageBookingResponse copyWith({
@@ -166,7 +167,7 @@ class Result {
   SportsEquipmentDetail? sportEquipmentDetail;
   InsuranceDetails? insuranceSSRDetail;
   List<FlightSegment>? flightSegments;
-  CompanyTaxInvoice? companyTaxInvoice;
+  FS.CompanyTaxInvoice? companyTaxInvoice;
   bool? isReturn;
   bool? success;
 
@@ -400,7 +401,7 @@ class Result {
       SportsEquipmentDetail? sportEquipmentDetail,
       InsuranceDetails? insuranceSSRDetail,
       List<FlightSegment>? flightSegments,
-      CompanyTaxInvoice? companyTaxInvoice,
+        FS.CompanyTaxInvoice? companyTaxInvoice,
       bool? isReturn,
         String? message,
 
@@ -493,7 +494,7 @@ class Result {
       });
     }
     companyTaxInvoice = json['companyTaxInvoice'] != null
-        ? CompanyTaxInvoice.fromJson(json['companyTaxInvoice'])
+        ? FS.CompanyTaxInvoice.fromJson(json['companyTaxInvoice'])
         : null;
     isReturn = json['isReturn'];
     isRequiredPassport = json['isRequiredPassport'];
@@ -1016,6 +1017,7 @@ class CheckInStatus {
 
 }
 
+/*
 class CompanyTaxInvoice {
   num? superPNRID;
   String? companyName;
@@ -1131,4 +1133,5 @@ class CompanyTaxInvoice {
     return data;
   }
 }
+*/
 

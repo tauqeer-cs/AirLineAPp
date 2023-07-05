@@ -49,7 +49,6 @@ abstract class ManageBookingProvider {
   Future<CommonResponse> updateContacts(@Body() UpdateBookingContact request);
 
 
-
   @POST('checkout/getflightaddon')
   Future<CommonResponse> loadFlightAddonRequest(@Body() GetFlightAddonRequest request);
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../data/responses/manage_booking_response.dart';
 import '../../../models/confirmation_model.dart';
 import '../../../theme/spacer.dart';
@@ -24,7 +25,7 @@ class ComapnyTaxInvoiceSection extends StatelessWidget {
     final bloc = context.watch<ManageBookingCubit>();
     final state = bloc.state;
 
-    CompanyTaxInvoice? bookingContact =
+CompanyTaxInvoice? bookingContact =
         state.manageBookingResponse?.result?.companyTaxInvoice;
 
 

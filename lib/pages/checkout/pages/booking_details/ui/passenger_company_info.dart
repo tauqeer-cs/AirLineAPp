@@ -13,6 +13,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../blocs/profile/profile_cubit.dart';
+import '../../../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../../../data/responses/manage_booking_response.dart';
 import '../../../../../theme/theme.dart';
 

@@ -7,12 +7,16 @@ import '../../app/app_bloc_helper.dart';
 import '../../app/app_flavor.dart';
 import '../../data/repositories/flight_repository.dart';
 import '../../data/repositories/manage_book_repository.dart';
+import '../../data/requests/boarding_pass_request.dart';
 import '../../data/requests/book_request.dart';
 import '../../data/requests/change_flight_request.dart';
+import '../../data/requests/check_in_request.dart';
+import '../../data/requests/flight_summary_pnr_request.dart';
 import '../../data/requests/manage_booking_request.dart';
 import '../../data/requests/mmb_checkout_request.dart';
 import '../../data/requests/search_change_flight_request.dart';
 import '../../data/requests/search_flight_request.dart';
+import '../../data/requests/update_booking_contacts.dart';
 import '../../data/requests/verify_request.dart';
 import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
@@ -1801,6 +1805,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     }
   }
 
+  String? newContactFirstName;
+  String? newContactLastName;
+  String? newContactCountryPhCode;
+  String? newContactPhNo;
+  String? newContactEmail;
+
   void setContactnewValue(String value,
       {bool isFirstName = false,
       bool isLastName = false,
@@ -1808,32 +1818,58 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       bool isPhoneNo = false,
       bool isEmail = false}) {
     if (isFirstName) {
+      newContactFirstName = value;
+
       emit(
-        state.copyWith(newContactFirstName: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newContactFirstName: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isLastName) {
+      newContactLastName = value;
+
       emit(
-        state.copyWith(newContactLastName: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newContactLastName: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isPhoneCode) {
+      newContactCountryPhCode = value;
+
       emit(
-        state.copyWith(newContactCountryPhCode: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newContactCountryPhCode: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isPhoneNo) {
+      newContactPhNo = value;
+
       emit(
-        state.copyWith(newContactPhNo: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newContactPhNo: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isEmail) {
+      newContactEmail = value;
+
       emit(
-        state.copyWith(newContactEmail: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newContactEmail: value,
+          anyContactValueChange: true,
+        ),
       );
     }
   }
+
+  String? newEmergencyFirstName;
+  String? newEmergencyLastName;
+  String? newEmergencyCountryPhCode;
+  String? newEmergencyPhNo;
+  String? newEmergencyRelation;
 
   void setEmergencynewValue(String value,
       {bool isFirstName = false,
@@ -1842,6 +1878,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       bool isPhoneNo = false,
       bool isRelation = false}) {
     if (isFirstName) {
+      newEmergencyFirstName = value;
+
       emit(
         state.copyWith(
           newEmergencyFirstName: value,
@@ -1849,6 +1887,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ),
       );
     } else if (isLastName) {
+      newEmergencyLastName = value;
+
       emit(
         state.copyWith(
           newEmergencyLastName: value,
@@ -1856,22 +1896,39 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ),
       );
     } else if (isPhoneCode) {
+      newEmergencyCountryPhCode = value;
+
       emit(
-        state.copyWith(newEmergencyCountryPhCode: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newEmergencyCountryPhCode: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isPhoneNo) {
+      newEmergencyPhNo = value;
       emit(
-        state.copyWith(newEmergencyPhNo: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newEmergencyPhNo: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isRelation) {
+      newEmergencyRelation = value;
       emit(
-        state.copyWith(newEmergencyRelation: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newEmergencyRelation: value,
+          anyContactValueChange: true,
+        ),
       );
     }
   }
+
+  String? newCompanyTaxName;
+  String? newCompanyTaxAddress;
+  String? newCompanyTaxState;
+  String? newCompanyTaxCity;
+  String? newCompanyTaxPostCode;
+  String? newCompanyTaxEmailAddress;
 
   void setCompanyTaxValue(
     String value, {
@@ -1883,39 +1940,188 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     bool isEmail = false,
   }) {
     if (isName) {
+      newCompanyTaxName = value;
+
       emit(
-        state.copyWith(newCompanyTaxAame: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newCompanyTaxAame: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isAddress) {
+      newCompanyTaxAddress = value;
+
       emit(
         state.copyWith(newEmergencyLastName: value),
       );
-    } else if (isAddress) {
+    } else if (isPosCode) {
+      newCompanyTaxPostCode = value;
+
       emit(
-        state.copyWith(newEmergencyCountryPhCode: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newEmergencyCountryPhCode: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isState) {
+      newCompanyTaxState = value;
+
       emit(
-        state.copyWith(newCompanyTaxAddress: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newCompanyTaxAddress: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isCity) {
+      newCompanyTaxCity = value;
+
       emit(
-        state.copyWith(newCompanyTaxCity: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newCompanyTaxCity: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isPosCode) {
+      newCompanyTaxPostCode = value;
+
       emit(
-        state.copyWith(newCompanyTaxPostCode: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newCompanyTaxPostCode: value,
+          anyContactValueChange: true,
+        ),
       );
     } else if (isEmail) {
+      newCompanyTaxEmailAddress = value;
       emit(
-        state.copyWith(newCompanyTaxEmailAddress: value,
-          anyContactValueChange: true,),
+        state.copyWith(
+          newCompanyTaxEmailAddress: value,
+          anyContactValueChange: true,
+        ),
       );
     }
+  }
+
+  void saveContactChanges() async {
+    var bookingContactInfo = UpdateBookingContact();
+
+    emit(
+      state.copyWith(
+        savingContactChanges: true,
+      ),
+    );
+
+    try {
+      List<UpdateInfantAssociation>? updateInfantAssociation = [];
+
+      List<BoardingPassPax>? updatePassengerList = [];
+
+      for (PassengersWithSSR currentOne in state
+              .manageBookingResponse?.result?.passengersWithSSRWithoutInfant ??
+          []) {
+        updatePassengerList.add(
+          BoardingPassPax(
+              personOrgId: currentOne.personOrgID,
+              memberID: '',
+              passport: '',
+              passportExpiryDate: '2025-04-18T00:00:00.000Z'),
+        );
+
+        if (currentOne.haveInfant == true) {
+          updateInfantAssociation.add(
+            UpdateInfantAssociation(
+                infantFirstName: currentOne.infantGivenName,
+                infantLastName: currentOne.infantSurname,
+                adultPersonOrgID: currentOne.personOrgID),
+          );
+        }
+      }
+
+      bookingContactInfo.updatePassengerList = updatePassengerList;
+      bookingContactInfo.updateInfantAssociation = updateInfantAssociation;
+
+      bookingContactInfo.pNR = state.pnrEntered;
+      bookingContactInfo.lastName = state.lastName;
+      bookingContactInfo.superPNRID = state
+          .manageBookingResponse?.result?.superPNROrder?.superPNRID
+          ?.toInt();
+      bookingContactInfo.superPNRNo =
+          state.manageBookingResponse?.result?.superPNR?.superPNRNo ?? '';
+
+      var updatedContact = UpdateContact();
+
+      BookingContact? bookingContact =
+          state.manageBookingResponse?.result?.bookingContact;
+
+      bookingContact = bookingContact?.copyWith(
+          givenName: newContactFirstName,
+          surname: newContactLastName,
+          phone1LocationCode: newContactCountryPhCode,
+          phone1: newContactPhNo,
+          email: newContactEmail);
+
+      var emergency = EmergencyContact(
+          firstName: newEmergencyFirstName ??
+              (bookingContact?.emergencyGivenName ?? ''),
+          lastName:
+              newEmergencyLastName ?? (bookingContact?.emergencySurname ?? ''),
+          email: (bookingContact?.emergencyEmail ?? ''),
+          relationship: newEmergencyRelation ??
+              (bookingContact?.emergencyRelationship ?? ''),
+          phoneCode: newEmergencyCountryPhCode ??
+              (bookingContact?.emergencyPhoneCode ?? ''),
+          phoneNumber:
+              newEmergencyPhNo ?? (bookingContact?.emergencyPhone ?? ''));
+
+      updatedContact.bookingContact = TempBookingContact(
+        email: bookingContact?.email ?? '',
+        lastName: bookingContact?.surname ?? '',
+        firstName: bookingContact?.givenName ?? '',
+        phoneCode: bookingContact?.phone1LocationCode ?? '',
+        phoneNumber: bookingContact?.phone1 ?? '',
+      );
+      updatedContact.emergencyContact = emergency;
+      updatedContact.companyContact =
+          state.manageBookingResponse?.result?.companyTaxInvoice?.copyWith(
+        companyName: newCompanyTaxName,
+        companyAddress: newCompanyTaxAddress,
+        state: newCompanyTaxState,
+        city: newCompanyTaxCity,
+        postCode: newCompanyTaxPostCode,
+        emailAddress: newCompanyTaxEmailAddress,
+            country: 'MYS'
+      );
+
+      bookingContactInfo.updateContact = updatedContact;
+      var result = await _repository.changeContactsInfo(bookingContactInfo);
+
+      if (result.success == true) {
+        emit(
+          state.copyWith(
+            message: ErrorUtils.showErrorMessage(result.message ?? '') ,
+            savingContactChanges: false,
+            anyContactValueChange: false,
+
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            anyContactValueChange: false,
+            savingContactChanges: false,
+          ),
+        );
+      }
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          savingContactChanges: false,
+          message: ErrorUtils.getErrorMessage(e, st),
+          blocState: BlocState.failed,
+        ),
+      );
+      return;
+    }
+
+    //savingContactChanges
   }
 }

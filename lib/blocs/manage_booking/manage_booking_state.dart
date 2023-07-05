@@ -20,6 +20,8 @@ class ManageBookingState extends Equatable {
 
   final bool anyContactValueChange;
 
+  final bool savingContactChanges;
+
 
   final String? newCompanyTaxName;
   final String? newCompanyTaxAddress;
@@ -131,6 +133,7 @@ class ManageBookingState extends Equatable {
     this.newCompanyTaxCity,
     this.newCompanyTaxPostCode,
     this.newCompanyTaxEmailAddress,
+    this.savingContactChanges = false,
   });
 
   @override
@@ -183,6 +186,7 @@ class ManageBookingState extends Equatable {
     newCompanyTaxCity,
     newCompanyTaxPostCode,
     newCompanyTaxEmailAddress,
+    savingContactChanges
 
   ];
 
@@ -243,8 +247,10 @@ class ManageBookingState extends Equatable {
     String? newCompanyTaxPostCode,
     String? newCompanyTaxEmailAddress,
     bool? anyContactValueChange,
+    bool? savingContactChanges,
   }) {
     return ManageBookingState(
+      savingContactChanges : savingContactChanges ?? this.savingContactChanges,
       anyContactValueChange : anyContactValueChange ?? this.anyContactValueChange,
       newEmergencyFirstName :  newEmergencyFirstName ?? this.newEmergencyFirstName,
       newEmergencyLastName :  newEmergencyLastName ?? this.newEmergencyLastName,
