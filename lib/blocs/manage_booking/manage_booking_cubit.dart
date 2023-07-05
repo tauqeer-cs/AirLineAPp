@@ -1199,6 +1199,26 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   void resetData() {
+
+    newCompanyTaxName= null;
+    newCompanyTaxAddress= null;
+    newCompanyTaxState= null;
+    newCompanyTaxCity= null;
+    newCompanyTaxPostCode= null;
+    newCompanyTaxEmailAddress= null;
+
+    newEmergencyFirstName= null;
+    newEmergencyLastName= null;
+    newEmergencyCountryPhCode= null;
+    newEmergencyPhNo= null;
+    newEmergencyRelation= null;
+
+    newContactFirstName= null;
+    newContactLastName= null;
+    newContactCountryPhCode= null;
+    newContactPhNo= null;
+    newContactEmail= null;
+
     emit(
       state.copyWith(
         checkedDeparture: false,
@@ -2080,16 +2100,20 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         phoneNumber: bookingContact?.phone1 ?? '',
       );
       updatedContact.emergencyContact = emergency;
-      updatedContact.companyContact =
-          state.manageBookingResponse?.result?.companyTaxInvoice?.copyWith(
-        companyName: newCompanyTaxName,
-        companyAddress: newCompanyTaxAddress,
-        state: newCompanyTaxState,
-        city: newCompanyTaxCity,
-        postCode: newCompanyTaxPostCode,
-        emailAddress: newCompanyTaxEmailAddress,
-            country: 'MYS'
-      );
+      if(newCompanyTaxEmailAddress != null || newCompanyTaxName != null || newCompanyTaxAddress != null || newCompanyTaxState != null || newCompanyTaxCity != null || newCompanyTaxPostCode != null){
+        updatedContact.companyContact =
+            state.manageBookingResponse?.result?.companyTaxInvoice?.copyWith(
+                companyName: newCompanyTaxName,
+                companyAddress: newCompanyTaxAddress,
+                state: newCompanyTaxState,
+                city: newCompanyTaxCity,
+                postCode: newCompanyTaxPostCode,
+                emailAddress: newCompanyTaxEmailAddress,
+                country: 'MYS'
+            );
+
+      }
+
 
       bookingContactInfo.updateContact = updatedContact;
       var result = await _repository.changeContactsInfo(bookingContactInfo);
