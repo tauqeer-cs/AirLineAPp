@@ -64,7 +64,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
     final sortedSegment = List<InboundOutboundSegment>.from(widget.segments);
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     sort(sortedSegment);
-    return Column(
+    return  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacer,
@@ -158,24 +158,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
                 ),
               ),
             ),
-            // JustTheTooltipEntry(
-            //   tailLength: 10.0,
-            //   preferredDirection: AxisDirection.up,
-            //   isModal: true,
-            //   margin: const EdgeInsets.all(20.0),
-            //   child: Icon(
-            //     Icons.info,
-            //     color: Styles.kPrimaryColor,
-            //   ),
-            //   backgroundColor: Color.fromRGBO(237,242,244,1),
-            //   content: Padding(
-            //     padding: EdgeInsets.all(16.0),
-            //     child: Text(
-            //       "All fares are calculated based on a one-way flight for ${filter?.numberPerson.toBeautify()}. You may make changes to your booking for a nominal fee. All fares are non-refundable, for more information please read our Fare Rules.",
-            //       style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-            //     ),
-            //   ),
-            // )
+
           ],
         ),
         sortedSegment.isEmpty
@@ -191,7 +174,7 @@ class _ChooseFlightSegmentState extends State<ChooseFlightSegment> {
             : Column(
                 children: sortedSegment
                     .map(
-                      (e) => SegmentCard(
+                      (e) =>  SegmentCard(
                         currency: widget.currency,
                         segment: e,
                         isDeparture: widget.isDeparture,

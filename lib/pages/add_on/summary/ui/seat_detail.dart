@@ -65,16 +65,18 @@ class SeatSummaryDetail extends StatelessWidget {
 
       manageBookingCubit.hasAnySeatChanged;
 
-    }
-    else {
-
-persons =  context
+      persons =  context
           .watch<ManageBookingCubit>()
           .state
           .manageBookingResponse
           ?.result
           ?.allPersonObject ??
           [];
+
+
+
+    }
+    else {
 
 
 

@@ -12,6 +12,7 @@ import '../../data/requests/book_request.dart';
 import '../../data/requests/change_flight_request.dart';
 import '../../data/requests/check_in_request.dart';
 import '../../data/requests/flight_summary_pnr_request.dart';
+import '../../data/requests/get_flight_addon_request.dart';
 import '../../data/requests/manage_booking_request.dart';
 import '../../data/requests/mmb_checkout_request.dart';
 import '../../data/requests/search_change_flight_request.dart';
@@ -236,14 +237,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     for (int i = 0; i < seatsDeparture.length; i++) {
       final seat = seatsDeparture[i];
-      departureColorMapping.putIfAbsent(
-          seat.serviceID, () => availableSeatsColor[i]);
+     // departureColorMapping.putIfAbsent(
+       //   seat.ssrCode, () => availableSeatsColor[i]);
     }
 
     for (int i = 0; i < seatsReturn.length; i++) {
       final seat = seatsReturn[i];
-      returnColorMapping.putIfAbsent(
-          seat.serviceID, () => availableSeatsColor[i]);
+      //returnColorMapping.putIfAbsent(
+        //  seat.serviceID, () => availableSeatsColor[i]);
+
     }
     int personIndex = 0;
 
@@ -904,6 +906,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ManageBookingRequest(pnr: bookingReference, lastname: lastName),
       );
 
+      //  String? pNR;
+      //   String? lastName;
+      //   bool? isInternational;
+      var flightRequest = GetFlightAddonRequest(pNR: bookingReference,lastName: lastName,isInternational: verifyResponse.result?.isRequiredPassport ?? false);
+      _repository.getFlightAddonRequest(flightRequest);
+
+      //manageBookingSubText
       emit(
         state.copyWith(
             blocState: BlocState.finished,

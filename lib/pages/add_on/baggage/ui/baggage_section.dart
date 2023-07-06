@@ -181,7 +181,7 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
 
         var responseFlag = context.read<SearchFlightCubit>().addBaggageToPerson(
             selectedPerson,
-            (widget.selectedBaggage.serviceID ?? 0) == 0
+            (widget.selectedBaggage.ssrCode ?? '') == ''
                 ? null
                 : widget.selectedBaggage,
             widget.isDeparture);
@@ -237,7 +237,7 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                   IgnorePointer(
                     child: Radio<Bundle?>(
                       activeColor: Styles.kPrimaryColor,
-                      value: widget.selectedBaggage.serviceID == 0
+                      value: widget.selectedBaggage.ssrCode == ''
                           ? null
                           : widget.selectedBaggage,
                       groupValue: baggage,
@@ -345,13 +345,13 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
       return Container();
     }
   }
-  var selectedItem = 0;
+  var selectedItem = '';
 
   @override
   void initState() {
 
     super.initState();
-    selectedItem = 0;
+    selectedItem = '';
 
   }
 
@@ -384,7 +384,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
       int indexOf = baggage?.indexOf((resultIndexFinder ?? []).first) ?? 0;
       print('');
 
-      selectedItem = (resultIndexFinder ?? []).first.serviceID?.toInt() ?? 0;
+      selectedItem = (resultIndexFinder ?? []).first.ssrCode ?? '';
 
 
 
@@ -440,7 +440,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
                   return InkWell(
                     onTap: (){
-                      selectedItem = (baggage ?? [])[index].serviceID?.toInt() ?? 0;
+                      selectedItem = (baggage ?? [])[index].ssrCode ?? '';
                       bloc?.addBaggageToPerson(selectedPerson,(baggage ?? [])[index],widget.isDeparture);
                       setState(() {
 
@@ -486,7 +486,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                           child: Radio<Bundle?>(
                             activeColor: Styles.kActiveColor,
                             value: selectedItem ==
-                                currentItem.serviceID!.toInt()
+                                currentItem.ssrCode
                                 ? currentItem
                                 : null,
                             groupValue: currentItem,
@@ -533,7 +533,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     onlyOneTime = true;
 
     await Future.delayed(Duration(milliseconds: 500));
-    selectedItem = indexOf;
+  //  selectedItem = indexOf;
 
     pageController.animateToPage(indexOf, duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }

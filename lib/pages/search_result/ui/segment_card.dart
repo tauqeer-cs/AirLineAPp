@@ -162,7 +162,7 @@ class SegmentCard extends StatelessWidget {
                                     amount: changeFlight
                                         ? segment.changeFlightAmountToShow
                                         : segment
-                                            .totalSegmentFareAmtWithInfantSSR,
+                                            .amountToShowInPreview,
                                     isDense: true,
                                     showPlus: changeFlight),
                                 Visibility(
@@ -215,7 +215,7 @@ class SegmentCard extends StatelessWidget {
                                       amount: changeFlight
                                           ? segment.changeFlightAmountToShow
                                           : segment
-                                              .totalSegmentFareAmtWithInfantSSR,
+                                              .amountToShowInPreview,
                                       isDense: true,
                                       showPlus: changeFlight),
                                   Visibility(

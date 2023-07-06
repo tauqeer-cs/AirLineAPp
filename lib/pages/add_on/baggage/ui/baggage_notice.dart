@@ -181,15 +181,14 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
   bool showDescribtion = false;
   int number = 0;
 
-  var selectedItem = 0;
+  var selectedItem = '';
 
   Person? lastPersonUser;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    selectedItem = 0;
+    selectedItem = '';
   }
 
   Widget amountToShow(Bundle currentItem, {bool red = false}) {
@@ -259,7 +258,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
         int indexOf = baggage?.indexOf((resultIndexFinder ?? []).first) ?? 0;
         print('');
 
-        selectedItem = (resultIndexFinder ?? []).first.serviceID?.toInt() ?? 0;
+        selectedItem = (resultIndexFinder ?? []).first.ssrCode ?? '';
 
 
 
@@ -289,18 +288,18 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     }
 
     if (lastPersonUser != selectedPerson) {
-      selectedItem = 0;
+      selectedItem = '';
 
       if (isDeparture) {
         if (selectedPerson?.departureSports != null) {
-          if (selectedPerson?.departureSports!.serviceID != null) {
-            selectedItem = selectedPerson!.departureSports!.serviceID!.toInt();
+          if (selectedPerson?.departureSports!.ssrCode != null) {
+            selectedItem = selectedPerson!.departureSports!.ssrCode ?? '';
           }
         }
       } else {
         if (selectedPerson?.returnSports != null) {
-          if (selectedPerson?.returnSports!.serviceID != null) {
-            selectedItem = selectedPerson!.returnSports!.serviceID!.toInt();
+          if (selectedPerson?.returnSports!.ssrCode != null) {
+            selectedItem = selectedPerson!.returnSports!.ssrCode ?? '';
           }
         }
       }
@@ -348,7 +347,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                         return InkWell(
                           onTap: (){
 
-                            selectedItem = (baggage ?? [])[index].serviceID?.toInt() ?? 0;
+                            selectedItem = (baggage ?? [])[index].ssrCode ?? '';
                             managebloc?.addSportToPerson(selectedPerson,(baggage ?? [])[index],isDeparture);
                             setState(() {
 
@@ -394,7 +393,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                 child: Radio<Bundle?>(
                                   activeColor: Styles.kActiveColor,
                                   value: selectedItem ==
-                                          currentItem.serviceID!.toInt()
+                                          currentItem.ssrCode
                                       ? currentItem
                                       : null,
                                   groupValue: currentItem,
@@ -441,14 +440,14 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              selectedItem = currentItem.serviceID!.toInt();
+                              selectedItem = currentItem.ssrCode ?? '';
                             });
 
                             var responseFlag = context
                                 .read<SearchFlightCubit>()
                                 .addSportEquipmentToPerson(
                                     selectedPerson,
-                                    (currentItem.serviceID ?? 0) == 0
+                                    (currentItem.ssrCode ?? '') == ''
                                         ? null
                                         : currentItem,
                                     isDeparture);
@@ -471,7 +470,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                         child: Radio<Bundle?>(
                                           activeColor: Styles.kActiveColor,
                                           value: selectedItem ==
-                                                  currentItem.serviceID!.toInt()
+                                                  currentItem.ssrCode
                                               ? currentItem
                                               : null,
                                           groupValue: currentItem,
@@ -553,7 +552,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     onlyOneTime = true;
 
     await Future.delayed(Duration(milliseconds: 500));
-    selectedItem = indexOf;
+    //selectedItem = indexOf;
 
     pageController.animateToPage(indexOf, duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }

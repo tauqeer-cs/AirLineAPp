@@ -36,7 +36,7 @@ class SeatsLegend extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 10,
-                    backgroundColor: (mapColor ?? {})[e.serviceID],
+                    backgroundColor: (mapColor ?? {})[e.ssrCode],
                   ),
                   kHorizontalSpacerMini,
                   Text(e.description ?? "")

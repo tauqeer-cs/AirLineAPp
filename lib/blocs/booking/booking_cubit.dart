@@ -109,13 +109,13 @@ class BookingCubit extends Cubit<BookingState> {
       final Map<num?, Color> returnColorMapping = {};
       for (int i = 0; i < seatsDeparture.length; i++) {
         final seat = seatsDeparture[i];
-        departureColorMapping.putIfAbsent(
-            seat.serviceID, () => availableSeatsColor[i]);
+        //departureColorMapping.putIfAbsent(
+          //  seat.serviceID, () => availableSeatsColor[i]);
       }
       for (int i = 0; i < seatsReturn.length; i++) {
         final seat = seatsReturn[i];
-        returnColorMapping.putIfAbsent(
-            seat.serviceID, () => availableSeatsColor[i]);
+        //returnColorMapping.putIfAbsent(
+          //  seat.serviceID, () => availableSeatsColor[i]);
       }
       emit(
         state.copyWith(

@@ -394,6 +394,10 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
         }
       }
 
+      String lfidDeparture = bookingState.selectedDeparture?.lfid ?? '';
+      String lfidReturn = bookingState.selectedDeparture?.lfid ?? '';
+
+
       List<Passenger> passengers = [];
       for (Person person in (persons?.persons ?? [])) {
         final passenger = person.toPassenger(
@@ -412,7 +416,7 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
               ?.retrieveFlightSeatMapResponse
               ?.physicalFlights
               ?.firstOrNull
-              ?.physicalFlightID,
+              ?.physicalFlightID, lfIdDeparture: lfidDeparture, lfIdReturn: lfidReturn,
         );
         final filledPassenger = passenger.copyWith(
           firstName: value["${person.toString()}$formNameFirstName"],

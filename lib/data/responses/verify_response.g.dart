@@ -577,7 +577,7 @@ Map<String, dynamic> _$InboundBundleToJson(InboundBundle instance) {
 
 Bundle _$BundleFromJson(Map<String, dynamic> json) => Bundle(
       logicalFlightID: json['logicalFlightID'] as String?,
-      serviceID: json['serviceID'] as num?,
+  ssrCode: json['ssrCode'] as String?,
       departureDate: json['departureDate'] as String?,
       operatingCarrier: json['operatingCarrier'] as String?,
       marketingCarrier: json['marketingCarrier'] as String?,
@@ -587,7 +587,6 @@ Bundle _$BundleFromJson(Map<String, dynamic> json) => Bundle(
       amount: json['amount'] as num?,
       amountActive: json['amountActive'] as bool?,
       categoryID: json['categoryID'] as num?,
-      ssrCode: json['ssrCode'] as String?,
       display: json['display'] as bool?,
       maxCountServiceLevel: json['maxCountServiceLevel'] as num?,
       refundable: json['refundable'] as bool?,
@@ -618,7 +617,7 @@ Map<String, dynamic> _$BundleToJson(Bundle instance) {
   }
 
   writeNotNull('logicalFlightID', instance.logicalFlightID);
-  writeNotNull('serviceID', instance.serviceID);
+  writeNotNull('ssrCode', instance.ssrCode);
   writeNotNull('departureDate', instance.departureDate);
   writeNotNull('operatingCarrier', instance.operatingCarrier);
   writeNotNull('marketingCarrier', instance.marketingCarrier);
@@ -694,7 +693,6 @@ BundleServiceDetails _$BundleServiceDetailsFromJson(
       description: json['description'] as String?,
       glCode: json['glCode'] as String?,
       isMaxinventory: json['isMaxinventory'] as bool?,
-      serviceID: json['serviceID'] as num?,
       ssrCode: json['ssrCode'] as String?,
     );
 
@@ -714,7 +712,6 @@ Map<String, dynamic> _$BundleServiceDetailsToJson(
   writeNotNull('description', instance.description);
   writeNotNull('glCode', instance.glCode);
   writeNotNull('isMaxinventory', instance.isMaxinventory);
-  writeNotNull('serviceID', instance.serviceID);
   writeNotNull('ssrCode', instance.ssrCode);
   return val;
 }
@@ -1048,7 +1045,7 @@ Seats _$SeatsFromJson(Map<String, dynamic> json) => Seats(
       seatWBZoneId: json['seatWBZoneId'] as num?,
       serviceCode: json['serviceCode'] as String?,
       serviceDescription: json['serviceDescription'] as String?,
-      serviceId: json['serviceId'] as num?,
+  //ssrCode: json['ssrCode'] as String?,
       weightIndex: json['weightIndex'] as num?,
     );
 
@@ -1077,7 +1074,7 @@ Map<String, dynamic> _$SeatsToJson(Seats instance) {
   writeNotNull('seatWBZoneId', instance.seatWBZoneId);
   writeNotNull('serviceCode', instance.serviceCode);
   writeNotNull('serviceDescription', instance.serviceDescription);
-  writeNotNull('serviceId', instance.serviceId);
+  //writeNotNull('ssrCode', instance.ssrCode);
   writeNotNull('weightIndex', instance.weightIndex);
   return val;
 }

@@ -11,6 +11,7 @@ import '../requests/search_change_flight_request.dart';
 import '../requests/update_booking_contacts.dart';
 import '../responses/change_flight_response.dart';
 import '../responses/common_response.dart';
+import '../responses/flight_add_ons_response.dart';
 import '../responses/flight_response.dart';
 import '../responses/manage_booking_response.dart';
 
@@ -50,7 +51,7 @@ abstract class ManageBookingProvider {
 
 
   @POST('checkout/getflightaddon')
-  Future<CommonResponse> loadFlightAddonRequest(@Body() GetFlightAddonRequest request);
+  Future<FightAddOns> loadFlightAddonRequest(@Body() GetFlightAddonRequest request);
 
 //https://mya-nav-api.alphareds.com/api/v1/
 

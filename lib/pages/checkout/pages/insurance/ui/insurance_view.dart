@@ -24,7 +24,8 @@ import '../../../ui/empty_addon.dart';
 class InsuranceView extends StatefulWidget {
   final bool isManageBooking;
 
-  const InsuranceView({Key? key, this.isManageBooking = false}) : super(key: key);
+  const InsuranceView({Key? key, this.isManageBooking = false})
+      : super(key: key);
 
   @override
   State<InsuranceView> createState() => _InsuranceViewState();
@@ -63,63 +64,66 @@ class _InsuranceViewState extends State<InsuranceView> {
     List<Bundle> insurances = [];
     Bundle? firstInsurance;
     final insuranceState = context.watch<InsuranceCubit>().state;
-    if(widget.isManageBooking) {
-
-    }
-    else {
+    if (widget.isManageBooking) {
+    } else {
       final bookingState = context.watch<BookingCubit>().state;
       insuranceGroup = bookingState.verifyResponse?.flightSSR?.insuranceGroup;
 
       insuranceCubit = context.watch<InsuranceCubit>();
 
-
       passengers = insuranceState.passengers;
 
       insurances =
-          bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+          bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ??
+              [];
 
       firstInsurance = insurances.firstOrNull;
-
-
     }
 
-
-
-
-
     String? logoImage = '';
-    if((insurances ?? []).isNotEmpty) {
+    if ((insurances ?? []).isNotEmpty) {
       final agentCms = context.watch<AgentSignUpCubit>().state;
 
       String insuranceCode = firstInsurance?.codeType ?? '';
 
-      if(agentCms.locationItem != null) {
-        if(agentCms.locationItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+      if (agentCms.locationItem != null) {
+        if (agentCms.locationItem?.items
+                ?.where((e) => e.code == insuranceCode)
+                .toList()
+                .isNotEmpty ==
+            true) {
           logoImage = agentCms.locationItem?.banner;
         }
       }
 
-      if((logoImage ?? '').isEmpty) {
-        if(agentCms.internationalItem != null) {
-          if(agentCms.internationalItem?.items?.where((e) => e.code == insuranceCode).toList().isNotEmpty == true){
+      if ((logoImage ?? '').isEmpty) {
+        if (agentCms.internationalItem != null) {
+          if (agentCms.internationalItem?.items
+                  ?.where((e) => e.code == insuranceCode)
+                  .toList()
+                  .isNotEmpty ==
+              true) {
             logoImage = agentCms.internationalItem?.banner;
           }
         }
       }
 
-      if((logoImage ?? '').isEmpty){
-        if(insuranceCode.contains('DL')){
+      if ((logoImage ?? '').isEmpty) {
+        if (insuranceCode.contains('DL')) {
           logoImage = agentCms.locationItem?.banner;
         }
-
       }
 
-      if((logoImage ?? '').isEmpty){
+      if ((logoImage ?? '').isEmpty) {
         logoImage = agentCms.internationalItem?.banner;
       }
+    }
 
+     bool hasSeat = false;
 
-
+    var seat = passengers.firstWhereOrNull((e) => e.seat != null)?.seat;
+    if(seat != null) {
+      hasSeat = true;
 
     }
 
@@ -131,31 +135,33 @@ class _InsuranceViewState extends State<InsuranceView> {
             controller: scrollController,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
-
-              if(insurances.isNotEmpty) ... [
+              if (insurances.isNotEmpty && hasSeat == false) ...[
                 Text(
                   "myAirTravelInsurance".tr(),
                   style: kHugeHeavy,
                 ),
                 kVerticalSpacer,
-                 ZurichContainer(bannerImageUrl: logoImage,),
+                ZurichContainer(
+                  bannerImageUrl: logoImage,
+                ),
                 kVerticalSpacer,
-
-                 AvailableInsurance(isManageBooking: widget.isManageBooking,),
-
+                AvailableInsurance(
+                  isManageBooking: widget.isManageBooking,
+                ),
                 InsuranceTerms(
                   isInternational:
-                  firstInsurance?.codeType?.contains('SL') == true,
+                      firstInsurance?.codeType?.contains('SL') == true,
                 ),
                 kSummaryContainerSpacing,
                 kSummaryContainerSpacing,
-              ] else ... [
+              ] else ...[
                 //icoNoInsurance
 
-                 EmptyAddon(icon : "assets/images/icons/icoNoInsurance.png" ,customText: 'insuranceTempUnavailable'.tr(),),
+                EmptyAddon(
+                  icon: "assets/images/icons/icoNoInsurance.png",
+                  customText: 'insuranceTempUnavailable'.tr(),
+                ),
               ],
-
-
             ],
           ),
         ),
@@ -174,10 +180,11 @@ class _InsuranceViewState extends State<InsuranceView> {
                   ElevatedButton(
                     onPressed: () {
 
-                      context.router.push(const PaymentRoute());
+                      if(hasSeat) {
+                        context.router.push(const PaymentRoute());
+                        return;
 
-                      return;
-
+                      }
                       final bookingState = context.read<BookingCubit>().state;
                       final token = bookingState.verifyResponse?.token;
                       if (token == null) {
@@ -187,17 +194,37 @@ class _InsuranceViewState extends State<InsuranceView> {
                       final summaryRequest = InsuranceRequest(
                           token: token,
                           updateInsuranceRequest: UpdateInsuranceRequest(
-                            isRemoveInsurance: false,
+                            isRemoveInsurance: true,
                             passengers: context
                                 .read<InsuranceCubit>()
                                 .state
                                 .passengersWithOutInfants,
                           ));
+
+                      InsuranceRequest insuranceRequests2 = summaryRequest.copyWith();
+
+                      List<Passenger> allPassengers = [];
+
+                      var updateInsuranceRequest = insuranceRequests2.updateInsuranceRequest;
+
+
+                      for(Passenger currentItem in insuranceRequests2.updateInsuranceRequest?.passengers ?? []) {
+
+                        allPassengers.add(currentItem.copyWithNull(seat: true));
+                      }
+
+                      var cc1 = insuranceRequests2.updateInsuranceRequest?.copyWith(passengers:allPassengers );
+                      var finalrequest = summaryRequest.copyWith(updateInsuranceRequest: cc1);
+
+
+
                       context
                           .read<SummaryCubit>()
-                          .submitUpdateInsurance(summaryRequest);
+                          .submitUpdateInsurance(finalrequest);
                     },
-                    child: Text("continue".tr()),
+                    child: Text(
+                      "continue".tr(),
+                    ),
                   ),
                 ],
               ),

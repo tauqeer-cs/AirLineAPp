@@ -274,7 +274,7 @@ class Person extends Equatable {
 
   Map<num?, List<Bundle>> groupedMeal(bool isDeparture) {
     final meals = isDeparture ? departureMeal : returnMeal;
-    var newMap = groupBy(meals, (meal) => meal.serviceID);
+    var newMap = groupBy(meals, (meal) => meal.amount);
     return newMap;
   }
 
@@ -285,6 +285,9 @@ class Person extends Equatable {
     String? outboundPhysicalId,
     NumberPerson? numberPerson,
     BundleGroupSeat? infantGroup,
+    required String lfIdDeparture,
+    required String lfIdReturn,
+
   }) {
     List<Bound> outboundSSR = [];
     List<Bound> inboundSSR = [];
@@ -301,13 +304,13 @@ class Person extends Equatable {
         servicesType: "Infant",
         logicalFlightId: outBoundInfant?.logicalFlightID,
         quantity: 1,
-        serviceId: outBoundInfant?.serviceID,
+        ssrCode: outBoundInfant?.ssrCode,
       ));
       inboundSSR.add(Bound(
         servicesType: "Infant",
         logicalFlightId: inBoundInfant?.logicalFlightID,
         quantity: 1,
-        serviceId: inBoundInfant?.serviceID,
+        ssrCode: inBoundInfant?.ssrCode,
       ));
     }
     if (departureBundle?.toBound() != null) {
@@ -324,7 +327,7 @@ class Person extends Equatable {
       final firstValue = value.firstOrNull;
       final outBoundMeal = Bound(
           quantity: value.length,
-          serviceId: firstValue?.serviceID,
+          ssrCode: firstValue?.ssrCode,
           logicalFlightId: firstValue?.logicalFlightID,
           price: firstValue?.finalAmount,
           servicesType: "MEAL",
@@ -335,7 +338,7 @@ class Person extends Equatable {
       final firstValue = value.firstOrNull;
       final inboundMeal = Bound(
           quantity: value.length,
-          serviceId: firstValue?.serviceID,
+          ssrCode: firstValue?.ssrCode,
           logicalFlightId: firstValue?.logicalFlightID,
           price: firstValue?.finalAmount,
           servicesType: "MEAL",

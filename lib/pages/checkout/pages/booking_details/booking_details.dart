@@ -80,6 +80,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     final outboundSeats = flightSeats?.outbound;
     final inboundSeats = flightSeats?.inbound;
 
+    String lfidDeparture = bookingState.selectedDeparture?.lfid ?? '';
+    String lfidReturn = bookingState.selectedDeparture?.lfid ?? '';
+
     final rowsOutBound = outboundSeats
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -115,7 +118,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             ?.retrieveFlightSeatMapResponse
             ?.physicalFlights
             ?.firstOrNull
-            ?.physicalFlightID,
+            ?.physicalFlightID, lfIdDeparture: lfidDeparture, lfIdReturn: lfidReturn,
       );
       passengers.add(passenger);
 

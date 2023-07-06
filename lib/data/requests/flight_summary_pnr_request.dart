@@ -474,7 +474,6 @@ class Outbound extends Equatable {
         seatRow,
         seatColumn,
         physicalFlightId,
-        price,
       ];
 
   factory Outbound.fromJson(Map<String, dynamic> json) =>
@@ -486,7 +485,6 @@ class Outbound extends Equatable {
     this.seatRow,
     this.seatColumn,
     this.physicalFlightId,
-    this.price,
   });
 
   @JsonKey(name: 'SeatRow')
@@ -495,8 +493,7 @@ class Outbound extends Equatable {
   final String? seatColumn;
   @JsonKey(name: 'PhysicalFlightID')
   final String? physicalFlightId;
-  @JsonKey(name: 'price')
-  final List<Price>? price;
+
 
   Outbound copyWith({
     num? seatRow,
@@ -508,7 +505,6 @@ class Outbound extends Equatable {
         seatRow: seatRow ?? this.seatRow,
         seatColumn: seatColumn ?? this.seatColumn,
         physicalFlightId: physicalFlightId ?? this.physicalFlightId,
-        price: price ?? this.price,
       );
 }
 
@@ -587,7 +583,7 @@ class Bound extends Equatable {
   @override
   List<Object?> get props => [
         logicalFlightId,
-        serviceId,
+    ssrCode,
         servicesType,
         quantity,
         price,
@@ -600,7 +596,7 @@ class Bound extends Equatable {
 
   const Bound({
     this.logicalFlightId,
-    this.serviceId,
+    this.ssrCode,
     this.servicesType,
     this.quantity,
     this.price,
@@ -610,8 +606,8 @@ class Bound extends Equatable {
 
   @JsonKey(name: 'LogicalFlightID')
   final String? logicalFlightId;
-  @JsonKey(name: 'ServiceID')
-  final num? serviceId;
+  @JsonKey(name: 'ssrCode')
+  final String? ssrCode;
   @JsonKey(name: 'ServicesType')
   final String? servicesType;
   @JsonKey(name: 'Quantity')
@@ -625,7 +621,7 @@ class Bound extends Equatable {
 
   Bound copyWith({
     String? logicalFlightId,
-    num? serviceId,
+    String? ssrCode,
     String? servicesType,
     num? quantity,
     num? price,
@@ -634,7 +630,7 @@ class Bound extends Equatable {
   }) =>
       Bound(
         logicalFlightId: logicalFlightId ?? this.logicalFlightId,
-        serviceId: serviceId ?? this.serviceId,
+        ssrCode: ssrCode ?? this.ssrCode,
         servicesType: servicesType ?? this.servicesType,
         quantity: quantity ?? this.quantity,
         price: price ?? this.price,

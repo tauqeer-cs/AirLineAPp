@@ -38,7 +38,6 @@ class SeatPlan extends StatelessWidget {
     ManageBookingCubit? manageBookingCubit;
 
     if (isManageBooking == true) {
-
       var bloc = context.watch<ManageBookingCubit>();
       manageBookingCubit = bloc;
 
@@ -107,12 +106,12 @@ class SeatPlan extends StatelessWidget {
             int index = entry.key;
             Rows row = entry.value;
             Rows? previousRow = index == 0 ? null : rows?[index - 1];
-            bool isSeatSeparated = row.seats?.first.serviceId !=
-                previousRow?.seats?.first.serviceId;
+            bool isSeatSeparated = row.seats?.first.serviceCode !=
+                previousRow?.seats?.first.serviceCode;
             Bundle? bundle;
             for (Seats seat in row.seats ?? []) {
               bundle = legends.firstWhereOrNull(
-                  (element) => element.serviceID == seat.serviceId);
+                  (element) => element.ssrCode == seat.serviceCode);
               if (bundle?.finalAmount != null && bundle?.finalAmount != 0)
                 break;
             }
@@ -131,7 +130,7 @@ class SeatPlan extends StatelessWidget {
                     Column(
                       children: [
                         kVerticalSpacerSmall,
-                        Row(
+                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Expanded(flex: 1, child: SizedBox()),
@@ -143,14 +142,15 @@ class SeatPlan extends StatelessWidget {
                                 color: row.seats?.first.toColor,
                               ),
                             ),
-                            Expanded(
+Expanded(
                               flex: 3,
-                              child: bundle.finalAmount == null
+                              child: (bundle.ssrCode ?? '').isEmpty
                                   ? Center(
                                       child: Text(
-                                      "noData".tr(),
-                                      style: kLargeHeavy,
-                                    ))
+                                        "noData".tr(),
+                                        style: kLargeHeavy,
+                                      ),
+                                    )
                                   : SeatPrice(
                                       amount: bundle.finalAmount,
                                       currency: row.seats?.first.seatPriceOffers
@@ -175,7 +175,7 @@ class SeatPlan extends StatelessWidget {
                     children: [
                       const Expanded(flex: 1, child: SizedBox()),
                       ...(row.seats ?? []).map((e) {
-                        return e.serviceId == 0
+                        return (e.serviceCode ?? '').isEmpty
                             ? Expanded(
                                 flex: 1,
                                 child: Center(
@@ -237,12 +237,15 @@ class SeatPlan extends StatelessWidget {
                 ),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: manageBookingCubit?.hasAnySeatChanged == false ? null : () {
-                      manageBookingCubit?.seatConfirmSeatChange();
+                    onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                        ? null
+                        : () {
+                            manageBookingCubit?.seatConfirmSeatChange();
 
-                      manageBookingCubit?.changeSelectedAddOnOption(AddonType.none,toNull: true);
-
-                    },
+                            manageBookingCubit?.changeSelectedAddOnOption(
+                                AddonType.none,
+                                toNull: true);
+                          },
                     child: Text('selectDateView.confirm'.tr()),
                   ),
                 ),

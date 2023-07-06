@@ -171,7 +171,7 @@ class _ManageBookingProvider implements ManageBookingProvider {
   }
 
   @override
-  Future<CommonResponse> loadFlightAddonRequest(GetFlightAddonRequest request) async {
+  Future<FightAddOns> loadFlightAddonRequest(GetFlightAddonRequest request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -190,7 +190,7 @@ class _ManageBookingProvider implements ManageBookingProvider {
       data: _data,
     )
         .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CommonResponse.fromJson(_result.data!);
+    final value = FightAddOns.fromJson(_result.data!);
     return value;
   }
 

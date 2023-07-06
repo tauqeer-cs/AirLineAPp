@@ -602,7 +602,7 @@ class InboundBundle extends Equatable {
         price: bundle?.finalAmount,
         logicalFlightId: bundle?.logicalFlightID,
         quantity: 1,
-        serviceId: bundle?.serviceID,
+        ssrCode: bundle?.ssrCode,
       );
     }
     return Bound(
@@ -611,7 +611,7 @@ class InboundBundle extends Equatable {
       price: bundle?.finalAmount,
       logicalFlightId: bundle?.logicalFlightID,
       quantity: 1,
-      serviceId: bundle?.serviceID,
+      ssrCode: bundle?.ssrCode,
     );
   }
 }
@@ -627,8 +627,8 @@ class Bundle extends Equatable {
         quantity: 1,
         price: amount == null
             ? 0
-            : (amount! + (applicableTaxes!.firstOrNull?.taxAmount ?? 0)),
-        serviceId: serviceID,
+            : (amount! + (applicableTaxes?.firstOrNull?.taxAmount ?? 0)),
+        ssrCode: ssrCode,
       );
     } else if (sports) {
       return Bound(
@@ -636,7 +636,7 @@ class Bundle extends Equatable {
         servicesType: "Sport",
         logicalFlightId: logicalFlightID,
         quantity: 1,
-        serviceId: serviceID,
+        ssrCode: ssrCode,
       );
     }
     return Bound(
@@ -647,14 +647,13 @@ class Bundle extends Equatable {
       price: finalAmount,
       logicalFlightId: logicalFlightID,
       quantity: 1,
-      serviceId: serviceID,
+      ssrCode: ssrCode,
     );
   }
 
   @override
   List<Object?> get props => [
         logicalFlightID,
-        serviceID,
         departureDate,
         operatingCarrier,
         marketingCarrier,
@@ -687,7 +686,6 @@ class Bundle extends Equatable {
 
   Map<String, dynamic> toJson() => _$BundleToJson(this);
   final String? logicalFlightID;
-  final num? serviceID;
   final String? departureDate;
   final String? operatingCarrier;
   final String? marketingCarrier;
@@ -731,7 +729,6 @@ class Bundle extends Equatable {
 
   const Bundle({
     this.logicalFlightID,
-    this.serviceID,
     this.departureDate,
     this.operatingCarrier,
     this.marketingCarrier,
@@ -825,7 +822,6 @@ class BundleServiceDetails extends Equatable {
         description,
         glCode,
         isMaxinventory,
-        serviceID,
         ssrCode
       ];
 
@@ -839,7 +835,6 @@ class BundleServiceDetails extends Equatable {
   final String? description;
   final String? glCode;
   final bool? isMaxinventory;
-  final num? serviceID;
   final String? ssrCode;
 
   const BundleServiceDetails(
@@ -849,7 +844,6 @@ class BundleServiceDetails extends Equatable {
       this.description,
       this.glCode,
       this.isMaxinventory,
-      this.serviceID,
       this.ssrCode});
 }
 
@@ -1143,7 +1137,6 @@ class Seats extends Equatable {
         seatWBZoneId,
         serviceCode,
         serviceDescription,
-        serviceId,
         weightIndex
       ];
 
@@ -1166,7 +1159,7 @@ class Seats extends Equatable {
   final num? seatWBZoneId;
   final String? serviceCode;
   final String? serviceDescription;
-  final num? serviceId;
+  //final String? ssrCode;
   final num? weightIndex;
 
   const Seats(
@@ -1186,7 +1179,7 @@ class Seats extends Equatable {
       this.seatWBZoneId,
       this.serviceCode,
       this.serviceDescription,
-      this.serviceId,
+      //this.ssrCode,
       this.weightIndex});
 
   num getRowNumber(List<Rows> rows) {
@@ -1197,14 +1190,6 @@ class Seats extends Equatable {
   Outbound toOutbound(List<Rows> rows) {
     return Outbound(
       seatRow: getRowNumber(rows),
-      price: (seatPriceOffers ?? [])
-          .map(
-            (e) => Price(
-                amount: e.amount,
-                currency: e.currency,
-                isBundleOffer: e.isBundleOffer),
-          )
-          .toList(),
       seatColumn: seatColumn,
     );
   }
@@ -1239,6 +1224,8 @@ class Seats extends Equatable {
     String? serviceDescription,
     num? serviceId,
     num? weightIndex,
+    String? ssrCode,
+
   }) {
     return Seats(
       blockChild: blockChild ?? this.blockChild,
@@ -1257,7 +1244,6 @@ class Seats extends Equatable {
       seatWBZoneId: seatWBZoneId ?? this.seatWBZoneId,
       serviceCode: serviceCode ?? this.serviceCode,
       serviceDescription: serviceDescription ?? this.serviceDescription,
-      serviceId: serviceId ?? this.serviceId,
       weightIndex: weightIndex ?? this.weightIndex,
     );
   }

@@ -169,6 +169,10 @@ class InboundOutboundSegment extends Equatable {
   final bool? international;
   final List<FlightLegDetails>? flightLegDetails;
   final num? totalSegmentFareAmtWithInfantSSR;
+
+  num? get amountToShowInPreview {
+    return totalSegmentFareAmtWithInfantSSR;
+  }
   final num? beforeDiscountTotalAmt;
   final num? beforeDiscountTotalAmtWithInfantSSR;
   final num? discountPCT;
@@ -221,9 +225,9 @@ class InboundOutboundSegment extends Equatable {
     this.currency = 'MYR',
   });
 
-  num get getTotalPrice => totalSegmentFareAmt ?? 0;
+  num get getTotalPrice => totalSegmentFareAmtWithInfantSSR ?? 0;
 
-  num get getTotalPriceDisplay => totalSegmentFareAmtWithInfantSSR ?? 0;
+  num get getTotalPriceDisplay => getTotalPrice ?? 0;
 
   factory InboundOutboundSegment.fromJson(Map<String, dynamic> json) =>
       _$InboundOutboundSegmentFromJson(json);

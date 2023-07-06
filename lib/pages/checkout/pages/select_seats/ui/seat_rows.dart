@@ -55,7 +55,7 @@ class SeatRows extends StatelessWidget {
                 children: [
                   Expanded(flex: 1, child: Text("${row.rowNumber ?? 0}")),
                   ...(row.seats ?? [])
-                      .map((e) => e.serviceId == 0
+                      .map((e) => (e.serviceCode ?? '').isEmpty
                           ? const Expanded(flex: 1, child: SizedBox())
                           : Expanded(
                               flex: 1,
