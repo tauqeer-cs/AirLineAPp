@@ -456,7 +456,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           final pin = value["voucherPin"];
                           final voucherPin = InsertVoucherPIN(
                             voucherCode: voucher,
-                            voucherPin: pin,
                           );
                           final token = bloc?.currentToken ?? '';
                           final voucherRequest = VoucherRequest(

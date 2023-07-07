@@ -890,6 +890,9 @@
   "okay" : "Okay",
   "afterPayment" : "After payment is complete, do remember to ",
   "reprintYour" : "reprint your flight itinerary / boarding pass to ",
-  "reflectYour" : "reflect your latest booking changes!"
+  "reflectYour" : "reflect your latest booking changes!",
+  "enter17" : "Please enter exactly 17 characters",
+
+
 }
 

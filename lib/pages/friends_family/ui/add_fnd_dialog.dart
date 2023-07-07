@@ -288,7 +288,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                         if (check) {
                           //error here of form
                           formKey.currentState!.invalidateField(
-                              name: 'title', errorText: 'Invalid title');
+                              name: 'title', errorText: 'invalidTitle'.tr());
                           return;
                         } else {}
                       } else {
@@ -298,7 +298,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                         if (!check) {
                           //error here of form
                           formKey.currentState!.invalidateField(
-                              name: 'title'.tr(), errorText: 'invalidTitle'.tr());
+                              name: 'title', errorText: 'invalidTitle'.tr());
                           return;
                         }
                       }

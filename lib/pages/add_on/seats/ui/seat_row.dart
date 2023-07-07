@@ -86,9 +86,7 @@ class _SeatRowState extends State<SeatRow> {
       isDeparture = context.watch<ManageBookingCubit>().state.seatDeparture;
       otherSeats = persons.selectedSeats(isDeparture);
 
-      mapColor = isDeparture
-          ? context.watch<ManageBookingCubit>().state.departureColorMapping
-          : context.watch<ManageBookingCubit>().state.returnColorMapping;
+
     } else {
       final state = context.watch<SearchFlightCubit>().state;
       persons = state.filterState?.numberPerson;

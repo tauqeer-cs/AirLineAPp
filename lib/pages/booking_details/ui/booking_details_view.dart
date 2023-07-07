@@ -552,10 +552,8 @@ class InsuranceManageView extends StatelessWidget {
     var bloc = context.watch<ManageBookingCubit>();
     var state = bloc.state;
 
-    BundleGroupSeat? insuranceGroup =
-        state.verifyResponse?.flightSSR?.insuranceGroup;
     List<Bundle> insurances =
-        state.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+        state.flightSSR?.insuranceGroup?.outbound ?? [];
     List<PassengersWithSSR> passengers =
         state.manageBookingResponse?.result?.passengersWithSSRWithoutInfant ??
             [];

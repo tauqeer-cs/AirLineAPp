@@ -119,13 +119,15 @@ class _InsuranceViewState extends State<InsuranceView> {
       }
     }
 
-     bool hasSeat = false;
+     //bool hasSeat = false;
 
     var seat = passengers.firstWhereOrNull((e) => e.seat != null)?.seat;
-    if(seat != null) {
+
+    /*if(seat != null) {
       hasSeat = true;
 
-    }
+    }*/
+
 
     return Stack(
       children: [
@@ -135,7 +137,7 @@ class _InsuranceViewState extends State<InsuranceView> {
             controller: scrollController,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             children: [
-              if (insurances.isNotEmpty && hasSeat == false) ...[
+              if (insurances.isNotEmpty ) ...[//&& hasSeat == false
                 Text(
                   "myAirTravelInsurance".tr(),
                   style: kHugeHeavy,
@@ -180,11 +182,14 @@ class _InsuranceViewState extends State<InsuranceView> {
                   ElevatedButton(
                     onPressed: () {
 
+                      /*
                       if(hasSeat) {
                         context.router.push(const PaymentRoute());
                         return;
 
-                      }
+                      }*/
+
+
                       final bookingState = context.read<BookingCubit>().state;
                       final token = bookingState.verifyResponse?.token;
                       if (token == null) {

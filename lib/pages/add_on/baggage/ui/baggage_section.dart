@@ -38,7 +38,7 @@ class BaggageSection extends StatelessWidget {
 
     if(isManageBooking) {
       var state = context.watch<ManageBookingCubit>().state;
-      baggageGroup = state.verifyResponse?.flightSSR?.baggageGroup;
+      baggageGroup = state.flightSSR?.baggageGroup;
 
 
     }
@@ -365,19 +365,21 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     bloc = context.watch<ManageBookingCubit>();
 
     var state = context.watch<ManageBookingCubit>().state;
-    baggageGroup = state.verifyResponse?.flightSSR?.baggageGroup;
+
+
+    baggageGroup = state.flightSSR?.baggageGroup;
 
     String currency = 'MYR';
     currency = state.manageBookingResponse?.result?.superPNROrder
         ?.currencyCode ??
         'MYR';
     final baggage =
+
     widget.isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+
     Person? selectedPerson =
         context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
-
     var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureBaggage?.description).toList();
-
     if((resultIndexFinder ?? []).isNotEmpty) {
 
 

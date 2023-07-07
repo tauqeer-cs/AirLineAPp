@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -61,58 +62,28 @@ class VoucherCodeUi extends StatelessWidget {
                     child: FormBuilderTextField(
                       name: "voucherCode",
                       initialValue: voucherCodeInitial,
-                      validator: FormBuilderValidators.required(),
+                      validator: FormBuilderValidators.compose([
+                            (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'personalInfo.required'.tr();
+                          }
+                          if (value.length != 17) {
+                            return 'termsAndConditions'.tr();
+                          }
+                          return null;
+                        },
+                      ]),
+                      maxLength: 17,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       style: const TextStyle(fontSize: 14),
                       readOnly: readOnly,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         hintText: 'voucherCode'.tr(),
                         border: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        focusedErrorBorder: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 0),
-                        isDense: true,
-                        suffixIconConstraints: const BoxConstraints(
-                          minWidth: 20,
-                          minHeight: 20,
-                          maxHeight: 20,
-                          maxWidth: 20,
-                        ),
-                        suffixIcon: blocBuilderWrapper(
-                          blocState: state.blocState,
-                          loadingBuilder: const AppLoading(
-                            size: 20,
-                          ),
-                          failedBuilder: const SizedBox(),
-                          finishedBuilder: state.response == null
-                              ? const SizedBox()
-                              : Image.asset(
-                                  "assets/images/icons/iconVoucher.png",
-                                  width: 15,
-                                ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                kHorizontalSpacerSmall,
-                Expanded(
-                  child: AppCard(
-                    child: FormBuilderTextField(
-                      name: "voucherPin",
-                      obscureText: state.insertedVoucher != null,
-                      initialValue: state.insertedVoucher?.voucherPin,
-                      validator: FormBuilderValidators.required(),
-                      style: const TextStyle(fontSize: 14),
-                      readOnly: readOnly,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        hintText: 'pin'.tr(),
-                        border: InputBorder.none,
+                        counterText: '',
                         disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         errorBorder: InputBorder.none,

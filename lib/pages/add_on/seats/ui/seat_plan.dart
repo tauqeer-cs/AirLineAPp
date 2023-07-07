@@ -41,7 +41,7 @@ class SeatPlan extends StatelessWidget {
       var bloc = context.watch<ManageBookingCubit>();
       manageBookingCubit = bloc;
 
-      flightSeats = bloc.state.verifyResponse?.flightSeat;
+     // flightSeats = bloc.state.verifyResponse?.flightSeat;
       isDeparture = bloc.state.seatDeparture;
     } else {
       isDeparture = context.watch<IsDepartureCubit>().state;
@@ -61,13 +61,10 @@ class SeatPlan extends StatelessWidget {
     if (isManageBooking) {
       var currentState = context.watch<ManageBookingCubit>().state;
 
-      mapColor = isDeparture
-          ? currentState.departureColorMapping
-          : currentState.returnColorMapping;
 
       legends = isDeparture
-          ? currentState.verifyResponse?.flightSSR?.seatGroup?.outbound ?? []
-          : currentState.verifyResponse?.flightSSR?.seatGroup?.inbound ?? [];
+          ? currentState.flightSSR?.seatGroup?.outbound ?? []
+          : currentState.flightSSR?.seatGroup?.inbound ?? [];
     } else {
       mapColor = isDeparture
           ? bookingState.departureColorMapping

@@ -92,7 +92,6 @@ class RewardAndDiscount extends StatelessWidget {
                             final pin = value["voucherPin"];
                             final voucherPin = InsertVoucherPIN(
                               voucherCode: voucher,
-                              voucherPin: pin,
                             );
                             final token = bookingState.verifyResponse?.token;
                             final voucherRequest = VoucherRequest(

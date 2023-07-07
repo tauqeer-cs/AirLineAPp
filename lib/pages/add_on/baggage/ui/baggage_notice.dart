@@ -244,7 +244,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       selectedPerson =
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
 
-      baggageGroup = bloc.state.verifyResponse?.flightSSR?.sportGroup;
+      baggageGroup = bloc.state.flightSSR?.sportGroup;
       isDeparture = true;
       final baggage =
       isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;

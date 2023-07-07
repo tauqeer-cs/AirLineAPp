@@ -39,7 +39,7 @@ class MealsSection extends StatelessWidget {
     if (isManageBooking) {
       var bloc = context.watch<ManageBookingCubit>();
       var state = bloc.state;
-      mealGroup = state.verifyResponse?.flightSSR?.mealGroup;
+      mealGroup = state.flightSSR?.mealGroup;
 
       meals = (isDeparture ? mealGroup?.outbound : mealGroup?.inbound) ?? [];
       DateTime departDate = state.manageBookingResponse?.result?.flightSegments

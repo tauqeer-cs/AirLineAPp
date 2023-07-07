@@ -145,10 +145,7 @@ class _$InsertVoucherPINCWProxyImpl implements _$InsertVoucherPINCWProxy {
           ? _value.voucherCode
           // ignore: cast_nullable_to_non_nullable
           : voucherCode as String?,
-      voucherPin: voucherPin == const $CopyWithPlaceholder()
-          ? _value.voucherPin
-          // ignore: cast_nullable_to_non_nullable
-          : voucherPin as String?,
+
     );
   }
 }
@@ -170,7 +167,6 @@ extension $InsertVoucherPINCopyWith on InsertVoucherPIN {
   }) {
     return InsertVoucherPIN(
       voucherCode: voucherCode == true ? null : this.voucherCode,
-      voucherPin: voucherPin == true ? null : this.voucherPin,
     );
   }
 }
@@ -207,7 +203,6 @@ Map<String, dynamic> _$VoucherRequestToJson(VoucherRequest instance) {
 InsertVoucherPIN _$InsertVoucherPINFromJson(Map<String, dynamic> json) =>
     InsertVoucherPIN(
       voucherCode: json['VoucherCode'] as String?,
-      voucherPin: json['VoucherPin'] as String?,
     );
 
 Map<String, dynamic> _$InsertVoucherPINToJson(InsertVoucherPIN instance) {
@@ -220,6 +215,5 @@ Map<String, dynamic> _$InsertVoucherPINToJson(InsertVoucherPIN instance) {
   }
 
   writeNotNull('VoucherCode', instance.voucherCode);
-  writeNotNull('VoucherPin', instance.voucherPin);
   return val;
 }

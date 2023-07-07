@@ -33,13 +33,10 @@ class VoucherRequest extends Equatable {
 class InsertVoucherPIN extends Equatable {
   const InsertVoucherPIN({
     this.voucherCode,
-    this.voucherPin,
   });
 
   @JsonKey(name: 'VoucherCode')
   final String? voucherCode;
-  @JsonKey(name: 'VoucherPin')
-  final String? voucherPin;
 
   factory InsertVoucherPIN.fromJson(Map<String, dynamic> json) =>
       _$InsertVoucherPINFromJson(json);
@@ -47,5 +44,5 @@ class InsertVoucherPIN extends Equatable {
   Map<String, dynamic> toJson() => _$InsertVoucherPINToJson(this);
 
   @override
-  List<Object?> get props => [voucherCode, voucherPin];
+  List<Object?> get props => [voucherCode,];
 }

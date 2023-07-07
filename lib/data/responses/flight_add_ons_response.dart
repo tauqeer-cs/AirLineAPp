@@ -36,6 +36,8 @@ class PaxAddOnSSR {
     flightSSR = json['flightSSR'] != null
         ? new FlightSSR.fromJson(json['flightSSR'])
         : null;
+    print('');
+
   }
 
   Map<String, dynamic> toJson() {
@@ -50,22 +52,28 @@ class PaxAddOnSSR {
 
 class FlightSSR {
   BundleGroupSeat? mealGroup;
-  BundleGroupSeat? baggageGroup;
+  BaggageGroup? baggageGroup;
   BundleGroupSeat? wheelChairGroup;
   BundleGroupSeat? sportGroup;
+  BundleGroupSeat? insuranceGroup;
+
+  BundleGroupSeat? seatGroup;
+
 
   FlightSSR(
       {this.mealGroup,
         this.baggageGroup,
         this.wheelChairGroup,
-        this.sportGroup,});
+        this.sportGroup,
+        this.seatGroup,
+      this.insuranceGroup});
 
   FlightSSR.fromJson(Map<String, dynamic> json) {
     mealGroup = json['mealGroup'] != null
         ? new BundleGroupSeat.fromJson(json['mealGroup'])
         : null;
     baggageGroup = json['baggageGroup'] != null
-        ? new BundleGroupSeat.fromJson(json['baggageGroup'])
+        ? new BaggageGroup.fromJson(json['baggageGroup'])
         : null;
     wheelChairGroup = json['wheelChairGroup'] != null
         ? new BundleGroupSeat.fromJson(json['wheelChairGroup'])
@@ -73,6 +81,18 @@ class FlightSSR {
     sportGroup = json['sportGroup'] != null
         ? new BundleGroupSeat.fromJson(json['sportGroup'])
         : null;
+
+    insuranceGroup = json['insuranceGroup'] != null
+        ? BundleGroupSeat.fromJson(json['insuranceGroup'])
+        : null;
+
+    seatGroup = json['seatGroup'] != null
+        ? BundleGroupSeat.fromJson(json['seatGroup'])
+        : null;
+
+
+
+
 
   }
 
@@ -90,6 +110,18 @@ class FlightSSR {
     if (this.sportGroup != null) {
       data['sportGroup'] = this.sportGroup!.toJson();
     }
+
+    if (this.insuranceGroup != null) {
+      data['insuranceGroup'] = this.insuranceGroup!.toJson();
+    }
+
+
+    if (this.seatGroup != null) {
+      data['seatGroup'] = this.seatGroup!.toJson();
+    }
+
+
+
 
     return data;
   }

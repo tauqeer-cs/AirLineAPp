@@ -48,9 +48,9 @@ class AvailableInsurance extends StatelessWidget {
       selected =  state.insuranceType;
       passengersWithSSR = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
       insurances =
-          state.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+          state.flightSSR?.insuranceGroup?.outbound ?? [];
       insurancesGroup =
-          state.verifyResponse?.flightSSR?.insuranceGroup;
+          state.flightSSR?.insuranceGroup;
       selectedPassengers = 0;
       firstInsurance = insurances.firstOrNull;
 

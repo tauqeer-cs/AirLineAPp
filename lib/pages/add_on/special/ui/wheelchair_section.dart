@@ -49,7 +49,7 @@ class WheelchairSection extends StatelessWidget {
 
       var state = context.watch<ManageBookingCubit>().state;
       selectedPerson = state.selectedPax?.personObject;
-      wheelChairGroup = state.verifyResponse?.flightSSR?.wheelChairGroup;
+      wheelChairGroup = state.flightSSR?.wheelChairGroup;
       wheelChairs =
       isDeparture ? wheelChairGroup?.outbound : wheelChairGroup?.inbound;
       var no = context

@@ -4,7 +4,8 @@ part of 'manage_booking_cubit.dart';
 class ManageBookingState extends Equatable {
   final AddonType? addOnOptionSelected;
 
-  final VerifyResponse? verifyResponse;
+  final FightAddOns? addOnList;
+
 
   final String? newContactFirstName;
   final String? newContactLastName;
@@ -21,6 +22,8 @@ class ManageBookingState extends Equatable {
   final bool anyContactValueChange;
 
   final bool savingContactChanges;
+
+  final FR.FlightSSR? flightSSR;
 
 
   final String? newCompanyTaxName;
@@ -75,8 +78,6 @@ class ManageBookingState extends Equatable {
   final bool companyTaxInvoiceExpanded;
   final bool paymentDetailsExpanded;
 
-  final Map<num?, Color>? departureColorMapping;
-  final Map<num?, Color>? returnColorMapping;
 
   const ManageBookingState({
     this.blocState = BlocState.initial,
@@ -88,7 +89,6 @@ class ManageBookingState extends Equatable {
     this.baggageDeparture = true,
     this.specialAppOpsDeparture = true,
     this.insuranceType,
-    this.verifyResponse,
     this.contactsSectionExpanded = false,
     this.emergencySectionExpanded = false,
     this.companyTaxInvoiceExpanded = false,
@@ -115,8 +115,6 @@ class ManageBookingState extends Equatable {
     this.flightSearchResponse,
     this.loadingDatesData = false,
     this.flightMessageError = '',
-    this.departureColorMapping,
-    this.returnColorMapping,
     this.newContactFirstName,
     this.newContactLastName,
     this.newContactCountryPhCode,
@@ -133,7 +131,9 @@ class ManageBookingState extends Equatable {
     this.newCompanyTaxCity,
     this.newCompanyTaxPostCode,
     this.newCompanyTaxEmailAddress,
+    this.addOnList,
     this.savingContactChanges = false,
+    this.flightSSR,
   });
 
   @override
@@ -142,8 +142,6 @@ class ManageBookingState extends Equatable {
         message,
     anyContactValueChange,
         isRememberMe,
-        departureColorMapping,
-        returnColorMapping,
         selectedDepartureFlight,
         selectedReturnFlight,
         isLoadingInfo,
@@ -158,7 +156,6 @@ class ManageBookingState extends Equatable {
         flightSearchResponse,
         changeFlightResponse,
         loadingDatesData,
-        verifyResponse,
         loadingSelectingFlight,
         loadingCheckoutPayment,
         loadingSummary,
@@ -176,6 +173,7 @@ class ManageBookingState extends Equatable {
         baggageDeparture,
         specialAppOpsDeparture,
     newEmergencyFirstName,
+    flightSSR,
     newEmergencyLastName,
     newEmergencyCountryPhCode,
     newEmergencyPhNo,
@@ -186,7 +184,8 @@ class ManageBookingState extends Equatable {
     newCompanyTaxCity,
     newCompanyTaxPostCode,
     newCompanyTaxEmailAddress,
-    savingContactChanges
+    savingContactChanges,
+    addOnList,
 
   ];
 
@@ -223,8 +222,6 @@ class ManageBookingState extends Equatable {
     bool? companyTaxInvoiceExpanded,
     bool? paymentDetailsExpanded,
     VerifyResponse? verifyResponse,
-    Map<num?, Color>? departureColorMapping,
-    Map<num?, Color>? returnColorMapping,
     InsuranceType? insuranceType,
     bool? seatDeparture,
     bool? foodDepearture,
@@ -248,8 +245,12 @@ class ManageBookingState extends Equatable {
     String? newCompanyTaxEmailAddress,
     bool? anyContactValueChange,
     bool? savingContactChanges,
+    FR.FlightSSR? flightSSR,
+    FightAddOns? addOnList,
   }) {
     return ManageBookingState(
+      addOnList : addOnList ?? this.addOnList,
+      flightSSR : flightSSR ?? this.flightSSR,
       savingContactChanges : savingContactChanges ?? this.savingContactChanges,
       anyContactValueChange : anyContactValueChange ?? this.anyContactValueChange,
       newEmergencyFirstName :  newEmergencyFirstName ?? this.newEmergencyFirstName,
@@ -266,7 +267,6 @@ class ManageBookingState extends Equatable {
       seatDeparture :  seatDeparture ?? this.seatDeparture,
       baggageDeparture  : baggageDeparture ?? this.baggageDeparture,
       specialAppOpsDeparture : specialAppOpsDeparture ?? this.specialAppOpsDeparture,
-      verifyResponse: verifyResponse ?? this.verifyResponse,
       message: message ?? this.message,
       contactsSectionExpanded:
           contactsSectionExpanded ?? this.contactsSectionExpanded,
@@ -307,9 +307,6 @@ class ManageBookingState extends Equatable {
       orderId: orderId ?? this.orderId,
       showPending: showPending ?? this.showPending,
       selectedPax: selectedPax ?? this.selectedPax,
-      returnColorMapping: returnColorMapping ?? this.returnColorMapping,
-      departureColorMapping:
-          departureColorMapping ?? this.departureColorMapping,
       insuranceType: insuranceType ?? this.insuranceType,
       newCompanyTaxName : newCompanyTaxAame  ?? this.newCompanyTaxName,
       newCompanyTaxAddress :  newCompanyTaxAddress ?? this.newCompanyTaxAddress,

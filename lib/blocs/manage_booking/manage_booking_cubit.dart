@@ -19,6 +19,8 @@ import '../../data/requests/search_change_flight_request.dart';
 import '../../data/requests/search_flight_request.dart';
 import '../../data/requests/update_booking_contacts.dart';
 import '../../data/requests/verify_request.dart';
+import '../../data/responses/flight_add_ons_response.dart';
+import '../../data/responses/flight_add_ons_response.dart' as FR;
 import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
 import '../../data/responses/manage_booking_response.dart' as MBR;
@@ -149,17 +151,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return passengersWithSSRNotBaby.length.toDouble();
   }
 
-  final List<Color> availableSeatsColor = [
-    Colors.blue,
-    Colors.greenAccent,
-    Colors.green,
-    Colors.yellowAccent,
-    Colors.yellow,
-    Colors.orangeAccent,
-    Colors.orange,
-    Colors.purple,
-  ];
 
+  /*
   void makeVerifyRequest() async {
     final _repository = FlightRepository();
 
@@ -232,21 +225,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     final wheelChairReturn =
         verifyResponse.flightSSR?.wheelChairGroup?.inbound ?? [];
 
-    Map<num?, Color> departureColorMapping = {};
-    Map<num?, Color> returnColorMapping = {};
-
-    for (int i = 0; i < seatsDeparture.length; i++) {
-      final seat = seatsDeparture[i];
-     // departureColorMapping.putIfAbsent(
-       //   seat.ssrCode, () => availableSeatsColor[i]);
-    }
-
-    for (int i = 0; i < seatsReturn.length; i++) {
-      final seat = seatsReturn[i];
-      //returnColorMapping.putIfAbsent(
-        //  seat.serviceID, () => availableSeatsColor[i]);
-
-    }
     int personIndex = 0;
 
     List<int> seatIdsToMakeAvailableDep = [];
@@ -376,7 +354,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       var returnBagSelected = currentPerson.baggageDetail?.returnBaggages;
 
       for (Baggage currentIte in departBagSelected ?? []) {
-        //Nasi Lemak Combo
         List<Bundle> result = verifyResponse.flightSSR?.baggageGroup?.outbound
                 ?.where((e) =>
                     e.description?.toLowerCase() ==
@@ -387,11 +364,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         if (result.isNotEmpty) {
           departureBaggage = result.first;
         }
-        print('');
       }
 
       for (Baggage currentIte in returnBagSelected ?? []) {
-        //Nasi Lemak Combo
         List<Bundle> result = verifyResponse.flightSSR?.baggageGroup?.inbound
                 ?.where((e) =>
                     e.description?.toLowerCase() ==
@@ -402,7 +377,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         if (result.isNotEmpty) {
           returnBaggage = result.first;
         }
-        print('');
       }
 
       var departSportSelected =
@@ -470,7 +444,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
       }
       for (Baggage currentIte in returnSportsSelected ?? []) {
-        //Nasi Lemak Combo
         List<Bundle> result = verifyResponse.flightSSR?.sportGroup?.inbound
                 ?.where((e) =>
                     e.description?.toLowerCase() ==
@@ -481,12 +454,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         if (result.isNotEmpty) {
           returnSports = result.first;
         }
-        print('');
       }
 
-      //
-
-      print('');
 
       PeopleType type;
 
@@ -604,14 +573,396 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     emit(state.copyWith(
         verifyResponse: verifyResponse,
         manageBookingResponse: mainObject,
-        departureColorMapping: departureColorMapping,
-        returnColorMapping: returnColorMapping));
+
+    ));
 
     print('');
 
     //VerifyRequest();
   }
+*/
 
+  void setSsrOfUser() {
+    /*
+    var outBoundSeatRows = verifyResponse
+        .flightSeat
+        ?.outbound
+        ?.first
+        .retrieveFlightSeatMapResponse
+        ?.physicalFlights
+        ?.first
+        .physicalFlightSeatMap
+        ?.seatConfiguration
+        ?.rows;
+    * */
+    List<Rows>? outBoundSeatRows = [];
+    List<Rows>? inBoundSeatRows = [];
+
+    var mainObject = state.manageBookingResponse;
+
+
+    List<Bundle>? seatsDeparture = [];
+    List<Bundle>? seatsReturn = [];
+
+    final wheelChairDeparture =
+        state.flightSSR?.wheelChairGroup?.outbound ?? [];
+    final wheelChairReturn =
+        state.flightSSR?.wheelChairGroup?.inbound ?? [];
+
+    int personIndex = 0;
+
+    List<int> seatIdsToMakeAvailableDep = [];
+    List<int> seatIdsToMakeAvailableReturn = [];
+
+    for (PassengersWithSSR currentPerson
+    in mainObject?.result?.passengersWithSSR ?? []) {
+      personIndex = personIndex + 1;
+
+      var result = currentPerson.seatDetail?.seats
+          ?.where((e) => e.departReturn == 'Depart')
+          .toList();
+
+      var result2 = currentPerson.seatDetail?.seats
+          ?.where((e) => e.departReturn == 'Return')
+          .toList();
+
+      Vs.Seats? departureSeats;
+
+      if (result?.isNotEmpty ?? false) {
+        String input = result?.first.seatPosition ?? '';
+        if (input.isNotEmpty) {
+          RegExp regex = RegExp(r'([A-Za-z]+)(\d+)');
+          var match = regex.firstMatch(input);
+
+          String? characterPart = match?.group(1); // C
+          String? numberPart = match?.group(2); // 17
+
+          int seatNo = int.tryParse(numberPart ?? '') ?? 0;
+
+          var ress =
+          outBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
+
+          if (ress?.isNotEmpty ?? false) {
+            var finalSeat = ress?.first.seats
+                ?.where((e) => e.seatColumn == characterPart)
+                .toList()
+                .first;
+
+            departureSeats = finalSeat;
+
+            seatIdsToMakeAvailableDep.add(int.parse(finalSeat?.seatId ?? ''));
+          }
+
+          print('');
+        }
+      }
+      Vs.Seats? returnSeats;
+
+      if (result2?.isNotEmpty ?? false) {
+        String input = result2?.first.seatPosition ?? '';
+        if (input.isNotEmpty) {
+          RegExp regex = RegExp(r'([A-Za-z]+)(\d+)');
+          var match = regex.firstMatch(input);
+
+          String? characterPart = match?.group(1); // C
+          String? numberPart = match?.group(2); // 17
+
+          int seatNo = int.tryParse(numberPart ?? '') ?? 0;
+
+          var ress =
+          inBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
+
+          if (ress?.isNotEmpty ?? false) {
+            var finalSeat = ress?.first.seats
+                ?.where((e) => e.seatColumn == characterPart)
+                .toList()
+                .first;
+
+            returnSeats = finalSeat;
+
+            seatIdsToMakeAvailableReturn
+                .add(int.parse(finalSeat?.seatId ?? '') ?? 0);
+
+            print('');
+          }
+
+          print('');
+        }
+      }
+
+      List<Bundle> departureMeal = [];
+      List<Bundle> returnMeal = [];
+
+      Bundle? departureBaggage;
+      Bundle? returnBaggage;
+
+      Bundle? departureSports;
+      Bundle? returnSports;
+
+      //Depart
+
+      var departMealsSelected = currentPerson.mealDetail?.departureMealsOnly;
+      var returnMealsSelected = currentPerson.mealDetail?.returnMealsOnly;
+
+      for (MealList currentIte in departMealsSelected ?? []) {
+        //Nasi Lemak Combo
+        List<Bundle> result = state.flightSSR?.mealGroup?.outbound
+            ?.where((e) =>
+        e.description?.toLowerCase() ==
+            currentIte.mealName?.toLowerCase())
+            .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          departureMeal.add(result.first);
+        }
+        print('');
+      }
+
+      for (MealList currentIte in returnMealsSelected ?? []) {
+        //Nasi Lemak Combo
+        List<Bundle> result = state.flightSSR?.mealGroup?.inbound
+            ?.where((e) =>
+        e.description?.toLowerCase() ==
+            currentIte.mealName?.toLowerCase())
+            .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          returnMeal.add(result.first);
+        }
+        print('');
+      }
+
+      var departBagSelected = currentPerson.baggageDetail?.departureBaggages;
+      var returnBagSelected = currentPerson.baggageDetail?.returnBaggages;
+
+      for (Baggage currentIte in departBagSelected ?? []) {
+        List<Bundle> result = state.flightSSR?.baggageGroup?.outbound
+            ?.where((e) =>
+        e.description?.toLowerCase() ==
+            currentIte.baggageName?.toLowerCase())
+            .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          departureBaggage = result.first;
+        }
+      }
+
+      for (Baggage currentIte in returnBagSelected ?? []) {
+        List<Bundle> result = state.flightSSR?.baggageGroup?.inbound
+            ?.where((e) =>
+        e.description?.toLowerCase() ==
+            currentIte.baggageName?.toLowerCase())
+            .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          returnBaggage = result.first;
+        }
+      }
+
+      var departSportSelected =
+          currentPerson.sportEquipmentDetail?.departureBaggages;
+      var returnSportsSelected =
+          currentPerson.sportEquipmentDetail?.returnBaggages;
+
+      for (Baggage currentIte in departSportSelected ?? []) {
+        //Nasi Lemak Combo
+        List<Bundle> result = state.flightSSR?.sportGroup?.outbound
+            ?.where((e) =>
+        e.description?.toLowerCase() ==
+            currentIte.sportEquipmentName?.toLowerCase())
+            .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          departureSports = result.first;
+        }
+        print('');
+      }
+
+      Baggage? wheelDeparts;
+      // if(currentPerson.wheelChairDetail.)
+      var departWheelChaorOdThisUser = currentPerson
+          .wheelChairDetail?.wheelChairs
+          ?.where((e) => e.departReturn == 'Depart')
+          .toList();
+      if ((departWheelChaorOdThisUser ?? []).isNotEmpty) {
+        wheelDeparts = (departWheelChaorOdThisUser ?? []).first;
+      }
+      Baggage? wheelReturn;
+      departWheelChaorOdThisUser = currentPerson.wheelChairDetail?.wheelChairs
+          ?.where((e) => e.departReturn != 'Depart')
+          .toList();
+      if ((departWheelChaorOdThisUser ?? []).isNotEmpty) {
+        wheelReturn = departWheelChaorOdThisUser ?? [].first;
+      }
+
+      Bundle? selectedDepartWheelChairItem;
+      Bundle? selectedReturnWheelChairItem;
+
+      if (wheelDeparts != null) {
+        //yes here
+        var selectedWheels = wheelChairDeparture
+            .where(
+                (e) => e.finalAmount.toInt() == wheelDeparts?.amount?.toInt())
+            .toList();
+
+        if ((selectedWheels ?? []).isNotEmpty) {
+          selectedDepartWheelChairItem = selectedWheels.first;
+          print('');
+        }
+      }
+
+      if (wheelReturn != null) {
+        //yes here
+        var selectedWheels = wheelChairReturn
+            .where((e) => e.finalAmount.toInt() == wheelReturn?.amount?.toInt())
+            .toList();
+
+        if ((selectedWheels ?? []).isNotEmpty) {
+          selectedReturnWheelChairItem = selectedWheels.first;
+          print('');
+        }
+      }
+      for (Baggage currentIte in returnSportsSelected ?? []) {
+        List<Bundle> result = state.flightSSR?.sportGroup?.inbound
+            ?.where((e) =>
+        e.description?.toLowerCase() ==
+            currentIte.sportEquipmentName?.toLowerCase())
+            .toList() ??
+            [];
+
+        if (result.isNotEmpty) {
+          returnSports = result.first;
+        }
+      }
+
+
+      PeopleType type;
+
+      if (currentPerson.passengers?.passengerType == 'INF') {
+        type = PeopleType.infant;
+      } else if (currentPerson.passengers?.passengerType == 'CHD') {
+        type = PeopleType.child;
+      } else {
+        type = PeopleType.adult;
+      }
+
+      var currentObject = Person(
+          peopleType: type,
+          departureMeal: departureMeal,
+          returnMeal: returnMeal,
+          departureSeats: departureSeats,
+          returnSeats: returnSeats,
+          departureBaggage: departureBaggage,
+          returnBaggage: returnBaggage,
+          departureSports: departureSports,
+          returnSports: returnSports,
+          numberOrder: personIndex,
+          departureWheelChair: selectedDepartWheelChairItem,
+          returnWheelChair: selectedReturnWheelChairItem);
+      currentPerson.personObject = currentObject;
+      currentPerson.originalDepartSeatId =
+          int.parse(departureSeats?.seatId ?? '');
+      var princrTlist = seatsDeparture
+          .where((e) =>
+      e.description?.toLowerCase() ==
+          departureSeats?.serviceDescription?.toLowerCase())
+          .toList();
+
+      if (princrTlist.isNotEmpty) {
+        currentPerson.originalDepartSeatPrice =
+            (princrTlist.first.amount?.toDouble() ?? 0.0) +
+                (princrTlist.first.applicableTaxes?.first.taxAmount
+                    ?.toDouble() ??
+                    0.0);
+        ;
+      }
+
+      currentPerson.originalReturnSeatId = int.parse(returnSeats?.seatId ?? '');
+      princrTlist = seatsReturn
+          .where((e) =>
+      e.description?.toLowerCase() ==
+          returnSeats?.serviceDescription?.toLowerCase())
+          .toList();
+
+      if (princrTlist.isNotEmpty) {
+        currentPerson.originalReturnSeatPrice =
+            (princrTlist.first.amount?.toDouble() ?? 0.0) +
+                (princrTlist.first.applicableTaxes?.first.taxAmount
+                    ?.toDouble() ??
+                    0.0);
+      }
+      currentPerson.originalHadWheelChairDepart =
+          selectedDepartWheelChairItem != null;
+      currentPerson.originalHadWheelChairReturn =
+          selectedReturnWheelChairItem != null;
+
+      currentPerson.originalDepartBaggageCode = departureBaggage?.codeType;
+      currentPerson.originalDepartBaggagePrice =
+          departureBaggage?.finalAmount.toDouble();
+      currentPerson.originalReturnBaggageCode = returnBaggage?.codeType;
+      currentPerson.originalReturnBaggagePrice =
+          returnBaggage?.finalAmount.toDouble();
+
+      currentPerson.originalDepartSportsCode = departureSports?.codeType;
+      currentPerson.originalReturnSportsCode = returnSports?.codeType;
+      currentPerson.originalDepartSportsPrice =
+          departureSports?.finalAmount.toDouble();
+      currentPerson.originalReturnSportsPrice =
+          returnSports?.finalAmount.toDouble();
+
+      //  currentPerson.copyWith(personObject: currentObject);
+      print('');
+    }
+
+    List<Rows>? outboundRows = [];
+    /*
+    verifyResponse
+        .flightSeat
+        ?.outbound
+        ?.first
+        .retrieveFlightSeatMapResponse
+        ?.physicalFlights
+        ?.first
+        .physicalFlightSeatMap
+        ?.seatConfiguration
+        ?.rows;*/
+
+
+    int indexItem = 0;
+
+    for (Rows currentItem in outboundRows ?? []) {
+      //seatIdsToMakeAvailableDep
+      var res = currentItem.seats
+          ?.where((e) => seatIdsToMakeAvailableDep.contains(e.seatId))
+          .toList();
+
+      if ((res ?? []).isNotEmpty) {
+        var indexOfSeat = currentItem.seats?.indexOf((res ?? []).first);
+
+        var copyObject = (res ?? []).first.copyWith(isSeatAvailable: true);
+        var currenT = currentItem.seats ?? [];
+        print('');
+
+        currenT.removeAt(indexOfSeat ?? 0);
+        currenT.insert(indexOfSeat ?? 0, copyObject);
+      }
+
+      indexItem++;
+    }
+
+    print('');
+
+    emit(state.copyWith(
+      manageBookingResponse: mainObject,
+
+    ));
+
+  }
   String onePersonTotalToShowDepart(String personName) {
     if (state.changeFlightResponse?.result?.changeFlightResponse
             ?.flightBreakDown?.departDetail?.flightPaxNameList !=
@@ -906,15 +1257,30 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         ManageBookingRequest(pnr: bookingReference, lastname: lastName),
       );
 
+      if(verifyResponse.result?.passengersWithSSRWithoutInfant.first != null){
+        PassengersWithSSR ? v = verifyResponse.result?.passengersWithSSRWithoutInfant.first;
+
+        changeSelectedPax(v!);
+      }
+
+
       //  String? pNR;
       //   String? lastName;
       //   bool? isInternational;
       var flightRequest = GetFlightAddonRequest(pNR: bookingReference,lastName: lastName,isInternational: verifyResponse.result?.isRequiredPassport ?? false);
-      _repository.getFlightAddonRequest(flightRequest);
+      FightAddOns addOns = await _repository.getFlightAddonRequest(flightRequest);
+
+      var selected = state.selectedPax;
+
+      var whichOne = addOns.paxAddOnSSR?.where((e) => e.passengerKey == selected?.personOrgID).toList();
+
+      print('');
 
       //manageBookingSubText
       emit(
         state.copyWith(
+            flightSSR : whichOne?.first.flightSSR,
+          addOnList: addOns,
             blocState: BlocState.finished,
             dataLoaded: true,
             manageBookingResponse: verifyResponse,
@@ -926,6 +1292,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             pnrEntered: bookingReference,
             lastName: lastName),
       );
+
+     // setSsrOfUser();
       //makeVerifyRequest();
 
       return true;

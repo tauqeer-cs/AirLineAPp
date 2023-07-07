@@ -687,7 +687,38 @@ extension PeopleTypeToString on PeopleType {
   }
 }
 
-List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
+List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri", "Miss",
+  "Datin",
+  "Dato",
+  "Datuk",
+  "Datuk Seri",
+  "Datuk Sri",
+  "Datin Seri",
+  "Dato Seri",
+  "Dato' Sri",
+  "Datin Sri",
+  "Miss",
+  "Master",
+  "Puan Sri",
+  "Tan Sri",
+  "Toh Puan",
+  "Tun",];
+// "Miss",
+//   "Datin",
+//   "Dato",
+//   "Datuk",
+//   "Datuk Seri",
+//   "Datuk Sri",
+//   "Datin Seri",
+//   "Dato Seri",
+//   "Dato' Sri",
+//   "Datin Sri",
+//   "Miss",
+//   "Master",
+//   "Puan Sri",
+//   "Tan Sri",
+//   "Toh Puan",
+//   "Tun",
 List<String> availableTitleChild = ["Mstr.", "Miss"];
 List<String> get availableRelations {
   return [
@@ -722,5 +753,36 @@ List<String> availableTitleAll = [
   "Tun",
   "Tan Sri",
   "Mstr.",
-  "Miss"
+  "Miss",
+  "Datin",
+  "Dato",
+  "Datuk",
+  "Datuk Seri",
+  "Datuk Sri",
+  "Datin Seri",
+  "Dato Seri",
+  "Dato' Sri",
+  "Datin Sri",
+  "Miss",
+  "Master",
+  "Puan Sri",
+  "Tan Sri",
+  "Toh Puan",
+  "Tun",
 ];
+
+//Datin
+// Dato
+// Datuk
+// Datuk Seri
+// Datuk Sri
+// Datin Seri
+//Dato Seri
+// Dato' Sri
+// Datin Sri
+// Miss
+// Master
+// Puan Sri
+//Tan Sri
+// Toh Puan
+// Tun
