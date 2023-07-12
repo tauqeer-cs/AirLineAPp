@@ -130,12 +130,39 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
 
     for (PassengersWithSSR currentUser in passengers) {
-      total += currentUser
-              .confirmedDepartSeatSelected?.seatPriceOffers?.first.amount ??
-          0.0;
-      total += currentUser
-              .confirmedReturnSeatSelected?.seatPriceOffers?.first.amount ??
-          0.0;
+      if (currentUser.confirmedDepartSeatSelected != null) {
+        total += currentUser
+                .confirmedDepartSeatSelected?.seatPriceOffers?.first.amount ??
+            0.0;
+
+        var tmpS = state.manageBookingResponse?.result?.seatDetail?.seats
+            ?.where((element) =>
+                element.givenName == currentUser.passengers?.givenName &&
+                element.surName == currentUser.passengers?.surname &&
+                element.departReturn == 'Depart')
+            .toList();
+
+        if ((tmpS ?? []).isNotEmpty) {
+          total = total - ((tmpS ?? []).first.amount ?? 0.0);
+        }
+      }
+
+      if (currentUser.confirmedReturnSeatSelected != null) {
+        total += currentUser
+                .confirmedReturnSeatSelected?.seatPriceOffers?.first.amount ??
+            0.0;
+
+        var tmpS = state.manageBookingResponse?.result?.seatDetail?.seats
+            ?.where((element) =>
+        element.givenName == currentUser.passengers?.givenName &&
+            element.surName == currentUser.passengers?.surname &&
+                element.departReturn != 'Depart')
+            .toList();
+
+        if ((tmpS ?? []).isNotEmpty) {
+          total = total - ((tmpS ?? []).first.amount ?? 0.0);
+        }
+      }
     }
     return total;
   }
@@ -147,20 +174,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
 
     for (PassengersWithSSR currentUser in passengers) {
+      total += currentUser.confirmDepartWheelChair?.finalAmount ?? 0.0;
 
-      total += currentUser
-          .confirmDepartWheelChair?.finalAmount ??
-          0.0;
-
-      total += currentUser
-          .confirmReturnWheelChair?.finalAmount ??
-          0.0;
-
+      total += currentUser.confirmReturnWheelChair?.finalAmount ?? 0.0;
     }
 
     return total;
-
   }
+
   num get confirmedBaggageTotalPrice {
     num total = 0.0;
 
@@ -168,21 +189,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
 
     for (PassengersWithSSR currentUser in passengers) {
+      total += currentUser.confirmDepartBaggageSelected?.finalAmount ?? 0.0;
 
-      total += currentUser
-          .confirmDepartBaggageSelected?.finalAmount ??
-          0.0;
-
-      total += currentUser
-          .confirmReturnBaggageSelected?.finalAmount ??
-          0.0;
-
+      total += currentUser.confirmReturnBaggageSelected?.finalAmount ?? 0.0;
     }
 
     return total;
-
   }
-
 
   num get confirmedMealsTotalPrice {
     num total = 0.0;
@@ -191,33 +204,24 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
 
     for (PassengersWithSSR currentUser in passengers) {
-
       num? totalAmount = currentUser.confirmedDepartMeals
           ?.map((bundle) => bundle.amount ?? 0)
           .fold(0, (previousValue, amount) => (previousValue ?? 0) + amount);
 
-      if(totalAmount != null) {
+      if (totalAmount != null) {
         total += totalAmount;
-
       }
 
       totalAmount = currentUser.confirmedReturnMeals
           ?.map((bundle) => bundle.amount ?? 0)
           .fold(0, (previousValue, amount) => (previousValue ?? 0) + amount);
 
-      if(totalAmount != null) {
+      if (totalAmount != null) {
         total += totalAmount;
-
       }
-
-
     }
     return total;
   }
-
-
-
-
 
   void selectedDepartureFlight(InboundOutboundSegment segment) {
     emit(
@@ -899,7 +903,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           ?.where((e) => e.departReturn != 'Depart')
           .toList();
       if ((departWheelChaorOdThisUser ?? []).isNotEmpty) {
-        wheelReturn = departWheelChaorOdThisUser ?? [].first;
+        wheelReturn = (departWheelChaorOdThisUser ?? []).first;
       }
 
       Bundle? selectedDepartWheelChairItem;
@@ -966,6 +970,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           departureWheelChair: selectedDepartWheelChairItem,
           returnWheelChair: selectedReturnWheelChairItem);
       currentPerson.personObject = currentObject;
+      currentPerson.seatDetail;
+
       currentPerson.originalDepartSeatId = (departureSeats?.seatId ?? '');
       var princrTlist = seatsDeparture
           .where((e) =>
@@ -1422,6 +1428,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       }
 
       if (currentItem.confirmDepartBaggageSelected != null) {
+        tmpPassengerAddOn.sSR?.outbound?.add(
+          FS.Bound(
+            logicalFlightId:
+                currentItem.confirmDepartBaggageSelected?.logicalFlightID,
+            ssrCode: currentItem.confirmDepartBaggageSelected?.ssrCode ?? '',
+            servicesType: 'BAGGAGE',
+            quantity: 1,
+          ),
+        );
+      }
+
+      if (currentItem.confirmReturnBaggageSelected != null) {
         tmpPassengerAddOn.sSR?.inbound?.add(
           FS.Bound(
             logicalFlightId:
@@ -1433,25 +1451,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         );
       }
 
-
-      if (currentItem.confirmReturnBaggageSelected != null) {
-        tmpPassengerAddOn.sSR?.outbound?.add(
-          FS.Bound(
-            logicalFlightId:
-            currentItem.confirmDepartBaggageSelected?.logicalFlightID,
-            ssrCode: currentItem.confirmDepartBaggageSelected?.ssrCode ?? '',
-            servicesType: 'BAGGAGE',
-            quantity: 1,
-          ),
-        );
-      }
-
-
       if (currentItem.confirmDepartWheelChair != null) {
         tmpPassengerAddOn.sSR?.outbound?.add(
           FS.Bound(
             logicalFlightId:
-            currentItem.confirmDepartWheelChair?.logicalFlightID,
+                currentItem.confirmDepartWheelChair?.logicalFlightID,
             ssrCode: currentItem.confirmDepartWheelChair?.ssrCode ?? '',
             servicesType: 'WheelChair',
             quantity: 1,
@@ -1463,16 +1467,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         tmpPassengerAddOn.sSR?.inbound?.add(
           FS.Bound(
             logicalFlightId:
-            currentItem.confirmDepartWheelChair?.logicalFlightID,
+                currentItem.confirmDepartWheelChair?.logicalFlightID,
             ssrCode: currentItem.confirmDepartWheelChair?.ssrCode ?? '',
             servicesType: 'WheelChair',
             quantity: 1,
           ),
         );
       }
-
-
-
 
       if (currentItem.confirmedDepartSeatSelected != null) {
         var ccc = state.addOnList?.flightSeats?.outbound?.first
@@ -1493,6 +1494,41 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
                   currentItem.confirmedDepartSeatSelected?.seatColumn ?? ''),
         );
       }
+
+      if (currentItem.confirmedReturnSeatSelected != null) {
+        var ccc = state.addOnList?.flightSeats?.inbound?.first
+            .retrieveFlightSeatMapResponse?.physicalFlights;
+        var result = ccc?.first.physicalFlightSeatMap?.seatConfiguration?.rows
+            ?.where((e) =>
+        e.rowId == currentItem.confirmedDepartSeatSelected?.rowId)
+            .first;
+
+        if(tmpPassengerAddOn.seat != null) {
+          tmpPassengerAddOn.seat!.inbound = Outbound(
+              physicalFlightId: returnPhysicalFlightIdForSeat ??
+                  currentItem.confirmedReturnSeatSelected?.seatId ??
+                  '',
+              seatRow: result?.rowNumber ??
+                  currentItem.confirmedReturnSeatSelected?.rowId,
+              seatColumn:
+              currentItem.confirmedReturnSeatSelected?.seatColumn ?? '');
+
+
+      }
+        else {
+          tmpPassengerAddOn.seat = AS.Seat(
+            inbound: Outbound(
+                physicalFlightId: returnPhysicalFlightIdForSeat ??
+                    currentItem.confirmedReturnSeatSelected?.seatId ??
+                    '',
+                seatRow: result?.rowNumber ??
+                    currentItem.confirmedReturnSeatSelected?.rowId,
+                seatColumn:
+                currentItem.confirmedReturnSeatSelected?.seatColumn ?? ''),
+          );
+        }
+        }
+
 
       print('');
       passengerAddOn.add(tmpPassengerAddOn);
@@ -1555,6 +1591,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           ?.physicalFlights
           ?.first
           .physicalFlightID;
+
+      returnPhysicalFlightIdForSeat = addOns
+          .flightSeats
+          ?.inbound
+          ?.first
+          .retrieveFlightSeatMapResponse
+          ?.physicalFlights
+          ?.first
+          .physicalFlightID;
+
 
       var whichOne = addOns.paxAddOnSSR
           ?.where((e) => e.passengerKey == selected?.personOrgID)

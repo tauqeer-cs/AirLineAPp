@@ -344,8 +344,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                             ),
                             kVerticalSpacer,
                           ],
-
-
                           const SeatLegendSimple(),
                           kVerticalSpacer,
                           SeatPlan(
@@ -501,9 +499,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () async {
-                            bloc?.saveContactChanges();
+                            //bloc?.saveContactChanges();
 
-                            return;
+                            //return;
                             ChangeSsrResponse? response = await bloc?.checkSsrChange();
 
                             if(response != null){

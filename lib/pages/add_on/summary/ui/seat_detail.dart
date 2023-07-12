@@ -29,18 +29,15 @@ class SeatSummaryDetail extends StatelessWidget {
 
     num totalPrice = 0;
 
-
-
-
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bookingTotal = context.watch<BookingCubit>().state;
     final numberOfPerson = filter?.numberPerson;
     List<Person> persons = List<Person>.from(numberOfPerson?.persons ?? []);
-     totalPrice = ((filter?.numberPerson.getTotalSeatsPartial(true) ?? 0) +
+    totalPrice = ((filter?.numberPerson.getTotalSeatsPartial(true) ?? 0) +
         (filter?.numberPerson.getTotalSeatsPartial(false) ?? 0));
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
     final flightSeats = bookingTotal.verifyResponse?.flightSeat;
-    final rowsDeparture = flightSeats
+    var rowsDeparture = flightSeats
         ?.outbound
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -49,7 +46,7 @@ class SeatSummaryDetail extends StatelessWidget {
         ?.physicalFlightSeatMap
         ?.seatConfiguration
         ?.rows;
-    final rowsReturn = flightSeats
+    var rowsReturn = flightSeats
         ?.inbound
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -58,29 +55,45 @@ class SeatSummaryDetail extends StatelessWidget {
         ?.physicalFlightSeatMap
         ?.seatConfiguration
         ?.rows;
-    if(isManageBooking) {
+    if (isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
 
       totalPrice = manageBookingCubit.confirmedSeatsTotalPrice;
 
       manageBookingCubit.hasAnySeatChanged;
 
-      persons =  context
-          .watch<ManageBookingCubit>()
-          .state
-          .manageBookingResponse
-          ?.result
-          ?.allPersonObject ??
+      persons = context
+              .watch<ManageBookingCubit>()
+              .state
+              .manageBookingResponse
+              ?.result
+              ?.allPersonObject ??
           [];
 
+      rowsDeparture = manageBookingCubit
+          .state
+          .flightSeats
+          ?.outbound
+          ?.firstOrNull
+          ?.retrieveFlightSeatMapResponse
+          ?.physicalFlights
+          ?.firstOrNull
+          ?.physicalFlightSeatMap
+          ?.seatConfiguration
+          ?.rows;
 
-
-    }
-    else {
-
-
-
-    }
+      rowsReturn = manageBookingCubit
+          .state
+          .flightSeats
+          ?.inbound
+          ?.firstOrNull
+          ?.retrieveFlightSeatMapResponse
+          ?.physicalFlights
+          ?.firstOrNull
+          ?.physicalFlightSeatMap
+          ?.seatConfiguration
+          ?.rows;
+    } else {}
 
     return Visibility(
       visible: totalPrice > 0,
@@ -109,7 +122,52 @@ class SeatSummaryDetail extends StatelessWidget {
           kVerticalSpacerMini,
           ...persons.map(
             (e) {
+              num amountToMinus = 0.0;
+              num amountToMinusReturn = 0.0;
               final seats = e.departureSeats;
+
+              if (isManageBooking) {
+                var ccc = manageBookingCubit
+                    ?.state.manageBookingResponse?.result?.passengersWithSSR
+                    ?.where((element) => element.personObject == e)
+                    .toList();
+
+                if ((ccc ?? []).isNotEmpty) {
+                  if ((ccc ?? []).first.confirmedDepartSeatSelected == null) {
+                    return Container();
+                  } else {
+                    var camountToMinus = e.departureSeats;
+                    print('');
+                    //ccc.first.seatDetail
+
+                    var tmpSeat = manageBookingCubit
+                        ?.state.manageBookingResponse?.result?.seatDetail?.seats
+                        ?.where((element) =>
+                            element.givenName ==
+                            ccc?.first.passengers?.givenName &&
+
+                                element.surName ==
+                                    ccc?.first.passengers?.surname &&
+                        element.departReturn == 'Depart'
+                    ).toList();
+
+                    if((tmpSeat ?? []).isNotEmpty) {
+                      amountToMinus = (tmpSeat ?? []).first.amount ?? 0.0;
+                    }
+
+
+
+
+
+
+                    print('object');
+                    // ccc.first.seat
+                  }
+                }
+              }
+
+              print('');
+
               final row = (rowsDeparture ?? [])
                   .firstWhereOrNull((element) => element.rowId == seats?.rowId);
               return Visibility(
@@ -133,7 +191,7 @@ class SeatSummaryDetail extends StatelessWidget {
                   ),
                   child2: MoneyWidgetCustom(
                     currency: currency,
-                    amount: e.getPartialPriceSeatPartial(true),
+                    amount: e.getPartialPriceSeatPartial(true) - amountToMinus,
                   ),
                 ),
               );
@@ -141,7 +199,11 @@ class SeatSummaryDetail extends StatelessWidget {
           ).toList(),
           kVerticalSpacerSmall,
           Visibility(
-            visible: isManageBooking ? (manageBookingCubit?.state.manageBookingResponse?.result?.isReturn ?? false) : (filter?.flightType == FlightType.round),
+            visible: isManageBooking
+                ? (manageBookingCubit
+                        ?.state.manageBookingResponse?.result?.isReturn ??
+                    false)
+                : (filter?.flightType == FlightType.round),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -155,6 +217,50 @@ class SeatSummaryDetail extends StatelessWidget {
                     final seats = e.returnSeats;
                     final row = (rowsReturn ?? []).firstWhereOrNull(
                         (element) => element.rowId == seats?.rowId);
+
+
+                    num amountToMinusReturn = 0.0;
+                    if (isManageBooking) {
+                      var ccc = manageBookingCubit
+                          ?.state.manageBookingResponse?.result?.passengersWithSSR
+                          ?.where((element) => element.personObject == e)
+                          .toList();
+
+                      if ((ccc ?? []).isNotEmpty) {
+                        if ((ccc ?? []).first.confirmedDepartSeatSelected == null) {
+                          return Container();
+                        } else {
+                          var camountToMinus = e.departureSeats;
+                          print('');
+                          //ccc.first.seatDetail
+
+
+
+
+                          var  tmpSeat = manageBookingCubit
+                              ?.state.manageBookingResponse?.result?.seatDetail?.seats
+                              ?.where((element) =>
+                          element.givenName ==
+                              ccc?.first.passengers?.givenName &&
+
+                              element.surName ==
+                                  ccc?.first.passengers?.surname &&
+                              element.departReturn != 'Depart'
+                          ).toList();
+
+                          if((tmpSeat ?? []).isNotEmpty) {
+                            amountToMinusReturn = (tmpSeat ?? []).first.amount ?? 0.0;
+                          }
+
+
+
+
+                          print('object');
+                          // ccc.first.seat
+                        }
+                      }
+                    }
+
                     return Visibility(
                       visible: e.getPartialPriceSeatPartial(false) > 0,
                       child: ChildRow(
@@ -173,7 +279,7 @@ class SeatSummaryDetail extends StatelessWidget {
                         ),
                         child2: MoneyWidgetCustom(
                           currency: currency,
-                          amount: e.getPartialPriceSeatPartial(false),
+                          amount: e.getPartialPriceSeatPartial(false) - amountToMinusReturn,
                         ),
                       ),
                     );
@@ -184,7 +290,6 @@ class SeatSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacer,
           AppDividerWidget(),
-
           kVerticalSpacer,
         ],
       ),
