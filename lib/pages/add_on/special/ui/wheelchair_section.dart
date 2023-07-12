@@ -21,6 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../widgets/app_money_widget.dart';
 
 class WheelchairSection extends StatelessWidget {
   final bool isDeparture;
@@ -202,6 +203,59 @@ class WheelchairSection extends StatelessWidget {
                             ),
                           ),
                         ),
+
+                        if (isManageBooking) ...[
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Divider(),
+                          ),
+                          kVerticalSpacerSmall,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'specialAddOnSubtotalLine'.tr(),
+                                  style: k18SemiBold.copyWith(color: Styles.kTextColor),
+                                ),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                const MoneyWidget(
+                                  amount: 0.00,
+                                  isDense: true,
+                                  isNormalMYR: true,
+                                ),
+                              ],
+                            ),
+                          ),
+                          kVerticalSpacerSmall,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                                      ? null
+                                      : () {
+                                    manageBookingCubit?.wheelChairConfirmSeatChange();
+
+                                    manageBookingCubit?.changeSelectedAddOnOption(
+                                        AddonType.none,
+                                        toNull: true);
+                                  },
+                                  child: Text('selectDateView.confirm'.tr()),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                            ],
+                          ),
+                          kVerticalSpacer,
+                        ],
                       ],
                     ),
                   ),

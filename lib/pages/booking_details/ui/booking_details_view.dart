@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/app_router.dart';
 import '../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../data/responses/change_ssr_response.dart';
 import '../../../data/responses/manage_booking_response.dart';
 import '../../../data/responses/verify_response.dart';
 import '../../../models/number_person.dart';
@@ -28,8 +29,11 @@ import '../../add_on/meals/ui/meals_section.dart';
 import '../../add_on/seats/ui/seat_legend_simple.dart';
 import '../../add_on/seats/ui/seat_plan.dart';
 import '../../add_on/special/ui/wheelchair_section.dart';
+import '../../add_on/summary/ui/baggage_summary_detail.dart';
 import '../../add_on/summary/ui/flight_detail.dart';
+import '../../add_on/summary/ui/meal_summary_detail.dart';
 import '../../add_on/summary/ui/seat_detail.dart';
+import '../../add_on/summary/ui/special_summary_detail.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../checkout/pages/insurance/ui/available_insurance.dart';
@@ -74,7 +78,7 @@ class ManageBookingDetailsView extends StatelessWidget {
     final locale = context.locale.toString();
     var selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
 
-    bool showSsr = false;
+    bool showSsr = true;
     bool showPax = true;
 
     if (selectedPax == null) {
@@ -316,28 +320,32 @@ class ManageBookingDetailsView extends StatelessWidget {
                             message: 'weSorrySeatSelected'.tr(),
                           ),
                           kVerticalSpacerSmall,
-                          CustomSegmentControl(
-                            optionOneTapped: () {
-                              bloc?.setSelectionDeparture(true, isSeat: true);
-                            },
-                            optionTwoTapped: () {
-                              bloc?.setSelectionDeparture(false, isSeat: true);
-                            },
-                            isSelectedOption1:
-                                bloc?.state.seatDeparture ?? true,
-                            textOne:
-                                '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                            textTwo:
-                                '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                            customRadius: 12,
-                            customBorderWidth: 1,
-                            customVerticalPadding: 8,
-                            customSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kPrimaryColor),
-                            customNoSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kLightBgColor),
-                          ),
-                          kVerticalSpacer,
+                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
+                            CustomSegmentControl(
+                              optionOneTapped: () {
+                                bloc?.setSelectionDeparture(true, isSeat: true);
+                              },
+                              optionTwoTapped: () {
+                                bloc?.setSelectionDeparture(false, isSeat: true);
+                              },
+                              isSelectedOption1:
+                              bloc?.state.seatDeparture ?? true,
+                              textOne:
+                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                              textTwo:
+                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                              customRadius: 12,
+                              customBorderWidth: 1,
+                              customVerticalPadding: 8,
+                              customSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kPrimaryColor),
+                              customNoSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kLightBgColor),
+                            ),
+                            kVerticalSpacer,
+                          ],
+
+
                           const SeatLegendSimple(),
                           kVerticalSpacer,
                           SeatPlan(
@@ -358,28 +366,32 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   message: 'mealAddOnsAreUnavailable'.tr(),
                                 ),
                           kVerticalSpacerSmall,
-                          CustomSegmentControl(
-                            optionOneTapped: () {
-                              bloc?.setSelectionDeparture(true, isFood: true);
-                            },
-                            optionTwoTapped: () {
-                              bloc?.setSelectionDeparture(false, isFood: true);
-                            },
-                            isSelectedOption1:
-                                bloc?.state.foodDepearture ?? true,
-                            textOne:
-                                '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                            textTwo:
-                                '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                            customRadius: 12,
-                            customBorderWidth: 1,
-                            customVerticalPadding: 8,
-                            customSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kPrimaryColor),
-                            customNoSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kLightBgColor),
-                          ),
-                          kVerticalSpacerSmall,
+
+                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
+                            CustomSegmentControl(
+                              optionOneTapped: () {
+                                bloc?.setSelectionDeparture(true, isFood: true);
+                              },
+                              optionTwoTapped: () {
+                                bloc?.setSelectionDeparture(false, isFood: true);
+                              },
+                              isSelectedOption1:
+                              bloc?.state.foodDepearture ?? true,
+                              textOne:
+                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                              textTwo:
+                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                              customRadius: 12,
+                              customBorderWidth: 1,
+                              customVerticalPadding: 8,
+                              customSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kPrimaryColor),
+                              customNoSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kLightBgColor),
+                            ),
+                            kVerticalSpacerSmall,
+                          ],
+
                           MealsSection(
                             isDeparture: bloc?.state.foodDepearture ?? false,
                             isManageBooking: true,
@@ -387,30 +399,35 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ] else if (bloc?.state.addOnOptionSelected ==
                             AddonType.baggage) ...[
                           kVerticalSpacerSmall,
-                          CustomSegmentControl(
-                            optionOneTapped: () {
-                              bloc?.setSelectionDeparture(true,
-                                  isBaggage: true);
-                            },
-                            optionTwoTapped: () {
-                              bloc?.setSelectionDeparture(false,
-                                  isBaggage: true);
-                            },
-                            isSelectedOption1:
-                                bloc?.state.baggageDeparture ?? true,
-                            textOne:
-                                '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                            textTwo:
-                                '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                            customRadius: 12,
-                            customBorderWidth: 1,
-                            customVerticalPadding: 8,
-                            customSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kPrimaryColor),
-                            customNoSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kLightBgColor),
-                          ),
-                          kVerticalSpacerSmall,
+                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
+
+                            CustomSegmentControl(
+                              optionOneTapped: () {
+                                bloc?.setSelectionDeparture(true,
+                                    isBaggage: true);
+                              },
+                              optionTwoTapped: () {
+                                bloc?.setSelectionDeparture(false,
+                                    isBaggage: true);
+                              },
+                              isSelectedOption1:
+                              bloc?.state.baggageDeparture ?? true,
+                              textOne:
+                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                              textTwo:
+                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                              customRadius: 12,
+                              customBorderWidth: 1,
+                              customVerticalPadding: 8,
+                              customSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kPrimaryColor),
+                              customNoSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kLightBgColor),
+                            ),
+                            kVerticalSpacerSmall,
+
+                          ],
+
                           BaggageSection(
                             isManageBooking: true,
                             isDeparture: bloc?.state.baggageDeparture ?? false,
@@ -420,30 +437,33 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ] else if (bloc?.state.addOnOptionSelected ==
                             AddonType.special) ...[
                           kVerticalSpacer,
-                          CustomSegmentControl(
-                            optionOneTapped: () {
-                              bloc?.setSelectionDeparture(true,
-                                  isSpecial: true);
-                            },
-                            optionTwoTapped: () {
-                              bloc?.setSelectionDeparture(false,
-                                  isSpecial: true);
-                            },
-                            isSelectedOption1:
-                                bloc?.state.specialAppOpsDeparture ?? true,
-                            textOne:
-                                '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                            textTwo:
-                                '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                            customRadius: 12,
-                            customBorderWidth: 1,
-                            customVerticalPadding: 8,
-                            customSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kPrimaryColor),
-                            customNoSelectedStyle: kMediumSemiBold.copyWith(
-                                color: Styles.kLightBgColor),
-                          ),
-                          kVerticalSpacerSmall,
+                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
+                            CustomSegmentControl(
+                              optionOneTapped: () {
+                                bloc?.setSelectionDeparture(true,
+                                    isSpecial: true);
+                              },
+                              optionTwoTapped: () {
+                                bloc?.setSelectionDeparture(false,
+                                    isSpecial: true);
+                              },
+                              isSelectedOption1:
+                              bloc?.state.specialAppOpsDeparture ?? true,
+                              textOne:
+                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                              textTwo:
+                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                              customRadius: 12,
+                              customBorderWidth: 1,
+                              customVerticalPadding: 8,
+                              customSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kPrimaryColor),
+                              customNoSelectedStyle: kMediumSemiBold.copyWith(
+                                  color: Styles.kLightBgColor),
+                            ),
+                            kVerticalSpacerSmall,
+                          ],
+
                           WheelchairSection(
                               isDeparture:
                                   bloc?.state.specialAppOpsDeparture ?? false,
@@ -480,8 +500,77 @@ class ManageBookingDetailsView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             bloc?.saveContactChanges();
+
+                            return;
+                            ChangeSsrResponse? response = await bloc?.checkSsrChange();
+
+                            if(response != null){
+                              var redirectUrl =
+                              await bloc?.checkOutForPaymentSSR('',response);
+
+                              if (redirectUrl != null) {
+                                final result = await context.router.push(
+                                  WebViewRoute(
+                                      url: "", htmlContent: redirectUrl),
+                                );
+
+                                if (result != null && result is String) {
+                                  final urlParsed = Uri.parse(result);
+                                  var query =
+                                      urlParsed.queryParametersAll;
+                                  String? status = query['status']?.first;
+                                  String? superPNR =
+                                      query['pnr']?.first;
+
+                                  if (status != "FAIL") {
+
+                                    bloc?.reloadDataForConfirmation(status ?? '',superPNR ?? '');
+
+                                    if (true) {
+                                      //mounted
+                                      /*final filter = context
+                                    .read<SearchFlightCubit>()
+                                    .state
+                                    .filterState;
+
+                                final bookingLocal = BookingLocal(
+                                  bookingId: superPNR,
+                                  departureDate: filter?.departDate,
+                                  returnDate: filter?.returnDate,
+                                  departureString: filter?.beautify,
+                                  returnString: filter?.beautifyReverse,
+                                );
+
+                                context
+                                    .read<BookingLocalCubit>()
+                                    .saveBooking(bookingLocal);
+
+                                FlutterInsider.Instance.itemPurchased(
+                                  superPNR.setNoneIfNullOrEmpty,
+                                  UserInsider.of(context).generateProduct(),
+                                );*/
+                                    }
+
+
+                                    context.router.replaceAll([
+                                      const NavigationRoute(),
+                                      ChangeFlightConfirmationRoute(
+                                        bookingId: superPNR ?? "", status: status ?? '',
+                                      ),
+                                    ]);
+                                  }
+
+                                  else {
+
+
+                                  }
+                                } else {}
+                              }
+
+                            }
+
 
                           },
                           child: const Text('Save'),
@@ -828,23 +917,38 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
             'MYR';
 
+
     return AppCard(
       child: Column(
         children: [
           FlightSummaryDetail(
             isDeparture: true,
             currency: currency,
+            dontShowAmount: true,
             isManageBooking: true,
           ),
-          FlightSummaryDetail(
-            isDeparture: false,
-            currency: currency,
-            isManageBooking: true,
-          ),
+          if(bloc.state.manageBookingResponse?.result?.isReturn == true) ... [
+            FlightSummaryDetail(
+              isDeparture: false,
+              currency: currency,
+              dontShowAmount: true,
+              isManageBooking: true,
+            ),
+          ],
+
           SeatSummaryDetail(
             currency: currency,
             isManageBooking: true,
           ),
+
+          MealSummaryDetail(currency: currency,
+            isManageBooking: true,),
+
+
+          BaggageSummaryDetail(currency: currency, sports: false,isManageBooking: true,),
+         // BaggageSummaryDetail(currency: currency, sports: true,isManageBooking: true,),
+          SpecialSummaryDetail(currency: currency,isManageBooking: true,),
+
         ],
       ),
     );

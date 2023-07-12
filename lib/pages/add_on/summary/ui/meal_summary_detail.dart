@@ -11,24 +11,47 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class MealSummaryDetail extends StatelessWidget {
-  const MealSummaryDetail({Key? key, this.currency}) : super(key: key);
+  final bool isManageBooking;
+
+  const MealSummaryDetail(
+      {Key? key, this.currency, this.isManageBooking = false})
+      : super(key: key);
   final String? currency;
 
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bookingTotal = context.watch<BookingCubit>().state;
-    final numberOfPerson = filter?.numberPerson;
-    final persons = List<Person>.from(numberOfPerson?.persons ?? []);
-    final totalPrice = ((filter?.numberPerson.getTotalMealPartial(true) ?? 0) +
+    var numberOfPerson = filter?.numberPerson;
+    var persons = List<Person>.from(numberOfPerson?.persons ?? []);
+    var totalPrice = ((filter?.numberPerson.getTotalMealPartial(true) ?? 0) +
         (filter?.numberPerson.getTotalMealPartial(false) ?? 0));
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
+    ManageBookingCubit? manageBookingCubit;
 
-    return Visibility(
+    if(isManageBooking) {
+      manageBookingCubit = context.watch<ManageBookingCubit>();
+
+
+      totalPrice = manageBookingCubit.confirmedMealsTotalPrice;
+
+      persons =  context
+          .watch<ManageBookingCubit>()
+          .state
+          .manageBookingResponse
+          ?.result
+          ?.allPersonObject ??
+          [];
+
+      numberOfPerson = NumberPerson(persons: persons);
+
+    }
+      return Visibility(
       visible: totalPrice > 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +81,7 @@ class MealSummaryDetail extends StatelessWidget {
               .toList(),
           kVerticalSpacerSmall,
           Visibility(
-            visible: filter?.flightType == FlightType.round,
+            visible: isManageBooking ? (manageBookingCubit?.state.manageBookingResponse?.result?.isReturn ?? false) : (filter?.flightType == FlightType.round),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -95,8 +118,10 @@ class MealSummaryDetail extends StatelessWidget {
             ),
             ...meal.entries
                 .map(
-                  (e) =>
-                      SummaryListItem(text:"${e.value.first.description} ${e.value.length>1?'x ${e.value.length}':''}",),
+                  (e) => SummaryListItem(
+                    text:
+                        "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}",
+                  ),
                 )
                 .toList()
           ],

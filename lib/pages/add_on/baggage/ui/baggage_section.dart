@@ -17,6 +17,7 @@ import 'package:app/utils/string_utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../widgets/app_money_widget.dart';
 
 class BaggageSection extends StatelessWidget {
   final bool isManageBooking;
@@ -36,8 +37,14 @@ class BaggageSection extends StatelessWidget {
   Widget build(BuildContext context) {
     BaggageGroup? baggageGroup;
 
+    ManageBookingCubit? manageBookingCubit;
+
+
     if(isManageBooking) {
+
       var state = context.watch<ManageBookingCubit>().state;
+      manageBookingCubit = context.watch<ManageBookingCubit>();
+
       baggageGroup = state.flightSSR?.baggageGroup;
 
 
@@ -69,6 +76,59 @@ class BaggageSection extends StatelessWidget {
             kVerticalSpacer,
              BaggageNotice(isManageBooking: isManageBooking,),
             kVerticalSpacer,
+
+            if (isManageBooking) ...[
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                child: Divider(),
+              ),
+              kVerticalSpacerSmall,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'baggageSubtotal'.tr(),
+                      style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    const MoneyWidget(
+                      amount: 0.00,
+                      isDense: true,
+                      isNormalMYR: true,
+                    ),
+                  ],
+                ),
+              ),
+              kVerticalSpacerSmall,
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                          ? null
+                          : () {
+                        manageBookingCubit?.baggageConfirmSeatChange();
+
+                        manageBookingCubit?.changeSelectedAddOnOption(
+                            AddonType.none,
+                            toNull: true);
+                      },
+                      child: Text('selectDateView.confirm'.tr()),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                ],
+              ),
+              kVerticalSpacer,
+            ],
           ],
         ),
       ),

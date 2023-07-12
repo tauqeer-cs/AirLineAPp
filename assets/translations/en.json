@@ -892,5 +892,7 @@
   "reprintYour" : "reprint your flight itinerary / boarding pass to ",
   "reflectYour" : "reflect your latest booking changes!",
   "enter17" : "Please enter exactly 17 characters",
-  "termsAndConditions" : "Terms and Conditions"
+  "termsAndConditions" : "Terms and Conditions",
+  "mealTotal" : "Meal Total",
+  "specialAddOnSubtotalLine": "Special Add-on\nSubtotal"
 }

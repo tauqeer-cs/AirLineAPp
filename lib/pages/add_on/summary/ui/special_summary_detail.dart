@@ -11,23 +11,47 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class SpecialSummaryDetail extends StatelessWidget {
   final String? currency;
-  const SpecialSummaryDetail({Key? key, this.currency}) : super(key: key);
-
+  const SpecialSummaryDetail({Key? key, this.currency,  this.isManageBooking = false}) : super(key: key);
+  final bool isManageBooking;
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final bookingTotal = context.watch<BookingCubit>().state;
-    final numberOfPerson = filter?.numberPerson;
-    final persons = List<Person>.from(numberOfPerson?.persons ?? []);
-    final totalPrice =
+    var numberOfPerson = filter?.numberPerson;
+    var persons = List<Person>.from(numberOfPerson?.persons ?? []);
+    var totalPrice =
         (filter?.numberPerson.getTotalWheelChairPartial(true) ?? 0) +
             (filter?.numberPerson.getTotalWheelChairPartial(false) ?? 0);
+
+    ManageBookingCubit? manageBookingCubit;
+
+    if(isManageBooking) {
+      manageBookingCubit = context.watch<ManageBookingCubit>();
+
+
+      totalPrice = manageBookingCubit.confirmedWheelChairTotalPrice;
+
+      persons =  context
+          .watch<ManageBookingCubit>()
+          .state
+          .manageBookingResponse
+          ?.result
+          ?.allPersonObject ??
+          [];
+
+      numberOfPerson = NumberPerson(persons: persons);
+
+    }
+
+
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
+
 
     return Visibility(
       visible: totalPrice > 0,
@@ -59,7 +83,7 @@ class SpecialSummaryDetail extends StatelessWidget {
               .toList(),
           kVerticalSpacerSmall,
           Visibility(
-            visible: filter?.flightType == FlightType.round,
+            visible: (isManageBooking) ? (manageBookingCubit?.state.manageBookingResponse?.result?.isReturn ?? false ) : filter?.flightType == FlightType.round,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

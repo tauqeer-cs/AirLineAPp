@@ -17,9 +17,16 @@ class FlightSummaryDetail extends StatelessWidget {
 
   final bool isManageBooking;
 
+  final bool dontShowAmount;
+
   final String? currency;
 
-  const FlightSummaryDetail({Key? key, required this.isDeparture, this.currency,  this.isManageBooking = false})
+  const FlightSummaryDetail(
+      {Key? key,
+      required this.isDeparture,
+      this.currency,
+      this.isManageBooking = false,
+      this.dontShowAmount = false})
       : super(key: key);
 
   @override
@@ -42,34 +49,40 @@ class FlightSummaryDetail extends StatelessWidget {
     String endLocation = '';
 
     bool isReturn = false;
-    if(isManageBooking) {
+    if (isManageBooking) {
       var manageBloc = context.watch<ManageBookingCubit>();
-      totalToShow = isDeparture ? manageBloc.departureTotal
-      : manageBloc.departureTotal;
+      totalToShow =
+          isDeparture ? manageBloc.departureTotal : manageBloc.departureTotal;
 
-      var csegment = isDeparture ? manageBloc.state.manageBookingResponse?.result?.flightSegments?.first.outbound?.first :
-      manageBloc.state.manageBookingResponse?.result?.flightSegments?.first.inbound?.first;
+      var csegment = isDeparture
+          ? manageBloc.state.manageBookingResponse?.result?.flightSegments
+              ?.first.outbound?.first
+          : manageBloc.state.manageBookingResponse?.result?.flightSegments
+              ?.first.inbound?.first;
 
       departDate = csegment?.departureDateTime;
       arrivalDate = csegment?.arrivalDateTime;
       startingLocation = csegment?.departureAirportLocationName ?? '';
-      endLocation  = csegment?.arrivalAirportLocationName ?? '';
+      endLocation = csegment?.arrivalAirportLocationName ?? '';
       print('');
-      isReturn = manageBloc.state.manageBookingResponse?.result?.isReturn ?? false;
-
-
-    }
-    else {
+      isReturn =
+          manageBloc.state.manageBookingResponse?.result?.isReturn ?? false;
+    } else {
       totalToShow = (isDeparture
-          ? bookingTotal.selectedDeparture?.getTotalPriceDisplay
-          : bookingTotal.selectedReturn?.getTotalPriceDisplay) ?? 0;
-      startingLocation = (isDeparture ? filter?.origin?.name : filter?.destination?.name) ?? '';
-      endLocation = (isDeparture ? filter?.destination?.name : filter?.origin?.name) ?? '';
-
-
+              ? bookingTotal.selectedDeparture?.getTotalPriceDisplay
+              : bookingTotal.selectedReturn?.getTotalPriceDisplay) ??
+          0;
+      startingLocation =
+          (isDeparture ? filter?.origin?.name : filter?.destination?.name) ??
+              '';
+      endLocation =
+          (isDeparture ? filter?.destination?.name : filter?.origin?.name) ??
+              '';
     }
     return Visibility(
-      visible: isManageBooking ? (isDeparture ? true : isReturn) : isDeparture || filter?.flightType == FlightType.round,
+      visible: isManageBooking
+          ? (isDeparture ? true : isReturn)
+          : isDeparture || filter?.flightType == FlightType.round,
       child: Column(
         children: [
           ChildRow(
@@ -77,7 +90,7 @@ class FlightSummaryDetail extends StatelessWidget {
               isDeparture ? 'departFlight'.tr() : 'returningFlight'.tr(),
               style: kLargeHeavy,
             ),
-            child2: MoneyWidgetCustom(
+            child2: dontShowAmount ? Container() : MoneyWidgetCustom(
               amountSize: 16,
               currency: currency,
               myrSize: 16,
@@ -91,13 +104,11 @@ class FlightSummaryDetail extends StatelessWidget {
             child1: Text(
               'flightDetail.depart'.tr(),
               style: kMediumRegular,
-
             ),
             child2: Text(
-              "${AppDateUtils.formatFullDateWithTime(departDate,locale: locale)}\n$startingLocation",
+              "${AppDateUtils.formatFullDateWithTime(departDate, locale: locale)}\n$startingLocation",
               textAlign: TextAlign.end,
               style: kMediumRegular,
-
             ),
           ),
           kVerticalSpacerMini,
@@ -105,10 +116,9 @@ class FlightSummaryDetail extends StatelessWidget {
             child1: Text(
               'arrive'.tr(),
               style: kMediumRegular,
-
             ),
             child2: Text(
-              "${AppDateUtils.formatFullDateWithTime(arrivalDate,locale: locale)}\n$endLocation",
+              "${AppDateUtils.formatFullDateWithTime(arrivalDate, locale: locale)}\n$endLocation",
               textAlign: TextAlign.end,
               style: kMediumRegular,
             ),
@@ -120,7 +130,6 @@ class FlightSummaryDetail extends StatelessWidget {
                   child1: Text(
                     e.generateText(numberOfPerson, separator: "& "),
                     style: kMediumRegular,
-
                   ),
                   child2: MoneyWidgetCustom(
                     currency: currency,
@@ -137,7 +146,6 @@ class FlightSummaryDetail extends StatelessWidget {
           kVerticalSpacer,
           AppDividerWidget(),
           kVerticalSpacer,
-
         ],
       ),
     );

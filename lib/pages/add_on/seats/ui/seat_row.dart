@@ -68,7 +68,7 @@ class _SeatRowState extends State<SeatRow> {
 
     bool isDeparture = true;
 
-    Map<num?, Color>? mapColor;
+
 
     if (widget.isManageBooking) {
       var no = context
@@ -94,9 +94,6 @@ class _SeatRowState extends State<SeatRow> {
           .firstWhereOrNull((element) => element == selectedPerson);
       isDeparture = context.watch<IsDepartureCubit>().state;
       otherSeats = persons?.selectedSeats(isDeparture);
-      mapColor = isDeparture
-          ? bookingState.departureColorMapping
-          : bookingState.returnColorMapping;
     }
 
     final seat = isDeparture
@@ -198,7 +195,7 @@ class _SeatRowState extends State<SeatRow> {
                       ? (selected
                           ? buildPersonTextFocused(focusedPerson, manageCubit)
                           : seatTextPerson(
-                      int.parse((widget.seats.seatId ?? '')), manageCubit))
+                      ((widget.seats.seatId ?? '')), manageCubit))
                       : Text(
                           selected
                               ? "${persons?.getPersonIndex(focusedPerson)}"
@@ -230,7 +227,7 @@ class _SeatRowState extends State<SeatRow> {
     return Text('0');
   }
 
-  Text seatTextPerson(int seatId, ManageBookingCubit? bloc) {
+  Text seatTextPerson(String seatId, ManageBookingCubit? bloc) {
     var respone = bloc?.state.manageBookingResponse?.result?.passengersWithSSR
         ?.where((e) => e.personObject?.departureSeats?.seatId == seatId)
         .toList();

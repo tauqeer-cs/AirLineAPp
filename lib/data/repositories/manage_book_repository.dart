@@ -5,6 +5,7 @@ import 'package:app/data/responses/common_response.dart';
 import '../../models/my_bookings.dart';
 import '../../models/pay_redirection.dart';
 import '../provider/manage_booking_provider.dart';
+import '../requests/assign_flight_addon_request.dart';
 import '../requests/change_flight_request.dart';
 import '../requests/get_flight_addon_request.dart';
 import '../requests/manage_booking_request.dart';
@@ -13,6 +14,7 @@ import '../requests/search_change_flight_request.dart';
 import '../requests/update_booking_contacts.dart';
 import '../responses/change_flight_response.dart';
 
+import '../responses/change_ssr_response.dart';
 import '../responses/flight_add_ons_response.dart';
 import '../responses/flight_response.dart';
 import '../responses/manage_booking_response.dart';
@@ -88,6 +90,13 @@ class ManageBookingRepository {
     final profile = await _provider.loadFlightAddonRequest(info);
     return profile;
   }
+
+
+  Future<ChangeSsrResponse> setAssignFlightAddon(RequestAssignFlightAddOnRequest info) async {
+    final profile = await _provider.assignFlightAddon(info);
+    return profile;
+  }
+
 
 
 

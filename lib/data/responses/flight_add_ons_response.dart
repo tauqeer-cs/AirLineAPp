@@ -3,6 +3,8 @@ import 'package:app/data/responses/verify_response.dart';
 class FightAddOns {
   List<PaxAddOnSSR>? paxAddOnSSR;
 
+  FlightSeats? flightSeats;
+
   FightAddOns({this.paxAddOnSSR, });
 
   FightAddOns.fromJson(Map<String, dynamic> json) {
@@ -12,6 +14,14 @@ class FightAddOns {
         paxAddOnSSR!.add(new PaxAddOnSSR.fromJson(v));
       });
     }
+
+    if (json['flightSeat'] != null) {
+      flightSeats = FlightSeats.fromJson(json['flightSeat'] as Map<String, dynamic>);
+    }
+
+
+    print('');
+
 
   }
 
@@ -57,7 +67,6 @@ class FlightSSR {
   BundleGroupSeat? sportGroup;
   BundleGroupSeat? insuranceGroup;
 
-  BundleGroupSeat? seatGroup;
 
 
   FlightSSR(
@@ -65,7 +74,6 @@ class FlightSSR {
         this.baggageGroup,
         this.wheelChairGroup,
         this.sportGroup,
-        this.seatGroup,
       this.insuranceGroup});
 
   FlightSSR.fromJson(Map<String, dynamic> json) {
@@ -86,9 +94,6 @@ class FlightSSR {
         ? BundleGroupSeat.fromJson(json['insuranceGroup'])
         : null;
 
-    seatGroup = json['seatGroup'] != null
-        ? BundleGroupSeat.fromJson(json['seatGroup'])
-        : null;
 
 
 
@@ -114,12 +119,6 @@ class FlightSSR {
     if (this.insuranceGroup != null) {
       data['insuranceGroup'] = this.insuranceGroup!.toJson();
     }
-
-
-    if (this.seatGroup != null) {
-      data['seatGroup'] = this.seatGroup!.toJson();
-    }
-
 
 
 

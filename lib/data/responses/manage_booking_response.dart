@@ -559,27 +559,42 @@ class PassengersWithSSR {
   Vs.Seats? confirmedReturnSeatSelected;
 
 
-  int? originalDepartSeatId;
-  int? originalReturnSeatId;
-
-  double? originalDepartSeatPrice;
-  double? originalReturnSeatPrice;
+  String? originalDepartSeatId;
+  String? originalReturnSeatId;
 
    List<Bundle>? newDepartureMeal;
    List<Bundle>? newReturnMeal;
 
+  List<Bundle>? confirmedDepartMeals;
+  List<Bundle>? confirmedReturnMeals;
+
    Bundle? newDepartBaggageSelected;
   Bundle? newReturnBaggageSelected;
+  Bundle? confirmDepartBaggageSelected;
+  Bundle? confirmReturnBaggageSelected;
+
+
+  Bundle? newDepartSportsSelected;
+  Bundle? newReturnSportsSelected;
+
+  Bundle? newReturnWheelChair;
+  Bundle? newDepartWheelChair;
+
+  Bundle? confirmReturnWheelChair;
+  Bundle? confirmDepartWheelChair;
 
   bool originalHadWheelChairDepart = false;
   bool originalHadWheelChairReturn = false;
 
-  Bundle? newReturnWheelChair;
+
+  double? originalDepartSeatPrice;
+  double? originalReturnSeatPrice;
+
+
 
   String? wheelChairIdDepart;
   String? wheelChairIdReturn;
 
-  Bundle? newDepartWheelChair;
 
   String? originalDepartBaggageCode;
   String? originalReturnBaggageCode;
@@ -587,8 +602,7 @@ class PassengersWithSSR {
   double? originalDepartBaggagePrice;
   double? originalReturnBaggagePrice;
 
-  Bundle? newDepartSportsSelected;
-  Bundle? newReturnSportsSelected;
+
   String? originalDepartSportsCode;
   String? originalReturnSportsCode;
   double? originalDepartSportsPrice;
@@ -702,8 +716,8 @@ class PassengersWithSSR {
     String? infantNationality,
     bool? infantExpanded,
     Person? personObject,
-    int? originalDepartSeatId,
-  int? originalReturnSeatId,
+    String? originalDepartSeatId,
+  String? originalReturnSeatId,
     Vs.Seats? newDepartSeatSelected,
     Vs.Seats? newReturnSeatSelected,
     Vs.Seats? confirmedDepartSeatSelected,
@@ -730,10 +744,18 @@ class PassengersWithSSR {
     Bundle? newDepartWheelChair,
     String? wheelChairIdDepart,
     String? wheelChairIdReturn,
+    List<Bundle>? confirmedDepartMeals,
+    List<Bundle>? confirmedReturnMeals,
+    Bundle? confirmDepartBaggageSelected,
+    Bundle? confirmReturnBaggageSelected,
   }) {
     return PassengersWithSSR(
+      confirmDepartBaggageSelected  : confirmDepartBaggageSelected  ?? this.confirmDepartBaggageSelected,
+      confirmReturnBaggageSelected :  confirmReturnBaggageSelected ?? this.confirmReturnBaggageSelected,
+      confirmedDepartMeals :  confirmedDepartMeals ?? this.confirmedDepartMeals,
+      confirmedReturnMeals :  confirmedReturnMeals ?? this.confirmedReturnMeals,
       confirmedDepartSeatSelected :  confirmedDepartSeatSelected ?? this.confirmedDepartSeatSelected,
-      confirmedReturnSeatSelected :  confirmedSeatSelected ?? this.confirmedReturnSeatSelected,
+      confirmedReturnSeatSelected :  confirmedSeatSelected ?? confirmedReturnSeatSelected,
       wheelChairIdDepart :  wheelChairIdDepart ?? this.wheelChairIdDepart,
       wheelChairIdReturn :  wheelChairIdReturn ?? this.wheelChairIdReturn,
       originalHadWheelChairDepart :  originalHadWheelChairDepart ?? this.originalHadWheelChairDepart,
@@ -838,10 +860,10 @@ class PassengersWithSSR {
     this.wheelChairIdReturn,
    this.confirmedDepartSeatSelected,
     this.confirmedReturnSeatSelected,
-
-
-
-
+    this.confirmedDepartMeals,
+    this.confirmedReturnMeals,
+    this.confirmDepartBaggageSelected,
+    this.confirmReturnBaggageSelected,
   });
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {

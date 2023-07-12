@@ -997,6 +997,7 @@ Rows _$RowsFromJson(Map<String, dynamic> json) => Rows(
       deckId: json['deckId'] as num?,
       restrictions: json['restrictions'] as List<dynamic>?,
       rowId: json['rowId'] as num?,
+
       rowNumber: json['rowNumber'] as num?,
       seatConfigId: json['seatConfigId'] as num?,
       seats: (json['seats'] as List<dynamic>?)
@@ -1032,6 +1033,7 @@ Seats _$SeatsFromJson(Map<String, dynamic> json) => Seats(
           ?.map((e) => Restrictions.fromJson(e as Map<String, dynamic>))
           .toList(),
       rowId: json['rowId'] as num?,
+  rowNumber: json['rowNumber'] as num?,
       seatAttributes: (json['seatAttributes'] as List<dynamic>?)
           ?.map((e) => SeatAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1065,6 +1067,8 @@ Map<String, dynamic> _$SeatsToJson(Seats instance) {
   writeNotNull('isSeatAvailable', instance.isSeatAvailable);
   writeNotNull('restrictions', instance.restrictions);
   writeNotNull('rowId', instance.rowId);
+  writeNotNull('rowNumber', instance.rowNumber);
+
   writeNotNull('seatAttributes', instance.seatAttributes);
   writeNotNull('seatCabinId', instance.seatCabinId);
   writeNotNull('seatColumn', instance.seatColumn);

@@ -892,7 +892,8 @@
   "reprintYour" : "reprint your flight itinerary / boarding pass to ",
   "reflectYour" : "reflect your latest booking changes!",
   "enter17" : "Please enter exactly 17 characters",
-
+  "mealTotal" : "อาหาร",
+  "specialAddOnSubtotal": "Special Add-on\nSubtotal"
 
 }
 

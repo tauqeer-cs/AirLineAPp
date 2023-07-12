@@ -8,6 +8,7 @@ class ManageBookingState extends Equatable {
 
 
   final String? newContactFirstName;
+
   final String? newContactLastName;
   final String? newContactCountryPhCode;
   final String? newContactPhNo;
@@ -24,6 +25,9 @@ class ManageBookingState extends Equatable {
   final bool savingContactChanges;
 
   final FR.FlightSSR? flightSSR;
+  final FlightSeats? flightSeats;
+
+  //BundleGroupSeat.fromJson(json['seatGroup'] as Map<String, dynamic>)
 
 
   final String? newCompanyTaxName;
@@ -134,6 +138,7 @@ class ManageBookingState extends Equatable {
     this.addOnList,
     this.savingContactChanges = false,
     this.flightSSR,
+    this.flightSeats,
   });
 
   @override
@@ -186,6 +191,7 @@ class ManageBookingState extends Equatable {
     newCompanyTaxEmailAddress,
     savingContactChanges,
     addOnList,
+    flightSeats,
 
   ];
 
@@ -247,8 +253,10 @@ class ManageBookingState extends Equatable {
     bool? savingContactChanges,
     FR.FlightSSR? flightSSR,
     FightAddOns? addOnList,
+    FlightSeats? flightSeats,
   }) {
     return ManageBookingState(
+      flightSeats : flightSeats ?? this.flightSeats,
       addOnList : addOnList ?? this.addOnList,
       flightSSR : flightSSR ?? this.flightSSR,
       savingContactChanges : savingContactChanges ?? this.savingContactChanges,

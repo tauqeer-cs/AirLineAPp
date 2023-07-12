@@ -141,7 +141,7 @@ class SeatSummaryDetail extends StatelessWidget {
           ).toList(),
           kVerticalSpacerSmall,
           Visibility(
-            visible: filter?.flightType == FlightType.round,
+            visible: isManageBooking ? (manageBookingCubit?.state.manageBookingResponse?.result?.isReturn ?? false) : (filter?.flightType == FlightType.round),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

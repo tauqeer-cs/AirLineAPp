@@ -1137,7 +1137,8 @@ class Seats extends Equatable {
         seatWBZoneId,
         serviceCode,
         serviceDescription,
-        weightIndex
+        weightIndex,
+    rowNumber
       ];
 
   factory Seats.fromJson(Map<String, dynamic> json) => _$SeatsFromJson(json);
@@ -1150,6 +1151,8 @@ class Seats extends Equatable {
   final bool? isSeatAvailable;
   final List<Restrictions>? restrictions;
   final num? rowId;
+  final num? rowNumber;
+
   final List<SeatAttributes>? seatAttributes;
   final num? seatCabinId;
   final String? seatColumn;
@@ -1179,7 +1182,7 @@ class Seats extends Equatable {
       this.seatWBZoneId,
       this.serviceCode,
       this.serviceDescription,
-      //this.ssrCode,
+      this.rowNumber,
       this.weightIndex});
 
   num getRowNumber(List<Rows> rows) {
@@ -1225,9 +1228,11 @@ class Seats extends Equatable {
     num? serviceId,
     num? weightIndex,
     String? ssrCode,
+    num? rowNumber,
 
   }) {
     return Seats(
+      rowNumber: rowNumber ?? this.rowNumber,
       blockChild: blockChild ?? this.blockChild,
       blockInfant: blockInfant ?? this.blockInfant,
       isEmergencyRow: isEmergencyRow ?? this.isEmergencyRow,

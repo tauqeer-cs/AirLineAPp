@@ -11,35 +11,50 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class BaggageSummaryDetail extends StatelessWidget {
-  const BaggageSummaryDetail({Key? key, this.currency, required this.sports}) : super(key: key);
+  const BaggageSummaryDetail(
+      {Key? key,
+      this.currency,
+      required this.sports,
+      this.isManageBooking = false})
+      : super(key: key);
   final String? currency;
+  final bool isManageBooking;
 
   final bool sports;
 
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
-    final bookingTotal = context.watch<BookingCubit>().state;
-    final numberOfPerson = filter?.numberPerson;
-    final persons = List<Person>.from(numberOfPerson?.persons ?? []);
+    var numberOfPerson = filter?.numberPerson;
+    var persons = List<Person>.from(numberOfPerson?.persons ?? []);
     num totalPrice = 0;
-    if(sports) {
-       totalPrice =
-
-              (filter?.numberPerson.getTotalSportsPartial(true) ?? 0) +
-              (filter?.numberPerson.getTotalSportsPartial(false) ?? 0);
+    if (sports) {
+      totalPrice = (filter?.numberPerson.getTotalSportsPartial(true) ?? 0) +
+          (filter?.numberPerson.getTotalSportsPartial(false) ?? 0);
+    } else {
+      totalPrice = (filter?.numberPerson.getTotalBaggagePartial(true) ?? 0) +
+          (filter?.numberPerson.getTotalBaggagePartial(false) ?? 0);
     }
-    else {
-       totalPrice =
-          (filter?.numberPerson.getTotalBaggagePartial(true) ?? 0) +
-              (filter?.numberPerson.getTotalBaggagePartial(false) ?? 0) ;
+    ManageBookingCubit? manageBookingCubit;
+
+    if(isManageBooking) {
+      manageBookingCubit = context.watch<ManageBookingCubit>();
+      totalPrice = manageBookingCubit.confirmedBaggageTotalPrice;
+      persons =  context
+          .watch<ManageBookingCubit>()
+          .state
+          .manageBookingResponse
+          ?.result
+          ?.allPersonObject ??
+          [];
+      numberOfPerson = NumberPerson(persons: persons);
+
     }
-
-
 
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
 
@@ -50,7 +65,9 @@ class BaggageSummaryDetail extends StatelessWidget {
         children: [
           ChildRow(
             child1: Text(
-      sports ? "priceSection.sportsEquipmentTitle".tr() : "baggage".tr(),
+              sports
+                  ? "priceSection.sportsEquipmentTitle".tr()
+                  : "baggage".tr(),
               style: kLargeHeavy,
             ),
             child2: MoneyWidgetCustom(
@@ -73,7 +90,7 @@ class BaggageSummaryDetail extends StatelessWidget {
               .toList(),
           kVerticalSpacerSmall,
           Visibility(
-            visible: filter?.flightType == FlightType.round,
+            visible: isManageBooking ? (manageBookingCubit?.state.manageBookingResponse?.result?.isReturn ?? false) : (filter?.flightType == FlightType.round),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -110,24 +127,28 @@ class BaggageSummaryDetail extends StatelessWidget {
             Text(
               e.generateText(numberOfPerson, separator: "& "),
             ),
-            if(sports == false ) ... [
+            if (sports == false) ...[
               Visibility(
-                visible: baggage!=null,
-                child:  SummaryListItem( text: baggage?.description ?? '',),
+                visible: baggage != null,
+                child: SummaryListItem(
+                  text: baggage?.description ?? '',
+                ),
               ),
-            ] else ...  [
+            ] else ...[
               Visibility(
-                visible: sport!=null,
-                child: SummaryListItem( text: sport?.description ?? '',),
+                visible: sport != null,
+                child: SummaryListItem(
+                  text: sport?.description ?? '',
+                ),
               ),
             ],
-
-
           ],
         ),
         child2: MoneyWidgetCustom(
           currency: currency,
-          amount: sports == false ? e.getPartialPriceBaggage(isDeparture) : e.getPartialPriceSports(isDeparture),
+          amount: sports == false
+              ? e.getPartialPriceBaggage(isDeparture)
+              : e.getPartialPriceSports(isDeparture),
         ),
       ),
     );
