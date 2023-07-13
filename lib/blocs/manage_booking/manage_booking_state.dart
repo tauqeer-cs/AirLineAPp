@@ -6,6 +6,8 @@ class ManageBookingState extends Equatable {
 
   final FightAddOns? addOnList;
 
+  final bool isPaying;
+
 
   final String? newContactFirstName;
 
@@ -89,6 +91,7 @@ class ManageBookingState extends Equatable {
     this.addOnOptionSelected,
     this.anyContactValueChange = false,
     this.selectedPax,
+    this.isPaying = false,
     this.foodDepearture = true,
     this.baggageDeparture = true,
     this.specialAppOpsDeparture = true,
@@ -192,6 +195,7 @@ class ManageBookingState extends Equatable {
     savingContactChanges,
     addOnList,
     flightSeats,
+    isPaying,
 
   ];
 
@@ -254,8 +258,12 @@ class ManageBookingState extends Equatable {
     FR.FlightSSR? flightSSR,
     FightAddOns? addOnList,
     FlightSeats? flightSeats,
+    bool? isPaying,
+
   }) {
     return ManageBookingState(
+
+      isPaying : isPaying ?? this.isPaying,
       flightSeats : flightSeats ?? this.flightSeats,
       addOnList : addOnList ?? this.addOnList,
       flightSSR : flightSSR ?? this.flightSSR,

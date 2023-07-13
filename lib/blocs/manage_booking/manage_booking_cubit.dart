@@ -1393,6 +1393,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   Future<ChangeSsrResponse?> checkSsrChange() async {
+    emit(
+      state.copyWith(
+        isPaying: true,
+      ),
+    );
+    try {
+
+
     var request = RequestAssignFlightAddOnRequest();
 
     request.assignFlightAddOnRequest = AssignFlightAddOnRequest();
@@ -1586,6 +1594,20 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         await _repository.setAssignFlightAddon(request);
 
     return response;
+
+
+
+    }
+    catch (e, st) {
+      emit(
+        state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st, dontShowError: true),
+            isPaying: false,
+        ),
+      );
+      return null;
+    }
+
   }
 
   String? departPhysicalFlightIdForSeat;
@@ -1637,14 +1659,17 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           ?.first
           .physicalFlightID;
 
-      returnPhysicalFlightIdForSeat = addOns
-          .flightSeats
-          ?.inbound
-          ?.first
-          .retrieveFlightSeatMapResponse
-          ?.physicalFlights
-          ?.first
-          .physicalFlightID;
+      if(state.manageBookingResponse?.result?.isReturn == true) {
+        returnPhysicalFlightIdForSeat = addOns
+            .flightSeats
+            ?.inbound
+            ?.first
+            .retrieveFlightSeatMapResponse
+            ?.physicalFlights
+            ?.first
+            .physicalFlightID;
+      }
+
 
 
       var whichOne = addOns.paxAddOnSSR
@@ -1859,9 +1884,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   Future<String?> checkOutForPaymentSSR(
       String? voucher, ChangeSsrResponse rp) async {
     try {
-      emit(
-        state.copyWith(loadingCheckoutPayment: true, message: ''),
-      );
+
 
       var request = MmbCheckoutRequest(
         superPNRNo:
@@ -1906,6 +1929,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
+            isPaying : false,
             loadingCheckoutPayment: false,
             orderId: orderId,
             superPnrNo: superNo,
@@ -1918,10 +1942,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(
         state.copyWith(
           loadingCheckoutPayment: false,
+          isPaying: false,
           blocState: BlocState.failed,
           message: ErrorUtils.getErrorMessage(e, st),
         ),
       );
+
       return null;
     }
 

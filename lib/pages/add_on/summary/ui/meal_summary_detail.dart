@@ -140,16 +140,20 @@ class MealSummaryDetail extends StatelessWidget {
 
             }
             //double totalAmount = (ccc ?? []).first.mealDetail.fold(0.0, (previousValue, obj) => previousValue + obj.amount);
-            var cc1 = (ccc ?? []).first.mealDetail?.departureMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+
+            if((ccc ?? []).first.mealDetail?.departureMeals.isNotEmpty ?? false) {
+              var cc1 = (ccc ?? []).first.mealDetail?.departureMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
 
 
-            List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();
+              List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();
 
-            for(MealList currentMeal in finalVar ?? []){
-              amountToMinus = amountToMinus + (currentMeal.amount ?? 0.0);
+              for(MealList currentMeal in finalVar ?? []){
+                amountToMinus = amountToMinus + (currentMeal.amount ?? 0.0);
 
+              }
+              print('');
             }
-            print('');
+
 
 
 
@@ -172,7 +176,7 @@ class MealSummaryDetail extends StatelessWidget {
 
             }
             //double totalAmount = (ccc ?? []).first.mealDetail.fold(0.0, (previousValue, obj) => previousValue + obj.amount);
-            var cc1 = (ccc ?? []).first.mealDetail?.departureMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+            var cc1 = (ccc ?? []).first.mealDetail?.returnMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
 
 
             List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();

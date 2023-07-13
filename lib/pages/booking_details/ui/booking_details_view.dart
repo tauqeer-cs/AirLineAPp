@@ -494,7 +494,7 @@ class ManageBookingDetailsView extends StatelessWidget {
               ),
               if (bloc?.showPayOption == true) ...[
                 SummaryContainer(
-                  child: bloc?.state.savingContactChanges == true
+                  child: bloc?.state.isPaying == true
                       ? const AppLoading()
                       : Padding(
                           padding: kPagePadding,
