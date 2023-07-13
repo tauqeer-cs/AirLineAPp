@@ -320,20 +320,23 @@ class ManageBookingDetailsView extends StatelessWidget {
                             message: 'weSorrySeatSelected'.tr(),
                           ),
                           kVerticalSpacerSmall,
-                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
+                          if (bloc?.state.manageBookingResponse?.result
+                                  ?.isReturn ==
+                              true) ...[
                             CustomSegmentControl(
                               optionOneTapped: () {
                                 bloc?.setSelectionDeparture(true, isSeat: true);
                               },
                               optionTwoTapped: () {
-                                bloc?.setSelectionDeparture(false, isSeat: true);
+                                bloc?.setSelectionDeparture(false,
+                                    isSeat: true);
                               },
                               isSelectedOption1:
-                              bloc?.state.seatDeparture ?? true,
+                                  bloc?.state.seatDeparture ?? true,
                               textOne:
-                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                  '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                               textTwo:
-                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                  '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                               customRadius: 12,
                               customBorderWidth: 1,
                               customVerticalPadding: 8,
@@ -364,21 +367,23 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   message: 'mealAddOnsAreUnavailable'.tr(),
                                 ),
                           kVerticalSpacerSmall,
-
-                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
+                          if (bloc?.state.manageBookingResponse?.result
+                                  ?.isReturn ==
+                              true) ...[
                             CustomSegmentControl(
                               optionOneTapped: () {
                                 bloc?.setSelectionDeparture(true, isFood: true);
                               },
                               optionTwoTapped: () {
-                                bloc?.setSelectionDeparture(false, isFood: true);
+                                bloc?.setSelectionDeparture(false,
+                                    isFood: true);
                               },
                               isSelectedOption1:
-                              bloc?.state.foodDepearture ?? true,
+                                  bloc?.state.foodDepearture ?? true,
                               textOne:
-                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                  '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                               textTwo:
-                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                  '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                               customRadius: 12,
                               customBorderWidth: 1,
                               customVerticalPadding: 8,
@@ -389,7 +394,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                             ),
                             kVerticalSpacerSmall,
                           ],
-
                           MealsSection(
                             isDeparture: bloc?.state.foodDepearture ?? false,
                             isManageBooking: true,
@@ -397,8 +401,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ] else if (bloc?.state.addOnOptionSelected ==
                             AddonType.baggage) ...[
                           kVerticalSpacerSmall,
-                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
-
+                          if (bloc?.state.manageBookingResponse?.result
+                                  ?.isReturn ==
+                              true) ...[
                             CustomSegmentControl(
                               optionOneTapped: () {
                                 bloc?.setSelectionDeparture(true,
@@ -409,11 +414,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     isBaggage: true);
                               },
                               isSelectedOption1:
-                              bloc?.state.baggageDeparture ?? true,
+                                  bloc?.state.baggageDeparture ?? true,
                               textOne:
-                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                  '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                               textTwo:
-                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                  '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                               customRadius: 12,
                               customBorderWidth: 1,
                               customVerticalPadding: 8,
@@ -423,9 +428,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   color: Styles.kLightBgColor),
                             ),
                             kVerticalSpacerSmall,
-
                           ],
-
                           BaggageSection(
                             isManageBooking: true,
                             isDeparture: bloc?.state.baggageDeparture ?? false,
@@ -435,7 +438,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ] else if (bloc?.state.addOnOptionSelected ==
                             AddonType.special) ...[
                           kVerticalSpacer,
-                          if(bloc?.state.manageBookingResponse?.result?.isReturn == true) ... [
+                          if (bloc?.state.manageBookingResponse?.result
+                                  ?.isReturn ==
+                              true) ...[
                             CustomSegmentControl(
                               optionOneTapped: () {
                                 bloc?.setSelectionDeparture(true,
@@ -446,11 +451,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     isSpecial: true);
                               },
                               isSelectedOption1:
-                              bloc?.state.specialAppOpsDeparture ?? true,
+                                  bloc?.state.specialAppOpsDeparture ?? true,
                               textOne:
-                              '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                  '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                               textTwo:
-                              '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                  '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                               customRadius: 12,
                               customBorderWidth: 1,
                               customVerticalPadding: 8,
@@ -461,7 +466,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                             ),
                             kVerticalSpacerSmall,
                           ],
-
                           WheelchairSection(
                               isDeparture:
                                   bloc?.state.specialAppOpsDeparture ?? false,
@@ -488,47 +492,47 @@ class ManageBookingDetailsView extends StatelessWidget {
                   ),
                 ),
               ),
-              if (bloc?.state.anyContactValueChange == true) ...[
-
-                //
+              if (bloc?.showPayOption == true) ...[
                 SummaryContainer(
-                  child: bloc?.state.savingContactChanges == true ? const AppLoading() : Padding(
-                    padding: kPagePadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            //bloc?.saveContactChanges();
+                  child: bloc?.state.savingContactChanges == true
+                      ? const AppLoading()
+                      : Padding(
+                          padding: kPagePadding,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  //bloc?.saveContactChanges();
 
-                            //return;
-                            ChangeSsrResponse? response = await bloc?.checkSsrChange();
+                                  //return;
+                                  ChangeSsrResponse? response =
+                                      await bloc?.checkSsrChange();
 
-                            if(response != null){
-                              var redirectUrl =
-                              await bloc?.checkOutForPaymentSSR('',response);
+                                  if (response != null) {
+                                    var redirectUrl = await bloc
+                                        ?.checkOutForPaymentSSR('', response);
 
-                              if (redirectUrl != null) {
-                                final result = await context.router.push(
-                                  WebViewRoute(
-                                      url: "", htmlContent: redirectUrl),
-                                );
+                                    if (redirectUrl != null) {
+                                      final result = await context.router.push(
+                                        WebViewRoute(
+                                            url: "", htmlContent: redirectUrl),
+                                      );
 
-                                if (result != null && result is String) {
-                                  final urlParsed = Uri.parse(result);
-                                  var query =
-                                      urlParsed.queryParametersAll;
-                                  String? status = query['status']?.first;
-                                  String? superPNR =
-                                      query['pnr']?.first;
+                                      if (result != null && result is String) {
+                                        final urlParsed = Uri.parse(result);
+                                        var query =
+                                            urlParsed.queryParametersAll;
+                                        String? status = query['status']?.first;
+                                        String? superPNR = query['pnr']?.first;
 
-                                  if (status != "FAIL") {
+                                        if (status != "FAIL") {
+                                          bloc?.reloadDataForConfirmation(
+                                              status ?? '', superPNR ?? '');
 
-                                    bloc?.reloadDataForConfirmation(status ?? '',superPNR ?? '');
-
-                                    if (true) {
-                                      //mounted
-                                      /*final filter = context
+                                          if (true) {
+                                            //mounted
+                                            /*final filter = context
                                     .read<SearchFlightCubit>()
                                     .state
                                     .filterState;
@@ -549,34 +553,107 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   superPNR.setNoneIfNullOrEmpty,
                                   UserInsider.of(context).generateProduct(),
                                 );*/
+                                          }
+
+                                          context.router.replaceAll([
+                                            const NavigationRoute(),
+                                            ChangeFlightConfirmationRoute(
+                                              bookingId: superPNR ?? "",
+                                              status: status ?? '',
+                                            ),
+                                          ]);
+                                        } else {}
+                                      } else {}
                                     }
-
-
-                                    context.router.replaceAll([
-                                      const NavigationRoute(),
-                                      ChangeFlightConfirmationRoute(
-                                        bookingId: superPNR ?? "", status: status ?? '',
-                                      ),
-                                    ]);
                                   }
-
-                                  else {
-
-
-                                  }
-                                } else {}
-                              }
-
-                            }
-
-
-                          },
-                          child: const Text('Save'),
+                                },
+                                child: const Text('Pay'),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                )
+                ),
+              ] else if (bloc?.state.anyContactValueChange == true) ...[
+                SummaryContainer(
+                  child: bloc?.state.savingContactChanges == true
+                      ? const AppLoading()
+                      : Padding(
+                          padding: kPagePadding,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  //bloc?.saveContactChanges();
+
+                                  //return;
+                                  ChangeSsrResponse? response =
+                                      await bloc?.checkSsrChange();
+
+                                  if (response != null) {
+                                    var redirectUrl = await bloc
+                                        ?.checkOutForPaymentSSR('', response);
+
+                                    if (redirectUrl != null) {
+                                      final result = await context.router.push(
+                                        WebViewRoute(
+                                            url: "", htmlContent: redirectUrl),
+                                      );
+
+                                      if (result != null && result is String) {
+                                        final urlParsed = Uri.parse(result);
+                                        var query =
+                                            urlParsed.queryParametersAll;
+                                        String? status = query['status']?.first;
+                                        String? superPNR = query['pnr']?.first;
+
+                                        if (status != "FAIL") {
+                                          bloc?.reloadDataForConfirmation(
+                                              status ?? '', superPNR ?? '');
+
+                                          if (true) {
+                                            //mounted
+                                            /*final filter = context
+                                    .read<SearchFlightCubit>()
+                                    .state
+                                    .filterState;
+
+                                final bookingLocal = BookingLocal(
+                                  bookingId: superPNR,
+                                  departureDate: filter?.departDate,
+                                  returnDate: filter?.returnDate,
+                                  departureString: filter?.beautify,
+                                  returnString: filter?.beautifyReverse,
+                                );
+
+                                context
+                                    .read<BookingLocalCubit>()
+                                    .saveBooking(bookingLocal);
+
+                                FlutterInsider.Instance.itemPurchased(
+                                  superPNR.setNoneIfNullOrEmpty,
+                                  UserInsider.of(context).generateProduct(),
+                                );*/
+                                          }
+
+                                          context.router.replaceAll([
+                                            const NavigationRoute(),
+                                            ChangeFlightConfirmationRoute(
+                                              bookingId: superPNR ?? "",
+                                              status: status ?? '',
+                                            ),
+                                          ]);
+                                        } else {}
+                                      } else {}
+                                    }
+                                  }
+                                },
+                                child: const Text('Save'),
+                              ),
+                            ],
+                          ),
+                        ),
+                ),
               ],
             ],
           ),
@@ -639,8 +716,7 @@ class InsuranceManageView extends StatelessWidget {
     var bloc = context.watch<ManageBookingCubit>();
     var state = bloc.state;
 
-    List<Bundle> insurances =
-        state.flightSSR?.insuranceGroup?.outbound ?? [];
+    List<Bundle> insurances = state.flightSSR?.insuranceGroup?.outbound ?? [];
     List<PassengersWithSSR> passengers =
         state.manageBookingResponse?.result?.passengersWithSSRWithoutInfant ??
             [];
@@ -915,17 +991,35 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
             'MYR';
 
+    var totalPrice = bloc.confirmedSeatsTotalPrice +
+        bloc.confirmedMealsTotalPrice +
+        bloc.confirmedBaggageTotalPrice +
+        bloc.confirmedWheelChairTotalPrice;
 
-    return AppCard(
+    return totalPrice == 0.0 ? Container() : AppCard(
       child: Column(
         children: [
+          ChildRow(
+            child1: Text(
+              'summary'.tr(),
+              style: kHugeHeavy,
+            ),
+            child2: MoneyWidgetCustom(
+              amountSize: 16,
+              currency: currency,
+              myrSize: 20,
+              amount: totalPrice,
+              textColor: Styles.kPrimaryColor,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           FlightSummaryDetail(
             isDeparture: true,
             currency: currency,
             dontShowAmount: true,
             isManageBooking: true,
           ),
-          if(bloc.state.manageBookingResponse?.result?.isReturn == true) ... [
+          if (bloc.state.manageBookingResponse?.result?.isReturn == true) ...[
             FlightSummaryDetail(
               isDeparture: false,
               currency: currency,
@@ -939,14 +1033,21 @@ class ManageFlightSummary extends StatelessWidget {
             isManageBooking: true,
           ),
 
-          MealSummaryDetail(currency: currency,
-            isManageBooking: true,),
+          MealSummaryDetail(
+            currency: currency,
+            isManageBooking: true,
+          ),
 
-
-          BaggageSummaryDetail(currency: currency, sports: false,isManageBooking: true,),
-         // BaggageSummaryDetail(currency: currency, sports: true,isManageBooking: true,),
-          SpecialSummaryDetail(currency: currency,isManageBooking: true,),
-
+          BaggageSummaryDetail(
+            currency: currency,
+            sports: false,
+            isManageBooking: true,
+          ),
+          // BaggageSummaryDetail(currency: currency, sports: true,isManageBooking: true,),
+          SpecialSummaryDetail(
+            currency: currency,
+            isManageBooking: true,
+          ),
         ],
       ),
     );

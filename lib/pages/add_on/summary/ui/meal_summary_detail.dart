@@ -1,5 +1,6 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
+import 'package:app/models/confirmation_model.dart';
 import 'package:app/models/number_person.dart';
 import 'package:app/pages/add_on/summary/ui/flight_detail.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -18,10 +19,11 @@ import '../../ui/summary_list_item.dart';
 class MealSummaryDetail extends StatelessWidget {
   final bool isManageBooking;
 
-  const MealSummaryDetail(
+   MealSummaryDetail(
       {Key? key, this.currency, this.isManageBooking = false})
       : super(key: key);
   final String? currency;
+  ManageBookingCubit? manageBookingCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +34,12 @@ class MealSummaryDetail extends StatelessWidget {
     var totalPrice = ((filter?.numberPerson.getTotalMealPartial(true) ?? 0) +
         (filter?.numberPerson.getTotalMealPartial(false) ?? 0));
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
-    ManageBookingCubit? manageBookingCubit;
 
     if(isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
 
 
-      totalPrice = manageBookingCubit.confirmedMealsTotalPrice;
+      totalPrice = manageBookingCubit!.confirmedMealsTotalPrice;
 
       persons =  context
           .watch<ManageBookingCubit>()
@@ -104,31 +105,117 @@ class MealSummaryDetail extends StatelessWidget {
     );
   }
 
-  Visibility buildMealComponent(
-      Person e, NumberPerson? numberOfPerson, bool isDeparture) {
-    final meal = e.groupedMeal(isDeparture);
-    return Visibility(
-      visible: e.getPartialPriceMeal(isDeparture) > 0,
+  Widget buildMealComponent(
+      Person eP, NumberPerson? numberOfPerson, bool isDeparture) {
+    final meal = eP.groupedMeal(isDeparture);
+
+    num amountToMinus = 0.0;
+
+    bool hideMeal = false;
+
+    if (isManageBooking) {
+      var ccc = manageBookingCubit
+                          ?.state.manageBookingResponse?.result?.passengersWithSSR
+                          ?.where((element) => element.personObject == eP)
+                          .toList();
+
+
+
+      if ((ccc ?? []).isNotEmpty){
+
+        if(isDeparture) {
+          if ((ccc ?? []).first.confirmedDepartMeals == null) {
+            hideMeal = true;
+          }
+          else {
+            if((ccc ?? []).first.confirmedDepartMeals?.isEmpty == true) {
+              hideMeal = true;
+
+            }
+
+            var stringDepart = 'Depart';
+            if(isDeparture == false) {
+
+              stringDepart = 'Return';
+
+            }
+            //double totalAmount = (ccc ?? []).first.mealDetail.fold(0.0, (previousValue, obj) => previousValue + obj.amount);
+            var cc1 = (ccc ?? []).first.mealDetail?.departureMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+
+
+            List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();
+
+            for(MealList currentMeal in finalVar ?? []){
+              amountToMinus = amountToMinus + (currentMeal.amount ?? 0.0);
+
+            }
+            print('');
+
+
+
+          }
+        }
+        else {
+          if ((ccc ?? []).first.confirmedReturnMeals == null) {
+            hideMeal = true;
+          }
+          else {
+            if((ccc ?? []).first.confirmedReturnMeals?.isEmpty == true) {
+              hideMeal = true;
+
+            }
+
+            var stringDepart = 'Depart';
+            if(isDeparture == false) {
+
+              stringDepart = 'Return';
+
+            }
+            //double totalAmount = (ccc ?? []).first.mealDetail.fold(0.0, (previousValue, obj) => previousValue + obj.amount);
+            var cc1 = (ccc ?? []).first.mealDetail?.departureMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+
+
+            List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();
+
+            for(MealList currentMeal in finalVar ?? []){
+              amountToMinus = amountToMinus + (currentMeal.amount ?? 0.0);
+
+            }
+            print('');
+
+
+
+          }
+        }
+
+      }
+    }
+
+    return hideMeal ? Container() : Visibility(
+      visible: eP.getPartialPriceMeal(isDeparture) > 0,
       child: ChildRow(
         child1: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              e.generateText(numberOfPerson, separator: "& "),
+              eP.generateText(numberOfPerson, separator: "& "),
             ),
             ...meal.entries
                 .map(
-                  (e) => SummaryListItem(
+                  (e) {
+
+                    return SummaryListItem(
                     text:
                         "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}",
-                  ),
+                  );
+                  }
                 )
                 .toList()
           ],
         ),
         child2: MoneyWidgetCustom(
           currency: currency,
-          amount: e.getPartialPriceMeal(isDeparture),
+          amount: eP.getPartialPriceMeal(isDeparture) - amountToMinus,
         ),
       ),
     );

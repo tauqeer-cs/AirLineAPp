@@ -16,7 +16,7 @@ import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
 class BaggageSummaryDetail extends StatelessWidget {
-  const BaggageSummaryDetail(
+   BaggageSummaryDetail(
       {Key? key,
       this.currency,
       required this.sports,
@@ -26,6 +26,8 @@ class BaggageSummaryDetail extends StatelessWidget {
   final bool isManageBooking;
 
   final bool sports;
+  ManageBookingCubit? manageBookingCubit;
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +42,10 @@ class BaggageSummaryDetail extends StatelessWidget {
       totalPrice = (filter?.numberPerson.getTotalBaggagePartial(true) ?? 0) +
           (filter?.numberPerson.getTotalBaggagePartial(false) ?? 0);
     }
-    ManageBookingCubit? manageBookingCubit;
 
     if(isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
-      totalPrice = manageBookingCubit.confirmedBaggageTotalPrice;
+      totalPrice = manageBookingCubit?.confirmedBaggageTotalPrice ?? 0.0;
       persons =  context
           .watch<ManageBookingCubit>()
           .state
@@ -113,10 +114,64 @@ class BaggageSummaryDetail extends StatelessWidget {
     );
   }
 
-  Visibility buildBaggageComponent(
+  Widget buildBaggageComponent(
       Person e, NumberPerson? numberOfPerson, bool isDeparture) {
     final baggage = isDeparture ? e.departureBaggage : e.returnBaggage;
     final sport = isDeparture ? e.departureSports : e.returnSports;
+
+    num amountToMinus = 0.0;
+    final seats = e.departureSeats;
+
+    if (isManageBooking) {
+      var ccc = manageBookingCubit
+          ?.state.manageBookingResponse?.result?.passengersWithSSR
+          ?.where((element) => element.personObject == e)
+          .toList();
+
+      if ((ccc ?? []).isNotEmpty) {
+        if(isDeparture == true) {
+          if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+            return Container();
+          }
+        }
+        else {
+          if ((ccc ?? []).first.confirmReturnBaggageSelected == null) {
+            return Container();
+          }
+        }
+        if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+          //return Container();
+        }
+        else {
+
+          /*
+          var tmpSeat = manageBookingCubit
+              ?.state.manageBookingResponse?.result?.seatDetail?.seats
+              ?.where((element) =>
+          element.givenName ==
+              ccc?.first.passengers?.givenName &&
+
+              element.surName ==
+                  ccc?.first.passengers?.surname &&
+              element.departReturn == 'Depart'
+          ).toList();
+
+          if((tmpSeat ?? []).isNotEmpty) {
+            amountToMinus = (tmpSeat ?? []).first.amount ?? 0.0;
+          }
+*/
+
+
+
+
+
+
+          print('object');
+          // ccc.first.seat
+        }
+      }
+    }
+
 
     return Visibility(
       visible: baggage != null || sport != null,

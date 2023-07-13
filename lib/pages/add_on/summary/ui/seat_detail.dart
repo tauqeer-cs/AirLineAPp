@@ -123,7 +123,6 @@ class SeatSummaryDetail extends StatelessWidget {
           ...persons.map(
             (e) {
               num amountToMinus = 0.0;
-              num amountToMinusReturn = 0.0;
               final seats = e.departureSeats;
 
               if (isManageBooking) {
@@ -136,9 +135,6 @@ class SeatSummaryDetail extends StatelessWidget {
                   if ((ccc ?? []).first.confirmedDepartSeatSelected == null) {
                     return Container();
                   } else {
-                    var camountToMinus = e.departureSeats;
-                    print('');
-                    //ccc.first.seatDetail
 
                     var tmpSeat = manageBookingCubit
                         ?.state.manageBookingResponse?.result?.seatDetail?.seats

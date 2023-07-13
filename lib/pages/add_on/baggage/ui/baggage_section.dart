@@ -440,6 +440,10 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     Person? selectedPerson =
         context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
     var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureBaggage?.description).toList();
+
+    if(widget.isDeparture == false){
+      resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.returnBaggage?.description).toList();
+    }
     if((resultIndexFinder ?? []).isNotEmpty) {
 
 

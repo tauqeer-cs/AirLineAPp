@@ -669,6 +669,58 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 */
 
+  bool get showPayOption {
+    for(PassengersWithSSR currentPerson in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
+
+      if(currentPerson.confirmedDepartSeatSelected != null) {
+
+        return true;
+      }
+
+      if(currentPerson.confirmedReturnSeatSelected != null) {
+
+        return true;
+      }
+
+      if((currentPerson.confirmedDepartMeals ?? []).isNotEmpty )  {
+
+        return true;
+      }
+
+      if((currentPerson.confirmedReturnMeals ?? []).isNotEmpty )  {
+
+        return true;
+      }
+
+      if(currentPerson.confirmDepartBaggageSelected != null) {
+
+        return true;
+      }
+
+      if(currentPerson.confirmReturnBaggageSelected != null) {
+
+        return true;
+      }
+
+
+
+      if(currentPerson.confirmDepartWheelChair != null) {
+
+        return true;
+      }
+
+      if(currentPerson.confirmReturnWheelChair != null) {
+
+        return true;
+      }
+
+
+
+    }
+    return false;
+
+  }
+
   void setSsrOfUser() {
     /*
     var outBoundSeatRows = verifyResponse
@@ -777,22 +829,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           int seatNo = int.tryParse(numberPart ?? '') ?? 0;
 
           var ress =
-              inBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
+              inBoundSeatRows.where((e) => e.rowNumber == seatNo).toList();
 
           if (ress?.isNotEmpty ?? false) {
             var finalSeat = ress?.first.seats
                 ?.where((e) => e.seatColumn == characterPart)
                 .toList()
                 .first;
-
             returnSeats = finalSeat;
-
             seatIdsToMakeAvailableReturn.add((finalSeat?.seatId ?? '') ?? '');
-
-            print('');
           }
-
-          print('');
         }
       }
 
@@ -805,7 +851,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       Bundle? departureSports;
       Bundle? returnSports;
 
-      //Depart
 
       var departMealsSelected = currentPerson.mealDetail?.departureMealsOnly;
       var returnMealsSelected = currentPerson.mealDetail?.returnMealsOnly;
@@ -814,13 +859,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         //Nasi Lemak Combo
         List<Bundle> result = state.flightSSR?.mealGroup?.outbound
                 ?.where((e) =>
-                    e.description?.toLowerCase() ==
+                    e.codeType?.toLowerCase() ==
                     currentIte.mealName?.toLowerCase())
                 .toList() ??
             [];
 
         if (result.isNotEmpty) {
-          departureMeal.add(result.first);
+          departureMeal.addAll((result) ) ;
         }
         print('');
       }
@@ -829,13 +874,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         //Nasi Lemak Combo
         List<Bundle> result = state.flightSSR?.mealGroup?.inbound
                 ?.where((e) =>
-                    e.description?.toLowerCase() ==
+                    e.codeType?.toLowerCase() ==
                     currentIte.mealName?.toLowerCase())
                 .toList() ??
             [];
 
         if (result.isNotEmpty) {
-          returnMeal.add(result.first);
+          returnMeal.addAll(result);
         }
         print('');
       }
@@ -846,7 +891,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       for (Baggage currentIte in departBagSelected ?? []) {
         List<Bundle> result = state.flightSSR?.baggageGroup?.outbound
                 ?.where((e) =>
-                    e.description?.toLowerCase() ==
+                    e.codeType?.toLowerCase() ==
                     currentIte.baggageName?.toLowerCase())
                 .toList() ??
             [];
@@ -859,7 +904,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       for (Baggage currentIte in returnBagSelected ?? []) {
         List<Bundle> result = state.flightSSR?.baggageGroup?.inbound
                 ?.where((e) =>
-                    e.description?.toLowerCase() ==
+                    e.codeType?.toLowerCase() ==
                     currentIte.baggageName?.toLowerCase())
                 .toList() ??
             [];

@@ -19,6 +19,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../models/confirmation_model.dart';
 import '../../../../widgets/app_money_widget.dart';
 
 class MealsSection extends StatelessWidget {
@@ -146,6 +147,7 @@ class MealsSection extends StatelessWidget {
   Column buildMealCards(List<Bundle>? bundles, bool isDeparture) {
     bundles?.removeWhere((element) => (element.ssrCode ?? '').isEmpty);
 
+
     return Column(
       children: [
         ...bundles?.map(
@@ -235,6 +237,45 @@ class NewMealCard extends StatelessWidget {
   changeNumber(
       BuildContext context, Person? person, bool isAdd, bool isDeparture) {
     if (isManageBooking) {
+
+      var result = manageCubit?.state.manageBookingResponse?.result?.passengersWithSSR?.where((element) => element.personObject == person).toList();
+      int? num;
+
+      if((result ?? []) .isNotEmpty){
+
+
+        var stDepar = 'Depart';
+        if(this.isDeparture == false) {
+          stDepar = 'Return';
+
+        }
+        var rsule = manageCubit?.state.manageBookingResponse?.result?.mealDetail?.meals?.where((element) => element.givenName == (result ?? []).first.passengers?.givenName && (result ?? []).first.passengers?.surname == element.surName).toList();
+        //rsule.where((element) => element.surName)
+        List<MealList> meals = [];
+        for(Meal currentItems in (rsule ?? []) ){
+          var list = currentItems.mealList?.where((element) => element.departReturn == stDepar).toList();
+          if((list ?? []).isNotEmpty) {
+            meals.addAll( (list ?? []));
+          }
+        }
+
+
+        if(isAdd == false) {
+          if(person?.departureMeal.length == meals.length){
+            return;
+          }
+
+        }
+        print('');
+
+
+
+
+        print('');
+
+      }
+
+
       manageCubit?.addOrRemoveMealFromPerson(
         isDeparture: isDeparture,
         isAdd: isAdd,
