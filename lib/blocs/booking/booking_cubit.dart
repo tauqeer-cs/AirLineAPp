@@ -78,6 +78,9 @@ class BookingCubit extends Cubit<BookingState> {
   verifyFlight(FilterState? filterState) async {
     if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
+    var currency = state.selectedDeparture?.currency ?? 'MYR';
+
+
     try {
       final inboundLFID = state.selectedReturn?.lfid;
       String? inboundFBCode = state.selectedReturn?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.fareID;
@@ -99,8 +102,10 @@ class BookingCubit extends Cubit<BookingState> {
             ? []
             : [outboundFares],
         totalAmount: state.getFinalPrice,
+        currency: currency
+
       );
-      final verifyResponse = await _repository.verifyFlight(request);
+      final verifyResponse = await _repository.verifyFlightRepo(request);
       final seatsDeparture =
           verifyResponse.flightSSR?.seatGroup?.outbound ?? [];
       final seatsReturn = verifyResponse.flightSSR?.seatGroup?.inbound ?? [];
@@ -139,6 +144,8 @@ class BookingCubit extends Cubit<BookingState> {
   reVerifyFlight(FilterState? filterState) async {
     if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
+
+
     try {
       final inboundLFID = state.selectedReturn?.lfid;
       final inboundFBCode = state.selectedReturn?.fbCode;
@@ -162,7 +169,7 @@ class BookingCubit extends Cubit<BookingState> {
                     .contactEmail.isEmptyOrNull ??
                 true
             ? null
-            : state.summaryRequest?.flightSummaryPNRRequest,
+            : state.summaryRequest?.flightSummaryPNRRequest, currency: state.selectedDeparture?.currency ?? 'MYR',
       );
       final verifyResponse = await _repository.reVerifyFlight(request);
       final newToken = state.verifyResponse?.copyWith(

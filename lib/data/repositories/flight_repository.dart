@@ -56,8 +56,8 @@ class FlightRepository {
     return await _provider.searchFlightDateRange(searchFlight);
   }
 
-  Future<VerifyResponse> verifyFlight(VerifyRequest verifyRequest) async {
-    return await _provider.verifyFlight(verifyRequest);
+  Future<VerifyResponse> verifyFlightRepo(VerifyRequest verifyRequest) async {
+    return await _provider.verifyFlightProv(verifyRequest);
   }
 
   Future<VerifyResponse> reVerifyFlight(VerifyRequest verifyRequest) async {

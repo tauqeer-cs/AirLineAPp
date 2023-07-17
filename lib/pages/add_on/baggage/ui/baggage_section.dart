@@ -140,6 +140,8 @@ class BaggageSection extends StatelessWidget {
       return HorizontalBaggageCards(isDeparture: isDeparture,);
     }
 
+    baggages?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
+
 
     return Column(
       children: [
@@ -444,6 +446,9 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     if(widget.isDeparture == false){
       resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.returnBaggage?.description).toList();
     }
+
+    baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
+
     if((resultIndexFinder ?? []).isNotEmpty) {
 
 
@@ -475,7 +480,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
             _currentIndex = _currentIndex - 1;
 
 
-            pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+            pageController.animateToPage(_currentIndex, duration: const Duration(milliseconds: 500), curve: Curves.ease);
 
           },
 

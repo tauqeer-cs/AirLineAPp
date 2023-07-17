@@ -11,11 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../blocs/countries/countries_cubit.dart';
 import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../blocs/profile/profile_cubit.dart';
+import '../../../../../custom_packages/dropdown_search/src/properties/dropdown_decorator_props.dart';
 import '../../../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../../../data/responses/manage_booking_response.dart';
+import '../../../../../models/country.dart';
 import '../../../../../theme/theme.dart';
+import '../../../../../widgets/forms/app_dropdown.dart';
+import '../../../../home/ui/filter/dropdown_transformer.dart';
 
 class PassengerCompanyInfo extends StatefulWidget {
   final bool isManageBooking;
@@ -35,11 +40,16 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
   String? address;
   String? state;
   String? city;
+  String? country;
+
+  List<String>? stateCities = [];
+
   String? postCode;
   String? emailAddress;
   bool isExpand = false;
   final nationalityController = TextEditingController();
   final stateController = TextEditingController();
+  final cityController = TextEditingController();
 
   TextEditingController emailController = TextEditingController();
 
@@ -53,15 +63,27 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
       city = widget.companyTaxInvoice?.city ?? '';
       emailAddress = widget.companyTaxInvoice?.emailAddress ?? '';
       postCode = widget.companyTaxInvoice?.postCode ?? '';
+      country =  widget.companyTaxInvoice?.country;
+
+      cityController.text = city ?? '';
+
+      print('object');
+
     }
     else {
       final contact = context.read<LocalUserBloc>().state.companyTaxInvoice;
       name = contact?.companyName;
       address = contact?.companyAddress;
       state = contact?.state;
+      stateController.text = state ?? '';
+
       city = contact?.city;
       emailAddress = contact?.emailAddress;
       postCode = contact?.postCode;
+      country = 'Malaysia';
+      cityController.text = city ?? '';
+
+
     }
 
 
@@ -77,6 +99,9 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
   @override
   Widget build(BuildContext context) {
     ManageBookingCubit? manageBloc = context.watch<ManageBookingCubit>();
+
+    CountriesCubit? cbloc = context.read<CountriesCubit>();
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,44 +220,162 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
               ),
               kVerticalSpacer,
 
+              if(country == 'Malaysia') ... [
 
-              AppInputText(
-                name: formNameCompanyState,
-                initialValue: state,
-                hintText: 'state'.tr(),
-                onChanged: (value) {
-                  if(widget.isManageBooking) {
-                    manageBloc.setCompanyTaxValue(value ?? '',isState: true);
-                    return;
-                  }
+                ShadowInput(
+                  name: formNameCompanyState,
+                  textEditingController: stateController,
+                  child: AppDropDown<States>(
+                    dropdownDecoration: Styles.getDefaultFieldDecoration(),
+                    items: cbloc.state.states ?? [],
+                    sheetTitle: "state".tr(),
+                    onChanged: (value) {
+                      state = value?.stateName ?? '';
 
-                  final request =
-                      context.read<LocalUserBloc>().state.companyTaxInvoice;
-                  final newRequest = request?.copyWith(state: value);
-                  context
-                      .read<LocalUserBloc>()
-                      .add(UpdateCompany(newRequest));
-                },
-              ),
-              kVerticalSpacer,
-              AppInputText(
-                name: formNameCompanyCity,
-                initialValue: city,
-                hintText: 'city'.tr(),
-                onChanged: (value) {
-                  if(widget.isManageBooking) {
-                    manageBloc.setCompanyTaxValue(value ?? '',isCity: true);
-                    return;
-                  }
-                  final request =
-                      context.read<LocalUserBloc>().state.companyTaxInvoice;
-                  final newRequest = request?.copyWith(city: value);
-                  context
-                      .read<LocalUserBloc>()
-                      .add(UpdateCompany(newRequest));
-                },
-              ),
-              kVerticalSpacer,
+                      if(value != null) {
+                        //stateCities = value.stateCities ?? '';
+                       setState(() {
+                         stateCities =  value.stateCities;
+
+                       });
+
+
+                      }
+
+
+                      if(widget.isManageBooking) {
+                        manageBloc.setCompanyTaxValue(value?.stateName ?? '',isState: true);
+                        return;
+                      }
+
+                      final request =
+                          context.read<LocalUserBloc>().state.companyTaxInvoice;
+                      final newRequest = request?.copyWith(state: value?.stateName ?? '');
+                      context
+                          .read<LocalUserBloc>()
+                          .add(UpdateCompany(newRequest));
+                    },
+
+                    valueTransformerItem: (value, selected) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                               value?.stateName ?? "",
+                            style: kMediumMedium.copyWith(
+                              color: selected ? Styles.kPrimaryColor : null,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    valueTransformer: (value) {
+                      return DropdownTransformerWidget<States>(
+                        value: value,
+                        valueCustom:  value?.stateName ?? '',
+                      );
+                    },
+
+                  ),
+                ),
+               kVerticalSpacer,
+
+                if( (stateCities ?? []).isNotEmpty) ... [
+
+                  ShadowInput(
+                    name: formNameCompanyCity,
+                    textEditingController: cityController,
+                    child: AppDropDown<String>(
+                      dropdownDecoration: Styles.getDefaultFieldDecoration(),
+                      items: stateCities ?? [],
+                      sheetTitle: "city".tr(),
+                      onChanged: (value) {
+
+                        city = value ?? '';
+
+                        if(widget.isManageBooking) {
+                          manageBloc.setCompanyTaxValue(value ?? '',isCity: true);
+                          return;
+                        }
+                        final request =
+                            context.read<LocalUserBloc>().state.companyTaxInvoice;
+                        final newRequest = request?.copyWith(city: value);
+                        context
+                            .read<LocalUserBloc>()
+                            .add(UpdateCompany(newRequest));
+
+                      },
+
+                      valueTransformerItem: (value, selected) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              value ?? "",
+                              style: kMediumMedium.copyWith(
+                                color: selected ? Styles.kPrimaryColor : null,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      valueTransformer: (value) {
+                        return DropdownTransformerWidget<String>(
+                          value: value,
+                          valueCustom:  value ?? '',
+                        );
+                      },
+
+                    ),
+                  ),
+                  kVerticalSpacer,
+                ],
+
+              ] else ... [
+                AppInputText(
+                  name: formNameCompanyState,
+                  initialValue: state,
+                  hintText: 'state'.tr(),
+                  onChanged: (value) {
+
+                    state = value;
+
+                    if(widget.isManageBooking) {
+                      manageBloc.setCompanyTaxValue(value ?? '',isState: true);
+                      return;
+                    }
+
+                    final request =
+                        context.read<LocalUserBloc>().state.companyTaxInvoice;
+                    final newRequest = request?.copyWith(state: value);
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
+                  },
+                ),
+                kVerticalSpacer,
+                AppInputText(
+                  name: formNameCompanyCity,
+                  initialValue: city,
+                  hintText: 'city'.tr(),
+                  onChanged: (value) {
+                    if(widget.isManageBooking) {
+                      manageBloc.setCompanyTaxValue(value ?? '',isCity: true);
+                      return;
+                    }
+                    final request =
+                        context.read<LocalUserBloc>().state.companyTaxInvoice;
+                    final newRequest = request?.copyWith(city: value);
+                    context
+                        .read<LocalUserBloc>()
+                        .add(UpdateCompany(newRequest));
+                  },
+                ),
+                kVerticalSpacer,
+              ],
+
+
+
               AppInputText(
                 name: formNameCompanyPostCode,
                 initialValue: postCode,

@@ -49,8 +49,14 @@ class AuthenticationRepository {
       if(getAccessToken()?.isNotEmpty ?? false){
         await _provider.checkToken();//here
 
-        await _provider.checkToken2();//here
+        var response = await _provider.checkToken2();//here
 
+        if(response.success == false){
+
+          logout();
+          print('');
+
+        }
       }
       _controller.add(getCurrentUser());
 

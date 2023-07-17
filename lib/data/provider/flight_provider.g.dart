@@ -90,7 +90,7 @@ class _FlightProvider implements FlightProvider {
   }
 
   @override
-  Future<VerifyResponse> verifyFlight(verifyRequest) async {
+  Future<VerifyResponse> verifyFlightProv(verifyRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

@@ -587,8 +587,8 @@ class PassengersWithSSR {
   bool originalHadWheelChairReturn = false;
 
 
-  double? originalDepartSeatPrice;
-  double? originalReturnSeatPrice;
+  num? originalDepartSeatPrice;
+  num? originalReturnSeatPrice;
 
 
 

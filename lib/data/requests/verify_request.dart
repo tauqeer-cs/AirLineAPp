@@ -28,6 +28,7 @@ class VerifyRequest extends Equatable {
     List<OutboundFares>? outbound,
     num? totalAmount,
     FlightSummaryPnrRequest? flightSummaryPnrRequest,
+      required String currency,
   }) {
     final searchFlightRequest = CommonFlightRequest(
       returnDate: filter.returnDate?.toIso8601String(),
@@ -35,7 +36,7 @@ class VerifyRequest extends Equatable {
       adults: filter.numberPerson.numberOfAdult,
       childrens: filter.numberPerson.numberOfChildren,
       infants: filter.numberPerson.numberOfInfant,
-      currency: "MYR",
+      currency: currency,
       destinationAirport: filter.destination?.code,
       isReturn: filter.flightType == FlightType.round,
       originAirport: filter.origin?.code,

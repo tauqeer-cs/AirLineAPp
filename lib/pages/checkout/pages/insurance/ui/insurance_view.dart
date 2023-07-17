@@ -196,36 +196,26 @@ class _InsuranceViewState extends State<InsuranceView> {
                         Toast.of(context).show(message: "Token is empty");
                         return;
                       }
+
+
                       final summaryRequest = InsuranceRequest(
                           token: token,
                           updateInsuranceRequest: UpdateInsuranceRequest(
-                            isRemoveInsurance: true,
+                            isRemoveInsurance: context
+                                .read<InsuranceCubit>()
+                                .state
+                                .anyPassengersHas,
                             passengers: context
                                 .read<InsuranceCubit>()
                                 .state
                                 .passengersWithOutInfants,
                           ));
 
-                      InsuranceRequest insuranceRequests2 = summaryRequest.copyWith();
-
-                      List<Passenger> allPassengers = [];
-
-                      var updateInsuranceRequest = insuranceRequests2.updateInsuranceRequest;
-
-
-                      for(Passenger currentItem in insuranceRequests2.updateInsuranceRequest?.passengers ?? []) {
-
-                        allPassengers.add(currentItem.copyWithNull(seat: true));
-                      }
-
-                      var cc1 = insuranceRequests2.updateInsuranceRequest?.copyWith(passengers:allPassengers );
-                      var finalrequest = summaryRequest.copyWith(updateInsuranceRequest: cc1);
-
 
 
                       context
                           .read<SummaryCubit>()
-                          .submitUpdateInsurance(finalrequest);
+                          .submitUpdateInsurance(summaryRequest);
                     },
                     child: Text(
                       "continue".tr(),

@@ -14,4 +14,9 @@ abstract class PublicProvider {
 
   @GET('public/getswitchsetting')
   Future<SwitchSetting> getSettings();
+
+  @GET('public/getmalaysiastate')
+  Future<StateResult> getStates();
+
+  //StatesApiResponse
 }

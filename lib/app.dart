@@ -268,6 +268,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       providers: [
         BlocProvider(
           create: (_) => CountriesCubit()..getCountries(),
+          lazy: false,
+
         ),
         BlocProvider(
           create: (_) => SettingsCubit()..getSettings(),

@@ -242,7 +242,7 @@ class _ManageBookingProvider implements ManageBookingProvider {
     )
             .compose(
               _dio.options,
-              '11user/userbookinglist',
+              'user/userbookinglist',
               queryParameters: queryParameters,
               data: _data,
             )

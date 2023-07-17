@@ -65,9 +65,7 @@ class AdditionInfoView extends StatelessWidget {
                   name: formNameMyKad,
                   hintText: 'infoDetail.myKad'.tr(),
                   initialValue: myKadSelected,
-                  validators: [
-                    FormBuilderValidators.required(),
-                  ],
+
                   inputFormatters: [
                     AppFormUtils.onlyNumber(),
                   ],

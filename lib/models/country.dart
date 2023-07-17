@@ -83,3 +83,70 @@ class Country extends Equatable {
     //countryCode2: "MY",
   );
 }
+
+class StatesApiResponse {
+  StateResult? result;
+  bool? success;
+  String? message;
+
+  StatesApiResponse({this.result, this.success, this.message});
+
+  StatesApiResponse.fromJson(Map<String, dynamic> json) {
+    result =
+    json['result'] != null ? new StateResult.fromJson(json['result']) : null;
+    success = json['success'];
+    message = json['message'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.result != null) {
+      data['result'] = this.result!.toJson();
+    }
+    data['success'] = this.success;
+    data['message'] = this.message;
+    return data;
+  }
+}
+
+class StateResult {
+  List<States>? states;
+
+  StateResult({this.states});
+
+  StateResult.fromJson(Map<String, dynamic> json) {
+    if (json['states'] != null) {
+      states = <States>[];
+      json['states'].forEach((v) {
+        states!.add(new States.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.states != null) {
+      data['states'] = this.states!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class States {
+  String? stateName;
+  List<String>? stateCities;
+
+  States({this.stateName, this.stateCities});
+
+  States.fromJson(Map<String, dynamic> json) {
+    stateName = json['stateName'];
+    stateCities = json['stateCities'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['stateName'] = this.stateName;
+    data['stateCities'] = this.stateCities;
+    return data;
+  }
+}
