@@ -894,5 +894,6 @@
   "enter17" : "Please enter exactly 17 characters",
   "termsAndConditions" : "Terms and Conditions",
   "mealTotal" : "Meal Total",
-  "specialAddOnSubtotalLine": "Special Add-on\nSubtotal"
+  "specialAddOnSubtotalLine": "Special Add-on\nSubtotal",
+  "manage" : "Manage"
 }

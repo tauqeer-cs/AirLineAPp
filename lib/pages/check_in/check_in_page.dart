@@ -31,13 +31,11 @@ class CheckInPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           body: BlocConsumer<CheckInCubit, CheckInState>(
             listener: (context, state) {
-
-
             },
             builder: (context, state) {
               return SafeArea(
                 child: false ? CheckInView() : AuthWrapper(
-                  authChild:  CheckingListing(navigateToCheckInDetails: (bool past) {
+                  authChild:  CheckingListing(navigateToCheckInDetails: (bool past,String pnr, String lastName) {
 
                     context.router.push(
                       CheckInDetailsRoute(isPast: false),

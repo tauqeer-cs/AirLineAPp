@@ -19,8 +19,10 @@ class FlightListItem extends StatelessWidget {
 
 
   final bool btnView;
+  final bool btnManage;
 
-  const FlightListItem({Key? key, required this.dateToShow, required this.flightCode, required this.departureLocation, required this.destinationLocation, required this.onCheckTapped,this.btnView = false,}) : super(key: key);
+
+  const FlightListItem({Key? key, this.btnManage = false ,required this.dateToShow, required this.flightCode, required this.departureLocation, required this.destinationLocation, required this.onCheckTapped,this.btnView = false,}) : super(key: key);
 
 
   @override
@@ -85,10 +87,10 @@ class FlightListItem extends StatelessWidget {
                   child: Container(),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: btnManage ? 4 : 3,
                   child: ElevatedButton(
                     onPressed: onCheckTapped,
-                    child:  Text(btnView == true ? 'view'.tr() : 'checkIn'.tr()),
+                    child:  Text(btnManage ? '${'view'.tr()} / ${'manage'.tr()}' : (btnView == true ? 'view'.tr() : 'checkIn'.tr())),
                   ),
                 ),
                 Expanded(
