@@ -1,4 +1,4 @@
-"""q="\nOR [System.Tags] Contains '{}'"
+q="\nOR [System.Tags] Contains '{}'"
 p=','
 o=' '
 n='r'
@@ -61,4 +61,4 @@ except M.GetoptError:A('python skypebot.py -n Staging|Production');sys.exit(2)
 for (h,i) in g:
     if h in('-n','--name'):K=i
 A(K)
-b.sendMsg('New '+K+' Release:\n'+', '.join(E)+'\nEnv: IOS and Android \nDeployed Task Since Last Release:\n\n'+R)"""
+b.sendMsg('New '+K+' Release:\n'+', '.join(E)+'\nEnv: IOS and Android \nDeployed Task Since Last Release:\n\n'+R)
