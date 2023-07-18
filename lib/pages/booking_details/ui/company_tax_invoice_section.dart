@@ -33,10 +33,13 @@ CompanyTaxInvoice? bookingContact =
       children: [
 
         true
-            ? PassengerCompanyInfo(
-                  isManageBooking: true,
-                  companyTaxInvoice: bookingContact,
-                )
+            ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: PassengerCompanyInfo(
+                    isManageBooking: true,
+                    companyTaxInvoice: bookingContact,
+                  ),
+            )
 
             : ExpandedSection(
                 expand: state.companyTaxInvoiceExpanded,

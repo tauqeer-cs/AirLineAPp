@@ -130,7 +130,7 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                       children: [
                         TextSpan(
                           text: 'companyContact.companyTaxInvoice'.tr(),
-                          style: k18Heavy.copyWith(color: Styles.kTextColor),
+                          style: widget.isManageBooking ? kHugeHeavy.copyWith(color: Styles.kDartBlack)  : k18Heavy.copyWith(color: Styles.kTextColor),
                         ),
                         if(widget.isManageBooking == false) ... [
                           TextSpan(
@@ -145,11 +145,27 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                Icon(
-                  isExpand
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                ),
+
+                if(widget.isManageBooking) ... [
+
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Icon(
+                      (isExpand)
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      size: 25,
+                    ),
+                  ),
+
+                ] else ... [
+                  Icon(
+                    isExpand
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                  ),
+                ],
+
               ],
             ),
           ),

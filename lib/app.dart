@@ -89,10 +89,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Future initInsider() async {
-    print("init insider");
     if (!mounted) return;
     // Call in async method.
-    print("init insider 2");
 
     await FlutterInsider.Instance.init(
       AppFlavor.insiderPartnerName,

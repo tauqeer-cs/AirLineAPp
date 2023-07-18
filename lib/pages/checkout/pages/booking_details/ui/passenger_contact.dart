@@ -145,6 +145,8 @@ class PassengerContactState extends State<PassengerContact> {
 
     }
 
+    email = email?.replaceAll('+', '');
+
     emailController.text = email ?? '';
     emailController.addListener(() {});
     if ((email ?? '').isNotEmpty) {

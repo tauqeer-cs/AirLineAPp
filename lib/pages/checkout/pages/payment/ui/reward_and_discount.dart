@@ -64,9 +64,17 @@ class RewardAndDiscount extends StatelessWidget {
             blocState: state.blocState,
             voucherCodeInitial: state.insertedVoucher?.voucherCode ?? '',
             state: state,
-            onRemoveTapped: bookingState.superPnrNo != null
+            onRemoveTapped: true
                 ? () {
+              if(bookingState.superPnrNo != null) {
+                return;
+              }
               if(bookinbBloc.hasPnr == true) {
+                return;
+
+              }
+
+              if((state.insertedVoucher?.voucherCode ?? '').isEmpty) {
                 return;
 
               }

@@ -1593,7 +1593,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   String? oringalPNRNo;
 
   Future<bool?> getBookingInformation(
-      String lastName, String bookingReference) async {
+      String lastName, String bookingReference,{bool? showError}) async {
     emit(
       state.copyWith(
         isLoadingInfo: true,
@@ -1677,7 +1677,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     } catch (e, st) {
       emit(
         state.copyWith(
-            message: ErrorUtils.getErrorMessage(e, st, dontShowError: true),
+            message: ErrorUtils.getErrorMessage(e, st, dontShowError: showError ?? true),
             blocState: BlocState.failed,
             isLoadingInfo: false,
             dataLoaded: false),

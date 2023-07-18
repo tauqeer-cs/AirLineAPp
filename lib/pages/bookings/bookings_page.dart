@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/app_router.dart';
 import '../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../blocs/voucher/voucher_cubit.dart';
+import '../../widgets/app_loading_screen.dart';
 import '../../widgets/wave_background.dart';
 import '../../widgets/wrapper/auth_wrapper.dart';
 import '../check_in/ui/check_in_view.dart';
@@ -32,7 +33,7 @@ class BookingsPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: AuthWrapper(
-            authChild:  CheckingListing(
+            authChild:  bloc.state.isLoadingInfo == true  ? const AppLoading() : CheckingListing(
               isManageBooking: true,
               navigateToCheckInDetails: (bool past,String pnr, String lastName) async {
 
@@ -42,7 +43,7 @@ class BookingsPage extends StatelessWidget {
               );*/
 
                 var flag =
-                    await bloc.getBookingInformation(lastName, pnr);
+                    await bloc.getBookingInformation(lastName, pnr,showError: false);
                 if (flag == true) {
                   moveToNext(context);
 
