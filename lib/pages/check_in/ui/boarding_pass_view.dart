@@ -99,6 +99,8 @@ class BoardingPassView extends StatelessWidget {
               ],
 
 
+
+
               if (
                   state.checkReturn == true) ...[
                 kVerticalSpacer,
@@ -130,6 +132,39 @@ class BoardingPassView extends StatelessWidget {
                   ),
                 ],
               ] ,
+
+              if (
+              state.checkedDeparture == true) ...[
+                kVerticalSpacer,
+                Text(
+                  'departFlight'.tr(),
+                  style: kLargeHeavy.copyWith(
+                    color: Styles.kTextColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                kVerticalSpacerSmall,
+
+
+                for (BoardingPassPassenger currentItem
+                in state.outboundBoardingPassPassenger ?? []) ...[
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: MyCheckbox(
+                          label: currentItem.fullName ?? '',
+                          changed: (bool value) {
+                            bloc.updateStatusOfInBoundCheckUserForDownload(
+                                currentItem, value);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ] ,
+
 
 
             ],

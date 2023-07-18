@@ -41,7 +41,7 @@ class BoardingPassRequest {
 
 class BoardingPassPax {
   String? lastName;
-  int? logicalFlightKey;
+  String? logicalFlightKey;
   String? personOrgId;
   String? memberID;
   String? passport;

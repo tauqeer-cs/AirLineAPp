@@ -279,14 +279,18 @@ class _DgnInfoViewState extends State<DgnInfoView> {
                                     var check = await bloc.checkInFlight();
 
                                     if (check == true) {
+
+                                      await Future.delayed(Duration(seconds: 3));
                                       bloc.loadBoardingDate(inside: true,forceCall: true);
-
-
                                       context.router.replaceAll([
                                         const NavigationRoute(),
 
                                         const CheckInBoardingPassRoute(),
                                       ]);
+
+
+
+
                                     } else {
                                       if (bloc.showPassport) {
                                         context.router.replaceAll([

@@ -1,5 +1,6 @@
 import 'package:app/models/confirmation_model.dart';
 import 'package:app/pages/booking_details/ui/payment_detials_section.dart';
+import 'package:app/pages/booking_details/ui/payment_success.dart';
 import 'package:app/pages/booking_details/ui/selected_passenger_info.dart';
 import 'package:app/pages/booking_details/ui/warning_before_proceed.dart';
 import 'package:app/widgets/app_card.dart';
@@ -505,6 +506,15 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 onPressed: () async {
                                   //bloc?.saveContactChanges();
 
+                                  bool? check = await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return  const PaymentSuccessAlert(currency: 'MYR',amount: '125.00',);
+                                    },
+                                  );
+
+                                  return;
+
                                   //return;
                                   ChangeSsrResponse? response =
                                       await bloc?.checkSsrChange();
@@ -584,6 +594,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
+
+
+
                                   //bloc?.saveContactChanges();
 
                                   //return;

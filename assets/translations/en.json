@@ -895,5 +895,9 @@
   "termsAndConditions" : "Terms and Conditions",
   "mealTotal" : "Meal Total",
   "specialAddOnSubtotalLine": "Special Add-on\nSubtotal",
-  "manage" : "Manage"
+  "manage" : "Manage",
+  "paymentSuccessful" : "Payment Successful",
+  "paymentSuccessMessage1_1": "Your payment for new add-ons\n",
+  "paymentSuccessMessage1_2": "is successful.",
+  "paymentSuccessMessage2" : "The new total add-ons amount and total payment will be updated in your booking."
 }

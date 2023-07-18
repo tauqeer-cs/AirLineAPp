@@ -634,7 +634,7 @@
   "verifyStatus.login" : "เข้าสู่ระบบ",
   "bookedProcessor.pleaseWait" : "โปรดรอสักครู่...",
   "changedBookedProcessor.pleaseWait" : "โปรดรอสักครู่...",
-  "paymentView.paymentTitle" : " การชำระเงิน",
+  "paymentView.paymentTitle" : "การชำระเงิน",
   "paymentView.paymentDesc" : "กรอกชื่อผู้โดยสารทุกคนตามชื่อที่ปรากฏบนหนังสือเดินทาง การเข้าประเทศของคุณอาจถูกปฏิเสธหากหนังสือเดินทางของคุณเหลือวันหมดอายุเพียงไม่กี่เดือน โปรดตรวจสอบวันหมดอายุของหนังสือเดินทางของคุณ",
   "paymentView.passengers" : "ผู้โดยสาร",
   "paymentView.edit" : "แก้ไข",
@@ -893,8 +893,10 @@
   "reflectYour" : "reflect your latest booking changes!",
   "enter17" : "Please enter exactly 17 characters",
   "mealTotal" : "อาหาร",
-  "manage" : "จัดการ"
-
-
+  "manage" : "จัดการ",
+  "paymentSuccessful" : "การชำระเงิน สำเร็จ",
+  "paymentSuccessMessage1_1": "การชำระเงินของคุณสำหรับส่วนเสริมใหม่\n",
+  "paymentSuccessMessage1_2": "สำเร็จ",
+  "paymentSuccessMessage2" : "ยอดรวมส่วนเสริมใหม่และการชำระเงินทั้งหมดจะอัปเดตในการจองของคุณ"
 }
 
