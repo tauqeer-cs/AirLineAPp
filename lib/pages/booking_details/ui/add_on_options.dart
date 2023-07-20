@@ -1,4 +1,4 @@
-
+import 'package:app/pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +20,66 @@ class AddOnOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<ManageBookingCubit>();
+
+    bloc.state.selectedPax?.personObject?.departureSeats;
+    final selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
+
+    var seatNoSelected = 0;
+    if (selectedPax?.personObject?.departureSeats != null) {
+      seatNoSelected++;
+    }
+    if (selectedPax?.personObject?.returnSeats != null) {
+      seatNoSelected++;
+    }
+
+    var mealsSelected = 0;
+
+    if ((selectedPax?.personObject?.departureMeal ?? []).isNotEmpty) {
+      mealsSelected = (selectedPax?.personObject?.departureMeal ?? []).length;
+    }
+
+    if ((selectedPax?.personObject?.returnMeal ?? []).isNotEmpty) {
+      mealsSelected = (selectedPax?.personObject?.returnMeal ?? []).length;
+    }
+
+    var baggageSelected = 0;
+    if (selectedPax?.personObject?.departureBaggage != null) {
+      baggageSelected++;
+    }
+    if (selectedPax?.personObject?.returnBaggage != null) {
+      baggageSelected++;
+    }
+
+    var wheelChairSelected = 0;
+    if (selectedPax?.personObject?.departureWheelChair != null) {
+      wheelChairSelected++;
+    }
+    if (selectedPax?.personObject?.returnWheelChair != null) {
+      wheelChairSelected++;
+    }
+
+    int insuranceSelected = 0;
+
+    if (selectedPax?.insuranceSSRDetail != null) {
+      if ((selectedPax?.insuranceSSRDetail?.totalAmount ?? 0.0) > 0) {
+        insuranceSelected++;
+
+      }
+    }
+    if(insuranceSelected == 0){
+      if(bloc.state.confirmedInsuranceType == InsuranceType.all) {
+        if(bloc.state.manageBookingResponse?.confirmedInsuranceBundleSelected != null) {
+          insuranceSelected++;
+        }
+      }
+      else if(bloc.state.confirmedInsuranceType == InsuranceType.selected) {
+
+        if(selectedPax?.confirmedInsuranceBundleSelected != null) {
+          insuranceSelected++;
+        }
+      }
+    }
+
 
     return Column(
       children: [
@@ -44,6 +104,9 @@ class AddOnOptions extends StatelessWidget {
                 name: 'seat'.tr(),
                 imageName: 'icoAddseats',
                 currentOption: AddonType.seat,
+                noSelectedText: seatNoSelected == 0
+                    ? 'noSeatSelected'.tr()
+                    : ('$seatNoSelected ${'selected'.tr()}'),
               ),
 
               const SizedBox(
@@ -55,28 +118,39 @@ class AddOnOptions extends StatelessWidget {
                 name: 'meal'.tr(),
                 imageName: 'icoAddmeals',
                 currentOption: AddonType.meal,
+                noSelectedText: mealsSelected == 0
+                    ? 'noSeatSelected'.tr()
+                    : ('$mealsSelected ${'selected'.tr()}'),
               ),
 
               const SizedBox(
                 width: 8,
               ),
 
+              //baggageSelected
               AddOnsCardItem(
                 isActive: bloc.state.addOnOptionSelected == AddonType.baggage,
                 name: 'baggage'.tr(),
                 imageName: 'icoAddbaggage',
                 currentOption: AddonType.baggage,
+                noSelectedText: baggageSelected == 0
+                    ? 'noSeatSelected'.tr()
+                    : ('$baggageSelected ${'selected'.tr()}'),
               ),
 
               const SizedBox(
                 width: 8,
               ),
 
+              //
               AddOnsCardItem(
                 isActive: bloc.state.addOnOptionSelected == AddonType.special,
                 name: 'specialAddOn'.tr(),
                 imageName: 'icoGeneric',
                 currentOption: AddonType.special,
+                noSelectedText: wheelChairSelected == 0
+                    ? 'noSeatSelected'.tr()
+                    : ('$wheelChairSelected ${'selected'.tr()}'),
               ),
 
               const SizedBox(
@@ -88,12 +162,12 @@ class AddOnOptions extends StatelessWidget {
                 name: 'insurance'.tr(),
                 imageName: 'icoInsurance',
                 currentOption: AddonType.insurance,
+                noSelectedText: insuranceSelected == 0 ? 'noSeatSelected'.tr() : ('$insuranceSelected ${'selected'.tr()}'),
               ),
 
               const SizedBox(
                 width: 8,
               ),
-
 
               //.png
             ]),

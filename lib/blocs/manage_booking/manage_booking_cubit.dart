@@ -197,6 +197,32 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return total;
   }
 
+  num get confirmedInsruanceTotalPrice {
+    num total = 0.0;
+    var totalPerPax = state.flightSSR?.insuranceGroup?.outbound?.first.finalAmount ?? 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+    if(state.confirmedInsuranceType == InsuranceType.all) {
+
+      total = totalPerPax * passengers.length;
+
+    }
+    else if(state.confirmedInsuranceType == InsuranceType.selected){
+      for (PassengersWithSSR currentUser in passengers) {
+        total += currentUser.confirmedInsuranceBundleSelected?.finalAmount ?? 0.0;
+      }
+
+    }
+
+
+
+
+
+    return total;
+  }
+
+
   num get confirmedMealsTotalPrice {
     num total = 0.0;
 
@@ -714,6 +740,21 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         return true;
       }
 
+      if(state.insuranceType == InsuranceType.all) {
+
+        if(state.manageBookingResponse?.allInsuranceBundleSelected != null) {
+          return true;
+        }
+
+      }
+      else if(state.insuranceType == InsuranceType.selected) {
+
+        if(currentPerson.newInsuranceBoundSelected != null) {
+          return true;
+        }
+      }
+
+
 
 
     }
@@ -856,7 +897,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         //Nasi Lemak Combo
         List<Bundle> result = state.flightSSR?.mealGroup?.outbound
                 ?.where((e) =>
-                    e.codeType?.toLowerCase() ==
+                    e.description?.toLowerCase() ==
                     currentIte.mealName?.toLowerCase())
                 .toList() ??
             [];
@@ -871,7 +912,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         //Nasi Lemak Combo
         List<Bundle> result = state.flightSSR?.mealGroup?.inbound
                 ?.where((e) =>
-                    e.codeType?.toLowerCase() ==
+                    e.description?.toLowerCase() ==
                     currentIte.mealName?.toLowerCase())
                 .toList() ??
             [];
@@ -1207,12 +1248,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
-  Future<void> reloadDataForConfirmation(String status, String superPnr) async {
+  Future<void> reloadDataForConfirmation(String status, String superPnr,{bool extraLoading = false}) async {
     emit(
       state.copyWith(
           loadingSummary: true,
           message: '',
           blocState: BlocState.initial,
+          extraLoading: extraLoading,
           showPending: status == 'PPB'),
     );
 
@@ -1236,6 +1278,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           blocState: BlocState.finished,
           manageBookingResponse: verifyResponse,
           loadingSummary: false,
+          isPaying : false,
+          extraLoading: false,
         ),
       );
       return;
@@ -1245,6 +1289,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           loadingSummary: false,
+          extraLoading: false
         ),
       );
       return;
@@ -1504,6 +1549,42 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           ),
         );
       }
+
+      if(state.confirmedInsuranceType == InsuranceType.all) {
+
+        if(state.manageBookingResponse?.confirmedInsuranceBoundSelected != null) {
+          tmpPassengerAddOn.sSR?.outbound?.add(
+            FS.Bound(
+              logicalFlightId:
+              state.manageBookingResponse?.confirmedInsuranceBoundSelected?.logicalFlightId ??
+                  '',
+              ssrCode: state.manageBookingResponse?.confirmedInsuranceBoundSelected?.ssrCode ??
+                  '',
+              servicesType: 'Insurance',
+              quantity: 1,
+            ),
+          );
+        }
+      }
+      else if(state.confirmedInsuranceType == InsuranceType.selected){
+
+
+        if(currentItem.confirmedInsuranceBundleSelected != null) {
+          tmpPassengerAddOn.sSR?.outbound?.add(
+            FS.Bound(
+              logicalFlightId:
+              currentItem.confirmedInsuranceBundleSelected?.logicalFlightID ??
+                  '',
+              ssrCode: currentItem.confirmedInsuranceBundleSelected?.ssrCode ??
+                  '',
+              servicesType: 'Insurance',
+              quantity: 1,
+            ),
+          );
+        }
+
+      }
+
 
       if (currentItem.confirmedDepartSeatSelected != null) {
         var ccc = state.addOnList?.flightSeats?.outbound?.first
@@ -1865,7 +1946,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       var request = MmbCheckoutRequest(
         superPNRNo:
-            (state.manageBookingResponse?.result?.superPNR?.superPNRNo ?? ''),
+        state.superPnrNo ?? '',
         insertVoucher: voucher ?? '',
         orderId: state.orderId ?? 0,
         paymentDetail: PaymentDetail(
@@ -1906,7 +1987,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
-            isPaying : false,
             loadingCheckoutPayment: false,
             orderId: orderId,
             superPnrNo: superNo,
@@ -2153,6 +2233,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
 
     for (PassengersWithSSR currentPassenger in passengers) {
+
+
       if (currentPassenger.newDepartSeatSelected != null) {
         return true;
       }
@@ -2191,6 +2273,26 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       if (currentPassenger.newDepartWheelChair != null) {
         return true;
       }
+
+      if(state.insuranceType == InsuranceType.all) {
+
+        if(state.manageBookingResponse?.allInsuranceBundleSelected != null) {
+          return true;
+        }
+
+      }
+      else if(state.insuranceType == InsuranceType.selected) {
+
+        if(currentPassenger.newInsuranceBoundSelected != null) {
+          return true;
+        }
+      }
+      else if(state.insuranceType == InsuranceType.none) {
+
+
+        return true;
+      }
+
 
       print('');
     }
@@ -3235,4 +3337,159 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     //savingContactChanges
   }
+
+  void selectInsuranceType(InsuranceType type) {
+
+    emit(
+      state.copyWith(
+        insuranceType: type,
+      ),
+    );
+
+    //insuranceType
+  }
+
+  void addInsuranceToAllPeople(Bundle bundle,FS.Bound bound) {
+
+    List<PassengersWithSSR> allPassengers = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+    List<PassengersWithSSR> newPassengersList = [];
+
+    var newFlog= false;
+    for(PassengersWithSSR currentObject in allPassengers ) {
+      //currentObject.personObject
+      var personObject = currentObject.passengers;
+      if(state.manageBookingResponse?.allInsuranceSelected == true && bundle.codeType == state.manageBookingResponse?.allInsuranceBundleSelected?.codeType){
+        var c = currentObject.personObject?.copyWithNull(insuranceGroup: true);
+
+        currentObject.personObject = c;
+
+
+        newPassengersList.add(currentObject);
+      }
+      else {
+        var c = currentObject.personObject?.copyWith(insurance: bundle);
+        newFlog = true;
+
+        currentObject.personObject = c;
+
+
+        newPassengersList.add(currentObject);
+      }
+
+
+    }
+
+    var manageBookingResponse = state.manageBookingResponse?.copyWith();
+    manageBookingResponse?.allInsuranceSelected = newFlog;
+    if(newFlog == false) {
+      manageBookingResponse?.allInsuranceBoundSelected = null;
+      manageBookingResponse?.allInsuranceBundleSelected = null;
+    }
+    else {
+      manageBookingResponse?.allInsuranceBoundSelected = bound;
+      manageBookingResponse?.allInsuranceBundleSelected = bundle;
+    }
+
+
+    emit(state.copyWith(
+      manageBookingResponse: manageBookingResponse,
+    ));
+
+
+  }
+
+  void addInsuranceToPeople(Bundle bundle, FS.Bound tmp, PassengersWithSSR? selectedPax) {
+
+    List<PassengersWithSSR> allPassengers = state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+    List<PassengersWithSSR> newPassengersList = [];
+
+    var newFlog= false;
+    PassengersWithSSR? selectedPerson;
+
+    for(PassengersWithSSR currentObject in allPassengers ) {
+      //currentObject.personObject
+
+      if(selectedPax?.personOrgID == currentObject.personOrgID) {
+
+        if(currentObject.newInsuranceBoundSelected != null && bundle.codeType == currentObject.newInsuranceBundleSelected?.codeType){
+          currentObject.newInsuranceBundleSelected = null;
+          currentObject.newInsuranceBoundSelected = null;
+          newPassengersList.add(currentObject);
+        }
+        else {
+          currentObject.newInsuranceBundleSelected = bundle;
+          currentObject.newInsuranceBoundSelected = tmp;
+
+
+          newPassengersList.add(currentObject);
+        }
+
+        selectedPerson = currentObject;
+
+      }
+      else {
+
+        newPassengersList.add(currentObject);
+
+      }
+
+
+
+    }
+
+    var manageBookingResponse = state.manageBookingResponse?.copyWith();
+    manageBookingResponse?.allInsuranceSelected = newFlog;
+    manageBookingResponse?.result?.passengersWithSSR = newPassengersList;
+
+
+    emit(state.copyWith(
+      manageBookingResponse: manageBookingResponse,
+      selectedPax: selectedPerson
+    ));
+  }
+
+  void insuranceConfirmChange() {
+
+    if(state.insuranceType == InsuranceType.all) {
+      var manageBookingResponse = state.manageBookingResponse?.copyWith();
+
+      manageBookingResponse?.confirmedInsuranceBoundSelected = manageBookingResponse.allInsuranceBoundSelected;
+      manageBookingResponse?.confirmedInsuranceBundleSelected = manageBookingResponse.allInsuranceBundleSelected;
+
+
+      emit(
+        state.copyWith(confirmedInsuranceType: state.insuranceType,manageBookingResponse: manageBookingResponse),
+      );
+
+    }
+    else if(state.insuranceType == InsuranceType.selected) {
+
+      var manageBookingResponse = state.manageBookingResponse?.copyWith();
+      List<PassengersWithSSR> listOfPassengers = [];
+      //
+
+
+      for(PassengersWithSSR currentPersonSsr in manageBookingResponse?.result?.passengersWithSSR ?? []){
+        currentPersonSsr.confirmedInsuranceBundleSelected = currentPersonSsr.newInsuranceBundleSelected;
+        currentPersonSsr.confirmedInsuranceBoundSelected = currentPersonSsr.newInsuranceBoundSelected;
+        listOfPassengers.add(currentPersonSsr);
+      }
+
+      manageBookingResponse?.result?.passengersWithSSR = listOfPassengers;
+
+
+      emit(
+        state.copyWith(confirmedInsuranceType: state.insuranceType,manageBookingResponse: manageBookingResponse),
+      );
+
+    }
+    else if(state.insuranceType == InsuranceType.none){
+      emit(
+        state.copyWith(confirmedInsuranceType: state.insuranceType,),
+      );
+    }
+
+  }
+
+
 }

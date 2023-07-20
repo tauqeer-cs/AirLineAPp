@@ -17,7 +17,7 @@ import '../../ui/summary_list_item.dart';
 
 class SpecialSummaryDetail extends StatelessWidget {
   final String? currency;
-  const SpecialSummaryDetail({Key? key, this.currency,  this.isManageBooking = false}) : super(key: key);
+  const  SpecialSummaryDetail({Key? key, this.currency,  this.isManageBooking = false}) : super(key: key);
   final bool isManageBooking;
   @override
   Widget build(BuildContext context) {

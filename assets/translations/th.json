@@ -897,6 +897,7 @@
   "paymentSuccessful" : "การชำระเงิน สำเร็จ",
   "paymentSuccessMessage1_1": "การชำระเงินของคุณสำหรับส่วนเสริมใหม่\n",
   "paymentSuccessMessage1_2": "สำเร็จ",
-  "paymentSuccessMessage2" : "ยอดรวมส่วนเสริมใหม่และการชำระเงินทั้งหมดจะอัปเดตในการจองของคุณ"
+  "paymentSuccessMessage2" : "ยอดรวมส่วนเสริมใหม่และการชำระเงินทั้งหมดจะอัปเดตในการจองของคุณ",
+  "insuranceTotal": "ประกันภัย\nผลรวมย่อย"
 }
 

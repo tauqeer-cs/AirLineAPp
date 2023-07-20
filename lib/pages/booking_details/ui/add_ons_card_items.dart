@@ -15,6 +15,8 @@ import 'double_line_text.dart';
 class AddOnsCardItem extends StatelessWidget {
   final AddonType currentOption;
 
+  final String noSelectedText;
+
   final String imageName;
 
   final String name;
@@ -26,7 +28,7 @@ class AddOnsCardItem extends StatelessWidget {
         required this.isActive,
         required this.name,
         required this.imageName,
-        required this.currentOption})
+        required this.currentOption, required this.noSelectedText})
       : super(key: key);
 
   @override
@@ -76,7 +78,7 @@ class AddOnsCardItem extends StatelessWidget {
                   ),
                   kVerticalSpacerMini,
                   Text(
-                    isActive ? 'selecting'.tr() : 'noSeatSelected'.tr(),
+                    isActive ? 'selecting'.tr() : noSelectedText,
                     style: kSmallMedium.copyWith(
                         color: isActive ? Colors.white : null),
                   ),

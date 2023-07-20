@@ -7,7 +7,12 @@ import '../../utils/date_utils.dart';
 import '../../data/responses/verify_response.dart' as Vs;
 import '../requests/flight_summary_pnr_request.dart' as FS;
 import 'change_flight_response.dart' as CR;
+
+import '../../data/requests/flight_summary_pnr_request.dart' as FS;
+
 class ManageBookingResponse {
+
+
   ManageBookingResponse copyWith({
     Result? result,
     bool? success,
@@ -15,18 +20,39 @@ class ManageBookingResponse {
     bool? customSelected,
     DateTime? newStartDateSelected,
     DateTime? newReturnDateSelected,
+
+    Bundle? allInsuranceBundleSelected,
+    FS.Bound? allInsuranceBoundSelected,
+    Bundle? confirmedInsuranceBundleSelected,
+    FS.Bound? confirmedInsuranceBoundSelected,
+
+
   }) {
     return ManageBookingResponse(
       result: result ?? this.result,
       success: success ?? this.success,
       message: message ?? this.message,
       customSelected: customSelected ?? this.customSelected,
+      allInsuranceBundleSelected : allInsuranceBundleSelected ?? this.allInsuranceBundleSelected,
+      allInsuranceBoundSelected :  allInsuranceBoundSelected ?? this.allInsuranceBoundSelected,
+      confirmedInsuranceBundleSelected :  confirmedInsuranceBundleSelected ?? this.confirmedInsuranceBundleSelected,
+      confirmedInsuranceBoundSelected : confirmedInsuranceBoundSelected ?? this.confirmedInsuranceBoundSelected,
     );
   }
 
   Result? result;
   bool? success;
   String? message;
+
+  bool? allInsuranceSelected = false;
+
+  Bundle? allInsuranceBundleSelected;
+  FS.Bound? allInsuranceBoundSelected;
+
+  Bundle? confirmedInsuranceBundleSelected;
+  FS.Bound? confirmedInsuranceBoundSelected;
+
+
 
   bool customSelected = false;
 
@@ -75,7 +101,12 @@ class ManageBookingResponse {
     this.success,
     this.message,
     this.customSelected = false,
-  });
+    this.allInsuranceBundleSelected ,
+  this.allInsuranceBoundSelected ,
+  this.confirmedInsuranceBundleSelected ,
+  this.confirmedInsuranceBoundSelected ,
+
+});
 
   ManageBookingResponse.fromJson(Map<String, dynamic> json) {
     result = Result.fromJson(json);
@@ -559,6 +590,16 @@ class PassengersWithSSR {
   Vs.Seats? confirmedReturnSeatSelected;
 
 
+
+  Bundle? newInsuranceBundleSelected;
+  FS.Bound? newInsuranceBoundSelected;
+  Bundle? confirmedInsuranceBundleSelected;
+  FS.Bound? confirmedInsuranceBoundSelected;
+
+
+
+
+
   String? originalDepartSeatId;
   String? originalReturnSeatId;
 
@@ -611,7 +652,7 @@ class PassengersWithSSR {
   //Bundle? baggage
 
 
-  Bound? get getInsurance {
+  FS.Bound? get getInsurance {
 
     /*if(ssr != null) {
       if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
@@ -627,6 +668,25 @@ class PassengersWithSSR {
 
     return null;
   }
+
+  Bundle? get getInsurance2 {
+
+
+    /*if(ssr != null) {
+      if(ssr!.outbound != null && ssr!.outbound!.isNotEmpty) {
+        var outBound = ssr!.outbound!;
+        var object = outBound.where((e) => e.servicesType == 'Insurance').toList();
+        if(object.isNotEmpty){
+          return object.first;
+        }
+        return null;
+      }
+    }*/
+
+
+    return null;
+  }
+
 
   String toBeautify() {
     List<String> texts = [];
@@ -748,9 +808,19 @@ class PassengersWithSSR {
     List<Bundle>? confirmedReturnMeals,
     Bundle? confirmDepartBaggageSelected,
     Bundle? confirmReturnBaggageSelected,
+
+    Bundle? newInsuranceBundleSelected,
+    FS.Bound? newInsuranceBoundSelected,
+    Bundle? confirmedInsuranceBundleSelected,
+    FS.Bound? confirmedInsuranceBoundSelected,
   }) {
     return PassengersWithSSR(
-      confirmDepartBaggageSelected  : confirmDepartBaggageSelected  ?? this.confirmDepartBaggageSelected,
+
+      newInsuranceBundleSelected :  newInsuranceBundleSelected ?? this.newInsuranceBundleSelected,
+      newInsuranceBoundSelected :   newInsuranceBoundSelected ?? this.newInsuranceBoundSelected,
+      confirmedInsuranceBundleSelected : confirmedInsuranceBundleSelected  ?? this.confirmedInsuranceBundleSelected,
+      confirmedInsuranceBoundSelected :   confirmedInsuranceBoundSelected ?? this.confirmedInsuranceBoundSelected,
+    confirmDepartBaggageSelected  : confirmDepartBaggageSelected  ?? this.confirmDepartBaggageSelected,
       confirmReturnBaggageSelected :  confirmReturnBaggageSelected ?? this.confirmReturnBaggageSelected,
       confirmedDepartMeals :  confirmedDepartMeals ?? this.confirmedDepartMeals,
       confirmedReturnMeals :  confirmedReturnMeals ?? this.confirmedReturnMeals,
@@ -864,6 +934,10 @@ class PassengersWithSSR {
     this.confirmedReturnMeals,
     this.confirmDepartBaggageSelected,
     this.confirmReturnBaggageSelected,
+    this.newInsuranceBundleSelected,
+    this.newInsuranceBoundSelected,
+    this.confirmedInsuranceBundleSelected,
+    this.confirmedInsuranceBoundSelected,
   });
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {

@@ -188,6 +188,15 @@ class PassengerSelectorManageBooking extends StatelessWidget {
     final selectedPax =
         context.watch<ManageBookingCubit>().state.selectedPax;
 
+    var seatNoSelected = 0;
+    if(selectedPax?.personObject?.departureSeats != null) {
+      seatNoSelected++;
+    }
+    if(selectedPax?.personObject?.returnSeats != null) {
+      seatNoSelected++;
+    }
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -215,7 +224,7 @@ class PassengerSelectorManageBooking extends StatelessWidget {
                   isActive = true;
                 }
 
-                person.passengers?.fullName;
+
 
                 return GestureDetector(
                   onTap: (){

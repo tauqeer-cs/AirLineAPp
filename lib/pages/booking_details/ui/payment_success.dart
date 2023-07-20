@@ -9,11 +9,14 @@ import '../../../utils/ui_utils.dart';
 class PaymentSuccessAlert extends StatelessWidget {
   final String currency;
   final String amount;
-  const PaymentSuccessAlert({Key? key, required this.currency, required this.amount}) : super(key: key);
+
+  const PaymentSuccessAlert(
+      {Key? key, required this.currency, required this.amount})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  AlertDialog(
+    return AlertDialog(
       backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24),
       shape: RoundedRectangleBorder(
@@ -22,10 +25,8 @@ class PaymentSuccessAlert extends StatelessWidget {
       title: Container(),
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
-
           Align(
             alignment: Alignment.center,
             child: Image.asset(
@@ -35,66 +36,80 @@ class PaymentSuccessAlert extends StatelessWidget {
             ),
           ),
 
-          kVerticalSpacerSmall,
-
+          kVerticalSpacer,
 
           Text(
             'paymentSuccessful'.tr(),
+            textAlign: TextAlign.center,
             style: kHugeHeavy.copyWith(
               color: Styles.kTextColor,
             ),
           ),
 
-          kVerticalSpacerSmall,
+          kVerticalSpacer,
 
           RichText(
+            textAlign: TextAlign.center,
             text: TextSpan(
-              text:
-              'paymentSuccessMessage1_1'.tr(),
-              style:kMediumRegular.copyWith(
+              text: 'paymentSuccessMessage1_1'.tr(),
+              style: kMediumRegular.copyWith(
                 color: Styles.kTextColor,
               ),
               children: <TextSpan>[
-                makeClickableTextSpan(context,
-                    text: 'Product Disclosure Sheet',
-                    pdfIsLink: false),
-                makeClickableTextSpan(context,
-                    text: ' , understood and agree to the '),
-                makeClickableTextSpan(context,
-                    text: 'Terms and Conditions',
-                    pdfName:
-                    'https://booking.myairline.my/insurance/term_and_conditions.pdf',
-                    pdfIsLink: true),
-                makeClickableTextSpan(context,
-                    text:
-                    ' of MY Travel Shield and agree to the processing of my Personal Data in accordance with the '),
-                makeClickableTextSpan(context,
-                    text: 'Data Privacy Notice.',
-                    webViewLink: 'https://www.zurich.com.my/pdpa'),
+                TextSpan(
+                  text: '$currency ',
+                ),
+                TextSpan(
+                  text: amount,
+                  style: kMediumSemiBold.copyWith(
+                    color: Styles.kTextColor,
+                  ),
+                ),
+                TextSpan(
+                  text: '${'paymentSuccessMessage1_2'.tr()} ',
+                ),
               ],
             ),
           ),
 
-          Text(
-            'paymentSuccessMessage1_1'.tr(),
-            style: kMediumRegular.copyWith(
-              color: Styles.kTextColor,
-            ),
-          ),
-
-          kVerticalSpacerSmall,
+          kVerticalSpacer,
 
           Text(
+            textAlign: TextAlign.center,
             'paymentSuccessMessage2'.tr(),
             style: kMediumRegular.copyWith(
               color: Styles.kTextColor,
             ),
           ),
+          kVerticalSpacer,
+
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(),),
+              Expanded(
+                flex: 3,
+                child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+
+                },
+                child: Text(
+                  'close'.tr(),
+                ),
+              ),),
+
+              Expanded(
+                flex: 2,
+                child: Container(),),
+            ],
+          ),
+          kVerticalSpacer,
+
 //
 //
-        //paymentSuccessMessage2
-
-
+          //paymentSuccessMessage2
         ],
       ),
     );

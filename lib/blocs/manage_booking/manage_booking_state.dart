@@ -9,6 +9,7 @@ class ManageBookingState extends Equatable {
   final bool isPaying;
 
 
+
   final String? newContactFirstName;
 
   final String? newContactLastName;
@@ -49,6 +50,7 @@ class ManageBookingState extends Equatable {
   final bool isLoadingInfo;
   final bool dataLoaded;
   final InsuranceType? insuranceType;
+  final InsuranceType? confirmedInsuranceType;
 
   final bool seatDeparture;
   final bool foodDepearture;
@@ -60,6 +62,8 @@ class ManageBookingState extends Equatable {
   final FlightResponse? flightSearchResponse;
   final String flightMessageError;
   final bool loadingSummary;
+  final bool extraLoading;
+
 
   final bool loadingDatesData;
   final bool loadingSelectingFlight;
@@ -142,6 +146,8 @@ class ManageBookingState extends Equatable {
     this.savingContactChanges = false,
     this.flightSSR,
     this.flightSeats,
+    this.extraLoading = false,
+    this.confirmedInsuranceType,
   });
 
   @override
@@ -180,6 +186,7 @@ class ManageBookingState extends Equatable {
         foodDepearture,
         baggageDeparture,
         specialAppOpsDeparture,
+    extraLoading,
     newEmergencyFirstName,
     flightSSR,
     newEmergencyLastName,
@@ -196,6 +203,7 @@ class ManageBookingState extends Equatable {
     addOnList,
     flightSeats,
     isPaying,
+    confirmedInsuranceType,
 
   ];
 
@@ -259,10 +267,12 @@ class ManageBookingState extends Equatable {
     FightAddOns? addOnList,
     FlightSeats? flightSeats,
     bool? isPaying,
-
+    bool? extraLoading,
+    InsuranceType? confirmedInsuranceType,
   }) {
     return ManageBookingState(
-
+      confirmedInsuranceType : confirmedInsuranceType ?? this.confirmedInsuranceType,
+      extraLoading : extraLoading ?? this.extraLoading,
       isPaying : isPaying ?? this.isPaying,
       flightSeats : flightSeats ?? this.flightSeats,
       addOnList : addOnList ?? this.addOnList,
