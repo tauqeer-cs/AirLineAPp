@@ -116,6 +116,9 @@ class PassengerContactState extends State<PassengerContact> {
         if((widget.bookingContact?.phone1 ?? '').substring(0,phoneCode?.length) == phoneCode){
           phoneNumber = (widget.bookingContact?.phone1 ?? '').substring(phoneCode?.length ?? 0,(widget.bookingContact?.phone1 ?? '').length);
         }
+        else{
+          phoneNumber = widget.bookingContact?.phone1;
+        }
 
       }
 
