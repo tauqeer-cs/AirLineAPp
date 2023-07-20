@@ -123,6 +123,51 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return total;
   }
 
+  num get notConfirmedSeatsTotalPrice {
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for (PassengersWithSSR currentUser in passengers) {
+      if (currentUser.newDepartSeatSelected != null) {
+        total += currentUser
+            .newDepartSeatSelected?.seatPriceOffers?.first.amount ??
+            0.0;
+
+        var tmpS = state.manageBookingResponse?.result?.seatDetail?.seats
+            ?.where((element) =>
+        element.givenName == currentUser.passengers?.givenName &&
+            element.surName == currentUser.passengers?.surname &&
+            element.departReturn == 'Depart')
+            .toList();
+
+        if ((tmpS ?? []).isNotEmpty) {
+          total = total - ((tmpS ?? []).first.amount ?? 0.0);
+        }
+      }
+
+      if (currentUser.newReturnSeatSelected != null) {
+        total += currentUser
+            .newReturnSeatSelected?.seatPriceOffers?.first.amount ??
+            0.0;
+
+        var tmpS = state.manageBookingResponse?.result?.seatDetail?.seats
+            ?.where((element) =>
+        element.givenName == currentUser.passengers?.givenName &&
+            element.surName == currentUser.passengers?.surname &&
+            element.departReturn != 'Depart')
+            .toList();
+
+        if ((tmpS ?? []).isNotEmpty) {
+          total = total - ((tmpS ?? []).first.amount ?? 0.0);
+        }
+      }
+    }
+    return total;
+  }
+
+
   num get confirmedSeatsTotalPrice {
     num total = 0.0;
 
@@ -167,6 +212,19 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return total;
   }
 
+  num get notConfirmedWheelChairTotalPrice {
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+    for (PassengersWithSSR currentUser in passengers) {
+      total += currentUser.newDepartWheelChair?.finalAmount ?? 0.0;
+      total += currentUser.newReturnWheelChair?.finalAmount ?? 0.0;
+    }
+
+    return total;
+  }
+
   num get confirmedWheelChairTotalPrice {
     num total = 0.0;
 
@@ -181,6 +239,22 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     return total;
   }
+
+  num get notConfirmedBaggageTotalPrice {
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for (PassengersWithSSR currentUser in passengers) {
+      total += currentUser.newDepartBaggageSelected?.finalAmount ?? 0.0;
+
+      total += currentUser.newReturnBaggageSelected?.finalAmount ?? 0.0;
+    }
+
+    return total;
+  }
+
 
   num get confirmedBaggageTotalPrice {
     num total = 0.0;
@@ -198,8 +272,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   num get confirmedInsruanceTotalPrice {
+    if((state.flightSSR?.insuranceGroup?.outbound ?? []).isEmpty ){
+      return 0.0;
+    }
     num total = 0.0;
-    var totalPerPax = state.flightSSR?.insuranceGroup?.outbound?.first.finalAmount ?? 0.0;
+    var totalPerPax  = state.flightSSR?.insuranceGroup?.outbound?.first.finalAmount ?? 0.0;
 
     List<PassengersWithSSR> passengers =
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
@@ -222,6 +299,32 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return total;
   }
 
+
+  num get notConfirmedMealsTotalPrice {
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for (PassengersWithSSR currentUser in passengers) {
+      num? totalAmount = currentUser.newDepartureMeal
+          ?.map((bundle) => bundle.amount ?? 0)
+          .fold(0, (previousValue, amount) => (previousValue ?? 0) + amount);
+
+      if (totalAmount != null) {
+        total += totalAmount;
+      }
+
+      totalAmount = currentUser.newReturnMeal
+          ?.map((bundle) => bundle.amount ?? 0)
+          .fold(0, (previousValue, amount) => (previousValue ?? 0) + amount);
+
+      if (totalAmount != null) {
+        total += totalAmount;
+      }
+    }
+    return total;
+  }
 
   num get confirmedMealsTotalPrice {
     num total = 0.0;
@@ -2594,14 +2697,41 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   void addSeatToPerson(
       Person? selectedPerson, Vs.Seats seats, bool isDeparture) {
+    bool makeSeatEmpty = false;
+
     var manageResponse = state.manageBookingResponse;
     if(isDeparture) {
       if(selectedPerson?.departureSeats != null){
 
 
         var resultr = state.manageBookingResponse?.result?.passengersWithSSR?.where((element) => element.personObject == selectedPerson).toList();
+        if((resultr ?? [] ).first.newDepartSeatSelected?.seatId == seats.seatId) {
 
-        if((resultr ?? [] ).first.originalDepartSeatId?.contains(seats.seatId ?? '') == true) {
+          if((resultr ?? [] ).first.originalDepartSeatId != null) {
+            List<Rows>? rows =  state.flightSeats?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows;
+
+            if(rows != null) {
+
+              for(Rows currentRow in rows ?? []) {
+                var list = currentRow.seats?.where((e) => e.seatId == (resultr ?? [] ).first.originalDepartSeatId ).toList();
+                if( (list ?? []) .isNotEmpty) {
+                  Vs.Seats tmpSeat =  (list ?? [] ).first;
+
+                  addSeatToPerson(selectedPerson,tmpSeat,isDeparture);
+
+                  return;
+
+                }
+              }
+            }
+          }
+          else {
+            makeSeatEmpty = true;
+          }
+
+        }
+        else if((resultr ?? [] ).first.originalDepartSeatId?.contains(seats.seatId ?? '') == true) {
+
 
         }
         else if((resultr ?? [] ).isNotEmpty) {
@@ -2618,6 +2748,29 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     else {
 
       var resultr = state.manageBookingResponse?.result?.passengersWithSSR?.where((element) => element.personObject == selectedPerson).toList();
+      if((resultr ?? [] ).first.newReturnSeatSelected?.seatId == seats.seatId) {
+
+        if((resultr ?? [] ).first.originalReturnSeatId != null) {
+          List<Rows>? rows =  state.flightSeats?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows;
+
+          if(rows != null) {
+
+            for(Rows currentRow in rows ?? []) {
+              var list = currentRow.seats?.where((e) => e.seatId == (resultr ?? [] ).first.originalReturnSeatId ).toList();
+              if( (list ?? []) .isNotEmpty) {
+                Vs.Seats tmpSeat =  (list ?? [] ).first;
+                addSeatToPerson(selectedPerson,tmpSeat,isDeparture);
+                return;
+              }
+            }
+          }
+        }
+        else {
+          makeSeatEmpty = true;
+        }
+
+      }
+      else
       if((resultr ?? [] ).first.originalReturnSeatId == seats.seatId) {
 
       }
@@ -2648,9 +2801,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       if (isDeparture) {
         newPerson = item.personObject?.copyWith(departureSeats: () => seats);
 
+        if(makeSeatEmpty) {
+          item.personObject?.copyWithNull(departureSeats: true);
+        }
         if (item.originalDepartSeatId == seats.seatId) {
 
-          //newSSR = item.copyWith(personObject: newPerson,newDepartSeatSelected: Vs.Seats(seatId: 0));
           newSSR = item.copyWith(
               personObject: newPerson, newDepartSeatSelected: seats);
 
@@ -2658,11 +2813,28 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
 
         } else {
-          newSSR = item.copyWith(
-              personObject: newPerson, newDepartSeatSelected: seats);
+
+          if(makeSeatEmpty) {
+            newSSR = item.copyWith(
+                personObject: newPerson, );
+
+            newSSR.newDepartSeatSelected = null;
+
+          }
+          else {
+            newSSR = item.copyWith(
+                personObject: newPerson, newDepartSeatSelected: seats);
+          }
+
         }
       } else {
         newPerson = item.personObject?.copyWith(returnSeats: () => seats);
+
+        if(makeSeatEmpty) {
+          item.personObject?.copyWithNull(returnSeats: true);
+        }
+
+
         if (item.originalReturnSeatId == seats.seatId) {
 
           newSSR = item.copyWith(
@@ -2671,8 +2843,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           newSSR.newReturnSeatSelected = null;
 
         } else {
-          newSSR = item.copyWith(
-              personObject: newPerson, newReturnSeatSelected: seats);
+          if(makeSeatEmpty) {
+            newSSR = item.copyWith(
+                personObject: newPerson, newReturnSeatSelected: seats);
+
+            newSSR.newReturnSeatSelected = null;
+
+          }
+          else {
+            newSSR = item.copyWith(
+                personObject: newPerson, newReturnSeatSelected: seats);
+          }
+
         }
       }
 

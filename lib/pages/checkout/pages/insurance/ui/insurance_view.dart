@@ -148,7 +148,6 @@ class _InsuranceViewState extends State<InsuranceView> {
                 ),
                 kVerticalSpacer,
                 AvailableInsurance(
-                  isManageBooking: widget.isManageBooking,
                 ),
                 InsuranceTerms(
                   isInternational:

@@ -108,13 +108,20 @@ class PassengerContactState extends State<PassengerContact> {
     if(widget.manageBooking){
 
       email = widget.bookingContact?.email ?? (profile?.emailShow ?? contact?.contactEmail.trim());
-      firstName = getFirstName(widget.bookingContact?.fullName ?? '');
+      firstName = widget.bookingContact?.givenName;
       fNameController.text = firstName ?? '';
       phoneCode = widget.bookingContact?.phone1LocationCode;
-      phoneNumber = widget.bookingContact?.phone1 ?? '';
+
+      if((widget.bookingContact?.phone1 ?? '').length > 2) {
+        if((widget.bookingContact?.phone1 ?? '').substring(0,phoneCode?.length) == phoneCode){
+          phoneNumber = (widget.bookingContact?.phone1 ?? '').substring(phoneCode?.length ?? 0,(widget.bookingContact?.phone1 ?? '').length);
+        }
+
+      }
+
       phNoController.text = phoneNumber ?? '';
 
-      lastName = getLastName(widget.bookingContact?.fullName ?? '');
+      lastName = widget.bookingContact?.surname;
 
       lNameController.text = lastName ?? '';
       nationalityController.text =

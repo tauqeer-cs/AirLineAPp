@@ -94,8 +94,8 @@ class BaggageSection extends StatelessWidget {
                     Expanded(
                       child: Container(),
                     ),
-                    const MoneyWidget(
-                      amount: 0.00,
+                     MoneyWidget(
+                      amount: manageBookingCubit?.notConfirmedBaggageTotalPrice ?? 0.0,
                       isDense: true,
                       isNormalMYR: true,
                     ),

@@ -82,7 +82,7 @@ class SeatPlan extends StatelessWidget {
     }
 
     if (firstRow == null) return const SizedBox();
-    return Container(
+    return  Container(
       color: Styles.kDividerColor,
       child: Column(
         children: [
@@ -112,6 +112,28 @@ class SeatPlan extends StatelessWidget {
             bool isSeatSeparated = row.seats?.first.serviceCode !=
                 previousRow?.seats?.first.serviceCode;
             Bundle? bundle;
+            num? newPrice;
+
+            if(isManageBooking){
+
+              if(isSeatSeparated == true) {
+                print('');
+
+                try {
+                  newPrice = row.seats?.first.seatPriceOffers?.first.amount;
+
+                }
+                catch(e) {
+                  print('');
+
+                }
+
+              }
+
+            }
+
+
+
             for (Seats seat in row.seats ?? []) {
               bundle = legends.firstWhereOrNull(
                   (element) => element.ssrCode == seat.serviceCode);
@@ -119,60 +141,104 @@ class SeatPlan extends StatelessWidget {
                 break;
             }
 
+
             // final bundle = legends.firstWhereOrNull(
             //     (element) => element.serviceID == row.seats?.first.serviceId);
             if (bundle?.finalAmount == null) {
               log("final amount ${bundle?.toJson()}");
             }
-            return Padding(
+            return  Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Column(
                 children: [
                   kVerticalSpacerSmall,
-                  if (isSeatSeparated && bundle != null)
-                    Column(
-                      children: [
-                        kVerticalSpacerSmall,
-                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 1,
-                              child: ArrowSVG(
-                                assetName:
-                                    'assets/images/svg/seats_arrow_left.svg',
-                                color: row.seats?.first.toColor,
+                  if(isManageBooking) ... [
+
+                    if (isSeatSeparated && newPrice != null)
+                      Column(
+                        children: [
+                          kVerticalSpacerSmall,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Expanded(flex: 1, child: SizedBox()),
+                              Expanded(
+                                flex: 1,
+                                child: ArrowSVG(
+                                  assetName:
+                                  'assets/images/svg/seats_arrow_left.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
                               ),
-                            ),
-Expanded(
-                              flex: 3,
-                              child: (bundle.ssrCode ?? '').isEmpty
-                                  ? Center(
-                                      child: Text(
-                                        "noData".tr(),
-                                        style: kLargeHeavy,
-                                      ),
-                                    )
-                                  : SeatPrice(
-                                      amount: bundle.finalAmount,
-                                      currency: row.seats?.first.seatPriceOffers
-                                          ?.firstOrNull?.currency,
-                                    ),
-                            ),
-                            Expanded(
-                              child: ArrowSVG(
-                                assetName:
-                                    'assets/images/svg/seats_arrow_right.svg',
-                                color: row.seats?.first.toColor,
+                              Expanded(
+                                flex: 3,
+                                child: SeatPrice(
+                                  amount: newPrice,
+                                  currency: row.seats?.first.seatPriceOffers
+                                      ?.firstOrNull?.currency,
+                                ),
                               ),
-                            ),
-                            const Expanded(flex: 1, child: SizedBox()),
-                          ],
-                        ),
-                        kVerticalSpacerSmall,
-                      ],
-                    ),
+                              Expanded(
+                                child: ArrowSVG(
+                                  assetName:
+                                  'assets/images/svg/seats_arrow_right.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
+                              ),
+                              const Expanded(flex: 1, child: SizedBox()),
+                            ],
+                          ),
+                          kVerticalSpacerSmall,
+                        ],
+                      ),
+
+                  ] else ... [
+                    if (isSeatSeparated && bundle != null)
+                      Column(
+                        children: [
+                          kVerticalSpacerSmall,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Expanded(flex: 1, child: SizedBox()),
+                              Expanded(
+                                flex: 1,
+                                child: ArrowSVG(
+                                  assetName:
+                                  'assets/images/svg/seats_arrow_left.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: (bundle.ssrCode ?? '').isEmpty
+                                    ? Center(
+                                  child: Text(
+                                    "noData".tr(),
+                                    style: kLargeHeavy,
+                                  ),
+                                )
+                                    : SeatPrice(
+                                  amount: bundle.finalAmount,
+                                  currency: row.seats?.first.seatPriceOffers
+                                      ?.firstOrNull?.currency,
+                                ),
+                              ),
+                              Expanded(
+                                child: ArrowSVG(
+                                  assetName:
+                                  'assets/images/svg/seats_arrow_right.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
+                              ),
+                              const Expanded(flex: 1, child: SizedBox()),
+                            ],
+                          ),
+                          kVerticalSpacerSmall,
+                        ],
+                      ),
+                  ],
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -224,8 +290,8 @@ Expanded(
                   Expanded(
                     child: Container(),
                   ),
-                  const MoneyWidget(
-                    amount: 0.00,
+                   MoneyWidget(
+                    amount: manageBookingCubit?.notConfirmedSeatsTotalPrice ?? 0.0,
                     isDense: true,
                     isNormalMYR: true,
                   ),

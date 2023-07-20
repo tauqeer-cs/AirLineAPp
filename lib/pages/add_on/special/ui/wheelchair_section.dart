@@ -221,8 +221,8 @@ class WheelchairSection extends StatelessWidget {
                                 Expanded(
                                   child: Container(),
                                 ),
-                                const MoneyWidget(
-                                  amount: 0.00,
+                                 MoneyWidget(
+                                  amount: manageBookingCubit?.notConfirmedWheelChairTotalPrice ?? 0.0,
                                   isDense: true,
                                   isNormalMYR: true,
                                 ),
