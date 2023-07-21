@@ -65,6 +65,12 @@ abstract class FlightProvider {
   @POST('checkout/getlmsoption')
   Future<PromotionsResponse> getPromotionsData(@Body() Token voucher);
 
+  @POST('checkout/getmmblmsoption')
+  Future<PromotionsResponse> getMMBPromotionsData(@Body() Token voucher);
+
+  //api/v1/checkout/
+
+
   @POST('checkout/holdlmsoption')
   Future<RedeemPointsResponse> holdLmsOption(@Body() Token voucher);
 

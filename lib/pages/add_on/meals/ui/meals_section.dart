@@ -476,7 +476,7 @@ class InputWithPlusMinus extends StatelessWidget {
                 child: OutlinedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Styles.kPrimaryColor),
+                        MaterialStateProperty.all(number == 9 ?  Styles.kDisabledGrey : Styles.kPrimaryColor),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
@@ -484,7 +484,7 @@ class InputWithPlusMinus extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => handler(context, person, true, isDeparture),
+                  onPressed: number == 9 ? null : () => handler(context, person, true, isDeparture),
                   child: const Icon(
                     Icons.add,
                     size: 20,

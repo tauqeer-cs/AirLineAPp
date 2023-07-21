@@ -6,6 +6,12 @@ class ManageBookingState extends Equatable {
 
   final FightAddOns? addOnList;
 
+  final String? flightToken;
+  final RedemptionOption? redemptionOption;
+
+
+  final bool isLoadingPromo;
+
   final bool isPaying;
 
 
@@ -39,6 +45,7 @@ class ManageBookingState extends Equatable {
   final String? newCompanyTaxCity;
   final String? newCompanyTaxPostCode;
   final String? newCompanyTaxEmailAddress;
+  final bool? promoReady;
 
 
   final BlocState blocState;
@@ -90,11 +97,13 @@ class ManageBookingState extends Equatable {
 
 
   const ManageBookingState({
+    this.promoReady = false,
     this.blocState = BlocState.initial,
     this.message = "",
     this.addOnOptionSelected,
     this.anyContactValueChange = false,
     this.selectedPax,
+    this.flightToken,
     this.isPaying = false,
     this.foodDepearture = true,
     this.baggageDeparture = true,
@@ -148,6 +157,8 @@ class ManageBookingState extends Equatable {
     this.flightSeats,
     this.extraLoading = false,
     this.confirmedInsuranceType,
+    this.redemptionOption,
+    this.isLoadingPromo = false,
   });
 
   @override
@@ -162,6 +173,7 @@ class ManageBookingState extends Equatable {
         dataLoaded,
         manageBookingResponse,
         pnrEntered,
+    flightToken,
         checkedDeparture,
         checkReturn,
         lastName,
@@ -204,6 +216,8 @@ class ManageBookingState extends Equatable {
     flightSeats,
     isPaying,
     confirmedInsuranceType,
+    promoReady,
+    isLoadingPromo
 
   ];
 
@@ -268,14 +282,22 @@ class ManageBookingState extends Equatable {
     FlightSeats? flightSeats,
     bool? isPaying,
     bool? extraLoading,
+    String? flightToken,
     InsuranceType? confirmedInsuranceType,
+    RedemptionOption? redemptionOption,
+    bool? promoReady,
+    bool? isLoadingPromo,
+
   }) {
     return ManageBookingState(
       confirmedInsuranceType : confirmedInsuranceType ?? this.confirmedInsuranceType,
       extraLoading : extraLoading ?? this.extraLoading,
+      redemptionOption : redemptionOption ?? this.redemptionOption,
+      promoReady : promoReady ?? this.promoReady,
       isPaying : isPaying ?? this.isPaying,
       flightSeats : flightSeats ?? this.flightSeats,
       addOnList : addOnList ?? this.addOnList,
+      flightToken : flightToken ?? this.flightToken,
       flightSSR : flightSSR ?? this.flightSSR,
       savingContactChanges : savingContactChanges ?? this.savingContactChanges,
       anyContactValueChange : anyContactValueChange ?? this.anyContactValueChange,
@@ -340,7 +362,7 @@ class ManageBookingState extends Equatable {
       newCompanyTaxCity : newCompanyTaxCity ?? this.newCompanyTaxCity,
       newCompanyTaxPostCode : newCompanyTaxPostCode ?? this.newCompanyTaxPostCode,
       newCompanyTaxEmailAddress : newCompanyTaxEmailAddress ?? this.newCompanyTaxEmailAddress,
-
+      isLoadingPromo : isLoadingPromo ?? this.isLoadingPromo,
     );
   }
 }

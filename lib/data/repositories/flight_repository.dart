@@ -44,6 +44,11 @@ class FlightRepository {
     return await _provider.getPromotionsData(token);
   }
 
+  Future<PromotionsResponse> getPromoInfoMMb(Token token) async {
+    return await _provider.getMMBPromotionsData(token);
+  }
+
+
   Future<RedeemPointsResponse> getRedeemPoints(Token token) async {
     return await _provider.holdLmsOption(token);
   }

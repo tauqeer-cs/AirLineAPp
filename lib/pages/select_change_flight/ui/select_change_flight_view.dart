@@ -154,6 +154,9 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
 
                             var flag = await bloc?.changeFlight();
                             if (flag == true) {
+
+                              bloc?.getAvailablePromotions();
+
                               context.router.push(
                                 const ChangeFlightSummaryRoute(),
                               );

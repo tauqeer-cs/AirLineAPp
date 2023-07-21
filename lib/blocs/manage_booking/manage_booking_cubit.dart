@@ -21,6 +21,7 @@ import '../../data/requests/manage_booking_request.dart';
 import '../../data/requests/mmb_checkout_request.dart';
 import '../../data/requests/search_change_flight_request.dart';
 import '../../data/requests/search_flight_request.dart';
+import '../../data/requests/token_request.dart';
 import '../../data/requests/update_booking_contacts.dart';
 import '../../data/requests/verify_request.dart';
 import '../../data/responses/change_ssr_response.dart';
@@ -29,6 +30,7 @@ import '../../data/responses/flight_add_ons_response.dart' as FR;
 import '../../data/responses/flight_response.dart';
 import '../../data/responses/manage_booking_response.dart';
 import '../../data/responses/manage_booking_response.dart' as MBR;
+import '../../data/responses/promotions_response.dart';
 import '../../models/confirmation_model.dart';
 import '../../models/confirmation_model.dart' as CN;
 
@@ -2019,6 +2021,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       }
       emit(
         state.copyWith(
+          flightToken: response.result?.token ?? '',
           changeFlightResponse: response,
           loadingSelectingFlight: false,
         ),
@@ -3671,6 +3674,36 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       );
     }
 
+  }
+
+
+  getAvailablePromotions() async {
+
+
+    emit(state.copyWith(
+      isLoadingPromo: true
+    ));
+
+
+    final flightRepo = FlightRepository();
+
+
+    final response = await flightRepo.getPromoInfoMMb(Token(token: state.flightToken ?? ''));
+
+    if (response.statusCode == 200) {
+      emit(state.copyWith(
+        redemptionOption: response.value!.lmsRedemptionOption,
+        promoReady: true,
+          isLoadingPromo: true
+      ));
+      return;
+    } else {
+      emit(state.copyWith(
+        promoReady: true,
+          isLoadingPromo: true,
+      ));
+      return;
+    }
   }
 
 
