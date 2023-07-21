@@ -41,7 +41,8 @@ class AppFlavor {
   static String get paymentRedirectUrl {
     switch (appFlavor) {
       case Flavor.staging:
-        //
+
+        return 'https://mya-main-web.alphareds.com';
         return 'https://mya-nav-web.alphareds.com/booked';
       case Flavor.uat:
 
@@ -55,7 +56,8 @@ class AppFlavor {
   static String get websiteUrl {
     switch (appFlavor) {
       case Flavor.staging:
-        //
+        return 'https://mya-main-web.alphareds.com/';
+
         return 'https://mya-nav-web.alphareds.com';
       case Flavor.uat:
         return 'https://uat-nav.myairline.my';
@@ -93,6 +95,8 @@ class AppFlavor {
   static String get baseUrlApi {
     switch (appFlavor) {
       case Flavor.staging:
+        return 'https://mya-main-api.alphareds.com/';
+
         return 'https://mya-nav-api.alphareds.com/api/';
         return 'https://mya-api.alphareds.com/api/mobile/';
       case Flavor.uat:
