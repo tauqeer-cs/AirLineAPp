@@ -100,9 +100,13 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     var voucherBloc = context.watch<VoucherCubit>();
     var voucherState = voucherBloc.state;
 
-    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
+    var discount = voucherState.response?.addVoucherResult?.voucherDiscounts
         ?.firstOrNull?.discountAmount ??
         0.0;
+    if(bloc?.state.rewardItem != null) {
+      discount = discount + (bloc?.state.rewardItem?.redemptionAmount ?? 0.0);
+
+    }
 
     var departureDate = state?.changeFlightResponse?.result
         ?.flightVerifyResponse?.result?.flightSegments?.last.departureDate;

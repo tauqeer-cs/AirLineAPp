@@ -246,9 +246,10 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       baggageGroup = bloc.state.flightSSR?.sportGroup;
       isDeparture = true;
-      final baggage =
+      var baggage =
       isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
 
+      baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
 
       var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureSports?.description).toList();
 
@@ -281,6 +282,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       selectedPerson = context.watch<SelectedPersonCubit>().state;
       isDeparture = context.watch<IsDepartureCubit>().state;
 
+
       final bookingState = context.watch<BookingCubit>().state;
       baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
 
@@ -307,8 +309,9 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       lastPersonUser = selectedPerson;
     }
 
-    final baggage =
+    var baggage =
         isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+    baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
     return widget.isManageBooking
         ? Row(
             children: [

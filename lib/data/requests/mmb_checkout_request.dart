@@ -5,13 +5,15 @@ class MmbCheckoutRequest {
   PaymentDetail? paymentDetail;
   String? token;
   String? insertVoucher;
+  String? myRewardRedemptionName;
+
   String? superPNRNo;
   num? orderId;
 
 
 
   MmbCheckoutRequest(
-      {this.paymentDetail, this.token, this.insertVoucher, this.superPNRNo,this.orderId});
+      {this.paymentDetail, this.token, this.insertVoucher, this.superPNRNo,this.orderId,this.myRewardRedemptionName});
 
   MmbCheckoutRequest.fromJson(Map<String, dynamic> json) {
     paymentDetail = json['PaymentDetail'] != null
@@ -21,6 +23,7 @@ class MmbCheckoutRequest {
     insertVoucher = json['InsertVoucher'];
     superPNRNo = json['SuperPNRNo'];
     orderId = json['orderID'];
+
 
   }
 
@@ -33,6 +36,8 @@ class MmbCheckoutRequest {
     data['InsertVoucher'] = insertVoucher;
     data['SuperPNRNo'] = superPNRNo;
     data['orderID'] = orderId;
+    data['MyRewardRedemptionName'] = myRewardRedemptionName;
+
 
     return data;
   }

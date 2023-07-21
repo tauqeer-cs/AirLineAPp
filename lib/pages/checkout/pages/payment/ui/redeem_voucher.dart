@@ -44,11 +44,12 @@ class RedeemVoucherView extends StatelessWidget {
     var bloc = context.watch<VoucherCubit>();
     final state = bloc.state;
 
+    ManageBookingCubit? mmBbloc;
     final setting = context.watch<SettingsCubit>().state.switchSetting;
     print("setting.myReward  ${setting.myReward } $promoReady ${promotionsList}");
     if(isManageBooking) {
 
-      ManageBookingCubit? mmBbloc = context.watch<ManageBookingCubit>();;
+      mmBbloc = context.watch<ManageBookingCubit>();;
 
       if (promoReady) {
           promotionsList = mmBbloc.state.redemptionOption?.availableOptions;
@@ -94,7 +95,7 @@ class RedeemVoucherView extends StatelessWidget {
           kVerticalSpacerSmall,
         ],
       ) :
-      !state.promoLoaded
+      ((!state.promoLoaded && isManageBooking == false))
           ? const AppLoading()
           : (promoReady && promotionsList == null)
           ? Container()
@@ -131,10 +132,20 @@ class RedeemVoucherView extends StatelessWidget {
                         fillColor: MaterialStateColor.resolveWith(
                                 (states) => Styles.kDartBlack),
                         activeColor: Styles.kActiveColor,
-                        value: bloc.getSelectedItem,
+                        value: isManageBooking ? mmBbloc?.state.rewardItem : bloc.getSelectedItem,
                         groupValue: currenteItem,
                         onChanged: (value) {
-                          bloc.selectedItem(currenteItem);
+                          if(isManageBooking) {
+
+                            mmBbloc?.selectedRewardItem(currenteItem);
+
+
+
+                          }
+                          else {
+                            bloc.selectedItem(currenteItem);
+                          }
+
                         }),
                     Text(
                       currenteItem.redeemAmountString(currency ?? 'MYR'),

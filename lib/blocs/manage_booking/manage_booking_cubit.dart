@@ -1823,14 +1823,21 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           .physicalFlightID;
 
       if(state.manageBookingResponse?.result?.isReturn == true) {
-        returnPhysicalFlightIdForSeat = addOns
+
+        if((addOns
             .flightSeats
-            ?.inbound
-            ?.first
-            .retrieveFlightSeatMapResponse
-            ?.physicalFlights
-            ?.first
-            .physicalFlightID;
+            ?.inbound ?? []) .isNotEmpty) {
+          returnPhysicalFlightIdForSeat = addOns
+              .flightSeats
+              ?.inbound
+              ?.first
+              .retrieveFlightSeatMapResponse
+              ?.physicalFlights
+              ?.first
+              .physicalFlightID;
+        }
+
+
       }
 
 
@@ -2151,7 +2158,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         superPNRNo: state.superPnrNo ?? '',
         insertVoucher: voucher ?? '',
         orderId: state.orderId ?? 0,
+        myRewardRedemptionName:  state.rewardItem?.redemptionName,
         paymentDetail: PaymentDetail(
+          myRewardRedemptionName: state.rewardItem?.redemptionName,
           currency: state.manageBookingResponse?.result?.passengersWithSSR
                   ?.first.fareAndBundleDetail?.currencyToShow ??
               'MYR',
@@ -3704,6 +3713,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       ));
       return;
     }
+  }
+
+  void selectedRewardItem(AvailableRedeemOptions rewardItem) {
+
+    emit(state.copyWith(
+      rewardItem: rewardItem,
+    ));
+
   }
 
 

@@ -6,6 +6,8 @@ class ManageBookingState extends Equatable {
 
   final FightAddOns? addOnList;
 
+  final AvailableRedeemOptions? rewardItem;
+
   final String? flightToken;
   final RedemptionOption? redemptionOption;
 
@@ -109,6 +111,7 @@ class ManageBookingState extends Equatable {
     this.baggageDeparture = true,
     this.specialAppOpsDeparture = true,
     this.insuranceType,
+    this.rewardItem,
     this.contactsSectionExpanded = false,
     this.emergencySectionExpanded = false,
     this.companyTaxInvoiceExpanded = false,
@@ -217,8 +220,8 @@ class ManageBookingState extends Equatable {
     isPaying,
     confirmedInsuranceType,
     promoReady,
-    isLoadingPromo
-
+    isLoadingPromo,
+    rewardItem
   ];
 
   ManageBookingState copyWith({
@@ -287,9 +290,11 @@ class ManageBookingState extends Equatable {
     RedemptionOption? redemptionOption,
     bool? promoReady,
     bool? isLoadingPromo,
+    AvailableRedeemOptions? rewardItem,
 
   }) {
     return ManageBookingState(
+      rewardItem : rewardItem ?? this.rewardItem,
       confirmedInsuranceType : confirmedInsuranceType ?? this.confirmedInsuranceType,
       extraLoading : extraLoading ?? this.extraLoading,
       redemptionOption : redemptionOption ?? this.redemptionOption,
