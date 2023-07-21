@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../blocs/settings/settings_cubit.dart';
 import '../../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../../data/responses/promotions_response.dart';
@@ -28,10 +29,12 @@ import '../../../../../widgets/app_loading_screen.dart';
 class RedeemVoucherView extends StatelessWidget {
   final bool promoReady;
 
+  final bool isManageBooking;
+
   final String? currency;
 
 
-  const RedeemVoucherView({Key? key, required this.promoReady,this.currency})
+  const RedeemVoucherView({Key? key, required this.promoReady,this.currency,  this.isManageBooking = false})
       : super(key: key);
 
   @override
@@ -43,11 +46,24 @@ class RedeemVoucherView extends StatelessWidget {
 
     final setting = context.watch<SettingsCubit>().state.switchSetting;
     print("setting.myReward  ${setting.myReward } $promoReady ${promotionsList}");
-    if ((setting.myReward ?? false)) {
+    if(isManageBooking) {
+
+      ManageBookingCubit? mmBbloc = context.watch<ManageBookingCubit>();;
+
       if (promoReady) {
-        promotionsList = bloc.state.redemptionOption?.availableOptions;
-      }
+          promotionsList = mmBbloc.state.redemptionOption?.availableOptions;
+        }
+
     }
+    else {
+      if ((setting.myReward ?? false)) {
+        if (promoReady) {
+          promotionsList = bloc.state.redemptionOption?.availableOptions;
+        }
+      }
+
+    }
+
     final user = context.read<AuthBloc>().state.user;
 
     return

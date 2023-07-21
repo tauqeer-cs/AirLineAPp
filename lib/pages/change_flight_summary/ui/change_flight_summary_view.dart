@@ -21,6 +21,7 @@ import '../../../utils/date_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../booking_details/ui/flight_data.dart';
+import '../../checkout/pages/payment/ui/redeem_voucher.dart';
 import '../../checkout/pages/payment/ui/voucher_ui.dart';
 import '../../search_result/ui/booking_summary.dart';
 import '../../search_result/ui/summary_container_listener.dart';
@@ -143,6 +144,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
       );
       context.read<VoucherCubit>().removeVoucher(voucherRequest);
     }
+
+    String currency = bloc?.state.manageBookingResponse?.result?.fareAndBundleDetail?.currencyToShow ?? 'MYR';
 
     return Stack(
       children: [
@@ -428,6 +431,14 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                 const SizedBox(
                   height: 16,
                 ),
+
+                if(bloc?.state.isLoadingPromo == false && bloc?.state.redemptionOption != null) ... [
+                  RedeemVoucherView(
+                    currency: currency,
+                    promoReady: true,
+                    isManageBooking: true,
+                  ),
+                ],
                 if (AppFlavor.appFlavor == Flavor.staging) ...[
                   VoucherCodeUi(
                     readOnly: false,

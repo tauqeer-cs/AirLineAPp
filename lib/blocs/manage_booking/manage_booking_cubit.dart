@@ -3694,13 +3694,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       emit(state.copyWith(
         redemptionOption: response.value!.lmsRedemptionOption,
         promoReady: true,
-          isLoadingPromo: true
+          isLoadingPromo: false
       ));
       return;
     } else {
       emit(state.copyWith(
         promoReady: true,
-          isLoadingPromo: true,
+          isLoadingPromo: false,
       ));
       return;
     }
