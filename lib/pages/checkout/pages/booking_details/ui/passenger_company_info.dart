@@ -125,13 +125,18 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
             child: Row(
               children: [
                 Expanded(
-                  child: RichText(
+                  child: (widget.isManageBooking == true) ? Text(
+                     'companyContact.companyTaxInvoice'.tr(),
+                    style: kHugeHeavy.copyWith(color: Styles.kDartBlack),) : RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(
-                          text: 'companyContact.companyTaxInvoice'.tr(),
-                          style: widget.isManageBooking ? kHugeHeavy.copyWith(color: Styles.kDartBlack)  : k18Heavy.copyWith(color: Styles.kTextColor),
-                        ),
+
+                          TextSpan(//                    style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
+                            text: 'companyContact.companyTaxInvoice'.tr(),
+                            style: widget.isManageBooking ? kHugeHeavy.copyWith(color: Styles.kDartBlack)  : k18Heavy.copyWith(color: Styles.kTextColor),
+                          ),
+
+
                         if(widget.isManageBooking == false) ... [
                           TextSpan(
                             text: " (${'optional'.tr()})",

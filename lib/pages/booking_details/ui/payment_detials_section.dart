@@ -57,10 +57,14 @@ class PaymentDetailsSecond extends StatelessWidget {
         ExpandedSection(
           expand: state.paymentDetailsExpanded,
           child: Padding(
-            padding: const EdgeInsets.all(0.0),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Card(
+              elevation: 2, // This property sets the z-coordinate elevation of the card
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -78,7 +82,7 @@ class PaymentDetailsSecond extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            payment?.cardHolderName ?? 'Contanct name' ,
+                            payment?.cardHolderName ?? 'Contact name' ,
                             style: kMediumRegular.copyWith(color: Styles.kTextColor),
                           ),
                         ),

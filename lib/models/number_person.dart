@@ -272,9 +272,9 @@ class Person extends Equatable {
   // TODO: implement props
   List<Object?> get props => [peopleType, numberOrder];
 
-  Map<num?, List<Bundle>> groupedMeal(bool isDeparture) {
+  Map<String?, List<Bundle>> groupedMeal(bool isDeparture) {
     final meals = isDeparture ? departureMeal : returnMeal;
-    var newMap = groupBy(meals, (meal) => meal.amount);
+    var newMap = groupBy(meals, (meal) => meal.ssrCode);
     return newMap;
   }
 

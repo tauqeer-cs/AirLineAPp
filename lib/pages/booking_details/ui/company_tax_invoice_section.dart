@@ -10,14 +10,14 @@ import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
+import '../../checkout/pages/booking_confirmation/ui/payment_info.dart';
 import '../../checkout/pages/booking_details/ui/passenger_company_info.dart';
 import 'double_line_text.dart';
 
 class ComapnyTaxInvoiceSection extends StatelessWidget {
   final bool isManageBooking;
 
-  const ComapnyTaxInvoiceSection(
-      {Key? key, this.isManageBooking = false, })
+  const ComapnyTaxInvoiceSection({Key? key, this.isManageBooking = false,})
       : super(key: key);
 
   @override
@@ -25,65 +25,28 @@ class ComapnyTaxInvoiceSection extends StatelessWidget {
     final bloc = context.watch<ManageBookingCubit>();
     final state = bloc.state;
 
-CompanyTaxInvoice? bookingContact =
+    CompanyTaxInvoice? bookingContact =
         state.manageBookingResponse?.result?.companyTaxInvoice;
 
 
     return Column(
       children: [
 
-        true
-            ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: PassengerCompanyInfo(
-                    isManageBooking: true,
-                    companyTaxInvoice: bookingContact,
-                  ),
-            )
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: PassengerCompanyInfo(
+            isManageBooking: true,
+            companyTaxInvoice: bookingContact,
+          ),
+        ),
 
-            : ExpandedSection(
-                expand: state.companyTaxInvoiceExpanded,
-                child: Column(
-                  children: [
-                    kVerticalSpacerSmall,
-                    DoubleLineTextTable(
-                      label: 'companyName'.tr(),
-                      value: bookingContact?.companyName ?? '',
-                    ),
-                    kVerticalSpacer,
-                    DoubleLineTextTable(
-                      label: 'companyAddress'.tr(),
-                      value: bookingContact?.companyAddress ?? '',
-                    ),
-                    kVerticalSpacer,
-                    DoubleLineTextTable(
-                      label: 'infoDetail.country'.tr(),
-                      value: bookingContact?.country ?? '',
-                    ),
-                    kVerticalSpacer,
-                    DoubleLineTextTable(
-                      label: 'state'.tr(),
-                      value: bookingContact?.state ?? '',
-                    ),
-                    kVerticalSpacer,
-                    DoubleLineTextTable(
-                      label: 'city'.tr(),
-                      value: bookingContact?.city ?? '',
-                    ),
-                    kVerticalSpacer,
-                    DoubleLineTextTable(
-                      label: 'postalCode'.tr(),
-                      value: bookingContact?.postCode ?? '',
-                    ),
-                    kVerticalSpacer,
-                    DoubleLineTextTable(
-                      label: 'loginForm.email'.tr(),
-                      value: bookingContact?.emailAddress ?? '',
-                    ),
-                    kVerticalSpacer,
-                  ],
-                ),
-              ),
+
+        /*
+
+        PaymentInfo(isMMB: true,
+          paymentOrders: (bloc.state.manageBookingResponse?.result
+              ?.paymentOrders ?? []),),*/
+
 
         Divider(
           height: 1,

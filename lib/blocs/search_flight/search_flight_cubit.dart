@@ -177,6 +177,8 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     required bool isDeparture,
     required bool isAdd,
   }) {
+
+
     final persons =
         List<Person>.from(state.filterState?.numberPerson.persons ?? []);
     final selected = persons.indexWhere((element) => element == person);
@@ -186,7 +188,14 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
           ? List<Bundle>.from(person.departureMeal)
           : List<Bundle>.from(person.returnMeal);
       if (isAdd) {
+
         meals.add(meal);
+        if(isAdd){
+          if(meals.length == 10) {
+            //return;
+
+          }
+        }
       } else {
         meals.remove(meal);
       }

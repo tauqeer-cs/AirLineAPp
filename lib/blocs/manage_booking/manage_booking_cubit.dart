@@ -3138,6 +3138,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       if (isAdd) {
         meals.add(meal);
+        if(meals.length == 10) {
+          //return;
+
+        }
       } else {
         meals.remove(meal);
       }
@@ -3420,12 +3424,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       for (PassengersWithSSR currentOne in state
               .manageBookingResponse?.result?.passengersWithSSRWithoutInfant ??
           []) {
+        //date = "2025-07-08 00:00:00.000"
+        var passPortExp = (currentOne.passExpdate ?? '').isEmpty ? '' : (currentOne.passExpdate ?? '').substring(0,(currentOne.passExpdate ?? '').indexOf(' '));
+
         updatePassengerList.add(
           BoardingPassPax(
-              personOrgId: currentOne.personOrgID,
-              memberID: '',
-              passport: '',
-              passportExpiryDate: '2025-04-18T00:00:00.000Z'),
+              personOrgId: currentOne.personOrgID ?? '',
+              memberID: currentOne.checkInMemberID ?? '',
+              passport: currentOne.checkInPassportNo,
+              passportExpiryDate: passPortExp.isEmpty ?  '2025-04-18T00:00:00.000Z' : '${passPortExp}T00:00:00.000Z'),
         );
 
         if (currentOne.haveInfant == true) {
@@ -3433,7 +3440,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             UpdateInfantAssociation(
                 infantFirstName: currentOne.infantGivenName,
                 infantLastName: currentOne.infantSurname,
-                adultPersonOrgID: currentOne.personOrgID),
+                adultPersonOrgID: currentOne.personOrgID,
+            ),
           );
         }
       }
@@ -3498,7 +3506,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
                 emailAddress: newCompanyTaxEmailAddress,
                 country: 'MYS');
       }
-
       bookingContactInfo.updateContact = updatedContact;
       var result = await _repository.changeContactsInfo(bookingContactInfo);
 

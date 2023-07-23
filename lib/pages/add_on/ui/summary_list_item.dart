@@ -6,10 +6,12 @@ import '../../../theme/typography.dart';
 
 class SummaryListItem extends StatelessWidget {
 
+  final bool isManageBooking;
+
   final String text;
 
   const SummaryListItem({
-    Key? key, required this.text
+    Key? key, required this.text, required this.isManageBooking
   }) : super(key: key);
 
 
@@ -24,13 +26,13 @@ class SummaryListItem extends StatelessWidget {
           Text(
             "- ",
             style:
-            kMediumRegular.copyWith(color: Styles.kActiveGrey),
+            kMediumRegular.copyWith(color: isManageBooking ? Styles.kTextColor : Styles.kActiveGrey),
           ),
           Expanded(
             child: Text(
               text,
               style:
-              kMediumRegular.copyWith(color: Styles.kActiveGrey),
+              kMediumRegular.copyWith(color: isManageBooking ? Styles.kTextColor : Styles.kActiveGrey),
             ),
           ),
         ],

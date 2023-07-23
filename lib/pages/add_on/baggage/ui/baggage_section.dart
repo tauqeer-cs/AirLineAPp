@@ -58,7 +58,7 @@ class BaggageSection extends StatelessWidget {
     final baggages =
     isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Padding(
-      padding: kPageHorizontalPadding,
+      padding: isManageBooking ? EdgeInsets.zero : kPageHorizontalPadding,
       child: Visibility(
         visible: baggages?.isNotEmpty ?? false,
         replacement: const EmptyAddon(),
@@ -74,60 +74,71 @@ class BaggageSection extends StatelessWidget {
             ],
             buildBaggageCards(baggages, isDeparture),
             kVerticalSpacer,
-             BaggageNotice(isManageBooking: isManageBooking,),
+             Padding(
+               padding:  kPageHorizontalPadding,
+               child: BaggageNotice(isManageBooking: isManageBooking,),
+             ),
             kVerticalSpacer,
 
             if (isManageBooking) ...[
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Divider(),
-              ),
-              kVerticalSpacerSmall,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Row(
+              SizedBox(height: 8,),
+
+              Container(
+                width: double.infinity,
+                color: const Color.fromRGBO(241, 241, 241, 1.0),
+                child: Column(
                   children: [
-                    Text(
-                      'baggageSubtotal'.tr(),
-                      style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                    kVerticalSpacerSmall,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            '${'baggage'.tr()} ${'flightCharge.total'.tr()}',
+                            style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          MoneyWidget(
+                            amount: manageBookingCubit?.notConfirmedBaggageTotalPrice ?? 0.0,
+                            isDense: true,
+                            isNormalMYR: true,
+                          ),
+                        ],
+                      ),
                     ),
-                    Expanded(
-                      child: Container(),
+                    kVerticalSpacerSmall,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(),
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                                ? null
+                                : () {
+                              manageBookingCubit?.baggageConfirmSeatChange();
+
+                              manageBookingCubit?.changeSelectedAddOnOption(
+                                  AddonType.none,
+                                  toNull: true);
+                            },
+                            child: Text('selectDateView.confirm'.tr()),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                      ],
                     ),
-                     MoneyWidget(
-                      amount: manageBookingCubit?.notConfirmedBaggageTotalPrice ?? 0.0,
-                      isDense: true,
-                      isNormalMYR: true,
-                    ),
+                    kVerticalSpacer,
                   ],
                 ),
               ),
-              kVerticalSpacerSmall,
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: manageBookingCubit?.hasAnySeatChanged == false
-                          ? null
-                          : () {
-                        manageBookingCubit?.baggageConfirmSeatChange();
 
-                        manageBookingCubit?.changeSelectedAddOnOption(
-                            AddonType.none,
-                            toNull: true);
-                      },
-                      child: Text('selectDateView.confirm'.tr()),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                ],
-              ),
-              kVerticalSpacer,
+              SizedBox(height: 16,),
             ],
           ],
         ),
@@ -137,7 +148,11 @@ class BaggageSection extends StatelessWidget {
 
   Widget buildBaggageCards(List<Bundle>? baggages, bool isDeparture) {
     if(isManageBooking) {
-      return HorizontalBaggageCards(isDeparture: isDeparture,);
+
+      return Padding(
+        padding:  kPageHorizontalPadding,
+        child: HorizontalBaggageCards(isDeparture: isDeparture,),
+      );
     }
 
     baggages?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));

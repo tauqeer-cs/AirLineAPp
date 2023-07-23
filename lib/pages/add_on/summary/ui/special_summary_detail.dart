@@ -120,7 +120,7 @@ class SpecialSummaryDetail extends StatelessWidget {
             Text(
               e.generateText(numberOfPerson, separator: "& "),
             ),
-            SummaryListItem(text: wheelchair?.description ?? '',),
+            SummaryListItem(text: wheelchair?.description ?? '', isManageBooking: isManageBooking,),
             Visibility(
               visible: okId?.isNotEmpty ?? false,
               child: Text(

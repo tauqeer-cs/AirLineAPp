@@ -69,21 +69,20 @@ class UpdateInfantAssociation {
   String? infantLastName;
   String? infantFirstName;
   String? adultPersonOrgID;
-
+  String? passportNo;
+  String? passportExpiry;
   UpdateInfantAssociation(
       {this.infantLastName, this.infantFirstName, this.adultPersonOrgID});
-
   UpdateInfantAssociation.fromJson(Map<String, dynamic> json) {
     infantLastName = json['InfantLastName'];
     infantFirstName = json['InfantFirstName'];
     adultPersonOrgID = json['AdultPersonOrgID'];
   }
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['InfantLastName'] = this.infantLastName;
-    data['InfantFirstName'] = this.infantFirstName;
-    data['AdultPersonOrgID'] = this.adultPersonOrgID;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['InfantLastName'] = infantLastName;
+    data['InfantFirstName'] = infantFirstName;
+    data['AdultPersonOrgID'] = adultPersonOrgID;
     return data;
   }
 }

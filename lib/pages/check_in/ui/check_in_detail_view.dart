@@ -599,22 +599,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           //],
 
                         ),
-                        if(false) ... [
-                          kVerticalSpacerSmall,
-                          CheckInDropDownCountry(
-                            doValidation: state.manageBookingResponse?.result
-                                ?.passengersWithSSR?[i].paxSelected == true,
-                            keyName: 'passportNation$i', onChange: (String newValue) {
-
-                            if(newValue != null) {
-                              state.manageBookingResponse?.result
-                                  ?.passengersWithSSR?[i].passportCountry = newValue;
-                            }
-
-                          },
-                          ),
-                        ],
-
                         kVerticalSpacerSmall,
                         FormBuilderDateTimePicker(
                           name: 'formNameDob${i.toString()}',
@@ -806,33 +790,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     //],
 
                                   ),
-
-                                  if(false) ... [
-                                    kVerticalSpacerSmall,
-                                    CheckInDropDownCountry(
-                                      doValidation: state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].paxSelected == true,
-                                      keyName: 'infpassportNation$i', onChange: (String newValue) {
-
-
-                                      state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].passportCountry = newValue;
-
-                                      state.manageBookingResponse?.result
-                                          ?.infanct(state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].infantGivenName ?? '',
-                                          state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantSurname ?? '',
-                                          state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
-
-
-
-
-
-                                    },),
-                                  ],
-
                                   kVerticalSpacerSmall,
                                   FormBuilderDateTimePicker(
                                     name: 'infformNameDob${i.toString()}',

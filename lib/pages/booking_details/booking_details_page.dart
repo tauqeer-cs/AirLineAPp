@@ -34,7 +34,7 @@ class ManageBookingDetailsPage extends StatelessWidget {
           overrideInnerHeight: true,
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: ManageBookingDetailsView(
             onSharedTapped: () {
               onShare();

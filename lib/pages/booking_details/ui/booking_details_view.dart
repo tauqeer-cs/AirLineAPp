@@ -119,85 +119,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            BookingReferenceLabel(
-                              refText: state.pnrEntered,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: BookingReferenceLabel(
+                                refText: state.pnrEntered,
+                              ),
                             ),
                             kVerticalSpacer,
-                            AppCard(
-                              edgeInsets: EdgeInsets.zero,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 0, vertical: 16),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Checkbox(
-                                            checkColor: Colors.white,
-                                            fillColor: MaterialStateProperty
-                                                .resolveWith(getColor),
-                                            value: state.checkedDeparture,
-                                            onChanged: (bool? value) {
-                                              bloc?.setCheckDeparture(
-                                                  value ?? false);
-                                            },
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: FlightDataInfo(
-                                            headingLabel: "departure".tr(),
-                                            dateToShow: state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.departureDateToShow(
-                                                        locale) ??
-                                                '',
-                                            departureToDestinationCode: state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.departureToDestinationCode ??
-                                                '',
-                                            departureDateWithTime: state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.departureDateWithTime(
-                                                        locale) ??
-                                                '',
-                                            departureAirportName: state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.departureAirportName ??
-                                                '',
-                                            journeyTimeInHourMin: state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.journeyTimeInHourMin ??
-                                                '',
-                                            arrivalDateWithTime: state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.arrivalDateWithTime(
-                                                        locale) ??
-                                                '',
-                                            arrivalAirportName: state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.arrivalAirportName ??
-                                                '',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
-                                      child: Divider(),
-                                    ),
-                                    if ((state
-                                            .manageBookingResponse?.isTwoWay ??
-                                        false)) ...[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: AppCard(
+                                edgeInsets: EdgeInsets.zero,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 0, vertical: 16),
+                                  child: Column(
+                                    children: [
                                       Row(
                                         children: [
                                           Padding(
@@ -206,176 +143,257 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               checkColor: Colors.white,
                                               fillColor: MaterialStateProperty
                                                   .resolveWith(getColor),
-                                              value: state.checkReturn,
+                                              value: state.checkedDeparture,
                                               onChanged: (bool? value) {
-                                                bloc?.setCheckReturn(
+                                                bloc?.setCheckDeparture(
                                                     value ?? false);
                                               },
                                             ),
                                           ),
                                           Expanded(
                                             child: FlightDataInfo(
-                                              headingLabel:
-                                                  'flightCharge.return'.tr(),
+                                              headingLabel: "departure".tr(),
                                               dateToShow: state
                                                       .manageBookingResponse
                                                       ?.result
-                                                      ?.returnDepartureDateToShow(
+                                                      ?.departureDateToShow(
                                                           locale) ??
                                                   '',
                                               departureToDestinationCode: state
                                                       .manageBookingResponse
                                                       ?.result
-                                                      ?.returnToDestinationCode ??
+                                                      ?.departureToDestinationCode ??
                                                   '',
                                               departureDateWithTime: state
                                                       .manageBookingResponse
                                                       ?.result
-                                                      ?.returnDepartureDateWithTime(
+                                                      ?.departureDateWithTime(
                                                           locale) ??
                                                   '',
                                               departureAirportName: state
                                                       .manageBookingResponse
                                                       ?.result
-                                                      ?.returnDepartureAirportName ??
+                                                      ?.departureAirportName ??
                                                   '',
                                               journeyTimeInHourMin: state
                                                       .manageBookingResponse
                                                       ?.result
-                                                      ?.returnJourneyTimeInHourMin ??
+                                                      ?.journeyTimeInHourMin ??
                                                   '',
                                               arrivalDateWithTime: state
                                                       .manageBookingResponse
                                                       ?.result
-                                                      ?.returnArrivalDateWithTime(
+                                                      ?.arrivalDateWithTime(
                                                           locale) ??
                                                   '',
                                               arrivalAirportName: state
                                                       .manageBookingResponse
                                                       ?.result
-                                                      ?.returnArrivalAirportName ??
+                                                      ?.arrivalAirportName ??
                                                   '',
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ],
-                                    kVerticalSpacer,
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: OutlinedButton(
-                                        onPressed: () {
-                                          onSharedTapped();
-                                        }, //isLoading ? null :
-                                        child: Text('flightChange.share'.tr()),
-                                        /*
-                                  * isLoading
-                                      ? const AppLoading(
-                                    size: 20,
-                                  )*/
+                                      const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                        child: Divider(),
                                       ),
-                                    ),
-                                    kVerticalSpacerSmall,
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: ElevatedButton(
-                                        onPressed: (state.checkedDeparture ||
-                                                    state.checkReturn) !=
-                                                true
-                                            ? null
-                                            : () async {
-                                                //   context.router.replaceAll([const NavigationRoute()]);
-                                                final allowedChange =
-                                                    isAllowedToContinue(state);
-                                                if (!allowedChange) {
-                                                  Toast.of(context).show(
-                                                      success: false,
-                                                      message:
-                                                          'flightCharge.twoDayChangeError'
-                                                              .tr());
-                                                  return;
-                                                }
-                                                bool? check = await showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return const AlertWarningBeforeProceed();
-                                                  },
-                                                );
-                                                bloc?.setFlightDates();
-
-                                                if (check == true) {
-                                                  context.router.push(
-                                                    const NewTravelDatesRoute(),
-                                                  );
-                                                }
-                                              },
-                                        child: Text(
-                                          'flightResult.changeFlight'.tr(),
+                                      if ((state
+                                              .manageBookingResponse?.isTwoWay ??
+                                          false)) ...[
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(0.0),
+                                              child: Checkbox(
+                                                checkColor: Colors.white,
+                                                fillColor: MaterialStateProperty
+                                                    .resolveWith(getColor),
+                                                value: state.checkReturn,
+                                                onChanged: (bool? value) {
+                                                  bloc?.setCheckReturn(
+                                                      value ?? false);
+                                                },
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: FlightDataInfo(
+                                                headingLabel:
+                                                    'flightCharge.return'.tr(),
+                                                dateToShow: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnDepartureDateToShow(
+                                                            locale) ??
+                                                    '',
+                                                departureToDestinationCode: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnToDestinationCode ??
+                                                    '',
+                                                departureDateWithTime: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnDepartureDateWithTime(
+                                                            locale) ??
+                                                    '',
+                                                departureAirportName: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnDepartureAirportName ??
+                                                    '',
+                                                journeyTimeInHourMin: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnJourneyTimeInHourMin ??
+                                                    '',
+                                                arrivalDateWithTime: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnArrivalDateWithTime(
+                                                            locale) ??
+                                                    '',
+                                                arrivalAirportName: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnArrivalAirportName ??
+                                                    '',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                      kVerticalSpacer,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            onSharedTapped();
+                                          }, //isLoading ? null :
+                                          child: Text('flightChange.share'.tr()),
+                                          /*
+                                    * isLoading
+                                        ? const AppLoading(
+                                      size: 20,
+                                    )*/
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      kVerticalSpacerSmall,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: ElevatedButton(
+                                          onPressed: (state.checkedDeparture ||
+                                                      state.checkReturn) !=
+                                                  true
+                                              ? null
+                                              : () async {
+                                                  //   context.router.replaceAll([const NavigationRoute()]);
+                                                  final allowedChange =
+                                                      isAllowedToContinue(state);
+                                                  if (!allowedChange) {
+                                                    Toast.of(context).show(
+                                                        success: false,
+                                                        message:
+                                                            'flightCharge.twoDayChangeError'
+                                                                .tr());
+                                                    return;
+                                                  }
+                                                  bool? check = await showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return const AlertWarningBeforeProceed();
+                                                    },
+                                                  );
+                                                  bloc?.setFlightDates();
+
+                                                  if (check == true) {
+                                                    context.router.push(
+                                                      const NewTravelDatesRoute(),
+                                                    );
+                                                  }
+                                                },
+                                          child: Text(
+                                            'flightResult.changeFlight'.tr(),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             kVerticalSpacer,
-                            if (showPax == true) ...[
-                              PassengerSelectorManageBooking(
-                                passengersWithSSR: bloc
-                                        ?.state
-                                        .manageBookingResponse
-                                        ?.result
-                                        ?.passengersWithSSRWithoutInfant ??
-                                    [],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: PassengerSelectorManageBooking(
+                                  passengersWithSSR: bloc
+                                          ?.state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.passengersWithSSRWithoutInfant ??
+                                      [],
+                                ),
                               ),
                               kVerticalSpacer,
-                              SelectedPassengerInfo(selectedPax),
+                               Padding(
+                                 padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                 child: SelectedPassengerInfo(selectedPax),
+                               ),
                               kVerticalSpacerSmall,
-                            ],
+
                             if (showSsr == true) ...[
-                              const AddOnOptions(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: const AddOnOptions(),
+                              ),
                               kVerticalSpacer,
                               if (bloc?.state.addOnOptionSelected ==
                                   AddonType.seat) ...[
                                 kVerticalSpacerMini,
                                 true ? Container() :
-                                WarningLabel(
-                                  message: 'weSorrySeatSelected'.tr(),
-                                ),
 
                                 kVerticalSpacerSmall,
                                 if (bloc?.state.manageBookingResponse?.result
                                         ?.isReturn ==
                                     true) ...[
-                                  CustomSegmentControl(
-                                    optionOneTapped: () {
-                                      bloc?.setSelectionDeparture(true,
-                                          isSeat: true);
-                                    },
-                                    optionTwoTapped: () {
-                                      bloc?.setSelectionDeparture(false,
-                                          isSeat: true);
-                                    },
-                                    isSelectedOption1:
-                                        bloc?.state.seatDeparture ?? true,
-                                    textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                    textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                    customRadius: 12,
-                                    customBorderWidth: 1,
-                                    customVerticalPadding: 8,
-                                    customSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kPrimaryColor),
-                                    customNoSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kLightBgColor),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isSeat: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isSeat: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.seatDeparture ?? true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kLightBgColor),
+                                    ),
                                   ),
                                   kVerticalSpacer,
                                 ],
-                                const SeatLegendSimple(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  child: const SeatLegendSimple(),
+                                ),
                                 kVerticalSpacer,
                                 SeatPlan(
                                   moveToTop: () {
@@ -399,28 +417,31 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 if (bloc?.state.manageBookingResponse?.result
                                         ?.isReturn ==
                                     true) ...[
-                                  CustomSegmentControl(
-                                    optionOneTapped: () {
-                                      bloc?.setSelectionDeparture(true,
-                                          isFood: true);
-                                    },
-                                    optionTwoTapped: () {
-                                      bloc?.setSelectionDeparture(false,
-                                          isFood: true);
-                                    },
-                                    isSelectedOption1:
-                                        bloc?.state.foodDepearture ?? true,
-                                    textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                    textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                    customRadius: 12,
-                                    customBorderWidth: 1,
-                                    customVerticalPadding: 8,
-                                    customSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kPrimaryColor),
-                                    customNoSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kLightBgColor),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isFood: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isFood: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.foodDepearture ?? true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kLightBgColor),
+                                    ),
                                   ),
                                   kVerticalSpacerSmall,
                                 ],
@@ -435,28 +456,32 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 if (bloc?.state.manageBookingResponse?.result
                                         ?.isReturn ==
                                     true) ...[
-                                  CustomSegmentControl(
-                                    optionOneTapped: () {
-                                      bloc?.setSelectionDeparture(true,
-                                          isBaggage: true);
-                                    },
-                                    optionTwoTapped: () {
-                                      bloc?.setSelectionDeparture(false,
-                                          isBaggage: true);
-                                    },
-                                    isSelectedOption1:
-                                        bloc?.state.baggageDeparture ?? true,
-                                    textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                    textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                    customRadius: 12,
-                                    customBorderWidth: 1,
-                                    customVerticalPadding: 8,
-                                    customSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kPrimaryColor),
-                                    customNoSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kLightBgColor),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isBaggage: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isBaggage: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.baggageDeparture ?? true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kLightBgColor),
+                                    ),
                                   ),
                                   kVerticalSpacerSmall,
                                 ],
@@ -473,29 +498,33 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 if (bloc?.state.manageBookingResponse?.result
                                         ?.isReturn ==
                                     true) ...[
-                                  CustomSegmentControl(
-                                    optionOneTapped: () {
-                                      bloc?.setSelectionDeparture(true,
-                                          isSpecial: true);
-                                    },
-                                    optionTwoTapped: () {
-                                      bloc?.setSelectionDeparture(false,
-                                          isSpecial: true);
-                                    },
-                                    isSelectedOption1:
-                                        bloc?.state.specialAppOpsDeparture ??
-                                            true,
-                                    textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                    textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                    customRadius: 12,
-                                    customBorderWidth: 1,
-                                    customVerticalPadding: 8,
-                                    customSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kPrimaryColor),
-                                    customNoSelectedStyle: kMediumSemiBold
-                                        .copyWith(color: Styles.kLightBgColor),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isSpecial: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isSpecial: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.specialAppOpsDeparture ??
+                                              true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle: kMediumSemiBold
+                                          .copyWith(color: Styles.kLightBgColor),
+                                    ),
                                   ),
                                   kVerticalSpacerSmall,
                                 ],
@@ -510,17 +539,37 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 //InsuranceView(isManageBooking: true,),
                                 const InsuranceManageView(),
                               ] else ...[
-                                const ManageFlightSummary(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                  child: const ManageFlightSummary(),
+                                ),
                               ],
                             ],
                             if (showPax == true) ...[
-                              const ContactsSection(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                child: const ContactsSection(),
+                              ),
                               kVerticalSpacer,
-                              const EmergencyContactsSection(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                child: const EmergencyContactsSection(),
+                              ),
                               kVerticalSpacer,
-                              const ComapnyTaxInvoiceSection(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                child: const ComapnyTaxInvoiceSection(),
+                              ),
                               kVerticalSpacer,
-                              //  const PaymentDetailsSecond(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                                child: PaymentDetailsSecond(),
+                              ),
                             ],
                           ],
                         ),
@@ -1178,7 +1227,7 @@ class ManageFlightSummary extends StatelessWidget {
                 if(bloc.state.insuranceType == InsuranceType.all || bloc.state.insuranceType == InsuranceType.selected) ... [
 
                   if(bloc.confirmedInsruanceTotalPrice > 0) ... [
-                    InsurancesSummaryDetail(),
+                    InsurancesSummaryDetail(isManageBooking: true,),
                   ],
 
 
@@ -1195,9 +1244,11 @@ class ManageFlightSummary extends StatelessWidget {
 
 class InsurancesSummaryDetail extends StatelessWidget {
 
+  final bool isManageBooking;
+
   InsurancesSummaryDetail(
       {Key? key,
-        this.currency,})
+        this.currency, required this.isManageBooking,})
       : super(key: key);
   final String? currency;
 
@@ -1259,7 +1310,7 @@ class InsurancesSummaryDetail extends StatelessWidget {
                     currentPerson.passengers?.fullName ?? '',
                   ),
                   SummaryListItem(
-                    text: manageBookingCubit?.state.manageBookingResponse?.confirmedInsuranceBoundSelected?.name ?? '',
+                    text: manageBookingCubit?.state.manageBookingResponse?.confirmedInsuranceBoundSelected?.name ?? '', isManageBooking: isManageBooking,
                   )
 
 
@@ -1290,7 +1341,7 @@ class InsurancesSummaryDetail extends StatelessWidget {
                       currentPerson.passengers?.fullName ?? '',
                     ),
                     SummaryListItem(
-                      text: currentPerson.confirmedInsuranceBoundSelected?.name ?? '',
+                      text: currentPerson.confirmedInsuranceBoundSelected?.name ?? '', isManageBooking: isManageBooking,
                     )
 
 
@@ -1387,7 +1438,7 @@ class InsurancesSummaryDetail extends StatelessWidget {
           Visibility(
             visible: sport != null,
             child: SummaryListItem(
-              text: sport?.description ?? '',
+              text: sport?.description ?? '', isManageBooking: isManageBooking,
             ),
           ),
 

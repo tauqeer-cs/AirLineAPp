@@ -121,7 +121,7 @@ class MealsSection extends StatelessWidget {
             visible: meals.isNotEmpty ?? false,
             replacement: const EmptyAddon(),
             child: Padding(
-              padding: kPageHorizontalPadding,
+              padding: isManageBooking ? EdgeInsets.zero : kPageHorizontalPadding,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -137,85 +137,102 @@ class MealsSection extends StatelessWidget {
                       ? const FlightUnderAnHour()
                       : isFlightOver24Hour
                           ? const FlightWithin24Hour()
-                          : buildMealCards(meals, isDeparture),
+                          : ( buildMealCards(meals, isDeparture)),
                 ],
               ),
             ),
           );
   }
 
-  Column buildMealCards(List<Bundle>? bundles, bool isDeparture) {
+  Widget buildMealCards(List<Bundle>? bundles, bool isDeparture) {
     bundles?.removeWhere((element) => (element.ssrCode ?? '').isEmpty);
+
 
 
     return Column(
       children: [
         ...bundles?.map(
               (e) {
-                return Column(
-                  children: [
-                    NewMealCard(
-                      meal: e,
-                      isDeparture: isDeparture,
-                      isManageBooking: isManageBooking,
-                    ),
-                    kVerticalSpacerSmall,
-                  ],
+                return Padding(
+                  padding: isManageBooking ?  kPageHorizontalPadding : EdgeInsets.zero,
+                  child: Column(
+                    children: [
+                      NewMealCard(
+                        meal: e,
+                        isDeparture: isDeparture,
+                        isManageBooking: isManageBooking,
+                      ),
+                      kVerticalSpacerSmall,
+                    ],
+                  ),
                 );
               },
             ).toList() ??
             [],
         if (isManageBooking) ...[
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
-            child: Divider(),
-          ),
-          kVerticalSpacerSmall,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Row(
+          SizedBox(height: 8,),
+          Container(
+            width: double.infinity,
+            color: const Color.fromRGBO(241, 241, 241, 1.0),
+            child: Column(
               children: [
-                Text(
-                  'mealsSubtotal'.tr(),
-                  style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                SizedBox(height: 8,),
+
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
                 ),
-                Expanded(
-                  child: Container(),
+                kVerticalSpacerSmall,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${'flightCharge.meal'.tr()} ${'flightCharge.total'.tr()}',
+                        style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      MoneyWidget(
+                        amount: manageBookingCubit?.notConfirmedMealsTotalPrice ?? 0.0,
+                        isDense: true,
+                        isNormalMYR: true,
+                      ),
+                    ],
+                  ),
                 ),
-                 MoneyWidget(
-                  amount: manageBookingCubit?.notConfirmedMealsTotalPrice ?? 0.0,
-                  isDense: true,
-                  isNormalMYR: true,
-                ),
-              ],
-            ),
-          ),
-          kVerticalSpacerSmall,
-          Row(
-            children: [
-              Expanded(
-                child: Container(),
-              ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: manageBookingCubit?.hasAnySeatChanged == false
-                      ? null
-                      : () {
+                kVerticalSpacerSmall,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                            ? null
+                            : () {
                           manageBookingCubit?.seatMealSeatChange();
 
                           manageBookingCubit?.changeSelectedAddOnOption(
                               AddonType.none,
                               toNull: true);
                         },
-                  child: Text('selectDateView.confirm'.tr()),
+                        child: Text('selectDateView.confirm'.tr()),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                  ],
                 ),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-            ],
+                kVerticalSpacer,
+
+              ],
+            ),
           ),
-          kVerticalSpacer,
+          SizedBox(height: 16,),
+
         ],
       ],
     );

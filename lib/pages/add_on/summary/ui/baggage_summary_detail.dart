@@ -186,14 +186,14 @@ class BaggageSummaryDetail extends StatelessWidget {
               Visibility(
                 visible: baggage != null,
                 child: SummaryListItem(
-                  text: baggage?.description ?? '',
+                  text: baggage?.description ?? '', isManageBooking: isManageBooking,
                 ),
               ),
             ] else ...[
               Visibility(
                 visible: sport != null,
                 child: SummaryListItem(
-                  text: sport?.description ?? '',
+                  text: sport?.description ?? '', isManageBooking: isManageBooking,
                 ),
               ),
             ],

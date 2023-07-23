@@ -12,6 +12,8 @@ import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../../../widgets/containers/app_expanded_section.dart';
 
 class PaymentInfo extends StatefulWidget {
+  final bool isMMB;
+
   final bool isChange;
   final bool showPending;
 
@@ -20,6 +22,7 @@ class PaymentInfo extends StatefulWidget {
   const PaymentInfo(
       {Key? key,
       this.isChange = false,
+        this.isMMB = false,
       this.paymentOrders,
       this.showPending = false})
       : super(key: key);
@@ -40,7 +43,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
 
     ManageBookingCubit? bloc;
     String paymentState = '';
-    if (widget.isChange) {
+    if (widget.isChange || widget.isMMB) {
       payments = widget.paymentOrders;
       bloc = context.watch<ManageBookingCubit>();
     } else {
@@ -66,7 +69,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
               (
               (payments?.isEmpty ?? false) ) &&
               (paymentState == 'PPB' || paymentState == 'BIP') )
-          || (widget.isChange && widget.showPending)
+          || ( widget.isChange && widget.showPending)
 
           ) ...[
             Align(
@@ -82,7 +85,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
               child: OutlinedButton(
                 onPressed: () {
 
-                  if(widget.isChange) {
+                  if(widget.isChange ||  widget.isMMB) {
 
                     bloc?.refreshData();
                   }
@@ -127,7 +130,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
                   ...(payments ?? [])
                       .map((f) => PaymentDetail(
                             paymentOrder: f,
-                            changeFlight: widget.isChange,
+                            changeFlight: widget.isChange ||  widget.isMMB,
                           ))
                       .toList(),
                 ],
@@ -161,6 +164,7 @@ class PaymentDetail extends StatelessWidget {
 
     if (changeFlight) {
       print('');
+
     } else {
       currency = context
               .watch<ConfirmationCubit>()

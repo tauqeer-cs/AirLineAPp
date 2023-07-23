@@ -195,6 +195,9 @@ class MealSummaryDetail extends StatelessWidget {
       }
     }
 
+
+    print('');
+
     return hideMeal ? Container() : Visibility(
       visible: eP.getPartialPriceMeal(isDeparture) > 0,
       child: ChildRow(
@@ -204,13 +207,16 @@ class MealSummaryDetail extends StatelessWidget {
             Text(
               eP.generateText(numberOfPerson, separator: "& "),
             ),
+
+
+
             ...meal.entries
                 .map(
                   (e) {
 
                     return SummaryListItem(
                     text:
-                        "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}",
+                        "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
                   );
                   }
                 )

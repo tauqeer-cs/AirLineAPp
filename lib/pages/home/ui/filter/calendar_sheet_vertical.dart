@@ -221,7 +221,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
                             color: inRange
-                                ? Styles.kPrimaryColor
+                                ? isSelectedDepart||isSelectedReturn ? Styles.kPrimaryColor : Styles.kPrimaryColor.withOpacity(0.5)
                                 : Colors.transparent,
                             border: Border.all(
                               color: Colors.white,
@@ -377,6 +377,9 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
     DateTime? returnDate,
     DateRangePrice? price,
   }) {
+    if(!isRoundTrip) return price?.departPrice;
+    if(isSameDay(departDate, returnDate)) return price?.returnPrice;
+    if(isDepartDate) return price?.departPrice;
     if (isReturnDate || returnDate == null) return price?.returnPrice;
     // if (!isRoundTrip || departDate == null || isDepartDate)
     //   return price?.departPrice;

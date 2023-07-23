@@ -269,7 +269,7 @@ class SeatSummaryDetail extends StatelessWidget {
                             SummaryListItem(
                               text: seats?.seatColumn == null
                                   ? 'noSeatSelected'.tr()
-                                  : '${seats?.seatColumn}${row?.rowNumber}',
+                                  : '${seats?.seatColumn}${row?.rowNumber}', isManageBooking: isManageBooking,
                             ),
                           ],
                         ),
