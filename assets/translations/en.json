@@ -44,7 +44,7 @@
   "arrive": "Arrive",
   "returningFlight": "Returning Flight",
   "seatsSubtotal": "Seats Subtotal",
-  "seatAutomatically": "1. Your seat will automatically be assigned during check-in if no seat is selected.",
+  "seatAutomatically": "1. Your seat will automatically be assigned during check-in if no seat is selected.\n\n2 Seats on row 1, 12 and 14 are next to the emergency exits, children will not be able to pick these seats",
   "passenger": "Passenger",
   "selecting": "Selecting",
   "noSeatSelected": "No seat selected",

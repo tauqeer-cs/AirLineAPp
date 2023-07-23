@@ -252,6 +252,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       total += currentUser.newDepartBaggageSelected?.finalAmount ?? 0.0;
 
       total += currentUser.newReturnBaggageSelected?.finalAmount ?? 0.0;
+
+      total += currentUser.newDepartSportsSelected?.finalAmount ?? 0.0;
+
+      total += currentUser.newReturnSportsSelected?.finalAmount ?? 0.0;
+
     }
 
     return total;
@@ -266,12 +271,34 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     for (PassengersWithSSR currentUser in passengers) {
       total += currentUser.confirmDepartBaggageSelected?.finalAmount ?? 0.0;
-
       total += currentUser.confirmReturnBaggageSelected?.finalAmount ?? 0.0;
+
+      //total += currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0;
+      //total += currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0;
+
     }
 
     return total;
   }
+
+  num get confirmedSportsTotalPrice {
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for (PassengersWithSSR currentUser in passengers) {
+      //total += currentUser.confirmDepartBaggageSelected?.finalAmount ?? 0.0;
+      //total += currentUser.confirmReturnBaggageSelected?.finalAmount ?? 0.0;
+
+      total += currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0;
+      total += currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0;
+
+    }
+
+    return total;
+  }
+
 
   num get confirmedInsruanceTotalPrice {
     if((state.flightSSR?.insuranceGroup?.outbound ?? []).isEmpty ){
@@ -1619,6 +1646,19 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         );
       }
 
+      if (currentItem.confirmedDepartSportsSelected != null) {
+        tmpPassengerAddOn.sSR?.outbound?.add(
+          FS.Bound(
+            logicalFlightId:
+            currentItem.confirmedDepartSportsSelected?.logicalFlightID,
+            ssrCode: currentItem.confirmedDepartSportsSelected?.ssrCode ?? '',
+            servicesType: 'SPORT',
+            quantity: 1,
+          ),
+        );
+      }
+
+
       if (currentItem.confirmReturnBaggageSelected != null) {
         tmpPassengerAddOn.sSR?.inbound?.add(
           FS.Bound(
@@ -1630,6 +1670,19 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           ),
         );
       }
+
+      if (currentItem.confirmedReturnSportsSelected != null) {
+        tmpPassengerAddOn.sSR?.inbound?.add(
+          FS.Bound(
+            logicalFlightId:
+            currentItem.confirmedReturnSportsSelected?.logicalFlightID,
+            ssrCode: currentItem.confirmedReturnSportsSelected?.ssrCode ?? '',
+            servicesType: 'SPORT',
+            quantity: 1,
+          ),
+        );
+      }
+
 
       if (currentItem.confirmDepartWheelChair != null) {
         tmpPassengerAddOn.sSR?.outbound?.add(
@@ -2568,6 +2621,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
               currentUser.newDepartBaggageSelected;
           newSSR.confirmReturnBaggageSelected =
               currentUser.newReturnBaggageSelected;
+
+          newSSR.confirmedDepartSportsSelected =
+              currentUser.newDepartSportsSelected;
+          newSSR.confirmedReturnSportsSelected =
+              currentUser.newReturnSportsSelected;
+
           copyList?.removeAt(index);
           copyList?.insert(index, newSSR);
         } else if (currentUser.newDepartBaggageSelected != null) {
@@ -2578,9 +2637,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           PassengersWithSSR? newSSR = currentUser;
           newSSR.confirmDepartBaggageSelected =
               currentUser.newDepartBaggageSelected;
+          newSSR.confirmedDepartSportsSelected =
+              currentUser.newDepartSportsSelected;
+          newSSR.confirmedReturnSportsSelected =
+              currentUser.newReturnSportsSelected;
+
           copyList?.removeAt(index);
           copyList?.insert(index, newSSR);
         }
+
         if (currentUser.newReturnBaggageSelected != null) {
           int index = 0;
           index = state.manageBookingResponse?.result?.passengersWithSSR
@@ -2589,6 +2654,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           PassengersWithSSR? newSSR = currentUser;
           newSSR.confirmReturnBaggageSelected =
               currentUser.newReturnBaggageSelected;
+          newSSR.confirmedDepartSportsSelected =
+              currentUser.newDepartSportsSelected;
+          newSSR.confirmedReturnSportsSelected =
+              currentUser.newReturnSportsSelected;
+
+
           copyList?.removeAt(index);
           copyList?.insert(index, newSSR);
         }

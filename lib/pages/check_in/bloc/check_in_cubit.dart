@@ -225,7 +225,7 @@ class CheckInCubit extends Cubit<CheckInState> {
                   filesResponse.boardingPassURLs?.first ?? '',
                   makeFileName(
                     state.pnrEntered ?? '',
-                    (currentOne.fullName ?? '').replaceAll(' ', ''),
+                    '${(currentOne.fullName ?? '').replaceAll(' ', '')}_depart',
                   ),
                 );
               }
@@ -253,11 +253,12 @@ class CheckInCubit extends Cubit<CheckInState> {
                   await _checkInRepository.getBoardingPass(request2);
 
               if (email == false) {
+
                 await FileUtils.downloadFile(
                   filesResponse.boardingPassURLs?.first ?? '',
                   makeFileName(
                     state.pnrEntered ?? '',
-                    (currentOne.fullName ?? '').replaceAll(' ', ''),
+                    '${(currentOne.fullName ?? '').replaceAll(' ', '')}_return',
                   ),
                 );
               }

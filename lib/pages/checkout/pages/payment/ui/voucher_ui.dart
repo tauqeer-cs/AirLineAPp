@@ -116,7 +116,12 @@ class VoucherCodeUi extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap:  readOnly ? null : onRemoveTapped,
+                  onTap:  readOnly ? null : (){
+
+                    onRemoveTapped?.call();
+
+
+                  },
                   child: Container(
                     padding: const EdgeInsets.all(3),
                     margin: const EdgeInsets.only(left: 6),

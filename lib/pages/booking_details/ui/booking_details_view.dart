@@ -120,14 +120,14 @@ class ManageBookingDetailsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: BookingReferenceLabel(
                                 refText: state.pnrEntered,
                               ),
                             ),
                             kVerticalSpacer,
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: AppCard(
                                 edgeInsets: EdgeInsets.zero,
                                 child: Padding(
@@ -363,7 +363,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ?.isReturn ==
                                     true) ...[
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: CustomSegmentControl(
                                       optionOneTapped: () {
                                         bloc?.setSelectionDeparture(true,
@@ -390,9 +390,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   ),
                                   kVerticalSpacer,
                                 ],
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  child: const SeatLegendSimple(),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  child: SeatLegendSimple(),
                                 ),
                                 kVerticalSpacer,
                                 SeatPlan(
@@ -1218,6 +1218,13 @@ class ManageFlightSummary extends StatelessWidget {
                   sports: false,
                   isManageBooking: true,
                 ),
+
+                BaggageSummaryDetail(
+                  currency: currency,
+                  sports: true,
+                  isManageBooking: true,
+                ),
+
                 // BaggageSummaryDetail(currency: currency, sports: true,isManageBooking: true,),
                 SpecialSummaryDetail(
                   currency: currency,

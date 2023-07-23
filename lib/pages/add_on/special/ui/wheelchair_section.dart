@@ -116,8 +116,11 @@ class WheelchairSection extends StatelessWidget {
                     ),
                   )
                 : isManageBooking
-                    ? buildColumn(selectedWheelchair, manageBookingCubit,
-                        focusedPerson, wheelChairs, context, okId)
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: buildColumn(selectedWheelchair, manageBookingCubit,
+                          focusedPerson, wheelChairs, context, okId),
+                    )
                     : AppCard(
                         edgeInsets: const EdgeInsets.all(12),
                         child: buildColumn(
@@ -223,7 +226,7 @@ class WheelchairSection extends StatelessWidget {
               onChanged: (value) {
                 if (isManageBooking) {
                   manageBookingCubit?.addWheelToPerson(value ?? false,
-                      focusedPerson, (wheelChairs ?? []).first, isDeparture);
+                      focusedPerson, (wheelChairs ?? []).last, isDeparture);
 
                   return;
                 }

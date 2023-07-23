@@ -618,6 +618,11 @@ class PassengersWithSSR {
   Bundle? newDepartSportsSelected;
   Bundle? newReturnSportsSelected;
 
+  Bundle? confirmedDepartSportsSelected;
+  Bundle? confirmedReturnSportsSelected;
+
+
+
   Bundle? newReturnWheelChair;
   Bundle? newDepartWheelChair;
 
@@ -813,8 +818,14 @@ class PassengersWithSSR {
     FS.Bound? newInsuranceBoundSelected,
     Bundle? confirmedInsuranceBundleSelected,
     FS.Bound? confirmedInsuranceBoundSelected,
+    Bundle? confirmedDepartSportsSelected,
+    Bundle? confirmedReturnSportsSelected,
+
   }) {
     return PassengersWithSSR(
+
+      confirmedDepartSportsSelected :  confirmedDepartSportsSelected ?? this.confirmedDepartSportsSelected,
+      confirmedReturnSportsSelected :  confirmedReturnSportsSelected ?? this.confirmedReturnSportsSelected,
 
       newInsuranceBundleSelected :  newInsuranceBundleSelected ?? this.newInsuranceBundleSelected,
       newInsuranceBoundSelected :   newInsuranceBoundSelected ?? this.newInsuranceBoundSelected,
@@ -938,6 +949,8 @@ class PassengersWithSSR {
     this.newInsuranceBoundSelected,
     this.confirmedInsuranceBundleSelected,
     this.confirmedInsuranceBoundSelected,
+    this.confirmedDepartSportsSelected,
+    this.confirmedReturnSportsSelected,
   });
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {

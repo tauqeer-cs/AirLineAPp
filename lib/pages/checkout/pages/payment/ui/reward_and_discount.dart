@@ -75,6 +75,7 @@ class RewardAndDiscount extends StatelessWidget {
               }
 
               if((state.insertedVoucher?.voucherCode ?? '').isEmpty) {
+                _fbKey.currentState!.reset();
                 return;
 
               }

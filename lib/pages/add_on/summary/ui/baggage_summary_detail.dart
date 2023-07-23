@@ -46,6 +46,11 @@ class BaggageSummaryDetail extends StatelessWidget {
     if(isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
       totalPrice = manageBookingCubit?.confirmedBaggageTotalPrice ?? 0.0;
+      if(sports) {
+
+        totalPrice = manageBookingCubit?.confirmedSportsTotalPrice ?? 0.0;
+
+      }
       persons =  context
           .watch<ManageBookingCubit>()
           .state

@@ -221,7 +221,9 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
                             color: inRange
-                                ? isSelectedDepart||isSelectedReturn ? Styles.kPrimaryColor : Styles.kPrimaryColor.withOpacity(0.5)
+                                ? isSelectedDepart || isSelectedReturn
+                                ? Styles.kPrimaryColor
+                                : Styles.kPrimaryColor.withOpacity(0.5)
                                 : Colors.transparent,
                             border: Border.all(
                               color: Colors.white,
@@ -375,14 +377,21 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
     required bool isRoundTrip,
     DateTime? departDate,
     DateTime? returnDate,
+    DateTime? date,
     DateRangePrice? price,
   }) {
-    if(!isRoundTrip) return price?.departPrice;
-    if(isSameDay(departDate, returnDate)) return price?.returnPrice;
-    if(isDepartDate) return price?.departPrice;
-    if (isReturnDate || returnDate == null) return price?.returnPrice;
-    // if (!isRoundTrip || departDate == null || isDepartDate)
-    //   return price?.departPrice;
+    if (!isRoundTrip || departDate == null) {
+      return price?.departPrice;
+    }
+    if (isSameDay(departDate, returnDate)) {
+      return price?.returnPrice;
+    }
+    if (isDepartDate) {
+      return price?.departPrice;
+    }
+    if (isReturnDate || returnDate == null) {
+      return price?.returnPrice;
+    }
     return price?.departPrice;
   }
 
@@ -393,7 +402,6 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
   }) {
     if (departDate == null) return true;
     if (date.isBefore(departDate)) {
-      print("not showing for date $date");
       return false;
     }
     return true;

@@ -81,7 +81,7 @@ class BaggageSection extends StatelessWidget {
             kVerticalSpacer,
 
             if (isManageBooking) ...[
-              SizedBox(height: 8,),
+              const SizedBox(height: 8,),
 
               Container(
                 width: double.infinity,
@@ -138,7 +138,7 @@ class BaggageSection extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
             ],
           ],
         ),
