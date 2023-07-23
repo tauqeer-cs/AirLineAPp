@@ -215,7 +215,7 @@ class MealsSection extends StatelessWidget {
                           manageBookingCubit?.seatMealSeatChange();
 
                           manageBookingCubit?.changeSelectedAddOnOption(
-                              AddonType.none,
+                              AddonType.meal,
                               toNull: true);
                         },
                         child: Text('selectDateView.confirm'.tr()),

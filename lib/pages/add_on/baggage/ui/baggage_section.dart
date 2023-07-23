@@ -122,7 +122,7 @@ class BaggageSection extends StatelessWidget {
                               manageBookingCubit?.baggageConfirmSeatChange();
 
                               manageBookingCubit?.changeSelectedAddOnOption(
-                                  AddonType.none,
+                                  AddonType.baggage,
                                   toNull: true);
                             },
                             child: Text('selectDateView.confirm'.tr()),

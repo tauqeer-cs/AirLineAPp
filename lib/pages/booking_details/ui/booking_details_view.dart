@@ -539,13 +539,17 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 //InsuranceView(isManageBooking: true,),
                                 const InsuranceManageView(),
                               ] else ...[
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
 
-                                  child: const ManageFlightSummary(),
-                                ),
                               ],
                             ],
+
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                              child: const ManageFlightSummary(),
+                            ),
+
                             if (showPax == true) ...[
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),

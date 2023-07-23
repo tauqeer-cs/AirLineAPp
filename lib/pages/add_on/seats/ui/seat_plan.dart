@@ -312,7 +312,7 @@ class SeatPlan extends StatelessWidget {
                             manageBookingCubit?.seatConfirmSeatChange();
 
                             manageBookingCubit?.changeSelectedAddOnOption(
-                                AddonType.none,
+                                AddonType.seat,
                                 toNull: true);
                           },
                     child: Text('selectDateView.confirm'.tr()),

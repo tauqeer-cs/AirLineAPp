@@ -179,7 +179,7 @@ class WheelchairSection extends StatelessWidget {
                                 manageBookingCubit?.wheelChairConfirmSeatChange();
 
                                 manageBookingCubit?.changeSelectedAddOnOption(
-                                    AddonType.none,
+                                    AddonType.special,
                                     toNull: true);
                               },
                               child: Text('selectDateView.confirm'.tr()),

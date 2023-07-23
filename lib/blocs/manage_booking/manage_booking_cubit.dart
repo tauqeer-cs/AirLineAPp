@@ -2503,13 +2503,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   void changeSelectedAddOnOption(AddonType addOnOptionSelected,
       {bool toNull = false}) {
-    if (toNull) {
-      emit(
-        state.copyWith(addOnOptionSelected: AddonType.none),
-      );
 
-      return;
-    }
     emit(
       state.copyWith(
         addOnOptionSelected: addOnOptionSelected,
