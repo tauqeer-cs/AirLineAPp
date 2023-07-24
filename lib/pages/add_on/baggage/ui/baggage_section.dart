@@ -26,6 +26,8 @@ class BaggageSection extends StatelessWidget {
   final VoidCallback? moveToBottom;
   final GlobalKey? horiz1;
   final GlobalKey? horiz2;
+  final GlobalKey? horizS1;
+  final GlobalKey? horizS2;
 
 
   const  BaggageSection({
@@ -33,7 +35,7 @@ class BaggageSection extends StatelessWidget {
     this.isDeparture = true,
     this.moveToTop,
     this.moveToBottom,
-    this.isManageBooking = false, this.horiz1, this.horiz2,
+    this.isManageBooking = false, this.horiz1, this.horiz2, this.horizS1, this.horizS2,
   }) : super(key: key);
 
   @override
@@ -79,7 +81,7 @@ class BaggageSection extends StatelessWidget {
             kVerticalSpacer,
              Padding(
                padding:  kPageHorizontalPadding,
-               child: BaggageNotice(isManageBooking: isManageBooking,),
+               child: BaggageNotice(isManageBooking: isManageBooking, isDeparting: isDeparture,horizS1: horizS1, horizS2: horizS1,),
              ),
             kVerticalSpacer,
 
@@ -521,16 +523,9 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
     }
     else {
-
-     // onlyOneTime = false;
-
       int indexOf = 0;
-
       selectedItem = (baggage ?? []).first.ssrCode ?? '';
-
-
       scrollToPositionInStart(indexOf);
-
     }
 
 

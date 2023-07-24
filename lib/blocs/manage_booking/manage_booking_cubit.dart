@@ -3206,6 +3206,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         if (item.originalHadWheelChairReturn == true) {
           return;
         }
+        if(changeToFree) {
+          newPerson = item.personObject
+              ?.copyWith(departureWheelChair: () => wheelChair);
+          item.newDepartWheelChair = wheelChair;
+
+        }
+        else
         if (isAdd == true) {
           newPerson =
               item.personObject?.copyWith(returnWheelChair: () => wheelChair);

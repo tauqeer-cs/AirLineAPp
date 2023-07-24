@@ -154,8 +154,6 @@ class SeatSummaryDetail extends StatelessWidget {
 
 
 
-
-
                     print('object');
                     // ccc.first.seat
                   }
@@ -168,27 +166,55 @@ class SeatSummaryDetail extends StatelessWidget {
                   .firstWhereOrNull((element) => element.rowId == seats?.rowId);
               return Visibility(
                 visible: e.getPartialPriceSeatPartial(true) > 0,
-                child: ChildRow(
-                  child1: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        e.generateText(numberOfPerson, separator: "& "),
+                child: Column(
+                  children: [
+
+
+                    ChildRow(
+                      child1: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            e.generateText(numberOfPerson, separator: "& "),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Text(
+                              "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kActiveGrey),
+                            ),
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: Text(
-                          "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
-                          style: kMediumRegular.copyWith(
-                              color: Styles.kActiveGrey),
-                        ),
+                      child2: MoneyWidgetCustom(
+                        currency: currency,
+                        amount: e.getPartialPriceSeatPartial(true) - amountToMinus,
                       ),
-                    ],
-                  ),
-                  child2: MoneyWidgetCustom(
-                    currency: currency,
-                    amount: e.getPartialPriceSeatPartial(true) - amountToMinus,
-                  ),
+                    ),
+                    ChildRow(
+                      child1: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            e.generateText(numberOfPerson, separator: "& "),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Text(
+                              "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
+                              style: kMediumRegular.copyWith(
+                                  color: Styles.kActiveGrey),
+                            ),
+                          ),
+                        ],
+                      ),
+                      child2: MoneyWidgetCustom(
+                        currency: currency,
+                        amount: e.getPartialPriceSeatPartial(true) - amountToMinus,
+                      ),
+                    ),
+                  ],
                 ),
               );
             },

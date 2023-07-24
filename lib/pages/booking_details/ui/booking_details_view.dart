@@ -79,6 +79,8 @@ class ManageBookingDetailsView extends StatelessWidget {
 
   GlobalKey horizKey1 = GlobalKey();
   GlobalKey horizKey2 = GlobalKey();
+  GlobalKey horizKeyS1 = GlobalKey();
+  GlobalKey horizKeyS2 = GlobalKey();
 
   ManageBookingCubit? bloc;
 
@@ -517,6 +519,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 BaggageSection(
                                   horiz1: horizKey1,
                                   horiz2: horizKey2,
+                                  horizS1: horizKeyS1,
+                                  horizS2: horizKeyS2,
                                   isManageBooking: true,
                                   isDeparture:
                                       bloc?.state.baggageDeparture ?? false,

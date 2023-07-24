@@ -21,8 +21,11 @@ import '../../../checkout/bloc/selected_person_cubit.dart';
 
 class BaggageNotice extends StatefulWidget {
   final bool isManageBooking;
+  final GlobalKey? horizS1;
+  final GlobalKey? horizS2;
+  final bool isDeparting;
 
-  const BaggageNotice({Key? key, required this.isManageBooking})
+  const BaggageNotice({Key? key, required this.isManageBooking,  required this.isDeparting, this.horizS1, this.horizS2})
       : super(key: key);
 
   @override
@@ -107,9 +110,18 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                     ),
                   ),
                   kVerticalSpacerSmall,
-                  SportsEquipmentCard(
-                    isManageBooking: widget.isManageBooking,
-                  ),
+                  if(widget.isDeparting == true) ... [
+                    SportsEquipmentCard(
+                      isManageBooking: widget.isManageBooking, isDeparting: widget.isDeparting,
+                      key: widget.horizS1,
+                    ),
+                  ] else ... [
+                    SportsEquipmentCard(
+                      isManageBooking: widget.isManageBooking, isDeparting: widget.isDeparting,
+                      key: this.widget.horizS2,
+                    ),
+                  ],
+
                 ],
               ),
             ),
@@ -168,9 +180,14 @@ class _BaggageNoticeState extends State<BaggageNotice> {
 }
 
 class SportsEquipmentCard extends StatefulWidget {
+  final GlobalKey? horizS1;
+  final GlobalKey? horizS2;
+
   final bool isManageBooking;
 
-  const SportsEquipmentCard({Key? key, required this.isManageBooking})
+  final bool isDeparting;
+
+  const SportsEquipmentCard({Key? key, required this.isManageBooking, required this.isDeparting, this.horizS1, this.horizS2})
       : super(key: key);
 
   @override
@@ -245,7 +262,9 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
 
       baggageGroup = bloc.state.flightSSR?.sportGroup;
-      isDeparture = true;
+      isDeparture = widget.isDeparting;
+
+
       var baggage =
       isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
 
@@ -253,6 +272,9 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureSports?.description).toList();
 
+      if(widget.isDeparting == false){
+        resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.returnSports?.description).toList();
+      }
       if((resultIndexFinder ?? []).isNotEmpty) {
 
 
@@ -270,6 +292,11 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
         }
 
       }
+      else {
+        int indexOf = 0;
+        selectedItem = (baggage ?? []).first.ssrCode ?? '';
+        scrollToPositionInStart(indexOf);
+      }
 
     } else {
       currency = context
@@ -285,6 +312,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       final bookingState = context.watch<BookingCubit>().state;
       baggageGroup = bookingState.verifyResponse?.flightSSR?.sportGroup;
+
 
 
     }

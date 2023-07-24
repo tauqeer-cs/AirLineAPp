@@ -286,12 +286,24 @@ class WheelchairSection extends StatelessWidget {
                   if((id ?? '').isNotEmpty ){
 
                     if((id ?? '').length == 1) {
-                      if(focusedPerson?.departureWheelChair != null) {
+                      if(isDeparture == true) {
+                        if(focusedPerson?.departureWheelChair != null) {
 
-                        manageBookingCubit?.addWheelToPerson( false,
-                            focusedPerson, (wheelChairs ?? []).first, isDeparture,changeToFree: true);
+                          manageBookingCubit?.addWheelToPerson( false,
+                              focusedPerson, (wheelChairs ?? []).first, isDeparture,changeToFree: true);
 
+                        }
                       }
+
+                      if(isDeparture == false) {
+                        if(focusedPerson?.returnWheelChair != null) {
+
+                          manageBookingCubit?.addWheelToPerson( false,
+                              focusedPerson, (wheelChairs ?? []).first, isDeparture,changeToFree: true);
+
+                        }
+                      }
+
                     }
                     print('');
                   }
