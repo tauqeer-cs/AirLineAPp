@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../data/responses/verify_response.dart';
 import '../../../../theme/theme.dart';
 import '../../ui/summary_list_item.dart';
 
@@ -162,56 +163,97 @@ class SeatSummaryDetail extends StatelessWidget {
 
               print('');
 
+              Seats? previousSeat;
+              Seats? previousReturnSeat;
+              num previousDepPrice = 0.0;
+              num previousReturnPrice = 0.0;
+              if(isManageBooking) {
+                previousSeat = manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSeats;
+
+                if(previousSeat != null) {
+                  previousDepPrice = manageBookingCubit?.passengerFromPerson(e)?.seatDetail?.departureSeat.first.amount ?? 0.0;
+                }
+
+                if(manageBookingCubit?.state.manageBookingResponse?.isTwoWay == true){
+                  previousReturnSeat = manageBookingCubit?.passengerFromPerson(e)?.previousReturnSeats;
+                  if(previousReturnSeat != null) {
+                    previousReturnPrice = manageBookingCubit?.passengerFromPerson(e)?.seatDetail?.returnSeat.first.amount ?? 0.0;
+
+                  }
+
+                }
+                print('');
+
+              }
+
+
+              final allRows = (rowsDeparture ?? []);
               final row = (rowsDeparture ?? [])
                   .firstWhereOrNull((element) => element.rowId == seats?.rowId);
               return Visibility(
                 visible: e.getPartialPriceSeatPartial(true) > 0,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
+                    if(isManageBooking == true) ... [
+
+
+                      if(previousSeat != null) ... [
+
+                        Text(
+                          e.generateText(numberOfPerson, separator: "& "),
+                        ),
+                        ChildRow(
+                          child1: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Padding(
+                                padding: const EdgeInsets.only(left: 6),
+                                child: Text(
+                                  "- ${previousSeat.seatNameToShow(allRows) ?? ''}",
+                                  style: kMediumRegular.copyWith(
+                                      color: Styles.kActiveGrey),
+                                ),
+                              ),
+                            ],
+                          ),
+                          child2: MoneyWidgetCustom(
+                            currency: currency,
+                            amount: previousDepPrice,
+                          ),
+                        ),
+                      ],
+
+                    ] ,
+
 
                     ChildRow(
                       child1: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            e.generateText(numberOfPerson, separator: "& "),
-                          ),
+                          if(previousSeat == null) ... [
+                            Text(
+                              e.generateText(numberOfPerson, separator: "& "),
+                            ),
+                          ],
+
                           Padding(
                             padding: const EdgeInsets.only(left: 6),
                             child: Text(
                               "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
                               style: kMediumRegular.copyWith(
-                                  color: Styles.kActiveGrey),
+                                  color: isManageBooking ? Styles.kPrimaryColor : Styles.kActiveGrey),
+
                             ),
                           ),
                         ],
                       ),
                       child2: MoneyWidgetCustom(
+                        textColor: isManageBooking ? Styles.kPrimaryColor : null,
                         currency: currency,
-                        amount: e.getPartialPriceSeatPartial(true) - amountToMinus,
-                      ),
-                    ),
-                    ChildRow(
-                      child1: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            e.generateText(numberOfPerson, separator: "& "),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 6),
-                            child: Text(
-                              "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
-                              style: kMediumRegular.copyWith(
-                                  color: Styles.kActiveGrey),
-                            ),
-                          ),
-                        ],
-                      ),
-                      child2: MoneyWidgetCustom(
-                        currency: currency,
-                        amount: e.getPartialPriceSeatPartial(true) - amountToMinus,
+                        amount: e.getPartialPriceSeatPartial(true),
                       ),
                     ),
                   ],
@@ -242,7 +284,24 @@ class SeatSummaryDetail extends StatelessWidget {
 
 
                     num amountToMinusReturn = 0.0;
+                    Seats? previousReturnSeat;
+                    num previousReturnPrice = 0.0;
+
                     if (isManageBooking) {
+
+
+                        if(manageBookingCubit?.state.manageBookingResponse?.isTwoWay == true){
+                          previousReturnSeat = manageBookingCubit?.passengerFromPerson(e)?.previousReturnSeats;
+                          if(previousReturnSeat != null) {
+                            previousReturnPrice = manageBookingCubit?.passengerFromPerson(e)?.seatDetail?.returnSeat.first.amount ?? 0.0;
+
+                          }
+
+                        }
+                        print('');
+
+
+
                       var ccc = manageBookingCubit
                           ?.state.manageBookingResponse?.result?.passengersWithSSR
                           ?.where((element) => element.personObject == e)
@@ -273,11 +332,6 @@ class SeatSummaryDetail extends StatelessWidget {
                           if((tmpSeat ?? []).isNotEmpty) {
                             amountToMinusReturn = (tmpSeat ?? []).first.amount ?? 0.0;
                           }
-
-
-
-
-                          print('object');
                           // ccc.first.seat
                         }
                       }
@@ -285,24 +339,67 @@ class SeatSummaryDetail extends StatelessWidget {
 
                     return Visibility(
                       visible: e.getPartialPriceSeatPartial(false) > 0,
-                      child: ChildRow(
-                        child1: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              e.generateText(numberOfPerson, separator: "& "),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if(isManageBooking == true) ... [
+
+                        if(previousReturnSeat != null) ... [
+
+                              Text(
+                                e.generateText(numberOfPerson, separator: "& "),
+                              ),
+                              ChildRow(
+                                child1: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 6),
+                                      child: Text(
+                                        "- ${previousReturnSeat.seatNameToShow((rowsReturn ?? [])) ?? ''}",
+                                        style: kMediumRegular.copyWith(
+                                            color: Styles.kActiveGrey),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                child2: MoneyWidgetCustom(
+                                  currency: currency,
+                                  amount: previousReturnPrice,
+                                ),
+                              ),
+                            ],
+
+                          ] ,
+                          ChildRow(
+                            child1: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+
+                                if(isManageBooking == false &&previousReturnSeat == null) ... [
+                                  Text(
+                                    e.generateText(numberOfPerson, separator: "& "),
+                                  ),
+                                ],
+
+
+                                SummaryListItem(
+
+                                  text: seats?.seatColumn == null
+                                      ? 'noSeatSelected'.tr()
+                                      : '${seats?.seatColumn}${row?.rowNumber}', isManageBooking: isManageBooking,
+                                  makeRed:isManageBooking ,
+                                ),
+                              ],
                             ),
-                            SummaryListItem(
-                              text: seats?.seatColumn == null
-                                  ? 'noSeatSelected'.tr()
-                                  : '${seats?.seatColumn}${row?.rowNumber}', isManageBooking: isManageBooking,
+                            child2: MoneyWidgetCustom(
+                              currency: currency,
+                              amount: e.getPartialPriceSeatPartial(false) ,
+                              textColor: isManageBooking ? Styles.kPrimaryColor : null,
                             ),
-                          ],
-                        ),
-                        child2: MoneyWidgetCustom(
-                          currency: currency,
-                          amount: e.getPartialPriceSeatPartial(false) - amountToMinusReturn,
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   },

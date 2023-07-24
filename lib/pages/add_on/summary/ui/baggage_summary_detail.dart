@@ -112,7 +112,7 @@ class BaggageSummaryDetail extends StatelessWidget {
             ),
           ),
           kVerticalSpacer,
-          AppDividerWidget(),
+          const AppDividerWidget(),
           kVerticalSpacer,
         ],
       ),
@@ -191,13 +191,16 @@ class BaggageSummaryDetail extends StatelessWidget {
               Visibility(
                 visible: baggage != null,
                 child: SummaryListItem(
+                  makeRed: this.isManageBooking,
                   text: baggage?.description ?? '', isManageBooking: isManageBooking,
                 ),
               ),
             ] else ...[
+
               Visibility(
                 visible: sport != null,
                 child: SummaryListItem(
+                  makeRed: this.isManageBooking,
                   text: sport?.description ?? '', isManageBooking: isManageBooking,
                 ),
               ),
@@ -206,6 +209,7 @@ class BaggageSummaryDetail extends StatelessWidget {
         ),
         child2: MoneyWidgetCustom(
           currency: currency,
+          textColor: isManageBooking ? Styles.kPrimaryColor : null,
           amount: sports == false
               ? e.getPartialPriceBaggage(isDeparture)
               : e.getPartialPriceSports(isDeparture),

@@ -973,7 +973,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     List<Rows>? inBoundSeatRows = [];
 
     if ((state.flightSeats?.inbound ?? []).isNotEmpty) {
-      state
+      inBoundSeatRows = state
           .flightSeats
           ?.inbound
           ?.first
@@ -1052,7 +1052,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           int seatNo = int.tryParse(numberPart ?? '') ?? 0;
 
           var ress =
-              inBoundSeatRows.where((e) => e.rowNumber == seatNo).toList();
+              inBoundSeatRows?.where((e) => e.rowNumber == seatNo).toList();
 
           if (ress?.isNotEmpty ?? false) {
             var finalSeat = ress?.first.seats
@@ -2827,7 +2827,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           copyList?.removeAt(index);
           copyList?.insert(index, newSSR);
         }
-        if (currentUser.newReturnMeal != null) {
+        else if (currentUser.newReturnMeal != null) {
           int index = 0;
           index = state.manageBookingResponse?.result?.passengersWithSSR
                   ?.indexOf(currentUser) ??
@@ -3905,6 +3905,17 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     emit(state.copyWith(
       rewardItem: rewardItem,
     ));
+
+  }
+
+  PassengersWithSSR? passengerFromPerson(Person e) {
+
+    List<PassengersWithSSR> result = state.manageBookingResponse?.result?.passengersWithSSR?.where((er) => er.personObject == e).toList() ?? [];
+
+    if(result.isEmpty){
+      return null;
+    }
+    return result.first;
 
   }
 

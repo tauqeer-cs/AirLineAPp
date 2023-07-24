@@ -852,9 +852,7 @@ class PassengersWithSSR {
       previousDepartureWheelChair :   previousDepartureWheelChair ?? this.previousDepartureWheelChair,
       previousReturnWheelChair :   previousReturnWheelChair ?? this.previousReturnWheelChair,
 
-
-
-
+seatDetail: seatDetail ?? this.seatDetail,
     confirmedDepartSportsSelected :  confirmedDepartSportsSelected ?? this.confirmedDepartSportsSelected,
       confirmedReturnSportsSelected :  confirmedReturnSportsSelected ?? this.confirmedReturnSportsSelected,
       newInsuranceBundleSelected :  newInsuranceBundleSelected ?? this.newInsuranceBundleSelected,
