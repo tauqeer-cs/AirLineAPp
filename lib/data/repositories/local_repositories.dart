@@ -8,6 +8,7 @@ const String passengerInfoBox = "passengerInfoBoxV3";
 const String airportsBox = "airportsBox";
 const String bookingBox = "bookingBox";
 const String timerBox = "timerBox";
+const String sessionBox = "sessionBox";
 
 class LocalRepository {
   static final LocalRepository _instance = LocalRepository._internal();
@@ -74,6 +75,25 @@ class LocalRepository {
 
   Future<void> deleteExpiredTime() async {
     var box = Hive.box<String>(timerBox);
+    box.clear();
+  }
+
+  Future<void> storeSessionExpiredTime(String? value) async {
+    var box = Hive.box<String>(sessionBox);
+    logger.i("saved Session time $value");
+    await box.clear();
+    box.add(value ?? "");
+  }
+
+  String? getSessionExpiredTime() {
+    var box = Hive.box<String>(sessionBox);
+    var token = box.isNotEmpty ? box.getAt(0) : "";
+    logger.i("loaded session time $token");
+    return token;
+  }
+
+  Future<void> deleteSessionExpiredTime() async {
+    var box = Hive.box<String>(sessionBox);
     box.clear();
   }
 }

@@ -14,7 +14,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../app/app_bloc_helper.dart';
+import '../../../app/app_logger.dart';
 import '../../../blocs/profile/profile_cubit.dart';
+import '../../../blocs/session/session_bloc.dart';
 
 class JosKeys {
   static final gKeysAuth = GlobalKey<FormBuilderState>();
@@ -64,6 +66,15 @@ class _LoginFormState extends State<LoginForm> {
 
         if(result == true) {
           await  context.read<ProfileCubit>().getProfile();
+          logger.e("Save session start time");
+          final nowUTC = DateTime.now().toUtc();
+          //final diff = expiredInUTC.difference(nowUTC);
+          context.read<SessionBloc>().add(
+            SessionStarted(
+              duration: 600,
+              expiredTime: nowUTC.add(const Duration(seconds: 600)),
+            ),
+          );
         }
         else {
           setState(() {

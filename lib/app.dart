@@ -28,6 +28,7 @@ import 'package:app/theme/styles.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/navigation_utils.dart';
 import 'package:app/utils/user_insider.dart';
+import 'package:app/utils/error_utils.dart';
 import 'package:app/widgets/containers/version_banner_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -46,6 +47,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'app/language_manager.dart';
 import 'blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import 'blocs/manage_booking/manage_booking_cubit.dart';
+import 'blocs/session/session_bloc.dart';
+import 'blocs/session/ticker_repository.dart';
 import 'pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'widgets/dialogs/app_confirmation_dialog.dart';
 
@@ -60,6 +63,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
+  final AuthenticationRepository _authenticationRepository = AuthenticationRepository();
+
   List<String> pathWithExpiredSession = [
     BundleRoute().path,
     SeatsRoute().path,
@@ -133,7 +138,28 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    try {
+      String? accessTokenData = await _authenticationRepository.getAccessToken();
+      if(accessTokenData != null) {
+        final currentContext = appRouter.navigatorKey.currentContext;
+        var expiredInUTC = LocalRepository().getSessionExpiredTime();
+        if (expiredInUTC == "") expiredInUTC =
+            DateTime.now().add(Duration(minutes: 10)).toIso8601String();
+        final expiredDate = DateTime.parse(expiredInUTC!);
+        final nowUTC = DateTime.now().toUtc();
+        final diff = expiredDate.difference(nowUTC);
+        currentContext?.read<SessionBloc>().add(
+          SessionStarted(
+            duration: diff.inSeconds < 0 ? 1 : diff.inSeconds,
+            expiredTime: expiredDate,
+          ),
+        );
+      }
+    } catch (e) {
+      logger.e("Cannot start session timer from resume");
+    }
+
     if (state == AppLifecycleState.resumed) {
       try {
         final currentContext = appRouter.navigatorKey.currentContext;
@@ -256,6 +282,56 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 
+  expiredSession(int durationRemaining) async {
+    if (durationRemaining == 0) {
+      //return;
+      //FirebaseAnalytics.instance.logEvent(name: "session_expired_dialog");
+      var response = await _authenticationRepository.checkToken2();
+      //var response = await _provider.checkToken2();
+      if(response.success == false) {
+        logger.e("CheckToken2 failed");
+        ErrorUtils.showErrorMessage(response);
+      } else {
+        final currentContext = appRouter.navigatorKey.currentContext;
+        currentContext?.read<SessionBloc>().add(const SessionReset());
+
+        //var expiredInUTC = LocalRepository().getSessionExpiredTime();
+        //if (expiredInUTC == "") expiredInUTC =
+        //    DateTime.now().add(Duration(minutes: 10)).toIso8601String();
+        //final expiredDate = DateTime.parse(expiredInUTC!);
+        //print("ExpiredDate ${expiredDate}");
+        final nowUTC = DateTime.now().toUtc();
+        //final diff = expiredDate.difference(nowUTC);
+        currentContext?.read<SessionBloc>().add(
+          SessionStarted(
+            duration: 600,
+            expiredTime: nowUTC.add(const Duration(seconds: 600)),
+          ),
+        );
+      }
+      /*showDialog(
+        context: currentContext,
+        barrierDismissible: false,
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: () async => true,
+            child: AppConfirmationDialog(
+              showCloseButton: false,
+              title: "sessionRetrySearch".tr(),
+              subtitle: "",
+              onConfirm: () {
+                currentContext.router.pop();
+                appRouter.replaceAll([const NavigationRoute()]);
+                currentContext.read<TimerBloc>().add(const TimerReset());
+              },
+              confirmText: "okay".tr(),
+            ),
+          );
+        },
+      );*/
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final locale = context.locale.toString();
@@ -291,6 +367,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         BlocProvider(
           create: (_) => TimerBloc(
             tickerRepository: const TickerRepository(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => SessionBloc(
+            tickerRepository: const TickerSessionRepository(),
           ),
         ),
         BlocProvider(
@@ -376,6 +457,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           BlocListener<TimerBloc, TimerState>(
             listener: (context, state) {
               showExpiredSession(state.durationRemaining);
+            },
+          ),
+          BlocListener<SessionBloc, SessionState>(
+            listener: (context, state) {
+              expiredSession(state.durationRemaining);
             },
           ),
           BlocListener<RoutesCubit, RoutesState>(

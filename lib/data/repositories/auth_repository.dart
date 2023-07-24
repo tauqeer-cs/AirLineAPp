@@ -226,5 +226,18 @@ class AuthenticationRepository {
     }
   }
 
+  Future<dynamic> checkToken2() async {
+    logger.e("CheckToken2");
+    var response = await _provider.checkToken2();//here
+
+    //if(response.success == false){
+
+    //  logout();
+    //  print('');
+
+    //}
+    return response;
+  }
+
   void dispose() => _controller.close();
 }
