@@ -1165,6 +1165,7 @@ class Seats extends Equatable {
   //final String? ssrCode;
   final num? weightIndex;
 
+
   const Seats(
       {this.blockChild,
       this.blockInfant,
@@ -1208,6 +1209,11 @@ class Seats extends Equatable {
     }
   }
 
+  String seatNameToShow(List<Rows>  rows) {
+
+    return (seatColumn ?? '') + (getRowNumber(rows) ?? '').toString();
+
+  }
   Seats copyWith({
     bool? blockChild,
     bool? blockInfant,

@@ -253,6 +253,20 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       total += currentUser.newReturnBaggageSelected?.finalAmount ?? 0.0;
 
+
+    }
+
+    return total;
+  }
+
+  num get notConfirmedSportsTotalPrice {
+    num total = 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for (PassengersWithSSR currentUser in passengers) {
+
       total += currentUser.newDepartSportsSelected?.finalAmount ?? 0.0;
 
       total += currentUser.newReturnSportsSelected?.finalAmount ?? 0.0;
@@ -261,6 +275,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     return total;
   }
+
 
 
   num get confirmedBaggageTotalPrice {
@@ -2778,9 +2793,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     var manageResponse = state.manageBookingResponse;
     if(isDeparture) {
+
+      for(PassengersWithSSR currentItem in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
+        if(currentItem.personObject != selectedPerson) {
+          if(currentItem.newDepartSeatSelected?.seatId == seats.seatId) {
+           return;
+          }
+        }
+      }
       if(selectedPerson?.departureSeats != null){
-
-
         var resultr = state.manageBookingResponse?.result?.passengersWithSSR?.where((element) => element.personObject == selectedPerson).toList();
         if((resultr ?? [] ).first.newDepartSeatSelected?.seatId == seats.seatId) {
 
@@ -2823,6 +2844,15 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       }
     }
     else {
+
+
+      for(PassengersWithSSR currentItem in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
+        if(currentItem.personObject != selectedPerson) {
+          if(currentItem.newReturnSeatSelected?.seatId == seats.seatId) {
+            return;
+          }
+        }
+      }
 
       var resultr = state.manageBookingResponse?.result?.passengersWithSSR?.where((element) => element.personObject == selectedPerson).toList();
       if((resultr ?? [] ).first.newReturnSeatSelected?.seatId == seats.seatId) {

@@ -89,6 +89,7 @@ class BaggageSection extends StatelessWidget {
                 child: Column(
                   children: [
                     kVerticalSpacerSmall,
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Row(
@@ -108,6 +109,30 @@ class BaggageSection extends StatelessWidget {
                         ],
                       ),
                     ),
+
+                    if((manageBookingCubit?.notConfirmedSportsTotalPrice ?? 0.0 )  > 0.0) ... [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 8),
+                        child: Row(
+                          children: [
+                            Text(
+                              '${'sports'.tr()} ${'flightCharge.total'.tr()}',
+                              style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                            ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                            MoneyWidget(
+                              amount: manageBookingCubit?.notConfirmedSportsTotalPrice ?? 0.0,
+                              isDense: true,
+                              isNormalMYR: true,
+                            ),
+                          ],
+                        ),
+                      ),
+
+
+                    ],
                     kVerticalSpacerSmall,
                     Row(
                       children: [

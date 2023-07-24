@@ -61,16 +61,13 @@ class SeatPlan extends StatelessWidget {
     if (isManageBooking) {
       var currentState = context.watch<ManageBookingCubit>().state;
 
-
       /*
       legends = isDeparture
           ? currentState.flightSeats?.outbound ?? []
           : currentState.flightSeats?.inbound ?? [];
 */
 
-      legends = isDeparture
-          ? []
-          : [];
+      legends = isDeparture ? [] : [];
     } else {
       mapColor = isDeparture
           ? bookingState.departureColorMapping
@@ -86,6 +83,7 @@ class SeatPlan extends StatelessWidget {
       color: Styles.kDividerColor,
       child: Column(
         children: [
+
           kVerticalSpacer,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,25 +112,17 @@ class SeatPlan extends StatelessWidget {
             Bundle? bundle;
             num? newPrice;
 
-            if(isManageBooking){
-
-              if(isSeatSeparated == true) {
+            if (isManageBooking) {
+              if (isSeatSeparated == true) {
                 print('');
 
                 try {
                   newPrice = row.seats?.first.seatPriceOffers?.first.amount;
-
-                }
-                catch(e) {
+                } catch (e) {
                   print('');
-
                 }
-
               }
-
             }
-
-
 
             for (Seats seat in row.seats ?? []) {
               bundle = legends.firstWhereOrNull(
@@ -141,19 +131,17 @@ class SeatPlan extends StatelessWidget {
                 break;
             }
 
-
             // final bundle = legends.firstWhereOrNull(
             //     (element) => element.serviceID == row.seats?.first.serviceId);
             if (bundle?.finalAmount == null) {
               log("final amount ${bundle?.toJson()}");
             }
-            return  Padding(
+            return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Column(
                 children: [
                   kVerticalSpacerSmall,
-                  if(isManageBooking) ... [
-
+                  if (isManageBooking) ...[
                     if (isSeatSeparated && newPrice != null)
                       Column(
                         children: [
@@ -166,7 +154,7 @@ class SeatPlan extends StatelessWidget {
                                 flex: 1,
                                 child: ArrowSVG(
                                   assetName:
-                                  'assets/images/svg/seats_arrow_left.svg',
+                                      'assets/images/svg/seats_arrow_left.svg',
                                   color: row.seats?.first.toColor,
                                 ),
                               ),
@@ -181,7 +169,7 @@ class SeatPlan extends StatelessWidget {
                               Expanded(
                                 child: ArrowSVG(
                                   assetName:
-                                  'assets/images/svg/seats_arrow_right.svg',
+                                      'assets/images/svg/seats_arrow_right.svg',
                                   color: row.seats?.first.toColor,
                                 ),
                               ),
@@ -191,8 +179,7 @@ class SeatPlan extends StatelessWidget {
                           kVerticalSpacerSmall,
                         ],
                       ),
-
-                  ] else ... [
+                  ] else ...[
                     if (isSeatSeparated && bundle != null)
                       Column(
                         children: [
@@ -205,7 +192,7 @@ class SeatPlan extends StatelessWidget {
                                 flex: 1,
                                 child: ArrowSVG(
                                   assetName:
-                                  'assets/images/svg/seats_arrow_left.svg',
+                                      'assets/images/svg/seats_arrow_left.svg',
                                   color: row.seats?.first.toColor,
                                 ),
                               ),
@@ -213,21 +200,25 @@ class SeatPlan extends StatelessWidget {
                                 flex: 3,
                                 child: (bundle.ssrCode ?? '').isEmpty
                                     ? Center(
-                                  child: Text(
-                                    "noData".tr(),
-                                    style: kLargeHeavy,
-                                  ),
-                                )
+                                        child: Text(
+                                          "noData".tr(),
+                                          style: kLargeHeavy,
+                                        ),
+                                      )
                                     : SeatPrice(
-                                  amount: bundle.finalAmount,
-                                  currency: row.seats?.first.seatPriceOffers
-                                      ?.firstOrNull?.currency,
-                                ),
+                                        amount: bundle.finalAmount,
+                                        currency: row
+                                            .seats
+                                            ?.first
+                                            .seatPriceOffers
+                                            ?.firstOrNull
+                                            ?.currency,
+                                      ),
                               ),
                               Expanded(
                                 child: ArrowSVG(
                                   assetName:
-                                  'assets/images/svg/seats_arrow_right.svg',
+                                      'assets/images/svg/seats_arrow_right.svg',
                                   color: row.seats?.first.toColor,
                                 ),
                               ),
@@ -238,7 +229,6 @@ class SeatPlan extends StatelessWidget {
                         ],
                       ),
                   ],
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -265,7 +255,10 @@ class SeatPlan extends StatelessWidget {
                                 ),
                               );
                       }).toList(),
-                      const Expanded(flex: 1, child: SizedBox()),
+                      const Expanded(
+                        flex: 1,
+                        child: SizedBox(),
+                      ),
                     ],
                   ),
                 ],
@@ -290,8 +283,9 @@ class SeatPlan extends StatelessWidget {
                   Expanded(
                     child: Container(),
                   ),
-                   MoneyWidget(
-                    amount: manageBookingCubit?.notConfirmedSeatsTotalPrice ?? 0.0,
+                  MoneyWidget(
+                    amount:
+                        manageBookingCubit?.notConfirmedSeatsTotalPrice ?? 0.0,
                     isDense: true,
                     isNormalMYR: true,
                   ),

@@ -188,13 +188,7 @@ class PassengerSelectorManageBooking extends StatelessWidget {
     final selectedPax =
         context.watch<ManageBookingCubit>().state.selectedPax;
 
-    var seatNoSelected = 0;
-    if(selectedPax?.personObject?.departureSeats != null) {
-      seatNoSelected++;
-    }
-    if(selectedPax?.personObject?.returnSeats != null) {
-      seatNoSelected++;
-    }
+
 
 
     return Column(
@@ -275,6 +269,122 @@ class PassengerSelectorManageBooking extends StatelessWidget {
 
 
 }
+
+class PassengerViewerForSeats extends StatelessWidget {
+
+
+
+  final List<PassengersWithSSR> passengersWithSSR;
+  final bool isSeatSelection;
+
+  const PassengerViewerForSeats({
+    Key? key,
+    this.isSeatSelection = false,
+    required this.passengersWithSSR,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    var bloc = context.watch<ManageBookingCubit>();
+    final selectedPax =
+        context.watch<ManageBookingCubit>().state.selectedPax;
+
+
+    var rows = bloc.state.flightSeats?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows ?? [];
+
+    if(bloc.state.seatDeparture == false){
+      rows = bloc.state.flightSeats?.inbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows ?? [];
+    }
+
+
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "passengers".tr(),
+            style: k18Heavy.copyWith(color: Styles.kTextColor),
+          ),
+        ),
+        kVerticalSpacerSmall,
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: 40,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: passengersWithSSR.map((person) {
+                bool isActive = false;
+
+                String toShow = 'idle'.tr();
+                if(bloc.state.seatDeparture == true) {
+                  if(person.personObject?.departureSeats != null) {
+
+                    toShow = person.personObject?.departureSeats?.seatNameToShow(rows) ?? '';
+
+                  }
+                }
+                else {
+                  if(person.personObject?.returnSeats != null) {
+
+                    toShow = person.personObject?.returnSeats?.seatNameToShow(rows) ?? '';
+
+                  }
+                }
+                  if(selectedPax == person) {
+                  isActive = true;
+                }
+
+
+
+                return GestureDetector(
+                  onTap: (){
+
+                    bloc.changeSelectedPax(person);
+
+                  },
+                  child: Container(
+
+                    margin: const EdgeInsets.only(right: 0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8,bottom: 8,right: 32),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              person.passengers?.fullName ?? '',
+                              style: kMediumHeavy,
+                            ),
+                          ),
+                          kVerticalSpacerMini,
+                          Text(
+                            isActive ? 'selecting'.tr() : toShow,
+                            style: kLargeRegular,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+}
+
 
 
 

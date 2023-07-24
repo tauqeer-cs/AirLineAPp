@@ -61,8 +61,8 @@ class ManageBookingDetailsView extends StatelessWidget {
   final VoidCallback onSharedTapped;
   final VoidCallback reloadView;
 
-
-  ManageBookingDetailsView({Key? key, required this.onSharedTapped, required this.reloadView})
+  ManageBookingDetailsView(
+      {Key? key, required this.onSharedTapped, required this.reloadView})
       : super(key: key);
 
   Color getColor(Set<MaterialState> states) {
@@ -120,14 +120,16 @@ class ManageBookingDetailsView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               child: BookingReferenceLabel(
                                 refText: state.pnrEntered,
                               ),
                             ),
                             kVerticalSpacer,
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               child: AppCard(
                                 edgeInsets: EdgeInsets.zero,
                                 child: Padding(
@@ -200,13 +202,14 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             horizontal: 16, vertical: 8),
                                         child: Divider(),
                                       ),
-                                      if ((state
-                                              .manageBookingResponse?.isTwoWay ??
+                                      if ((state.manageBookingResponse
+                                              ?.isTwoWay ??
                                           false)) ...[
                                         Row(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(0.0),
+                                              padding:
+                                                  const EdgeInsets.all(0.0),
                                               child: Checkbox(
                                                 checkColor: Colors.white,
                                                 fillColor: MaterialStateProperty
@@ -273,7 +276,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                           onPressed: () {
                                             onSharedTapped();
                                           }, //isLoading ? null :
-                                          child: Text('flightChange.share'.tr()),
+                                          child:
+                                              Text('flightChange.share'.tr()),
                                           /*
                                     * isLoading
                                         ? const AppLoading(
@@ -293,7 +297,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               : () async {
                                                   //   context.router.replaceAll([const NavigationRoute()]);
                                                   final allowedChange =
-                                                      isAllowedToContinue(state);
+                                                      isAllowedToContinue(
+                                                          state);
                                                   if (!allowedChange) {
                                                     Toast.of(context).show(
                                                         success: false,
@@ -302,7 +307,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                                 .tr());
                                                     return;
                                                   }
-                                                  bool? check = await showDialog(
+                                                  bool? check =
+                                                      await showDialog(
                                                     context: context,
                                                     builder:
                                                         (BuildContext context) {
@@ -328,42 +334,42 @@ class ManageBookingDetailsView extends StatelessWidget {
                               ),
                             ),
                             kVerticalSpacer,
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                child: PassengerSelectorManageBooking(
-                                  passengersWithSSR: bloc
-                                          ?.state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.passengersWithSSRWithoutInfant ??
-                                      [],
-                                ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: PassengerSelectorManageBooking(
+                                passengersWithSSR: bloc
+                                        ?.state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.passengersWithSSRWithoutInfant ??
+                                    [],
                               ),
-                              kVerticalSpacer,
-                               Padding(
-                                 padding: const EdgeInsets.symmetric(horizontal: 16),
-
-                                 child: SelectedPassengerInfo(selectedPax),
-                               ),
-                              kVerticalSpacerSmall,
-
+                            ),
+                            kVerticalSpacer,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: SelectedPassengerInfo(selectedPax),
+                            ),
+                            kVerticalSpacerSmall,
                             if (showSsr == true) ...[
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: const AddOnOptions(),
                               ),
                               kVerticalSpacer,
                               if (bloc?.state.addOnOptionSelected ==
                                   AddonType.seat) ...[
                                 kVerticalSpacerMini,
-                                true ? Container() :
-
-                                kVerticalSpacerSmall,
+                                true ? Container() : kVerticalSpacerSmall,
                                 if (bloc?.state.manageBookingResponse?.result
                                         ?.isReturn ==
                                     true) ...[
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: CustomSegmentControl(
                                       optionOneTapped: () {
                                         bloc?.setSelectionDeparture(true,
@@ -382,10 +388,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       customRadius: 12,
                                       customBorderWidth: 1,
                                       customVerticalPadding: 8,
-                                      customSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kLightBgColor),
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
                                     ),
                                   ),
                                   kVerticalSpacer,
@@ -393,6 +401,19 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 const Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 16),
                                   child: SeatLegendSimple(),
+                                ),
+                                kVerticalSpacer,
+
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: PassengerViewerForSeats(
+                                    passengersWithSSR: bloc
+                                            ?.state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.passengersWithSSRWithoutInfant ??
+                                        [],
+                                  ),
                                 ),
                                 kVerticalSpacer,
                                 SeatPlan(
@@ -418,7 +439,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ?.isReturn ==
                                     true) ...[
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: CustomSegmentControl(
                                       optionOneTapped: () {
                                         bloc?.setSelectionDeparture(true,
@@ -437,10 +459,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       customRadius: 12,
                                       customBorderWidth: 1,
                                       customVerticalPadding: 8,
-                                      customSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kLightBgColor),
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
                                     ),
                                   ),
                                   kVerticalSpacerSmall,
@@ -457,8 +481,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ?.isReturn ==
                                     true) ...[
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: CustomSegmentControl(
                                       optionOneTapped: () {
                                         bloc?.setSelectionDeparture(true,
@@ -477,10 +501,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       customRadius: 12,
                                       customBorderWidth: 1,
                                       customVerticalPadding: 8,
-                                      customSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kLightBgColor),
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
                                     ),
                                   ),
                                   kVerticalSpacerSmall,
@@ -499,8 +525,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ?.isReturn ==
                                     true) ...[
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: CustomSegmentControl(
                                       optionOneTapped: () {
                                         bloc?.setSelectionDeparture(true,
@@ -520,10 +546,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       customRadius: 12,
                                       customBorderWidth: 1,
                                       customVerticalPadding: 8,
-                                      customSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle: kMediumSemiBold
-                                          .copyWith(color: Styles.kLightBgColor),
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
                                     ),
                                   ),
                                   kVerticalSpacerSmall,
@@ -538,40 +566,36 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   AddonType.insurance) ...[
                                 //InsuranceView(isManageBooking: true,),
                                 const InsuranceManageView(),
-                              ] else ...[
-
-                              ],
+                              ] else
+                                ...[],
                             ],
-
-
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               child: const ManageFlightSummary(),
                             ),
-
                             if (showPax == true) ...[
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: const ContactsSection(),
                               ),
                               kVerticalSpacer,
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: const EmergencyContactsSection(),
                               ),
                               kVerticalSpacer,
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: const ComapnyTaxInvoiceSection(),
                               ),
                               kVerticalSpacer,
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: PaymentDetailsSecond(),
                               ),
                             ],
@@ -590,8 +614,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
-                                        BuildContext? cyrreContext = Scaffold.maybeOf(context)?.context;
-
+                                        BuildContext? cyrreContext =
+                                            Scaffold.maybeOf(context)?.context;
 
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
@@ -621,7 +645,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                   query['pnr']?.first;
 
                                               if (status != "FAIL") {
-
                                                 await showDialog(
                                                   context: cyrreContext!,
                                                   builder:
@@ -643,17 +666,14 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                                                 await bloc
                                                     ?.getBookingInformation(
-                                                    state.lastName ?? '',
-                                                    state.pnrEntered ?? '');
+                                                        state.lastName ?? '',
+                                                        state.pnrEntered ?? '');
 
                                                 reloadView();
 
-
                                                 //// cyrreContext
-                                                   // .read<VoucherCubit>()
-                                                   // .resetState();
-
-
+                                                // .read<VoucherCubit>()
+                                                // .resetState();
                                               } else {}
                                             } else {}
                                           }
@@ -937,11 +957,9 @@ class InsuranceManageView extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 16.0),
                                 child: Column(
                                   children: [
-
-
                                     Visibility(
                                       visible: e == InsuranceType.selected,
-                                      child:  Row(
+                                      child: Row(
                                         children: [
                                           Text(
                                             'passenger'.tr(),
@@ -949,15 +967,14 @@ class InsuranceManageView extends StatelessWidget {
                                           ),
                                           kHorizontalSpacerSmall,
                                           Text(
-                                            state.selectedPax?.passengers?.fullName ?? '',
+                                            state.selectedPax?.passengers
+                                                    ?.fullName ??
+                                                '',
                                             style: kLargeHeavy,
                                           ),
-
                                         ],
                                       ),
                                     ),
-
-
                                     ...insurances.map(
                                       (Bundle e) {
                                         final bound =
@@ -974,10 +991,9 @@ class InsuranceManageView extends StatelessWidget {
                                                   InsuranceType.all) {
                                                 bloc.addInsuranceToAllPeople(
                                                     e, tmp);
-                                              }
-                                              else {
+                                              } else {
                                                 bloc.addInsuranceToPeople(
-                                                    e, tmp,state.selectedPax);
+                                                    e, tmp, state.selectedPax);
                                               }
                                               /*
                                           if (selected == InsuranceType.all) {
@@ -1059,10 +1075,21 @@ class InsuranceManageView extends StatelessWidget {
                                                       groupValue: selected ==
                                                               InsuranceType.all
                                                           ? ((bloc
-                                                              .state
-                                                              .manageBookingResponse
-                                                              ?.allInsuranceSelected ?? false) && (e.codeType == state.manageBookingResponse?.allInsuranceBundleSelected?.codeType))
-                                                          : ((state.selectedPax?.newInsuranceBundleSelected?.codeType ?? '') == e.codeType),
+                                                                      .state
+                                                                      .manageBookingResponse
+                                                                      ?.allInsuranceSelected ??
+                                                                  false) &&
+                                                              (e.codeType ==
+                                                                  state
+                                                                      .manageBookingResponse
+                                                                      ?.allInsuranceBundleSelected
+                                                                      ?.codeType))
+                                                          : ((state
+                                                                      .selectedPax
+                                                                      ?.newInsuranceBundleSelected
+                                                                      ?.codeType ??
+                                                                  '') ==
+                                                              e.codeType),
                                                       onChanged: (value) {},
                                                     ),
                                                   ),
@@ -1077,11 +1104,6 @@ class InsuranceManageView extends StatelessWidget {
                                 ),
                               ),
                             ),
-
-
-
-
-
                           ],
                         ),
                       ),
@@ -1090,13 +1112,11 @@ class InsuranceManageView extends StatelessWidget {
                   .toList(),
             ),
           ),
-
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             child: Divider(),
           ),
           kVerticalSpacerSmall,
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Row(
@@ -1127,12 +1147,11 @@ class InsuranceManageView extends StatelessWidget {
                   onPressed: bloc.hasAnySeatChanged == false
                       ? null
                       : () {
-                    bloc.insuranceConfirmChange();
+                          bloc.insuranceConfirmChange();
 
-                    bloc.changeSelectedAddOnOption(
-                        AddonType.none,
-                        toNull: true);
-                  },
+                          bloc.changeSelectedAddOnOption(AddonType.none,
+                              toNull: true);
+                        },
                   child: Text('selectDateView.confirm'.tr()),
                 ),
               ),
@@ -1142,7 +1161,6 @@ class InsuranceManageView extends StatelessWidget {
             ],
           ),
           kVerticalSpacer,
-
         ] else ...[
           EmptyAddon(
             icon: "assets/images/icons/icoNoInsurance.png",
@@ -1170,7 +1188,8 @@ class ManageFlightSummary extends StatelessWidget {
     var totalPrice = bloc.confirmedSeatsTotalPrice +
         bloc.confirmedMealsTotalPrice +
         bloc.confirmedBaggageTotalPrice +
-        bloc.confirmedWheelChairTotalPrice + bloc.confirmedInsruanceTotalPrice;
+        bloc.confirmedWheelChairTotalPrice +
+        bloc.confirmedInsruanceTotalPrice;
 
     return totalPrice == 0.0
         ? Container()
@@ -1235,36 +1254,31 @@ class ManageFlightSummary extends StatelessWidget {
                   isManageBooking: true,
                 ),
 
-                if(bloc.state.insuranceType == InsuranceType.all || bloc.state.insuranceType == InsuranceType.selected) ... [
-
-                  if(bloc.confirmedInsruanceTotalPrice > 0) ... [
-                    InsurancesSummaryDetail(isManageBooking: true,),
+                if (bloc.state.insuranceType == InsuranceType.all ||
+                    bloc.state.insuranceType == InsuranceType.selected) ...[
+                  if (bloc.confirmedInsruanceTotalPrice > 0) ...[
+                    InsurancesSummaryDetail(
+                      isManageBooking: true,
+                    ),
                   ],
-
-
                 ],
-
-
-
               ],
             ),
           );
   }
 }
 
-
 class InsurancesSummaryDetail extends StatelessWidget {
-
   final bool isManageBooking;
 
-  InsurancesSummaryDetail(
-      {Key? key,
-        this.currency, required this.isManageBooking,})
-      : super(key: key);
+  InsurancesSummaryDetail({
+    Key? key,
+    this.currency,
+    required this.isManageBooking,
+  }) : super(key: key);
   final String? currency;
 
   ManageBookingCubit? manageBookingCubit;
-
 
   @override
   Widget build(BuildContext context) {
@@ -1273,21 +1287,20 @@ class InsurancesSummaryDetail extends StatelessWidget {
     var persons = List<Person>.from(numberOfPerson?.persons ?? []);
     num totalPrice = 0;
 
-      manageBookingCubit = context.watch<ManageBookingCubit>();
-      totalPrice = manageBookingCubit?.confirmedInsruanceTotalPrice ?? 0.0;
-      persons =  context
-          .watch<ManageBookingCubit>()
-          .state
-          .manageBookingResponse
-          ?.result
-          ?.allPersonObject ??
-          [];
-      numberOfPerson = NumberPerson(persons: persons);
+    manageBookingCubit = context.watch<ManageBookingCubit>();
+    totalPrice = manageBookingCubit?.confirmedInsruanceTotalPrice ?? 0.0;
+    persons = context
+            .watch<ManageBookingCubit>()
+            .state
+            .manageBookingResponse
+            ?.result
+            ?.allPersonObject ??
+        [];
+    numberOfPerson = NumberPerson(persons: persons);
 
-
-    var perPersonAmount = manageBookingCubit?.state.flightSSR?.insuranceGroup?.outbound?.first.finalAmount ?? 0.0;
-
-
+    var perPersonAmount = manageBookingCubit
+            ?.state.flightSSR?.insuranceGroup?.outbound?.first.finalAmount ??
+        0.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1306,13 +1319,12 @@ class InsurancesSummaryDetail extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-
-        if(manageBookingCubit?.state.confirmedInsuranceType == InsuranceType.all) ... [
+        if (manageBookingCubit?.state.confirmedInsuranceType ==
+            InsuranceType.all) ...[
           kVerticalSpacerMini,
-
-          for(PassengersWithSSR currentPerson in manageBookingCubit?.state.manageBookingResponse?.result?.passengersWithSSR ?? []) ... [
-
-
+          for (PassengersWithSSR currentPerson in manageBookingCubit
+                  ?.state.manageBookingResponse?.result?.passengersWithSSR ??
+              []) ...[
             ChildRow(
               child1: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1321,29 +1333,26 @@ class InsurancesSummaryDetail extends StatelessWidget {
                     currentPerson.passengers?.fullName ?? '',
                   ),
                   SummaryListItem(
-                    text: manageBookingCubit?.state.manageBookingResponse?.confirmedInsuranceBoundSelected?.name ?? '', isManageBooking: isManageBooking,
+                    text: manageBookingCubit?.state.manageBookingResponse
+                            ?.confirmedInsuranceBoundSelected?.name ??
+                        '',
+                    isManageBooking: isManageBooking,
                   )
-
-
                 ],
               ),
               child2: MoneyWidgetCustom(
                 currency: currency,
-                amount:perPersonAmount,
+                amount: perPersonAmount,
               ),
             )
           ],
-
-        ] else if(manageBookingCubit?.state.confirmedInsuranceType == InsuranceType.selected)... [
-
-
+        ] else if (manageBookingCubit?.state.confirmedInsuranceType ==
+            InsuranceType.selected) ...[
           kVerticalSpacerMini,
-
-          for(PassengersWithSSR currentPerson in manageBookingCubit?.state.manageBookingResponse?.result?.passengersWithSSR ?? []) ... [
-
-            if(currentPerson.confirmedInsuranceBundleSelected != null) ... [
-
-
+          for (PassengersWithSSR currentPerson in manageBookingCubit
+                  ?.state.manageBookingResponse?.result?.passengersWithSSR ??
+              []) ...[
+            if (currentPerson.confirmedInsuranceBundleSelected != null) ...[
               ChildRow(
                 child1: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1352,34 +1361,31 @@ class InsurancesSummaryDetail extends StatelessWidget {
                       currentPerson.passengers?.fullName ?? '',
                     ),
                     SummaryListItem(
-                      text: currentPerson.confirmedInsuranceBoundSelected?.name ?? '', isManageBooking: isManageBooking,
+                      text:
+                          currentPerson.confirmedInsuranceBoundSelected?.name ??
+                              '',
+                      isManageBooking: isManageBooking,
                     )
-
-
                   ],
                 ),
                 child2: MoneyWidgetCustom(
                   currency: currency,
-                  amount: currentPerson.confirmedInsuranceBoundSelected?.price ?? 0.0,
+                  amount:
+                      currentPerson.confirmedInsuranceBoundSelected?.price ??
+                          0.0,
                 ),
               )
-
             ],
-
           ],
-
-
         ],
-
       ],
     );
   }
 
   Widget allInsurance() {
-
     return Container();
-
   }
+
   Widget buildBaggageComponent(
       Person e, NumberPerson? numberOfPerson, bool isDeparture) {
     final baggage = isDeparture ? e.departureBaggage : e.returnBaggage;
@@ -1388,29 +1394,25 @@ class InsurancesSummaryDetail extends StatelessWidget {
     num amountToMinus = 0.0;
     final seats = e.departureSeats;
 
+    var ccc = manageBookingCubit
+        ?.state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((element) => element.personObject == e)
+        .toList();
 
-      var ccc = manageBookingCubit
-          ?.state.manageBookingResponse?.result?.passengersWithSSR
-          ?.where((element) => element.personObject == e)
-          .toList();
-
-      if ((ccc ?? []).isNotEmpty) {
-        if(isDeparture == true) {
-          if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
-            return Container();
-          }
-        }
-        else {
-          if ((ccc ?? []).first.confirmReturnBaggageSelected == null) {
-            return Container();
-          }
-        }
+    if ((ccc ?? []).isNotEmpty) {
+      if (isDeparture == true) {
         if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
-          //return Container();
+          return Container();
         }
-        else {
-
-          /*
+      } else {
+        if ((ccc ?? []).first.confirmReturnBaggageSelected == null) {
+          return Container();
+        }
+      }
+      if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+        //return Container();
+      } else {
+        /*
           var tmpSeat = manageBookingCubit
               ?.state.manageBookingResponse?.result?.seatDetail?.seats
               ?.where((element) =>
@@ -1427,17 +1429,10 @@ class InsurancesSummaryDetail extends StatelessWidget {
           }
 */
 
-
-
-
-
-
-          print('object');
-          // ccc.first.seat
-        }
+        print('object');
+        // ccc.first.seat
       }
-
-
+    }
 
     return ChildRow(
       child1: Column(
@@ -1449,18 +1444,16 @@ class InsurancesSummaryDetail extends StatelessWidget {
           Visibility(
             visible: sport != null,
             child: SummaryListItem(
-              text: sport?.description ?? '', isManageBooking: isManageBooking,
+              text: sport?.description ?? '',
+              isManageBooking: isManageBooking,
             ),
           ),
-
         ],
       ),
       child2: MoneyWidgetCustom(
         currency: currency,
-        amount:
-             e.getPartialPriceSports(isDeparture),
+        amount: e.getPartialPriceSports(isDeparture),
       ),
     );
   }
 }
-
