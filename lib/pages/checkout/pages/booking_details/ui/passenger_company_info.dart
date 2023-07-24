@@ -67,6 +67,12 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
 
       cityController.text = city ?? '';
 
+      if ((country ?? '').isEmpty){
+
+        country = 'Malaysia';
+
+      }
+
       print('object');
 
     }
