@@ -278,6 +278,21 @@ class Person extends Equatable {
     return newMap;
   }
 
+  Map<String?, List<Bundle>> groupedMealOld(bool isDeparture) {
+    var meals = isDeparture ? departureMeal : returnMeal;
+    meals = meals.where((e) => e.isOld == true).toList();
+    var newMap = groupBy(meals, (meal) => meal.ssrCode);
+
+    return newMap;
+  }
+
+  Map<String?, List<Bundle>> groupedMealNew(bool isDeparture) {
+    var meals = isDeparture ? departureMeal : returnMeal;
+    meals = meals.where((e) => e.isOld == false).toList();
+    var newMap = groupBy(meals, (meal) => meal.ssrCode);
+    return newMap;
+  }
+
   Passenger toPassenger({
     required List<Rows> outboundRows,
     required List<Rows> inboundRows,
@@ -434,6 +449,20 @@ class Person extends Equatable {
     return totalPrice;
   }
 
+  num getOldMeanPrice(bool isDeparture) {
+    num totalPrice = 0;
+    if (isDeparture) {
+      for (var element in departureMeal.where((e) => e.isOld == true)) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    } else {
+      for (var element in returnMeal) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    }
+    return totalPrice;
+  }
+
   num getPartialPriceMeal(bool isDeparture) {
     num totalPrice = 0;
     if (isDeparture) {
@@ -442,6 +471,20 @@ class Person extends Equatable {
       }
     } else {
       for (var element in returnMeal) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    }
+    return totalPrice;
+  }
+
+  num getPartialPriceMealForNew(bool isDeparture) {
+    num totalPrice = 0;
+    if (isDeparture) {
+      for (var element in departureMeal.where((e) => e.isOld == false)) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    } else {
+      for (var element in returnMeal.where((e) => e.isOld == false)) {
         totalPrice = totalPrice + element.finalAmount;
       }
     }

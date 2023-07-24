@@ -696,6 +696,8 @@ class Bundle extends Equatable {
   final bool? amountActive;
   final num? categoryID;
   final String? ssrCode;
+   final bool? isOld;
+
 
   String get ssrCodeToShow {
 
@@ -727,6 +729,68 @@ class Bundle extends Equatable {
   final num? boardingPassSsrOrder;
   final num? serviceType;
 
+  Bundle copyWith({
+    String? logicalFlightID,
+    String? departureDate,
+    String? operatingCarrier,
+    String? marketingCarrier,
+    String? codeType,
+    String? description,
+    String? currencyCode,
+    num? amount,
+    bool? amountActive,
+    num? categoryID,
+    bool? isOld,
+    String? ssrCode,
+    bool? display,
+    num? maxCountServiceLevel,
+    bool? refundable,
+    bool? pnlActive,
+    num? cutoffHours,
+    bool? commissionable,
+    num? displayOrder,
+    num? revenueCategoryID,
+    String? iataStandardCodeType,
+    bool? serviceActive,
+    num? maxCountFlightLevel,
+    num? quantityAvailable,
+    num? startSalesDays,
+    List<ApplicableTaxes>? applicableTaxes,
+    num? boardingPassSsrOrder,
+    num? serviceType,
+  }) {
+    return Bundle(
+      logicalFlightID: logicalFlightID ?? this.logicalFlightID,
+      departureDate: departureDate ?? this.departureDate,
+      operatingCarrier: operatingCarrier ?? this.operatingCarrier,
+      marketingCarrier: marketingCarrier ?? this.marketingCarrier,
+      codeType: codeType ?? this.codeType,
+      description: description ?? this.description,
+      currencyCode: currencyCode ?? this.currencyCode,
+      amount: amount ?? this.amount,
+      amountActive: amountActive ?? this.amountActive,
+      categoryID: categoryID ?? this.categoryID,
+      isOld: isOld ?? this.isOld,
+      ssrCode: ssrCode ?? this.ssrCode,
+      display: display ?? this.display,
+      maxCountServiceLevel: maxCountServiceLevel ?? this.maxCountServiceLevel,
+      refundable: refundable ?? this.refundable,
+      pnlActive: pnlActive ?? this.pnlActive,
+      cutoffHours: cutoffHours ?? this.cutoffHours,
+      commissionable: commissionable ?? this.commissionable,
+      displayOrder: displayOrder ?? this.displayOrder,
+      revenueCategoryID: revenueCategoryID ?? this.revenueCategoryID,
+      iataStandardCodeType: iataStandardCodeType ?? this.iataStandardCodeType,
+      serviceActive: serviceActive ?? this.serviceActive,
+      maxCountFlightLevel: maxCountFlightLevel ?? this.maxCountFlightLevel,
+      quantityAvailable: quantityAvailable ?? this.quantityAvailable,
+      startSalesDays: startSalesDays ?? this.startSalesDays,
+      applicableTaxes: applicableTaxes ?? this.applicableTaxes,
+      boardingPassSsrOrder: boardingPassSsrOrder ?? this.boardingPassSsrOrder,
+      serviceType: serviceType ?? this.serviceType,
+    );
+  }
+
   const Bundle({
     this.logicalFlightID,
     this.departureDate,
@@ -738,6 +802,7 @@ class Bundle extends Equatable {
     this.amount,
     this.amountActive,
     this.categoryID,
+    this.isOld = false,
     this.ssrCode,
     this.display,
     this.maxCountServiceLevel,

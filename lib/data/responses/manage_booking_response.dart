@@ -726,6 +726,16 @@ class PassengersWithSSR {
 
   Person? personObject;
 
+  Seats? previousDepartureSeats;
+  Seats? previousReturnSeats;
+  Bundle? previousDepartureBaggage;
+  Bundle? previousReturnBaggage;
+  Bundle? previousDepartureSports;
+  Bundle? previousReturnSports;
+  Bundle? previousDepartureWheelChair;
+  Bundle? previousReturnWheelChair;
+
+
   FareAndBundleDetail? fareAndBundleDetail;
   SeatDetail? seatDetail;
   MealDetail? mealDetail;
@@ -821,12 +831,32 @@ class PassengersWithSSR {
     Bundle? confirmedDepartSportsSelected,
     Bundle? confirmedReturnSportsSelected,
 
+    Seats? previousDepartureSeats,
+    Seats? previousReturnSeats,
+    Bundle? previousDepartureBaggage,
+    Bundle? previousReturnBaggage,
+    Bundle? previousDepartureSports,
+    Bundle? previousReturnSports,
+    Bundle? previousDepartureWheelChair,
+    Bundle? previousReturnWheelChair,
+
+
   }) {
     return PassengersWithSSR(
+      previousDepartureSeats : previousDepartureSeats  ?? this.previousDepartureSeats,
+      previousReturnSeats :  previousReturnSeats ?? this.previousReturnSeats,
+      previousDepartureBaggage : previousDepartureBaggage  ?? this.previousDepartureBaggage,
+      previousReturnBaggage :   previousReturnBaggage ?? this.previousReturnBaggage,
+      previousDepartureSports  :  previousDepartureSports ?? this.previousDepartureSports,
+      previousReturnSports  :  previousReturnSports ?? this.previousReturnSports,
+      previousDepartureWheelChair :   previousDepartureWheelChair ?? this.previousDepartureWheelChair,
+      previousReturnWheelChair :   previousReturnWheelChair ?? this.previousReturnWheelChair,
 
-      confirmedDepartSportsSelected :  confirmedDepartSportsSelected ?? this.confirmedDepartSportsSelected,
+
+
+
+    confirmedDepartSportsSelected :  confirmedDepartSportsSelected ?? this.confirmedDepartSportsSelected,
       confirmedReturnSportsSelected :  confirmedReturnSportsSelected ?? this.confirmedReturnSportsSelected,
-
       newInsuranceBundleSelected :  newInsuranceBundleSelected ?? this.newInsuranceBundleSelected,
       newInsuranceBoundSelected :   newInsuranceBoundSelected ?? this.newInsuranceBoundSelected,
       confirmedInsuranceBundleSelected : confirmedInsuranceBundleSelected  ?? this.confirmedInsuranceBundleSelected,
@@ -951,6 +981,16 @@ class PassengersWithSSR {
     this.confirmedInsuranceBoundSelected,
     this.confirmedDepartSportsSelected,
     this.confirmedReturnSportsSelected,
+    this.previousDepartureSeats,
+    this.previousReturnSeats,
+    this.previousDepartureBaggage,
+    this.previousReturnBaggage,
+    this.previousDepartureSports,
+    this.previousReturnSports,
+    this.previousDepartureWheelChair,
+    this.previousReturnWheelChair,
+
+
   });
 
   PassengersWithSSR.fromJson(Map<String, dynamic> json) {

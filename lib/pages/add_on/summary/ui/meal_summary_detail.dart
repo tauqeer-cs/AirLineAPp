@@ -35,12 +35,18 @@ class MealSummaryDetail extends StatelessWidget {
         (filter?.numberPerson.getTotalMealPartial(false) ?? 0));
     persons.removeWhere((element) => element.peopleType == PeopleType.infant);
 
+    var showMeal = false;
+
     if(isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
 
 
       totalPrice = manageBookingCubit!.confirmedMealsTotalPrice;
 
+      if(totalPrice == 0){
+        showMeal = manageBookingCubit!.shouldShowAnyMeal;
+
+      }
       persons =  context
           .watch<ManageBookingCubit>()
           .state
@@ -53,7 +59,7 @@ class MealSummaryDetail extends StatelessWidget {
 
     }
       return Visibility(
-      visible: totalPrice > 0,
+      visible: isManageBooking ? (showMeal || totalPrice > 0) : totalPrice > 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -77,23 +83,35 @@ class MealSummaryDetail extends StatelessWidget {
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
-          ...persons
-              .map((e) => buildMealComponent(e, numberOfPerson, true))
-              .toList(),
+          if(isManageBooking) ... [
+            ...persons
+                .map((e) => buildMealComponentMMb(e, numberOfPerson, true))
+                .toList(),
+          ] else ... [
+            ...persons
+                .map((e) => buildMealComponent(e, numberOfPerson, true))
+                .toList(),
+          ],
+
+
           kVerticalSpacerSmall,
           Visibility(
             visible: isManageBooking ? (manageBookingCubit?.state.manageBookingResponse?.result?.isReturn ?? false) : (filter?.flightType == FlightType.round),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "returning".tr(),
-                  style: kMediumSemiBold,
-                ),
+
                 kVerticalSpacerMini,
-                ...persons
-                    .map((e) => buildMealComponent(e, numberOfPerson, false))
-                    .toList(),
+                if(isManageBooking) ... [
+                  ...persons
+                      .map((e) => buildMealComponentMMb(e, numberOfPerson, false))
+                      .toList(),
+                ] else ... [
+                  ...persons
+                      .map((e) => buildMealComponent(e, numberOfPerson, false))
+                      .toList(),
+                ],
+
               ],
             ),
           ),
@@ -230,4 +248,236 @@ class MealSummaryDetail extends StatelessWidget {
       ),
     );
   }
+
+
+  Widget buildMealComponentMMb(
+      Person eP, NumberPerson? numberOfPerson, bool isDeparture) {
+    final mealOld = eP.groupedMealOld(isDeparture);
+    final mealNew = eP.groupedMealNew(isDeparture);
+
+    num amountToMinus = 0.0;
+
+    bool hideMeal = false;
+
+    if (isManageBooking) {
+      var ccc = manageBookingCubit
+          ?.state.manageBookingResponse?.result?.passengersWithSSR
+          ?.where((element) => element.personObject == eP)
+          .toList();
+
+
+
+      if ((ccc ?? []).isNotEmpty){
+
+        if(isDeparture) {
+          if ((ccc ?? []).first.confirmedDepartMeals == null) {
+            hideMeal = true;
+           if(isDeparture) {
+             if((eP.departureMeal ?? []).isNotEmpty ) {
+               hideMeal = false;
+
+             }
+           }
+
+            if(isDeparture == false) {
+              if((eP.returnMeal ?? []).isNotEmpty ) {
+                hideMeal = false;
+
+              }
+            }
+
+
+
+          }
+          else {
+            if((ccc ?? []).first.confirmedDepartMeals?.isEmpty == true) {
+              hideMeal = true;
+
+              if(isDeparture) {
+                if((eP.departureMeal ?? []).isNotEmpty ) {
+                  hideMeal = false;
+
+                }
+              }
+
+              if(isDeparture == false) {
+                if((eP.returnMeal ?? []).isNotEmpty ) {
+                  hideMeal = false;
+
+                }
+              }
+
+
+            }
+
+            var stringDepart = 'Depart';
+            if(isDeparture == false) {
+
+              stringDepart = 'Return';
+
+            }
+            //double totalAmount = (ccc ?? []).first.mealDetail.fold(0.0, (previousValue, obj) => previousValue + obj.amount);
+
+            if((ccc ?? []).first.mealDetail?.departureMeals.isNotEmpty ?? false) {
+              var cc1 = (ccc ?? []).first.mealDetail?.departureMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+
+
+              List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();
+
+              for(MealList currentMeal in finalVar ?? []){
+                amountToMinus = amountToMinus + (currentMeal.amount ?? 0.0);
+
+              }
+              print('');
+            }
+
+
+
+
+          }
+        }
+        else {
+          if ((ccc ?? []).first.confirmedReturnMeals == null) {
+            hideMeal = true;
+            if(isDeparture) {
+              if((eP.departureMeal ?? []).isNotEmpty ) {
+                hideMeal = false;
+
+              }
+            }
+
+            if(isDeparture == false) {
+              if((eP.returnMeal ?? []).isNotEmpty ) {
+                hideMeal = false;
+
+              }
+            }
+
+          }
+          else {
+            if((ccc ?? []).first.confirmedReturnMeals?.isEmpty == true) {
+              hideMeal = true;
+              if(isDeparture) {
+                if((eP.departureMeal ?? []).isNotEmpty ) {
+                  hideMeal = false;
+
+                }
+              }
+
+              if(isDeparture == false) {
+                if((eP.returnMeal ?? []).isNotEmpty ) {
+                  hideMeal = false;
+
+                }
+              }
+
+
+            }
+
+            var stringDepart = 'Depart';
+            if(isDeparture == false) {
+
+              stringDepart = 'Return';
+
+            }
+            //double totalAmount = (ccc ?? []).first.mealDetail.fold(0.0, (previousValue, obj) => previousValue + obj.amount);
+            var cc1 = (ccc ?? []).first.mealDetail?.returnMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+
+
+            List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();
+
+            for(MealList currentMeal in finalVar ?? []){
+              amountToMinus = amountToMinus + (currentMeal.amount ?? 0.0);
+
+            }
+            print('');
+
+
+
+          }
+        }
+
+      }
+    }
+
+
+    print('');
+
+    return hideMeal ? Container() : Visibility(
+      visible: true ,//eP.getPartialPriceMeal(isDeparture) > 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if(isDeparture == false) ... [
+            Text(
+              "returning".tr(),
+              style: kMediumSemiBold,
+            ),
+          ],
+
+          ChildRow(
+            child1: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  eP.generateText(numberOfPerson, separator: "& "),
+                ),
+
+                ...mealOld.entries
+                    .map(
+                        (e) {
+
+                      return SummaryListItem(
+                        text:
+                        "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
+                      );
+                    }
+                )
+                    .toList(),
+
+              ],
+            ),
+            child2: MoneyWidgetCustom(
+              currency: currency,
+              amount: eP.getOldMeanPrice(isDeparture),
+            ),
+          ),
+          if(eP.getPartialPriceMealForNew(isDeparture) != 0.0) ... [
+            ChildRow(
+              child1: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(),
+
+
+
+                  ...mealNew.entries
+                      .map(
+                          (e) {
+
+                        return SummaryListItem(
+                          makeRed: true,
+                          text:
+                          "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
+                        );
+                      }
+                  )
+                      .toList()
+
+                ],
+              ),
+              child2: MoneyWidgetCustom(
+                currency: currency,
+                textColor: Styles.kPrimaryColor,
+                amount: eP.getPartialPriceMealForNew(isDeparture),
+              ),
+            ),
+          ],
+
+
+        ],
+      ),
+    );
+  }
+
 }

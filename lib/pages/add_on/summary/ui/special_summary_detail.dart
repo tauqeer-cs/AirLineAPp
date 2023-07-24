@@ -22,7 +22,6 @@ class SpecialSummaryDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
-    final bookingTotal = context.watch<BookingCubit>().state;
     var numberOfPerson = filter?.numberPerson;
     var persons = List<Person>.from(numberOfPerson?.persons ?? []);
     var totalPrice =
@@ -54,7 +53,7 @@ class SpecialSummaryDetail extends StatelessWidget {
 
 
     return Visibility(
-      visible: totalPrice > 0,
+      visible: isManageBooking ? (manageBookingCubit?.isThereNewWheelChaie == true) : totalPrice > 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

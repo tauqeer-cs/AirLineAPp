@@ -77,6 +77,9 @@ class ManageBookingDetailsView extends StatelessWidget {
     return Styles.kPrimaryColor;
   }
 
+  GlobalKey horizKey1 = GlobalKey();
+  GlobalKey horizKey2 = GlobalKey();
+
   ManageBookingCubit? bloc;
 
   @override
@@ -512,6 +515,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   kVerticalSpacerSmall,
                                 ],
                                 BaggageSection(
+                                  horiz1: horizKey1,
+                                  horiz2: horizKey2,
                                   isManageBooking: true,
                                   isDeparture:
                                       bloc?.state.baggageDeparture ?? false,
@@ -1190,10 +1195,7 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.confirmedBaggageTotalPrice +
         bloc.confirmedWheelChairTotalPrice +
         bloc.confirmedInsruanceTotalPrice;
-
-    return totalPrice == 0.0
-        ? Container()
-        : AppCard(
+    return AppCard(
             child: Column(
               children: [
                 ChildRow(

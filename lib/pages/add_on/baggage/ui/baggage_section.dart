@@ -24,13 +24,16 @@ class BaggageSection extends StatelessWidget {
   final bool isDeparture;
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
+  final GlobalKey? horiz1;
+  final GlobalKey? horiz2;
+
 
   const  BaggageSection({
     Key? key,
     this.isDeparture = true,
     this.moveToTop,
     this.moveToBottom,
-    this.isManageBooking = false,
+    this.isManageBooking = false, this.horiz1, this.horiz2,
   }) : super(key: key);
 
   @override
@@ -171,14 +174,22 @@ class BaggageSection extends StatelessWidget {
     );
   }
 
-  Widget buildBaggageCards(List<Bundle>? baggages, bool isDeparture) {
-    if(isManageBooking) {
+  Widget buildBaggageCards(List<Bundle>? baggages, bool isDeparture,) {
+    if(isManageBooking == true && isDeparture == true) {
 
       return Padding(
         padding:  kPageHorizontalPadding,
-        child: HorizontalBaggageCards(isDeparture: isDeparture,),
+        child: HorizontalBaggageCards(isDeparture: isDeparture,key: this.horiz1,),
       );
     }
+    else if(isManageBooking == true &&  isDeparture == false) {
+
+      return Padding(
+        padding:  kPageHorizontalPadding,
+        child: HorizontalBaggageCards(isDeparture: isDeparture,key: this.horiz2,),
+      );
+    }
+
 
     baggages?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
 
@@ -486,6 +497,9 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     if(widget.isDeparture == false){
       resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.returnBaggage?.description).toList();
     }
+    else {
+
+    }
 
     baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
 
@@ -500,10 +514,22 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
 
       if(indexOf != pageController.initialPage){
+        //onlyOneTime = false;
+
         scrollToPositionInStart(indexOf);
-
-
       }
+
+    }
+    else {
+
+     // onlyOneTime = false;
+
+      int indexOf = 0;
+
+      selectedItem = (baggage ?? []).first.ssrCode ?? '';
+
+
+      scrollToPositionInStart(indexOf);
 
     }
 
@@ -516,6 +542,10 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
             if (_currentIndex == 0) {
               return;
             }
+
+
+
+            onlyOneTime = true;
 
             _currentIndex = _currentIndex - 1;
 
@@ -620,6 +650,8 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
             if (_currentIndex == ((baggage ?? []).length - 1)) {
               return;
             }
+           // onlyOneTime = true;
+
             _currentIndex = _currentIndex + 1;
             pageController.animateToPage(_currentIndex, duration: const Duration(milliseconds: 500), curve: Curves.ease);
 
@@ -644,7 +676,6 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     onlyOneTime = true;
 
     await Future.delayed(Duration(milliseconds: 500));
-  //  selectedItem = indexOf;
 
     pageController.animateToPage(indexOf, duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }

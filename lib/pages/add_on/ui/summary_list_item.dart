@@ -7,11 +7,13 @@ import '../../../theme/typography.dart';
 class SummaryListItem extends StatelessWidget {
 
   final bool isManageBooking;
-
+  final bool makeRed;
   final String text;
 
   const SummaryListItem({
-    Key? key, required this.text, required this.isManageBooking
+    Key? key, required this.text, required this.isManageBooking,
+    this.makeRed = false,
+
   }) : super(key: key);
 
 
@@ -23,16 +25,17 @@ class SummaryListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+
           Text(
             "- ",
             style:
-            kMediumRegular.copyWith(color: isManageBooking ? Styles.kTextColor : Styles.kActiveGrey),
+            kMediumRegular.copyWith(color: isManageBooking ? (makeRed ? Styles.kPrimaryColor :Styles.kTextColor) : Styles.kActiveGrey),
           ),
           Expanded(
             child: Text(
               text,
               style:
-              kMediumRegular.copyWith(color: isManageBooking ? Styles.kTextColor : Styles.kActiveGrey),
+              kMediumRegular.copyWith(color: isManageBooking ? (makeRed ? Styles.kPrimaryColor :Styles.kTextColor) : Styles.kActiveGrey),
             ),
           ),
         ],

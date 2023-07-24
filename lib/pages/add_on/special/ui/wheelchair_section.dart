@@ -225,6 +225,7 @@ class WheelchairSection extends StatelessWidget {
               value: selectedWheelchair != null,
               onChanged: (value) {
                 if (isManageBooking) {
+
                   manageBookingCubit?.addWheelToPerson(value ?? false,
                       focusedPerson, (wheelChairs ?? []).last, isDeparture);
 
@@ -278,9 +279,34 @@ class WheelchairSection extends StatelessWidget {
               initialValue: okId,
               onChanged: (id) {
                 if (isManageBooking) {
+
                   manageBookingCubit?.addWheelId(
                       true, focusedPerson, isDeparture, id ?? '');
-//value ?? false, focusedPerson, (wheelChairs ?? []).first, isDeparture
+
+                  if((id ?? '').isNotEmpty ){
+
+                    if((id ?? '').length == 1) {
+                      if(focusedPerson?.departureWheelChair != null) {
+
+                        manageBookingCubit?.addWheelToPerson( false,
+                            focusedPerson, (wheelChairs ?? []).first, isDeparture,changeToFree: true);
+
+                      }
+                    }
+                    print('');
+                  }
+                  else {
+
+                    print('Empt');
+
+                    if(focusedPerson?.departureWheelChair != null) {
+
+                      manageBookingCubit?.addWheelToPerson( false,
+                          focusedPerson, (wheelChairs ?? []).last, isDeparture,changeToFree: true);
+
+                    }
+                  }
+
                   return;
                 }
                 context.read<SearchFlightCubit>().addWheelChairToPersonPartial(
