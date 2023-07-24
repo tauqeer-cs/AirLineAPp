@@ -235,7 +235,10 @@ class PassengerCompanyInfoState extends State<PassengerCompanyInfo> {
                 name: formNameCompanyCountry,
                 child: AppCountriesDropdown(
                   onChanged: (value){
+                    country = value?.country ?? '';
+
                     if(widget.isManageBooking) {
+
                       manageBloc.setCompanyTaxValue(value?.country ?? '',isAddress: true);
                       return;
                     }
