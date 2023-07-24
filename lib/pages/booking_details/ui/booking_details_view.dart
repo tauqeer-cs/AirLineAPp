@@ -82,6 +82,9 @@ class ManageBookingDetailsView extends StatelessWidget {
   GlobalKey horizKeyS1 = GlobalKey();
   GlobalKey horizKeyS2 = GlobalKey();
 
+  GlobalKey horizKeyW1 = GlobalKey();
+  GlobalKey horizKeyW2 = GlobalKey();
+
   ManageBookingCubit? bloc;
 
   @override
@@ -565,11 +568,28 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   ),
                                   kVerticalSpacerSmall,
                                 ],
-                                WheelchairSection(
-                                    isDeparture:
-                                        bloc?.state.specialAppOpsDeparture ??
-                                            false,
-                                    isManageBooking: true),
+
+
+                                if(bloc?.state.specialAppOpsDeparture == true) ... [
+                                  WheelchairSection(
+                                    key: horizKeyW1,
+                                      isDeparture:
+                                      bloc?.state.specialAppOpsDeparture ??
+                                          false,
+                                      isManageBooking: true),
+                                ] else ... [
+
+                                  WheelchairSection(
+                                    key: horizKeyW2,
+                                      isDeparture:
+                                      bloc?.state.specialAppOpsDeparture ??
+                                          false,
+                                      isManageBooking: true),
+
+                                ],
+
+
+
                                 kVerticalSpacer,
                               ] else if (bloc?.state.addOnOptionSelected ==
                                   AddonType.insurance) ...[

@@ -3196,11 +3196,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           newPerson = item.personObject
               ?.copyWith(departureWheelChair: () => wheelChair);
           item.newDepartWheelChair = wheelChair;
+
         } else {
           newPerson =
               item.personObject?.copyWithNull(departureWheelChair: true);
 
           item.newDepartWheelChair = null;
+          item.wheelChairIdDepart = null;
+
         }
       } else {
         if (item.originalHadWheelChairReturn == true) {
@@ -3208,8 +3211,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
         if(changeToFree) {
           newPerson = item.personObject
-              ?.copyWith(departureWheelChair: () => wheelChair);
-          item.newDepartWheelChair = wheelChair;
+              ?.copyWith(returnWheelChair: () => wheelChair);
+          item.newReturnWheelChair = wheelChair;
+
 
         }
         else
@@ -3229,6 +3233,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           newPerson = item.personObject?.copyWithNull(returnWheelChair: true);
 
           item.newReturnWheelChair = null;
+          item.wheelChairIdReturn = null;
+
         }
       }
 
@@ -3262,13 +3268,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       Person? newPerson;
 
       if (isDeparture) {
-        if (item.originalHadWheelChairDepart == true) {
-          return;
-        }
+        item.wheelChairIdDepart = okId;
       } else {
-        if (item.originalHadWheelChairReturn == true) {
-          return;
-        }
+
         item.wheelChairIdReturn = okId;
       }
 

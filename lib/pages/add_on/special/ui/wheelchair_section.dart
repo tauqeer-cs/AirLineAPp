@@ -45,6 +45,8 @@ class WheelchairSection extends StatelessWidget {
     Bundle? selectedWheelchair;
     ManageBookingCubit? manageBookingCubit;
 
+    String selectedWheelChairId = '';
+
     if (isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
 
@@ -65,12 +67,27 @@ class WheelchairSection extends StatelessWidget {
 
       focusedPerson =
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
+
+
       selectedWheelchair = isDeparture
           ? focusedPerson?.departureWheelChair
           : focusedPerson?.returnWheelChair;
       okId = isDeparture
           ? focusedPerson?.departureOkId
           : focusedPerson?.returnOkId;
+
+      if(isDeparture) {
+
+        okId =
+            context.watch<ManageBookingCubit>().state.selectedPax?.wheelChairIdDepart ?? '';
+      }
+      else {
+        okId =
+            context.watch<ManageBookingCubit>().state.selectedPax?.wheelChairIdReturn ?? '';
+
+      }
+
     } else {
       final bookingState = context.watch<BookingCubit>().state;
       final state = context.watch<SearchFlightCubit>().state;
@@ -177,10 +194,10 @@ class WheelchairSection extends StatelessWidget {
                                   ? null
                                   : () {
                                 manageBookingCubit?.wheelChairConfirmSeatChange();
-
                                 manageBookingCubit?.changeSelectedAddOnOption(
                                     AddonType.special,
                                     toNull: true);
+
                               },
                               child: Text('selectDateView.confirm'.tr()),
                             ),
@@ -311,12 +328,25 @@ class WheelchairSection extends StatelessWidget {
 
                     print('Empt');
 
-                    if(focusedPerson?.departureWheelChair != null) {
+                    if(isDeparture == true) {
+                      if(focusedPerson?.departureWheelChair != null) {
 
-                      manageBookingCubit?.addWheelToPerson( false,
-                          focusedPerson, (wheelChairs ?? []).last, isDeparture,changeToFree: true);
+                        manageBookingCubit?.addWheelToPerson( false,
+                            focusedPerson, (wheelChairs ?? []).last, isDeparture,changeToFree: true);
 
+                      }
                     }
+                    else {
+                      if(focusedPerson?.returnWheelChair != null) {
+
+                        manageBookingCubit?.addWheelToPerson( false,
+                            focusedPerson, (wheelChairs ?? []).last, isDeparture,changeToFree: true);
+
+                      }
+                    }
+
+
+
                   }
 
                   return;
