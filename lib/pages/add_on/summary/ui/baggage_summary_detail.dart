@@ -105,9 +105,16 @@ class BaggageSummaryDetail extends StatelessWidget {
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,
-                ...persons
-                    .map((e) => buildBaggageComponent(e, numberOfPerson, false))
-                    .toList(),
+                if(this.isManageBooking) ... [
+                  ...persons
+                      .map((e) => buildBaggageComponentMMb(e, numberOfPerson, false))
+                      .toList(),
+                ] else ... [
+                  ...persons
+                      .map((e) => buildBaggageComponent(e, numberOfPerson, false))
+                      .toList(),
+                ],
+
               ],
             ),
           ),
@@ -178,6 +185,7 @@ class BaggageSummaryDetail extends StatelessWidget {
     }
 
 
+
     return Visibility(
       visible: baggage != null || sport != null,
       child: ChildRow(
@@ -188,6 +196,8 @@ class BaggageSummaryDetail extends StatelessWidget {
               e.generateText(numberOfPerson, separator: "& "),
             ),
             if (sports == false) ...[
+
+
               Visibility(
                 visible: baggage != null,
                 child: SummaryListItem(
@@ -196,6 +206,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                 ),
               ),
             ] else ...[
+
 
               Visibility(
                 visible: sport != null,
@@ -217,4 +228,163 @@ class BaggageSummaryDetail extends StatelessWidget {
       ),
     );
   }
+
+   Widget buildBaggageComponentMMb(
+       Person e, NumberPerson? numberOfPerson, bool isDeparture) {
+     final baggage = isDeparture ? e.departureBaggage : e.returnBaggage;
+     final sport = isDeparture ? e.departureSports : e.returnSports;
+
+     num amountToMinus = 0.0;
+     final seats = e.departureSeats;
+
+     if (isManageBooking) {
+       var ccc = manageBookingCubit
+           ?.state.manageBookingResponse?.result?.passengersWithSSR
+           ?.where((element) => element.personObject == e)
+           .toList();
+
+       if ((ccc ?? []).isNotEmpty) {
+         if(isDeparture == true) {
+           if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+             return Container();
+           }
+         }
+         else {
+           if ((ccc ?? []).first.confirmReturnBaggageSelected == null) {
+             return Container();
+           }
+         }
+         if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+           //return Container();
+         }
+         else {
+
+           /*
+          var tmpSeat = manageBookingCubit
+              ?.state.manageBookingResponse?.result?.seatDetail?.seats
+              ?.where((element) =>
+          element.givenName ==
+              ccc?.first.passengers?.givenName &&
+
+              element.surName ==
+                  ccc?.first.passengers?.surname &&
+              element.departReturn == 'Depart'
+          ).toList();
+
+          if((tmpSeat ?? []).isNotEmpty) {
+            amountToMinus = (tmpSeat ?? []).first.amount ?? 0.0;
+          }
+*/
+
+
+
+
+
+
+           print('object');
+           // ccc.first.seat
+         }
+       }
+     }
+
+
+
+     return Visibility(
+       visible: baggage != null || sport != null,
+       child: Column(
+         children: [
+
+           if(isManageBooking) ... [
+             if(isDeparture) ... [
+               if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage != null) ... [
+
+                 ChildRow(
+                   child1: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Text(
+                         e.generateText(numberOfPerson, separator: "& "),
+                       ),
+                       if (sports == false) ...[
+
+
+                         Visibility(
+                           visible: baggage != null,
+                           child: SummaryListItem(
+                             makeRed: false,
+                             text: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.description ?? '', isManageBooking: isManageBooking,
+                           ),
+                         ),
+                       ] else ...[
+
+
+                         Visibility(
+                           visible: sport != null,
+                           child: SummaryListItem(
+                             makeRed: this.isManageBooking,
+                             text: sport?.description ?? '', isManageBooking: isManageBooking,
+                           ),
+                         ),
+                       ],
+                     ],
+                   ),
+                   child2: MoneyWidgetCustom(
+                     currency: currency,
+                     amount: sports == false
+                         ? manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.amount
+                         : e.getPartialPriceSports(isDeparture),
+                   ),
+                 ),
+
+
+               ],
+             ]
+
+           ],
+
+
+
+           ChildRow(
+             child1: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Text(
+                   e.generateText(numberOfPerson, separator: "& "),
+                 ),
+                 if (sports == false) ...[
+
+
+                   Visibility(
+                     visible: baggage != null,
+                     child: SummaryListItem(
+                       makeRed: this.isManageBooking,
+                       text: baggage?.description ?? '', isManageBooking: isManageBooking,
+                     ),
+                   ),
+                 ] else ...[
+
+
+                   Visibility(
+                     visible: sport != null,
+                     child: SummaryListItem(
+                       makeRed: this.isManageBooking,
+                       text: sport?.description ?? '', isManageBooking: isManageBooking,
+                     ),
+                   ),
+                 ],
+               ],
+             ),
+             child2: MoneyWidgetCustom(
+               currency: currency,
+               textColor: isManageBooking ? Styles.kPrimaryColor : null,
+               amount: sports == false
+                   ? e.getPartialPriceBaggage(isDeparture)
+                   : e.getPartialPriceSports(isDeparture),
+             ),
+           ),
+         ],
+       ),
+     );
+   }
+
 }

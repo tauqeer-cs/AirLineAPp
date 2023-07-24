@@ -1114,7 +1114,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       for (Baggage currentIte in departBagSelected ?? []) {
         List<Bundle> result = state.flightSSR?.baggageGroup?.outbound
                 ?.where((e) =>
-                    e.codeType?.toLowerCase() ==
+                    e.description?.toLowerCase() ==
                     currentIte.baggageName?.toLowerCase())
                 .toList() ??
             [];
@@ -1127,7 +1127,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       for (Baggage currentIte in returnBagSelected ?? []) {
         List<Bundle> result = state.flightSSR?.baggageGroup?.inbound
                 ?.where((e) =>
-                    e.codeType?.toLowerCase() ==
+                    e.description?.toLowerCase() ==
                     currentIte.baggageName?.toLowerCase())
                 .toList() ??
             [];
