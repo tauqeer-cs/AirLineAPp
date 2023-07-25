@@ -38,6 +38,10 @@ class ManageBookingState extends Equatable {
   final FR.FlightSSR? flightSSR;
   final FlightSeats? flightSeats;
 
+  String  findSeatObjectFromId(String seatId) {
+
+    return '';
+  }
   //BundleGroupSeat.fromJson(json['seatGroup'] as Map<String, dynamic>)
 
 

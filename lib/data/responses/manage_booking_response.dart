@@ -583,6 +583,28 @@ class Result {
 
 class PassengersWithSSR {
 
+  num getPersonSeatPrice(bool isDepart) {
+    if(seatDetail != null) {
+      if((seatDetail?.seats ?? []).isNotEmpty ) {
+
+        if(isDepart) {
+          if((seatDetail?.departureSeat ?? []).isNotEmpty ) {
+            return (seatDetail?.departureSeat ?? []).first.amount ?? 0.0;
+
+          }
+        }
+
+
+        if((seatDetail?.returnSeat ?? []).isNotEmpty ) {
+          return (seatDetail?.returnSeat ?? []).first.amount ?? 0.0;
+
+        }
+      }
+    }
+
+    return 0.0;
+
+  }
   Vs.Seats? newDepartSeatSelected;
   Vs.Seats? newReturnSeatSelected;
 

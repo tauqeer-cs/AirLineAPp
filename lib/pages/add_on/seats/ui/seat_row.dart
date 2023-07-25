@@ -52,7 +52,7 @@ class _SeatRowState extends State<SeatRow> {
 
     int indexToShow = 0;
     ManageBookingCubit? manageCubit;
-
+    num priceOfOld = 0.0;
     if (widget.isManageBooking) {
       manageCubit = context.watch<ManageBookingCubit>();
 
@@ -79,14 +79,31 @@ class _SeatRowState extends State<SeatRow> {
               ?.allPersonObject ??
           [];
 
+      if (context.watch<ManageBookingCubit>().state.seatDeparture) {
+        context.watch<ManageBookingCubit>().state.selectedPax?.originalDepartSeatId;
+        context.watch<ManageBookingCubit>().state.flightSeats;
+        if(context.watch<ManageBookingCubit>().state.selectedPax?.previousDepartureSeats != null) {
+          priceOfOld = context.watch<ManageBookingCubit>().state.selectedPax?.previousDepartureSeats?.seatPriceOffers?.first.amount ?? 0.0;
+        }
+
+
+      } else {
+        priceOfOld = context.watch<ManageBookingCubit>().state.selectedPax?.getPersonSeatPrice(false) ?? 0.0;
+
+        if(context.watch<ManageBookingCubit>().state.selectedPax?.previousReturnSeats != null) {
+          priceOfOld = context.watch<ManageBookingCubit>().state.selectedPax?.previousReturnSeats?.seatPriceOffers?.first.amount ?? 0.0;
+        }
+
+
+
+      }
+
       persons = NumberPerson(persons: no);
 
       focusedPerson =
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
       isDeparture = context.watch<ManageBookingCubit>().state.seatDeparture;
       otherSeats = persons.selectedSeats(isDeparture);
-
-
     } else {
       final state = context.watch<SearchFlightCubit>().state;
       persons = state.filterState?.numberPerson;
@@ -100,26 +117,25 @@ class _SeatRowState extends State<SeatRow> {
         ? focusedPerson?.departureSeats
         : focusedPerson?.returnSeats;
     bool selected = seat == widget.seats;
-    if(widget.isManageBooking ){
+    if (widget.isManageBooking) {
       selected = seat?.seatId == widget.seats.seatId;
     }
     bool otherSelected = otherSeats?.contains(widget.seats) ?? false;
 
-    if(widget.isManageBooking) {
-
+    if (widget.isManageBooking) {
       //otherSelected =
-      var res = otherSeats?.where((e) => e?.seatId == widget.seats.seatId).toList();
-      if(res?.isNotEmpty ?? false) {
+      var res =
+          otherSeats?.where((e) => e?.seatId == widget.seats.seatId).toList();
+      if (res?.isNotEmpty ?? false) {
         otherSelected = true;
-      }
-      else {
+      } else {
         otherSelected = false;
-
       }
     }
     if (seat != null) {
       print('');
     }
+
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
@@ -127,13 +143,13 @@ class _SeatRowState extends State<SeatRow> {
         onTap: () async {
           if (!(widget.seats.isSeatAvailable ?? true)) return;
           if (isBlockChild(focusedPerson, persons)) return;
-          if(widget.isManageBooking) {
+          if (widget.isManageBooking) {
             //if(selected){
 
-              manageCubit?.addSeatToPerson(selectedPerson, widget.seats, isDeparture);
-           // }
+            manageCubit?.addSeatToPerson(
+                selectedPerson, widget.seats, isDeparture);
+            // }
             return;
-
           }
           if (selected) {
             print("is selected $selected");
@@ -178,7 +194,7 @@ class _SeatRowState extends State<SeatRow> {
           height: 40,
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: (widget.seats.isSeatAvailable ?? false) &&
+              color: (widget.isManageBooking && priceOfOld >= (widget.seats.seatPriceOffers?.first.amount ?? 0.0) ) ? SeatAvailableLegend.unavailable.color : (widget.seats.isSeatAvailable ?? false) &&
                       !isBlockChild(focusedPerson, persons)
                   ? widget.seats.toColor
                   : SeatAvailableLegend.unavailable.color,
@@ -195,7 +211,7 @@ class _SeatRowState extends State<SeatRow> {
                       ? (selected
                           ? buildPersonTextFocused(focusedPerson, manageCubit)
                           : seatTextPerson(
-                      ((widget.seats.seatId ?? '')), manageCubit))
+                              ((widget.seats.seatId ?? '')), manageCubit))
                       : Text(
                           selected
                               ? "${persons?.getPersonIndex(focusedPerson)}"
@@ -221,7 +237,10 @@ class _SeatRowState extends State<SeatRow> {
           ?.indexOf((respone ?? []).first);
 
       if (index != null) {
-        return Text((index + 1).toString(),style: kLargeHeavy.copyWith(color: Colors.white),);
+        return Text(
+          (index + 1).toString(),
+          style: kLargeHeavy.copyWith(color: Colors.white),
+        );
       }
     }
     return Text('0');
@@ -238,8 +257,6 @@ class _SeatRowState extends State<SeatRow> {
         (respone?.first.personObject?.numberOrder ?? 0).toString(),
         style: kLargeHeavy.copyWith(color: Colors.white),
       );
-
-
 
       if (index != null) {
         return Text(

@@ -42,7 +42,10 @@ class AppFlavor {
     switch (appFlavor) {
       case Flavor.staging:
 
+        return 'http://uat-nav.web.myairline.my/';
+
         return 'https://mya-nav-web.alphareds.com/booked';
+
       case Flavor.uat:
 
         //https://uat-nav-api.myairline.my/api/v1/flight/getairport
@@ -55,7 +58,8 @@ class AppFlavor {
   static String get websiteUrl {
     switch (appFlavor) {
       case Flavor.staging:
-        //
+        return 'http://uat-nav.api.myairline.my/';
+
         return 'https://mya-nav-web.alphareds.com';
       case Flavor.uat:
         return 'https://uat-nav.myairline.my';
@@ -67,6 +71,7 @@ class AppFlavor {
   static String get thirdPartyUrl {
     switch (appFlavor) {
       case Flavor.staging:
+        return 'http://uat-nav.api.myairline.my/';
         return 'https://mya-nav-booking.alphareds.com';
         //https://mya-nav-booking.alphareds.com
         return 'https://myairline-gcp-cert-ezycommerce.ezyflight.se';
@@ -80,7 +85,6 @@ class AppFlavor {
   static String get baseUrlCMS {
     switch (appFlavor) {
       case Flavor.staging:
-        //return 'https://mya-nav-booking.alphareds.com';
         return 'https://mya-cms.alphareds.com/';
       case Flavor.uat:
 
@@ -93,6 +97,8 @@ class AppFlavor {
   static String get baseUrlApi {
     switch (appFlavor) {
       case Flavor.staging:
+        return 'http://uat-nav.api.myairline.my/api/mobile/';
+
         return 'https://mya-nav-api.alphareds.com/api/';
         return 'https://mya-api.alphareds.com/api/mobile/';
       case Flavor.uat:
