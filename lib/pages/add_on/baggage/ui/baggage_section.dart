@@ -620,7 +620,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                     child: Column(
                       children: [
                         Image.asset(
-                          "assets/images/design/icoSportsGrey.png",
+                          "assets/images/design/icoLuggageFull.png",
                           color: Styles.kSubTextColor,
                           height: 96,
                         ),
