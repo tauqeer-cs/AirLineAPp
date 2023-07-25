@@ -3022,6 +3022,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           else {
             newSSR = item.copyWith(
                 personObject: newPerson, newReturnSeatSelected: seats);
+           // newSSR.newReturnSportsSelected = seats;
+
           }
 
         }

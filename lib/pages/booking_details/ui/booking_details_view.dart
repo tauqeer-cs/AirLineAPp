@@ -40,6 +40,7 @@ import '../../add_on/summary/ui/seat_detail.dart';
 import '../../add_on/summary/ui/special_summary_detail.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../add_on/ui/summary_list_item.dart';
+import '../../change_flight_summary/ui/change_flight_summary_view.dart';
 import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../checkout/pages/insurance/ui/available_insurance.dart';
 import '../../checkout/pages/insurance/ui/insurance_view.dart';
@@ -1288,6 +1289,51 @@ class ManageFlightSummary extends StatelessWidget {
                     ),
                   ],
                 ],
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            RedCircle(
+                              circleColor: Styles.kPrimaryColor,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'flightCharge.changes'.tr(),
+                              style: kSmallRegular.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            RedCircle(
+                              circleColor: Styles.kTextColor,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'flightCharge.existingAddons'.tr(),
+                              style: kSmallRegular.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
               ],
             ),
           );

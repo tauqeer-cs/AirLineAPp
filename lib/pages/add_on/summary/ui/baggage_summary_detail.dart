@@ -92,7 +92,7 @@ class BaggageSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerMini,
           ...persons
-              .map((e) => buildBaggageComponent(e, numberOfPerson, true))
+              .map((e) => buildBaggageComponentMMb(e, numberOfPerson, true))
               .toList(),
           kVerticalSpacerSmall,
           Visibility(
@@ -295,8 +295,43 @@ class BaggageSummaryDetail extends StatelessWidget {
          children: [
 
            if(isManageBooking) ... [
-             if(isDeparture) ... [
+             if(isDeparture && sports == false) ... [
                if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage != null) ... [
+
+                 ChildRow(
+                   child1: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Text(
+                         e.generateText(numberOfPerson, separator: "& "),
+                       ),
+
+                         Visibility(
+                           visible: baggage != null,
+                           child: SummaryListItem(
+                             makeRed: false,
+                             text: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.description ?? '', isManageBooking: isManageBooking,
+                           ),
+                         ),
+
+                     ],
+                   ),
+                   child2: Padding(
+                     padding: const EdgeInsets.only(top: 16),
+                     child: MoneyWidgetCustom(
+                       currency: currency,
+                       amount: sports == false
+                           ? manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.amount
+                           : e.getPartialPriceSports(isDeparture),
+                     ),
+                   ),
+                 ),
+
+
+               ],
+             ]
+             else if(isDeparture == false&& sports == false) ... [
+               if(manageBookingCubit?.passengerFromPerson(e)?.previousReturnBaggage != null) ... [
 
                  ChildRow(
                    child1: Column(
@@ -312,33 +347,96 @@ class BaggageSummaryDetail extends StatelessWidget {
                            visible: baggage != null,
                            child: SummaryListItem(
                              makeRed: false,
-                             text: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.description ?? '', isManageBooking: isManageBooking,
-                           ),
-                         ),
-                       ] else ...[
-
-
-                         Visibility(
-                           visible: sport != null,
-                           child: SummaryListItem(
-                             makeRed: this.isManageBooking,
-                             text: sport?.description ?? '', isManageBooking: isManageBooking,
+                             text: manageBookingCubit?.passengerFromPerson(e)?.previousReturnBaggage?.description ?? '', isManageBooking: isManageBooking,
                            ),
                          ),
                        ],
                      ],
                    ),
-                   child2: MoneyWidgetCustom(
-                     currency: currency,
-                     amount: sports == false
-                         ? manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.amount
-                         : e.getPartialPriceSports(isDeparture),
+                   child2: Padding(
+                     padding: const EdgeInsets.only(top: 16),
+                     child: MoneyWidgetCustom(
+                       currency: currency,
+                       amount: sports == false
+                           ? manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.amount
+                           : e.getPartialPriceSports(isDeparture),
+                     ),
                    ),
                  ),
 
 
                ],
              ]
+             else if(isDeparture && sports == true) ... [
+               if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports != null) ... [
+                 ChildRow(
+                   child1: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Text(
+                         e.generateText(numberOfPerson, separator: "& "),
+                       ),
+
+                       Visibility(
+                         visible: baggage != null,
+                         child: SummaryListItem(
+                           makeRed: false,
+                           text: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports?.description ?? '', isManageBooking: isManageBooking,
+                         ),
+                       ),
+
+                     ],
+                   ),
+                   child2: Padding(
+                     padding: const EdgeInsets.only(top: 16),
+                     child: MoneyWidgetCustom(
+                       currency: currency,
+                       amount:  manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports?.amount,
+                     ),
+                   ),
+                 ),
+
+
+               ],
+             ]
+               else if(isDeparture == false&& sports == true) ... [
+                   if(manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports != null) ... [
+
+                     ChildRow(
+                       child1: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           Text(
+                             e.generateText(numberOfPerson, separator: "& "),
+                           ),
+
+
+                             Visibility(
+                               visible: baggage != null,
+                               child: SummaryListItem(
+                                 makeRed: false,
+                                 text: manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports?.description ?? '', isManageBooking: isManageBooking,
+                               ),
+                             ),
+
+                         ],
+                       ),
+                       child2: Padding(
+                         padding: const EdgeInsets.only(top: 16),
+                         child: MoneyWidgetCustom(
+                           currency: currency,
+                           amount:
+                                manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports?.amount,
+                         ),
+                       ),
+                     ),
+
+
+                   ],
+                 ]
+             else ...[
+
+             ],
 
            ],
 
@@ -348,9 +446,26 @@ class BaggageSummaryDetail extends StatelessWidget {
              child1: Column(
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 Text(
-                   e.generateText(numberOfPerson, separator: "& "),
-                 ),
+
+                 if(this.isManageBooking == true && isDeparture == true &&this.sports == false && (manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage != null)) ... [
+
+                 ]
+                 else if(this.isManageBooking == true && isDeparture == false &&this.sports == false && (manageBookingCubit?.passengerFromPerson(e)?.previousReturnBaggage != null)) ... [
+
+                 ]
+                 else if(this.isManageBooking == true && isDeparture == true &&this.sports == true && (manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports != null)) ... [
+
+                 ]
+                 else if(this.isManageBooking == true && isDeparture == false &&this.sports == true && (manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports != null)) ... [
+
+                 ]
+                 else ... [
+                   Text(
+                     e.generateText(numberOfPerson, separator: "& "),
+                   ),
+                 ] ,
+
+
                  if (sports == false) ...[
 
 

@@ -110,6 +110,8 @@ class SpecialSummaryDetail extends StatelessWidget {
     final wheelchair = isDeparture ? e.departureWheelChair : e.returnWheelChair;
     final okId = isDeparture ? e.departureOkId : e.returnOkId;
 
+    if(isManageBooking) {
+    }
     return Visibility(
       visible: wheelchair!=null,
       child: ChildRow(
@@ -119,7 +121,9 @@ class SpecialSummaryDetail extends StatelessWidget {
             Text(
               e.generateText(numberOfPerson, separator: "& "),
             ),
-            SummaryListItem(text: wheelchair?.description ?? '', isManageBooking: isManageBooking,),
+            SummaryListItem(text: wheelchair?.description ?? '', isManageBooking: isManageBooking,
+            makeRed: isManageBooking,
+            ),
             Visibility(
               visible: okId?.isNotEmpty ?? false,
               child: Text(
@@ -132,6 +136,7 @@ class SpecialSummaryDetail extends StatelessWidget {
         ),
         child2: MoneyWidgetCustom(
           currency: currency,
+          textColor: isManageBooking ? Styles.kPrimaryColor : null,
           amount: wheelchair?.finalAmount,
         ),
       ),
