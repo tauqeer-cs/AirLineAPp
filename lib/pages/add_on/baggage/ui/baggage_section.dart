@@ -488,20 +488,45 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     currency = state.manageBookingResponse?.result?.superPNROrder
         ?.currencyCode ??
         'MYR';
-    final baggage =
-
+    var baggage =
     widget.isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+    String? lastBaggagePrice ;
+
+    if(widget.isDeparture) {
+      if(state.selectedPax?.baggageDetail != null) {
+        if((state.selectedPax!.baggageDetail?.departureBaggages ?? []).isNotEmpty) {
+          lastBaggagePrice =  (state.selectedPax!.baggageDetail?.departureBaggages ?? []).first.ssrCode;
+        }
+      }
+
+
+    }
+    else {
+      if(state.selectedPax?.baggageDetail != null) {
+        if((state.selectedPax!.baggageDetail?.returnBaggages ?? []).isNotEmpty) {
+          lastBaggagePrice =  (state.selectedPax!.baggageDetail?.returnBaggages ?? []).first.ssrCode;
+        }
+      }
+    }
+
+    baggage = baggage?.where((e) => e.ssrCode != lastBaggagePrice && e.ssrCode != 'NOSELECT').toList();
+
 
     Person? selectedPerson =
         context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
     var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureBaggage?.description).toList();
 
+
     if(widget.isDeparture == false){
       resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.returnBaggage?.description).toList();
+
+
     }
     else {
 
     }
+
+
 
     baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
 
@@ -524,7 +549,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
     }
     else {
       int indexOf = 0;
-      selectedItem = (baggage ?? []).first.ssrCode ?? '';
+      //selectedItem = (baggage ?? []).first.ssrCode ?? '';
       scrollToPositionInStart(indexOf);
     }
 
@@ -575,12 +600,22 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                   var currentItem = baggage![index];
 
                   return InkWell(
-                    onTap: (){
+                    onTap: () async {
                       selectedItem = (baggage ?? [])[index].ssrCode ?? '';
-                      bloc?.addBaggageToPerson(selectedPerson,(baggage ?? [])[index],widget.isDeparture);
-                      setState(() {
+                      var response =  bloc?.addBaggageToPerson(selectedPerson,(baggage ?? [])[index],widget.isDeparture);
+                     if(response == true) {
 
-                      });
+                       setState(() {
+                         selectedItem = '';
+
+                       });
+                     }
+                     else {
+                       setState(() {
+
+                       });
+                     }
+
                     },
                     child: Column(
                       children: [

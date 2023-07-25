@@ -368,6 +368,7 @@ class Baggage extends Equatable {
     this.seatPosition,
     this.sportEquipmentName,
     this.insuranceSSRName,
+    this.ssrCode,
   });
 
   @override
@@ -395,6 +396,8 @@ class Baggage extends Equatable {
   final String? title;
 
   final String? baggageName;
+  final String? ssrCode;
+
   final num? amount;
   final num? quantity;
   final String? currency;
@@ -407,6 +410,7 @@ class Baggage extends Equatable {
     String? surName,
     String? givenName,
     String? title,
+    String? ssrCode,
     String? baggageName,
     num? amount,
     num? quantity,
@@ -417,6 +421,7 @@ class Baggage extends Equatable {
     String? insuranceName,
   }) =>
       Baggage(
+        ssrCode : ssrCode ?? this.ssrCode,
         surName: surName ?? this.surName,
         givenName: givenName ?? this.givenName,
         title: title ?? this.title,

@@ -220,6 +220,7 @@ Baggage _$BaggageFromJson(Map<String, dynamic> json) => Baggage(
       givenName: json['givenName'] as String?,
       title: json['title'] as String?,
       baggageName: json['baggageName'] as String?,
+  ssrCode: json['ssrCode'] as String?,
       amount: json['amount'] as num?,
       quantity: json['quantity'] as num?,
       currency: json['currency'] as String?,
@@ -242,6 +243,7 @@ Map<String, dynamic> _$BaggageToJson(Baggage instance) {
   writeNotNull('givenName', instance.givenName);
   writeNotNull('title', instance.title);
   writeNotNull('baggageName', instance.baggageName);
+  writeNotNull('ssrCode', instance.ssrCode);
   writeNotNull('amount', instance.amount);
   writeNotNull('quantity', instance.quantity);
   writeNotNull('currency', instance.currency);

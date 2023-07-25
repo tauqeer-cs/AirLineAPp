@@ -320,9 +320,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                      padding: const EdgeInsets.only(top: 16),
                      child: MoneyWidgetCustom(
                        currency: currency,
-                       amount: sports == false
-                           ? manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.amount
-                           : e.getPartialPriceSports(isDeparture),
+                       amount:  manageBookingCubit?.passengerFromPerson(e)?.baggageDetail?.departureBaggages.first.amount ?? 0.0,
                      ),
                    ),
                  ),
@@ -357,9 +355,8 @@ class BaggageSummaryDetail extends StatelessWidget {
                      padding: const EdgeInsets.only(top: 16),
                      child: MoneyWidgetCustom(
                        currency: currency,
-                       amount: sports == false
-                           ? manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.amount
-                           : e.getPartialPriceSports(isDeparture),
+                       amount:  manageBookingCubit?.passengerFromPerson(e)?.baggageDetail?.returnBaggages.first.amount ?? 0.0,
+
                      ),
                    ),
                  ),
@@ -391,7 +388,8 @@ class BaggageSummaryDetail extends StatelessWidget {
                      padding: const EdgeInsets.only(top: 16),
                      child: MoneyWidgetCustom(
                        currency: currency,
-                       amount:  manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports?.amount,
+                       amount:  manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.departureBaggages.first.amount ?? 0.0,
+
                      ),
                    ),
                  ),
@@ -425,8 +423,8 @@ class BaggageSummaryDetail extends StatelessWidget {
                          padding: const EdgeInsets.only(top: 16),
                          child: MoneyWidgetCustom(
                            currency: currency,
-                           amount:
-                                manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports?.amount,
+                           amount:  manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.returnBaggages.first.amount ?? 0.0,
+
                          ),
                        ),
                      ),
