@@ -49,6 +49,7 @@ class AppFlavor {
       case Flavor.uat:
 
         //https://uat-nav-api.myairline.my/api/v1/flight/getairport
+        return 'http://uat-nav.web.myairline.my/';
         return 'https://uat-nav-booking.myairline.my/booked';
       default:
         return 'https://booking.myairline.my/booked';
@@ -62,6 +63,8 @@ class AppFlavor {
 
         return 'https://mya-nav-web.alphareds.com';
       case Flavor.uat:
+        return 'http://uat-nav.api.myairline.my/';
+
         return 'https://uat-nav.myairline.my';
       default:
         return 'https://www.myairline.my';
@@ -102,6 +105,7 @@ class AppFlavor {
         return 'https://mya-nav-api.alphareds.com/api/';
         return 'https://mya-api.alphareds.com/api/mobile/';
       case Flavor.uat:
+        return 'http://uat-nav.api.myairline.my/api/mobile/';
 
         return 'https://uat-nav-api.myairline.my/api/mobile/';
       default:
