@@ -126,6 +126,9 @@ class SeatSummaryDetail extends StatelessWidget {
               num amountToMinus = 0.0;
               final seats = e.departureSeats;
 
+              String? departingSeatName;
+
+
               if (isManageBooking) {
                 var ccc = manageBookingCubit
                     ?.state.manageBookingResponse?.result?.passengersWithSSR
@@ -133,7 +136,21 @@ class SeatSummaryDetail extends StatelessWidget {
                     .toList();
 
                 if ((ccc ?? []).isNotEmpty) {
+
+
+
+                  departingSeatName =  (ccc ?? []).first.confirmedDepartSeatSelected?.seatNameToShow(                  manageBookingCubit
+                      ?.state.flightSeats?.outbound
+                      ?.firstOrNull
+                      ?.retrieveFlightSeatMapResponse
+                      ?.physicalFlights
+                      ?.firstOrNull
+                      ?.physicalFlightSeatMap
+                      ?.seatConfiguration
+                      ?.rows ?? []);
+
                   if ((ccc ?? []).first.confirmedDepartSeatSelected == null) {
+
                     return Container();
                   } else {
 
@@ -185,6 +202,8 @@ class SeatSummaryDetail extends StatelessWidget {
                 print('');
 
               }
+
+
 
 
               final allRows = (rowsDeparture ?? []);
@@ -239,10 +258,11 @@ class SeatSummaryDetail extends StatelessWidget {
                             ),
                           ],
 
+
                           Padding(
                             padding: const EdgeInsets.only(left: 6),
                             child: Text(
-                              "- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}",
+              departingSeatName != null ? ("- $departingSeatName") :  ("- ${seats?.seatColumn == null ? 'noSeatSelected'.tr() : '${seats?.seatColumn}${row?.rowNumber}'}"),
                               style: kMediumRegular.copyWith(
                                   color: isManageBooking ? Styles.kPrimaryColor : Styles.kActiveGrey),
 
@@ -286,7 +306,7 @@ class SeatSummaryDetail extends StatelessWidget {
                     num amountToMinusReturn = 0.0;
                     Seats? previousReturnSeat;
                     num previousReturnPrice = 0.0;
-
+                    String? returningSeatName;
                     bool hideReturn = false;
 
                     if (isManageBooking) {
@@ -310,9 +330,12 @@ class SeatSummaryDetail extends StatelessWidget {
                           ?.where((element) => element.personObject == e)
                           .toList();
 
+
+
                       if ((ccc ?? []).isNotEmpty) {
 
                         if((ccc ?? []).first.confirmedReturnSeatSelected == null) {
+
 
                           hideReturn = true;
 
@@ -320,8 +343,17 @@ class SeatSummaryDetail extends StatelessWidget {
                         if ((ccc ?? []).first.confirmedReturnSeatSelected == null) {
                           return Container();
                         } else {
-                          var camountToMinus = e.departureSeats;
 
+
+                          returningSeatName =  (ccc ?? []).first.confirmedReturnSeatSelected?.seatNameToShow(                  manageBookingCubit
+                              ?.state.flightSeats?.inbound
+                              ?.firstOrNull
+                              ?.retrieveFlightSeatMapResponse
+                              ?.physicalFlights
+                              ?.firstOrNull
+                              ?.physicalFlightSeatMap
+                              ?.seatConfiguration
+                              ?.rows ?? []);
 
 
 
@@ -393,9 +425,9 @@ class SeatSummaryDetail extends StatelessWidget {
 
                                 SummaryListItem(
 
-                                  text: seats?.seatColumn == null
+                                  text: returningSeatName ?? (seats?.seatColumn == null
                                       ? 'noSeatSelected'.tr()
-                                      : '${seats?.seatColumn}${row?.rowNumber}', isManageBooking: isManageBooking,
+                                      : '${seats?.seatColumn}${row?.rowNumber}'), isManageBooking: isManageBooking,
                                   makeRed:isManageBooking ,
                                 ),
                               ],

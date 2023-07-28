@@ -862,9 +862,14 @@ class PassengersWithSSR {
     Bundle? previousDepartureWheelChair,
     Bundle? previousReturnWheelChair,
 
+    Bundle? confirmReturnWheelChair,
+    Bundle? confirmDepartWheelChair,
+
 
   }) {
     return PassengersWithSSR(
+      confirmReturnWheelChair  : confirmReturnWheelChair  ?? this.confirmReturnWheelChair,
+      confirmDepartWheelChair :   confirmDepartWheelChair ?? this.confirmDepartWheelChair,
       previousDepartureSeats : previousDepartureSeats  ?? this.previousDepartureSeats,
       previousReturnSeats :  previousReturnSeats ?? this.previousReturnSeats,
       previousDepartureBaggage : previousDepartureBaggage  ?? this.previousDepartureBaggage,
@@ -1009,7 +1014,8 @@ seatDetail: seatDetail ?? this.seatDetail,
     this.previousReturnSports,
     this.previousDepartureWheelChair,
     this.previousReturnWheelChair,
-
+    this.confirmReturnWheelChair,
+    this.confirmDepartWheelChair,
 
   });
 

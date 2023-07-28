@@ -53,7 +53,7 @@ class SpecialSummaryDetail extends StatelessWidget {
 
 
     return Visibility(
-      visible: isManageBooking ? (manageBookingCubit?.isThereNewWheelChaie == true) : totalPrice > 0,
+      visible: isManageBooking ? (manageBookingCubit?.isThereNewWheelChaie == true || totalPrice > 0) : totalPrice > 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

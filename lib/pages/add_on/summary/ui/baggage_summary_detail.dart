@@ -105,7 +105,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                   style: kMediumSemiBold,
                 ),
                 kVerticalSpacerMini,
-                if(this.isManageBooking) ... [
+                if(isManageBooking) ... [
                   ...persons
                       .map((e) => buildBaggageComponentMMb(e, numberOfPerson, false))
                       .toList(),

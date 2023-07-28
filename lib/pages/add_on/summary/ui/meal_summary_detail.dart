@@ -438,7 +438,7 @@ class MealSummaryDetail extends StatelessWidget {
 
                         return SummaryListItem(
                           text:
-                          "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
+                          "${e.value.first.description} ${e.value.isNotEmpty ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
                         );
                       }
                   )
@@ -469,7 +469,7 @@ class MealSummaryDetail extends StatelessWidget {
                         return SummaryListItem(
                           makeRed: true,
                           text:
-                          "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
+                          "${e.value.first.description} ${e.value.length > 0 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
                         );
                       }
                   )

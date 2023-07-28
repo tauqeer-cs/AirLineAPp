@@ -343,8 +343,43 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       //total += currentUser.confirmDepartBaggageSelected?.finalAmount ?? 0.0;
       //total += currentUser.confirmReturnBaggageSelected?.finalAmount ?? 0.0;
 
-      total += currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0;
-      total += currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0;
+
+
+
+      if((currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0) > 0.0) {
+        total += currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0;
+
+        if(currentUser.sportEquipmentDetail != null) {
+          if(currentUser.sportEquipmentDetail != null) {
+            if((currentUser.sportEquipmentDetail?.departureBaggages ?? []).isNotEmpty ) {
+              total = total - ((currentUser.sportEquipmentDetail?.departureBaggages ?? []).first.amount ?? 0.0);
+
+            }
+          }
+
+
+
+
+        }
+
+      }
+
+      if((currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0) > 0.0 ){
+
+        total += currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0;
+
+      }
+
+
+      if(currentUser.sportEquipmentDetail != null) {
+        if((currentUser.sportEquipmentDetail?.returnBaggages ?? []).isNotEmpty ) {
+          total = total - ((currentUser.sportEquipmentDetail?.returnBaggages ?? []).first.amount ?? 0.0);
+
+        }
+
+
+      }
+
 
     }
 
@@ -3059,7 +3094,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
       } else {
         newPerson = item.personObject?.copyWith(returnMeal: meals);
-        item.newDepartureMeal?.add(meal);
+        //item.newDepartureMeal?.add(meal);
 
         if (isAdd) {
           item.newReturnMeal ??= [];

@@ -1221,7 +1221,7 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.confirmedWheelChairTotalPrice +
         bloc.confirmedInsruanceTotalPrice;
 
-    return (totalPrice == 0 || bloc.isThereNewWheelChaie) ? Container() : AppCard(
+    return (totalPrice == 0 && bloc.isThereNewWheelChaie == false) ? Container() : AppCard(
             child: Column(
               children: [
                 ChildRow(
