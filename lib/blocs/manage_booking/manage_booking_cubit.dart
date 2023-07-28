@@ -2100,7 +2100,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     for (PassengersWithSSR currentPassenger in passengers) {
 
 
-      if (currentPassenger.newDepartSeatSelected != null) {
+      if (currentPassenger.newDepartSeatSelected != null || currentPassenger.confirmedDepartSeatSelected != null) {
         return true;
       }
 
@@ -2124,7 +2124,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         return true;
       }
 
-      if (currentPassenger.newReturnSeatSelected != null) {
+      if (currentPassenger.newReturnSeatSelected != null || currentPassenger.confirmedReturnSeatSelected != null) {
         return true;
       }
 
@@ -2239,7 +2239,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     var manageResponse = state.manageBookingResponse;
     var userList = state.manageBookingResponse?.result?.passengersWithSSR
         ?.where((e) =>
-            e.newDepartSeatSelected != null || e.newReturnSeatSelected != null)
+            e.newDepartSeatSelected != null  || e.newReturnSeatSelected != null || e.confirmedDepartSeatSelected != null  || e.confirmedReturnSeatSelected != null)
         .toList();
     if ((userList ?? []).isNotEmpty) {
       var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
@@ -2257,7 +2257,23 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
               currentUser.newReturnSeatSelected;
           copyList?.removeAt(index);
           copyList?.insert(index, newSSR);
-        } else if (currentUser.newDepartSeatSelected != null) {
+        }
+        if (currentUser.newDepartSeatSelected == null &&
+            currentUser.newReturnSeatSelected == null && currentUser.confirmedDepartSeatSelected == null &&
+            currentUser.confirmedReturnSeatSelected == null) {
+          int index = 0;
+          index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(currentUser) ??
+              0;
+          PassengersWithSSR? newSSR = currentUser;
+          newSSR.confirmedDepartSeatSelected =
+              currentUser.newDepartSeatSelected;
+          newSSR.confirmedReturnSeatSelected =
+              currentUser.newReturnSeatSelected;
+          copyList?.removeAt(index);
+          copyList?.insert(index, newSSR);
+        }
+        else if (currentUser.newDepartSeatSelected != null) {
           int index = 0;
           index = state.manageBookingResponse?.result?.passengersWithSSR
                   ?.indexOf(currentUser) ??
@@ -2268,7 +2284,29 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           copyList?.removeAt(index);
           copyList?.insert(index, newSSR);
         }
-        if (currentUser.newReturnSeatSelected != null) {
+        else if (currentUser.newDepartSeatSelected == null && currentUser.confirmedDepartSeatSelected != null) {
+          int index = 0;
+          index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(currentUser) ??
+              0;
+          PassengersWithSSR? newSSR = currentUser;
+          newSSR.confirmedDepartSeatSelected =
+              currentUser.newDepartSeatSelected;
+          copyList?.removeAt(index);
+          copyList?.insert(index, newSSR);
+        }
+        else if (currentUser.newReturnSeatSelected == null && currentUser.confirmedReturnSeatSelected != null) {
+          int index = 0;
+          index = state.manageBookingResponse?.result?.passengersWithSSR
+              ?.indexOf(currentUser) ??
+              0;
+          PassengersWithSSR? newSSR = currentUser;
+          newSSR.confirmedReturnSeatSelected =
+              currentUser.newReturnSeatSelected;
+          copyList?.removeAt(index);
+          copyList?.insert(index, newSSR);
+        }
+        else if (currentUser.newReturnSeatSelected != null) {
           int index = 0;
           index = state.manageBookingResponse?.result?.passengersWithSSR
                   ?.indexOf(currentUser) ??
@@ -2563,7 +2601,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       if((resultr ?? [] ).first.originalReturnSeatId == seats.seatId) {
 
       }
-      if((resultr ?? [] ).isNotEmpty) {
+       else if((resultr ?? [] ).first.originalReturnSeatId?.contains(seats.seatId ?? '') == true) {
+
+
+      }
+      else if((resultr ?? [] ).isNotEmpty) {
         if( ((resultr ?? [] ).first.originalReturnSeatPrice ?? 0.0) >= (seats.seatPriceOffers?.first.amount ?? 0.0) ){
           return;
         }

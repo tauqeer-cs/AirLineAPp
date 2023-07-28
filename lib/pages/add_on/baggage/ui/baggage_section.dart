@@ -327,9 +327,12 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
             await Future.delayed(const Duration(seconds: 1));
             if (!mounted) return;
 
+            /*
             context
                 .read<SelectedPersonCubit>()
-                .selectPerson(persons.persons[0]);
+                .selectPerson(persons.persons[0]);*/
+
+
           }
         }
       },

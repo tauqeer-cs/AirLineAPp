@@ -287,7 +287,10 @@ class SeatSummaryDetail extends StatelessWidget {
                     Seats? previousReturnSeat;
                     num previousReturnPrice = 0.0;
 
+                    bool hideReturn = false;
+
                     if (isManageBooking) {
+
 
 
                         if(manageBookingCubit?.state.manageBookingResponse?.isTwoWay == true){
@@ -308,12 +311,16 @@ class SeatSummaryDetail extends StatelessWidget {
                           .toList();
 
                       if ((ccc ?? []).isNotEmpty) {
-                        if ((ccc ?? []).first.confirmedDepartSeatSelected == null) {
+
+                        if((ccc ?? []).first.confirmedReturnSeatSelected == null) {
+
+                          hideReturn = true;
+
+                        }
+                        if ((ccc ?? []).first.confirmedReturnSeatSelected == null) {
                           return Container();
                         } else {
                           var camountToMinus = e.departureSeats;
-                          print('');
-                          //ccc.first.seatDetail
 
 
 
@@ -337,7 +344,7 @@ class SeatSummaryDetail extends StatelessWidget {
                       }
                     }
 
-                    return Visibility(
+                    return hideReturn ? Container() : Visibility(
                       visible: e.getPartialPriceSeatPartial(false) > 0,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
