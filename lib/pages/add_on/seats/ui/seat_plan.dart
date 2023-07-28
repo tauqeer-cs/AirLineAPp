@@ -61,12 +61,6 @@ class SeatPlan extends StatelessWidget {
     if (isManageBooking) {
       var currentState = context.watch<ManageBookingCubit>().state;
 
-      /*
-      legends = isDeparture
-          ? currentState.flightSeats?.outbound ?? []
-          : currentState.flightSeats?.inbound ?? [];
-*/
-
       legends = isDeparture ? [] : [];
     } else {
       mapColor = isDeparture
@@ -303,7 +297,7 @@ class SeatPlan extends StatelessWidget {
                     onPressed: manageBookingCubit?.hasAnySeatChanged == false
                         ? null
                         : () {
-                            manageBookingCubit?.seatConfirmSeatChange();
+                            manageBookingCubit?.seatConfirmSeatChange(manageBookingCubit.state.seatDeparture);
 
                             manageBookingCubit?.changeSelectedAddOnOption(
                                 AddonType.seat,

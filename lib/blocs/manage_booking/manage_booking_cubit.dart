@@ -2270,12 +2270,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     );
   }
 
-  void seatConfirmSeatChange() {
+  void seatConfirmSeatChange(bool isDepart) {
     var manageResponse = state.manageBookingResponse;
     var userList = state.manageBookingResponse?.result?.passengersWithSSR
         ?.where((e) =>
-            e.newDepartSeatSelected != null  || e.newReturnSeatSelected != null || e.confirmedDepartSeatSelected != null  || e.confirmedReturnSeatSelected != null)
+    e.newDepartSeatSelected != null  || e.newReturnSeatSelected != null || e.confirmedDepartSeatSelected != null  || e.confirmedReturnSeatSelected != null)
         .toList();
+
+
     if ((userList ?? []).isNotEmpty) {
       var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
       for (PassengersWithSSR currentUser in (userList ?? [])) {
@@ -2362,6 +2364,89 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.copyWith(manageBookingResponse: finalResult),
       );
     }
+    /*
+      var manageResponse = state.manageBookingResponse;
+    var userList = state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((e) =>
+    e.newDepartSeatSelected != null  || e.newReturnSeatSelected != null || e.confirmedDepartSeatSelected != null  || e.confirmedReturnSeatSelected != null)
+        .toList();
+    if(isDepart) {
+      if ((userList ?? []).isNotEmpty) {
+        var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+        for (PassengersWithSSR currentUser in (userList ?? [])) {
+          if (currentUser.newDepartSeatSelected != null) {
+            int index = 0;
+            index = state.manageBookingResponse?.result?.passengersWithSSR
+                ?.indexOf(currentUser) ??
+                0;
+            PassengersWithSSR? newSSR = currentUser;
+            newSSR.confirmedDepartSeatSelected =
+                currentUser.newDepartSeatSelected;
+            copyList?.removeAt(index);
+            copyList?.insert(index, newSSR);
+          }
+          else if (currentUser.newDepartSeatSelected == null && currentUser.confirmedDepartSeatSelected != null) {
+            int index = 0;
+            index = state.manageBookingResponse?.result?.passengersWithSSR
+                ?.indexOf(currentUser) ??
+                0;
+            PassengersWithSSR? newSSR = currentUser;
+            newSSR.confirmedDepartSeatSelected =
+                currentUser.newDepartSeatSelected;
+            copyList?.removeAt(index);
+            copyList?.insert(index, newSSR);
+          }
+        }
+
+        MBR.Result? cc = manageResponse?.result;
+        var result2 = cc?.copyWith(passengersWithSSR: copyList);
+        var finalResult = manageResponse?.copyWith(result: result2);
+
+        emit(
+          state.copyWith(manageBookingResponse: finalResult),
+        );
+      }
+    }
+    else {
+      if ((userList ?? []).isNotEmpty) {
+        var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
+        for (PassengersWithSSR currentUser in (userList ?? [])) {
+
+          if (currentUser.newReturnSeatSelected == null && currentUser.confirmedReturnSeatSelected != null) {
+            int index = 0;
+            index = state.manageBookingResponse?.result?.passengersWithSSR
+                ?.indexOf(currentUser) ??
+                0;
+            PassengersWithSSR? newSSR = currentUser;
+            newSSR.confirmedReturnSeatSelected =
+                currentUser.newReturnSeatSelected;
+            copyList?.removeAt(index);
+            copyList?.insert(index, newSSR);
+          }
+          else if (currentUser.newReturnSeatSelected != null) {
+            int index = 0;
+            index = state.manageBookingResponse?.result?.passengersWithSSR
+                ?.indexOf(currentUser) ??
+                0;
+            PassengersWithSSR? newSSR = currentUser;
+            newSSR.confirmedReturnSeatSelected =
+                currentUser.newReturnSeatSelected;
+            copyList?.removeAt(index);
+            copyList?.insert(index, newSSR);
+          }
+        }
+
+        MBR.Result? cc = manageResponse?.result;
+        var result2 = cc?.copyWith(passengersWithSSR: copyList);
+        var finalResult = manageResponse?.copyWith(result: result2);
+
+        emit(
+          state.copyWith(manageBookingResponse: finalResult),
+        );
+      }
+    }
+
+    * */
   }
 
   void baggageConfirmSeatChange() {
