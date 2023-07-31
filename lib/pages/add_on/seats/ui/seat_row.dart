@@ -167,6 +167,9 @@ class _SeatRowState extends State<SeatRow> {
             if ((nextPerson! + 1) < persons!.persons.length) {
               var nextItem = (persons.persons[nextPerson + 1]);
               if (nextItem.peopleType?.code == 'INF') {
+
+
+                /*
                 context
                     .read<SelectedPersonCubit>()
                     .selectPerson(persons.persons[0]);
@@ -174,6 +177,9 @@ class _SeatRowState extends State<SeatRow> {
                 await Future.delayed(const Duration(milliseconds: 500));
                 widget.moveToBottom?.call();
                 return;
+                */
+                return;
+
               }
               await Future.delayed(const Duration(seconds: 1));
               if (!mounted) return;
@@ -182,11 +188,16 @@ class _SeatRowState extends State<SeatRow> {
                   .selectPerson(persons.persons[nextPerson + 1]);
               widget.moveToTop?.call();
             } else if ((nextPerson + 1) == persons.persons.length) {
+
+              /*
               context
                   .read<SelectedPersonCubit>()
                   .selectPerson(persons.persons[0]);
+
               await Future.delayed(const Duration(milliseconds: 500));
               widget.moveToBottom?.call();
+              */
+
             }
           }
         },
