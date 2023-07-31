@@ -334,56 +334,42 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   num get confirmedSportsTotalPrice {
+
     num total = 0.0;
 
     List<PassengersWithSSR> passengers =
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
 
     for (PassengersWithSSR currentUser in passengers) {
-      //total += currentUser.confirmDepartBaggageSelected?.finalAmount ?? 0.0;
-      //total += currentUser.confirmReturnBaggageSelected?.finalAmount ?? 0.0;
+      total += currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0;
+      total += currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0;
 
 
-
-
-      if((currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0) > 0.0) {
-        total += currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0;
-
+      if(currentUser.confirmedDepartSportsSelected != null) {
         if(currentUser.sportEquipmentDetail != null) {
-          if(currentUser.sportEquipmentDetail != null) {
-            if((currentUser.sportEquipmentDetail?.departureBaggages ?? []).isNotEmpty ) {
-              total = total - ((currentUser.sportEquipmentDetail?.departureBaggages ?? []).first.amount ?? 0.0);
+          if((currentUser.sportEquipmentDetail?.departureBaggages ?? []).isNotEmpty ) {
+            total = total - ((currentUser.sportEquipmentDetail?.departureBaggages ?? []).first.amount ?? 0.0);
 
-            }
           }
-
-
-
-
         }
 
-      }
+        if(currentUser.confirmedReturnSportsSelected != null) {
+          if((currentUser.sportEquipmentDetail?.returnBaggages ?? []).isNotEmpty ) {
+            total = total - ((currentUser.baggageDetail?.returnBaggages ?? []).first.amount ?? 0.0);
 
-      if((currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0) > 0.0 ){
-
-        total += currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0;
-
-      }
-
-
-      if(currentUser.sportEquipmentDetail != null) {
-        if((currentUser.sportEquipmentDetail?.returnBaggages ?? []).isNotEmpty ) {
-          total = total - ((currentUser.sportEquipmentDetail?.returnBaggages ?? []).first.amount ?? 0.0);
-
+          }
         }
 
 
-      }
 
+      }
+      //total += currentUser.confirmedDepartSportsSelected?.finalAmount ?? 0.0;
+      //total += currentUser.confirmedReturnSportsSelected?.finalAmount ?? 0.0;
 
     }
 
     return total;
+
   }
 
 

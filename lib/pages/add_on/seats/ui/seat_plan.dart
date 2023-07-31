@@ -106,7 +106,6 @@ class SeatPlan extends StatelessWidget {
             Bundle? bundle;
             num? newPrice;
 
-            if (isManageBooking) {
               if (isSeatSeparated == true) {
                 print('');
 
@@ -116,7 +115,7 @@ class SeatPlan extends StatelessWidget {
                   print('');
                 }
               }
-            }
+
 
             for (Seats seat in row.seats ?? []) {
               bundle = legends.firstWhereOrNull(
@@ -135,7 +134,7 @@ class SeatPlan extends StatelessWidget {
               child: Column(
                 children: [
                   kVerticalSpacerSmall,
-                  if (isManageBooking) ...[
+                  if (1 == 1) ...[
                     if (isSeatSeparated && newPrice != null)
                       Column(
                         children: [

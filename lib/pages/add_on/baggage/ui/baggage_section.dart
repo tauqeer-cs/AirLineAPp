@@ -307,7 +307,6 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
           if ((nextIndex! + 1) < persons!.persons.length) {
             var nextItem = (persons.persons[nextIndex + 1]);
             if (nextItem.peopleType?.code == 'INF') {
-
               /*
               context
                   .read<SelectedPersonCubit>()
@@ -316,7 +315,6 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
               widget.moveToBottom?.call();
               */
               return;
-
             }
             await Future.delayed(const Duration(seconds: 1));
             if (!mounted) return;
@@ -326,16 +324,13 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
             widget.moveToTop?.call();
           } else if ((nextIndex + 1) == persons.persons.length) {
             await Future.delayed(const Duration(milliseconds: 500));
-
             widget.moveToBottom!.call();
             await Future.delayed(const Duration(seconds: 1));
             if (!mounted) return;
-
             /*
             context
                 .read<SelectedPersonCubit>()
                 .selectPerson(persons.persons[0]);*/
-
 
           }
         }

@@ -1265,11 +1265,14 @@ class ManageFlightSummary extends StatelessWidget {
                   isManageBooking: true,
                 ),
 
+
+
                 BaggageSummaryDetail(
                   currency: currency,
                   sports: false,
                   isManageBooking: true,
                 ),
+
 
                 BaggageSummaryDetail(
                   currency: currency,

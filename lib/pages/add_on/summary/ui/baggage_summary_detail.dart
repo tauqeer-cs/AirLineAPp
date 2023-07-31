@@ -299,14 +299,14 @@ class BaggageSummaryDetail extends StatelessWidget {
 
 
 
-     return Visibility(
+     return  Visibility(
        visible: baggage != null || sport != null,
        child: Column(
          children: [
 
            if(isManageBooking) ... [
              if(isDeparture && sports == false) ... [
-               if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage != null) ... [
+               if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage != null && manageBookingCubit?.passengerFromPerson(e)?.confirmDepartBaggageSelected != null) ... [
 
                  ChildRow(
                    child1: Column(
@@ -339,7 +339,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                ],
              ]
              else if(isDeparture == false&& sports == false) ... [
-               if(manageBookingCubit?.passengerFromPerson(e)?.previousReturnBaggage != null) ... [
+               if(manageBookingCubit?.passengerFromPerson(e)?.previousReturnBaggage != null && manageBookingCubit?.passengerFromPerson(e)?.confirmReturnBaggageSelected != null) ... [
 
                  ChildRow(
                    child1: Column(
@@ -375,7 +375,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                ],
              ]
              else if(isDeparture && sports == true) ... [
-               if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports != null) ... [
+               if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports != null || manageBookingCubit?.passengerFromPerson(e)?.confirmedDepartSportsSelected != null) ... [
                  ChildRow(
                    child1: Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
@@ -408,7 +408,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                ],
              ]
                else if(isDeparture == false&& sports == true) ... [
-                   if(manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports != null) ... [
+                   if(manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports != null && manageBookingCubit?.passengerFromPerson(e)?.confirmedReturnSportsSelected != null) ... [
 
                      ChildRow(
                        child1: Column(
