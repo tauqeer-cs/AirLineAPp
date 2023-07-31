@@ -355,7 +355,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
         if(currentUser.confirmedReturnSportsSelected != null) {
           if((currentUser.sportEquipmentDetail?.returnBaggages ?? []).isNotEmpty ) {
-            total = total - ((currentUser.baggageDetail?.returnBaggages ?? []).first.amount ?? 0.0);
+            total = total - ((currentUser.sportEquipmentDetail?.returnBaggages ?? []).first.amount ?? 0.0);
 
           }
         }
