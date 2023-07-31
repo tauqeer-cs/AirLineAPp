@@ -1218,6 +1218,7 @@ class ManageFlightSummary extends StatelessWidget {
     var totalPrice = bloc.confirmedSeatsTotalPrice +
         bloc.confirmedMealsTotalPrice +
         bloc.confirmedBaggageTotalPrice +
+        bloc.confirmedSportsTotalPrice +
         bloc.confirmedWheelChairTotalPrice +
         bloc.confirmedInsruanceTotalPrice;
 

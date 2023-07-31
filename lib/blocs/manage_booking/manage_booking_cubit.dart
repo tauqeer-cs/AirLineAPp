@@ -2147,11 +2147,11 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         return true;
       }
 
-      if (currentPassenger.newDepartBaggageSelected != null) {
+      if (currentPassenger.newDepartBaggageSelected != null || currentPassenger.newDepartSportsSelected != null) {
         return true;
       }
 
-      if (currentPassenger.newReturnBaggageSelected != null) {
+      if (currentPassenger.newReturnBaggageSelected != null || currentPassenger.newReturnSportsSelected != null) {
         return true;
       }
 
@@ -2454,13 +2454,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     var userList = state.manageBookingResponse?.result?.passengersWithSSR
         ?.where((e) =>
             e.newDepartBaggageSelected != null ||
-            e.newReturnBaggageSelected != null)
+            e.newReturnBaggageSelected != null              || e.newDepartSportsSelected != null ||
+    e.newReturnSportsSelected != null)
         .toList();
     if ((userList ?? []).isNotEmpty) {
       var copyList = state.manageBookingResponse?.result?.passengersWithSSR;
       for (PassengersWithSSR currentUser in (userList ?? [])) {
-        if (currentUser.newDepartBaggageSelected != null &&
-            currentUser.newReturnBaggageSelected != null) {
+        if (currentUser.newDepartBaggageSelected != null ||
+            currentUser.newReturnBaggageSelected != null || currentUser.newDepartSportsSelected != null || currentUser.newReturnSportsSelected != null) {
           int index = 0;
           index = state.manageBookingResponse?.result?.passengersWithSSR
                   ?.indexOf(currentUser) ??
@@ -2475,39 +2476,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
               currentUser.newDepartSportsSelected;
           newSSR.confirmedReturnSportsSelected =
               currentUser.newReturnSportsSelected;
-
-          copyList?.removeAt(index);
-          copyList?.insert(index, newSSR);
-        } else if (currentUser.newDepartBaggageSelected != null) {
-          int index = 0;
-          index = state.manageBookingResponse?.result?.passengersWithSSR
-                  ?.indexOf(currentUser) ??
-              0;
-          PassengersWithSSR? newSSR = currentUser;
-          newSSR.confirmDepartBaggageSelected =
-              currentUser.newDepartBaggageSelected;
-          newSSR.confirmedDepartSportsSelected =
-              currentUser.newDepartSportsSelected;
-          newSSR.confirmedReturnSportsSelected =
-              currentUser.newReturnSportsSelected;
-
-          copyList?.removeAt(index);
-          copyList?.insert(index, newSSR);
-        }
-
-        if (currentUser.newReturnBaggageSelected != null) {
-          int index = 0;
-          index = state.manageBookingResponse?.result?.passengersWithSSR
-                  ?.indexOf(currentUser) ??
-              0;
-          PassengersWithSSR? newSSR = currentUser;
-          newSSR.confirmReturnBaggageSelected =
-              currentUser.newReturnBaggageSelected;
-          newSSR.confirmedDepartSportsSelected =
-              currentUser.newDepartSportsSelected;
-          newSSR.confirmedReturnSportsSelected =
-              currentUser.newReturnSportsSelected;
-
 
           copyList?.removeAt(index);
           copyList?.insert(index, newSSR);

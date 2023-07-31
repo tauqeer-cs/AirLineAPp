@@ -244,12 +244,22 @@ class BaggageSummaryDetail extends StatelessWidget {
            .toList();
 
        if ((ccc ?? []).isNotEmpty) {
-         if(isDeparture == true) {
+         if(sports == true) {
+           if ((ccc ?? []).first.confirmedDepartSportsSelected == null) {
+             return Container();
+           }
+         }
+         else if(isDeparture == true) {
            if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
              return Container();
            }
          }
          else {
+           if(sports == true){
+             if ((ccc ?? []).first.confirmedReturnSportsSelected == null) {
+               return Container();
+             }
+           } else
            if ((ccc ?? []).first.confirmReturnBaggageSelected == null) {
              return Container();
            }

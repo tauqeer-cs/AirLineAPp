@@ -18,7 +18,13 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
   getPrices(FilterState filterState, {required DateTime startFilter, DateTime? endFilter,String? currency}) async {
     final prevLoaded = List<DateTime>.from(state.loadedDate);
     final checkDate = prevLoaded.firstWhereOrNull((element) => AppDateUtils.sameMonth(element, startFilter));
+    DateTime currentDate = DateTime.now();
 
+    if (startFilter.isBefore(currentDate)) {
+
+      return;
+
+    }
     if(checkDate!=null) return;
     emit(state.copyWith(blocState: BlocState.loading, loadingDate: startFilter));
     try {
