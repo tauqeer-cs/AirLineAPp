@@ -91,9 +91,12 @@ class BaggageSummaryDetail extends StatelessWidget {
             style: kMediumSemiBold,
           ),
           kVerticalSpacerMini,
+
           ...persons
               .map((e) => buildBaggageComponentMMb(e, numberOfPerson, true))
               .toList(),
+
+
           kVerticalSpacerSmall,
           Visibility(
             visible: isManageBooking ? (manageBookingCubit?.state.manageBookingResponse?.result?.isReturn ?? false) : (filter?.flightType == FlightType.round),
@@ -244,12 +247,13 @@ class BaggageSummaryDetail extends StatelessWidget {
            .toList();
 
        if ((ccc ?? []).isNotEmpty) {
-         if(sports == true) {
-           if ((ccc ?? []).first.confirmedDepartSportsSelected == null) {
-             return Container();
+
+         if(isDeparture == true) {
+           if(sports == true) {
+             if ((ccc ?? []).first.confirmedDepartSportsSelected == null) {
+               return Container();
+             }
            }
-         }
-         else if(isDeparture == true) {
            if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
              return Container();
            }
@@ -264,36 +268,7 @@ class BaggageSummaryDetail extends StatelessWidget {
              return Container();
            }
          }
-         if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
-           //return Container();
-         }
-         else {
 
-           /*
-          var tmpSeat = manageBookingCubit
-              ?.state.manageBookingResponse?.result?.seatDetail?.seats
-              ?.where((element) =>
-          element.givenName ==
-              ccc?.first.passengers?.givenName &&
-
-              element.surName ==
-                  ccc?.first.passengers?.surname &&
-              element.departReturn == 'Depart'
-          ).toList();
-
-          if((tmpSeat ?? []).isNotEmpty) {
-            amountToMinus = (tmpSeat ?? []).first.amount ?? 0.0;
-          }
-*/
-
-
-
-
-
-
-           print('object');
-           // ccc.first.seat
-         }
        }
      }
 
