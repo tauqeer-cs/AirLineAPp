@@ -292,7 +292,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                        ),
 
                          Visibility(
-                           visible: baggage != null,
+                           visible: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage != null,
                            child: SummaryListItem(
                              makeRed: false,
                              text: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage?.description ?? '', isManageBooking: isManageBooking,
@@ -327,7 +327,7 @@ class BaggageSummaryDetail extends StatelessWidget {
 
 
                          Visibility(
-                           visible: baggage != null,
+                           visible: manageBookingCubit?.passengerFromPerson(e)?.previousReturnBaggage != null,
                            child: SummaryListItem(
                              makeRed: false,
                              text: manageBookingCubit?.passengerFromPerson(e)?.previousReturnBaggage?.description ?? '', isManageBooking: isManageBooking,
@@ -360,7 +360,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                        ),
 
                        Visibility(
-                         visible: baggage != null,
+                         visible: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports != null,
                          child: SummaryListItem(
                            makeRed: false,
                            text: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports?.description ?? '', isManageBooking: isManageBooking,
@@ -395,7 +395,7 @@ class BaggageSummaryDetail extends StatelessWidget {
 
 
                              Visibility(
-                               visible: baggage != null,
+                               visible: manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports != null,
                                child: SummaryListItem(
                                  makeRed: false,
                                  text: manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports?.description ?? '', isManageBooking: isManageBooking,
@@ -451,22 +451,32 @@ class BaggageSummaryDetail extends StatelessWidget {
 
                  if (sports == false) ...[
 
-
-                   Visibility(
-                     visible: baggage != null,
+//manageBookingCubit?.passengerFromPerson(e)?.previousDepartureBaggage
+                   /*Visibility(
+                     visible: isDeparture ?  baggage != null,
                      child: SummaryListItem(
-                       makeRed: this.isManageBooking,
+                       makeRed: isManageBooking,
                        text: baggage?.description ?? '', isManageBooking: isManageBooking,
                      ),
+                   ),*/
+                   Visibility(
+                     visible: isDeparture ?  (manageBookingCubit?.passengerFromPerson(e)?.confirmDepartBaggageSelected != null) : (manageBookingCubit?.passengerFromPerson(e)?.confirmReturnBaggageSelected != null),
+                     child: SummaryListItem(
+                       makeRed: isManageBooking,
+                       text: isDeparture ?  (manageBookingCubit?.passengerFromPerson(e)?.confirmDepartBaggageSelected!.description ?? '') : (manageBookingCubit?.passengerFromPerson(e)?.confirmReturnBaggageSelected!.description ?? ''),
+                       isManageBooking: isManageBooking,
+                     ),
                    ),
+
                  ] else ...[
 
 
                    Visibility(
-                     visible: sport != null,
+                     visible: isDeparture ?  (manageBookingCubit?.passengerFromPerson(e)?.confirmedDepartSportsSelected != null) : (manageBookingCubit?.passengerFromPerson(e)?.confirmedReturnSportsSelected != null),
                      child: SummaryListItem(
-                       makeRed: this.isManageBooking,
-                       text: sport?.description ?? '', isManageBooking: isManageBooking,
+                       makeRed: isManageBooking,
+                       text: isDeparture ?  (manageBookingCubit?.passengerFromPerson(e)?.confirmedDepartSportsSelected!.description ?? '') : (manageBookingCubit?.passengerFromPerson(e)?.confirmedReturnSportsSelected!.description ?? ''),
+                       isManageBooking: isManageBooking,
                      ),
                    ),
                  ],
@@ -476,8 +486,8 @@ class BaggageSummaryDetail extends StatelessWidget {
                currency: currency,
                textColor: isManageBooking ? Styles.kPrimaryColor : null,
                amount: sports == false
-                   ? e.getPartialPriceBaggage(isDeparture)
-                   : e.getPartialPriceSports(isDeparture),
+                   ? (isDeparture ?  (manageBookingCubit?.passengerFromPerson(e)?.confirmDepartBaggageSelected!.amount ?? 0.0) : (manageBookingCubit?.passengerFromPerson(e)?.confirmReturnBaggageSelected!.amount ?? 0.0))
+                   : (isDeparture ?  (manageBookingCubit?.passengerFromPerson(e)?.confirmedDepartSportsSelected!.amount ?? 0.0) : (manageBookingCubit?.passengerFromPerson(e)?.confirmedReturnSportsSelected!.amount ?? 0.0)),
              ),
            ),
          ],

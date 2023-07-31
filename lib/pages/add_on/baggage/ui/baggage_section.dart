@@ -29,13 +29,16 @@ class BaggageSection extends StatelessWidget {
   final GlobalKey? horizS1;
   final GlobalKey? horizS2;
 
-
-  const  BaggageSection({
+  const BaggageSection({
     Key? key,
     this.isDeparture = true,
     this.moveToTop,
     this.moveToBottom,
-    this.isManageBooking = false, this.horiz1, this.horiz2, this.horizS1, this.horizS2,
+    this.isManageBooking = false,
+    this.horiz1,
+    this.horiz2,
+    this.horizS1,
+    this.horizS2,
   }) : super(key: key);
 
   @override
@@ -44,24 +47,19 @@ class BaggageSection extends StatelessWidget {
 
     ManageBookingCubit? manageBookingCubit;
 
-
-    if(isManageBooking) {
-
+    if (isManageBooking) {
       var state = context.watch<ManageBookingCubit>().state;
       manageBookingCubit = context.watch<ManageBookingCubit>();
 
       baggageGroup = state.flightSSR?.baggageGroup;
-
-
-    }
-     else {
+    } else {
       final bookingState = context.watch<BookingCubit>().state;
 
       baggageGroup = bookingState.verifyResponse?.flightSSR?.baggageGroup;
     }
 
     final baggages =
-    isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+        isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     return Padding(
       padding: isManageBooking ? EdgeInsets.zero : kPageHorizontalPadding,
       child: Visibility(
@@ -70,7 +68,7 @@ class BaggageSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if(isManageBooking == false) ... [
+            if (isManageBooking == false) ...[
               PassengerSelector(
                 isDeparture: isDeparture,
                 addonType: AddonType.baggage,
@@ -79,64 +77,74 @@ class BaggageSection extends StatelessWidget {
             ],
             buildBaggageCards(baggages, isDeparture),
             kVerticalSpacer,
-             Padding(
-               padding:  kPageHorizontalPadding,
-               child: BaggageNotice(isManageBooking: isManageBooking, isDeparting: isDeparture,horizS1: horizS1, horizS2: horizS1,),
-             ),
+            Padding(
+              padding: kPageHorizontalPadding,
+              child: BaggageNotice(
+                isManageBooking: isManageBooking,
+                isDeparting: isDeparture,
+                horizS1: horizS1,
+                horizS2: horizS1,
+              ),
+            ),
             kVerticalSpacer,
-
             if (isManageBooking) ...[
-              const SizedBox(height: 8,),
-
+              const SizedBox(
+                height: 8,
+              ),
               Container(
                 width: double.infinity,
                 color: const Color.fromRGBO(241, 241, 241, 1.0),
                 child: Column(
                   children: [
                     kVerticalSpacerSmall,
-
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Row(
                         children: [
                           Text(
                             '${'baggage'.tr()} ${'flightCharge.total'.tr()}',
-                            style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                            style: kHugeSemiBold.copyWith(
+                                color: Styles.kTextColor),
                           ),
                           Expanded(
                             child: Container(),
                           ),
                           MoneyWidget(
-                            amount: manageBookingCubit?.notConfirmedBaggageTotalPrice ?? 0.0,
+                            amount: manageBookingCubit
+                                    ?.notConfirmedBaggageTotalPrice ??
+                                0.0,
                             isDense: true,
                             isNormalMYR: true,
                           ),
                         ],
                       ),
                     ),
-
-                    if((manageBookingCubit?.notConfirmedSportsTotalPrice ?? 0.0 )  > 0.0) ... [
+                    if ((manageBookingCubit?.notConfirmedSportsTotalPrice ??
+                            0.0) >
+                        0.0) ...[
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0,vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0, vertical: 8),
                         child: Row(
                           children: [
                             Text(
                               '${'sports'.tr()} ${'flightCharge.total'.tr()}',
-                              style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                              style: kHugeSemiBold.copyWith(
+                                  color: Styles.kTextColor),
                             ),
                             Expanded(
                               child: Container(),
                             ),
                             MoneyWidget(
-                              amount: manageBookingCubit?.notConfirmedSportsTotalPrice ?? 0.0,
+                              amount: manageBookingCubit
+                                      ?.notConfirmedSportsTotalPrice ??
+                                  0.0,
                               isDense: true,
                               isNormalMYR: true,
                             ),
                           ],
                         ),
                       ),
-
-
                     ],
                     kVerticalSpacerSmall,
                     Row(
@@ -146,16 +154,21 @@ class BaggageSection extends StatelessWidget {
                         ),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: manageBookingCubit?.hasAnySeatChanged == false
-                                ? null
-                                : () {
-                              manageBookingCubit?.baggageConfirmSeatChange();
+                            onPressed:
+                                manageBookingCubit?.hasAnySeatChanged == false
+                                    ? null
+                                    : () {
+                                        manageBookingCubit
+                                            ?.baggageConfirmSeatChange();
 
-                              manageBookingCubit?.changeSelectedAddOnOption(
-                                  AddonType.baggage,
-                                  toNull: true);
-                            },
-                            child: Text('selectDateView.confirm'.tr()),
+                                        manageBookingCubit
+                                            ?.changeSelectedAddOnOption(
+                                                AddonType.baggage,
+                                                toNull: true);
+                                      },
+                            child: Text(
+                              'selectDateView.confirm'.tr(),
+                            ),
                           ),
                         ),
                         Expanded(
@@ -167,8 +180,9 @@ class BaggageSection extends StatelessWidget {
                   ],
                 ),
               ),
-
-              const SizedBox(height: 16,),
+              const SizedBox(
+                height: 16,
+              ),
             ],
           ],
         ),
@@ -176,47 +190,52 @@ class BaggageSection extends StatelessWidget {
     );
   }
 
-  Widget buildBaggageCards(List<Bundle>? baggages, bool isDeparture,) {
-    if(isManageBooking == true && isDeparture == true) {
-
+  Widget buildBaggageCards(
+    List<Bundle>? baggages,
+    bool isDeparture,
+  ) {
+    if (isManageBooking == true && isDeparture == true) {
       return Padding(
-        padding:  kPageHorizontalPadding,
-        child: HorizontalBaggageCards(isDeparture: isDeparture,key: this.horiz1,),
+        padding: kPageHorizontalPadding,
+        child: HorizontalBaggageCards(
+          isDeparture: isDeparture,
+          key: this.horiz1,
+        ),
+      );
+    } else if (isManageBooking == true && isDeparture == false) {
+      return Padding(
+        padding: kPageHorizontalPadding,
+        child: HorizontalBaggageCards(
+          isDeparture: isDeparture,
+          key: this.horiz2,
+        ),
       );
     }
-    else if(isManageBooking == true &&  isDeparture == false) {
 
-      return Padding(
-        padding:  kPageHorizontalPadding,
-        child: HorizontalBaggageCards(isDeparture: isDeparture,key: this.horiz2,),
-      );
-    }
-
-
-    baggages?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
-
+    baggages?.sort((a, b) => (a.amount ?? 0.0).compareTo((b.amount ?? 0.0)));
 
     return Column(
       children: [
         ...baggages?.map(
               (e) {
-            return Column(
-              children: [
-                NewBaggageCard(
-                  selectedBaggage: e,
-                  isDeparture: isDeparture,
-                  moveToBottom: () {
-                    moveToBottom?.call();
-                  },
-                  moveToTop: () {
-                    moveToTop?.call();
-                  }, isManageBooking: isManageBooking,
-                ),
-                kVerticalSpacerSmall,
-              ],
-            );
-          },
-        ).toList() ??
+                return Column(
+                  children: [
+                    NewBaggageCard(
+                      selectedBaggage: e,
+                      isDeparture: isDeparture,
+                      moveToBottom: () {
+                        moveToBottom?.call();
+                      },
+                      moveToTop: () {
+                        moveToTop?.call();
+                      },
+                      isManageBooking: isManageBooking,
+                    ),
+                    kVerticalSpacerSmall,
+                  ],
+                );
+              },
+            ).toList() ??
             []
       ],
     );
@@ -235,7 +254,8 @@ class NewBaggageCard extends StatefulWidget {
     required this.selectedBaggage,
     required this.isDeparture,
     this.moveToBottom,
-    this.moveToTop, required this.isManageBooking,
+    this.moveToTop,
+    required this.isManageBooking,
   }) : super(key: key);
 
   @override
@@ -245,55 +265,52 @@ class NewBaggageCard extends StatefulWidget {
 class _NewBaggageCardState extends State<NewBaggageCard> {
   @override
   Widget build(BuildContext context) {
-
-    Person?  focusedPerson;
+    Person? focusedPerson;
     Person? selectedPerson;
     NumberPerson? persons;
     String currency = 'MYR';
-    if(widget.isManageBooking) {
-      var bloc = context
-          .watch<ManageBookingCubit>();
-
+    if (widget.isManageBooking) {
+      var bloc = context.watch<ManageBookingCubit>();
 
       selectedPerson =
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
 
       var no = context
-          .watch<ManageBookingCubit>()
-          .state
-          .manageBookingResponse
-          ?.result
-          ?.allPersonObject ??
+              .watch<ManageBookingCubit>()
+              .state
+              .manageBookingResponse
+              ?.result
+              ?.allPersonObject ??
           [];
 
       persons = NumberPerson(persons: no);
       selectedPerson =
           context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
 
-      currency = bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ?? 'MYR';
-
-    }
-    else {
+      currency = bloc.state.manageBookingResponse?.result?.superPNROrder
+              ?.currencyCode ??
+          'MYR';
+    } else {
       final state = context.watch<SearchFlightCubit>().state;
       selectedPerson = context.watch<SelectedPersonCubit>().state;
       persons = state.filterState?.numberPerson;
       focusedPerson = persons?.persons
           .firstWhereOrNull((element) => element == selectedPerson);
-      currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
+      currency = context
+              .watch<SearchFlightCubit>()
+              .state
+              .flights
+              ?.flightResult
+              ?.requestedCurrencyOfFareQuote ??
+          'MYR';
     }
-
-
-
 
     Bundle? baggage = widget.isDeparture
         ? focusedPerson?.departureBaggage
         : focusedPerson?.returnBaggage;
 
-
-
     return InkWell(
       onTap: () async {
-
         var responseFlag = context.read<SearchFlightCubit>().addBaggageToPerson(
             selectedPerson,
             (widget.selectedBaggage.ssrCode ?? '') == ''
@@ -331,7 +348,6 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
             context
                 .read<SelectedPersonCubit>()
                 .selectPerson(persons.persons[0]);*/
-
           }
         }
       },
@@ -421,7 +437,8 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
 class HorizontalBaggageCards extends StatefulWidget {
   final bool isDeparture;
 
-  const HorizontalBaggageCards({Key? key, required this.isDeparture}) : super(key: key);
+  const HorizontalBaggageCards({Key? key, required this.isDeparture})
+      : super(key: key);
 
   @override
   State<HorizontalBaggageCards> createState() => _HorizontalBaggageCardsState();
@@ -432,7 +449,6 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
   var pageController = PageController(
     initialPage: 0,
   );
-
 
   Widget amountToShow(Bundle currentItem, {bool red = false}) {
     try {
@@ -462,14 +478,13 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
       return Container();
     }
   }
+
   var selectedItem = '';
 
   @override
   void initState() {
-
     super.initState();
     selectedItem = '';
-
   }
 
   ManageBookingCubit? bloc;
@@ -483,81 +498,76 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
     var state = context.watch<ManageBookingCubit>().state;
 
-
     baggageGroup = state.flightSSR?.baggageGroup;
 
     String currency = 'MYR';
-    currency = state.manageBookingResponse?.result?.superPNROrder
-        ?.currencyCode ??
-        'MYR';
+    currency =
+        state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
+            'MYR';
     var baggage =
-    widget.isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
-    String? lastBaggagePrice ;
+        widget.isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+    String? lastBaggagePrice;
 
-    if(widget.isDeparture) {
-      if(state.selectedPax?.baggageDetail != null) {
-        if((state.selectedPax!.baggageDetail?.departureBaggages ?? []).isNotEmpty) {
-          lastBaggagePrice =  (state.selectedPax!.baggageDetail?.departureBaggages ?? []).first.ssrCode;
+    if (widget.isDeparture) {
+      if (state.selectedPax?.baggageDetail != null) {
+        if ((state.selectedPax!.baggageDetail?.departureBaggages ?? [])
+            .isNotEmpty) {
+          lastBaggagePrice =
+              (state.selectedPax!.baggageDetail?.departureBaggages ?? [])
+                  .first
+                  .ssrCode;
         }
       }
-
-
-    }
-    else {
-      if(state.selectedPax?.baggageDetail != null) {
-        if((state.selectedPax!.baggageDetail?.returnBaggages ?? []).isNotEmpty) {
-          lastBaggagePrice =  (state.selectedPax!.baggageDetail?.returnBaggages ?? []).first.ssrCode;
+    } else {
+      if (state.selectedPax?.baggageDetail != null) {
+        if ((state.selectedPax!.baggageDetail?.returnBaggages ?? [])
+            .isNotEmpty) {
+          lastBaggagePrice =
+              (state.selectedPax!.baggageDetail?.returnBaggages ?? [])
+                  .first
+                  .ssrCode;
         }
       }
     }
 
-    baggage = baggage?.where((e) => e.ssrCode != lastBaggagePrice && e.ssrCode != 'NOSELECT').toList();
-
+    baggage = baggage
+        ?.where((e) => e.ssrCode != lastBaggagePrice && e.ssrCode != 'NOSELECT')
+        .toList();
 
     Person? selectedPerson =
         context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
-    var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureBaggage?.description).toList();
+    var resultIndexFinder = baggage
+        ?.where((e) =>
+            e.description == selectedPerson?.departureBaggage?.description)
+        .toList();
 
+    if (widget.isDeparture == false) {
+      resultIndexFinder = baggage
+          ?.where((e) =>
+              e.description == selectedPerson?.returnBaggage?.description)
+          .toList();
+    } else {}
 
-    if(widget.isDeparture == false){
-      resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.returnBaggage?.description).toList();
+    baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo((b.amount ?? 0.0)));
 
-
-    }
-    else {
-
-    }
-
-
-
-    baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
-
-    if((resultIndexFinder ?? []).isNotEmpty) {
-
-
+    if ((resultIndexFinder ?? []).isNotEmpty) {
       int indexOf = baggage?.indexOf((resultIndexFinder ?? []).first) ?? 0;
       print('');
 
       selectedItem = (resultIndexFinder ?? []).first.ssrCode ?? '';
 
-
-
-      if(indexOf != pageController.initialPage){
+      if (indexOf != pageController.initialPage) {
         //onlyOneTime = false;
 
         scrollToPositionInStart(indexOf);
       }
-
-    }
-    else {
+    } else {
       int indexOf = 0;
       //selectedItem = (baggage ?? []).first.ssrCode ?? '';
       scrollToPositionInStart(indexOf);
     }
 
-
-
-    return  Row(
+    return Row(
       children: [
         GestureDetector(
           onTap: () {
@@ -565,27 +575,21 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
               return;
             }
 
-
-
             onlyOneTime = true;
 
             _currentIndex = _currentIndex - 1;
 
-
-            pageController.animateToPage(_currentIndex, duration: const Duration(milliseconds: 500), curve: Curves.ease);
-
+            pageController.animateToPage(_currentIndex,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease);
           },
-
           child: ImageIcon(
-            const AssetImage(
-                "assets/images/icons/iconPreviousDisabled.png"),
+            const AssetImage("assets/images/icons/iconPreviousDisabled.png"),
             color: _currentIndex == 0
                 ? Styles.kDisabledGrey
                 : Styles.kPrimaryColor,
           ),
         ),
-
-
         Expanded(
           child: SizedBox(
             height: 240,
@@ -604,20 +608,15 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                   return InkWell(
                     onTap: () async {
                       selectedItem = (baggage ?? [])[index].ssrCode ?? '';
-                      var response =  bloc?.addBaggageToPerson(selectedPerson,(baggage ?? [])[index],widget.isDeparture);
-                     if(response == true) {
-
-                       setState(() {
-                         selectedItem = '';
-
-                       });
-                     }
-                     else {
-                       setState(() {
-
-                       });
-                     }
-
+                      var response = bloc?.addBaggageToPerson(selectedPerson,
+                          (baggage ?? [])[index], widget.isDeparture);
+                      if (response == true) {
+                        setState(() {
+                          selectedItem = '';
+                        });
+                      } else {
+                        setState(() {});
+                      }
                     },
                     child: Column(
                       children: [
@@ -629,16 +628,15 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                         kVerticalSpacerMini,
                         Text(
                           currentItem.ssrCodeToShow ?? '',
-                          style: kLargeHeavy.copyWith(
-                              color: Styles.kTextColor),
+                          style: kLargeHeavy.copyWith(color: Styles.kTextColor),
                         ),
                         const SizedBox(
                           height: 4,
                         ),
                         Text(
                           currentItem.description ?? '',
-                          style: kMediumRegular.copyWith(
-                              color: Styles.kTextColor),
+                          style:
+                              kMediumRegular.copyWith(color: Styles.kTextColor),
                         ),
                         kVerticalSpacerMini,
                         Row(
@@ -658,16 +656,11 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                         IgnorePointer(
                           child: Radio<Bundle?>(
                             activeColor: Styles.kActiveColor,
-                            value: selectedItem ==
-                                currentItem.ssrCode
+                            value: selectedItem == currentItem.ssrCode
                                 ? currentItem
                                 : null,
                             groupValue: currentItem,
-                            onChanged: (value) async {
-
-
-
-                            },
+                            onChanged: (value) async {},
                           ),
                         ),
                       ],
@@ -676,17 +669,17 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                 }),
           ),
         ),
-
         GestureDetector(
-          onTap: (){
+          onTap: () {
             if (_currentIndex == ((baggage ?? []).length - 1)) {
               return;
             }
-           // onlyOneTime = true;
+            // onlyOneTime = true;
 
             _currentIndex = _currentIndex + 1;
-            pageController.animateToPage(_currentIndex, duration: const Duration(milliseconds: 500), curve: Curves.ease);
-
+            pageController.animateToPage(_currentIndex,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease);
           },
           child: ImageIcon(
             const AssetImage("assets/images/icons/iconNext.png"),
@@ -695,20 +688,19 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                 : Styles.kPrimaryColor,
           ),
         ),
-
       ],
     );
   }
 
   void scrollToPositionInStart(int indexOf) async {
-    if(onlyOneTime ){
-    return;
-
+    if (onlyOneTime) {
+      return;
     }
     onlyOneTime = true;
 
     await Future.delayed(Duration(milliseconds: 500));
 
-    pageController.animateToPage(indexOf, duration: const Duration(milliseconds: 500), curve: Curves.ease);
+    pageController.animateToPage(indexOf,
+        duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 }
