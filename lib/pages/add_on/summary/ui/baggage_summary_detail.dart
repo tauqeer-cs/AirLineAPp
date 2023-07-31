@@ -86,15 +86,24 @@ class BaggageSummaryDetail extends StatelessWidget {
             ),
           ),
           kVerticalSpacerSmall,
-          Text(
-            "departing".tr(),
-            style: kMediumSemiBold,
-          ),
-          kVerticalSpacerMini,
 
-          ...persons
-              .map((e) => buildBaggageComponentMMb(e, numberOfPerson, true))
-              .toList(),
+          if(isManageBooking) ... [
+
+            ...persons
+                .map((e) => buildBaggageComponentMMb(e, numberOfPerson, true))
+                .toList(),
+          ] else ... [
+            Text(
+              "departing".tr(),
+              style: kMediumSemiBold,
+            ),
+            kVerticalSpacerMini,
+
+            ...persons
+                .map((e) => buildBaggageComponent(e, numberOfPerson, true))
+                .toList(),
+          ],
+
 
 
           kVerticalSpacerSmall,
@@ -103,16 +112,17 @@ class BaggageSummaryDetail extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "returning".tr(),
-                  style: kMediumSemiBold,
-                ),
-                kVerticalSpacerMini,
+
                 if(isManageBooking) ... [
                   ...persons
                       .map((e) => buildBaggageComponentMMb(e, numberOfPerson, false))
                       .toList(),
                 ] else ... [
+                  Text(
+                    "returning".tr(),
+                    style: kMediumSemiBold,
+                  ),
+                  kVerticalSpacerMini,
                   ...persons
                       .map((e) => buildBaggageComponent(e, numberOfPerson, false))
                       .toList(),
@@ -254,7 +264,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                return Container();
              }
            }
-           if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+           else if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
              return Container();
            }
          }
@@ -274,10 +284,28 @@ class BaggageSummaryDetail extends StatelessWidget {
 
 
 
+     //
      return  Visibility(
-       visible: baggage != null || sport != null,
+       visible: sports ? (isDeparture ? manageBookingCubit?.passengerFromPerson(e)?.confirmedDepartSportsSelected != null : manageBookingCubit?.passengerFromPerson(e)?.confirmedReturnSportsSelected != null) : (isDeparture ? manageBookingCubit?.passengerFromPerson(e)?.confirmDepartBaggageSelected != null : manageBookingCubit?.passengerFromPerson(e)?.confirmReturnBaggageSelected != null),
        child: Column(
+         crossAxisAlignment: CrossAxisAlignment.start,
          children: [
+
+           if(isDeparture == true) ... [
+             Text(
+               "departing".tr(),
+               style: kMediumSemiBold,
+             ),
+             kVerticalSpacerMini,
+           ]  else ... [
+             Text(
+               "returning".tr(),
+               style: kMediumSemiBold,
+             ),
+             kVerticalSpacerMini,
+           ],
+
+
 
            if(isManageBooking) ... [
              if(isDeparture && sports == false) ... [
