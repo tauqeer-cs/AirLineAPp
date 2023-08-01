@@ -50,14 +50,17 @@ class _LoginFormState extends State<LoginForm> {
       });
       final value = widget.fbKey.currentState!.value;
       final email = value[widget.formEmailLoginName];
+      bool sendUserToPassword = false;
+
       final password = value[widget.formPasswordLoginName];
       var result = await context
           .read<LoginCubit>()
           .logInWithCredentialsFromPopUp(email, password,(){
-
+        sendUserToPassword = true;
             print('');
 
       });
+
 
 
 
@@ -67,7 +70,11 @@ class _LoginFormState extends State<LoginForm> {
 
 
         if(result == true) {
-          await  context.read<ProfileCubit>().getProfile();
+
+
+          if(sendUserToPassword) {
+            context.router.push(const ForgetPasswordRoute());
+          }
         }
         else {
           setState(() {
