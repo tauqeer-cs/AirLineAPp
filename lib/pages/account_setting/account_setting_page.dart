@@ -14,7 +14,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class AccountSettingPage extends StatelessWidget {
-  const AccountSettingPage({Key? key}) : super(key: key);
+  final bool isChangingTempPassword;
+
+  const AccountSettingPage({Key? key, required this.isChangingTempPassword}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -247,7 +247,7 @@ class _$AppRouter extends RootStackRouter {
     AccountSettingRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const AccountSettingPage(),
+        child: const AccountSettingPage(isChangingTempPassword: false,),
       );
     },
     CommunicationSettingRoute.name: (routeData) {

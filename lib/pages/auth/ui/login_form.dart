@@ -1,4 +1,5 @@
 import 'package:app/app/app_router.dart';
+import 'package:app/pages/account_setting/account_setting_page.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/theme.dart';
@@ -63,6 +64,8 @@ class _LoginFormState extends State<LoginForm> {
 
 
 
+      sendUserToPassword = true;
+      
 
       if(fromPopUp)
       {
@@ -73,7 +76,13 @@ class _LoginFormState extends State<LoginForm> {
 
 
           if(sendUserToPassword) {
-            context.router.push(const ForgetPasswordRoute());
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AccountSettingPage(isChangingTempPassword: true)),
+            );
+
+
+
           }
         }
         else {
