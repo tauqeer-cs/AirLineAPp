@@ -37,13 +37,20 @@ class AccountSettingPage extends StatelessWidget {
               onFinished: () {
                 context.loaderOverlay.hide();
                 context.router.pop();
+
                 Toast.of(context).show(message: 'successView.passwordUpdated'.tr(), success: true);
+                if(isChangingTempPassword) {
+
+                  Navigator.pop(context);
+
+                }
               },
             );
           },
           child: Scaffold(
             appBar: AppAppBar(
               centerTitle: true,
+              hideBack: isChangingTempPassword,
               title: 'personalInfo.accountSettings'.tr(),
               height: 60.h,
               overrideInnerHeight: true,
@@ -58,7 +65,7 @@ class AccountSettingPage extends StatelessWidget {
             ),
             body: Container(
               color: Colors.white,
-              child: const AccountSettingView(),
+              child:  AccountSettingView(isChangingTempPassword: isChangingTempPassword,),
             ),
           ),
         ),

@@ -64,8 +64,7 @@ class _LoginFormState extends State<LoginForm> {
 
 
 
-      sendUserToPassword = true;
-      
+
 
       if(fromPopUp)
       {
@@ -75,15 +74,7 @@ class _LoginFormState extends State<LoginForm> {
         if(result == true) {
 
 
-          if(sendUserToPassword) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AccountSettingPage(isChangingTempPassword: true)),
-            );
 
-
-
-          }
         }
         else {
           setState(() {
@@ -99,6 +90,17 @@ class _LoginFormState extends State<LoginForm> {
       else {
 
         context.read<ProfileCubit>().getProfile();
+
+        if(sendUserToPassword) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AccountSettingPage(isChangingTempPassword: true)),
+          );
+
+
+
+        }
+
       }
       setState(() {
         isLoading = false;
