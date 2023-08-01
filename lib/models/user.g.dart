@@ -158,6 +158,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       currentBalance: (json['currentBalance'] as num?)?.toDouble(),
       isAccountVerified: json['isAccountVerified'] as bool?,
       firstName: json['firstName'] as String?,
+      requiredResetPassword: json['requiredResetPassword'] as bool?,
       accountExpiryDate: json['accountExpiryDate'] == null
           ? null
           : DateTime.parse(json['accountExpiryDate'] as String),

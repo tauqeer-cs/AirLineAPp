@@ -301,6 +301,9 @@ class _AuthProvider implements AuthProvider {
         )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CommonResponse.fromJson(_result.data!);
+   // return CommonResponse(success: false,message: 'What');
+
+
     return value;
   }
 }

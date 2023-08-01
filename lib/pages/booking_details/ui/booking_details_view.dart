@@ -650,6 +650,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
+                                        return;
+
                                         if (response != null) {
                                           var redirectUrl =
                                               await bloc?.checkOutForPaymentSSR(

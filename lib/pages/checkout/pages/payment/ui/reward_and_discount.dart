@@ -60,9 +60,13 @@ class RewardAndDiscount extends StatelessWidget {
           ),
           kVerticalSpacerSmall,
           VoucherCodeUi(
+            onOnlyTextRemove: (){
+              _fbKey.currentState!.reset();
+              bloc.dontShowVoucher();
+            },
             readOnly: bookingState.superPnrNo != null,
             blocState: state.blocState,
-            voucherCodeInitial: state.insertedVoucher?.voucherCode ?? '',
+            voucherCodeInitial: state.dontShowVoucher == true ? '' : (state.insertedVoucher?.voucherCode ?? (state.lastText ?? '')),
             state: state,
             onRemoveTapped: true
                 ? () {
@@ -136,11 +140,28 @@ class RewardAndDiscount extends StatelessWidget {
       return;
     }
 
-    _fbKey.currentState!.reset();
+
     final token = bookingState.verifyResponse?.token;
     final voucherRequest = VoucherRequest(
       token: token,
     );
-    context.read<VoucherCubit>().removeVoucher(voucherRequest);
+    String? lastText;
+
+    if(context.read<VoucherCubit>().state.dontShowVoucher == true){
+      _fbKey.currentState!.save();
+
+      final value = _fbKey.currentState!.value;
+      final voucher = value["voucherCode"];
+      lastText = voucher;
+
+    }
+    else {
+      _fbKey.currentState!.reset();
+
+    }
+
+    context.read<VoucherCubit>().removeVoucher(voucherRequest,lastTextEntered: lastText);
+
   }
+
 }

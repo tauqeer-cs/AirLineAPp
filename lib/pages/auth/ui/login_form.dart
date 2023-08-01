@@ -53,7 +53,11 @@ class _LoginFormState extends State<LoginForm> {
       final password = value[widget.formPasswordLoginName];
       var result = await context
           .read<LoginCubit>()
-          .logInWithCredentialsFromPopUp(email, password);
+          .logInWithCredentialsFromPopUp(email, password,(){
+
+            print('');
+
+      });
 
 
 

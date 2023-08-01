@@ -38,6 +38,8 @@ class InsertVoucherPIN extends Equatable {
   @JsonKey(name: 'VoucherCode')
   final String? voucherCode;
 
+
+
   factory InsertVoucherPIN.fromJson(Map<String, dynamic> json) =>
       _$InsertVoucherPINFromJson(json);
 

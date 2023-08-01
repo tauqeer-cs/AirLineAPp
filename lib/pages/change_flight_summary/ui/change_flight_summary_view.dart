@@ -141,12 +141,21 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     }
 
     void removeVoucher(String currentToken, BuildContext context) {
-      _fbKey.currentState!.reset();
+      context.read<VoucherCubit>;
+
+
       final token = currentToken;
       final voucherRequest = VoucherRequest(
         token: token,
       );
       context.read<VoucherCubit>().removeVoucher(voucherRequest);
+      if(context.read<VoucherCubit>().state.dontShowVoucher == true){
+
+      }
+      else {
+        _fbKey.currentState!.reset();
+
+      }
     }
 
     String currency = bloc?.state.manageBookingResponse?.result?.fareAndBundleDetail?.currencyToShow ?? 'MYR';
@@ -494,7 +503,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         }
                       }
                     },
-                    fbKey: _fbKey,
+                    fbKey: _fbKey, onOnlyTextRemove: () {  },
                   ),
                   const SizedBox(
                     height: 16,

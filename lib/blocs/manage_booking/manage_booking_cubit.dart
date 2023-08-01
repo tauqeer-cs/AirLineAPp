@@ -41,7 +41,6 @@ import '../../models/pay_redirection.dart';
 import '../../pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../utils/error_utils.dart';
 import '../../data/responses/change_flight_response.dart';
-import 'package:flutter/material.dart';
 
 part 'manage_booking_state.dart';
 
@@ -1435,6 +1434,42 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
 
         if (currentItem.confirmedReturnSeatSelected != null) {
+
+          var ccc = state.addOnList?.flightSeats?.inbound?.first
+              .retrieveFlightSeatMapResponse?.physicalFlights;
+
+          var result = ccc?.first.physicalFlightSeatMap?.seatConfiguration?.rows
+              ?.where((e) =>
+          e.rowId == currentItem.confirmedReturnSeatSelected?.rowId)
+              .first;
+
+          if (tmpPassengerAddOn.seat != null) {
+            tmpPassengerAddOn.seat?.inbound = Outbound(
+                physicalFlightId: returnPhysicalFlightIdForSeat ??
+                    currentItem.confirmedReturnSeatSelected?.seatId ??
+                    '',
+                seatRow: result?.rowNumber ??
+                    currentItem.confirmedReturnSeatSelected?.rowId,
+                seatColumn:
+                currentItem.confirmedReturnSeatSelected?.seatColumn ?? '');
+          } else {
+            tmpPassengerAddOn.seat = AS.Seat(
+              inbound: Outbound(
+                  physicalFlightId: returnPhysicalFlightIdForSeat ??
+                      currentItem.confirmedReturnSeatSelected?.seatId ??
+                      '',
+                  seatRow: result?.rowNumber ??
+                      currentItem.confirmedReturnSeatSelected?.rowId,
+                  seatColumn:
+                  currentItem.confirmedReturnSeatSelected?.seatColumn ?? ''),
+            );
+          }
+
+        }
+
+
+        /*
+        if (currentItem.confirmedReturnSeatSelected != null) {
           var ccc = state.addOnList?.flightSeats?.inbound?.first
               .retrieveFlightSeatMapResponse?.physicalFlights;
           var result = ccc?.first.physicalFlightSeatMap?.seatConfiguration?.rows
@@ -1465,6 +1500,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             );
           }
         }
+*/
 
         print('');
         passengerAddOn.add(tmpPassengerAddOn);
@@ -1476,6 +1512,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       ChangeSsrResponse response =
           await _repository.setAssignFlightAddon(request);
 
+      /*
+      if(response.token != null) {
+        await getAvailablePromotionsMMb(response.token);
+      }*/
+
+
+
+      ///getAvailablePromotionsMMb
       return response;
     } catch (e, st) {
       emit(
@@ -3573,13 +3617,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     }
   }
 
-  getAvailablePromotions() async {
+  getAvailablePromotionsMMb(String? flightToken) async {
     emit(state.copyWith(isLoadingPromo: true));
 
     final flightRepo = FlightRepository();
 
     final response =
-        await flightRepo.getPromoInfoMMb(Token(token: state.flightToken ?? ''));
+        await flightRepo.getPromoInfoMMb(Token(token: flightToken ?? (state.flightToken ?? '')));
 
     if (response.statusCode == 200) {
       emit(state.copyWith(

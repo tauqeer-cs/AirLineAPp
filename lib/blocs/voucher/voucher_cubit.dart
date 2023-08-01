@@ -22,6 +22,13 @@ class VoucherCubit extends Cubit<VoucherState> {
     emit(VoucherState());
   }
 
+  dontShowVoucher() async {
+
+    emit(state.copyWith(
+      dontShowVoucher: true,
+    ));
+
+  }
   getAvailablePromotions(String token) async {
     state.flightToken = token;
 
@@ -68,6 +75,7 @@ class VoucherCubit extends Cubit<VoucherState> {
         state.copyWith(
           blocState: BlocState.finished,
           response: () => response,
+          dontShowVoucher: false,
           appliedVoucher: () => voucherRequest.insertVoucher,
           insertedVoucher: () => voucherRequest.voucherPins.firstOrNull,
         ),
@@ -75,6 +83,7 @@ class VoucherCubit extends Cubit<VoucherState> {
     } catch (e, st) {
       emit(
         state.copyWith(
+          dontShowVoucher: false,
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           response: () => const VoucherResponse(),
@@ -84,14 +93,16 @@ class VoucherCubit extends Cubit<VoucherState> {
     }
   }
 
-  removeVoucher(VoucherRequest voucherRequest) async {
+  removeVoucher(VoucherRequest voucherRequest,{String? lastTextEntered}) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       await _repository.removeVoucher(voucherRequest);
       emit(
         state.copyWith(
+          dontShowVoucher: false,
           blocState: BlocState.finished,
           response: () => null,
+          lastText: lastTextEntered,
           appliedVoucher: () => null,
           insertedVoucher: () => null,
         ),
@@ -99,6 +110,7 @@ class VoucherCubit extends Cubit<VoucherState> {
     } catch (e, st) {
       emit(
         state.copyWith(
+          dontShowVoucher: false,
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           response: () => const VoucherResponse(),

@@ -106,12 +106,12 @@ class AuthenticationRepository {
     await _provider.closeAccount(updatePasswordRequest);
   }
 
-  Future<void> loginWithEmail(LoginRequest loginRequest) async{
+  Future<User?> loginWithEmailRepo(LoginRequest loginRequest) async{
     final user = await _provider.emailLogin(loginRequest);
     if(user.isAccountVerified ?? false){
       storeAccessToken(user.token);
-      //insiderRepository.loginUser(user);
       setCurrentUser(user);
+      return user;
     }else{
       sendEmail(ResendEmailRequest(email: user.email));
       setTemporaryUser(user);
