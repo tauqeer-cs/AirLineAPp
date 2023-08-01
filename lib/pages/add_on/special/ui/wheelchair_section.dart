@@ -44,7 +44,9 @@ class WheelchairSection extends StatelessWidget {
     String? okId;
     Bundle? selectedWheelchair;
     ManageBookingCubit? manageBookingCubit;
-
+	
+    int personIndex = 0;
+    
     String selectedWheelChairId = '';
 
     if (isManageBooking) {
@@ -122,6 +124,7 @@ class WheelchairSection extends StatelessWidget {
               PassengerSelector(
                 isDeparture: isDeparture,
                 addonType: AddonType.special,
+                onCountChanged: personIndex
               ),
               kVerticalSpacer,
             ],

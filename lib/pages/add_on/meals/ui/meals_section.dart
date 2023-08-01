@@ -40,6 +40,8 @@ class MealsSection extends StatelessWidget {
     bool isFlightUnderAnHour = false;
     bool isFlightOver24Hour = false;
 
+    int personIndex = 0;
+
     if (isManageBooking) {
       var bloc = context.watch<ManageBookingCubit>();
       manageBookingCubit = bloc;
@@ -129,6 +131,7 @@ class MealsSection extends StatelessWidget {
                     PassengerSelector(
                       isDeparture: isDeparture,
                       addonType: AddonType.meal,
+                      onCountChanged: personIndex
                     ),
                   ] else
                     ...[],

@@ -23,6 +23,8 @@ class BundleSection extends StatelessWidget {
     final ssr = context.watch<BookingCubit>().state.verifyResponse?.flightSSR;
     final bundles =
         isDeparture ? ssr?.bundleGroup?.outbound : ssr?.bundleGroup?.inbound;
+    int personIndex = 0;
+
     return Padding(
       padding: kPageHorizontalPadding,
       child: Column(
@@ -39,7 +41,7 @@ class BundleSection extends StatelessWidget {
           PassengerSelector(
             isDeparture: isDeparture,
             addonType: AddonType.baggage,
-
+            onCountChanged: personIndex
           ),
           kVerticalSpacer,
           buildBundleCards(bundles, isDeparture),

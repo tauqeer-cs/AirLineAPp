@@ -44,6 +44,11 @@ class BaggageSection extends StatelessWidget {
 
     ManageBookingCubit? manageBookingCubit;
 
+    int personIndex = 0;
+
+    void _functionCallback(int i) {
+      personIndex = i;
+    }
 
     if(isManageBooking) {
 
@@ -74,6 +79,7 @@ class BaggageSection extends StatelessWidget {
               PassengerSelector(
                 isDeparture: isDeparture,
                 addonType: AddonType.baggage,
+                onCountChanged: personIndex
               ),
               kVerticalSpacer,
             ],

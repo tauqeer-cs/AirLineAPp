@@ -21,12 +21,18 @@ class SeatPlan extends StatelessWidget {
       {Key? key,
       this.moveToTop,
       this.moveToBottom,
+      this.onCountChanged,
       this.isManageBooking = false})
       : super(key: key);
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
+  final Function(int)? onCountChanged;
 
   final bool isManageBooking;
+
+  void _functionCallback(int i) {
+    onCountChanged!(i);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -251,6 +257,7 @@ class SeatPlan extends StatelessWidget {
                                   moveToBottom: () {
                                     moveToBottom?.call();
                                   },
+                                  onCountChanged: _functionCallback,
                                   isManageBooking: isManageBooking,
                                 ),
                               );

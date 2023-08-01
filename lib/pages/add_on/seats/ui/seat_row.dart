@@ -18,6 +18,7 @@ class SeatRow extends StatefulWidget {
   final Seats seats;
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
+  final Function (int) onCountChanged;
   final bool isManageBooking;
 
   const SeatRow({
@@ -25,6 +26,7 @@ class SeatRow extends StatefulWidget {
     required this.seats,
     this.moveToTop,
     this.moveToBottom,
+    required this.onCountChanged,
     required this.isManageBooking,
   }) : super(key: key);
 
@@ -165,6 +167,7 @@ class _SeatRowState extends State<SeatRow> {
                   .read<SelectedPersonCubit>()
                   .selectPerson(persons.persons[nextPerson + 1]);
               widget.moveToTop?.call();
+              widget.onCountChanged(nextPerson + 1);
             } else if ((nextPerson + 1) == persons.persons.length) {
               context
                   .read<SelectedPersonCubit>()

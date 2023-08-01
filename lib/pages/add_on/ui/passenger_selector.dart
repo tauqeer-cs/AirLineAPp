@@ -21,17 +21,20 @@ class PassengerSelector extends StatelessWidget {
   final bool isDeparture;
   final bool isSeatSelection;
   final AddonType addonType;
+  int onCountChanged;
 
-  const PassengerSelector({
+  PassengerSelector({
     Key? key,
     this.isContact = false,
     required this.isDeparture,
     this.isSeatSelection = false,
     required this.addonType,
+    required this.onCountChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ScrollController scrollPassengerController = ScrollController();
     final numberOfPerson =
         context.watch<SearchFlightCubit>().state.filterState?.numberPerson;
     final selectedPerson = context.watch<SelectedPersonCubit>().state;
@@ -51,6 +54,18 @@ class PassengerSelector extends StatelessWidget {
     if (!isContact) {
       persons.removeWhere((element) => element.peopleType == PeopleType.infant);
     }
+	
+    double moveToRight = (onCountChanged - 1) * 170;
+    Future.delayed(Duration(seconds: 1), () {
+      print("onCountChanged ${onCountChanged}");
+      if(onCountChanged >= 2) {
+        if (scrollPassengerController.hasClients)
+          scrollPassengerController.animateTo(
+              moveToRight, duration: Duration(seconds: 1),
+              curve: Curves.linear);
+      }
+    });
+	
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,7 +78,10 @@ class PassengerSelector extends StatelessWidget {
           constraints: const BoxConstraints(
             minHeight: 50,
           ),
-          child: SingleChildScrollView(
+          child: SingleChildScrollView (
+            child: Scrollbar(
+              child: SingleChildScrollView(
+            controller: scrollPassengerController,
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -73,6 +91,8 @@ class PassengerSelector extends StatelessWidget {
                 return GestureDetector(
                   onTap: (){
                     context.read<SelectedPersonCubit>().selectPerson(person);
+                    var index = persons.indexOf(person);
+                    onCountChanged = index;
                   },
                   child: Container(
                     constraints: const BoxConstraints(minWidth: 160),
@@ -114,6 +134,8 @@ class PassengerSelector extends StatelessWidget {
               }).toList(),
             ),
           ),
+		  )
+		  )
         ),
       ],
     );
