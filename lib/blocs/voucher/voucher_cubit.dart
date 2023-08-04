@@ -28,6 +28,46 @@ class VoucherCubit extends Cubit<VoucherState> {
       dontShowVoucher: true,
     ));
 
+
+  }
+
+  bool get hasVoucherBeenUsed {
+
+    if(state.response?.addVoucherResult?.voucherDiscounts != null) {
+
+      if((state.response?.addVoucherResult?.voucherDiscounts ?? []) .isNotEmpty) {
+        var discount = state.response?.addVoucherResult?.voucherDiscounts!.first.discountAmount;
+
+        if((discount ?? 0.0) > 0.0) {
+          return true;
+        }
+      }
+    }
+    return false;
+
+  }
+  bool get hasPointsBeenRedeemed {
+
+    if(state.redemptionOption?.availableOptions  != null) {
+
+      if(state.redemptionOption!.availableOptions!.isNotEmpty) {
+
+        if(state.selectedRedeemOption != null) {
+          var amount = state.selectedRedeemOption?.redemptionAmount ?? 0.0;
+
+          if(amount > 0 ){
+
+            return true;
+
+          }
+        }
+
+      }
+
+
+    }
+
+    return false;
   }
   getAvailablePromotions(String token) async {
     state.flightToken = token;
@@ -71,6 +111,40 @@ class VoucherCubit extends Cubit<VoucherState> {
                 "",
           )
           .build();
+      if(response.addVoucherResult?.voucherDiscounts != null) {
+        if((response.addVoucherResult?.voucherDiscounts ?? []).isNotEmpty ) {
+
+          if((response.addVoucherResult?.voucherDiscounts ?? []).first.discountAmount == 0.0) {
+            emit(
+              state.copyWith(
+                dontShowVoucher: false,
+                message: 'Voucher out of balance',
+                blocState: BlocState.failed,
+                response: () => const VoucherResponse(),
+                appliedVoucher: () => "",
+                insertedVoucher: null,
+              ),
+            );
+            return;
+
+          }
+        }
+        else {
+          emit(
+            state.copyWith(
+              dontShowVoucher: false,
+              message: 'Voucher out of balance',
+              blocState: BlocState.failed,
+              response: () => const VoucherResponse(),
+              appliedVoucher: () => "",
+              insertedVoucher: null,
+            ),
+          );
+
+          return;
+
+        }
+      }
       emit(
         state.copyWith(
           blocState: BlocState.finished,
@@ -88,6 +162,7 @@ class VoucherCubit extends Cubit<VoucherState> {
           blocState: BlocState.failed,
           response: () => const VoucherResponse(),
           appliedVoucher: () => "",
+          insertedVoucher: null,
         ),
       );
     }
