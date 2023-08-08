@@ -28,7 +28,7 @@ class SummaryView extends StatelessWidget {
         BaggageSummaryDetail(currency: currency, sports: false,),
         BaggageSummaryDetail(currency: currency, sports: true,),
 
-         SpecialSummaryDetail(currency: currency,),
+         SpecialSummaryDetail(currency: currency),
       ],
     );
   }

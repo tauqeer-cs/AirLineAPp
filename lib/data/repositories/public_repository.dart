@@ -19,16 +19,17 @@ class PublicRepository {
   PublicRepository._internal();
 
   Future<Countries> getCountries() async {
-    //countries.sort((a, b) => a.population.compareTo(b.population));
     var retuenObject =  await _provider.getCountries();
-    //retuenObject?.countries?.sort()
-
     retuenObject.countries!.sort((a, b) => (a.country?? '').compareTo(b.country ?? ''));
-
-    // retuenObject.countries!.sort(a,b)  => a.compareTo(b.someProperty);
   return retuenObject;
-
   }
+
+
+  Future<StateResult> getStates() async {
+    var retuenObject =  await _provider.getStates();
+    return retuenObject;
+  }
+
 
   Future<SwitchSetting> getSettings({bool returnTrue = false}) async {
     if (returnTrue) {

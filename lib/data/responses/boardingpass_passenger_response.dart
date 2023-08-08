@@ -47,8 +47,8 @@ class BoardingPassPassenger {
   String? firstName;
   String? lastName;
   String? pnr;
-  int? logicalFlightKey;
-  int? personOrgId;
+  String? logicalFlightKey;
+  String? personOrgId;
   bool? checkedToDownload;
 
   BoardingPassPassenger(

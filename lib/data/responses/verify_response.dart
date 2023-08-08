@@ -4,6 +4,7 @@ import 'package:app/data/responses/aplicable_taxes.dart';
 import 'package:app/data/responses/flight_response.dart';
 import 'package:app/pages/add_on/seats/ui/seat_legend_simple.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -216,7 +217,7 @@ class FlightSegments extends Equatable {
       _$FlightSegmentsFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightSegmentsToJson(this);
-  final num? lfid;
+  final String? lfid;
   final String? departureDate;
 
   final String? arrivalDate;
@@ -333,7 +334,7 @@ class FareInfos extends Equatable {
 
   Map<String, dynamic> toJson() => _$FareInfosToJson(this);
   final List<dynamic>? returnFlightSegmentDetails;
-  final num? fareID;
+  final String? fareID;
   final String? fcCode;
   final String? fbCode;
   final num? baseFareAmtNoTaxes;
@@ -427,7 +428,7 @@ class FlightLegDetails extends Equatable {
       _$FlightLegDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$FlightLegDetailsToJson(this);
-  final num? pfid;
+  final String? pfid;
   final String? departureDate;
 
   const FlightLegDetails({this.pfid, this.departureDate});
@@ -442,7 +443,7 @@ class LegDetails extends Equatable {
       _$LegDetailsFromJson(json);
 
   Map<String, dynamic> toJson() => _$LegDetailsToJson(this);
-  final num? pfid;
+  final String? pfid;
   final String? departureDate;
   final String? origin;
   final String? destination;
@@ -601,7 +602,7 @@ class InboundBundle extends Equatable {
         price: bundle?.finalAmount,
         logicalFlightId: bundle?.logicalFlightID,
         quantity: 1,
-        serviceId: bundle?.serviceID,
+        ssrCode: bundle?.ssrCode,
       );
     }
     return Bound(
@@ -610,7 +611,7 @@ class InboundBundle extends Equatable {
       price: bundle?.finalAmount,
       logicalFlightId: bundle?.logicalFlightID,
       quantity: 1,
-      serviceId: bundle?.serviceID,
+      ssrCode: bundle?.ssrCode,
     );
   }
 }
@@ -626,8 +627,8 @@ class Bundle extends Equatable {
         quantity: 1,
         price: amount == null
             ? 0
-            : (amount! + (applicableTaxes!.firstOrNull?.taxAmount ?? 0)),
-        serviceId: serviceID,
+            : (amount! + (applicableTaxes?.firstOrNull?.taxAmount ?? 0)),
+        ssrCode: ssrCode,
       );
     } else if (sports) {
       return Bound(
@@ -635,7 +636,7 @@ class Bundle extends Equatable {
         servicesType: "Sport",
         logicalFlightId: logicalFlightID,
         quantity: 1,
-        serviceId: serviceID,
+        ssrCode: ssrCode,
       );
     }
     return Bound(
@@ -646,14 +647,13 @@ class Bundle extends Equatable {
       price: finalAmount,
       logicalFlightId: logicalFlightID,
       quantity: 1,
-      serviceId: serviceID,
+      ssrCode: ssrCode,
     );
   }
 
   @override
   List<Object?> get props => [
         logicalFlightID,
-        serviceID,
         departureDate,
         operatingCarrier,
         marketingCarrier,
@@ -685,8 +685,7 @@ class Bundle extends Equatable {
   factory Bundle.fromJson(Map<String, dynamic> json) => _$BundleFromJson(json);
 
   Map<String, dynamic> toJson() => _$BundleToJson(this);
-  final num? logicalFlightID;
-  final num? serviceID;
+  final String? logicalFlightID;
   final String? departureDate;
   final String? operatingCarrier;
   final String? marketingCarrier;
@@ -697,6 +696,22 @@ class Bundle extends Equatable {
   final bool? amountActive;
   final num? categoryID;
   final String? ssrCode;
+   final bool? isOld;
+
+
+  String get ssrCodeToShow {
+
+    if(ssrCode == 'NOSELECT'){
+
+      if(description == 'No Baggage') {
+        return 'noBaggage'.tr();
+      }
+      return 'noEquipment'.tr();
+    }
+    return ssrCode ?? '';
+
+  }
+
   final bool? display;
   final num? maxCountServiceLevel;
   final bool? refundable;
@@ -714,9 +729,70 @@ class Bundle extends Equatable {
   final num? boardingPassSsrOrder;
   final num? serviceType;
 
+  Bundle copyWith({
+    String? logicalFlightID,
+    String? departureDate,
+    String? operatingCarrier,
+    String? marketingCarrier,
+    String? codeType,
+    String? description,
+    String? currencyCode,
+    num? amount,
+    bool? amountActive,
+    num? categoryID,
+    bool? isOld,
+    String? ssrCode,
+    bool? display,
+    num? maxCountServiceLevel,
+    bool? refundable,
+    bool? pnlActive,
+    num? cutoffHours,
+    bool? commissionable,
+    num? displayOrder,
+    num? revenueCategoryID,
+    String? iataStandardCodeType,
+    bool? serviceActive,
+    num? maxCountFlightLevel,
+    num? quantityAvailable,
+    num? startSalesDays,
+    List<ApplicableTaxes>? applicableTaxes,
+    num? boardingPassSsrOrder,
+    num? serviceType,
+  }) {
+    return Bundle(
+      logicalFlightID: logicalFlightID ?? this.logicalFlightID,
+      departureDate: departureDate ?? this.departureDate,
+      operatingCarrier: operatingCarrier ?? this.operatingCarrier,
+      marketingCarrier: marketingCarrier ?? this.marketingCarrier,
+      codeType: codeType ?? this.codeType,
+      description: description ?? this.description,
+      currencyCode: currencyCode ?? this.currencyCode,
+      amount: amount ?? this.amount,
+      amountActive: amountActive ?? this.amountActive,
+      categoryID: categoryID ?? this.categoryID,
+      isOld: isOld ?? this.isOld,
+      ssrCode: ssrCode ?? this.ssrCode,
+      display: display ?? this.display,
+      maxCountServiceLevel: maxCountServiceLevel ?? this.maxCountServiceLevel,
+      refundable: refundable ?? this.refundable,
+      pnlActive: pnlActive ?? this.pnlActive,
+      cutoffHours: cutoffHours ?? this.cutoffHours,
+      commissionable: commissionable ?? this.commissionable,
+      displayOrder: displayOrder ?? this.displayOrder,
+      revenueCategoryID: revenueCategoryID ?? this.revenueCategoryID,
+      iataStandardCodeType: iataStandardCodeType ?? this.iataStandardCodeType,
+      serviceActive: serviceActive ?? this.serviceActive,
+      maxCountFlightLevel: maxCountFlightLevel ?? this.maxCountFlightLevel,
+      quantityAvailable: quantityAvailable ?? this.quantityAvailable,
+      startSalesDays: startSalesDays ?? this.startSalesDays,
+      applicableTaxes: applicableTaxes ?? this.applicableTaxes,
+      boardingPassSsrOrder: boardingPassSsrOrder ?? this.boardingPassSsrOrder,
+      serviceType: serviceType ?? this.serviceType,
+    );
+  }
+
   const Bundle({
     this.logicalFlightID,
-    this.serviceID,
     this.departureDate,
     this.operatingCarrier,
     this.marketingCarrier,
@@ -726,6 +802,7 @@ class Bundle extends Equatable {
     this.amount,
     this.amountActive,
     this.categoryID,
+    this.isOld = false,
     this.ssrCode,
     this.display,
     this.maxCountServiceLevel,
@@ -810,7 +887,6 @@ class BundleServiceDetails extends Equatable {
         description,
         glCode,
         isMaxinventory,
-        serviceID,
         ssrCode
       ];
 
@@ -824,7 +900,6 @@ class BundleServiceDetails extends Equatable {
   final String? description;
   final String? glCode;
   final bool? isMaxinventory;
-  final num? serviceID;
   final String? ssrCode;
 
   const BundleServiceDetails(
@@ -834,7 +909,6 @@ class BundleServiceDetails extends Equatable {
       this.description,
       this.glCode,
       this.isMaxinventory,
-      this.serviceID,
       this.ssrCode});
 }
 
@@ -922,7 +996,7 @@ class PhysicalFlights extends Equatable {
   final String? flightNum;
   final String? origin;
   final String? originName;
-  final num? physicalFlightID;
+  final String? physicalFlightID;
   final PhysicalFlightSeatMap? physicalFlightSeatMap;
 
   const PhysicalFlights(
@@ -1087,6 +1161,25 @@ class Rows extends Equatable {
       this.rowNumber,
       this.seatConfigId,
       this.seats});
+
+  Rows copyWith({
+    num? deckId,
+    List<dynamic>? restrictions,
+    num? rowId,
+    num? rowNumber,
+    num? seatConfigId,
+    List<Seats>? seats,
+  }) {
+    return Rows(
+      deckId: deckId ?? this.deckId,
+      restrictions: restrictions ?? this.restrictions,
+      rowId: rowId ?? this.rowId,
+      rowNumber: rowNumber ?? this.rowNumber,
+      seatConfigId: seatConfigId ?? this.seatConfigId,
+      seats: seats ?? this.seats,
+    );
+  }
+
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -1109,8 +1202,8 @@ class Seats extends Equatable {
         seatWBZoneId,
         serviceCode,
         serviceDescription,
-        serviceId,
-        weightIndex
+        weightIndex,
+    rowNumber
       ];
 
   factory Seats.fromJson(Map<String, dynamic> json) => _$SeatsFromJson(json);
@@ -1123,17 +1216,20 @@ class Seats extends Equatable {
   final bool? isSeatAvailable;
   final List<Restrictions>? restrictions;
   final num? rowId;
+  final num? rowNumber;
+
   final List<SeatAttributes>? seatAttributes;
   final num? seatCabinId;
   final String? seatColumn;
-  final num? seatId;
+  final String? seatId;
   final num? seatOrder;
   final List<SeatPriceOffers>? seatPriceOffers;
   final num? seatWBZoneId;
   final String? serviceCode;
   final String? serviceDescription;
-  final num? serviceId;
+  //final String? ssrCode;
   final num? weightIndex;
+
 
   const Seats(
       {this.blockChild,
@@ -1152,7 +1248,7 @@ class Seats extends Equatable {
       this.seatWBZoneId,
       this.serviceCode,
       this.serviceDescription,
-      this.serviceId,
+      this.rowNumber,
       this.weightIndex});
 
   num getRowNumber(List<Rows> rows) {
@@ -1163,17 +1259,10 @@ class Seats extends Equatable {
   Outbound toOutbound(List<Rows> rows) {
     return Outbound(
       seatRow: getRowNumber(rows),
-      price: (seatPriceOffers ?? [])
-          .map(
-            (e) => Price(
-                amount: e.amount,
-                currency: e.currency,
-                isBundleOffer: e.isBundleOffer),
-          )
-          .toList(),
       seatColumn: seatColumn,
     );
   }
+
 
   Color get toColor {
     if(serviceDescription?.toLowerCase().contains("PREFERRED") ?? false){
@@ -1184,6 +1273,57 @@ class Seats extends Equatable {
       return SeatAvailableLegend.preferred.color;
     }
   }
+
+  String seatNameToShow(List<Rows>  rows) {
+
+    return (seatColumn ?? '') + (getRowNumber(rows) ?? '').toString();
+
+  }
+  Seats copyWith({
+    bool? blockChild,
+    bool? blockInfant,
+    bool? isEmergencyRow,
+    num? cabinClassId,
+    bool? isSeatAvailable,
+    List<Restrictions>? restrictions,
+    num? rowId,
+    List<SeatAttributes>? seatAttributes,
+    num? seatCabinId,
+    String? seatColumn,
+    String? seatId,
+    num? seatOrder,
+    List<SeatPriceOffers>? seatPriceOffers,
+    num? seatWBZoneId,
+    String? serviceCode,
+    String? serviceDescription,
+    num? serviceId,
+    num? weightIndex,
+    String? ssrCode,
+    num? rowNumber,
+
+  }) {
+    return Seats(
+      rowNumber: rowNumber ?? this.rowNumber,
+      blockChild: blockChild ?? this.blockChild,
+      blockInfant: blockInfant ?? this.blockInfant,
+      isEmergencyRow: isEmergencyRow ?? this.isEmergencyRow,
+      cabinClassId: cabinClassId ?? this.cabinClassId,
+      isSeatAvailable: isSeatAvailable ?? this.isSeatAvailable,
+      restrictions: restrictions ?? this.restrictions,
+      rowId: rowId ?? this.rowId,
+      seatAttributes: seatAttributes ?? this.seatAttributes,
+      seatCabinId: seatCabinId ?? this.seatCabinId,
+      seatColumn: seatColumn ?? this.seatColumn,
+      seatId: seatId ?? this.seatId,
+      seatOrder: seatOrder ?? this.seatOrder,
+      seatPriceOffers: seatPriceOffers ?? this.seatPriceOffers,
+      seatWBZoneId: seatWBZoneId ?? this.seatWBZoneId,
+      serviceCode: serviceCode ?? this.serviceCode,
+      serviceDescription: serviceDescription ?? this.serviceDescription,
+      weightIndex: weightIndex ?? this.weightIndex,
+    );
+  }
+
 }
 
 @JsonSerializable(includeIfNull: false)

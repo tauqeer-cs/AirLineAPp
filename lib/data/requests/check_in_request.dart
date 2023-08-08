@@ -72,6 +72,7 @@ class OutboundCheckInPassengerDetails {
       this.passportIssueCountryCode});
 
   OutboundCheckInPassengerDetails.fromJson(Map<String, dynamic> json) {
+
     flightNumber = json['FlightNumber'];
     departureStationCode = json['DepartureStationCode'];
     inkPaxID = json['InkPaxID'];

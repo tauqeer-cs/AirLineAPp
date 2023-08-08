@@ -57,7 +57,7 @@ class SummaryWidget extends StatelessWidget {
                         bookingInOut?.inboundBookingSummary ??
                             BoundBookingSummary(),
                         bound: f,
-                        title: "departFlight".tr(),
+                        title: "returningFlight".tr(),
                         subtitle:
                         "${f.departureAirportLocationName} - ${f.arrivalAirportLocationName}",
                         dateTitle: AppDateUtils.formatHalfDate(

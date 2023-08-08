@@ -840,6 +840,8 @@ FlightSummaryPnrRequest _$FlightSummaryPnrRequestFromJson(
       contactPhoneCode: json['ContactPhoneCode'] as String? ?? "",
       contactPhoneNumber: json['ContactPhoneNumber'] as String? ?? "",
       contactFullName: json['ContactFullName'] as String? ?? "",
+      contactFirstName: json['BookingContactFirstName'] as String? ?? "",
+      contactLastName: json['BookingContactLastName'] as String? ?? "",
       acceptNewsAndPromotionByEmail:
           json['AcceptNewsAndPromotionByEmail'] as bool? ?? false,
     );
@@ -850,12 +852,14 @@ Map<String, dynamic> _$FlightSummaryPnrRequestToJson(
     'ContactEmail': instance.contactEmail,
     'ContactPhoneCode': instance.contactPhoneCode,
     'ContactPhoneNumber': instance.contactPhoneNumber,
-    'ContactFullName': instance.contactFullName,
+   // 'ContactFullName': instance.contactFullName,
     'AcceptNewsAndPromotionByEmail': instance.acceptNewsAndPromotionByEmail,
     'DisplayCurrency': instance.displayCurrency,
     'PreferredContactMethod': instance.preferredContactMethod,
     'Comment': instance.comment,
     'PromoCode': instance.promoCode,
+    'BookingContactFirstName': instance.contactFirstName,
+    'BookingContactLastName': instance.contactLastName,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -1021,10 +1025,7 @@ Map<String, dynamic> _$SeatToJson(Seat instance) {
 Outbound _$OutboundFromJson(Map<String, dynamic> json) => Outbound(
       seatRow: json['SeatRow'] as num?,
       seatColumn: json['SeatColumn'] as String?,
-      physicalFlightId: json['PhysicalFlightID'] as num?,
-      price: (json['price'] as List<dynamic>?)
-          ?.map((e) => Price.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      physicalFlightId: json['PhysicalFlightID'] as String?,
     );
 
 Map<String, dynamic> _$OutboundToJson(Outbound instance) {
@@ -1039,7 +1040,6 @@ Map<String, dynamic> _$OutboundToJson(Outbound instance) {
   writeNotNull('SeatRow', instance.seatRow);
   writeNotNull('SeatColumn', instance.seatColumn);
   writeNotNull('PhysicalFlightID', instance.physicalFlightId);
-  writeNotNull('price', instance.price);
   return val;
 }
 
@@ -1088,8 +1088,8 @@ Map<String, dynamic> _$SsrToJson(Ssr instance) {
 }
 
 Bound _$BoundFromJson(Map<String, dynamic> json) => Bound(
-      logicalFlightId: json['LogicalFlightID'] as num?,
-      serviceId: json['ServiceID'] as num?,
+      logicalFlightId: json['LogicalFlightID'] as String?,
+  ssrCode: json['ssrCode'] as String?,
       servicesType: json['ServicesType'] as String?,
       quantity: json['Quantity'] as num?,
       price: json['Price'] as num?,
@@ -1107,7 +1107,7 @@ Map<String, dynamic> _$BoundToJson(Bound instance) {
   }
 
   writeNotNull('LogicalFlightID', instance.logicalFlightId);
-  writeNotNull('ServiceID', instance.serviceId);
+  writeNotNull('ssrCode', instance.ssrCode);
   writeNotNull('ServicesType', instance.servicesType);
   writeNotNull('Quantity', instance.quantity);
   writeNotNull('Price', instance.price);

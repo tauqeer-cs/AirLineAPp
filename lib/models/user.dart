@@ -13,6 +13,10 @@ class User extends HiveObject with EquatableMixin {
   final String? userName;
   @HiveField(1)
   final String? email;
+
+
+  final bool? requiredResetPassword;
+
   @HiveField(2)
   final String? contactNo;
   @HiveField(3)
@@ -62,6 +66,8 @@ class User extends HiveObject with EquatableMixin {
     this.isAccountVerified,
     this.firstName,
     this.accountExpiryDate,
+    this.requiredResetPassword,
+
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -86,6 +92,7 @@ class User extends HiveObject with EquatableMixin {
     location,
     currentBalance,
     isAccountVerified,
+    requiredResetPassword,
     firstName,
     accountExpiryDate,
   ];
@@ -117,9 +124,11 @@ class User extends HiveObject with EquatableMixin {
     bool? isAccountVerified,
     String? firstName,
     DateTime? accountExpiryDate,
+    bool? requiredResetPassword,
   }) {
     return User(
       userName: userName ?? this.userName,
+      requiredResetPassword: requiredResetPassword ?? this.requiredResetPassword,
       email: email ?? this.email,
       contactNo: contactNo ?? this.contactNo,
       authenticated: authenticated ?? this.authenticated,

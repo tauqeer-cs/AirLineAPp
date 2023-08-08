@@ -16,7 +16,7 @@ class InsuranceTerms extends StatelessWidget {
     final insuranceCubit = context.watch<InsuranceCubit>().state;
     final selected = insuranceCubit.insuranceType;
     return Visibility(
-      visible: selected != null && selected != InsuranceType.none,
+      visible: selected != null,
       child: Column(
         children: [
           kVerticalSpacer,

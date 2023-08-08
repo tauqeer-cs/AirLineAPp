@@ -101,29 +101,18 @@ class BookingsView extends StatelessWidget {
                               validators: [FormBuilderValidators.required()],
                             ),
                             kVerticalSpacer,
-                            kVerticalSpacer,
+                            kVerticalSpacerMini,
                             state.isLoadingInfo
                                 ? const AppLoading()
                                 : Row(
                                     children: [
-                                      Expanded(
-                                        child: OutlinedButton(
-                                          onPressed: () {
-                                            onManageBooking(context);
-                                          },
-                                          child:  Text(
-                                            'addonServices'.tr(),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ),
-                                      kHorizontalSpacer,
+
                                       Expanded(
                                         child: ElevatedButton(
                                           onPressed: () {
                                             onChangeFlightTapped(context);
                                           },
-                                          child:  Text('changeFlight'.tr()),
+                                          child:  Text('search'.tr()),
                                         ),
                                       ),
                                     ],
@@ -153,6 +142,16 @@ class BookingsView extends StatelessWidget {
   }
 
   onChangeFlightTapped(BuildContext context) async {
+    if(false) {
+      String code = false ? 'CWC9B4' :'B91UQQ';
+      String lastName = 'Le';
+      var flag =
+      await bloc?.getBookingInformation(lastName.trim(), code.trim().toUpperCase());
+      if (flag == true) {
+        moveToNext(context);
+      }
+      return;
+    }
     if (_fbKey.currentState!.saveAndValidate()) {
       final value = _fbKey.currentState!.value;
 

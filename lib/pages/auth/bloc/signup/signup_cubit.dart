@@ -60,7 +60,7 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   editGender(String gender) {
-    final newData = state.signupRequest.copyWith(gender: gender);
+    final newData = state.signupRequest.copyWith(gender: gender.toLowerCase());
     emit(
       state.copyWith(signupRequest: newData),
     );
@@ -75,5 +75,14 @@ class SignupCubit extends Cubit<SignupState> {
     emit(
       state.copyWith(signupRequest: newData, blocState: BlocState.initial),
     );
+  }
+
+  bool valideAddress() {
+
+  //  if(state.signupRequest.gender ?? '') )
+
+    return true;
+
+
   }
 }

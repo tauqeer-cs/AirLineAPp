@@ -121,7 +121,7 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
                           kVerticalSpacer,
                           CredentialInput(focusNode: focusNodeEmail),
                           kVerticalSpacer,
-                          const PasswordInput(),
+                           PasswordInput(),
                           kVerticalSpacer,
                           BlocBuilder<ValidateEmailCubit, GenericState>(
                             builder: (context, state) {
@@ -129,7 +129,7 @@ class _SignupAccountPageState extends State<SignupAccountPage> {
                                 onPressed: state.blocState == BlocState.finished
                                     ? () => onContinue(context)
                                     : null,
-                                child: Text('signUp3.continue'.tr()),
+                                child: Text('signUp1.next'.tr()),
                               );
                             },
                           ),

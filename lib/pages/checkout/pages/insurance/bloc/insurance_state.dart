@@ -19,6 +19,32 @@ class InsuranceState extends Equatable {
 
   }
 
+  bool get anyPassengersHas {
+
+    var list = passengers.where((element) {
+
+      return element.dob!.difference(DateTime.now()).inDays < 8;
+    }).toList();
+
+    if(list.isNotEmpty) {
+      var filteredList = list.where((e) =>
+      (e.ssr?.outbound ?? []).where((el) => el?.servicesType == 'Insurance').isNotEmpty
+      ).toList();
+
+      if(filteredList.isNotEmpty) {
+        return false;
+      }
+
+
+      print('');
+
+
+    }
+    return true;
+
+  }
+
+
   final SummaryResponse? summaryResponse;
   final BlocState blocState;
   final String message;

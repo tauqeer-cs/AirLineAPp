@@ -41,7 +41,7 @@ class SeatsLegend extends StatelessWidget {
                         width: 20,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: (mapColor ?? {})[e.serviceID],
+                            color: (mapColor ?? {})[e.ssrCode],
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),

@@ -1,5 +1,6 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_logger.dart';
+import 'package:app/models/search_date_range.dart';
 import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/pages/home/bloc/price_range/price_range_cubit.dart';
 import 'package:app/pages/home/ui/filter/search_flight_widget.dart';
@@ -16,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:paged_vertical_calendar/paged_vertical_calendar.dart';
 import 'package:paged_vertical_calendar/utils/date_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -138,26 +138,25 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                     child: PagedVerticalCalendar(
                       invisibleMonthsThreshold: 12,
                       minDate:
-                          DateTime(DateTime.now().year, DateTime.now().month, 1)
-                              .removeTime(),
+                      DateTime(DateTime.now().year, DateTime.now().month, 1)
+                          .removeTime(),
                       maxDate: DateTime.now()
                           .add(
-                            const Duration(days: 365),
-                          )
+                        const Duration(days: 365),
+                      )
                           .removeTime(),
                       initialDate: departDate?.removeTime() ??
                           DateTime.now().removeTime(),
                       onMonthLoaded: (year, month) {
                         context.read<PriceRangeCubit>().getPrices(
-                              filterCubit.state,
-                              startFilter: DateTime(year, month, 1),
-                          currency: filterCubit.state.origin?.currency ?? 'MYR'
-                            );
+                            filterCubit.state,
+                            startFilter: DateTime(year, month, 1),
+                            currency:
+                            filterCubit.state.origin?.currency ?? 'MYR');
                       },
                       startWeekWithSunday: true,
                       onDayPressed: (value) async {
                         final now = DateTime.now();
-
                         final isBefore = value.isBefore(
                             DateTime(now.year, now.month, now.day, 0, 0, 0));
                         if (isBefore) return;
@@ -212,19 +211,19 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                         final sameMonth = AppDateUtils.sameMonth(
                             date, priceState.loadingDate);
                         final event = prices.firstWhereOrNull(
-                            (event) => isSameDay(event.date, date));
+                                (event) => isSameDay(event.date, date));
+                        final isSelectedDepart = isSameDay(departDate, date);
+                        final isSelectedReturn = isSameDay(returnDate, date);
 
-                        if(event != null){
-                          print('');
-
-                        }
                         final isBefore = date.isBefore(
                             DateTime(now.year, now.month, now.day, 0, 0, 0));
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
                             color: inRange
+                                ? isSelectedDepart || isSelectedReturn
                                 ? Styles.kPrimaryColor
+                                : Styles.kPrimaryColor.withOpacity(0.5)
                                 : Colors.transparent,
                             border: Border.all(
                               color: Colors.white,
@@ -240,58 +239,74 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                   color: inRange
                                       ? Colors.white
                                       : isBefore
-                                          ? Styles.kBorderColor
-                                          : null,
+                                      ? Styles.kBorderColor
+                                      : null,
                                 ),
                               ),
                               Expanded(
                                 child: Visibility(
                                   visible: priceState.blocState ==
-                                          BlocState.loading &&
+                                      BlocState.loading &&
                                       (sameMonth || event?.departPrice == null),
-                                  replacement: event == null
-                                      ? const SizedBox()
-                                      : Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Flexible(
-                                                child: Text(
-                                                  filterCubit.state.origin?.currency ?? 'MYR',
-                                                  style: kExtraSmallMedium
-                                                      .copyWith(
-                                                          color: inRange
-                                                              ? Colors.white
-                                                              : null,
-                                                          fontSize: 6),
-                                                ),
-                                              ),
-                                              Flexible(
-                                                child: Text(
-                                                  NumberUtils
-                                                      .formatNumberNoTrailing(
-                                                    departDate == null
-                                                        ? event.departPrice
-                                                        : returnDate == null
-                                                            ? (event.departPrice)
-                                                            : (isRoundTrip ? event.returnPrice : event.departPrice),
-                                                  ),
-                                                  style: (event.departPrice ?? 0.0) > 999 ? kMediumHeavy.copyWith(
-                                                    color: inRange
-                                                        ? Colors.white
-                                                        : null,
-                                                  ) : kLargeHeavy.copyWith(
-                                                    color: inRange
-                                                        ? Colors.white
-                                                        : null,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                  replacement: event != null &&
+                                      isShowDate(
+                                        date: date,
+                                        departDate: departDate,
+                                        returnDate: returnDate,
+                                      )
+                                      ? Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.end,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            filterCubit.state.origin
+                                                ?.currency ??
+                                                'MYR',
+                                            style: kExtraSmallMedium
+                                                .copyWith(
+                                                color: inRange
+                                                    ? Colors.white
+                                                    : null,
+                                                fontSize: 6),
                                           ),
                                         ),
+                                        Flexible(
+                                          child: Text(
+                                            NumberUtils
+                                                .formatNumberNoTrailing(
+                                              getPrice(
+                                                price: event,
+                                                isDepartDate:
+                                                isSelectedDepart,
+                                                isReturnDate:
+                                                isSelectedReturn,
+                                                isRoundTrip: isRoundTrip,
+                                                departDate: departDate,
+                                                returnDate: returnDate,
+                                              ),
+                                            ),
+                                            style: (event?.departPrice ??
+                                                0.0) >
+                                                999
+                                                ? kMediumHeavy.copyWith(
+                                              color: inRange
+                                                  ? Colors.white
+                                                  : null,
+                                            )
+                                                : kLargeHeavy.copyWith(
+                                              color: inRange
+                                                  ? Colors.white
+                                                  : null,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                      : const SizedBox(),
                                   child: const Align(
                                     alignment: Alignment.bottomRight,
                                     child: ShimmerRectangle(
@@ -316,10 +331,10 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
               left: 0,
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 25),
+                const EdgeInsets.symmetric(horizontal: 32, vertical: 25),
                 decoration: BoxDecoration(
                     borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(24)),
+                    const BorderRadius.vertical(top: Radius.circular(24)),
                     color: Colors.white.withOpacity(0.75),
                     boxShadow: [
                       BoxShadow(
@@ -354,5 +369,41 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
             ),
           ],
         ));
+  }
+
+  num? getPrice({
+    required bool isDepartDate,
+    required bool isReturnDate,
+    required bool isRoundTrip,
+    DateTime? departDate,
+    DateTime? returnDate,
+    DateTime? date,
+    DateRangePrice? price,
+  }) {
+    if (!isRoundTrip || departDate == null) {
+      return price?.departPrice;
+    }
+    if (isSameDay(departDate, returnDate)) {
+      return price?.returnPrice;
+    }
+    if (isDepartDate) {
+      return price?.departPrice;
+    }
+    if (isReturnDate || returnDate == null) {
+      return price?.returnPrice;
+    }
+    return price?.departPrice;
+  }
+
+  bool isShowDate({
+    required DateTime date,
+    DateTime? departDate,
+    DateTime? returnDate,
+  }) {
+    if (departDate == null) return true;
+    if (date.isBefore(departDate)) {
+      return false;
+    }
+    return true;
   }
 }

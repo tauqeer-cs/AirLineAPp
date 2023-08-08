@@ -14,11 +14,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../../models/confirmation_model.dart';
 import '../../../../../theme/theme.dart';
 
 class PassengerEmergencyContact extends StatefulWidget {
+  final bool isManageBooking;
+  final BookingContact? bookingContact;
+
   const PassengerEmergencyContact({
     Key? key,
+    this.isManageBooking = false,
+    this.bookingContact,
   }) : super(key: key);
 
   @override
@@ -37,6 +44,7 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   final nationalityController = TextEditingController();
   final relationController = TextEditingController();
   final phoneNoController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -48,40 +56,84 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         .profile
         ?.userProfile
         ?.emergencyContact;
+    if(widget.isManageBooking) {
 
-    firstName = emergency?.firstName ?? contact?.firstName;
-    firstNameController.text = firstName ?? '';
+      firstName = widget.bookingContact?.emergencyGivenName ??'';
+      firstNameController.text = firstName ?? '';
 
-    lastName = emergency?.lastName ?? contact?.lastName;
-    lastNameController.text = lastName ?? '';
+      lastName = widget.bookingContact?.emergencySurname ?? '';
+      lastNameController.text = lastName ?? '';
 
-    phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
+      phoneNumber = widget.bookingContact?.emergencyPhone ?? '';
 
-    phoneNoController.text = phoneNumber ?? '';
+      phoneNoController.text = phoneNumber ?? '';
 
-    if (emergency?.phoneCode?.isNotEmpty ?? false) {
-      nationalityController.text = emergency!.phoneCode!;
-    } else if (contact?.phoneCode?.isNotEmpty ?? false) {
-      nationalityController.text = contact!.phoneCode!;
+      if (widget.bookingContact?.emergencyPhoneCode?.isNotEmpty ?? false) {
+        nationalityController.text = widget.bookingContact?.emergencyPhoneCode ?? '';
+      } else if (contact?.phoneCode?.isNotEmpty ?? false) {
+        nationalityController.text = contact!.phoneCode!;
+      }
+
+      if (widget.bookingContact?.emergencyRelationship?.isNotEmpty ?? false) {
+        if (availableRelationsMapping[
+        widget.bookingContact?.emergencyRelationship?.toLowerCase().tr()] !=
+            null) {
+          relationController.text = widget.bookingContact?.emergencyRelationship?.toLowerCase().tr() ??
+              emergency!.relationship!;
+        } else {
+          relationController.text = widget.bookingContact?.emergencyRelationship ?? '';
+        }
+      } else if (contact?.relationship?.isNotEmpty ?? false) {
+        if (availableRelationsMapping[
+        contact!.relationship?.toLowerCase().tr()] !=
+            null) {
+          relationController.text =
+              contact.relationship?.toLowerCase().tr() ?? contact.relationship!;
+        } else {
+          relationController.text = contact.relationship!;
+        }
+      }
+
     }
-    if (emergency?.relationship?.isNotEmpty ?? false) {
-      if(availableRelationsMapping[emergency?.relationship?.toLowerCase().tr()] != null) {
-        relationController.text = emergency?.relationship?.toLowerCase().tr() ?? emergency!.relationship!;
-      }
-      else {
-        relationController.text = emergency!.relationship!;
-      }
+    else {
+      firstName = emergency?.firstName ?? contact?.firstName;
+      firstNameController.text = firstName ?? '';
 
-    } else if (contact?.relationship?.isNotEmpty ?? false) {
+      lastName = emergency?.lastName ?? contact?.lastName;
+      lastNameController.text = lastName ?? '';
 
-      if(availableRelationsMapping[contact!.relationship?.toLowerCase().tr()] != null) {
-        relationController.text = contact.relationship?.toLowerCase().tr() ?? contact.relationship!;
+      phoneNumber = emergency?.phoneNumber ?? contact?.phoneNumber;
+
+      phoneNoController.text = phoneNumber ?? '';
+
+      if (emergency?.phoneCode?.isNotEmpty ?? false) {
+        nationalityController.text = emergency!.phoneCode!;
+      } else if (contact?.phoneCode?.isNotEmpty ?? false) {
+        nationalityController.text = contact!.phoneCode!;
       }
-      else {
-        relationController.text = contact.relationship!;
+      if (emergency?.relationship?.isNotEmpty ?? false) {
+        if (availableRelationsMapping[
+        emergency?.relationship?.toLowerCase().tr()] !=
+            null) {
+          relationController.text = emergency?.relationship?.toLowerCase().tr() ??
+              emergency!.relationship!;
+        } else {
+          relationController.text = emergency!.relationship!;
+        }
+      } else if (contact?.relationship?.isNotEmpty ?? false) {
+        if (availableRelationsMapping[
+        contact!.relationship?.toLowerCase().tr()] !=
+            null) {
+          relationController.text =
+              contact.relationship?.toLowerCase().tr() ?? contact.relationship!;
+        } else {
+          relationController.text = contact.relationship!;
+        }
       }
 
     }
+
+
   }
 
   @override
@@ -92,13 +144,18 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
         .profile
         ?.userProfile
         ?.emergencyContact;
+
+    ManageBookingCubit? manageBloc = context.watch<ManageBookingCubit>();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kVerticalSpacer,
         const AppDividerWidget(),
-        kVerticalSpacer,
-        Text("emergencyContactLabel".tr(), style: k18Heavy),
+        if(widget.isManageBooking == false) ... [
+          kVerticalSpacer,
+          Text("emergencyContactLabel".tr(), style: k18Heavy),
+        ],
         kVerticalSpacerSmall,
         Text(
           "emergencyContactDesc".tr(),
@@ -113,11 +170,18 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               validators: [FormBuilderValidators.required()],
               textEditingController: firstNameController,
               onChanged: (value) {
-                final request =
-                    context.read<LocalUserBloc>().state.emergencyContact ??
-                        EmergencyContact();
-                final newRequest = request.copyWith(firstName: value);
-                context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
+                if(widget.isManageBooking){
+                    manageBloc.setEmergencynewValue(value ?? '',isFirstName: true);
+                    return;
+                }
+                else {
+                  final request =
+                      context.read<LocalUserBloc>().state.emergencyContact ??
+                          EmergencyContact();
+                  final newRequest = request.copyWith(firstName: value);
+                  context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
+                }
+
               },
             ),
             kVerticalSpacerSmall,
@@ -127,6 +191,10 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               hintText: "lastNameSurname".tr(),
               validators: [FormBuilderValidators.required()],
               onChanged: (value) {
+                if(widget.isManageBooking){
+                  manageBloc.setEmergencynewValue(value ?? '',isLastName: true);
+                  return;
+                }
                 final request =
                     context.read<LocalUserBloc>().state.emergencyContact;
                 final newRequest = request?.copyWith(lastName: value);
@@ -147,6 +215,10 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                         : null,
                 sheetTitle: "relationship".tr(),
                 onChanged: (value) {
+                  if(widget.isManageBooking){
+                    manageBloc.setEmergencynewValue(value ?? '',isRelation: true);
+                    return;
+                  }
                   relationController.text = value ?? "";
                   final request =
                       context.read<LocalUserBloc>().state.emergencyContact;
@@ -162,12 +234,15 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               textEditingController: nationalityController,
               name: formNameEmergencyCountry,
               child: AppCountriesDropdown(
-
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 isPhoneCode: true,
                 hintText: "phone".tr(),
                 initialCountryCode: nationalityController.text,
                 onChanged: (value) {
+                  if(widget.isManageBooking){
+                    manageBloc.setEmergencynewValue(value?.phoneCode ?? '',isPhoneCode: true);
+                    return;
+                  }
                   nationalityController.text = value?.phoneCode ?? "";
                   final request =
                       context.read<LocalUserBloc>().state.emergencyContact;
@@ -190,29 +265,18 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
               ],
               onChanged: (value) {
+                if(widget.isManageBooking){
+                  manageBloc.setEmergencynewValue(value ?? '',isPhoneNo: true);
+                  return;
+                }
+
                 final request =
                     context.read<LocalUserBloc>().state.emergencyContact;
                 final newRequest = request?.copyWith(phoneNumber: value);
                 context.read<LocalUserBloc>().add(UpdateEmergency(newRequest));
               },
             ),
-            /*AppInputText(
-              name: formNameEmergencyEmail,
-              hintText: "Email",
 
-              validators: [
-                FormBuilderValidators.required(),
-                FormBuilderValidators.email(),
-              ],
-              onChanged: (value) {
-                final request =
-                    context.read<LocalUserBloc>().state.emergencyContact;
-                final newRequest = request?.copyWith(email: value);
-                context
-                    .read<LocalUserBloc>()
-                    .add(UpdateEmergency(newRequest));
-              },
-            ),*/
           ],
         ),
       ],
@@ -220,9 +284,8 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   }
 
   void reloadData() {
-
     final contact =
-    true ? null : context.read<LocalUserBloc>().state.emergencyContact;
+        true ? null : context.read<LocalUserBloc>().state.emergencyContact;
     final emergency = context
         .read<ProfileCubit>()
         .state
@@ -244,26 +307,25 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
       nationalityController.text = contact!.phoneCode!;
     }
     if (emergency?.relationship?.isNotEmpty ?? false) {
-      if(availableRelationsMapping[emergency?.relationship?.toLowerCase().tr()] != null) {
-        relationController.text = emergency?.relationship?.toLowerCase().tr() ?? emergency!.relationship!;
-      }
-      else {
+      if (availableRelationsMapping[
+              emergency?.relationship?.toLowerCase().tr()] !=
+          null) {
+        relationController.text = emergency?.relationship?.toLowerCase().tr() ??
+            emergency!.relationship!;
+      } else {
         relationController.text = emergency!.relationship!;
       }
-
     } else if (contact?.relationship?.isNotEmpty ?? false) {
-
-      if(availableRelationsMapping[contact!.relationship?.toLowerCase().tr()] != null) {
-        relationController.text = contact.relationship?.toLowerCase().tr() ?? contact.relationship!;
-      }
-      else {
+      if (availableRelationsMapping[
+              contact!.relationship?.toLowerCase().tr()] !=
+          null) {
+        relationController.text =
+            contact.relationship?.toLowerCase().tr() ?? contact.relationship!;
+      } else {
         relationController.text = contact.relationship!;
       }
-
     }
 
-    setState(() {
-
-    });
+    setState(() {});
   }
 }

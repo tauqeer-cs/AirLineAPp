@@ -3,7 +3,9 @@ import 'dart:collection';
 import 'package:app/data/requests/flight_summary_pnr_request.dart';
 import 'package:app/data/responses/verify_response.dart';
 import 'package:app/utils/string_utils.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -57,8 +59,9 @@ class NumberPerson extends Equatable {
 
   Person? getPersonBySeat(Seats seat, bool isDeparture) {
     if (isDeparture) {
-      return persons
-          .firstWhereOrNull((element) => element.departureSeats == seat);
+      var returnValue = persons
+        .firstWhereOrNull((element) => element.departureSeats == seat);
+      return returnValue;
     }
     return persons.firstWhereOrNull((element) => element.returnSeats == seat);
   }
@@ -209,6 +212,7 @@ class NumberPerson extends Equatable {
   List<Object?> get props => [persons];
 }
 
+@CopyWith(copyWithNull: true)
 @JsonSerializable()
 class Person extends Equatable {
   final PeopleType? peopleType;
@@ -232,6 +236,8 @@ class Person extends Equatable {
   final bool? useWheelChair;
   final int? numberOrder;
   final Passenger? passenger;
+
+
 
   const Person({
     this.peopleType,
@@ -266,19 +272,37 @@ class Person extends Equatable {
   // TODO: implement props
   List<Object?> get props => [peopleType, numberOrder];
 
-  Map<num?, List<Bundle>> groupedMeal(bool isDeparture) {
+  Map<String?, List<Bundle>> groupedMeal(bool isDeparture) {
     final meals = isDeparture ? departureMeal : returnMeal;
-    var newMap = groupBy(meals, (meal) => meal.serviceID);
+    var newMap = groupBy(meals, (meal) => meal.ssrCode);
+    return newMap;
+  }
+
+  Map<String?, List<Bundle>> groupedMealOld(bool isDeparture) {
+    var meals = isDeparture ? departureMeal : returnMeal;
+    meals = meals.where((e) => e.isOld == true).toList();
+    var newMap = groupBy(meals, (meal) => meal.ssrCode);
+
+    return newMap;
+  }
+
+  Map<String?, List<Bundle>> groupedMealNew(bool isDeparture) {
+    var meals = isDeparture ? departureMeal : returnMeal;
+    meals = meals.where((e) => e.isOld == false).toList();
+    var newMap = groupBy(meals, (meal) => meal.ssrCode);
     return newMap;
   }
 
   Passenger toPassenger({
     required List<Rows> outboundRows,
     required List<Rows> inboundRows,
-    num? inboundPhysicalId,
-    num? outboundPhysicalId,
+    String? inboundPhysicalId,
+    String? outboundPhysicalId,
     NumberPerson? numberPerson,
     BundleGroupSeat? infantGroup,
+    required String lfIdDeparture,
+    required String lfIdReturn,
+
   }) {
     List<Bound> outboundSSR = [];
     List<Bound> inboundSSR = [];
@@ -295,13 +319,13 @@ class Person extends Equatable {
         servicesType: "Infant",
         logicalFlightId: outBoundInfant?.logicalFlightID,
         quantity: 1,
-        serviceId: outBoundInfant?.serviceID,
+        ssrCode: outBoundInfant?.ssrCode,
       ));
       inboundSSR.add(Bound(
         servicesType: "Infant",
         logicalFlightId: inBoundInfant?.logicalFlightID,
         quantity: 1,
-        serviceId: inBoundInfant?.serviceID,
+        ssrCode: inBoundInfant?.ssrCode,
       ));
     }
     if (departureBundle?.toBound() != null) {
@@ -318,7 +342,7 @@ class Person extends Equatable {
       final firstValue = value.firstOrNull;
       final outBoundMeal = Bound(
           quantity: value.length,
-          serviceId: firstValue?.serviceID,
+          ssrCode: firstValue?.ssrCode,
           logicalFlightId: firstValue?.logicalFlightID,
           price: firstValue?.finalAmount,
           servicesType: "MEAL",
@@ -329,7 +353,7 @@ class Person extends Equatable {
       final firstValue = value.firstOrNull;
       final inboundMeal = Bound(
           quantity: value.length,
-          serviceId: firstValue?.serviceID,
+          ssrCode: firstValue?.ssrCode,
           logicalFlightId: firstValue?.logicalFlightID,
           price: firstValue?.finalAmount,
           servicesType: "MEAL",
@@ -425,6 +449,20 @@ class Person extends Equatable {
     return totalPrice;
   }
 
+  num getOldMeanPrice(bool isDeparture) {
+    num totalPrice = 0;
+    if (isDeparture) {
+      for (var element in departureMeal.where((e) => e.isOld == true)) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    } else {
+      for (var element in returnMeal) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    }
+    return totalPrice;
+  }
+
   num getPartialPriceMeal(bool isDeparture) {
     num totalPrice = 0;
     if (isDeparture) {
@@ -433,6 +471,20 @@ class Person extends Equatable {
       }
     } else {
       for (var element in returnMeal) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    }
+    return totalPrice;
+  }
+
+  num getPartialPriceMealForNew(bool isDeparture) {
+    num totalPrice = 0;
+    if (isDeparture) {
+      for (var element in departureMeal.where((e) => e.isOld == false)) {
+        totalPrice = totalPrice + element.finalAmount;
+      }
+    } else {
+      for (var element in returnMeal.where((e) => e.isOld == false)) {
         totalPrice = totalPrice + element.finalAmount;
       }
     }
@@ -539,6 +591,10 @@ class Person extends Equatable {
         if (!isDeparture && returnBundle == null) return "noBundleSelected".tr();
         final bundle = isDeparture ? departureBundle : returnBundle;
         return '${bundle?.detail?.bundleDescription}';
+      case AddonType.none:
+        return '';
+      case AddonType.insurance:
+        return '';
     }
   }
 
@@ -652,8 +708,11 @@ enum AddonType {
   seat,
   meal,
   baggage,
-  special;
+  special,
+  insurance,
+  none,
 }
+
 
 enum PeopleType {
   adult("ADT"),
@@ -671,7 +730,38 @@ extension PeopleTypeToString on PeopleType {
   }
 }
 
-List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri"];
+List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri", "Miss",
+  "Datin",
+  "Dato",
+  "Datuk",
+  "Datuk Seri",
+  "Datuk Sri",
+  "Datin Seri",
+  "Dato Seri",
+  "Dato' Sri",
+  "Datin Sri",
+  "Miss",
+  "Master",
+  "Puan Sri",
+  "Tan Sri",
+  "Toh Puan",
+  "Tun",];
+// "Miss",
+//   "Datin",
+//   "Dato",
+//   "Datuk",
+//   "Datuk Seri",
+//   "Datuk Sri",
+//   "Datin Seri",
+//   "Dato Seri",
+//   "Dato' Sri",
+//   "Datin Sri",
+//   "Miss",
+//   "Master",
+//   "Puan Sri",
+//   "Tan Sri",
+//   "Toh Puan",
+//   "Tun",
 List<String> availableTitleChild = ["Mstr.", "Miss"];
 List<String> get availableRelations {
   return [
@@ -706,5 +796,36 @@ List<String> availableTitleAll = [
   "Tun",
   "Tan Sri",
   "Mstr.",
-  "Miss"
+  "Miss",
+  "Datin",
+  "Dato",
+  "Datuk",
+  "Datuk Seri",
+  "Datuk Sri",
+  "Datin Seri",
+  "Dato Seri",
+  "Dato' Sri",
+  "Datin Sri",
+  "Miss",
+  "Master",
+  "Puan Sri",
+  "Tan Sri",
+  "Toh Puan",
+  "Tun",
 ];
+
+//Datin
+// Dato
+// Datuk
+// Datuk Seri
+// Datuk Sri
+// Datin Seri
+//Dato Seri
+// Dato' Sri
+// Datin Sri
+// Miss
+// Master
+// Puan Sri
+//Tan Sri
+// Toh Puan
+// Tun

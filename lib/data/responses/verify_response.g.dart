@@ -105,8 +105,8 @@ FlightVerifyResponse _$FlightVerifyResponseFromJson(
     FlightVerifyResponse(
       errors: json['errors'] as List<dynamic>?,
       result: json['result'] == null
-          ? null
-          : Result.fromJson(json['result'] as Map<String, dynamic>),
+          ? Result.fromJson(json)
+          : Result.fromJson(json['result'] ),
       session: json['session'] as String?,
       success: json['success'] as bool?,
     );
@@ -181,7 +181,7 @@ Map<String, dynamic> _$ResultToJson(Result instance) {
 
 FlightSegments _$FlightSegmentsFromJson(Map<String, dynamic> json) =>
     FlightSegments(
-      lfid: json['lfid'] as num?,
+      lfid: json['lfid'] as String?,
       departureDate: json['departureDate'] as String?,
       arrivalDate: json['arrivalDate'] as String?,
       legCount: json['legCount'] as num?,
@@ -241,7 +241,7 @@ Map<String, dynamic> _$FareTypesToJson(FareTypes instance) {
 FareInfos _$FareInfosFromJson(Map<String, dynamic> json) => FareInfos(
       returnFlightSegmentDetails:
           json['returnFlightSegmentDetails'] as List<dynamic>?,
-      fareID: json['fareID'] as num?,
+      fareID: json['fareID'] as String?,
       fcCode: json['fcCode'] as String?,
       fbCode: json['fbCode'] as String?,
       baseFareAmtNoTaxes: json['baseFareAmtNoTaxes'] as num?,
@@ -349,7 +349,7 @@ Map<String, dynamic> _$ApplicableTaxDetailsToJson(
 
 FlightLegDetails _$FlightLegDetailsFromJson(Map<String, dynamic> json) =>
     FlightLegDetails(
-      pfid: json['pfid'] as num?,
+      pfid: json['pfid'],
       departureDate: json['departureDate'] as String?,
     );
 
@@ -368,7 +368,7 @@ Map<String, dynamic> _$FlightLegDetailsToJson(FlightLegDetails instance) {
 }
 
 LegDetails _$LegDetailsFromJson(Map<String, dynamic> json) => LegDetails(
-      pfid: json['pfid'] as num?,
+      pfid: json['pfid'],
       departureDate: json['departureDate'] as String?,
       origin: json['origin'] as String?,
       destination: json['destination'] as String?,
@@ -576,8 +576,8 @@ Map<String, dynamic> _$InboundBundleToJson(InboundBundle instance) {
 }
 
 Bundle _$BundleFromJson(Map<String, dynamic> json) => Bundle(
-      logicalFlightID: json['logicalFlightID'] as num?,
-      serviceID: json['serviceID'] as num?,
+      logicalFlightID: json['logicalFlightID'] as String?,
+  ssrCode: json['ssrCode'] as String?,
       departureDate: json['departureDate'] as String?,
       operatingCarrier: json['operatingCarrier'] as String?,
       marketingCarrier: json['marketingCarrier'] as String?,
@@ -587,7 +587,6 @@ Bundle _$BundleFromJson(Map<String, dynamic> json) => Bundle(
       amount: json['amount'] as num?,
       amountActive: json['amountActive'] as bool?,
       categoryID: json['categoryID'] as num?,
-      ssrCode: json['ssrCode'] as String?,
       display: json['display'] as bool?,
       maxCountServiceLevel: json['maxCountServiceLevel'] as num?,
       refundable: json['refundable'] as bool?,
@@ -618,7 +617,7 @@ Map<String, dynamic> _$BundleToJson(Bundle instance) {
   }
 
   writeNotNull('logicalFlightID', instance.logicalFlightID);
-  writeNotNull('serviceID', instance.serviceID);
+  writeNotNull('ssrCode', instance.ssrCode);
   writeNotNull('departureDate', instance.departureDate);
   writeNotNull('operatingCarrier', instance.operatingCarrier);
   writeNotNull('marketingCarrier', instance.marketingCarrier);
@@ -694,7 +693,6 @@ BundleServiceDetails _$BundleServiceDetailsFromJson(
       description: json['description'] as String?,
       glCode: json['glCode'] as String?,
       isMaxinventory: json['isMaxinventory'] as bool?,
-      serviceID: json['serviceID'] as num?,
       ssrCode: json['ssrCode'] as String?,
     );
 
@@ -714,7 +712,6 @@ Map<String, dynamic> _$BundleServiceDetailsToJson(
   writeNotNull('description', instance.description);
   writeNotNull('glCode', instance.glCode);
   writeNotNull('isMaxinventory', instance.isMaxinventory);
-  writeNotNull('serviceID', instance.serviceID);
   writeNotNull('ssrCode', instance.ssrCode);
   return val;
 }
@@ -823,7 +820,7 @@ PhysicalFlights _$PhysicalFlightsFromJson(Map<String, dynamic> json) =>
       flightNum: json['flightNum'] as String?,
       origin: json['origin'] as String?,
       originName: json['originName'] as String?,
-      physicalFlightID: json['physicalFlightID'] as num?,
+      physicalFlightID: json['physicalFlightID'] as String?,
       physicalFlightSeatMap: json['physicalFlightSeatMap'] == null
           ? null
           : PhysicalFlightSeatMap.fromJson(
@@ -1000,6 +997,7 @@ Rows _$RowsFromJson(Map<String, dynamic> json) => Rows(
       deckId: json['deckId'] as num?,
       restrictions: json['restrictions'] as List<dynamic>?,
       rowId: json['rowId'] as num?,
+
       rowNumber: json['rowNumber'] as num?,
       seatConfigId: json['seatConfigId'] as num?,
       seats: (json['seats'] as List<dynamic>?)
@@ -1035,12 +1033,13 @@ Seats _$SeatsFromJson(Map<String, dynamic> json) => Seats(
           ?.map((e) => Restrictions.fromJson(e as Map<String, dynamic>))
           .toList(),
       rowId: json['rowId'] as num?,
+  rowNumber: json['rowNumber'] as num?,
       seatAttributes: (json['seatAttributes'] as List<dynamic>?)
           ?.map((e) => SeatAttributes.fromJson(e as Map<String, dynamic>))
           .toList(),
       seatCabinId: json['seatCabinId'] as num?,
       seatColumn: json['seatColumn'] as String?,
-      seatId: json['seatId'] as num?,
+      seatId: json['seatId'] as String?,
       seatOrder: json['seatOrder'] as num?,
       seatPriceOffers: (json['seatPriceOffers'] as List<dynamic>?)
           ?.map((e) => SeatPriceOffers.fromJson(e as Map<String, dynamic>))
@@ -1048,7 +1047,7 @@ Seats _$SeatsFromJson(Map<String, dynamic> json) => Seats(
       seatWBZoneId: json['seatWBZoneId'] as num?,
       serviceCode: json['serviceCode'] as String?,
       serviceDescription: json['serviceDescription'] as String?,
-      serviceId: json['serviceId'] as num?,
+  //ssrCode: json['ssrCode'] as String?,
       weightIndex: json['weightIndex'] as num?,
     );
 
@@ -1068,6 +1067,8 @@ Map<String, dynamic> _$SeatsToJson(Seats instance) {
   writeNotNull('isSeatAvailable', instance.isSeatAvailable);
   writeNotNull('restrictions', instance.restrictions);
   writeNotNull('rowId', instance.rowId);
+  writeNotNull('rowNumber', instance.rowNumber);
+
   writeNotNull('seatAttributes', instance.seatAttributes);
   writeNotNull('seatCabinId', instance.seatCabinId);
   writeNotNull('seatColumn', instance.seatColumn);
@@ -1077,7 +1078,7 @@ Map<String, dynamic> _$SeatsToJson(Seats instance) {
   writeNotNull('seatWBZoneId', instance.seatWBZoneId);
   writeNotNull('serviceCode', instance.serviceCode);
   writeNotNull('serviceDescription', instance.serviceDescription);
-  writeNotNull('serviceId', instance.serviceId);
+  //writeNotNull('ssrCode', instance.ssrCode);
   writeNotNull('weightIndex', instance.weightIndex);
   return val;
 }

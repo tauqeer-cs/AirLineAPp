@@ -20,45 +20,111 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../widgets/app_money_widget.dart';
+
 class WheelchairSection extends StatelessWidget {
   final bool isDeparture;
 
-  const WheelchairSection({Key? key, this.isDeparture = true})
-      : super(key: key);
+  final bool isManageBooking;
+
+  const WheelchairSection({
+    Key? key,
+    this.isDeparture = true,
+    this.isManageBooking = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final selectedPerson = context.watch<SelectedPersonCubit>().state;
-    final bookingState = context.watch<BookingCubit>().state;
-    final state = context.watch<SearchFlightCubit>().state;
-    final wheelChairGroup =
-        bookingState.verifyResponse?.flightSSR?.wheelChairGroup;
-    final wheelChairs =
-        isDeparture ? wheelChairGroup?.outbound : wheelChairGroup?.inbound;
-    final persons = state.filterState?.numberPerson;
-    final focusedPerson = persons?.persons
-        .firstWhereOrNull((element) => element == selectedPerson);
-    final selectedWheelchair = isDeparture
-        ? focusedPerson?.departureWheelChair
-        : focusedPerson?.returnWheelChair;
-    final okId =
-        isDeparture ? focusedPerson?.departureOkId : focusedPerson?.returnOkId;
-    print("rebuild here $okId");
-    print("selectedWheelchair $selectedWheelchair");
+    Person? selectedPerson;
+    BundleGroupSeat? wheelChairGroup;
+    NumberPerson? persons;
+    Person? focusedPerson;
+    List<Bundle>? wheelChairs;
+    String? okId;
+    Bundle? selectedWheelchair;
+    ManageBookingCubit? manageBookingCubit;
+
+    String selectedWheelChairId = '';
+
+    if (isManageBooking) {
+      manageBookingCubit = context.watch<ManageBookingCubit>();
+
+      var state = context.watch<ManageBookingCubit>().state;
+      selectedPerson = state.selectedPax?.personObject;
+      wheelChairGroup = state.flightSSR?.wheelChairGroup;
+      wheelChairs =
+          isDeparture ? wheelChairGroup?.outbound : wheelChairGroup?.inbound;
+      var no = context
+              .watch<ManageBookingCubit>()
+              .state
+              .manageBookingResponse
+              ?.result
+              ?.allPersonObject ??
+          [];
+
+      persons = NumberPerson(persons: no);
+
+      focusedPerson =
+          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
+
+
+      selectedWheelchair = isDeparture
+          ? focusedPerson?.departureWheelChair
+          : focusedPerson?.returnWheelChair;
+      okId = isDeparture
+          ? focusedPerson?.departureOkId
+          : focusedPerson?.returnOkId;
+
+      if(isDeparture) {
+
+        okId =
+            context.watch<ManageBookingCubit>().state.selectedPax?.wheelChairIdDepart ?? '';
+      }
+      else {
+        okId =
+            context.watch<ManageBookingCubit>().state.selectedPax?.wheelChairIdReturn ?? '';
+
+      }
+
+    } else {
+      final bookingState = context.watch<BookingCubit>().state;
+      final state = context.watch<SearchFlightCubit>().state;
+      selectedPerson = context.watch<SelectedPersonCubit>().state;
+
+      wheelChairGroup = bookingState.verifyResponse?.flightSSR?.wheelChairGroup;
+
+      wheelChairs =
+          isDeparture ? wheelChairGroup?.outbound : wheelChairGroup?.inbound;
+
+      persons = state.filterState?.numberPerson;
+      focusedPerson = persons?.persons
+          .firstWhereOrNull((element) => element == selectedPerson);
+
+      selectedWheelchair = isDeparture
+          ? focusedPerson?.departureWheelChair
+          : focusedPerson?.returnWheelChair;
+      okId = isDeparture
+          ? focusedPerson?.departureOkId
+          : focusedPerson?.returnOkId;
+    }
 
     return Padding(
-      padding: kPageHorizontalPadding,
+      padding: isManageBooking ? EdgeInsets.zero : kPageHorizontalPadding,
       child: Visibility(
         visible: wheelChairs?.isNotEmpty ?? false,
-        replacement: EmptyAddon(),
+        replacement: const EmptyAddon(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PassengerSelector(
-              isDeparture: isDeparture,
-              addonType: AddonType.special,
-            ),
-            kVerticalSpacer,
+            if (isManageBooking == false) ...[
+              PassengerSelector(
+                isDeparture: isDeparture,
+                addonType: AddonType.special,
+              ),
+              kVerticalSpacer,
+            ],
             wheelChairs?.isEmpty ?? true
                 ? Center(
                     child: Text(
@@ -66,86 +132,247 @@ class WheelchairSection extends StatelessWidget {
                       style: kLargeHeavy,
                     ),
                   )
-                : AppCard(
-                    edgeInsets: EdgeInsets.all(12),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomCheckBox(
-                              checkBoxSize: 18,
-                              checkedFillColor: Styles.kActiveGrey,
-                              borderColor: Styles.kActiveGrey,
-                              value: selectedWheelchair != null,
-                              onChanged: (value) {
-                                print("value is $value");
-                                if (value) {
-                                  context
-                                      .read<SearchFlightCubit>()
-                                      .addWheelChairToPersonPartial(
-                                        person: focusedPerson,
-                                        wheelChairs: wheelChairs ?? [],
-                                        isDeparture: isDeparture,
-                                        okId: okId,
-                                      );
-                                } else {
-                                  context
-                                      .read<SearchFlightCubit>()
-                                      .addWheelChairToPersonPartial(
-                                        person: focusedPerson,
-                                        wheelChairs: [],
-                                        isDeparture: isDeparture,
-                                        okId: okId,
-                                      );
-                                }
+                : isManageBooking
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: buildColumn(selectedWheelchair, manageBookingCubit,
+                          focusedPerson, wheelChairs, context, okId),
+                    )
+                    : AppCard(
+                        edgeInsets: const EdgeInsets.all(12),
+                        child: buildColumn(
+                            selectedWheelchair,
+                            manageBookingCubit,
+                            focusedPerson,
+                            wheelChairs,
+                            context,
+                            okId),
+                      ),
+            if (isManageBooking) ...[
+              SizedBox(
+                height: 8,
+              ),
+              Container(
+                width: double.infinity,
+                color: const Color.fromRGBO(241, 241, 241, 1.0),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      kVerticalSpacerSmall,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${'specialAddOn'.tr()}\n${'flightCharge.total'.tr()}',
+                            style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          MoneyWidget(
+                            amount:
+                            manageBookingCubit?.notConfirmedWheelChairTotalPrice ??
+                                0.0,
+                            isDense: true,
+                            isNormalMYR: true,
+                          ),
+                        ],
+                      ),
+                      kVerticalSpacerSmall,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                                  ? null
+                                  : () {
+                                manageBookingCubit?.wheelChairConfirmSeatChange();
+                                manageBookingCubit?.changeSelectedAddOnOption(
+                                    AddonType.special,
+                                    toNull: true);
+
                               },
-                            ),
-                            kHorizontalSpacerMini,
-                            Image.asset("assets/images/design/wheelchair.png",
-                                height: 32),
-                            kHorizontalSpacerSmall,
-                            Expanded(
-                              child: Text(
-                                "wheelChair".tr(),
-                                style: kLargeMedium,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 50.0, top: 10,right: 50),
-                          child: Visibility(
-                            visible: selectedWheelchair != null,
-                            child: BorderedAppInputText(
-                              key: Key("${focusedPerson.toString()}okId"),
-                              name: "${focusedPerson.toString()}okId",
-                              hintText: "specialSelection.disabledIDCard".tr(),
-                              initialValue: okId,
-                              onChanged: (id) {
-                                context
-                                    .read<SearchFlightCubit>()
-                                    .addWheelChairToPersonPartial(
-                                      person: focusedPerson,
-                                      wheelChairs: wheelChairs ?? [],
-                                      isDeparture: isDeparture,
-                                      okId: id,
-                                    );
-                              },
+                              child: Text('selectDateView.confirm'.tr()),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 16
+                      ),
+
+                    ],
                   ),
+                ),
+              ),
+              kVerticalSpacer,
+            ],
           ],
         ),
       ),
     );
   }
 
+  Column buildColumn(
+      Bundle? selectedWheelchair,
+      ManageBookingCubit? manageBookingCubit,
+      Person? focusedPerson,
+      List<Bundle>? wheelChairs,
+      BuildContext context,
+      String? okId) {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomCheckBox(
+              checkBoxSize: 18,
+              checkedFillColor: Styles.kActiveGrey,
+              borderColor: Styles.kActiveGrey,
+              value: selectedWheelchair != null,
+              onChanged: (value) {
+                if (isManageBooking) {
+
+                  manageBookingCubit?.addWheelToPerson(value ?? false,
+                      focusedPerson, (wheelChairs ?? []).last, isDeparture);
+
+                  return;
+                }
+
+                print("value is $value");
+                if (value) {
+                  context
+                      .read<SearchFlightCubit>()
+                      .addWheelChairToPersonPartial(
+                        person: focusedPerson,
+                        wheelChairs: wheelChairs ?? [],
+                        isDeparture: isDeparture,
+                        okId: okId,
+                      );
+                } else {
+                  context
+                      .read<SearchFlightCubit>()
+                      .addWheelChairToPersonPartial(
+                        person: focusedPerson,
+                        wheelChairs: [],
+                        isDeparture: isDeparture,
+                        okId: okId,
+                      );
+                }
+              },
+            ),
+            kHorizontalSpacerMini,
+            Image.asset("assets/images/design/wheelchair.png", height: 32),
+            kHorizontalSpacerSmall,
+            Expanded(
+              child: Text(
+                "wheelChair".tr(),
+                style: kLargeMedium,
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+              left: isManageBooking ? 0 : 50.0,
+              top: 10,
+              right: isManageBooking ? 0 : 50),
+          child: Visibility(
+            visible: selectedWheelchair != null,
+            child: BorderedAppInputText(
+              key: Key("${focusedPerson.toString()}okId"),
+              name: "${focusedPerson.toString()}okId",
+              hintText: "specialSelection.disabledIDCard".tr(),
+              initialValue: okId,
+              onChanged: (id) {
+                if (isManageBooking) {
+
+                  manageBookingCubit?.addWheelId(
+                      true, focusedPerson, isDeparture, id ?? '');
+
+                  if((id ?? '').isNotEmpty ){
+
+                    if((id ?? '').length == 1) {
+                      if(isDeparture == true) {
+                        if(focusedPerson?.departureWheelChair != null) {
+
+                          manageBookingCubit?.addWheelToPerson( false,
+                              focusedPerson, (wheelChairs ?? []).first, isDeparture,changeToFree: true);
+
+                        }
+                      }
+
+                      if(isDeparture == false) {
+                        if(focusedPerson?.returnWheelChair != null) {
+
+                          manageBookingCubit?.addWheelToPerson( false,
+                              focusedPerson, (wheelChairs ?? []).first, isDeparture,changeToFree: true);
+
+                        }
+                      }
+
+                    }
+                    print('');
+                  }
+                  else {
+
+                    print('Empt');
+
+                    if(isDeparture == true) {
+                      if(focusedPerson?.departureWheelChair != null) {
+
+                        manageBookingCubit?.addWheelToPerson( false,
+                            focusedPerson, (wheelChairs ?? []).last, isDeparture,changeToFree: true);
+
+                      }
+                    }
+                    else {
+                      if(focusedPerson?.returnWheelChair != null) {
+
+                        manageBookingCubit?.addWheelToPerson( false,
+                            focusedPerson, (wheelChairs ?? []).last, isDeparture,changeToFree: true);
+
+                      }
+                    }
+
+
+
+                  }
+
+                  return;
+                }
+                context.read<SearchFlightCubit>().addWheelChairToPersonPartial(
+                      person: focusedPerson,
+                      wheelChairs: wheelChairs ?? [],
+                      isDeparture: isDeparture,
+                      okId: id,
+                    );
+              },
+            ),
+          ),
+        ),
+        if (this.isManageBooking) ...[
+          SizedBox(
+            height: 16,
+          ),
+        ],
+      ],
+    );
+  }
+
   Column buildMealCards(List<Bundle>? bundles, bool isDeparture) {
-    bundles?.removeWhere((element) => element.serviceID == 0);
+    bundles?.removeWhere(
+        (element) => element.ssrCode == null || element.ssrCode == '');
     return Column(
       children: [
         ...bundles?.map(

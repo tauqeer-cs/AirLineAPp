@@ -180,6 +180,7 @@ class BookingContact extends Equatable {
   final String? email;
   final String? phone1;
   final String? phone1LocationCode;
+
   @JsonKey(toJson: AppDateUtils.toDateWithoutTimeToJson)
   final DateTime? dob;
   final String? nationality;
@@ -367,6 +368,7 @@ class Baggage extends Equatable {
     this.seatPosition,
     this.sportEquipmentName,
     this.insuranceSSRName,
+    this.ssrCode,
   });
 
   @override
@@ -394,6 +396,8 @@ class Baggage extends Equatable {
   final String? title;
 
   final String? baggageName;
+  final String? ssrCode;
+
   final num? amount;
   final num? quantity;
   final String? currency;
@@ -406,6 +410,7 @@ class Baggage extends Equatable {
     String? surName,
     String? givenName,
     String? title,
+    String? ssrCode,
     String? baggageName,
     num? amount,
     num? quantity,
@@ -416,6 +421,7 @@ class Baggage extends Equatable {
     String? insuranceName,
   }) =>
       Baggage(
+        ssrCode : ssrCode ?? this.ssrCode,
         surName: surName ?? this.surName,
         givenName: givenName ?? this.givenName,
         title: title ?? this.title,
@@ -1144,7 +1150,28 @@ class MealDetail extends Equatable {
 
   final List<Meal>? meals;
 
+
+
+  List<MealList> get returnMealsOnly {
+
+
+    return meals?.first.mealList?.where((element) => element.departReturn == 'Return').toList() ?? [];
+
+  }
+
+
+  List<MealList> get departureMealsOnly {
+
+
+    return meals?.first.mealList?.where((element) => element.departReturn == 'Depart').toList() ?? [];
+
+  }
+
+
   List<Meal> get departureMeals {
+
+
+
     return meals?.where((element) {
           final mealList = element.mealList?.firstWhereOrNull(
               (element) => element.departReturn == "Depart");
@@ -1330,6 +1357,15 @@ class Passenger extends Equatable {
   final String? passengerType;
   final DateTime? dob;
   final String? nationality;
+  String get nationalityToShow {
+    if(nationality != null || nationality != ''){
+      if(nationality == ''){
+        return 'Malaysia';
+      }
+      return nationality ?? 'Malaysia';
+    }
+    return 'Malaysia';
+  }
   final String? passport;
   final DateTime? passportExpiryDate;
   final String? titleCode;

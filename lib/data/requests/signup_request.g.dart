@@ -18,7 +18,7 @@ SignupRequest _$SignupRequestFromJson(Map<String, dynamic> json) =>
       gender: json['Gender'] as String? ?? "Male",
       dob: json['DOB'] == null ? null : DateTime.parse(json['DOB'] as String),
       address: json['Address'] as String?,
-      country: json['Country'] as String? ?? "MY",
+      country: json['Country'] as String? ?? "MYS",
       state: json['State'] as String?,
       city: json['City'] as String?,
       postCode: json['PostCode'] as String?,

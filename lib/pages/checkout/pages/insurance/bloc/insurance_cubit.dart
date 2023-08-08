@@ -23,7 +23,7 @@ class InsuranceCubit extends Cubit<InsuranceState> {
   }
 
   changeInsuranceType(InsuranceType insuranceType, Bound? insurance) {
-    if(insuranceType == state.insuranceType) return;
+    if (insuranceType == state.insuranceType) return;
     switch (insuranceType) {
       case InsuranceType.all:
         updateInsuranceToAllPassenger(insurance);
@@ -47,12 +47,24 @@ class InsuranceCubit extends Cubit<InsuranceState> {
     }
   }
 
-  updateInsuranceToPassenger(int index, Bound? insurance,String? codeType) {
+  updateInsuranceToPassenger(int index, Bound? insurance, String? codeType) {
     final newList = List<Passenger>.from(state.passengers);
+    // insurance
+    //insurance.name = 'Insurance (One Way)';
+   /* insurance = Bound(
+        name: 'Insurance (One Way)',
+        logicalFlightId: insurance?.logicalFlightId,
+        price: insurance?.price,
+        quantity: 1,
+        servicesType: 'Insurance',
+        ssrCode: insurance?.ssrCode);*/
 
-    if(insurance != null) {
-      insurance = insurance.copyWith(code: codeType);
 
+    //
+    if (insurance != null) {
+      insurance = insurance.copyWith(code: codeType,
+      //    name: 'Insurance (One Way)'
+      );
     }
     final newPassenger = newList[index].copyWith(
       ssr: Ssr(outbound: insurance == null ? [] : [insurance]),
@@ -95,7 +107,7 @@ class InsuranceCubit extends Cubit<InsuranceState> {
   }
 
   void setLast(Bundle? firstWhereOrNull) {
-    if(firstWhereOrNull != null) {
+    if (firstWhereOrNull != null) {
       emit(state.copyWith(
         lastInsuranceSelected: firstWhereOrNull,
       ));

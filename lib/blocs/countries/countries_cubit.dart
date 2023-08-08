@@ -16,8 +16,11 @@ class CountriesCubit extends Cubit<CountriesState> {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final countries = await _repository.getCountries();
+      final states = await _repository.getStates();
+
       emit(state.copyWith(
         blocState: BlocState.finished,
+        states: states.states,
         countries: countries.countries ?? [],
       ));
     } catch (e, st) {

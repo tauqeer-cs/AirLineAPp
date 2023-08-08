@@ -35,7 +35,7 @@ class Countries extends Equatable {
 class Country extends Equatable {
   const Country({
     this.countryCode,
-    this.countryCode2,
+    //this.countryCode2,
     this.country,
     this.phoneCode,
     this.phoneCodeDisplay,
@@ -43,7 +43,7 @@ class Country extends Equatable {
 
   final String? countryCode;
   @JsonKey(name: 'countryCode_2')
-  final String? countryCode2;
+  //final String? countryCode2;
   final String? country;
   final String? phoneCode;
   final String? phoneCodeDisplay;
@@ -57,7 +57,7 @@ class Country extends Equatable {
   }) =>
       Country(
         countryCode: countryCode ?? this.countryCode,
-        countryCode2: countryCode2 ?? this.countryCode2,
+       // countryCode2: countryCode2 ?? this.countryCode2,
         country: country ?? this.country,
         phoneCode: phoneCode ?? this.phoneCode,
         phoneCodeDisplay: phoneCodeDisplay ?? this.phoneCodeDisplay,
@@ -80,6 +80,73 @@ class Country extends Equatable {
     phoneCode: "60",
     phoneCodeDisplay: "+60",
     country: "Malaysia",
-    countryCode2: "MY",
+    //countryCode2: "MY",
   );
+}
+
+class StatesApiResponse {
+  StateResult? result;
+  bool? success;
+  String? message;
+
+  StatesApiResponse({this.result, this.success, this.message});
+
+  StatesApiResponse.fromJson(Map<String, dynamic> json) {
+    result =
+    json['result'] != null ? new StateResult.fromJson(json['result']) : null;
+    success = json['success'];
+    message = json['message'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.result != null) {
+      data['result'] = this.result!.toJson();
+    }
+    data['success'] = this.success;
+    data['message'] = this.message;
+    return data;
+  }
+}
+
+class StateResult {
+  List<States>? states;
+
+  StateResult({this.states});
+
+  StateResult.fromJson(Map<String, dynamic> json) {
+    if (json['states'] != null) {
+      states = <States>[];
+      json['states'].forEach((v) {
+        states!.add(new States.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.states != null) {
+      data['states'] = this.states!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class States {
+  String? stateName;
+  List<String>? stateCities;
+
+  States({this.stateName, this.stateCities});
+
+  States.fromJson(Map<String, dynamic> json) {
+    stateName = json['stateName'];
+    stateCities = json['stateCities'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['stateName'] = this.stateName;
+    data['stateCities'] = this.stateCities;
+    return data;
+  }
 }

@@ -170,7 +170,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                         title: nameTitle ?? profile?.userProfile?.title,
                         firstName: fName,
                         lastName: lName,
-                        nationality: selectedCountry?.countryCode2 ??
+                        nationality: selectedCountry?.countryCode ??
                             profile?.userProfile?.nationality,
                         email: email,
                         dob: dob,
@@ -178,7 +178,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                             profile?.userProfile?.phoneCode,
                         phoneNumber: phoneNo,
                         address: address,
-                        country: addressCountry?.countryCode2 ??
+                        country: addressCountry?.countryCode ??
                             profile?.userProfile?.country,
                         state: state,
                         city: city,

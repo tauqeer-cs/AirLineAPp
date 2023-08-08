@@ -41,15 +41,24 @@ class BoardingPassRequest {
 
 class BoardingPassPax {
   String? lastName;
-  int? logicalFlightKey;
-  int? personOrgId;
+  String? logicalFlightKey;
+  String? personOrgId;
+  String? memberID;
+  String? passport;
+  String? passportExpiryDate;
 
-  BoardingPassPax({this.lastName, this.logicalFlightKey, this.personOrgId});
+  //             "": "asdsadad",
+  //             "": "ASF99999",
+  //             "PassportExpiryDate": "2024-04-18T00:00:00.000Z"
+
+
+  BoardingPassPax({this.lastName, this.logicalFlightKey, this.personOrgId,this.memberID,this.passport,this.passportExpiryDate});
 
   BoardingPassPax.fromJson(Map<String, dynamic> json) {
     lastName = json['LastName'];
     logicalFlightKey = json['LogicalFlightKey'];
     personOrgId = json['PersonOrgId'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +66,13 @@ class BoardingPassPax {
     data['LastName'] = lastName;
     data['LogicalFlightKey'] = logicalFlightKey;
     data['PersonOrgId'] = personOrgId;
+
+    data['MemberID'] = memberID;
+    data['Passport'] = passport;
+    data['PassportExpiryDate'] = passportExpiryDate;
+
+    //
+
     return data;
   }
 }

@@ -19,11 +19,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../../models/confirmation_model.dart';
 import '../../../../../widgets/pdf_viewer.dart';
 
 class PassengerContact extends StatefulWidget {
+  final bool manageBooking;
+
+  final BookingContact? bookingContact;
+
   const PassengerContact({
     Key? key,
+    this.manageBooking = false, this.bookingContact,
   }) : super(key: key);
 
   @override
@@ -59,25 +66,96 @@ class PassengerContactState extends State<PassengerContact> {
     }
   }
 
+  String getFirstName(String fullName) {
+    List<String> names = fullName.split(' ');
+
+    if (names.length >= 2) {
+      String firstName = names[0];
+      String lastName = names[names.length - 1];
+
+      return firstName;
+
+
+    } else {
+      print('Invalid full name');
+    }
+    return '';
+  }
+
+
+  String getLastName(String fullName) {
+    List<String> names = fullName.split(' ');
+
+    if (names.length >= 2) {
+      String lastName = names[names.length - 1];
+      return lastName;
+
+
+    } else {
+    }
+    return '';
+  }
+
+
+
   @override
   void initState() {
     super.initState();
     final contact = true ? null : context.read<LocalUserBloc>().state;
     final profile = context.read<ProfileCubit>().state.profile?.userProfile;
-    email = profile?.emailShow ?? contact?.contactEmail.trim();
 
-    firstName = profile?.firstName ?? contact?.contactFullName;
-    fNameController.text = firstName ?? '';
-    phoneCode = profile?.phoneCode ?? contact?.contactPhoneCode;
 
-    phoneNumber = profile?.phoneNumber ?? contact?.contactPhoneNumber;
-    phNoController.text = phoneNumber ?? '';
-    lastName = profile?.lastName ?? contact?.comment;
-    lNameController.text = lastName ?? '';
+    if(widget.manageBooking){
 
-    nationalityController.text =
-        phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+      email = widget.bookingContact?.email ?? (profile?.emailShow ?? contact?.contactEmail.trim());
+      firstName = widget.bookingContact?.givenName;
+      fNameController.text = firstName ?? '';
+      phoneCode = widget.bookingContact?.phone1LocationCode;
 
+      if((widget.bookingContact?.phone1 ?? '').length > 2) {
+        if((widget.bookingContact?.phone1 ?? '').substring(0,phoneCode?.length) == phoneCode){
+          phoneNumber = (widget.bookingContact?.phone1 ?? '').substring(phoneCode?.length ?? 0,(widget.bookingContact?.phone1 ?? '').length);
+        }
+        else{
+          phoneNumber = widget.bookingContact?.phone1;
+        }
+
+      }
+
+      phNoController.text = phoneNumber ?? '';
+
+      lastName = widget.bookingContact?.surname;
+
+      lNameController.text = lastName ?? '';
+      nationalityController.text =
+          phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+      //   .email
+      print('');
+  //  fullName
+  //  phone1 60182144125
+  //  emergencyPhoneCode 60
+
+    ///      nationalityController.text =
+    //           phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+    }
+    else {
+      email = profile?.emailShow ?? contact?.contactEmail.trim();
+
+      firstName = profile?.firstName ?? contact?.contactFullName;
+      fNameController.text = firstName ?? '';
+      phoneCode = profile?.phoneCode ?? contact?.contactPhoneCode;
+
+      phoneNumber = profile?.phoneNumber ?? contact?.contactPhoneNumber;
+      phNoController.text = phoneNumber ?? '';
+      lastName = profile?.lastName ?? contact?.comment;
+      lNameController.text = lastName ?? '';
+
+      nationalityController.text =
+          phoneCode ?? Country.defaultCountry.phoneCode ?? "";
+
+    }
+
+    email = email?.replaceAll('+', '');
 
     emailController.text = email ?? '';
     emailController.addListener(() {});
@@ -89,12 +167,19 @@ class PassengerContactState extends State<PassengerContact> {
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<ProfileCubit>().state.profile?.userProfile;
+    ManageBookingCubit? manageBloc = context.watch<ManageBookingCubit>();
+
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const AppDividerWidget(),
-        kVerticalSpacer,
-        Text("contact".tr(), style: k18Heavy),
+
+        if(widget.manageBooking == false) ... [
+          kVerticalSpacer,
+          Text("contact".tr(), style: k18Heavy),
+        ],
+
         kVerticalSpacerSmall,
         RichText(
           text: TextSpan(
@@ -119,7 +204,7 @@ class PassengerContactState extends State<PassengerContact> {
                           builder: (context) => PdfViewer(
                             title: 'privacyPolicy'.tr(),
                             fileName:
-                            'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
+                                'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
                             pdfIsLink: true,
                           ),
                         ),
@@ -146,7 +231,15 @@ class PassengerContactState extends State<PassengerContact> {
               validators: [FormBuilderValidators.required()],
               textEditingController: fNameController,
               onChanged: (value) {
-                final request = context.read<LocalUserBloc>().state;
+                if(widget.manageBooking) {
+
+                  manageBloc.setContactnewValue(value ?? '',isFirstName: true);
+                  
+                  return;
+
+                }
+
+                  final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(contactFullName: value);
                 context.read<LocalUserBloc>().add(UpdateData(newRequest));
               },
@@ -158,6 +251,11 @@ class PassengerContactState extends State<PassengerContact> {
               validators: [FormBuilderValidators.required()],
               textEditingController: lNameController,
               onChanged: (value) {
+                if(widget.manageBooking) {
+
+                    manageBloc.setContactnewValue(value ?? '',isLastName: true);
+                    return;
+                }
                 final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(comment: value);
                 context.read<LocalUserBloc>().add(UpdateData(newRequest));
@@ -173,10 +271,16 @@ class PassengerContactState extends State<PassengerContact> {
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 initialCountryCode: profile?.phoneCode ?? phoneCode,
                 onChanged: (value) {
+                  if(widget.manageBooking) {
+
+                    manageBloc.setContactnewValue(value?.phoneCode ?? '',isPhoneCode: true);
+
+                    return;
+                  }
                   nationalityController.text = value?.phoneCode ?? "";
                   final request = context.read<LocalUserBloc>().state;
                   final newRequest =
-                  request.copyWith(contactPhoneCode: value?.phoneCode);
+                      request.copyWith(contactPhoneCode: value?.phoneCode);
                   context.read<LocalUserBloc>().add(UpdateData(newRequest));
                 },
               ),
@@ -184,12 +288,16 @@ class PassengerContactState extends State<PassengerContact> {
             kVerticalSpacerSmall,
             AppInputText(
               name: formNameContactPhoneNumber,
-
               textEditingController: phNoController,
               textInputType: TextInputType.number,
-              hintText: 'infoDetail.phoneNumber'.tr(),
+              hintText: 'phoneNumber'.tr(),
               validators: [FormBuilderValidators.required()],
               onChanged: (value) {
+                if(widget.manageBooking) {
+                  manageBloc.setContactnewValue(value ?? '',isPhoneNo: true);
+                  return;
+                }
+
                 final request = context.read<LocalUserBloc>().state;
                 final newRequest = request.copyWith(contactPhoneNumber: value);
                 context.read<LocalUserBloc>().add(UpdateData(newRequest));
@@ -213,10 +321,16 @@ class PassengerContactState extends State<PassengerContact> {
                       if (alreadySpaceRemoved) {
                         return;
                       } else {
+
+
                         removeEmptyFromEmail(value);
                       }
                     }
                   }
+                }
+                if(widget.manageBooking) {
+                  manageBloc.setContactnewValue(value ?? '',isEmail: true);
+                  return;
                 }
                 updateEmail(context, value);
               },
@@ -252,7 +366,6 @@ class PassengerContactState extends State<PassengerContact> {
 
     phNoController.text = phoneNumber ?? '';
 
-
     lastName = profile?.lastName ?? contact?.comment;
     lNameController.text = lastName ?? '';
 
@@ -260,7 +373,5 @@ class PassengerContactState extends State<PassengerContact> {
         phoneCode ?? Country.defaultCountry.phoneCode ?? "";
     emailController.text = email ?? '';
     emailController.addListener(() {});
-
-
   }
 }

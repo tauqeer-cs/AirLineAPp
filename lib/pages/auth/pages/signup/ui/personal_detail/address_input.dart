@@ -8,6 +8,7 @@ import 'package:app/widgets/containers/grey_card.dart';
 import 'package:app/widgets/forms/app_input_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -59,8 +60,11 @@ class AddressInput extends StatelessWidget {
           child: Column(
             children: [
               AppInputText(
-                isRequired: false,
+                //isRequired: true,
                 name: formNameAddress,
+                validators: [
+                  //FormBuilderValidators.required(),
+                ],
                 hintText: 'infoDetail.address'.tr(),
                 initialValue: selectedAddress,
                 inputFormatters: [
@@ -79,14 +83,20 @@ class AddressInput extends StatelessWidget {
                         onAddressCountryChange?.call(newCountry);
                         context
                             .read<SignupCubit>()
-                            .editCountry(newCountry?.countryCode2 ?? "");
+                            .editCountry(newCountry?.countryCode ?? "");
                       },
                     ),
                   ),
                   kHorizontalSpacerMini,
                   Expanded(
                     child: AppInputText(
-                      isRequired: false,
+                      //isRequired: true,
+                      inputFormatters: [
+                        AppFormUtils.onlyLetterAndSpace(),
+                      ],
+                      validators: [
+                        //FormBuilderValidators.required(),
+                      ],
                       name: formNameState,
                       hintText: 'state'.tr(),
                       initialValue: selectedState,
@@ -99,7 +109,11 @@ class AddressInput extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppInputText(
-                      isRequired: false,
+                    //  isRequired: true,
+
+                      validators: [
+                       // FormBuilderValidators.required(),
+                      ],
                       name: formNameCity,
                       hintText: 'city'.tr(),
                       initialValue: selectedCity,
@@ -111,7 +125,10 @@ class AddressInput extends StatelessWidget {
                   kHorizontalSpacerMini,
                   Expanded(
                     child: AppInputText(
-                      isRequired: false,
+                     // isRequired: true,
+                      validators: [
+                       // FormBuilderValidators.required(),
+                      ],
                       name: formNamePostCode,
                       hintText: 'postalCode'.tr(),
                       initialValue: selectedPosCode,
@@ -126,6 +143,7 @@ class AddressInput extends StatelessWidget {
               if (withEmail) ...[
                 AppInputText(
                   isRequired: false,
+
                   textInputType: TextInputType.emailAddress,
                   name: formNameAddressEmail,
                   hintText: 'signUp1.email'.tr(),

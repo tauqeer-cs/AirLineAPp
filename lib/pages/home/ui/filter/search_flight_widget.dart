@@ -59,10 +59,6 @@ class SearchFlightWidget extends StatelessWidget {
               onChanged: (value) =>
                   context.read<FilterCubit>().updatePromoCode(value),
               hintText: "promoCodeExample".tr(),
-              //inputFormatters: [
-              //     UpperCaseTextFormatter(),
-              //   ]
-
               inputFormatters: [
                 UpperCaseTextFormatter(),
                 FilteringTextInputFormatter.allow(RegExp("[A-Za-z0-9\']")),

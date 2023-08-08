@@ -19,10 +19,12 @@ import 'check_in_view.dart';
 import 'flight_list_item.dart';
 
 class CheckingListing extends StatelessWidget {
-  final void Function(bool) navigateToCheckInDetails;
+  final void Function(bool,String pnr,String last) navigateToCheckInDetails;
   final void Function(String) showErrorMessage;
+  final bool isManageBooking;
 
-  const CheckingListing({Key? key, required this.navigateToCheckInDetails, required this.showErrorMessage})
+
+  const CheckingListing({Key? key, required this.navigateToCheckInDetails, required this.showErrorMessage,  this.isManageBooking = false})
       : super(key: key);
 
   @override
@@ -107,7 +109,7 @@ class CheckingListing extends StatelessWidget {
                                         bloc.state.pastBookings?[index]);
 
                                 if (flag == true) {
-                                  navigateToCheckInDetails(true);
+                                  navigateToCheckInDetails(true,bloc.state.pastBookings?[index].pnr ?? '' , bloc.state.pastBookings?[index].lastName ?? '');
                                 }
                               },
                             );
@@ -123,7 +125,7 @@ class CheckingListing extends StatelessWidget {
               ],
             ] else ...[
               Text(
-                   checkInLabel ??  'onlineCheckHoursMessage'.tr(),
+                checkInLabel ?? 'onlineCheckHoursMessage'.tr(),
                 style: kMediumRegular.copyWith(color: Styles.kTextColor),
               ),
               kVerticalSpacer,
@@ -135,9 +137,10 @@ class CheckingListing extends StatelessWidget {
                   child: bloc.state.isLoadingInfo == true
                       ? const Center(
                           child: Padding(
-                          padding: EdgeInsets.only(bottom: 24),
-                          child: AppLoading(),
-                        ))
+                            padding: EdgeInsets.only(bottom: 24),
+                            child: AppLoading(),
+                          ),
+                        )
                       : ListView.separated(
                           itemBuilder: (context, index) {
                             if (bloc.state.loadingListDetailItem == true &&
@@ -153,6 +156,7 @@ class CheckingListing extends StatelessWidget {
                               dateToShow: bloc.state.upcomingBookings?[index]
                                       .dateToShow(locale) ??
                                   '',
+                              btnManage: isManageBooking,
                               btnView: bloc.state.upcomingBookings?[index]
                                       .isFullyCheckedIn ==
                                   true,
@@ -173,18 +177,25 @@ class CheckingListing extends StatelessWidget {
                                           false &&
                                       (bloc.state.upcomingBookings?[index]
                                               .isFullyCheckedIn ==
-                                          false)
+                                          false && isManageBooking == false)
                                   ? null
                                   : () async {
+                                var currentItem = bloc.state
+                                    .upcomingBookings?[index];
+                                if(isManageBooking) {
+
+                                  navigateToCheckInDetails(false,currentItem?.pnr ?? '',currentItem?.lastName ?? '');
+
+                                  return;
+                                }
                                       if (bloc.state.loadingListDetailItem ==
                                           true) {
                                         return;
                                       }
                                       var flag = await bloc
                                           .getBookingInformation('', '',
-                                          bookSelected: bloc.state
-                                              .upcomingBookings?[index],errorToShow: (String error) {
-
+                                              bookSelected: bloc.state
+                                                  .upcomingBookings?[index],errorToShow: (String error) {
                                             showErrorMessage(error);
 
                                             return;
@@ -192,7 +203,7 @@ class CheckingListing extends StatelessWidget {
                                           });
 
                                       if (flag == true) {
-                                        navigateToCheckInDetails(false);
+                                        navigateToCheckInDetails(false,currentItem?.pnr ?? '',currentItem?.lastName ?? '');
                                       }
                                     },
                             );
@@ -252,8 +263,11 @@ class CheckingListing extends StatelessWidget {
 
 class CustomSegmentControl extends StatefulWidget {
   final Function(bool) statusChange;
+  final String? textOne;
+  final String? textTwo;
 
-  const CustomSegmentControl({super.key, required this.statusChange});
+  const CustomSegmentControl(
+      {super.key, required this.statusChange, this.textOne, this.textTwo});
 
   @override
   _CustomSegmentControlState createState() => _CustomSegmentControlState();

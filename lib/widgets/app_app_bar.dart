@@ -97,6 +97,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? flexibleWidget;
   final Color? titleColor;
 
+  final bool hideBack;
+
   final bool overrideInnerHeight;
 
   const AppAppBar({
@@ -104,6 +106,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.child,
     this.title,
     this.onAction,
+    this.hideBack = false,
     this.centerTitle = true,
     this.canBack = true,
     this.height,
@@ -120,7 +123,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         toolbarHeight: overrideInnerHeight ? (height ?? 60.h) : 60.h,
         centerTitle: centerTitle,
-        leading: canPop
+        leading: hideBack ? Container() : canPop
             ? overrideInnerHeight
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),

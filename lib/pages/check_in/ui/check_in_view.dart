@@ -17,6 +17,7 @@ import '../../../utils/security_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
+import '../../../widgets/app_toast.dart';
 import '../bloc/check_in_cubit.dart';
 
 class CheckInView extends StatelessWidget {
@@ -102,6 +103,7 @@ class CheckInView extends StatelessWidget {
     );
   }
 
+
   onManageBooking(BuildContext context) async {
     if (false) {
       if (_fbKey.currentState!.saveAndValidate()) {
@@ -126,12 +128,14 @@ class CheckInView extends StatelessWidget {
       final lastName = value["lastNameCheckIn"];
 
       var flag = await bloc?.getBookingInformation(
-          lastName.trim(), code.trim().toUpperCase(),
-          errorToShow: false
-              ? null
-              : (String error) {
-                  showErrorDialog(context, error);
-                });
+        lastName.trim(),
+        code.trim().toUpperCase(),
+        errorToShow: false
+            ? null
+            : (String error) {
+                showErrorDialog(context, error);
+              },
+      );
 
       if (flag == true) {
         moveToNext(context);
@@ -139,7 +143,6 @@ class CheckInView extends StatelessWidget {
     }
   }
 }
-
 void showErrorDialog(BuildContext context, String errorMessage) {
   showDialog(
     context: context,
@@ -150,8 +153,7 @@ void showErrorDialog(BuildContext context, String errorMessage) {
           borderRadius: BorderRadius.circular(10.0),
         ),
         contentPadding: const EdgeInsets.fromLTRB(16, 16, 15, 0),
-        content: Text(
-          errorMessage,
+        content: Text(errorMessage,
           style: const TextStyle(color: Colors.white),
         ),
         actions: <Widget>[
@@ -169,3 +171,5 @@ void showErrorDialog(BuildContext context, String errorMessage) {
     },
   );
 }
+
+

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
@@ -13,6 +12,9 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../data/responses/manage_booking_response.dart';
 
 class PassengerSelector extends StatelessWidget {
   final bool isContact;
@@ -53,7 +55,7 @@ class PassengerSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'seatsSelection.passenger'.tr(),
+          'passenger'.tr(),
           style: kLargeHeavy,
         ),
         kVerticalSpacerSmall,
@@ -135,10 +137,10 @@ class PassengerSelector extends StatelessWidget {
           errorBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
-          hintText: 'seatsSelection.passenger'.tr(),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+          hintText: 'passenger'.tr(),
+          contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         )),
-        sheetTitle: 'seatsSelection.passenger'.tr(),
+        sheetTitle: 'passenger'.tr(),
         isEnabled: true,
         valueTransformer: (value) {
           return DropdownTransformerWidget<Person>(
@@ -164,3 +166,225 @@ class PassengerSelector extends StatelessWidget {
     );
   }
 }
+
+
+class PassengerSelectorManageBooking extends StatelessWidget {
+
+
+
+  final List<PassengersWithSSR> passengersWithSSR;
+  final bool isSeatSelection;
+
+  const PassengerSelectorManageBooking({
+    Key? key,
+    this.isSeatSelection = false,
+     required this.passengersWithSSR,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    var bloc = context.watch<ManageBookingCubit>();
+    final selectedPax =
+        context.watch<ManageBookingCubit>().state.selectedPax;
+
+
+
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "passengers".tr(),
+            style: k18Heavy.copyWith(color: Styles.kTextColor),
+          ),
+        ),
+        kVerticalSpacerSmall,
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: 50,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: passengersWithSSR.map((person) {
+                bool isActive = false;
+
+                if(selectedPax == person) {
+                  isActive = true;
+                }
+
+
+
+                return GestureDetector(
+                  onTap: (){
+
+                    bloc.changeSelectedPax(person);
+
+                   // context.read<SelectedPersonCubit>().selectPerson(person);
+                  },
+                  child: Container(
+                    constraints: const BoxConstraints(minWidth: 160),
+                    margin: const EdgeInsets.only(right: 8),
+                    child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        color: isActive ? Styles.kActiveColor : Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  person.passengers?.fullName ?? '',
+                                  style: kMediumSemiBold.copyWith(
+                                      color: isActive ? Colors.white : null),
+                                ),
+                              ),
+                              kVerticalSpacerMini,
+                              Text(
+                                isActive ? 'selecting'.tr() : 'idle'.tr(),
+                                style: kSmallMedium.copyWith(
+                                    color: isActive ? Colors.white : null),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+}
+
+class PassengerViewerForSeats extends StatelessWidget {
+
+
+
+  final List<PassengersWithSSR> passengersWithSSR;
+  final bool isSeatSelection;
+
+  const PassengerViewerForSeats({
+    Key? key,
+    this.isSeatSelection = false,
+    required this.passengersWithSSR,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    var bloc = context.watch<ManageBookingCubit>();
+    final selectedPax =
+        context.watch<ManageBookingCubit>().state.selectedPax;
+
+
+    var rows = bloc.state.flightSeats?.outbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows ?? [];
+
+    if(bloc.state.seatDeparture == false){
+      rows = bloc.state.flightSeats?.inbound?.first.retrieveFlightSeatMapResponse?.physicalFlights?.first.physicalFlightSeatMap?.seatConfiguration?.rows ?? [];
+    }
+
+
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "passengers".tr(),
+            style: k18Heavy.copyWith(color: Styles.kTextColor),
+          ),
+        ),
+        kVerticalSpacerSmall,
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: 40,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: passengersWithSSR.map((person) {
+                bool isActive = false;
+
+                String toShow = 'idle'.tr();
+                if(bloc.state.seatDeparture == true) {
+                  if(person.personObject?.departureSeats != null) {
+
+                    toShow = person.personObject?.departureSeats?.seatNameToShow(rows) ?? '';
+
+                  }
+                }
+                else {
+                  if(person.personObject?.returnSeats != null) {
+
+                    toShow = person.personObject?.returnSeats?.seatNameToShow(rows) ?? '';
+
+                  }
+                }
+                  if(selectedPax == person) {
+                  isActive = true;
+                }
+
+
+
+                return GestureDetector(
+                  onTap: (){
+
+                    bloc.changeSelectedPax(person);
+
+                  },
+                  child: Container(
+
+                    margin: const EdgeInsets.only(right: 0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8,bottom: 8,right: 32),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              person.passengers?.fullName ?? '',
+                              style: kMediumHeavy,
+                            ),
+                          ),
+                          kVerticalSpacerMini,
+                          Text(
+                            isActive ? 'selecting'.tr() : toShow,
+                            style: kLargeRegular,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+}
+
+
+
+

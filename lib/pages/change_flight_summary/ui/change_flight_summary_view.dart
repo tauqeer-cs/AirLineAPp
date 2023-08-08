@@ -1,3 +1,4 @@
+import 'package:app/utils/utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ import '../../../utils/date_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../booking_details/ui/flight_data.dart';
+import '../../checkout/pages/payment/ui/redeem_voucher.dart';
 import '../../checkout/pages/payment/ui/voucher_ui.dart';
 import '../../search_result/ui/booking_summary.dart';
 import '../../search_result/ui/summary_container_listener.dart';
@@ -39,6 +41,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
 
   bool conditionsCheckOne = false;
   bool conditionsCheckTwo = false;
+  bool conditionsCheckThree = false;
 
   final _fbKey = GlobalKey<FormBuilderState>();
 
@@ -97,9 +100,13 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     var voucherBloc = context.watch<VoucherCubit>();
     var voucherState = voucherBloc.state;
 
-    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
+    var discount = voucherState.response?.addVoucherResult?.voucherDiscounts
         ?.firstOrNull?.discountAmount ??
         0.0;
+    if(bloc?.state.rewardItem != null) {
+      discount = discount + (bloc?.state.rewardItem?.redemptionAmount ?? 0.0);
+
+    }
 
     var departureDate = state?.changeFlightResponse?.result
         ?.flightVerifyResponse?.result?.flightSegments?.last.departureDate;
@@ -134,13 +141,24 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     }
 
     void removeVoucher(String currentToken, BuildContext context) {
-      _fbKey.currentState!.reset();
+      context.read<VoucherCubit>;
+
+
       final token = currentToken;
       final voucherRequest = VoucherRequest(
         token: token,
       );
       context.read<VoucherCubit>().removeVoucher(voucherRequest);
+      if(context.read<VoucherCubit>().state.dontShowVoucher == true){
+
+      }
+      else {
+        _fbKey.currentState!.reset();
+
+      }
     }
+
+    String currency = bloc?.state.manageBookingResponse?.result?.fareAndBundleDetail?.currencyToShow ?? 'MYR';
 
     return Stack(
       children: [
@@ -426,6 +444,14 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                 const SizedBox(
                   height: 16,
                 ),
+
+                if(bloc?.state.isLoadingPromo == false && bloc?.state.redemptionOption != null) ... [
+                  RedeemVoucherView(
+                    currency: currency,
+                    promoReady: true,
+                    isManageBooking: true,
+                  ),
+                ],
                 if (AppFlavor.appFlavor == Flavor.staging) ...[
                   VoucherCodeUi(
                     readOnly: false,
@@ -454,7 +480,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           final pin = value["voucherPin"];
                           final voucherPin = InsertVoucherPIN(
                             voucherCode: voucher,
-                            voucherPin: pin,
                           );
                           final token = bloc?.currentToken ?? '';
                           final voucherRequest = VoucherRequest(
@@ -478,7 +503,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         }
                       }
                     },
-                    fbKey: _fbKey,
+                    fbKey: _fbKey, onOnlyTextRemove: () {  },
                   ),
                   const SizedBox(
                     height: 16,
@@ -658,6 +683,56 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   ),
                 ),
                 const SizedBox(
+                  height: 24,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 24.0,
+                        width: 24.0,
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                          MaterialStateProperty.resolveWith(getColor),
+                          value: conditionsCheckThree,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              conditionsCheckThree = value ?? false;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            style: kMediumRegular.copyWith(
+                              color: Styles.kTextColor,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: '${'afterPayment'.tr()} ',
+                              ),
+                              TextSpan(
+                                text: " ${'reprintYour'.tr().toUpperCase()} ",
+                                style: kMediumSemiBold.copyWith(
+                                    color: Styles.kTextColor),
+                              ),
+                              TextSpan(text: 'reflectYour'.tr()),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(
                   height: 200,
                 ),
               ],
@@ -700,7 +775,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                         ? const AppLoading()
                         : ElevatedButton(
                       onPressed: (conditionsCheckOne == false ||
-                          conditionsCheckTwo == false)
+                          conditionsCheckTwo == false || conditionsCheckThree == false)
                           ? null
                           : () async {
                         final voucher = context

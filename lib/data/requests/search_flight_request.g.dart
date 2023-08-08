@@ -49,10 +49,10 @@ CommonFlightRequest _$CommonFlightRequestFromJson(Map<String, dynamic> json) =>
       totalAmount: json['TotalAmount'] as num?,
       promoCode: json['promoCode'] as String? ?? '',
       outboundLFID: (json['OutboundLFID'] as List<dynamic>?)
-          ?.map((e) => e as int)
+          ?.map((e) => e as String)
           .toList(),
       inboundLFID: (json['InboundLFID'] as List<dynamic>?)
-          ?.map((e) => e as int)
+          ?.map((e) => e as String)
           .toList(),
     );
 

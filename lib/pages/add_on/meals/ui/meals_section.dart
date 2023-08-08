@@ -18,69 +18,222 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../models/confirmation_model.dart';
+import '../../../../widgets/app_money_widget.dart';
 
 class MealsSection extends StatelessWidget {
   final bool isDeparture;
 
-  const MealsSection({Key? key, this.isDeparture = true}) : super(key: key);
+  final bool isManageBooking;
+
+  MealsSection(
+      {Key? key, this.isDeparture = true, this.isManageBooking = false})
+      : super(key: key);
+
+  ManageBookingCubit? manageBookingCubit;
 
   @override
   Widget build(BuildContext context) {
-    final bookingState = context.watch<BookingCubit>().state;
-    final mealGroup = bookingState.verifyResponse?.flightSSR?.mealGroup;
-    final state = context.watch<SearchFlightCubit>().state;
-    final meals = isDeparture ? mealGroup?.outbound : mealGroup?.inbound;
-    final isFlightUnderAnHour = isDeparture
-        ? state.filterState!.departDate!.difference(DateTime.now()).inHours <= 1
-        : state.filterState!.returnDate!.difference(DateTime.now()).inHours <=
-            1;
-    final isFlightOver24Hour = isDeparture
-        ? state.filterState!.departDate!.difference(DateTime.now()).inHours <=
-            24
-        : state.filterState!.returnDate!.difference(DateTime.now()).inHours <=
-            1;
+    BundleGroupSeat? mealGroup;
+    List<Bundle> meals = [];
+    bool isFlightUnderAnHour = false;
+    bool isFlightOver24Hour = false;
 
+    if (isManageBooking) {
+      var bloc = context.watch<ManageBookingCubit>();
+      manageBookingCubit = bloc;
 
+      var state = bloc.state;
+      mealGroup = state.flightSSR?.mealGroup;
 
-    return isFlightOver24Hour ? FlightWithin24Hour() : Visibility(
-      visible: meals?.isNotEmpty ?? false,
-      replacement: EmptyAddon(),
-      child: Padding(
-        padding: kPageHorizontalPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            PassengerSelector(
-              isDeparture: isDeparture,
-              addonType: AddonType.meal,
+      meals = (isDeparture ? mealGroup?.outbound : mealGroup?.inbound) ?? [];
+      DateTime departDate = state.manageBookingResponse?.result?.flightSegments
+              ?.first.outbound![0].departureDateTime ??
+          DateTime.now();
+      DateTime returnDate = DateTime.now();
+
+      if ((state.manageBookingResponse?.result?.flightSegments?.first.inbound ??
+              [])
+          .isNotEmpty) {
+        returnDate = state.manageBookingResponse?.result?.flightSegments?.first
+                .inbound![0].departureDateTime ??
+            DateTime.now();
+      }
+
+      isFlightUnderAnHour = isDeparture
+          ? departDate
+                  .difference(
+                    DateTime.now(),
+                  )
+                  .inHours <=
+              1
+          : returnDate
+                  .difference(
+                    DateTime.now(),
+                  )
+                  .inHours <=
+              1;
+
+      isFlightOver24Hour = isDeparture
+          ? departDate.difference(DateTime.now()).inHours <= 24
+          : returnDate.difference(DateTime.now()).inHours <= 1;
+    } else {
+      final bookingState = context.watch<BookingCubit>().state;
+      mealGroup = bookingState.verifyResponse?.flightSSR?.mealGroup;
+
+      final state = context.watch<SearchFlightCubit>().state;
+
+      meals = (isDeparture ? mealGroup?.outbound : mealGroup?.inbound) ?? [];
+
+      isFlightUnderAnHour = isDeparture
+          ? state.filterState!.departDate!
+                  .difference(
+                    DateTime.now(),
+                  )
+                  .inHours <=
+              1
+          : state.filterState!.returnDate!
+                  .difference(
+                    DateTime.now(),
+                  )
+                  .inHours <=
+              1;
+
+      isFlightOver24Hour = isDeparture
+          ? state.filterState!.departDate!
+                  .difference(
+                    DateTime.now(),
+                  )
+                  .inHours <=
+              24
+          : state.filterState!.returnDate!
+                  .difference(
+                    DateTime.now(),
+                  )
+                  .inHours <=
+              1;
+    }
+
+    return isFlightOver24Hour
+        ? const FlightWithin24Hour()
+        : Visibility(
+            visible: meals.isNotEmpty ?? false,
+            replacement: const EmptyAddon(),
+            child: Padding(
+              padding: isManageBooking ? EdgeInsets.zero : kPageHorizontalPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (isManageBooking == false) ...[
+                    PassengerSelector(
+                      isDeparture: isDeparture,
+                      addonType: AddonType.meal,
+                    ),
+                  ] else
+                    ...[],
+                  kVerticalSpacer,
+                  isFlightUnderAnHour
+                      ? const FlightUnderAnHour()
+                      : isFlightOver24Hour
+                          ? const FlightWithin24Hour()
+                          : ( buildMealCards(meals, isDeparture)),
+                ],
+              ),
             ),
-            kVerticalSpacer,
-            isFlightUnderAnHour
-                ? const FlightUnderAnHour()
-                : isFlightOver24Hour
-                    ? const FlightWithin24Hour()
-                    : buildMealCards(meals, isDeparture),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
-  Column buildMealCards(List<Bundle>? bundles, bool isDeparture) {
-    bundles?.removeWhere((element) => element.serviceID == 0);
+  Widget buildMealCards(List<Bundle>? bundles, bool isDeparture) {
+    bundles?.removeWhere((element) => (element.ssrCode ?? '').isEmpty);
+
+
+
     return Column(
       children: [
         ...bundles?.map(
               (e) {
-                return Column(
-                  children: [
-                    NewMealCard(meal: e, isDeparture: isDeparture),
-                    kVerticalSpacerSmall,
-                  ],
+                return Padding(
+                  padding: isManageBooking ?  kPageHorizontalPadding : EdgeInsets.zero,
+                  child: Column(
+                    children: [
+                      NewMealCard(
+                        meal: e,
+                        isDeparture: isDeparture,
+                        isManageBooking: isManageBooking,
+                      ),
+                      kVerticalSpacerSmall,
+                    ],
+                  ),
                 );
               },
             ).toList() ??
-            []
+            [],
+        if (isManageBooking) ...[
+          SizedBox(height: 8,),
+          Container(
+            width: double.infinity,
+            color: const Color.fromRGBO(241, 241, 241, 1.0),
+            child: Column(
+              children: [
+                SizedBox(height: 8,),
+
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                ),
+                kVerticalSpacerSmall,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${'flightCharge.meal'.tr()} ${'flightCharge.total'.tr()}',
+                        style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                      ),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      MoneyWidget(
+                        amount: manageBookingCubit?.notConfirmedMealsTotalPrice ?? 0.0,
+                        isDense: true,
+                        isNormalMYR: true,
+                      ),
+                    ],
+                  ),
+                ),
+                kVerticalSpacerSmall,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                            ? null
+                            : () {
+                          manageBookingCubit?.seatMealSeatChange();
+
+                          manageBookingCubit?.changeSelectedAddOnOption(
+                              AddonType.meal,
+                              toNull: true);
+                        },
+                        child: Text('selectDateView.confirm'.tr()),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                  ],
+                ),
+                kVerticalSpacer,
+
+              ],
+            ),
+          ),
+          SizedBox(height: 16,),
+
+        ],
       ],
     );
   }
@@ -89,12 +242,66 @@ class MealsSection extends StatelessWidget {
 class NewMealCard extends StatelessWidget {
   final Bundle meal;
   final bool isDeparture;
+  final bool isManageBooking;
 
-  const NewMealCard({Key? key, required this.meal, required this.isDeparture})
+  NewMealCard(
+      {Key? key,
+      required this.meal,
+      required this.isDeparture,
+      required this.isManageBooking})
       : super(key: key);
 
   changeNumber(
       BuildContext context, Person? person, bool isAdd, bool isDeparture) {
+    if (isManageBooking) {
+
+      var result = manageCubit?.state.manageBookingResponse?.result?.passengersWithSSR?.where((element) => element.personObject == person).toList();
+      int? num;
+
+      if((result ?? []) .isNotEmpty){
+
+
+        var stDepar = 'Depart';
+        if(this.isDeparture == false) {
+          stDepar = 'Return';
+
+        }
+        var rsule = manageCubit?.state.manageBookingResponse?.result?.mealDetail?.meals?.where((element) => element.givenName == (result ?? []).first.passengers?.givenName && (result ?? []).first.passengers?.surname == element.surName).toList();
+        //rsule.where((element) => element.surName)
+        List<MealList> meals = [];
+        for(Meal currentItems in (rsule ?? []) ){
+          var list = currentItems.mealList?.where((element) => element.departReturn == stDepar).toList();
+          if((list ?? []).isNotEmpty) {
+            meals.addAll( (list ?? []));
+          }
+        }
+
+
+        if(isAdd == false) {
+          if(person?.departureMeal.length == meals.length){
+            return;
+          }
+
+        }
+        print('');
+
+
+
+
+        print('');
+
+      }
+
+
+      manageCubit?.addOrRemoveMealFromPerson(
+        isDeparture: isDeparture,
+        isAdd: isAdd,
+        person: person,
+        meal: meal,
+      );
+
+      return;
+    }
     context.read<SearchFlightCubit>().addOrRemoveMealFromPerson(
           isDeparture: isDeparture,
           isAdd: isAdd,
@@ -103,14 +310,40 @@ class NewMealCard extends StatelessWidget {
         );
   }
 
+  ManageBookingCubit? manageCubit;
+
   @override
   Widget build(BuildContext context) {
-    final selectedPerson = context.watch<SelectedPersonCubit>().state;
-    final state = context.watch<SearchFlightCubit>().state;
-    final persons = state.filterState?.numberPerson;
+    Person? selectedPerson;
+    NumberPerson? persons;
+    bool isDeparture = false;
+
+    if (isManageBooking == true) {
+      manageCubit = context.watch<ManageBookingCubit>();
+
+      isDeparture = context.watch<ManageBookingCubit>().state.foodDepearture;
+      var no = context
+              .watch<ManageBookingCubit>()
+              .state
+              .manageBookingResponse
+              ?.result
+              ?.allPersonObject ??
+          [];
+
+      persons = NumberPerson(persons: no);
+      selectedPerson =
+          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+    } else {
+      selectedPerson = context.watch<SelectedPersonCubit>().state;
+      final state = context.watch<SearchFlightCubit>().state;
+      persons = state.filterState?.numberPerson;
+
+      isDeparture = context.watch<IsDepartureCubit>().state;
+    }
+
     final focusedPerson = persons?.persons
         .firstWhereOrNull((element) => element == selectedPerson);
-    final isDeparture = context.watch<IsDepartureCubit>().state;
+
     final meals =
         isDeparture ? focusedPerson?.departureMeal : focusedPerson?.returnMeal;
     final length = meals?.where((element) => element == meal).length;
@@ -143,7 +376,6 @@ class NewMealCard extends StatelessWidget {
                                 ? progress.cumulativeBytesLoaded /
                                     progress.expectedTotalBytes!
                                 : null,
-
                           ),
                         );
                       },
@@ -180,26 +412,11 @@ class NewMealCard extends StatelessWidget {
                   number: length ?? 0,
                   handler: changeNumber,
                   person: focusedPerson,
+                  isManageBooking: isManageBooking,
                 ),
                 kVerticalSpacer,
               ],
             ),
-            // if (mealSoldOut)
-            //   ClipRect(
-            //     child: BackdropFilter(
-            //       filter: ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
-            //       child: Container(
-            //         color: Colors.grey.shade200.withOpacity(0.1),
-            //         child: Center(
-            //           child: Text(
-            //             "Sold Out",
-            //             style:
-            //                 kGiantHeavy.copyWith(color: Styles.kPrimaryColor),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
           ],
         ),
       ),
@@ -211,17 +428,25 @@ class InputWithPlusMinus extends StatelessWidget {
   final int number;
   final Person? person;
   final Function(BuildContext, Person?, bool, bool) handler;
+  final bool isManageBooking;
 
   const InputWithPlusMinus({
     Key? key,
     required this.number,
     required this.handler,
     required this.person,
+    required this.isManageBooking,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDeparture = context.watch<IsDepartureCubit>().state;
+    bool isDeparture = false;
+
+    if (isManageBooking) {
+      isDeparture = context.watch<ManageBookingCubit>().state.foodDepearture;
+    } else {
+      isDeparture = context.watch<IsDepartureCubit>().state;
+    }
 
     return Column(
       children: [
@@ -268,7 +493,7 @@ class InputWithPlusMinus extends StatelessWidget {
                 child: OutlinedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Styles.kPrimaryColor),
+                        MaterialStateProperty.all(number == 9 ?  Styles.kDisabledGrey : Styles.kPrimaryColor),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
@@ -276,7 +501,7 @@ class InputWithPlusMinus extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => handler(context, person, true, isDeparture),
+                  onPressed: number == 9 ? null : () => handler(context, person, true, isDeparture),
                   child: const Icon(
                     Icons.add,
                     size: 20,
@@ -327,9 +552,6 @@ class FlightUnderAnHour extends StatelessWidget {
 class FlightWithin24Hour extends StatelessWidget {
   const FlightWithin24Hour({Key? key}) : super(key: key);
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final agentCms = context.watch<AgentSignUpCubit>().state;
@@ -339,16 +561,16 @@ class FlightWithin24Hour extends StatelessWidget {
       child: Column(
         children: [
           kVerticalSpacer,
-           Text(
-             agentCms.meal24Title ??   'flight24warning'.tr(),
+          Text(
+            agentCms.meal24Title ?? 'flight24warning'.tr(),
             style: kHugeHeavy,
             textAlign: TextAlign.center,
           ),
           kVerticalSpacerSmall,
-           Padding(
+          Padding(
             padding: kPageHorizontalPaddingBig,
             child: Text(
-             agentCms.mean24Content ?? 'buyMunchiesOnBoard'.tr(),
+              agentCms.mean24Content ?? 'buyMunchiesOnBoard'.tr(),
               style: kLargeRegular,
               textAlign: TextAlign.center,
             ),

@@ -96,10 +96,41 @@ class BoardingPassView extends StatelessWidget {
                     ],
                   ),
                 ],
-              ],
+                kVerticalSpacer,
+                Text(
+                  'returningFlight'.tr(),
+                  style: kLargeHeavy.copyWith(
+                    color: Styles.kTextColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                kVerticalSpacerSmall,
 
 
-              if (
+                for (BoardingPassPassenger currentItem
+                in state.inboundBoardingPassPassenger ?? []) ...[
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: MyCheckbox(
+                          label: currentItem.fullName ?? '',
+                          changed: (bool value) {
+                            bloc.updateStatusOfInBoundCheckUserForDownload(
+                                currentItem, value);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+
+              ]
+
+
+
+
+              else if (
                   state.checkReturn == true) ...[
                 kVerticalSpacer,
                 Text(
@@ -129,7 +160,40 @@ class BoardingPassView extends StatelessWidget {
                     ],
                   ),
                 ],
+              ]
+
+              else if (
+              state.checkedDeparture == true) ...[
+                kVerticalSpacer,
+                Text(
+                  'departFlight'.tr(),
+                  style: kLargeHeavy.copyWith(
+                    color: Styles.kTextColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                kVerticalSpacerSmall,
+
+
+                for (BoardingPassPassenger currentItem
+                in state.outboundBoardingPassPassenger ?? []) ...[
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: MyCheckbox(
+                          label: currentItem.fullName ?? '',
+                          changed: (bool value) {
+                            bloc.updateStatusOfInBoundCheckUserForDownload(
+                                currentItem, value);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ] ,
+
 
 
             ],

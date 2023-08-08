@@ -45,7 +45,7 @@ class SeatWidget extends StatelessWidget {
             : otherSelected
                 ? Colors.grey
                 : (seats.isSeatAvailable ?? false)
-                    ? (mapColor ?? {})[seats.serviceId]
+                    ? (mapColor ?? {})[seats.serviceCode]
                     : Colors.grey,
         radius: 12,
         child: Visibility(

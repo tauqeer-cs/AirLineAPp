@@ -36,7 +36,7 @@ abstract class FlightProvider {
   Future<SearchDateRange> searchFlightDateRange(@Body() SearchFlight searchFlight);
 
   @POST('checkout/verifyflight')
-  Future<VerifyResponse> verifyFlight(@Body() VerifyRequest verifyRequest);
+  Future<VerifyResponse> verifyFlightProv(@Body() VerifyRequest verifyRequest);
 
   @POST('checkout/reverifyflight')
   Future<VerifyResponse> reVerifyFlight(@Body() VerifyRequest verifyRequest);
@@ -64,6 +64,12 @@ abstract class FlightProvider {
 
   @POST('checkout/getlmsoption')
   Future<PromotionsResponse> getPromotionsData(@Body() Token voucher);
+
+  @POST('checkout/getmmblmsoption')
+  Future<PromotionsResponse> getMMBPromotionsData(@Body() Token voucher);
+
+  //api/v1/checkout/
+
 
   @POST('checkout/holdlmsoption')
   Future<RedeemPointsResponse> holdLmsOption(@Body() Token voucher);

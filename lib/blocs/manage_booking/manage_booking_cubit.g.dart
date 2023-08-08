@@ -7,6 +7,8 @@ part of 'manage_booking_cubit.dart';
 // **************************************************************************
 
 abstract class _$ManageBookingStateCWProxy {
+  ManageBookingState addOnOptionSelected(AddonType? addOnOptionSelected);
+
   ManageBookingState blocState(BlocState blocState);
 
   ManageBookingState changeFlightResponse(
@@ -50,6 +52,8 @@ abstract class _$ManageBookingStateCWProxy {
   ManageBookingState selectedDepartureFlight(
       InboundOutboundSegment? selectedDepartureFlight);
 
+  ManageBookingState selectedPax(PassengersWithSSR? selectedPax);
+
   ManageBookingState selectedReturnFlight(
       InboundOutboundSegment? selectedReturnFlight);
 
@@ -64,6 +68,7 @@ abstract class _$ManageBookingStateCWProxy {
   /// ManageBookingState(...).copyWith(id: 12, name: "My name")
   /// ````
   ManageBookingState call({
+    AddonType? addOnOptionSelected,
     BlocState? blocState,
     ChangeFlightRequestResponse? changeFlightResponse,
     bool? checkReturn,
@@ -84,6 +89,7 @@ abstract class _$ManageBookingStateCWProxy {
     int? orderId,
     String? pnrEntered,
     InboundOutboundSegment? selectedDepartureFlight,
+    PassengersWithSSR? selectedPax,
     InboundOutboundSegment? selectedReturnFlight,
     bool? showPending,
     String? superPnrNo,
@@ -95,6 +101,10 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
   final ManageBookingState _value;
 
   const _$ManageBookingStateCWProxyImpl(this._value);
+
+  @override
+  ManageBookingState addOnOptionSelected(AddonType? addOnOptionSelected) =>
+      this(addOnOptionSelected: addOnOptionSelected);
 
   @override
   ManageBookingState blocState(BlocState blocState) =>
@@ -178,6 +188,10 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
       this(selectedDepartureFlight: selectedDepartureFlight);
 
   @override
+  ManageBookingState selectedPax(PassengersWithSSR? selectedPax) =>
+      this(selectedPax: selectedPax);
+
+  @override
   ManageBookingState selectedReturnFlight(
           InboundOutboundSegment? selectedReturnFlight) =>
       this(selectedReturnFlight: selectedReturnFlight);
@@ -199,6 +213,7 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
   /// ManageBookingState(...).copyWith(id: 12, name: "My name")
   /// ````
   ManageBookingState call({
+    Object? addOnOptionSelected = const $CopyWithPlaceholder(),
     Object? blocState = const $CopyWithPlaceholder(),
     Object? changeFlightResponse = const $CopyWithPlaceholder(),
     Object? checkReturn = const $CopyWithPlaceholder(),
@@ -219,11 +234,16 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
     Object? orderId = const $CopyWithPlaceholder(),
     Object? pnrEntered = const $CopyWithPlaceholder(),
     Object? selectedDepartureFlight = const $CopyWithPlaceholder(),
+    Object? selectedPax = const $CopyWithPlaceholder(),
     Object? selectedReturnFlight = const $CopyWithPlaceholder(),
     Object? showPending = const $CopyWithPlaceholder(),
     Object? superPnrNo = const $CopyWithPlaceholder(),
   }) {
     return ManageBookingState(
+      addOnOptionSelected: addOnOptionSelected == const $CopyWithPlaceholder()
+          ? _value.addOnOptionSelected
+          // ignore: cast_nullable_to_non_nullable
+          : addOnOptionSelected as AddonType?,
       blocState: blocState == const $CopyWithPlaceholder() || blocState == null
           ? _value.blocState
           // ignore: cast_nullable_to_non_nullable
@@ -319,6 +339,10 @@ class _$ManageBookingStateCWProxyImpl implements _$ManageBookingStateCWProxy {
               ? _value.selectedDepartureFlight
               // ignore: cast_nullable_to_non_nullable
               : selectedDepartureFlight as InboundOutboundSegment?,
+      selectedPax: selectedPax == const $CopyWithPlaceholder()
+          ? _value.selectedPax
+          // ignore: cast_nullable_to_non_nullable
+          : selectedPax as PassengersWithSSR?,
       selectedReturnFlight: selectedReturnFlight == const $CopyWithPlaceholder()
           ? _value.selectedReturnFlight
           // ignore: cast_nullable_to_non_nullable
@@ -349,6 +373,7 @@ extension $ManageBookingStateCopyWith on ManageBookingState {
   /// ManageBookingState(...).copyWithNull(firstField: true, secondField: true)
   /// ````
   ManageBookingState copyWithNull({
+    bool addOnOptionSelected = false,
     bool changeFlightResponse = false,
     bool flightSearchResponse = false,
     bool lastName = false,
@@ -356,10 +381,13 @@ extension $ManageBookingStateCopyWith on ManageBookingState {
     bool orderId = false,
     bool pnrEntered = false,
     bool selectedDepartureFlight = false,
+    bool selectedPax = false,
     bool selectedReturnFlight = false,
     bool superPnrNo = false,
   }) {
     return ManageBookingState(
+      addOnOptionSelected:
+          addOnOptionSelected == true ? null : this.addOnOptionSelected,
       blocState: blocState,
       changeFlightResponse:
           changeFlightResponse == true ? null : this.changeFlightResponse,
@@ -384,6 +412,7 @@ extension $ManageBookingStateCopyWith on ManageBookingState {
       pnrEntered: pnrEntered == true ? null : this.pnrEntered,
       selectedDepartureFlight:
           selectedDepartureFlight == true ? null : this.selectedDepartureFlight,
+      selectedPax: selectedPax == true ? null : this.selectedPax,
       selectedReturnFlight:
           selectedReturnFlight == true ? null : this.selectedReturnFlight,
       showPending: showPending,

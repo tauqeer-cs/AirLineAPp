@@ -72,10 +72,10 @@ class CommonFlightRequest extends Equatable {
   final String promoCode;
 
   @JsonKey(name: 'OutboundLFID')
-  final List<int>? outboundLFID;
+  final List<String>? outboundLFID;
 
   @JsonKey(name: 'InboundLFID')
-  final List<int>? inboundLFID;
+  final List<String>? inboundLFID;
 
   const CommonFlightRequest(
       {this.originAirport,

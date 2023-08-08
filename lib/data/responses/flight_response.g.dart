@@ -154,7 +154,7 @@ InboundOutboundSegment _$InboundOutboundSegmentFromJson(
           ?.map(
               (e) => FareTypeWithTaxDetails.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lfid: json['lfid'] as num?,
+      lfid: json['lfid'],
       departureDate: json['departureDate'] == null
           ? null
           : DateTime.parse(json['departureDate'] as String),
@@ -210,7 +210,7 @@ Map<String, dynamic> _$InboundOutboundSegmentToJson(
 
 SegmentDetail _$SegmentDetailFromJson(Map<String, dynamic> json) =>
     SegmentDetail(
-      lfid: json['lfid'] as num?,
+      lfid: json['lfid'] ,
       origin: json['origin'] as String?,
       destination: json['destination'] as String?,
       departureDate: json['departureDate'] == null
@@ -311,9 +311,8 @@ FareInfoWithTaxDetails _$FareInfoWithTaxDetailsFromJson(
               .toList(),
       returnFlightSegmentDetails:
           json['returnFlightSegmentDetails'] as List<dynamic>?,
-      fareID: json['fareID'] as num?,
+      fareID: json['fareID'],
       fcCode: json['fcCode'] as String?,
-      fbCode: json['fbCode'] as String?,
       baseFareAmtNoTaxes: json['baseFareAmtNoTaxes'] as num?,
       baseFareAmt: json['baseFareAmt'] as num?,
       fareAmtNoTaxes: json['fareAmtNoTaxes'] as num?,
@@ -360,7 +359,6 @@ Map<String, dynamic> _$FareInfoWithTaxDetailsToJson(
       'returnFlightSegmentDetails', instance.returnFlightSegmentDetails);
   writeNotNull('fareID', instance.fareID);
   writeNotNull('fcCode', instance.fcCode);
-  writeNotNull('fbCode', instance.fbCode);
   writeNotNull('baseFareAmtNoTaxes', instance.baseFareAmtNoTaxes);
   writeNotNull('baseFareAmt', instance.baseFareAmt);
   writeNotNull('fareAmtNoTaxes', instance.fareAmtNoTaxes);
@@ -464,7 +462,7 @@ Map<String, dynamic> _$TaxDetailToJson(TaxDetail instance) {
 
 FlightLegDetails _$FlightLegDetailsFromJson(Map<String, dynamic> json) =>
     FlightLegDetails(
-      pfid: json['pfid'] as num?,
+      pfid: json['pfid'],
       departureDate: json['departureDate'] == null
           ? null
           : DateTime.parse(json['departureDate'] as String),
@@ -485,7 +483,7 @@ Map<String, dynamic> _$FlightLegDetailsToJson(FlightLegDetails instance) {
 }
 
 LegDetails _$LegDetailsFromJson(Map<String, dynamic> json) => LegDetails(
-      pfid: json['pfid'] as num?,
+      pfid: json['pfid'],
       departureDate: json['departureDate'] == null
           ? null
           : DateTime.parse(json['departureDate'] as String),

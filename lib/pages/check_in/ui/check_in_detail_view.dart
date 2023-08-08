@@ -42,6 +42,9 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
 
+    if(bloc.state.boardingPassHasError == true){
+    }
+    else
     if (bloc.showCheckInButton == true) {
       bloc.loadBoardingDate();
     }
@@ -548,7 +551,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         readOnly: true,
                         validators: [FormBuilderValidators.required()],
                         initialValue: state.manageBookingResponse?.result
-                            ?.passengersWithSSR?[i].passengers?.nationality ??
+                            ?.passengersWithSSR?[i].passengers?.nationalityToShow ??
                             '',
                         name: 'nationalityKey$i',
                         fillDisabledColor: true,
@@ -596,22 +599,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           //],
 
                         ),
-                        if(false) ... [
-                          kVerticalSpacerSmall,
-                          CheckInDropDownCountry(
-                            doValidation: state.manageBookingResponse?.result
-                                ?.passengersWithSSR?[i].paxSelected == true,
-                            keyName: 'passportNation$i', onChange: (String newValue) {
-
-                            if(newValue != null) {
-                              state.manageBookingResponse?.result
-                                  ?.passengersWithSSR?[i].passportCountry = newValue;
-                            }
-
-                          },
-                          ),
-                        ],
-
                         kVerticalSpacerSmall,
                         FormBuilderDateTimePicker(
                           locale: localObject,
@@ -804,33 +791,6 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                     //],
 
                                   ),
-
-                                  if(false) ... [
-                                    kVerticalSpacerSmall,
-                                    CheckInDropDownCountry(
-                                      doValidation: state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].paxSelected == true,
-                                      keyName: 'infpassportNation$i', onChange: (String newValue) {
-
-
-                                      state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].passportCountry = newValue;
-
-                                      state.manageBookingResponse?.result
-                                          ?.infanct(state.manageBookingResponse?.result
-                                          ?.passengersWithSSR?[i].infantGivenName ?? '',
-                                          state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantSurname ?? '',
-                                          state.manageBookingResponse?.result
-                                              ?.passengersWithSSR?[i].infantDob ?? '')?.passportCountry = newValue;
-
-
-
-
-
-                                    },),
-                                  ],
-
                                   kVerticalSpacerSmall,
                                   FormBuilderDateTimePicker(
                                     locale: localObject,

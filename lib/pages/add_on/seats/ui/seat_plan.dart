@@ -12,19 +12,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../../models/number_person.dart';
+import '../../../../widgets/app_money_widget.dart';
+
 class SeatPlan extends StatelessWidget {
-  const SeatPlan({Key? key, this.moveToTop, this.moveToBottom})
+  const SeatPlan(
+      {Key? key,
+      this.moveToTop,
+      this.moveToBottom,
+      this.isManageBooking = false})
       : super(key: key);
   final VoidCallback? moveToTop;
   final VoidCallback? moveToBottom;
 
+  final bool isManageBooking;
+
   @override
   Widget build(BuildContext context) {
     final bookingState = context.watch<BookingCubit>().state;
-    final flightSeats = bookingState.verifyResponse?.flightSeat;
-    final isDeparture = context.watch<IsDepartureCubit>().state;
-    final inboundSeats =
-        isDeparture ? flightSeats?.outbound : flightSeats?.inbound;
+    var flightSeats = bookingState.verifyResponse?.flightSeat;
+
+    var isDeparture = true;
+    List<InboundSeat>? inboundSeats;
+    ManageBookingCubit? manageBookingCubit;
+
+    if (isManageBooking == true) {
+      var bloc = context.watch<ManageBookingCubit>();
+      manageBookingCubit = bloc;
+
+      flightSeats = bloc.state.flightSeats;
+      isDeparture = bloc.state.seatDeparture;
+    } else {
+      isDeparture = context.watch<IsDepartureCubit>().state;
+    }
+    inboundSeats = isDeparture ? flightSeats?.outbound : flightSeats?.inbound;
     final rows = inboundSeats
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -34,18 +56,28 @@ class SeatPlan extends StatelessWidget {
         ?.seatConfiguration
         ?.rows;
     final firstRow = rows?.firstOrNull;
-    final mapColor = isDeparture
-        ? bookingState.departureColorMapping
-        : bookingState.returnColorMapping;
-    final legends = isDeparture
-        ? bookingState.verifyResponse?.flightSSR?.seatGroup?.outbound ?? []
-        : bookingState.verifyResponse?.flightSSR?.seatGroup?.inbound ?? [];
+    Map<num?, Color>? mapColor;
+    List<Bundle> legends;
+    if (isManageBooking) {
+      var currentState = context.watch<ManageBookingCubit>().state;
+
+      legends = isDeparture ? [] : [];
+    } else {
+      mapColor = isDeparture
+          ? bookingState.departureColorMapping
+          : bookingState.returnColorMapping;
+
+      legends = isDeparture
+          ? bookingState.verifyResponse?.flightSSR?.seatGroup?.outbound ?? []
+          : bookingState.verifyResponse?.flightSSR?.seatGroup?.inbound ?? [];
+    }
 
     if (firstRow == null) return const SizedBox();
-    return Container(
+    return  Container(
       color: Styles.kDividerColor,
       child: Column(
         children: [
+
           kVerticalSpacer,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,13 +101,27 @@ class SeatPlan extends StatelessWidget {
             int index = entry.key;
             Rows row = entry.value;
             Rows? previousRow = index == 0 ? null : rows?[index - 1];
-            bool isSeatSeparated = row.seats?.first.serviceId !=
-                previousRow?.seats?.first.serviceId;
+            bool isSeatSeparated = row.seats?.first.serviceCode !=
+                previousRow?.seats?.first.serviceCode;
             Bundle? bundle;
+            num? newPrice;
+
+              if (isSeatSeparated == true) {
+                print('');
+
+                try {
+                  newPrice = row.seats?.first.seatPriceOffers?.first.amount;
+                } catch (e) {
+                  print('');
+                }
+              }
+
+
             for (Seats seat in row.seats ?? []) {
               bundle = legends.firstWhereOrNull(
-                  (element) => element.serviceID == seat.serviceId);
-              if (bundle?.finalAmount != null && bundle?.finalAmount != 0) break;
+                  (element) => element.ssrCode == seat.serviceCode);
+              if (bundle?.finalAmount != null && bundle?.finalAmount != 0)
+                break;
             }
 
             // final bundle = legends.firstWhereOrNull(
@@ -88,51 +134,100 @@ class SeatPlan extends StatelessWidget {
               child: Column(
                 children: [
                   kVerticalSpacerSmall,
-                  if (isSeatSeparated && bundle != null)
-                    Column(
-                      children: [
-                        kVerticalSpacerSmall,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Expanded(flex: 1, child: SizedBox()),
-                            Expanded(
-                              flex: 1,
-                              child: ArrowSVG(
-                                assetName:
-                                    'assets/images/svg/seats_arrow_left.svg',
-                                color: row.seats?.first.toColor,
+                  if (1 == 1) ...[
+                    if (isSeatSeparated && newPrice != null)
+                      Column(
+                        children: [
+                          kVerticalSpacerSmall,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Expanded(flex: 1, child: SizedBox()),
+                              Expanded(
+                                flex: 1,
+                                child: ArrowSVG(
+                                  assetName:
+                                      'assets/images/svg/seats_arrow_left.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: bundle.finalAmount == null
-                                  ? Center(child: Text("noData".tr(), style: kLargeHeavy,))
-                                  : SeatPrice(
-                                      amount: bundle.finalAmount,
-                                      currency: row.seats?.first.seatPriceOffers
-                                          ?.firstOrNull?.currency,
-                                    ),
-                            ),
-                            Expanded(
-                              child: ArrowSVG(
-                                assetName:
-                                    'assets/images/svg/seats_arrow_right.svg',
-                                color: row.seats?.first.toColor,
+                              Expanded(
+                                flex: 3,
+                                child: SeatPrice(
+                                  amount: newPrice,
+                                  currency: row.seats?.first.seatPriceOffers
+                                      ?.firstOrNull?.currency,
+                                ),
                               ),
-                            ),
-                            const Expanded(flex: 1, child: SizedBox()),
-                          ],
-                        ),
-                        kVerticalSpacerSmall,
-                      ],
-                    ),
+                              Expanded(
+                                child: ArrowSVG(
+                                  assetName:
+                                      'assets/images/svg/seats_arrow_right.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
+                              ),
+                              const Expanded(flex: 1, child: SizedBox()),
+                            ],
+                          ),
+                          kVerticalSpacerSmall,
+                        ],
+                      ),
+                  ] else ...[
+                    if (isSeatSeparated && bundle != null)
+                      Column(
+                        children: [
+                          kVerticalSpacerSmall,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Expanded(flex: 1, child: SizedBox()),
+                              Expanded(
+                                flex: 1,
+                                child: ArrowSVG(
+                                  assetName:
+                                      'assets/images/svg/seats_arrow_left.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: (bundle.ssrCode ?? '').isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          "noData".tr(),
+                                          style: kLargeHeavy,
+                                        ),
+                                      )
+                                    : SeatPrice(
+                                        amount: bundle.finalAmount,
+                                        currency: row
+                                            .seats
+                                            ?.first
+                                            .seatPriceOffers
+                                            ?.firstOrNull
+                                            ?.currency,
+                                      ),
+                              ),
+                              Expanded(
+                                child: ArrowSVG(
+                                  assetName:
+                                      'assets/images/svg/seats_arrow_right.svg',
+                                  color: row.seats?.first.toColor,
+                                ),
+                              ),
+                              const Expanded(flex: 1, child: SizedBox()),
+                            ],
+                          ),
+                          kVerticalSpacerSmall,
+                        ],
+                      ),
+                  ],
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Expanded(flex: 1, child: SizedBox()),
                       ...(row.seats ?? []).map((e) {
-                        return e.serviceId == 0
+                        return (e.serviceCode ?? '').isEmpty
                             ? Expanded(
                                 flex: 1,
                                 child: Center(
@@ -149,10 +244,14 @@ class SeatPlan extends StatelessWidget {
                                   moveToBottom: () {
                                     moveToBottom?.call();
                                   },
+                                  isManageBooking: isManageBooking,
                                 ),
                               );
                       }).toList(),
-                      const Expanded(flex: 1, child: SizedBox()),
+                      const Expanded(
+                        flex: 1,
+                        child: SizedBox(),
+                      ),
                     ],
                   ),
                 ],
@@ -160,6 +259,59 @@ class SeatPlan extends StatelessWidget {
             );
           }),
           kVerticalSpacer,
+          if (isManageBooking) ...[
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              child: Divider(),
+            ),
+            kVerticalSpacerSmall,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Row(
+                children: [
+                  Text(
+                    'seatTotal'.tr(),
+                    style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  MoneyWidget(
+                    amount:
+                        manageBookingCubit?.notConfirmedSeatsTotalPrice ?? 0.0,
+                    isDense: true,
+                    isNormalMYR: true,
+                  ),
+                ],
+              ),
+            ),
+            kVerticalSpacerSmall,
+            Row(
+              children: [
+                Expanded(
+                  child: Container(),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: manageBookingCubit?.hasAnySeatChanged == false
+                        ? null
+                        : () {
+                            manageBookingCubit?.seatConfirmSeatChange(manageBookingCubit.state.seatDeparture);
+
+                            manageBookingCubit?.changeSelectedAddOnOption(
+                                AddonType.seat,
+                                toNull: true);
+                          },
+                    child: Text('selectDateView.confirm'.tr()),
+                  ),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+              ],
+            ),
+            kVerticalSpacer,
+          ],
         ],
       ),
     );
@@ -179,7 +331,9 @@ class SeatPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bookingState = context.watch<BookingCubit>().state;
-    var currentcy2 = bookingState.selectedDeparture?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.originalCurrency ?? 'MYR';
+    var currentcy2 = bookingState.selectedDeparture?.fareTypeWithTaxDetails
+            ?.first.fareInfoWithTaxDetails?.first.originalCurrency ??
+        'MYR';
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

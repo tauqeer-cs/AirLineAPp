@@ -28,6 +28,10 @@ abstract class AuthProvider {
   @GET('token')
   Future<void> checkToken();
 
+  @GET('user/checktoken')
+  Future<CommonResponse> checkToken2();
+
+
   @POST('user/resendverifyemail')
   Future<void> sendEmail(@Body() ResendEmailRequest emailRequest);
 

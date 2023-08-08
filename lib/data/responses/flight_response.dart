@@ -162,13 +162,17 @@ class InboundOutboundSegment extends Equatable {
   final num? infantPricePerPax;
   final num infantPriceTotal;
   final List<FareTypeWithTaxDetails>? fareTypeWithTaxDetails;
-  final num? lfid;
+  final String? lfid;
   final DateTime? departureDate;
   final DateTime? arrivalDate;
   final num? legCount;
   final bool? international;
   final List<FlightLegDetails>? flightLegDetails;
   final num? totalSegmentFareAmtWithInfantSSR;
+
+  num? get amountToShowInPreview {
+    return totalSegmentFareAmtWithInfantSSR;
+  }
   final num? beforeDiscountTotalAmt;
   final num? beforeDiscountTotalAmtWithInfantSSR;
   final num? discountPCT;
@@ -221,9 +225,9 @@ class InboundOutboundSegment extends Equatable {
     this.currency = 'MYR',
   });
 
-  num get getTotalPrice => totalSegmentFareAmt ?? 0;
+  num get getTotalPrice => totalSegmentFareAmtWithInfantSSR ?? 0;
 
-  num get getTotalPriceDisplay => totalSegmentFareAmtWithInfantSSR ?? 0;
+  num get getTotalPriceDisplay => getTotalPrice ?? 0;
 
   factory InboundOutboundSegment.fromJson(Map<String, dynamic> json) =>
       _$InboundOutboundSegmentFromJson(json);
@@ -273,7 +277,7 @@ class SegmentDetail extends Equatable {
         // changeFlightAmount
       ];
 
-  final num? lfid;
+  final String? lfid;
   final String? origin;
   final String? destination;
   final DateTime? departureDate;
@@ -358,7 +362,6 @@ class FareInfoWithTaxDetails extends Equatable {
         returnFlightSegmentDetails,
         fareID,
         fcCode,
-        fbCode,
         baseFareAmtNoTaxes,
         baseFareAmt,
         fareAmtNoTaxes,
@@ -390,9 +393,9 @@ class FareInfoWithTaxDetails extends Equatable {
 
   final List<ApplicationTaxDetailBinds>? applicationTaxDetailBinds;
   final List<dynamic>? returnFlightSegmentDetails;
-  final num? fareID;
+  final String? fareID;
   final String? fcCode;
-  final String? fbCode;
+
   final num? baseFareAmtNoTaxes;
   final num? baseFareAmt;
   final num? fareAmtNoTaxes;
@@ -426,7 +429,6 @@ class FareInfoWithTaxDetails extends Equatable {
       this.returnFlightSegmentDetails,
       this.fareID,
       this.fcCode,
-      this.fbCode,
       this.baseFareAmtNoTaxes,
       this.baseFareAmt,
       this.fareAmtNoTaxes,
@@ -542,7 +544,7 @@ class FlightLegDetails extends Equatable {
   @override
   List<Object?> get props => [pfid, departureDate];
 
-  final num? pfid;
+  final String? pfid;
   final DateTime? departureDate;
 
   const FlightLegDetails({this.pfid, this.departureDate});
@@ -575,7 +577,7 @@ class LegDetails extends Equatable {
         serviceType
       ];
 
-  final num? pfid;
+  final String? pfid;
   final DateTime? departureDate;
   final String? origin;
   final String? destination;

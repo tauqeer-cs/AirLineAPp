@@ -1,4 +1,5 @@
 import 'package:app/pages/booking_details/ui/booking_details_view.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../app/app_router.dart';
 import '../../widgets/app_app_bar.dart';
 
 class ManageBookingDetailsPage extends StatelessWidget {
@@ -32,11 +34,19 @@ class ManageBookingDetailsPage extends StatelessWidget {
           overrideInnerHeight: true,
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: ManageBookingDetailsView(
             onSharedTapped: () {
               onShare();
-            },
+            }, reloadView: () {
+
+              Navigator.pop(context);
+
+              context.router.push(
+              ManageBookingDetailsRoute(),
+            );
+
+          },
           ),
         ),
       ),

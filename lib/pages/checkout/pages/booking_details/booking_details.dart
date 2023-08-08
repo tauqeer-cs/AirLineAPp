@@ -1,4 +1,3 @@
-import 'package:app/app.dart';
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/app/app_router.dart';
 import 'package:app/blocs/auth/auth_bloc.dart';
@@ -29,9 +28,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../blocs/settings/settings_cubit.dart';
-import '../../../../blocs/voucher/voucher_cubit.dart';
 import '../../../../theme/theme.dart';
 
 class BookingDetailsPage extends StatefulWidget {
@@ -80,6 +76,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     final outboundSeats = flightSeats?.outbound;
     final inboundSeats = flightSeats?.inbound;
 
+    String lfidDeparture = bookingState.selectedDeparture?.lfid ?? '';
+    String lfidReturn = bookingState.selectedDeparture?.lfid ?? '';
+
     final rowsOutBound = outboundSeats
         ?.firstOrNull
         ?.retrieveFlightSeatMapResponse
@@ -115,7 +114,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
             ?.retrieveFlightSeatMapResponse
             ?.physicalFlights
             ?.firstOrNull
-            ?.physicalFlightID,
+            ?.physicalFlightID, lfIdDeparture: lfidDeparture, lfIdReturn: lfidReturn,
       );
       passengers.add(passenger);
 
@@ -306,11 +305,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   Toast.of(context).show(message: state.message);
                 },
                 onFinished: () async {
-                  if(context.router.currentPath != BookingDetailsRoute().path) return;
-                 print("context.router.currentPath ${context.router.currentPath}");
-                  print("BookingDetailsRoute().path ${BookingDetailsRoute().path}");
-
                   context.loaderOverlay.hide();
+
+
+                  if(context.router.currentPath != BookingDetailsRoute().path) return;
                   context
                       .read<BookingCubit>()
                       .summaryFlight(state.summaryRequest);

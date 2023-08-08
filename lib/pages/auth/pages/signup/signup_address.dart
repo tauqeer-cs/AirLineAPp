@@ -23,13 +23,18 @@ class SignupAddressPage extends StatelessWidget {
 
   onSignup(BuildContext context) {
     if (_fbKey.currentState!.saveAndValidate()) {
+
       final value = _fbKey.currentState!.value;
+      String state = (value[formNameState] ?? '');
+      if(state.isNotEmpty) {
+        state = state.substring(0,2);
+      }
       final signupRequest = SignupRequest(
         city: value[formNameCity],
         address: value[formNameAddress],
         dob: value[formNameDob],
         postCode: value[formNamePostCode],
-        state: value[formNameState],
+        state: true ? state : (value[formNameState] ?? ''),
       );
       context.read<SignupCubit>().signup(signupRequest);
     }
@@ -104,8 +109,14 @@ class SignupAddressPage extends StatelessWidget {
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
                           ElevatedButton(
-                            onPressed: () => onSignup(context),
-                            child: Text('signUp3.continue'.tr()),
+                            onPressed: () {
+
+                              //context
+                                //  .read<SignupCubit>().valideAddress();
+
+                              onSignup(context);
+                            },
+                            child: Text('continue'.tr()),
                           ),
                           kVerticalSpacer,
                         ],

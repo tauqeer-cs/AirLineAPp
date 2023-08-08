@@ -205,7 +205,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                     isPhoneCode: false,
                     initialValue: selectedCountryObject,
                     onChanged: (value) {
-                      nationalityController.text = value?.countryCode2 ?? "";
+                      nationalityController.text = value?.countryCode ?? "";
                     },
                   ),
                 ),
@@ -290,7 +290,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                         if (check) {
                           //error here of form
                           formKey.currentState!.invalidateField(
-                              name: 'title', errorText: 'Invalid title');
+                              name: 'title', errorText: 'invalidTitle'.tr());
                           return;
                         } else {}
                       } else {
@@ -300,7 +300,7 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
                         if (!check) {
                           //error here of form
                           formKey.currentState!.invalidateField(
-                              name: 'title', errorText: 'Invalid title');
+                              name: 'title', errorText: 'invalidTitle'.tr());
                           return;
                         }
                       }

@@ -89,10 +89,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   }
 
   Future initInsider() async {
-    print("init insider");
     if (!mounted) return;
     // Call in async method.
-    print("init insider 2");
 
     await FlutterInsider.Instance.init(
       AppFlavor.insiderPartnerName,
@@ -268,6 +266,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       providers: [
         BlocProvider(
           create: (_) => CountriesCubit()..getCountries(),
+          lazy: false,
+
         ),
         BlocProvider(
           create: (_) => SettingsCubit()..getSettings(),

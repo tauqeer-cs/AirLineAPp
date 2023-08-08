@@ -25,7 +25,6 @@ class Assets {
   static const String designSignupBg = 'assets/images/design/signup_bg.png';
   static const String designSkycloud = 'assets/images/design/skycloud.png';
   static const String designWave = 'assets/images/design/wave.png';
-  static const String designWheelchair = 'assets/images/design/wheelchair.png';
   static const String designZurichBanner = 'assets/images/design/zurich_banner.png';
   static const String fontsConfig = 'assets/fonts/config.json';
   static const String fontsEncodeSansBlack = 'assets/fonts/EncodeSans-Black.ttf';

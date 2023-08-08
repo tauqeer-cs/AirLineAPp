@@ -9,8 +9,17 @@ class CustomSegmentControl extends StatefulWidget {
   final VoidCallback optionOneTapped;
   final VoidCallback optionTwoTapped;
 
+  final double? customBorderWidth;
+  final double? customVerticalPadding;
+  final double? customRadius;
+
+  final TextStyle? customSelectedStyle;
+  final TextStyle? customNoSelectedStyle;
+
   final String textOne;
   final String textTwo;
+
+  final bool isSelectedOption1;
 
   const CustomSegmentControl(
       {super.key,
@@ -18,7 +27,8 @@ class CustomSegmentControl extends StatefulWidget {
         required this.optionOneTapped,
         required this.optionTwoTapped,
         required this.textOne,
-        required this.textTwo});
+         this.isSelectedOption1 = true,
+        required this.textTwo, this.customRadius,  this.customBorderWidth, this.customVerticalPadding, this.customSelectedStyle, this.customNoSelectedStyle});
 
   @override
   CustomSegmentControlState createState() => CustomSegmentControlState();
@@ -27,8 +37,14 @@ class CustomSegmentControl extends StatefulWidget {
 class CustomSegmentControlState extends State<CustomSegmentControl> {
   bool _isSelectedOption1 = true;
 
-  //                style: kMediumSemiBold.copyWith(color: Styles.kPrimaryColor),
-  //                style: kMediumSemiBold,
+
+  @override
+  void initState() {
+    super.initState();
+    _isSelectedOption1 = widget.isSelectedOption1;
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,9 +52,9 @@ class CustomSegmentControlState extends State<CustomSegmentControl> {
         color: Colors.white,
         border: Border.all(
           color: widget.primaryColor ?? Styles.kPrimaryColor,
-          width: 2,
+          width: widget.customBorderWidth ?? 2,
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(widget.customRadius ??  24),
       ),
       child: Row(
         children: [
@@ -48,18 +64,20 @@ class CustomSegmentControlState extends State<CustomSegmentControl> {
                 setState(() {
                   _isSelectedOption1 = true;
                 });
+                widget.optionOneTapped();
+
               },
               child: Container(
                 decoration: BoxDecoration(
                   color: _isSelectedOption1
                       ? (widget.primaryColor ?? Styles.kPrimaryColor)
                       : Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
+                  borderRadius:  BorderRadius.only(
+                    topLeft: Radius.circular(widget.customRadius ??  20),
+                    bottomLeft: Radius.circular(widget.customRadius ??  20),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                padding:  EdgeInsets.symmetric(vertical: widget.customVerticalPadding ?? 12),
                 child: Center(
                   child: Text(
                     widget.textOne,
@@ -77,19 +95,21 @@ class CustomSegmentControlState extends State<CustomSegmentControl> {
                 setState(() {
                   _isSelectedOption1 = false;
                 });
+                widget.optionTwoTapped();
+
               },
               child: Container(
                 decoration: BoxDecoration(
                   color: !_isSelectedOption1
                       ? widget.primaryColor ?? Styles.kPrimaryColor
                       : Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                  borderRadius:  BorderRadius.only(
+                    topRight: Radius.circular(widget.customRadius ?? 20),
+                    bottomRight: Radius.circular(widget.customRadius ?? 20),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12,
+                padding:  EdgeInsets.symmetric(
+                  vertical: widget.customVerticalPadding ?? 12,
                 ),
                 child: Center(
                   child: Text(

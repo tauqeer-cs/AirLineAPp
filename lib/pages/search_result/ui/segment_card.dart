@@ -162,14 +162,14 @@ class SegmentCard extends StatelessWidget {
                                     amount: changeFlight
                                         ? segment.changeFlightAmountToShow
                                         : segment
-                                            .totalSegmentFareAmtWithInfantSSR,
+                                            .amountToShowInPreview,
                                     isDense: true,
                                     showPlus: changeFlight),
                                 Visibility(
                                   visible: segment.discountPCT != null &&
                                       segment.discountPCT! > 0,
                                   child: Text(
-                                    " ${segment.currentToShow} ${segment.beforeDiscountTotalAmt}",
+                                    " ${segment.currentToShow} ${segment.beforeDiscountTotalAmt?.toStringAsFixed(2)}",
                                     style: kSmallRegular.copyWith(
                                       decoration: TextDecoration.lineThrough,
                                       decorationThickness: 3,
@@ -215,14 +215,14 @@ class SegmentCard extends StatelessWidget {
                                       amount: changeFlight
                                           ? segment.changeFlightAmountToShow
                                           : segment
-                                              .totalSegmentFareAmtWithInfantSSR,
+                                              .amountToShowInPreview,
                                       isDense: true,
                                       showPlus: changeFlight),
                                   Visibility(
                                     visible: segment.discountPCT != null &&
                                         segment.discountPCT! > 0,
                                     child: Text(
-                                      "${segment.currentToShow} ${segment.beforeDiscountTotalAmt}",
+                                      "${segment.currentToShow} ${segment.beforeDiscountTotalAmt?.toStringAsFixed(2)}",
                                       style: kSmallRegular.copyWith(
                                           decoration:
                                               TextDecoration.lineThrough),

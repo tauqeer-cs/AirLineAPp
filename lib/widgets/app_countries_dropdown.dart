@@ -43,7 +43,11 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
 
   Country? newSelectedCountry;
   String changeCurrentCountry(String countryName) {
-    var countriesList= newList.where((e) => e.country == countryName).toList();
+    List<Country> countriesList= newList.where((e) => e.country == countryName).toList();
+
+    if(countryName.length == 3){
+      countriesList= newList.where((e) => e.countryCode == countryName).toList();
+    }
     if(countriesList.isNotEmpty) {
       showOverrideValue = true;
 
@@ -51,7 +55,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
 
       newSelectedCountry = countriesList.first;
       setState(() {});
-      return countriesList.first.countryCode2 ?? '';
+      return countriesList.first.countryCode ?? '';
 
     }
 
@@ -59,7 +63,8 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
   }
 
   changeCurrentCountryByPhone(String phoneCode) {
-    var countriesList= newList.where((e) => e.phoneCode == phoneCode).toList();
+    List<Country> countriesList= newList.where((e) => e.phoneCode == phoneCode).toList();
+
 
     if(countriesList.isNotEmpty) {
       showOverrideValue = true;
@@ -100,7 +105,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
             ? null
             : state.countries.firstWhereOrNull((element) => widget.isPhoneCode
                 ? element.phoneCode == widget.initialCountryCode
-                : element.countryCode2 == widget.initialCountryCode);
+                : element.countryCode == widget.initialCountryCode);
 
         return blocBuilderWrapper(
           blocState: state.blocState,
@@ -149,7 +154,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
               if(country.countryCode?.toLowerCase().contains(searchQuery) == true){
                 return true;
               }
-              if(country.countryCode2?.toLowerCase().contains(searchQuery) == true){
+              if(country.countryCode?.toLowerCase().contains(searchQuery) == true){
                 return true;
               }
               if(country.country?.toLowerCase().contains(searchQuery) == true){

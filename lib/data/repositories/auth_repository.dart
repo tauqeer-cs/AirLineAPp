@@ -47,9 +47,19 @@ class AuthenticationRepository {
   init() async {
     try{
       if(getAccessToken()?.isNotEmpty ?? false){
-        await _provider.checkToken();
+        await _provider.checkToken();//here
+
+        var response = await _provider.checkToken2();//here
+
+        if(response.success == false){
+
+          logout();
+          print('');
+
+        }
       }
       _controller.add(getCurrentUser());
+
     }catch(e){
       logout();
       logger.e("Error on check token");
@@ -61,6 +71,8 @@ class AuthenticationRepository {
   }
 
   Future<void> signUp(SignupRequest signupRequest) async{
+
+
     await _provider.signup(signupRequest);
     //setCurrentUser(user);
     //storeAccessToken(user.token);
@@ -94,21 +106,18 @@ class AuthenticationRepository {
     await _provider.closeAccount(updatePasswordRequest);
   }
 
-  Future<void> loginWithEmail(LoginRequest loginRequest) async{
+  Future<User?> loginWithEmailRepo(LoginRequest loginRequest) async{
     final user = await _provider.emailLogin(loginRequest);
     if(user.isAccountVerified ?? false){
       storeAccessToken(user.token);
-      //insiderRepository.loginUser(user);
       setCurrentUser(user);
+      return user;
     }else{
       sendEmail(ResendEmailRequest(email: user.email));
       setTemporaryUser(user);
     }
   }
 
-  /// Starts the Sign In with Google Flow.
-  ///
-  /// Throws a [LogInWithGoogleFailure] if an exception occurs.
   Future<void> logInWithGoogle() async {
     final googleAppUser = await _googleSignIn.signIn(
 

@@ -1,23 +1,69 @@
+import 'package:app/models/confirmation_model.dart';
+import 'package:app/pages/booking_details/ui/payment_detials_section.dart';
+import 'package:app/pages/booking_details/ui/payment_success.dart';
+import 'package:app/pages/booking_details/ui/selected_passenger_info.dart';
+import 'package:app/pages/booking_details/ui/warning_before_proceed.dart';
 import 'package:app/widgets/app_card.dart';
+import 'package:app/widgets/app_loading_screen.dart';
 import 'package:app/widgets/app_toast.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../blocs/search_flight/search_flight_cubit.dart';
+import '../../../data/requests/flight_summary_pnr_request.dart' as FS;
 import '../../../app/app_router.dart';
+import '../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
+import '../../../blocs/voucher/voucher_cubit.dart';
+import '../../../data/responses/change_ssr_response.dart';
+import '../../../data/responses/manage_booking_response.dart';
+import '../../../data/responses/verify_response.dart';
+import '../../../models/number_person.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
+import '../../../utils/custom_segment.dart';
+import '../../../widgets/app_divider_widget.dart';
+import '../../../widgets/app_money_widget.dart';
+import '../../add_on/baggage/ui/baggage_section.dart';
+import '../../add_on/baggage/ui/baggage_view.dart';
+import '../../add_on/meals/ui/meals_section.dart';
+import '../../add_on/seats/ui/seat_legend_simple.dart';
+import '../../add_on/seats/ui/seat_plan.dart';
+import '../../add_on/special/ui/wheelchair_section.dart';
+import '../../add_on/summary/ui/baggage_summary_detail.dart';
+import '../../add_on/summary/ui/flight_detail.dart';
+import '../../add_on/summary/ui/meal_summary_detail.dart';
+import '../../add_on/summary/ui/seat_detail.dart';
+import '../../add_on/summary/ui/special_summary_detail.dart';
+import '../../add_on/ui/passenger_selector.dart';
+import '../../add_on/ui/summary_list_item.dart';
+import '../../change_flight_summary/ui/change_flight_summary_view.dart';
+import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
+import '../../checkout/pages/insurance/ui/available_insurance.dart';
+import '../../checkout/pages/insurance/ui/insurance_view.dart';
+import '../../checkout/pages/insurance/ui/passenger_insurance_selector.dart';
+import '../../checkout/pages/insurance/ui/zurich_container.dart';
+import '../../checkout/ui/empty_addon.dart';
+import '../../search_result/ui/booking_summary.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
+import 'add_on_options.dart';
+import 'add_ons_card_items.dart';
+import 'company_tax_invoice_section.dart';
+import 'contants_section.dart';
+import 'double_line_text.dart';
+import 'emergency_contect_section.dart';
 import 'flight_data.dart';
+import 'package:app/data/responses/verify_response.dart' as VRR;
 
 class ManageBookingDetailsView extends StatelessWidget {
   final VoidCallback onSharedTapped;
+  final VoidCallback reloadView;
 
-  ManageBookingDetailsView({Key? key, required this.onSharedTapped})
+  ManageBookingDetailsView(
+      {Key? key, required this.onSharedTapped, required this.reloadView})
       : super(key: key);
 
   Color getColor(Set<MaterialState> states) {
@@ -32,198 +78,715 @@ class ManageBookingDetailsView extends StatelessWidget {
     return Styles.kPrimaryColor;
   }
 
+  GlobalKey horizKey1 = GlobalKey();
+  GlobalKey horizKey2 = GlobalKey();
+  GlobalKey horizKeyS1 = GlobalKey();
+  GlobalKey horizKeyS2 = GlobalKey();
+
+  GlobalKey horizKeyW1 = GlobalKey();
+  GlobalKey horizKeyW2 = GlobalKey();
+
   ManageBookingCubit? bloc;
 
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
     final locale = context.locale.toString();
+    var selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
 
+    bool showSsr = true;
+    bool showPax = true;
+
+    if (selectedPax == null) {
+      print('');
+
+      var tmpSelectedPax = context
+          .watch<ManageBookingCubit>()
+          .state
+          .manageBookingResponse
+          ?.result
+          ?.passengersWithSSR
+          ?.first;
+
+      if (tmpSelectedPax != null) {
+        bloc?.changeSelectedPax(tmpSelectedPax);
+      }
+    }
     return BlocBuilder<ManageBookingCubit, ManageBookingState>(
       builder: (context, state) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            BookingReferenceLabel(
-              refText: state.pnrEntered,
-            ),
-            kVerticalSpacer,
-            AppCard(
-              edgeInsets: EdgeInsets.zero,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+        return bloc?.state.extraLoading == true
+            ? const Center(
+                child: AppLoading(),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(bottom: 8),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Checkbox(
-                            checkColor: Colors.white,
-                            fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
-                            value: state.checkedDeparture,
-                            onChanged: (bool? value) {
-                              bloc?.setCheckDeparture(value ?? false);
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: FlightDataInfo(
-                            headingLabel: "departure".tr(),
-                            dateToShow: state.manageBookingResponse?.result
-                                    ?.departureDateToShow(locale) ??
-                                '',
-                            departureToDestinationCode: state
-                                    .manageBookingResponse
-                                    ?.result
-                                    ?.departureToDestinationCode ??
-                                '',
-                            departureDateWithTime: state.manageBookingResponse
-                                    ?.result?.departureDateWithTime(locale) ??
-                                '',
-                            departureAirportName: state.manageBookingResponse
-                                    ?.result?.departureAirportName ??
-                                '',
-                            journeyTimeInHourMin: state.manageBookingResponse
-                                    ?.result?.journeyTimeInHourMin ??
-                                '',
-                            arrivalDateWithTime: state.manageBookingResponse
-                                    ?.result?.arrivalDateWithTime(locale) ??
-                                '',
-                            arrivalAirportName: state.manageBookingResponse
-                                    ?.result?.arrivalAirportName ??
-                                '',
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Divider(),
-                    ),
-                    if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: BookingReferenceLabel(
+                                refText: state.pnrEntered,
+                              ),
+                            ),
+                            kVerticalSpacer,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: AppCard(
+                                edgeInsets: EdgeInsets.zero,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 0, vertical: 16),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(0.0),
+                                            child: Checkbox(
+                                              checkColor: Colors.white,
+                                              fillColor: MaterialStateProperty
+                                                  .resolveWith(getColor),
+                                              value: state.checkedDeparture,
+                                              onChanged: (bool? value) {
+                                                bloc?.setCheckDeparture(
+                                                    value ?? false);
+                                              },
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: FlightDataInfo(
+                                              headingLabel: "departure".tr(),
+                                              dateToShow: state
+                                                      .manageBookingResponse
+                                                      ?.result
+                                                      ?.departureDateToShow(
+                                                          locale) ??
+                                                  '',
+                                              departureToDestinationCode: state
+                                                      .manageBookingResponse
+                                                      ?.result
+                                                      ?.departureToDestinationCode ??
+                                                  '',
+                                              departureDateWithTime: state
+                                                      .manageBookingResponse
+                                                      ?.result
+                                                      ?.departureDateWithTime(
+                                                          locale) ??
+                                                  '',
+                                              departureAirportName: state
+                                                      .manageBookingResponse
+                                                      ?.result
+                                                      ?.departureAirportName ??
+                                                  '',
+                                              journeyTimeInHourMin: state
+                                                      .manageBookingResponse
+                                                      ?.result
+                                                      ?.journeyTimeInHourMin ??
+                                                  '',
+                                              arrivalDateWithTime: state
+                                                      .manageBookingResponse
+                                                      ?.result
+                                                      ?.arrivalDateWithTime(
+                                                          locale) ??
+                                                  '',
+                                              arrivalAirportName: state
+                                                      .manageBookingResponse
+                                                      ?.result
+                                                      ?.arrivalAirportName ??
+                                                  '',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                        child: Divider(),
+                                      ),
+                                      if ((state.manageBookingResponse
+                                              ?.isTwoWay ??
+                                          false)) ...[
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(0.0),
+                                              child: Checkbox(
+                                                checkColor: Colors.white,
+                                                fillColor: MaterialStateProperty
+                                                    .resolveWith(getColor),
+                                                value: state.checkReturn,
+                                                onChanged: (bool? value) {
+                                                  bloc?.setCheckReturn(
+                                                      value ?? false);
+                                                },
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: FlightDataInfo(
+                                                headingLabel:
+                                                    'flightCharge.return'.tr(),
+                                                dateToShow: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnDepartureDateToShow(
+                                                            locale) ??
+                                                    '',
+                                                departureToDestinationCode: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnToDestinationCode ??
+                                                    '',
+                                                departureDateWithTime: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnDepartureDateWithTime(
+                                                            locale) ??
+                                                    '',
+                                                departureAirportName: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnDepartureAirportName ??
+                                                    '',
+                                                journeyTimeInHourMin: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnJourneyTimeInHourMin ??
+                                                    '',
+                                                arrivalDateWithTime: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnArrivalDateWithTime(
+                                                            locale) ??
+                                                    '',
+                                                arrivalAirportName: state
+                                                        .manageBookingResponse
+                                                        ?.result
+                                                        ?.returnArrivalAirportName ??
+                                                    '',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                      kVerticalSpacer,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            onSharedTapped();
+                                          }, //isLoading ? null :
+                                          child:
+                                              Text('flightChange.share'.tr()),
+                                          /*
+                                    * isLoading
+                                        ? const AppLoading(
+                                      size: 20,
+                                    )*/
+                                        ),
+                                      ),
+                                      kVerticalSpacerSmall,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: ElevatedButton(
+                                          onPressed: (state.checkedDeparture ||
+                                                      state.checkReturn) !=
+                                                  true
+                                              ? null
+                                              : () async {
+                                                  //   context.router.replaceAll([const NavigationRoute()]);
+                                                  final allowedChange =
+                                                      isAllowedToContinue(
+                                                          state);
+                                                  if (!allowedChange) {
+                                                    Toast.of(context).show(
+                                                        success: false,
+                                                        message:
+                                                            'flightCharge.twoDayChangeError'
+                                                                .tr());
+                                                    return;
+                                                  }
+                                                  bool? check =
+                                                      await showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return const AlertWarningBeforeProceed();
+                                                    },
+                                                  );
+                                                  bloc?.setFlightDates();
 
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Checkbox(
-                              checkColor: Colors.white,
-                              fillColor:
-                                  MaterialStateProperty.resolveWith(getColor),
-                              value: state.checkReturn,
-                              onChanged: (bool? value) {
-                                bloc?.setCheckReturn(value ?? false);
-                              },
+                                                  if (check == true) {
+                                                    context.router.push(
+                                                      const NewTravelDatesRoute(),
+                                                    );
+                                                  }
+                                                },
+                                          child: Text(
+                                            'flightResult.changeFlight'.tr(),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: FlightDataInfo(
-                              headingLabel: 'flightCharge.return'.tr(),
-                              dateToShow: state.manageBookingResponse?.result
-                                  ?.returnDepartureDateToShow(locale) ??
-                                  '',
-                              departureToDestinationCode: state.manageBookingResponse
-                                  ?.result?.returnToDestinationCode ??
-                                  '',
-                              departureDateWithTime: state
-                                  .manageBookingResponse
-                                  ?.result
-                                  ?.returnDepartureDateWithTime(locale) ??
-                                  '',
-                              departureAirportName: state
-                                  .manageBookingResponse
-                                  ?.result
-                                  ?.returnDepartureAirportName ??
-                                  '',
-                              journeyTimeInHourMin: state
-                                  .manageBookingResponse
-                                  ?.result
-                                  ?.returnJourneyTimeInHourMin ??
-                                  '',
-                              arrivalDateWithTime: state .manageBookingResponse ?.result ?.returnArrivalDateWithTime(locale) ?? '',
-                              arrivalAirportName: state
-                                  .manageBookingResponse
-                                  ?.result
-                                  ?.returnArrivalAirportName ??
-                                  '',
+                            kVerticalSpacer,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: PassengerSelectorManageBooking(
+                                passengersWithSSR: bloc
+                                        ?.state
+                                        .manageBookingResponse
+                                        ?.result
+                                        ?.passengersWithSSRWithoutInfant ??
+                                    [],
+                              ),
                             ),
-                          ),
-                        ],
+                            kVerticalSpacer,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: SelectedPassengerInfo(selectedPax),
+                            ),
+                            kVerticalSpacerSmall,
+                            if (showSsr == true) ...[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: const AddOnOptions(),
+                              ),
+                              kVerticalSpacer,
+                              if (bloc?.state.addOnOptionSelected ==
+                                  AddonType.seat) ...[
+                                kVerticalSpacerMini,
+                                true ? Container() : kVerticalSpacerSmall,
+                                if (bloc?.state.manageBookingResponse?.result
+                                        ?.isReturn ==
+                                    true) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isSeat: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isSeat: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.seatDeparture ?? true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
+                                    ),
+                                  ),
+                                  kVerticalSpacer,
+                                ],
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  child: SeatLegendSimple(),
+                                ),
+                                kVerticalSpacer,
+
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: PassengerViewerForSeats(
+                                    passengersWithSSR: bloc
+                                            ?.state
+                                            .manageBookingResponse
+                                            ?.result
+                                            ?.passengersWithSSRWithoutInfant ??
+                                        [],
+                                  ),
+                                ),
+                                kVerticalSpacer,
+                                SeatPlan(
+                                  moveToTop: () {
+                                    //moveToTop?.call();
+                                  },
+                                  moveToBottom: () {
+                                    //  moveToBottom?.call();
+                                  },
+                                  isManageBooking: true,
+                                ),
+                                kVerticalSpacer,
+                              ] else if (bloc?.state.addOnOptionSelected ==
+                                  AddonType.meal) ...[
+                                true
+                                    ? Container()
+                                    : WarningLabel(
+                                        message:
+                                            'mealAddOnsAreUnavailable'.tr(),
+                                      ),
+                                kVerticalSpacerSmall,
+                                if (bloc?.state.manageBookingResponse?.result
+                                        ?.isReturn ==
+                                    true) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isFood: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isFood: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.foodDepearture ?? true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
+                                    ),
+                                  ),
+                                  kVerticalSpacerSmall,
+                                ],
+                                MealsSection(
+                                  isDeparture:
+                                      bloc?.state.foodDepearture ?? false,
+                                  isManageBooking: true,
+                                ),
+                              ] else if (bloc?.state.addOnOptionSelected ==
+                                  AddonType.baggage) ...[
+                                kVerticalSpacerSmall,
+                                if (bloc?.state.manageBookingResponse?.result
+                                        ?.isReturn ==
+                                    true) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isBaggage: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isBaggage: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.baggageDeparture ?? true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
+                                    ),
+                                  ),
+                                  kVerticalSpacerSmall,
+                                ],
+                                BaggageSection(
+                                  horiz1: horizKey1,
+                                  horiz2: horizKey2,
+                                  horizS1: horizKeyS1,
+                                  horizS2: horizKeyS2,
+                                  isManageBooking: true,
+                                  isDeparture:
+                                      bloc?.state.baggageDeparture ?? false,
+                                  moveToTop: () {},
+                                  moveToBottom: () {},
+                                ),
+                              ] else if (bloc?.state.addOnOptionSelected ==
+                                  AddonType.special) ...[
+                                kVerticalSpacer,
+                                if (bloc?.state.manageBookingResponse?.result
+                                        ?.isReturn ==
+                                    true) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: CustomSegmentControl(
+                                      optionOneTapped: () {
+                                        bloc?.setSelectionDeparture(true,
+                                            isSpecial: true);
+                                      },
+                                      optionTwoTapped: () {
+                                        bloc?.setSelectionDeparture(false,
+                                            isSpecial: true);
+                                      },
+                                      isSelectedOption1:
+                                          bloc?.state.specialAppOpsDeparture ??
+                                              true,
+                                      textOne:
+                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                      textTwo:
+                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                      customRadius: 12,
+                                      customBorderWidth: 1,
+                                      customVerticalPadding: 8,
+                                      customSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kPrimaryColor),
+                                      customNoSelectedStyle:
+                                          kMediumSemiBold.copyWith(
+                                              color: Styles.kLightBgColor),
+                                    ),
+                                  ),
+                                  kVerticalSpacerSmall,
+                                ],
+
+
+                                if(bloc?.state.specialAppOpsDeparture == true) ... [
+                                  WheelchairSection(
+                                    key: horizKeyW1,
+                                      isDeparture:
+                                      bloc?.state.specialAppOpsDeparture ??
+                                          false,
+                                      isManageBooking: true),
+                                ] else ... [
+
+                                  WheelchairSection(
+                                    key: horizKeyW2,
+                                      isDeparture:
+                                      bloc?.state.specialAppOpsDeparture ??
+                                          false,
+                                      isManageBooking: true),
+
+                                ],
+
+
+
+                                kVerticalSpacer,
+                              ] else if (bloc?.state.addOnOptionSelected ==
+                                  AddonType.insurance) ...[
+                                //InsuranceView(isManageBooking: true,),
+                                const InsuranceManageView(),
+                              ] else
+                                ...[],
+                            ],
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: const ManageFlightSummary(),
+                            ),
+                            if (showPax == true) ...[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: const ContactsSection(),
+                              ),
+                              kVerticalSpacer,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: const EmergencyContactsSection(),
+                              ),
+                              kVerticalSpacer,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: const ComapnyTaxInvoiceSection(),
+                              ),
+                              kVerticalSpacer,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: PaymentDetailsSecond(),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (bloc?.showPayOption == true) ...[
+                      SummaryContainer(
+                        child: bloc?.state.isPaying == true
+                            ? const AppLoading()
+                            : Padding(
+                                padding: kPagePadding,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        BuildContext? cyrreContext =
+                                            Scaffold.maybeOf(context)?.context;
+
+                                        ChangeSsrResponse? response =
+                                            await bloc?.checkSsrChange();
+
+                                        return;
+
+                                        if (response != null) {
+                                          var redirectUrl =
+                                              await bloc?.checkOutForPaymentSSR(
+                                                  '', response);
+
+                                          if (redirectUrl != null) {
+                                            final result =
+                                                await cyrreContext?.router.push(
+                                              WebViewRoute(
+                                                  url: "",
+                                                  htmlContent: redirectUrl),
+                                            );
+
+                                            if (result != null &&
+                                                result is String) {
+                                              final urlParsed =
+                                                  Uri.parse(result);
+                                              var query =
+                                                  urlParsed.queryParametersAll;
+                                              String? status =
+                                                  query['status']?.first;
+                                              String? superPNR =
+                                                  query['pnr']?.first;
+
+                                              if (status != "FAIL") {
+                                                await showDialog(
+                                                  context: cyrreContext!,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PaymentSuccessAlert(
+                                                      currency: response
+                                                              .assignFlightAddOnResponse
+                                                              ?.currency ??
+                                                          '',
+                                                      amount: response
+                                                              .assignFlightAddOnResponse
+                                                              ?.totalReservationAmount
+                                                              ?.toStringAsFixed(
+                                                                  2) ??
+                                                          '0.00',
+                                                    );
+                                                  },
+                                                );
+
+                                                await bloc
+                                                    ?.getBookingInformation(
+                                                        state.lastName ?? '',
+                                                        state.pnrEntered ?? '');
+
+                                                reloadView();
+
+                                                //// cyrreContext
+                                                // .read<VoucherCubit>()
+                                                // .resetState();
+                                              } else {}
+                                            } else {}
+                                          }
+                                        }
+                                      },
+                                      child: const Text('Pay'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ),
+                    ] else if (bloc?.state.anyContactValueChange == true) ...[
+                      SummaryContainer(
+                        child: bloc?.state.savingContactChanges == true
+                            ? const AppLoading()
+                            : Padding(
+                                padding: kPagePadding,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        bloc?.saveContactChanges();
+
+                                        return;
+                                        ChangeSsrResponse? response =
+                                            await bloc?.checkSsrChange();
+
+                                        if (response != null) {
+                                          var redirectUrl =
+                                              await bloc?.checkOutForPaymentSSR(
+                                                  '', response);
+
+                                          if (redirectUrl != null) {
+                                            final result =
+                                                await context.router.push(
+                                              WebViewRoute(
+                                                  url: "",
+                                                  htmlContent: redirectUrl),
+                                            );
+
+                                            if (result != null &&
+                                                result is String) {
+                                              final urlParsed =
+                                                  Uri.parse(result);
+                                              var query =
+                                                  urlParsed.queryParametersAll;
+                                              String? status =
+                                                  query['status']?.first;
+                                              String? superPNR =
+                                                  query['pnr']?.first;
+
+                                              if (status != "FAIL") {
+                                                await bloc
+                                                    ?.reloadDataForConfirmation(
+                                                        status ?? '',
+                                                        superPNR ?? '',
+                                                        extraLoading: true);
+
+                                                context.router.replaceAll([
+                                                  const NavigationRoute(),
+                                                  ChangeFlightConfirmationRoute(
+                                                    bookingId: superPNR ?? "",
+                                                    status: status ?? '',
+                                                  ),
+                                                ]);
+                                              } else {}
+                                            } else {}
+                                          }
+                                        }
+                                      },
+                                      child: const Text('Save'),
+                                    ),
+                                  ],
+                                ),
+                              ),
                       ),
                     ],
-                    kVerticalSpacer,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: OutlinedButton(
-                        onPressed: () {
-                          onSharedTapped();
-                        }, //isLoading ? null :
-                        child:  Text('flightChange.share'.tr()),
-                        /*
-                        * isLoading
-                            ? const AppLoading(
-                          size: 20,
-                        )*/
-                      ),
-                    ),
-                    kVerticalSpacerSmall,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ElevatedButton(
-                        onPressed:
-                            (state.checkedDeparture || state.checkReturn) !=
-                                    true
-                                ? null
-                                : () async {
-                                    //   context.router.replaceAll([const NavigationRoute()]);
-                                    final allowedChange =
-                                        isAllowedToContinue(state);
-                                    if (!allowedChange) {
-                                      Toast.of(context).show(
-                                          success: false,
-                                          message:
-                                              'flightCharge.twoDayChangeError'.tr());
-                                      return;
-                                    }
-                                    bool? check = await showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return const AlertWarningBeforeProceed();
-                                      },
-                                    );
-                                    bloc?.setFlightDates();
-
-                                    if (check == true) {
-                                      context.router.push(
-                                        const NewTravelDatesRoute(),
-                                      );
-                                    }
-                                  },
-                        child:  Text('flightResult.changeFlight'.tr()),
-                      ),
-                    ),
                   ],
                 ),
-              ),
-            ),
-
-            /*
-            ChooseFlightSegment(
-              title: "Depart",
-              subtitle: state.filterState?.beautifyShort ?? "",
-              dateTitle: AppDateUtils.formatFullDate(state.filterState?.departDate),
-              segments: bookState.selectedDeparture != null
-                  ? [bookState.selectedDeparture!]
-                  : state.flights?.flightResult?.outboundSegment ?? [],
-              isDeparture: true,
-            ),*/
-          ],
-        );
+              );
       },
     );
   }
@@ -245,183 +808,727 @@ class ManageBookingDetailsView extends StatelessWidget {
   }
 }
 
-class PlaneWithTime extends StatelessWidget {
-  final String time;
-  final bool showDisabled;
+class WarningLabel extends StatelessWidget {
+  final String message;
 
-  const PlaneWithTime({
-    Key? key,
-    required this.time,
-   this.showDisabled = false,
-  }) : super(key: key);
+  const WarningLabel({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.asset(
-          showDisabled ? "assets/images/icons/icoFlightDisabled.png" : "assets/images/icons/icoFlightBlack.png",
-          width: 32,
-          height: 32,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          decoration: BoxDecoration(
-            color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor,
-            borderRadius: BorderRadius.circular(18.0),
-          ),
-          child: Text(
-            time,
-            style: kTinyRegular.copyWith(color: Colors.white),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-          ),
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-      ],
-    );
-  }
-}
-
-class FlightInto extends StatelessWidget {
-  final String label;
-  final String timeString;
-  final String location;
-
-  final bool showDisabled;
-
-  const FlightInto({
-    Key? key,
-    required this.label,
-    required this.timeString,
-    required this.location,
-    this.showDisabled = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          label,
-          style: kSmallHeavy.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
-        ),
-        Text(
-          timeString,
-          style: kSmallMedium.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
-        ),
-        Text(
-          location,
-          maxLines: 4,
-          style: kSmallMedium.copyWith(color: showDisabled ? Styles.kDisabledGrey : Styles.kTextColor),
-
-          //icoFlightBlack
-        ),
-      ],
-    );
-  }
-}
-
-class AlertWarningBeforeProceed extends StatelessWidget {
-  const AlertWarningBeforeProceed({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.white,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(color: Styles.kActiveGrey),
+        color: Styles.kActiveGrey,
+        borderRadius: BorderRadius.circular(12),
       ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Text(
+          message,
+          style: kMediumMedium.copyWith(
+            color: Styles.kCanvasColor,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class InsuranceManageView extends StatelessWidget {
+  const InsuranceManageView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Bundle? firstInsurance;
+
+    var bloc = context.watch<ManageBookingCubit>();
+    var state = bloc.state;
+
+    List<Bundle> insurances = state.flightSSR?.insuranceGroup?.outbound ?? [];
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSRWithoutInfant ??
+            [];
+    firstInsurance = insurances.firstOrNull;
+
+    String? logoImage = '';
+
+    int selectedPassengers = 0;
+    Bundle? lastInsuranceSelected;
+    InsuranceType? selected = state.insuranceType;
+
+    String currency = 'MYR';
+
+    if ((insurances ?? []).isNotEmpty) {
+      final agentCms = context.watch<AgentSignUpCubit>().state;
+
+      String insuranceCode = firstInsurance?.codeType ?? '';
+
+      if (agentCms.locationItem != null) {
+        if (agentCms.locationItem?.items
+                ?.where((e) => e.code == insuranceCode)
+                .toList()
+                .isNotEmpty ==
+            true) {
+          logoImage = agentCms.locationItem?.banner;
+        }
+      }
+
+      if ((logoImage ?? '').isEmpty) {
+        if (agentCms.internationalItem != null) {
+          if (agentCms.internationalItem?.items
+                  ?.where((e) => e.code == insuranceCode)
+                  .toList()
+                  .isNotEmpty ==
+              true) {
+            logoImage = agentCms.internationalItem?.banner;
+          }
+        }
+      }
+
+      if ((logoImage ?? '').isEmpty) {
+        if (insuranceCode.contains('DL')) {
+          logoImage = agentCms.locationItem?.banner;
+        }
+      }
+
+      if ((logoImage ?? '').isEmpty) {
+        logoImage = agentCms.internationalItem?.banner;
+      }
+    }
+
+    final agentCms = context.watch<AgentSignUpCubit>();
+
+    return Column(
+      children: [
+        if (insurances.isNotEmpty) ...[
           Text(
-            'flightDetail.flightChangeReq'.tr(),
-            textAlign: TextAlign.center,
-            style: k18Heavy.copyWith(color: Styles.kTextColor),
+            "myAirTravelInsurance".tr(),
+            style: kHugeHeavy,
           ),
-          Expanded(
-            child: Container(),
+          kVerticalSpacer,
+          ZurichContainer(
+            bannerImageUrl: logoImage,
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: const Icon(Icons.close),
-          ),
-        ],
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding:  EdgeInsets.only(bottom: 16.0),
-            child: Text(
-               'flightDetail.flightChangeRules'.tr(),
-              style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
+          kVerticalSpacer,
+          Visibility(
+            visible: insurances.isNotEmpty,
+            replacement: const EmptyAddon(),
+            child: Column(
+              children: InsuranceType.values
+                  .map(
+                    (e) => InkWell(
+                      onTap: () {
+                        print('');
+
+                        var options =
+                            bloc.state.flightSSR?.insuranceGroup?.outbound;
+
+                        if ((options ?? []).isNotEmpty) {
+                          var firstInsurance = (options ?? []).first;
+                        }
+
+                        bloc.selectInsuranceType(e);
+
+                        print('');
+
+                        /*
+
+
+                    print("first insurance not null $e");
+                    context.read<InsuranceCubit>().changeInsuranceType(
+                        e, firstInsurance.toBound(isInsurance: true));*/
+                      },
+                      child: AppCard(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Theme(
+                                  data: ThemeData(
+                                    unselectedWidgetColor: Styles.kActiveGrey,
+                                  ),
+                                  child: IgnorePointer(
+                                    ignoring: true,
+                                    child: Radio<InsuranceType?>(
+                                      value: e,
+                                      visualDensity: const VisualDensity(
+                                        horizontal: -2,
+                                        vertical: -2,
+                                      ),
+                                      activeColor: Styles.kPrimaryColor,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      groupValue: selected,
+                                      onChanged: (value) {},
+                                    ),
+                                  ),
+                                ),
+                                kHorizontalSpacerSmall,
+                                Expanded(
+                                  child: AvailableInsurance.getTitle(
+                                      e,
+                                      lastInsuranceSelected ?? firstInsurance,
+                                      passengers.length),
+                                ),
+                                kHorizontalSpacerSmall,
+                                SizedBox(
+                                  height: 56,
+                                  width: 56,
+                                  child: AvailableInsurance.getAssets(e) == null
+                                      ? const SizedBox()
+                                      : Image.asset(
+                                          AvailableInsurance.getAssets(e)!),
+                                ),
+                              ],
+                            ),
+                            Visibility(
+                              visible: e == selected && e != InsuranceType.none,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: Column(
+                                  children: [
+                                    Visibility(
+                                      visible: e == InsuranceType.selected,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'passenger'.tr(),
+                                            style: kLargeHeavy,
+                                          ),
+                                          kHorizontalSpacerSmall,
+                                          Text(
+                                            state.selectedPax?.passengers
+                                                    ?.fullName ??
+                                                '',
+                                            style: kLargeHeavy,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    ...insurances.map(
+                                      (Bundle e) {
+                                        final bound =
+                                            e.toBound(isInsurance: true);
+
+                                        var tmp = bound;
+
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8),
+                                          child: InkWell(
+                                            onTap: () {
+                                              if (selected ==
+                                                  InsuranceType.all) {
+                                                bloc.addInsuranceToAllPeople(
+                                                    e, tmp);
+                                              } else {
+                                                bloc.addInsuranceToPeople(
+                                                    e, tmp, state.selectedPax);
+                                              }
+                                              /*
+                                          if (selected == InsuranceType.all) {
+
+                                            insuranceBloc.setLast(insurancesGroup?.outbound?.firstWhereOrNull((element) => element == e));
+
+
+
+                                            context
+                                                .read<InsuranceCubit>()
+                                                .updateInsuranceToAllPassenger(
+                                                bound);
+
+                                          } else {
+                                            Bound? currentInsurance =
+                                                passengers[selectedPassengers]
+                                                    .getInsurance;
+
+
+                                            if (currentInsurance == null) {
+
+                                              context
+                                                  .read<InsuranceCubit>()
+                                                  .updateInsuranceToPassenger(
+                                                  selectedPassengers, bound,e.codeType);
+                                            } else {
+
+                                              context
+                                                  .read<InsuranceCubit>()
+                                                  .updateInsuranceToPassenger(
+                                                  selectedPassengers, null,e.codeType);
+                                            }
+                                          }*/
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(16),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: Border.all(
+                                                      color: Styles
+                                                          .kDisabledButton)),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    AvailableInsurance
+                                                        .dataTitle(e, agentCms),
+                                                    style: kLargeHeavy,
+                                                  ),
+                                                  AvailableInsurance
+                                                      .buildSubtitle(
+                                                          e, agentCms),
+                                                  kVerticalSpacerSmall,
+                                                  MoneyWidgetCustom(
+                                                    currency: currency,
+                                                    myrSize: 20,
+                                                    amountSize: 20,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    textColor:
+                                                        Styles.kPrimaryColor,
+                                                    amount: e.finalAmount,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  kVerticalSpacer,
+                                                  IgnorePointer(
+                                                    ignoring: true,
+                                                    child: Radio<bool>(
+                                                      value: true,
+                                                      visualDensity:
+                                                          const VisualDensity(
+                                                        horizontal: -2,
+                                                        vertical: -2,
+                                                      ),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      groupValue: selected ==
+                                                              InsuranceType.all
+                                                          ? ((bloc
+                                                                      .state
+                                                                      .manageBookingResponse
+                                                                      ?.allInsuranceSelected ??
+                                                                  false) &&
+                                                              (e.codeType ==
+                                                                  state
+                                                                      .manageBookingResponse
+                                                                      ?.allInsuranceBundleSelected
+                                                                      ?.codeType))
+                                                          : ((state
+                                                                      .selectedPax
+                                                                      ?.newInsuranceBundleSelected
+                                                                      ?.codeType ??
+                                                                  '') ==
+                                                              e.codeType),
+                                                      onChanged: (value) {},
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ).toList()
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: Text(
-              "• ${'flightChange.rule1'.tr()}\n"
-              "• ${'flightChange.rule2'.tr()}\n"
-              "• ${'flightChange.rule3'.tr()}\n"
-              "• ${'flightChange.rule4'.tr()}.\n"
-              "• ${'flightChange.rule5'.tr()}\n"
-              "• ${'flightChange.rule6'.tr()}\n"
-              "• ${'flightChange.rule7'.tr()}",
-              style: kMediumRegular.copyWith(color: Styles.kPrimaryColor),
-            ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Divider(),
           ),
+          kVerticalSpacerSmall,
           Padding(
-            padding: const EdgeInsets.only(bottom: 24.0,top: 16),
-            child: Text(
-              'flightChangeProceedFlightChange'.tr(),
-              style: kMediumRegular.copyWith(color: Styles.kTextColor),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }, //isLoading ? null :
-                    child:  Text('flightDetail.no'.tr()),
-                    /*
-                      * isLoading
-                          ? const AppLoading(
-                        size: 20,
-                      )*/
-                  ),
+                Text(
+                  'insuranceTotal'.tr(),
+                  style: k18SemiBold.copyWith(color: Styles.kTextColor),
                 ),
-                kHorizontalSpacerSmall,
                 Expanded(
-                  child: ElevatedButton(
-                    child: Text('flightDetail.yes'.tr()),
-                    onPressed: () async {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
+                  child: Container(),
+                ),
+                const MoneyWidget(
+                  amount: 0.00,
+                  isDense: true,
+                  isNormalMYR: true,
                 ),
               ],
             ),
           ),
+          kVerticalSpacerSmall,
+          Row(
+            children: [
+              Expanded(
+                child: Container(),
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: bloc.hasAnySeatChanged == false
+                      ? null
+                      : () {
+                          bloc.insuranceConfirmChange();
+
+                          bloc.changeSelectedAddOnOption(AddonType.none,
+                              toNull: true);
+                        },
+                  child: Text('selectDateView.confirm'.tr()),
+                ),
+              ),
+              Expanded(
+                child: Container(),
+              ),
+            ],
+          ),
+          kVerticalSpacer,
+        ] else ...[
+          EmptyAddon(
+            icon: "assets/images/icons/icoNoInsurance.png",
+            customText: 'insuranceTempUnavailable'.tr(),
+          ),
         ],
+      ],
+    );
+  }
+}
+
+class ManageFlightSummary extends StatelessWidget {
+  const ManageFlightSummary({Key? key}) : super(key: key);
+
+  //String currency = 'MYR';
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.watch<ManageBookingCubit>();
+
+    String currency =
+        bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
+            'MYR';
+
+    var totalPrice = bloc.confirmedSeatsTotalPrice +
+        bloc.confirmedMealsTotalPrice +
+        bloc.confirmedBaggageTotalPrice +
+        bloc.confirmedSportsTotalPrice +
+        bloc.confirmedWheelChairTotalPrice +
+        bloc.confirmedInsruanceTotalPrice;
+
+    return (totalPrice == 0 && bloc.isThereNewWheelChaie == false) ? Container() : AppCard(
+            child: Column(
+              children: [
+                ChildRow(
+                  child1: Text(
+                    'summary'.tr(),
+                    style: kHugeHeavy,
+                  ),
+                  child2: MoneyWidgetCustom(
+                    amountSize: 16,
+                    currency: currency,
+                    myrSize: 20,
+                    amount: totalPrice,
+                    textColor: Styles.kPrimaryColor,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                FlightSummaryDetail(
+                  isDeparture: true,
+                  currency: currency,
+                  dontShowAmount: true,
+                  isManageBooking: true,
+                ),
+                if (bloc.state.manageBookingResponse?.result?.isReturn ==
+                    true) ...[
+                  FlightSummaryDetail(
+                    isDeparture: false,
+                    currency: currency,
+                    dontShowAmount: true,
+                    isManageBooking: true,
+                  ),
+                ],
+
+                SeatSummaryDetail(
+                  currency: currency,
+                  isManageBooking: true,
+                ),
+
+                MealSummaryDetail(
+                  currency: currency,
+                  isManageBooking: true,
+                ),
+
+
+
+
+                BaggageSummaryDetail(
+                  currency: currency,
+                  sports: false,
+                  isManageBooking: true,
+                ),
+                BaggageSummaryDetail(
+                  currency: currency,
+                  sports: true,
+                  isManageBooking: true,
+                ),
+                SpecialSummaryDetail(
+                  currency: currency,
+                  isManageBooking: true,
+                ),
+
+                if (bloc.state.insuranceType == InsuranceType.all ||
+                    bloc.state.insuranceType == InsuranceType.selected) ...[
+                  if (bloc.confirmedInsruanceTotalPrice > 0) ...[
+                    InsurancesSummaryDetail(
+                      isManageBooking: true,
+                    ),
+                  ],
+                ],
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            RedCircle(
+                              circleColor: Styles.kPrimaryColor,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'flightCharge.changes'.tr(),
+                              style: kSmallRegular.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            RedCircle(
+                              circleColor: Styles.kTextColor,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'flightCharge.existingAddons'.tr(),
+                              style: kSmallRegular.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          );
+  }
+}
+
+class InsurancesSummaryDetail extends StatelessWidget {
+  final bool isManageBooking;
+
+  InsurancesSummaryDetail({
+    Key? key,
+    this.currency,
+    required this.isManageBooking,
+  }) : super(key: key);
+  final String? currency;
+
+  ManageBookingCubit? manageBookingCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    final filter = context.watch<SearchFlightCubit>().state.filterState;
+    var numberOfPerson = filter?.numberPerson;
+    var persons = List<Person>.from(numberOfPerson?.persons ?? []);
+    num totalPrice = 0;
+
+    manageBookingCubit = context.watch<ManageBookingCubit>();
+    totalPrice = manageBookingCubit?.confirmedInsruanceTotalPrice ?? 0.0;
+    persons = context
+            .watch<ManageBookingCubit>()
+            .state
+            .manageBookingResponse
+            ?.result
+            ?.allPersonObject ??
+        [];
+    numberOfPerson = NumberPerson(persons: persons);
+
+    var perPersonAmount = manageBookingCubit
+            ?.state.flightSSR?.insuranceGroup?.outbound?.first.finalAmount ??
+        0.0;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ChildRow(
+          child1: Text(
+            "insurance".tr(),
+            style: kLargeHeavy,
+          ),
+          child2: MoneyWidgetCustom(
+            currency: currency,
+            amountSize: 16,
+            myrSize: 16,
+            amount: totalPrice,
+            textColor: Styles.kPrimaryColor,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        if (manageBookingCubit?.state.confirmedInsuranceType ==
+            InsuranceType.all) ...[
+          kVerticalSpacerMini,
+          for (PassengersWithSSR currentPerson in manageBookingCubit
+                  ?.state.manageBookingResponse?.result?.passengersWithSSR ??
+              []) ...[
+            ChildRow(
+              child1: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    currentPerson.passengers?.fullName ?? '',
+                  ),
+                  SummaryListItem(
+                    text: manageBookingCubit?.state.manageBookingResponse
+                            ?.confirmedInsuranceBoundSelected?.name ??
+                        '',
+                    isManageBooking: isManageBooking,
+                  )
+                ],
+              ),
+              child2: MoneyWidgetCustom(
+                currency: currency,
+                amount: perPersonAmount,
+              ),
+            )
+          ],
+        ] else if (manageBookingCubit?.state.confirmedInsuranceType ==
+            InsuranceType.selected) ...[
+          kVerticalSpacerMini,
+          for (PassengersWithSSR currentPerson in manageBookingCubit
+                  ?.state.manageBookingResponse?.result?.passengersWithSSR ??
+              []) ...[
+            if (currentPerson.confirmedInsuranceBundleSelected != null) ...[
+              ChildRow(
+                child1: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      currentPerson.passengers?.fullName ?? '',
+                    ),
+                    SummaryListItem(
+                      text:
+                          currentPerson.confirmedInsuranceBoundSelected?.name ??
+                              '',
+                      isManageBooking: isManageBooking,
+                    )
+                  ],
+                ),
+                child2: MoneyWidgetCustom(
+                  currency: currency,
+                  amount:
+                      currentPerson.confirmedInsuranceBoundSelected?.price ??
+                          0.0,
+                ),
+              )
+            ],
+          ],
+        ],
+      ],
+    );
+  }
+
+  Widget allInsurance() {
+    return Container();
+  }
+
+  Widget buildBaggageComponent(
+      Person e, NumberPerson? numberOfPerson, bool isDeparture) {
+    final baggage = isDeparture ? e.departureBaggage : e.returnBaggage;
+    final sport = isDeparture ? e.departureSports : e.returnSports;
+
+    num amountToMinus = 0.0;
+    final seats = e.departureSeats;
+
+    var ccc = manageBookingCubit
+        ?.state.manageBookingResponse?.result?.passengersWithSSR
+        ?.where((element) => element.personObject == e)
+        .toList();
+
+    if ((ccc ?? []).isNotEmpty) {
+      if (isDeparture == true) {
+        if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+          return Container();
+        }
+      } else {
+        if ((ccc ?? []).first.confirmReturnBaggageSelected == null) {
+          return Container();
+        }
+      }
+      if ((ccc ?? []).first.confirmDepartBaggageSelected == null) {
+        //return Container();
+      } else {
+        /*
+          var tmpSeat = manageBookingCubit
+              ?.state.manageBookingResponse?.result?.seatDetail?.seats
+              ?.where((element) =>
+          element.givenName ==
+              ccc?.first.passengers?.givenName &&
+
+              element.surName ==
+                  ccc?.first.passengers?.surname &&
+              element.departReturn == 'Depart'
+          ).toList();
+
+          if((tmpSeat ?? []).isNotEmpty) {
+            amountToMinus = (tmpSeat ?? []).first.amount ?? 0.0;
+          }
+*/
+
+        print('object');
+        // ccc.first.seat
+      }
+    }
+
+    return ChildRow(
+      child1: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            e.generateText(numberOfPerson, separator: "& "),
+          ),
+          Visibility(
+            visible: sport != null,
+            child: SummaryListItem(
+              text: sport?.description ?? '',
+              isManageBooking: isManageBooking,
+            ),
+          ),
+        ],
+      ),
+      child2: MoneyWidgetCustom(
+        currency: currency,
+        amount: e.getPartialPriceSports(isDeparture),
       ),
     );
   }

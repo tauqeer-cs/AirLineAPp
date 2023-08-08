@@ -25,7 +25,7 @@ class PassengerInsuranceSelector extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "passenger".tr(),
+          'passenger'.tr(),
           style: kLargeHeavy,
         ),
         kVerticalSpacerSmall,

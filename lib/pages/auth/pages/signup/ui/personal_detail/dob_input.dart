@@ -4,6 +4,7 @@ import 'package:app/widgets/containers/grey_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 
 class DobInput extends StatelessWidget {
@@ -27,6 +28,7 @@ class DobInput extends StatelessWidget {
           child: FormBuilderDateTimePicker(
             locale: localObject,
             name: formNameDob,
+            validator: FormBuilderValidators.required(),
             firstDate: DateTime(1920),
             lastDate: DateTime.now(),
             format: DateFormat("dd MMM yyyy",locale),
