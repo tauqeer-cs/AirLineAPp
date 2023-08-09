@@ -900,7 +900,7 @@ Map<String, dynamic> _$SuperPNRToJson(SuperPNR instance) {
 
 SuperPNROrder _$SuperPNROrderFromJson(Map<String, dynamic> json) =>
     SuperPNROrder(
-      orderId: json['orderId'] as num?,
+      orderID: json['orderID'] as num?,
       superPNRID: json['superPNRID'] as num?,
       affiliationId: json['affiliationId'] as num?,
       orderNo: json['orderNo'] as String?,
@@ -946,7 +946,7 @@ Map<String, dynamic> _$SuperPNROrderToJson(SuperPNROrder instance) {
     }
   }
 
-  writeNotNull('orderId', instance.orderId);
+  writeNotNull('orderId', instance.orderID);
   writeNotNull('superPNRID', instance.superPNRID);
   writeNotNull('affiliationId', instance.affiliationId);
   writeNotNull('orderNo', instance.orderNo);

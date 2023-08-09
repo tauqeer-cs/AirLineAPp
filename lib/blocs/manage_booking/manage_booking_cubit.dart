@@ -474,6 +474,31 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return passengersWithSSRNotBaby.length.toDouble();
   }
 
+  num get pendingAmountToPay {
+
+    if(state.manageBookingResponse != null) {
+
+      if(state.manageBookingResponse?.result?.needPaymentFirst == true) {
+        return state.manageBookingResponse?.result?.amountNeedToPay ?? 0;
+
+      }
+    }
+
+    return 0.0;
+  }
+
+  bool get pendingPayOption {
+
+    if(state.manageBookingResponse != null) {
+
+      if(state.manageBookingResponse?.result?.needPaymentFirst == true) {
+
+        return true;
+      }
+    }
+    return false;
+  }
+
   bool get showPayOption {
     for (PassengersWithSSR currentPerson
         in state.manageBookingResponse?.result?.passengersWithSSR ?? []) {
@@ -1223,6 +1248,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     }
   }
 
+  Future<bool> payPendingAmount()  async {
+
+    var superNo = state.manageBookingResponse?.result?.superPNR?.superPNRNo ?? '';
+     var orderId = state.manageBookingResponse?.result?.superPNROrder?.orderID ?? 0;
+
+
+    print('');
+
+    return false;
+ }
   Future<ChangeSsrResponse?> checkSsrChange() async {
     emit(
       state.copyWith(
@@ -1804,6 +1839,101 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   String get currentToken {
     return state.changeFlightResponse?.result?.token ?? '';
   }
+
+  Future<String?> checkOutPending() async {
+
+    emit(
+      state.copyWith(
+          isPaying: true),
+    );
+
+
+    try {
+      var superNo = state.manageBookingResponse?.result?.superPNR?.superPNRNo ?? '';
+      var orderId = state.manageBookingResponse?.result?.superPNROrder?.orderID ?? 0;
+
+      var request = MmbCheckoutRequest(
+        superPNRNo: superNo,
+        insertVoucher: '',
+        orderId: orderId,
+        paymentDetail: PaymentDetail(
+          currency: state.manageBookingResponse?.result?.passengersWithSSR
+              ?.first.fareAndBundleDetail?.currencyToShow ??
+              'MYR',
+          frontendUrl: AppFlavor.paymentRedirectUrl,
+          promoCode: '',
+          totalAmountNeedToPay:
+          this.pendingAmountToPay,
+          totalAmount:
+          this.pendingAmountToPay,
+        ),
+        token: '',
+      );
+
+      //MmbCheckoutRequest
+      //loadingCheckoutPayment
+      PayRedirectionValue response = await _repository.checkOutFlight(request);
+
+      //loadingCheckoutPayment
+      FormData formData = FormData.fromMap(
+          response.value?.paymentRedirectData?.redirectMap() ?? {});
+
+      var responseView = await Dio().post(
+        response.value?.paymentRedirectData?.paymentUrl ?? '',
+        data: formData,
+      );
+
+      emit(
+        state.copyWith(
+            loadingCheckoutPayment: false,
+            superPnrNo: superNo,
+
+            message: ''),
+      );
+
+      return 1 == 1
+          ? responseView.data
+          : response.value?.paymentRedirectData?.paymentUrl;
+    } catch (e, st) {
+      emit(
+        state.copyWith(
+          loadingCheckoutPayment: false,
+          isPaying: false,
+          blocState: BlocState.failed,
+          message: ErrorUtils.getErrorMessage(e, st),
+        ),
+      );
+
+      return null;
+    }
+
+    /*
+    emit(state.copyWith(
+      blocState: BlocState.finished,
+      bookRequest: bookRequest,
+      paymentResponse: payRedirection.value,
+      paymentRedirect: response.data,
+    ));*/
+
+    /*
+        var bookRequest = BookRequest(
+      token: state.changeFlightResponse?.result?.token,
+      paymentDetail: request.paymentDetail,
+    );
+
+    final bookRequest = state.paymentResponse != null
+        ? BookRequest(
+      paymentDetail: paymentDetail,
+      superPNRNo: state.paymentResponse?.superPnrNo,
+    )
+        : BookRequest(
+      token: token,
+      paymentDetail: paymentDetail,
+      flightSummaryPNRRequest: flightSummaryPnrRequestNew,
+    );
+    */
+  }
+
 
   Future<String?> checkOutForPaymentSSR(
       String? voucher, ChangeSsrResponse rp) async {

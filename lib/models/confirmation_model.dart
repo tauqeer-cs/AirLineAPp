@@ -146,6 +146,7 @@ class BookingContact extends Equatable {
 
   const BookingContact(
       {this.superPNRID,
+
       this.userId,
       this.titleCode,
       this.givenName,
@@ -1735,7 +1736,7 @@ class SuperPNROrder extends Equatable {
   Map<String, dynamic> toJson() => _$SuperPNROrderToJson(this);
 
   const SuperPNROrder({
-    this.orderId,
+    this.orderID,
     this.superPNRID,
     this.affiliationId,
     this.orderNo,
@@ -1766,7 +1767,7 @@ class SuperPNROrder extends Equatable {
 
   @override
   List<Object?> get props => [
-        orderId,
+    orderID,
         superPNRID,
         affiliationId,
         orderNo,
@@ -1795,7 +1796,7 @@ class SuperPNROrder extends Equatable {
         modifiedDateUTC,
       ];
 
-  final num? orderId;
+  final num? orderID;
   final num? superPNRID;
   final num? affiliationId;
   final String? orderNo;
@@ -1824,7 +1825,7 @@ class SuperPNROrder extends Equatable {
   final DateTime? modifiedDateUTC;
 
   SuperPNROrder copyWith({
-    num? orderId,
+    num? orderID,
     num? superPNRID,
     num? affiliationId,
     String? orderNo,
@@ -1853,7 +1854,7 @@ class SuperPNROrder extends Equatable {
     DateTime? modifiedDateUTC,
   }) =>
       SuperPNROrder(
-        orderId: orderId ?? this.orderId,
+        orderID: orderID ?? this.orderID,
         superPNRID: superPNRID ?? this.superPNRID,
         affiliationId: affiliationId ?? this.affiliationId,
         orderNo: orderNo ?? this.orderNo,

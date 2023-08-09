@@ -37,6 +37,9 @@ class AddOnsCardItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        if(bloc.pendingPayOption == true) {
+          return;
+        }
         if (isActive == false) {
           bloc.changeSelectedAddOnOption(currentOption);
         } else {

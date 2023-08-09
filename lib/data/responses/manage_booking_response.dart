@@ -200,6 +200,12 @@ class Result {
   List<FlightSegment>? flightSegments;
   FS.CompanyTaxInvoice? companyTaxInvoice;
   bool? isReturn;
+  num? amountNeedToPay;
+  bool? needPaymentFirst;
+
+  //"amountNeedToPay": 228,
+  //"needPaymentFirst": true,
+
   bool? success;
 
 
@@ -435,13 +441,14 @@ class Result {
         FS.CompanyTaxInvoice? companyTaxInvoice,
       bool? isReturn,
         String? message,
-
+        num? amountNeedToPay,
+        bool? needPaymentFirst,
         bool? success}) {
     return Result(
       bookingContact: bookingContact ?? this.bookingContact,
-
       message: message ?? this.message,
-
+      needPaymentFirst: needPaymentFirst ?? this.needPaymentFirst,
+      amountNeedToPay: amountNeedToPay ?? this.amountNeedToPay,
       passengersWithSSR: passengersWithSSR ?? this.passengersWithSSR,
       paymentOrders: paymentOrders ?? this.paymentOrders,
       fareAndBundleDetail: fareAndBundleDetail ?? this.fareAndBundleDetail,
@@ -471,6 +478,8 @@ class Result {
       this.flightSegments,
       this.companyTaxInvoice,
       this.isReturn,
+        this.amountNeedToPay ,
+  this.needPaymentFirst ,
         this.message,
       this.success});
 
@@ -528,7 +537,10 @@ class Result {
         ? FS.CompanyTaxInvoice.fromJson(json['companyTaxInvoice'])
         : null;
     isReturn = json['isReturn'];
-    isRequiredPassport = json['isRequiredPassport'];
+     needPaymentFirst = json['needPaymentFirst'];
+     amountNeedToPay = json['amountNeedToPay'];
+
+     isRequiredPassport = json['isRequiredPassport'];
 
      message = json['message'];
 
