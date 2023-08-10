@@ -176,7 +176,7 @@ class PassengerSelector extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                value?.generateText(numberOfPerson) ?? "",
+                 value?.generateText(numberOfPerson) ?? "",
                 style: kMediumMedium.copyWith(
                   color: selected ? Styles.kPrimaryColor : null,
                 ),

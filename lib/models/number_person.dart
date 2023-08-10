@@ -571,12 +571,23 @@ class Person extends Equatable {
         final meals = isDeparture ? departureMeal : returnMeal;
         return '${meals.length} ${meals.length > 1 ? " meals".tr() : "meal".tr()}';
       case AddonType.baggage:
-        if (isDeparture && departureBaggage == null) {
+        if (isDeparture && departureBaggage == null && departureSports == null) {
           return "noBaggageSelected".tr();
         }
-        if (!isDeparture && returnBaggage == null) return "noBaggageSelected".tr();
+        if (!isDeparture && returnBaggage == null && returnSports == null) return "noBaggageSelected".tr();
         final baggage = isDeparture ? departureBaggage : returnBaggage;
-        return '${baggage?.description}';
+        final sportsBaggage = isDeparture ? departureSports : returnSports;
+
+        if(baggage != null && sportsBaggage != null) {
+          return '2 Baggage';
+        }
+        else if(baggage != null) {
+          return '1 Baggage';
+        }
+        else if(sportsBaggage != null) {
+          return '1 Baggage';
+        }
+        return '1 Baggage';
       case AddonType.special:
         int number = 0;
         if (isDeparture && departureWheelChair != null) number = number + 1;

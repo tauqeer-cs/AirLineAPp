@@ -228,7 +228,7 @@ class BaggageSection extends StatelessWidget {
         padding: kPageHorizontalPadding,
         child: HorizontalBaggageCards(
           isDeparture: isDeparture,
-          key: this.horiz2,
+          key: horiz2,
         ),
       );
     }
