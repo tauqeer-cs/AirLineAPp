@@ -20,11 +20,14 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
     final checkDate = prevLoaded.firstWhereOrNull((element) => AppDateUtils.sameMonth(element, startFilter));
     DateTime currentDate = DateTime.now();
 
-    if (startFilter.isBefore(currentDate)) {
+
+    /*if (startFilter.isBefore(currentDate)) {
 
       return;
 
-    }
+    }*/
+
+
     if(checkDate!=null) return;
     emit(state.copyWith(blocState: BlocState.loading, loadingDate: startFilter));
     try {
@@ -37,7 +40,7 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
       var request = SearchFlight.fromFilter(newFilter,currency ?? 'MYR');
 
 
-      final prices = await _repository.searchFlightDateRange(request);
+      final prices = await _repository.searchFlightDateRangeRepo(request);
       final prevList = List<DateRangePrice>.from(state.prices);
       final prevLoaded = List<DateTime>.from(state.loadedDate);
       prevList.addAll(prices.searchDateRangeResponse?.dateRangePrices ?? []);
@@ -50,7 +53,7 @@ class PriceRangeCubit extends Cubit<PriceRangeState> {
     } catch (e, st) {
       emit(
         state.copyWith(
-            message: ErrorUtils.getErrorMessage(e, st),
+            message: ErrorUtils.getErrorMessage(e, st,dontShowError: true),
             blocState: BlocState.failed),
       );
     }

@@ -57,7 +57,7 @@ class FlightRepository {
     return await _provider.searchFlight(searchFlight);
   }
 
-  Future<SearchDateRange> searchFlightDateRange(SearchFlight searchFlight) async {
+  Future<SearchDateRange> searchFlightDateRangeRepo(SearchFlight searchFlight) async {
     return await _provider.searchFlightDateRange(searchFlight);
   }
 
