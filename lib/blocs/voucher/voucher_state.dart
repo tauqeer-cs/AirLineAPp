@@ -3,6 +3,10 @@ part of 'voucher_cubit.dart';
 class VoucherState extends Equatable {
   final VoucherResponse? response;
   final BlocState blocState;
+  final bool dontShowVoucher;
+
+  final String? lastText;
+
   final String message;
   final String? appliedVoucher;
   final bool promoLoaded;
@@ -13,8 +17,10 @@ class VoucherState extends Equatable {
 
   VoucherState( {
     this.response,
+    this.dontShowVoucher = false,
     this.blocState = BlocState.initial,
     this.message = '',
+    this.lastText,
     this.appliedVoucher = '',
     this.redemptionOption,
     this.promoLoaded = false,
@@ -35,8 +41,12 @@ class VoucherState extends Equatable {
     bool? redeemingPromo,
     bool? pointsRedeemed,
     InsertVoucherPIN? Function()? insertedVoucher,
+    bool? dontShowVoucher,
+    String? lastText,
   }) {
     return VoucherState(
+      dontShowVoucher: dontShowVoucher ?? this.dontShowVoucher,
+      lastText: lastText ?? this.lastText,
       blocState: blocState ?? this.blocState,
       message: message ?? this.message,
       response: response != null ? response() : this.response,
@@ -59,5 +69,7 @@ class VoucherState extends Equatable {
         selectedRedeemOption,
         promoLoaded,
         flightToken,
+    dontShowVoucher,
+    lastText
       ];
 }

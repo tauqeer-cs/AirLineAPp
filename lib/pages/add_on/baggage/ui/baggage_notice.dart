@@ -248,10 +248,13 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     Person? selectedPerson;
     bool isDeparture = false;
     BundleGroupSeat? baggageGroup;
+    List<Bundle>? baggage;
 
     if (widget.isManageBooking) {
 
       var bloc = context.watch<ManageBookingCubit>();
+
+      var state = bloc.state;
 
       managebloc = bloc;
 
@@ -265,10 +268,34 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       isDeparture = widget.isDeparting;
 
 
-      var baggage =
+       baggage =
       isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
 
       baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
+
+      String? lastSSRCode ;
+
+      if(widget.isDeparting) {
+        if(state.selectedPax?.baggageDetail != null) {
+          if((state.selectedPax!.sportEquipmentDetail?.departureBaggages ?? []).isNotEmpty) {
+            lastSSRCode =  (state.selectedPax!.sportEquipmentDetail?.departureBaggages ?? []).first.ssrCode;
+          }
+        }
+
+
+      }
+      else {
+        if(state.selectedPax?.sportEquipmentDetail != null) {
+          if((state.selectedPax!.sportEquipmentDetail?.returnBaggages ?? []).isNotEmpty) {
+            lastSSRCode =  (state.selectedPax!.sportEquipmentDetail?.returnBaggages ?? []).first.ssrCode;
+          }
+        }
+      }
+
+      baggage = baggage?.where((e) => e.ssrCode != lastSSRCode ).toList();
+      baggage = baggage?.where((e) => e.ssrCode != 'NOSELECT' ).toList();
+
+      //&&  e.ssrCode !=
 
       var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureSports?.description).toList();
 
@@ -294,7 +321,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       }
       else {
         int indexOf = 0;
-        selectedItem = (baggage ?? []).first.ssrCode ?? '';
+        selectedItem = '';
         scrollToPositionInStart(indexOf);
       }
 
@@ -337,9 +364,15 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       lastPersonUser = selectedPerson;
     }
 
-    var baggage =
-        isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
-    baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
+    if(this.widget.isManageBooking){
+
+    }
+    else {
+      baggage =
+      isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
+      baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
+    }
+
     return widget.isManageBooking
         ? Row(
             children: [
@@ -378,11 +411,22 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                         return InkWell(
                           onTap: (){
 
-                            selectedItem = (baggage ?? [])[index].ssrCode ?? '';
-                            managebloc?.addSportToPerson(selectedPerson,(baggage ?? [])[index],isDeparture);
-                            setState(() {
+                            var response = managebloc?.addSportToPerson(selectedPerson,(baggage ?? [])[index],isDeparture);
+                            if(response == true) {
 
-                            });
+                              setState(() {
+                                selectedItem = '';
+
+                              });
+                            }
+                            else {
+                              selectedItem = (baggage ?? [])[index].ssrCode ?? '';
+
+                              setState(() {
+
+                              });
+                            }
+
                           },
                           child: Column(
                             children: [

@@ -51,81 +51,93 @@ class RewardAndDiscount extends StatelessWidget {
             "rewardsDiscount".tr(),
             style: kGiantSemiBold.copyWith(color: Styles.kPrimaryColor),
           ),
-          SettingsWrapper(
-            settingType: AvailableSetting.myReward,
-            child: RedeemVoucherView(
-              currency: currency,
-              promoReady: promoReady,
+          if(bloc.hasVoucherBeenUsed == false) ... [
+            SettingsWrapper(
+              settingType: AvailableSetting.myReward,
+              child: RedeemVoucherView(
+                currency: currency,
+                promoReady: promoReady,
+              ),
             ),
-          ),
-          kVerticalSpacerSmall,
-          VoucherCodeUi(
-            readOnly: bookingState.superPnrNo != null,
-            blocState: state.blocState,
-            voucherCodeInitial: state.insertedVoucher?.voucherCode ?? '',
-            state: state,
-            onRemoveTapped: true
-                ? () {
-              if(bookingState.superPnrNo != null) {
-                return;
-              }
-              if(bookinbBloc.hasPnr == true) {
-                return;
+            kVerticalSpacerSmall,
+          ],
 
-              }
 
-              if((state.insertedVoucher?.voucherCode ?? '').isEmpty) {
+          if(bloc.hasPointsBeenRedeemed == false) ... [
+
+            VoucherCodeUi(
+              onOnlyTextRemove: (){
                 _fbKey.currentState!.reset();
-                return;
+                bloc.dontShowVoucher();
+              },
+              readOnly: bookingState.superPnrNo != null,
+              blocState: state.blocState,
+              voucherCodeInitial: state.dontShowVoucher == true ? '' : (state.insertedVoucher?.voucherCode ?? (state.lastText ?? '')),
+              state: state,
+              onRemoveTapped: true
+                  ? () {
+                if(bookingState.superPnrNo != null) {
+                  return;
+                }
+                if(bookinbBloc.hasPnr == true) {
+                  return;
 
+                }
+
+                if((state.insertedVoucher?.voucherCode ?? '').isEmpty) {
+                  _fbKey.currentState!.reset();
+                  return;
+
+                }
+                if (state.response != null) {
+
+                  removeVoucher(bookingState, context);
+                } else {
+                  _fbKey.currentState!.reset();
+                }
               }
-                    if (state.response != null) {
+                  : null,
+              onButtonTapped: state.blocState == BlocState.loading ||
+                  bookingState.superPnrNo != null
+                  ? null
+                  : (state.insertedVoucher != null)
+                  ? () => removeVoucher(bookingState, context)
+                  : () {
 
-                      removeVoucher(bookingState, context);
-                    } else {
-                      _fbKey.currentState!.reset();
-                    }
+                if (_fbKey.currentState!.saveAndValidate()) {
+                  if (ConstantUtils.showPinInVoucher) {
+                    final value = _fbKey.currentState!.value;
+                    final voucher = value["voucherCode"];
+                    final pin = value["voucherPin"];
+                    final voucherPin = InsertVoucherPIN(
+                      voucherCode: voucher,
+                    );
+                    final token = bookingState.verifyResponse?.token;
+                    final voucherRequest = VoucherRequest(
+                      voucherPins: [voucherPin],
+                      token: token,
+                    );
+                    context
+                        .read<VoucherCubit>()
+                        .addVoucher(voucherRequest);
+                  } else {
+                    final value = _fbKey.currentState!.value;
+                    final voucher = value["voucherCode"];
+                    final token = bookingState.verifyResponse?.token;
+                    final voucherRequest = VoucherRequest(
+                      insertVoucher: voucher,
+                      token: token,
+                    );
+                    context
+                        .read<VoucherCubit>()
+                        .addVoucher(voucherRequest);
                   }
-                : null,
-            onButtonTapped: state.blocState == BlocState.loading ||
-                    bookingState.superPnrNo != null
-                ? null
-                : (state.response != null)
-                    ? () => removeVoucher(bookingState, context)
-                    : () {
+                }
+              },
+              fbKey: _fbKey,
+            ),
+          ] ,
 
-                        if (_fbKey.currentState!.saveAndValidate()) {
-                          if (ConstantUtils.showPinInVoucher) {
-                            final value = _fbKey.currentState!.value;
-                            final voucher = value["voucherCode"];
-                            final pin = value["voucherPin"];
-                            final voucherPin = InsertVoucherPIN(
-                              voucherCode: voucher,
-                            );
-                            final token = bookingState.verifyResponse?.token;
-                            final voucherRequest = VoucherRequest(
-                              voucherPins: [voucherPin],
-                              token: token,
-                            );
-                            context
-                                .read<VoucherCubit>()
-                                .addVoucher(voucherRequest);
-                          } else {
-                            final value = _fbKey.currentState!.value;
-                            final voucher = value["voucherCode"];
-                            final token = bookingState.verifyResponse?.token;
-                            final voucherRequest = VoucherRequest(
-                              insertVoucher: voucher,
-                              token: token,
-                            );
-                            context
-                                .read<VoucherCubit>()
-                                .addVoucher(voucherRequest);
-                          }
-                        }
-                      },
-            fbKey: _fbKey,
-          ),
         ],
       ),
     );
@@ -136,11 +148,28 @@ class RewardAndDiscount extends StatelessWidget {
       return;
     }
 
-    _fbKey.currentState!.reset();
+
     final token = bookingState.verifyResponse?.token;
     final voucherRequest = VoucherRequest(
       token: token,
     );
-    context.read<VoucherCubit>().removeVoucher(voucherRequest);
+    String? lastText;
+
+    if(context.read<VoucherCubit>().state.dontShowVoucher == true){
+      _fbKey.currentState!.save();
+
+      final value = _fbKey.currentState!.value;
+      final voucher = value["voucherCode"];
+      lastText = voucher;
+
+    }
+    else {
+      _fbKey.currentState!.reset();
+
+    }
+
+    context.read<VoucherCubit>().removeVoucher(voucherRequest,lastTextEntered: lastText);
+
   }
+
 }

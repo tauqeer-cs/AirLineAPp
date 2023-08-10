@@ -381,7 +381,14 @@ class MealSummaryDetail extends StatelessWidget {
 
             }
             //double totalAmount = (ccc ?? []).first.mealDetail.fold(0.0, (previousValue, obj) => previousValue + obj.amount);
-            var cc1 = (ccc ?? []).first.mealDetail?.returnMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+            List<MealList>? cc1 = [];
+            if((ccc ?? []).isNotEmpty) {
+
+              if(((ccc ?? []).first.mealDetail?.returnMeals ?? []).isNotEmpty ) {
+                cc1 = (ccc ?? []).first.mealDetail?.returnMeals.first.mealList?.where((element) => element.departReturn == stringDepart).toList();
+
+              }
+            }
 
 
             List<MealList> finalVar = (cc1 ?? []).where((e) => e.departReturn == stringDepart).toList();
@@ -415,33 +422,37 @@ class MealSummaryDetail extends StatelessWidget {
             ),
           ],
 
-          ChildRow(
-            child1: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  eP.generateText(numberOfPerson, separator: "& "),
-                ),
+          if(mealOld.keys.isNotEmpty) ... [
+            ChildRow(
 
-                ...mealOld.entries
-                    .map(
-                        (e) {
+              child1: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    eP.generateText(numberOfPerson, separator: "& "),
+                  ),
 
-                      return SummaryListItem(
-                        text:
-                        "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
-                      );
-                    }
-                )
-                    .toList(),
+                  ...mealOld.entries
+                      .map(
+                          (e) {
 
-              ],
+                        return SummaryListItem(
+                          text:
+                          "${e.value.first.description} ${e.value.isNotEmpty ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
+                        );
+                      }
+                  )
+                      .toList(),
+
+                ],
+              ),
+              child2: MoneyWidgetCustom(
+                currency: currency,
+                amount: eP.getOldMeanPrice(isDeparture),
+              ),
             ),
-            child2: MoneyWidgetCustom(
-              currency: currency,
-              amount: eP.getOldMeanPrice(isDeparture),
-            ),
-          ),
+          ],
+
           if(eP.getPartialPriceMealForNew(isDeparture) != 0.0) ... [
             ChildRow(
               child1: Column(
@@ -458,7 +469,7 @@ class MealSummaryDetail extends StatelessWidget {
                         return SummaryListItem(
                           makeRed: true,
                           text:
-                          "${e.value.first.description} ${e.value.length > 1 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
+                          "${e.value.first.description} ${e.value.length > 0 ? 'x ${e.value.length}' : ''}", isManageBooking: isManageBooking,
                         );
                       }
                   )

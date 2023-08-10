@@ -1,4 +1,5 @@
 import 'package:app/app/app_router.dart';
+import 'package:app/pages/account_setting/account_setting_page.dart';
 import 'package:app/pages/auth/bloc/login/login_cubit.dart';
 import 'package:app/theme/my_flutter_app_icons.dart';
 import 'package:app/theme/theme.dart';
@@ -52,10 +53,18 @@ class _LoginFormState extends State<LoginForm> {
       });
       final value = widget.fbKey.currentState!.value;
       final email = value[widget.formEmailLoginName];
+      bool sendUserToPassword = false;
+
       final password = value[widget.formPasswordLoginName];
       var result = await context
           .read<LoginCubit>()
-          .logInWithCredentialsFromPopUp(email, password);
+          .logInWithCredentialsFromPopUp(email, password,(){
+        sendUserToPassword = true;
+            print('');
+
+      });
+
+
 
 
 
@@ -90,6 +99,17 @@ class _LoginFormState extends State<LoginForm> {
       else {
 
         context.read<ProfileCubit>().getProfile();
+
+        if(sendUserToPassword) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AccountSettingPage(isChangingTempPassword: true)),
+          );
+
+
+
+        }
+
       }
       setState(() {
         isLoading = false;

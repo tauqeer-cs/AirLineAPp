@@ -1,6 +1,7 @@
 import 'package:app/app/app_bloc_helper.dart';
 import 'package:app/data/repositories/auth_repository.dart';
 import 'package:app/data/requests/login_request.dart';
+import 'package:app/models/user.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -21,7 +22,7 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(blocState: BlocState.loading, ));
     try {
       final loginRequest = LoginRequest(userName: userName, password: password);
-      await _authenticationRepository.loginWithEmail(loginRequest);
+      await _authenticationRepository.loginWithEmailRepo(loginRequest);
 
     } catch (e, st) {
       emit(
@@ -34,13 +35,18 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<bool?> logInWithCredentialsFromPopUp(
-      String userName, String password) async {
+      String userName, String password,Function() completionHandler) async {
     emit(state.copyWith(blocState: BlocState.loading,
     ));
     try {
       final loginRequest = LoginRequest(userName: userName, password: password);
-      await _authenticationRepository.loginWithEmail(loginRequest);
+      User? reply = await _authenticationRepository.loginWithEmailRepo(loginRequest);
 
+      if(reply?.requiredResetPassword == true) {
+
+        completionHandler();
+
+      }
       return true;
     } catch (e, st) {
       emit(

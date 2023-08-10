@@ -22,6 +22,53 @@ class VoucherCubit extends Cubit<VoucherState> {
     emit(VoucherState());
   }
 
+  dontShowVoucher() async {
+
+    emit(state.copyWith(
+      dontShowVoucher: true,
+    ));
+
+
+  }
+
+  bool get hasVoucherBeenUsed {
+
+    if(state.response?.addVoucherResult?.voucherDiscounts != null) {
+
+      if((state.response?.addVoucherResult?.voucherDiscounts ?? []) .isNotEmpty) {
+        var discount = state.response?.addVoucherResult?.voucherDiscounts!.first.discountAmount;
+
+        if((discount ?? 0.0) > 0.0) {
+          return true;
+        }
+      }
+    }
+    return false;
+
+  }
+  bool get hasPointsBeenRedeemed {
+
+    if(state.redemptionOption?.availableOptions  != null) {
+
+      if(state.redemptionOption!.availableOptions!.isNotEmpty) {
+
+        if(state.selectedRedeemOption != null) {
+          var amount = state.selectedRedeemOption?.redemptionAmount ?? 0.0;
+
+          if(amount > 0 ){
+
+            return true;
+
+          }
+        }
+
+      }
+
+
+    }
+
+    return false;
+  }
   getAvailablePromotions(String token) async {
     state.flightToken = token;
 
@@ -64,10 +111,45 @@ class VoucherCubit extends Cubit<VoucherState> {
                 "",
           )
           .build();
+      if(response.addVoucherResult?.voucherDiscounts != null) {
+        if((response.addVoucherResult?.voucherDiscounts ?? []).isNotEmpty ) {
+
+          if((response.addVoucherResult?.voucherDiscounts ?? []).first.discountAmount == 0.0) {
+            emit(
+              state.copyWith(
+                dontShowVoucher: false,
+                message: 'Voucher out of balance',
+                blocState: BlocState.failed,
+                response: () => const VoucherResponse(),
+                appliedVoucher: () => "",
+                insertedVoucher: null,
+              ),
+            );
+            return;
+
+          }
+        }
+        else {
+          emit(
+            state.copyWith(
+              dontShowVoucher: false,
+              message: 'Voucher out of balance',
+              blocState: BlocState.failed,
+              response: () => const VoucherResponse(),
+              appliedVoucher: () => "",
+              insertedVoucher: null,
+            ),
+          );
+
+          return;
+
+        }
+      }
       emit(
         state.copyWith(
           blocState: BlocState.finished,
           response: () => response,
+          dontShowVoucher: false,
           appliedVoucher: () => voucherRequest.insertVoucher,
           insertedVoucher: () => voucherRequest.voucherPins.firstOrNull,
         ),
@@ -75,23 +157,27 @@ class VoucherCubit extends Cubit<VoucherState> {
     } catch (e, st) {
       emit(
         state.copyWith(
+          dontShowVoucher: false,
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           response: () => const VoucherResponse(),
           appliedVoucher: () => "",
+          insertedVoucher: null,
         ),
       );
     }
   }
 
-  removeVoucher(VoucherRequest voucherRequest) async {
+  removeVoucher(VoucherRequest voucherRequest,{String? lastTextEntered}) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       await _repository.removeVoucher(voucherRequest);
       emit(
         state.copyWith(
+          dontShowVoucher: false,
           blocState: BlocState.finished,
           response: () => null,
+          lastText: lastTextEntered,
           appliedVoucher: () => null,
           insertedVoucher: () => null,
         ),
@@ -99,6 +185,7 @@ class VoucherCubit extends Cubit<VoucherState> {
     } catch (e, st) {
       emit(
         state.copyWith(
+          dontShowVoucher: false,
           message: ErrorUtils.getErrorMessage(e, st),
           blocState: BlocState.failed,
           response: () => const VoucherResponse(),

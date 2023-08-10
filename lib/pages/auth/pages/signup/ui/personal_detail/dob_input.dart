@@ -12,6 +12,8 @@ class DobInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var localObject = context.locale;
+    final locale = context.locale.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,11 +26,12 @@ class DobInput extends StatelessWidget {
         GreyCard(
           edgeInsets: const EdgeInsets.all(8),
           child: FormBuilderDateTimePicker(
+            locale: localObject,
             name: formNameDob,
             validator: FormBuilderValidators.required(),
             firstDate: DateTime(1920),
             lastDate: DateTime.now(),
-            format: DateFormat("dd MMM yyyy"),
+            format: DateFormat("dd MMM yyyy",locale),
             initialDate: DateTime(2000),
             initialEntryMode: DatePickerEntryMode.calendar,
             decoration: InputDecoration(

@@ -901,5 +901,6 @@
   "paymentSuccessMessage1_2": "is successful.",
   "paymentSuccessMessage2" : "The new total add-ons amount and total payment will be updated in your booking.",
   "insuranceTotal": "Insurance\nSubtotal",
-  "sports" : "Sports"
+  "sports" : "Sports",
+  "invalidVoucher" : "Invalid Voucher"
 }

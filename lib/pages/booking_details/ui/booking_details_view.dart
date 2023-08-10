@@ -40,6 +40,7 @@ import '../../add_on/summary/ui/seat_detail.dart';
 import '../../add_on/summary/ui/special_summary_detail.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../add_on/ui/summary_list_item.dart';
+import '../../change_flight_summary/ui/change_flight_summary_view.dart';
 import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../checkout/pages/insurance/ui/available_insurance.dart';
 import '../../checkout/pages/insurance/ui/insurance_view.dart';
@@ -298,9 +299,11 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 16),
                                         child: ElevatedButton(
-                                          onPressed: (state.checkedDeparture ||
-                                                      state.checkReturn) !=
-                                                  true
+                                          onPressed: ((state.checkedDeparture ||
+                                                          state.checkReturn) !=
+                                                      true ||
+                                                  bloc?.pendingPayOption ==
+                                                      true)
                                               ? null
                                               : () async {
                                                   //   context.router.replaceAll([const NavigationRoute()]);
@@ -411,9 +414,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   child: SeatLegendSimple(),
                                 ),
                                 kVerticalSpacer,
-
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
                                   child: PassengerViewerForSeats(
                                     passengersWithSSR: bloc
                                             ?.state
@@ -568,28 +571,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   ),
                                   kVerticalSpacerSmall,
                                 ],
-
-
-                                if(bloc?.state.specialAppOpsDeparture == true) ... [
+                                if (bloc?.state.specialAppOpsDeparture ==
+                                    true) ...[
                                   WheelchairSection(
-                                    key: horizKeyW1,
+                                      key: horizKeyW1,
                                       isDeparture:
-                                      bloc?.state.specialAppOpsDeparture ??
-                                          false,
+                                          bloc?.state.specialAppOpsDeparture ??
+                                              false,
                                       isManageBooking: true),
-                                ] else ... [
-
+                                ] else ...[
                                   WheelchairSection(
-                                    key: horizKeyW2,
+                                      key: horizKeyW2,
                                       isDeparture:
-                                      bloc?.state.specialAppOpsDeparture ??
-                                          false,
+                                          bloc?.state.specialAppOpsDeparture ??
+                                              false,
                                       isManageBooking: true),
-
                                 ],
-
-
-
                                 kVerticalSpacer,
                               ] else if (bloc?.state.addOnOptionSelected ==
                                   AddonType.insurance) ...[
@@ -632,7 +629,117 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (bloc?.showPayOption == true) ...[
+                    if (bloc?.pendingPayOption == true) ...[
+                      if (bloc?.state.isPaying == true && 1 == 2) ...[
+                        const Center(
+                          child: AppLoading(),
+                        ),
+                      ] else ...[
+                        SummaryContainer(
+                          child: bloc?.state.isPaying == true
+                              ? const AppLoading()
+                              : Padding(
+                                  padding: kPagePadding,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "flightResult.totalAmountDue".tr(),
+                                            style: kMediumRegular.copyWith(
+                                                color: Styles.kSubTextColor),
+                                          ),
+                                          MoneyWidget(
+                                            isDense: false,
+                                            currency: bloc
+                                                    ?.state
+                                                    .manageBookingResponse
+                                                    ?.result
+                                                    ?.passengersWithSSR
+                                                    ?.first
+                                                    .fareAndBundleDetail
+                                                    ?.currencyToShow ??
+                                                'MYR',
+                                            amount:
+                                                bloc?.pendingAmountToPay ?? 0.0,
+                                          ),
+                                          kVerticalSpacerSmall,
+                                        ],
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          BuildContext? cyrreContext =
+                                              Scaffold.maybeOf(context)
+                                                  ?.context;
+
+                                          var redirectUrl =
+                                              await bloc?.checkOutPending();
+
+                                          if (redirectUrl != null) {
+                                            final result =
+                                                await cyrreContext?.router.push(
+                                              WebViewRoute(
+                                                  url: "",
+                                                  htmlContent: redirectUrl),
+                                            );
+
+                                            if (result != null &&
+                                                result is String) {
+                                              final urlParsed =
+                                                  Uri.parse(result);
+                                              var query =
+                                                  urlParsed.queryParametersAll;
+                                              String? status =
+                                                  query['status']?.first;
+                                              String? superPNR =
+                                                  query['pnr']?.first;
+
+                                              if (status != "FAIL") {
+                                                await showDialog(
+                                                  context: cyrreContext!,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PaymentSuccessAlert(
+                                                      currency: bloc
+                                                              ?.state
+                                                              .manageBookingResponse
+                                                              ?.result
+                                                              ?.passengersWithSSR
+                                                              ?.first
+                                                              .fareAndBundleDetail
+                                                              ?.currencyToShow ??
+                                                          'MYR',
+                                                      amount:
+                                                          '${bloc?.pendingAmountToPay ?? 0.0}',
+                                                    );
+                                                  },
+                                                );
+
+                                                await bloc
+                                                    ?.getBookingInformation(
+                                                        state.lastName ?? '',
+                                                        state.pnrEntered ?? '');
+
+                                                reloadView();
+
+                                                //// cyrreContext
+                                                // .read<VoucherCubit>()
+                                                // .resetState();
+                                              } else {}
+                                            } else {}
+                                          }
+                                        },
+                                        child: const Text('Pay'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ] else if (bloc?.showPayOption == true) ...[
                       SummaryContainer(
                         child: bloc?.state.isPaying == true
                             ? const AppLoading()
@@ -648,7 +755,6 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
-
                                         if (response != null) {
                                           var redirectUrl =
                                               await bloc?.checkOutForPaymentSSR(
@@ -1217,9 +1323,13 @@ class ManageFlightSummary extends StatelessWidget {
     var totalPrice = bloc.confirmedSeatsTotalPrice +
         bloc.confirmedMealsTotalPrice +
         bloc.confirmedBaggageTotalPrice +
+        bloc.confirmedSportsTotalPrice +
         bloc.confirmedWheelChairTotalPrice +
         bloc.confirmedInsruanceTotalPrice;
-    return AppCard(
+
+    return (totalPrice == 0 && bloc.isThereNewWheelChaie == false)
+        ? Container()
+        : AppCard(
             child: Column(
               children: [
                 ChildRow(
@@ -1251,35 +1361,28 @@ class ManageFlightSummary extends StatelessWidget {
                     isManageBooking: true,
                   ),
                 ],
-
                 SeatSummaryDetail(
                   currency: currency,
                   isManageBooking: true,
                 ),
-
                 MealSummaryDetail(
                   currency: currency,
                   isManageBooking: true,
                 ),
-
                 BaggageSummaryDetail(
                   currency: currency,
                   sports: false,
                   isManageBooking: true,
                 ),
-
                 BaggageSummaryDetail(
                   currency: currency,
                   sports: true,
                   isManageBooking: true,
                 ),
-
-                // BaggageSummaryDetail(currency: currency, sports: true,isManageBooking: true,),
                 SpecialSummaryDetail(
                   currency: currency,
                   isManageBooking: true,
                 ),
-
                 if (bloc.state.insuranceType == InsuranceType.all ||
                     bloc.state.insuranceType == InsuranceType.selected) ...[
                   if (bloc.confirmedInsruanceTotalPrice > 0) ...[
@@ -1288,6 +1391,49 @@ class ManageFlightSummary extends StatelessWidget {
                     ),
                   ],
                 ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            RedCircle(
+                              circleColor: Styles.kPrimaryColor,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'flightCharge.changes'.tr(),
+                              style: kSmallRegular.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            RedCircle(
+                              circleColor: Styles.kTextColor,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'flightCharge.existingAddons'.tr(),
+                              style: kSmallRegular.copyWith(
+                                color: Styles.kTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           );

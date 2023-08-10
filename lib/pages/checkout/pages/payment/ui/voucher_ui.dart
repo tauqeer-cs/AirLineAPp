@@ -20,6 +20,7 @@ class VoucherCodeUi extends StatelessWidget {
   GlobalKey<FormBuilderState> fbKey;
 
   final VoidCallback? onRemoveTapped;
+  final VoidCallback? onOnlyTextRemove;
 
   final VoidCallback? onButtonTapped;
 
@@ -34,6 +35,7 @@ class VoucherCodeUi extends StatelessWidget {
       required this.blocState,
       required this.voucherCodeInitial,
       required this.state,
+        required this.onOnlyTextRemove,
       required this.onRemoveTapped,
       required this.onButtonTapped})
       : super(key: key);
@@ -68,7 +70,7 @@ class VoucherCodeUi extends StatelessWidget {
                             return 'personalInfo.required'.tr();
                           }
                           if (value.length != 17) {
-                            return 'termsAndConditions'.tr();
+                            return 'invalidVoucher'.tr();
                           }
                           return null;
                         },
@@ -116,10 +118,9 @@ class VoucherCodeUi extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap:  readOnly ? null : (){
-
-                    onRemoveTapped?.call();
-
+                  onTap: (){
+                    //onRemoveTapped?.call();
+                    onOnlyTextRemove?.call();
 
                   },
                   child: Container(

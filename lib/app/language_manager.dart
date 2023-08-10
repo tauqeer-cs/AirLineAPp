@@ -16,7 +16,7 @@ class LanguageManager {
       language = 'th-TH';
     }
     else {
-      language = 'en_US';
+      language = 'en-US';
     }
     _currentLanguage = language;
   }

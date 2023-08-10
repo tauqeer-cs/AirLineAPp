@@ -129,7 +129,8 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<CountriesCubit>();
-
+    var localObject = context.locale;
+    final locale = context.locale.toString();
     Country? selectedCountryObject;
 
     return FormBuilder(
@@ -212,11 +213,12 @@ class _FriendsFamilyFormState extends State<FriendsFamilyForm> {
             ],
           ),
           FormBuilderDateTimePicker(
+            locale: localObject,
             name: dob,
             firstDate: DateTime.now().add(const Duration(days: -365 * 100)),
             lastDate: DateTime.now(),
             initialValue: initialDateTime,
-            format: DateFormat("dd MMM yyyy"),
+            format: DateFormat("dd MMM yyyy",locale),
             initialEntryMode: DatePickerEntryMode.calendar,
             decoration: InputDecoration(hintText: 'dob'.tr()),
             inputType: InputType.date,

@@ -67,12 +67,6 @@ class SeatPlan extends StatelessWidget {
     if (isManageBooking) {
       var currentState = context.watch<ManageBookingCubit>().state;
 
-      /*
-      legends = isDeparture
-          ? currentState.flightSeats?.outbound ?? []
-          : currentState.flightSeats?.inbound ?? [];
-*/
-
       legends = isDeparture ? [] : [];
     } else {
       mapColor = isDeparture
@@ -118,7 +112,6 @@ class SeatPlan extends StatelessWidget {
             Bundle? bundle;
             num? newPrice;
 
-            if (isManageBooking) {
               if (isSeatSeparated == true) {
                 print('');
 
@@ -128,7 +121,7 @@ class SeatPlan extends StatelessWidget {
                   print('');
                 }
               }
-            }
+
 
             for (Seats seat in row.seats ?? []) {
               bundle = legends.firstWhereOrNull(
@@ -147,7 +140,7 @@ class SeatPlan extends StatelessWidget {
               child: Column(
                 children: [
                   kVerticalSpacerSmall,
-                  if (isManageBooking) ...[
+                  if (1 == 1) ...[
                     if (isSeatSeparated && newPrice != null)
                       Column(
                         children: [
@@ -310,7 +303,7 @@ class SeatPlan extends StatelessWidget {
                     onPressed: manageBookingCubit?.hasAnySeatChanged == false
                         ? null
                         : () {
-                            manageBookingCubit?.seatConfirmSeatChange();
+                            manageBookingCubit?.seatConfirmSeatChange(manageBookingCubit.state.seatDeparture);
 
                             manageBookingCubit?.changeSelectedAddOnOption(
                                 AddonType.seat,

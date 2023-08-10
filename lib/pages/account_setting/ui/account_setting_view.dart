@@ -18,8 +18,9 @@ import '../../../theme/theme.dart';
 
 class AccountSettingView extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
+  final bool isChangingTempPassword;
 
-  const AccountSettingView({Key? key}) : super(key: key);
+  const AccountSettingView({Key? key, required this.isChangingTempPassword}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,29 +53,35 @@ class AccountSettingView extends StatelessWidget {
             kVerticalSpacerSmall,
             PasswordInput(title: 'accountDetail.setNewPassword'.tr()),
             kVerticalSpacerSmall,
-            OutlinedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('infoDetail.cancel'.tr()),
-            ),
+            if(!isChangingTempPassword) ... [
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('infoDetail.cancel'.tr()),
+              ),
+            ],
+
             kVerticalSpacerSmall,
             ElevatedButton(
               onPressed: () => onChangePassword(context),
               child: Text('accountDetail.save'.tr()),
             ),
             kVerticalSpacerMini,
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  context.router.push(const DeleteAccountRoute());
-                },
-                child: Text(
-                  'account.deleteAccount'.tr(),
-                  style: kMediumRegular.copyWith(color: Styles.kBorderColor),
+            if(!isChangingTempPassword) ... [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    context.router.push(const DeleteAccountRoute());
+                  },
+                  child: Text(
+                    'account.deleteAccount'.tr(),
+                    style: kMediumRegular.copyWith(color: Styles.kBorderColor),
+                  ),
                 ),
               ),
-            ),
+            ],
+
           ],
         ),
       ),

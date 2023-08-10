@@ -50,7 +50,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
     }
     final locale = context.locale.toString();
     CountriesCubit? cbloc = context.read<CountriesCubit>();
-
+    var localObject = context.locale;
 
     return BlocBuilder<CheckInCubit, CheckInState>(
       bloc: bloc,
@@ -601,10 +601,11 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                         ),
                         kVerticalSpacerSmall,
                         FormBuilderDateTimePicker(
+                          locale: localObject,
                           name: 'formNameDob${i.toString()}',
                           firstDate: DateTime.now().add(const Duration(days: 1)),
                           lastDate: DateTime.now().add(Duration(days: 5475)),
-                          format: DateFormat("dd MMM yyyy"),
+                          format: DateFormat("dd MMM yyyy",locale),
                           onChanged: (newData) {
 
                             if(newData != null) {
@@ -792,10 +793,11 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                                   ),
                                   kVerticalSpacerSmall,
                                   FormBuilderDateTimePicker(
+                                    locale: localObject,
                                     name: 'infformNameDob${i.toString()}',
                                     firstDate: DateTime.now().add(Duration(days: 1)),
                                     lastDate: DateTime.now().add(Duration(days: 5475)),
-                                    format: DateFormat("dd MMM yyyy"),
+                                    format: DateFormat("dd MMM yyyy",locale),
                                     onChanged: (newData) {
 
                                       if(newData != null) {

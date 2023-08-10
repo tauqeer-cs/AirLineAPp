@@ -107,7 +107,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.lifecycle:lifecycle-process:2.2.0'
     implementation 'com.useinsider:insider:13.0.0'
-    implementation 'com.google.android.gms:play-services-ads:16.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

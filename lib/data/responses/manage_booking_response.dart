@@ -200,6 +200,12 @@ class Result {
   List<FlightSegment>? flightSegments;
   FS.CompanyTaxInvoice? companyTaxInvoice;
   bool? isReturn;
+  num? amountNeedToPay;
+  bool? needPaymentFirst;
+
+  //"amountNeedToPay": 228,
+  //"needPaymentFirst": true,
+
   bool? success;
 
 
@@ -435,13 +441,14 @@ class Result {
         FS.CompanyTaxInvoice? companyTaxInvoice,
       bool? isReturn,
         String? message,
-
+        num? amountNeedToPay,
+        bool? needPaymentFirst,
         bool? success}) {
     return Result(
       bookingContact: bookingContact ?? this.bookingContact,
-
       message: message ?? this.message,
-
+      needPaymentFirst: needPaymentFirst ?? this.needPaymentFirst,
+      amountNeedToPay: amountNeedToPay ?? this.amountNeedToPay,
       passengersWithSSR: passengersWithSSR ?? this.passengersWithSSR,
       paymentOrders: paymentOrders ?? this.paymentOrders,
       fareAndBundleDetail: fareAndBundleDetail ?? this.fareAndBundleDetail,
@@ -471,6 +478,8 @@ class Result {
       this.flightSegments,
       this.companyTaxInvoice,
       this.isReturn,
+        this.amountNeedToPay ,
+  this.needPaymentFirst ,
         this.message,
       this.success});
 
@@ -528,7 +537,10 @@ class Result {
         ? FS.CompanyTaxInvoice.fromJson(json['companyTaxInvoice'])
         : null;
     isReturn = json['isReturn'];
-    isRequiredPassport = json['isRequiredPassport'];
+     needPaymentFirst = json['needPaymentFirst'];
+     amountNeedToPay = json['amountNeedToPay'];
+
+     isRequiredPassport = json['isRequiredPassport'];
 
      message = json['message'];
 
@@ -583,6 +595,28 @@ class Result {
 
 class PassengersWithSSR {
 
+  num getPersonSeatPrice(bool isDepart) {
+    if(seatDetail != null) {
+      if((seatDetail?.seats ?? []).isNotEmpty ) {
+
+        if(isDepart) {
+          if((seatDetail?.departureSeat ?? []).isNotEmpty ) {
+            return (seatDetail?.departureSeat ?? []).first.amount ?? 0.0;
+
+          }
+        }
+
+
+        if((seatDetail?.returnSeat ?? []).isNotEmpty ) {
+          return (seatDetail?.returnSeat ?? []).first.amount ?? 0.0;
+
+        }
+      }
+    }
+
+    return 0.0;
+
+  }
   Vs.Seats? newDepartSeatSelected;
   Vs.Seats? newReturnSeatSelected;
 
@@ -840,9 +874,14 @@ class PassengersWithSSR {
     Bundle? previousDepartureWheelChair,
     Bundle? previousReturnWheelChair,
 
+    Bundle? confirmReturnWheelChair,
+    Bundle? confirmDepartWheelChair,
+
 
   }) {
     return PassengersWithSSR(
+      confirmReturnWheelChair  : confirmReturnWheelChair  ?? this.confirmReturnWheelChair,
+      confirmDepartWheelChair :   confirmDepartWheelChair ?? this.confirmDepartWheelChair,
       previousDepartureSeats : previousDepartureSeats  ?? this.previousDepartureSeats,
       previousReturnSeats :  previousReturnSeats ?? this.previousReturnSeats,
       previousDepartureBaggage : previousDepartureBaggage  ?? this.previousDepartureBaggage,
@@ -852,9 +891,7 @@ class PassengersWithSSR {
       previousDepartureWheelChair :   previousDepartureWheelChair ?? this.previousDepartureWheelChair,
       previousReturnWheelChair :   previousReturnWheelChair ?? this.previousReturnWheelChair,
 
-
-
-
+seatDetail: seatDetail ?? this.seatDetail,
     confirmedDepartSportsSelected :  confirmedDepartSportsSelected ?? this.confirmedDepartSportsSelected,
       confirmedReturnSportsSelected :  confirmedReturnSportsSelected ?? this.confirmedReturnSportsSelected,
       newInsuranceBundleSelected :  newInsuranceBundleSelected ?? this.newInsuranceBundleSelected,
@@ -989,7 +1026,8 @@ class PassengersWithSSR {
     this.previousReturnSports,
     this.previousDepartureWheelChair,
     this.previousReturnWheelChair,
-
+    this.confirmReturnWheelChair,
+    this.confirmDepartWheelChair,
 
   });
 

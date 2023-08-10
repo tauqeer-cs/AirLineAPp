@@ -11,6 +11,8 @@ class ManageBookingState extends Equatable {
   final String? flightToken;
   final RedemptionOption? redemptionOption;
 
+  final bool showReward;
+
 
   final bool isLoadingPromo;
 
@@ -38,6 +40,10 @@ class ManageBookingState extends Equatable {
   final FR.FlightSSR? flightSSR;
   final FlightSeats? flightSeats;
 
+  String  findSeatObjectFromId(String seatId) {
+
+    return '';
+  }
   //BundleGroupSeat.fromJson(json['seatGroup'] as Map<String, dynamic>)
 
 
@@ -98,7 +104,8 @@ class ManageBookingState extends Equatable {
   final bool paymentDetailsExpanded;
 
 
-  const ManageBookingState({
+  const ManageBookingState( {
+     this.showReward = false,
     this.promoReady = false,
     this.blocState = BlocState.initial,
     this.message = "",
@@ -221,7 +228,8 @@ class ManageBookingState extends Equatable {
     confirmedInsuranceType,
     promoReady,
     isLoadingPromo,
-    rewardItem
+    rewardItem,
+    showReward,
   ];
 
   ManageBookingState copyWith({
@@ -291,9 +299,11 @@ class ManageBookingState extends Equatable {
     bool? promoReady,
     bool? isLoadingPromo,
     AvailableRedeemOptions? rewardItem,
+    bool? showReward,
 
   }) {
     return ManageBookingState(
+      showReward : showReward ?? this.showReward,
       rewardItem : rewardItem ?? this.rewardItem,
       confirmedInsuranceType : confirmedInsuranceType ?? this.confirmedInsuranceType,
       extraLoading : extraLoading ?? this.extraLoading,
@@ -361,7 +371,7 @@ class ManageBookingState extends Equatable {
       showPending: showPending ?? this.showPending,
       selectedPax: selectedPax ?? this.selectedPax,
       insuranceType: insuranceType ?? this.insuranceType,
-      newCompanyTaxName : newCompanyTaxAame  ?? this.newCompanyTaxName,
+      newCompanyTaxName : newCompanyTaxAame  ?? newCompanyTaxName,
       newCompanyTaxAddress :  newCompanyTaxAddress ?? this.newCompanyTaxAddress,
       newCompanyTaxState  : newCompanyTaxState ?? this.newCompanyTaxState,
       newCompanyTaxCity : newCompanyTaxCity ?? this.newCompanyTaxCity,

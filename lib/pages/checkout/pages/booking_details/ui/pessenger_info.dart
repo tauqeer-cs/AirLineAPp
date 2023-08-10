@@ -117,6 +117,8 @@ class _PassengerInfoState extends State<PassengerInfo> {
     final passengerInfo = widget.person.passenger;
     final notice = context.watch<CmsSsrCubit>().state.notice;
     final filter = context.watch<FilterCubit>().state;
+    var localObject = context.locale;
+
     final locale = context.locale.toString();
     final bookingState = context.watch<BookingCubit>().state;
     final insuranceGroup = context
@@ -246,18 +248,15 @@ class _PassengerInfoState extends State<PassengerInfo> {
               ),
               kVerticalSpacerSmall,
               FormBuilderDateTimePicker(
+                locale: localObject,
                 key: dateKey,
                 name: dobKey,
-                // locale:  ,
-                //  locale: Locale(locale),
-                locale: Locale(locale, ''),
-                // set the locale to French
                 firstDate: widget.person.dateLimitStart(filter.departDate),
                 lastDate: widget.person.peopleType == PeopleType.infant
                     ? infantDOBlimit(DateTime.now())
                     : widget.person.dateLimitEnd(filter.departDate),
                 initialValue: passengerInfo?.dob,
-                format: DateFormat("dd MMM yyyy"),
+                format: DateFormat("dd MMM yyyy",locale),
                 initialDate: widget.person.peopleType == PeopleType.infant
                     ? infantDOBlimit(DateTime.now())
                     : widget.person.dateLimitEnd(filter.departDate),
