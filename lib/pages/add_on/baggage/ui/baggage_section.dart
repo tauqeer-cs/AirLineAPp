@@ -66,6 +66,16 @@ class BaggageSection extends StatelessWidget {
       final bookingState = context.watch<BookingCubit>().state;
 
       baggageGroup = bookingState.verifyResponse?.flightSSR?.baggageGroup;
+
+      final numberOfPerson =
+          context.watch<SearchFlightCubit>().state.filterState?.numberPerson;
+      final selectedPerson = context.watch<SelectedPersonCubit>().state;
+      final persons = List<Person>.from(numberOfPerson?.persons ?? []);
+      if(selectedPerson != null) {
+        personIndex = persons.indexOf(selectedPerson) ?? 0;
+      }
+
+
     }
 
     final baggages =

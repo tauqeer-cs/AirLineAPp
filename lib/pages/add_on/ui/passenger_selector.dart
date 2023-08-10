@@ -56,12 +56,12 @@ class PassengerSelector extends StatelessWidget {
     }
 	
     double moveToRight = (onCountChanged - 1) * 170;
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 250), () {
       print("onCountChanged ${onCountChanged}");
       if(onCountChanged >= 2) {
         if (scrollPassengerController.hasClients)
           scrollPassengerController.animateTo(
-              moveToRight, duration: Duration(seconds: 1),
+              moveToRight, duration: Duration(milliseconds: 250),
               curve: Curves.linear);
       }
     });
