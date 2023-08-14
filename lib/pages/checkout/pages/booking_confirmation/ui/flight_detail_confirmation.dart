@@ -110,12 +110,14 @@ class _FlightDetailConfirmationState extends State<FlightDetailConfirmation> {
                       NumberUtils.getTimeString(widget.bound.elapsedTime),
                     ),
                   ),
-                  Expanded(
+
+                  /*Expanded(
                     child: BorderedLeftContainer(
                       title: "flightResult.aircraft".tr(),
                       content: '${widget.bound.aircraftDescription}',
                     ),
-                  ),
+                  ),*/
+
                 ],
               ),
               kVerticalSpacer,
@@ -220,12 +222,14 @@ class _FlightDetailFooterState extends State<FlightDetailFooter> {
                       NumberUtils.getTimeString(widget.bound.elapsedTime),
                     ),
                   ),
+                  /*
                   Expanded(
                     child: BorderedLeftContainer(
                       title: "${"aircraft".tr()}:",
                       content: '${widget.bound.aircraftDescription}',
                     ),
-                  ),
+                  ),*/
+
                 ],
               ),
               kVerticalSpacer,

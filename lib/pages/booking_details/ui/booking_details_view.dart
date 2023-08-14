@@ -41,6 +41,7 @@ import '../../add_on/summary/ui/special_summary_detail.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../add_on/ui/summary_list_item.dart';
 import '../../change_flight_summary/ui/change_flight_summary_view.dart';
+import '../../check_in/ui/check_in_view.dart';
 import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../checkout/pages/insurance/ui/available_insurance.dart';
 import '../../checkout/pages/insurance/ui/insurance_view.dart';
@@ -677,6 +678,17 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                                           var redirectUrl =
                                               await bloc?.checkOutPending();
+
+
+                                          if(bloc?.state.hasPendingError == true) {
+                                            showErrorDialog(context,redirectUrl ?? '');
+
+
+
+                                            return;
+
+                                          }
+                                          //
 
                                           if (redirectUrl != null) {
                                             final result =

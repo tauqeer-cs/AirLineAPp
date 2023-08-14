@@ -8,6 +8,8 @@ class ManageBookingState extends Equatable {
 
   final AvailableRedeemOptions? rewardItem;
 
+  final bool? hasPendingError;
+
   final String? flightToken;
   final RedemptionOption? redemptionOption;
 
@@ -169,6 +171,7 @@ class ManageBookingState extends Equatable {
     this.confirmedInsuranceType,
     this.redemptionOption,
     this.isLoadingPromo = false,
+    this.hasPendingError = false,
   });
 
   @override
@@ -230,6 +233,7 @@ class ManageBookingState extends Equatable {
     isLoadingPromo,
     rewardItem,
     showReward,
+    hasPendingError,
   ];
 
   ManageBookingState copyWith({
@@ -300,6 +304,7 @@ class ManageBookingState extends Equatable {
     bool? isLoadingPromo,
     AvailableRedeemOptions? rewardItem,
     bool? showReward,
+    bool? hasPendingError,
 
   }) {
     return ManageBookingState(
@@ -378,6 +383,9 @@ class ManageBookingState extends Equatable {
       newCompanyTaxPostCode : newCompanyTaxPostCode ?? this.newCompanyTaxPostCode,
       newCompanyTaxEmailAddress : newCompanyTaxEmailAddress ?? this.newCompanyTaxEmailAddress,
       isLoadingPromo : isLoadingPromo ?? this.isLoadingPromo,
+      hasPendingError : hasPendingError ?? this.hasPendingError,
+
+
     );
   }
 }

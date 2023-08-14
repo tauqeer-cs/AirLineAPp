@@ -900,6 +900,7 @@
   "paymentSuccessMessage2" : "ยอดรวมส่วนเสริมใหม่และการชำระเงินทั้งหมดจะอัปเดตในการจองของคุณ",
   "insuranceTotal": "ประกันภัย\nผลรวมย่อย",
   "sports" : "กีฬา",
-  "invalidVoucher" : "ชื่อไม่ถูกต้อง"
+  "invalidVoucher" : "ชื่อไม่ถูกต้อง",
+  "pleaseSettleAmount" : "กรุณาชำระยอดคงค้างของคุณก่อน"
 }
 

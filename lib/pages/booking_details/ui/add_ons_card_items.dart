@@ -10,6 +10,7 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
+import '../../check_in/ui/check_in_view.dart';
 import 'double_line_text.dart';
 
 class AddOnsCardItem extends StatelessWidget {
@@ -38,6 +39,8 @@ class AddOnsCardItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if(bloc.pendingPayOption == true) {
+          showErrorDialog(context,'pleaseSettleAmount'.tr());
+
           return;
         }
         if (isActive == false) {

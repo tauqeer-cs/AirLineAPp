@@ -11,8 +11,8 @@ class PayRedirectionValue extends Equatable {
 
   @override
   List<Object?> get props => [
-    value,
-  ];
+        value,
+      ];
 
   final PayRedirection? value;
 
@@ -32,6 +32,7 @@ class PayRedirection extends Equatable {
     this.success,
     this.isInvalidMemberID,
     this.fromCache,
+
   });
 
   @override
@@ -41,8 +42,8 @@ class PayRedirection extends Equatable {
         orderId,
         verifyExpiredDateTime,
         success,
-    isInvalidMemberID,
-    fromCache
+        isInvalidMemberID,
+        fromCache
       ];
 
   final PaymentRedirectData? paymentRedirectData;
@@ -57,15 +58,16 @@ class PayRedirection extends Equatable {
   final bool? fromCache;
 
 
-
   PayRedirection copyWith({
     PaymentRedirectData? paymentRedirectData,
     String? superPnrNo,
     int? orderId,
     DateTime? verifyExpiredDateTime,
     bool? success,
+    bool? isPendingPayment,
+    String? pendingPaymentMessage,
     bool? isInvalidMemberID,
-     bool? fromCache,
+    bool? fromCache,
   }) =>
       PayRedirection(
         paymentRedirectData: paymentRedirectData ?? this.paymentRedirectData,
@@ -76,7 +78,6 @@ class PayRedirection extends Equatable {
         success: success ?? this.success,
         isInvalidMemberID: isInvalidMemberID ?? this.isInvalidMemberID,
         fromCache: fromCache ?? this.fromCache,
-
       );
 
   factory PayRedirection.fromJson(Map<String, dynamic> json) =>
@@ -91,12 +92,18 @@ class PaymentRedirectData extends Equatable {
     this.paymentUrl,
     this.paymentRedirectValueList,
     this.isAlreadySuccessPayment,
+    this.isPendingPayment,
+    this.pendingPaymentMessage,
   });
 
   @override
   List<Object?> get props => [];
   @JsonKey(name: 'paymentURL')
   final String? paymentUrl;
+
+  final bool? isPendingPayment;
+  final String? pendingPaymentMessage;
+
   final bool? isAlreadySuccessPayment;
   final List<PaymentRedirectValueList>? paymentRedirectValueList;
 
@@ -104,12 +111,18 @@ class PaymentRedirectData extends Equatable {
     String? paymentUrl,
     bool? isAlreadySuccessPayment,
     List<PaymentRedirectValueList>? paymentRedirectValueList,
+    bool? isPendingPayment,
+    String? pendingPaymentMessage,
   }) =>
       PaymentRedirectData(
         paymentUrl: paymentUrl ?? this.paymentUrl,
-        isAlreadySuccessPayment: isAlreadySuccessPayment ?? this.isAlreadySuccessPayment,
+        isPendingPayment: isPendingPayment ?? this.isPendingPayment,
+        pendingPaymentMessage: pendingPaymentMessage ?? this.pendingPaymentMessage,
+        isAlreadySuccessPayment:
+            isAlreadySuccessPayment ?? this.isAlreadySuccessPayment,
         paymentRedirectValueList:
             paymentRedirectValueList ?? this.paymentRedirectValueList,
+
       );
 
   factory PaymentRedirectData.fromJson(Map<String, dynamic> json) =>
@@ -121,7 +134,8 @@ class PaymentRedirectData extends Equatable {
     if (paymentRedirectValueList == null) return {};
     Map<String, dynamic> map = {};
     for (PaymentRedirectValueList element in paymentRedirectValueList!) {
-      map.putIfAbsent(element.key ?? "", () => element.value?.replaceAll(",", ""));
+      map.putIfAbsent(
+          element.key ?? "", () => element.value?.replaceAll(",", ""));
     }
     return map;
   }

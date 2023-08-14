@@ -1874,6 +1874,21 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       //loadingCheckoutPayment
       PayRedirectionValue response = await _repository.checkOutFlight(request);
 
+      if(response.value?.paymentRedirectData?.isPendingPayment == true) {
+
+        emit(
+          state.copyWith(
+            hasPendingError: true,
+            loadingCheckoutPayment: false,
+            isPaying: false,
+            blocState: BlocState.failed,
+          ),
+        );
+
+
+        return response.value?.paymentRedirectData?.pendingPaymentMessage ?? '';
+
+      }
       //loadingCheckoutPayment
       FormData formData = FormData.fromMap(
           response.value?.paymentRedirectData?.redirectMap() ?? {});
@@ -1885,9 +1900,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       emit(
         state.copyWith(
+          hasPendingError: false,
             loadingCheckoutPayment: false,
             superPnrNo: superNo,
-
             message: ''),
       );
 
@@ -1899,6 +1914,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.copyWith(
           loadingCheckoutPayment: false,
           isPaying: false,
+          hasPendingError: false,
+
           blocState: BlocState.failed,
           message: ErrorUtils.getErrorMessage(e, st),
         ),

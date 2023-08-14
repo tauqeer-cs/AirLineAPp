@@ -65,6 +65,8 @@ Map<String, dynamic> _$PayRedirectionToJson(PayRedirection instance) {
 PaymentRedirectData _$PaymentRedirectDataFromJson(Map<String, dynamic> json) =>
     PaymentRedirectData(
       paymentUrl: json['paymentURL'] as String?,
+      isPendingPayment: json['isPendingPayment'] as bool?,
+      pendingPaymentMessage: json['pendingPaymentMessage'] as String?,
       paymentRedirectValueList:
           (json['paymentRedirectValueList'] as List<dynamic>?)
               ?.map((e) =>
