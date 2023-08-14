@@ -30,6 +30,7 @@ class CheckingListing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? checkInLabel = context.watch<CmsSsrCubit>().state.checkInLabel;
+    String checkInError = context.watch<CmsSsrCubit>().state.checkInError ?? '';
 
     CheckInCubit? bloc = context.watch<CheckInCubit>();
     if (bloc.state.listToCall == false) {
@@ -180,6 +181,15 @@ class CheckingListing extends StatelessWidget {
                                           false && isManageBooking == false)
                                   ? null
                                   : () async {
+                                if(isManageBooking == false) {
+                                  if(checkInError.isNotEmpty) {
+                                    showErrorDialog(context,checkInError);
+
+                                    return;
+
+                                  }
+                                }
+
                                 var currentItem = bloc.state
                                     .upcomingBookings?[index];
                                 if(isManageBooking) {

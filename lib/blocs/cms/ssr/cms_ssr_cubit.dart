@@ -30,6 +30,8 @@ class CmsSsrCubit extends Cubit<CmsSsrState> {
         ));
         return;
       }
+      //
+
       final cmsSSRs =
           await _repository.getSSRContent(universalSetting.key ?? "",state.language ?? '');
       final ssr = cmsSSRs.items
@@ -50,6 +52,8 @@ class CmsSsrCubit extends Cubit<CmsSsrState> {
         mealGroups: meal?.items ?? [],
         bundleGroups: bundle?.items ?? [],
         notifications: notifications?.items ?? [],
+        checkInError: cmsSSRs.items?.firstWhereOrNull(
+                (element) => element.name == "Check In Error Message")?.content  ?? '',
         notice: yptaMessage,
         bundleNotice: cmsSSRs.items?.firstWhereOrNull(
             (element) => element.name == "Meal Bundle Overtime Warning"),

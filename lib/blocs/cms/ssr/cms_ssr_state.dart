@@ -14,6 +14,8 @@ class CmsSsrState extends Equatable {
   final BlocState blocState;
   final String message;
   final String? checkInLabel;
+  final String? checkInError;
+
   final String? manageBookLabel;
 
   const CmsSsrState(this.language,  {
@@ -27,6 +29,7 @@ class CmsSsrState extends Equatable {
     this.seatNotice,
     this.oversizedNotice,
     this.carryNotice,
+    this.checkInError,
     this.checkInLabel,
     this.manageBookLabel
   });
@@ -43,7 +46,8 @@ class CmsSsrState extends Equatable {
     SharedSetting? oversizedNotice,
     SharedSetting? carryNotice,
     String? checkInLabel,
-    String? manageBookLabel
+    String? manageBookLabel,
+    String? checkInError,
   }) {
     return CmsSsrState(
       language,
@@ -58,6 +62,7 @@ class CmsSsrState extends Equatable {
       oversizedNotice: oversizedNotice ?? this.oversizedNotice,
       carryNotice: carryNotice ?? this.carryNotice,
         checkInLabel : checkInLabel ?? this.checkInLabel,
+        checkInError : checkInError ?? this.checkInError,
         manageBookLabel : manageBookLabel ?? this.manageBookLabel
     );
   }
@@ -69,6 +74,7 @@ class CmsSsrState extends Equatable {
         message,
         notice,
         notifications,
+    checkInError,
         bundleNotice,
         seatNotice,
         oversizedNotice,

@@ -31,7 +31,7 @@ class CheckInView extends StatelessWidget {
   Widget build(BuildContext context) {
     bloc = context.watch<CheckInCubit>();
     String? checkInLabel = context.watch<CmsSsrCubit>().state.checkInLabel;
-
+    String checkInError = context.watch<CmsSsrCubit>().state.checkInError ?? '';
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: FormBuilder(
@@ -83,6 +83,12 @@ class CheckInView extends StatelessWidget {
                         ? const AppLoading()
                         : ElevatedButton(
                             onPressed: () {
+                              if(checkInError.isNotEmpty) {
+                                showErrorDialog(context,checkInError);
+
+                                return;
+                              }
+
                               onManageBooking(context);
                             },
                             child: Text('search'.tr()),

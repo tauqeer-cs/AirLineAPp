@@ -19,6 +19,7 @@ import '../../../blocs/voucher/voucher_cubit.dart';
 import '../../../widgets/app_input_border_text.dart';
 import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
+import '../../check_in/ui/check_in_view.dart';
 
 class BookingsView extends StatelessWidget {
    BookingsView({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class BookingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
     String? checkInLabel = context.watch<CmsSsrCubit>().state.manageBookLabel;
+
 
     return BlocConsumer<ManageBookingCubit, ManageBookingState>(
       listener: (context, state) {
@@ -110,6 +112,8 @@ class BookingsView extends StatelessWidget {
                                       Expanded(
                                         child: ElevatedButton(
                                           onPressed: () {
+
+
                                             onChangeFlightTapped(context);
                                           },
                                           child:  Text('search'.tr()),
@@ -142,6 +146,8 @@ class BookingsView extends StatelessWidget {
   }
 
   onChangeFlightTapped(BuildContext context) async {
+
+
     if(false) {
       String code = false ? 'CWC9B4' :'B91UQQ';
       String lastName = 'Le';
