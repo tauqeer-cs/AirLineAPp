@@ -51,7 +51,7 @@ class RewardAndDiscount extends StatelessWidget {
             "rewardsDiscount".tr(),
             style: kGiantSemiBold.copyWith(color: Styles.kPrimaryColor),
           ),
-          if(bloc.hasVoucherBeenUsed == false) ... [
+          if(bloc.hasVoucherBeenUsed == false || 1 == 1) ... [
             SettingsWrapper(
               settingType: AvailableSetting.myReward,
               child: RedeemVoucherView(
@@ -63,7 +63,7 @@ class RewardAndDiscount extends StatelessWidget {
           ],
 
 
-          if(bloc.hasPointsBeenRedeemed == false) ... [
+          if(bloc.hasPointsBeenRedeemed == false || 1 == 1) ... [
 
             VoucherCodeUi(
               onOnlyTextRemove: (){
