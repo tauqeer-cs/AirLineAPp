@@ -1,11 +1,14 @@
 import 'package:app/widgets/app_card.dart';
 import 'package:app/widgets/pdf_viewer.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../app/app_router.dart';
 import '../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../theme/styles.dart';
 import '../../theme/typography.dart';
@@ -79,17 +82,12 @@ class MoreOptionsPage extends StatelessWidget {
                         const Divider(),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PdfViewer(
-                                  title: 'privacyPolicy'.tr(),
-                                  fileName:
-                                      'https://mya-ibe-prod-bucket.s3.ap-southeast-1.amazonaws.com/odxgmbdo/myairline_privacy-policy.pdf',
-                                  pdfIsLink: true,
-                                ),
-                              ),
+
+                            context.router.replace(
+                              WebViewRoute(url: 'https://www.myairline.my/page/privacy-policy', title: 'privacyPolicy'.tr()),
                             );
+
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8, top: 16),
