@@ -116,13 +116,6 @@ class _FlightDetailState extends State<FlightDetail> {
                         ),
                       ),
 
-                      /*
-                      Expanded(
-                        child: BorderedLeftContainer(
-                          title: "${"aircraft".tr()}:",
-                          content: '${detail?.aircraftDescription}',
-                        ),
-                      ),*/
 
 
                     ],

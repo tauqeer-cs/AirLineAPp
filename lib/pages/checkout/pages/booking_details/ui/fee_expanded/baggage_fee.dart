@@ -29,7 +29,7 @@ class BaggageFee extends StatefulWidget {
 }
 
 class _BaggageFeeState extends State<BaggageFee> {
-  bool isExpand = false;
+  bool isExpand = true;
 
   @override
   Widget build(BuildContext context) {
