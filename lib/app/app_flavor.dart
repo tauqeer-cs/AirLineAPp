@@ -110,7 +110,7 @@ class AppFlavor {
 
         return 'https://uat-nav-api.myairline.my/api/mobile/';
       default:
-        return 'https://api2.myairline.my/api/';
+        return 'https://api.myairline.my/api/mobile/';
     }
   }
 
