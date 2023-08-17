@@ -157,14 +157,14 @@ class AddOnOptions extends StatelessWidget {
                 width: 8,
               ),
 
-              /*
+
               AddOnsCardItem(
                 isActive: bloc.state.addOnOptionSelected == AddonType.insurance,
                 name: 'insurance'.tr(),
                 imageName: 'icoInsurance',
                 currentOption: AddonType.insurance,
                 noSelectedText: insuranceSelected == 0 ? 'noSeatSelected'.tr() : ('$insuranceSelected ${'selected'.tr()}'),
-              ),*/
+              ),
 
 
 
