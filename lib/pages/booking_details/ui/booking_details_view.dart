@@ -968,7 +968,6 @@ class InsuranceManageView extends StatelessWidget {
 
     String? logoImage = '';
 
-    int selectedPassengers = 0;
     Bundle? lastInsuranceSelected;
     InsuranceType? selected = state.insuranceType;
 
@@ -1014,6 +1013,24 @@ class InsuranceManageView extends StatelessWidget {
 
     final agentCms = context.watch<AgentSignUpCubit>();
 
+    bool dontShowAll = bloc.dontShowAllInsuranceOption;
+
+    var insuranceValuesToShow = InsuranceType.values.where((element) => element != InsuranceType.none).toList();
+
+    if(dontShowAll == true){
+      insuranceValuesToShow =   insuranceValuesToShow.where((element) => element != InsuranceType.all).toList();
+
+      print('');
+    }
+
+    if(bloc.state.selectedPax?.insuranceSSRDetail != null){
+      if((bloc.state.selectedPax?.insuranceSSRDetail?.totalAmount ?? 0.0) > 0.0){
+        insuranceValuesToShow = [];
+        insurances = [];
+
+      }
+    }
+
     return Column(
       children: [
         if (insurances.isNotEmpty) ...[
@@ -1029,234 +1046,244 @@ class InsuranceManageView extends StatelessWidget {
           Visibility(
             visible: insurances.isNotEmpty,
             replacement: const EmptyAddon(),
-            child: Column(
-              children: InsuranceType.values
-                  .map(
-                    (e) => InkWell(
-                      onTap: () {
-                        print('');
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: insuranceValuesToShow
+                    .map(
+                      (e) => InkWell(
+                        onTap: () {
+                          print('');
 
-                        var options =
-                            bloc.state.flightSSR?.insuranceGroup?.outbound;
+                          var options =
+                              bloc.state.flightSSR?.insuranceGroup?.outbound;
 
-                        if ((options ?? []).isNotEmpty) {
-                          var firstInsurance = (options ?? []).first;
-                        }
+                          if ((options ?? []).isNotEmpty) {
+                            var firstInsurance = (options ?? []).first;
+                          }
 
-                        bloc.selectInsuranceType(e);
+                          bloc.selectInsuranceType(e);
 
-                        print('');
+                          print('');
 
-                        /*
+                          /*
 
 
-                    print("first insurance not null $e");
-                    context.read<InsuranceCubit>().changeInsuranceType(
-                        e, firstInsurance.toBound(isInsurance: true));*/
-                      },
-                      child: AppCard(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Theme(
-                                  data: ThemeData(
-                                    unselectedWidgetColor: Styles.kActiveGrey,
-                                  ),
-                                  child: IgnorePointer(
-                                    ignoring: true,
-                                    child: Radio<InsuranceType?>(
-                                      value: e,
-                                      visualDensity: const VisualDensity(
-                                        horizontal: -2,
-                                        vertical: -2,
-                                      ),
-                                      activeColor: Styles.kPrimaryColor,
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      groupValue: selected,
-                                      onChanged: (value) {},
+                      print("first insurance not null $e");
+                      context.read<InsuranceCubit>().changeInsuranceType(
+                          e, firstInsurance.toBound(isInsurance: true));*/
+                        },
+                        child: AppCard(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Theme(
+                                    data: ThemeData(
+                                      unselectedWidgetColor: Styles.kActiveGrey,
                                     ),
-                                  ),
-                                ),
-                                kHorizontalSpacerSmall,
-                                Expanded(
-                                  child: AvailableInsurance.getTitle(
-                                      e,
-                                      lastInsuranceSelected ?? firstInsurance,
-                                      passengers.length),
-                                ),
-                                kHorizontalSpacerSmall,
-                                SizedBox(
-                                  height: 56,
-                                  width: 56,
-                                  child: AvailableInsurance.getAssets(e) == null
-                                      ? const SizedBox()
-                                      : Image.asset(
-                                          AvailableInsurance.getAssets(e)!),
-                                ),
-                              ],
-                            ),
-                            Visibility(
-                              visible: e == selected && e != InsuranceType.none,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
-                                child: Column(
-                                  children: [
-                                    Visibility(
-                                      visible: e == InsuranceType.selected,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'passenger'.tr(),
-                                            style: kLargeHeavy,
-                                          ),
-                                          kHorizontalSpacerSmall,
-                                          Text(
-                                            state.selectedPax?.passengers
-                                                    ?.fullName ??
-                                                '',
-                                            style: kLargeHeavy,
-                                          ),
-                                        ],
+                                    child: IgnorePointer(
+                                      ignoring: true,
+                                      child: Radio<InsuranceType?>(
+                                        value: e,
+                                        visualDensity: const VisualDensity(
+                                          horizontal: -2,
+                                          vertical: -2,
+                                        ),
+                                        activeColor: Styles.kPrimaryColor,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        groupValue: selected,
+                                        onChanged: (value) {},
                                       ),
                                     ),
-                                    ...insurances.map(
-                                      (Bundle e) {
-                                        final bound =
-                                            e.toBound(isInsurance: true);
+                                  ),
+                                  kHorizontalSpacerSmall,
+                                  Expanded(
+                                    child: AvailableInsurance.getTitle(
+                                        e,
+                                        lastInsuranceSelected ?? firstInsurance,
+                                        passengers.length),
+                                  ),
+                                  kHorizontalSpacerSmall,
+                                  SizedBox(
+                                    height: 56,
+                                    width: 56,
+                                    child: AvailableInsurance.getAssets(e) == null
+                                        ? const SizedBox()
+                                        : Image.asset(
+                                            AvailableInsurance.getAssets(e)!),
+                                  ),
+                                ],
+                              ),
+                              Visibility(
+                                visible: e == selected && e != InsuranceType.none,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Column(
+                                    children: [
+                                      Visibility(
+                                        visible: e == InsuranceType.selected,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'passenger'.tr(),
+                                              style: kLargeHeavy,
+                                            ),
+                                            kHorizontalSpacerSmall,
+                                            Text(
+                                              state.selectedPax?.passengers
+                                                      ?.fullName ??
+                                                  '',
+                                              style: kLargeHeavy,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      ...insurances.map(
+                                        (Bundle e) {
+                                          final bound =
+                                              e.toBound(isInsurance: true);
 
-                                        var tmp = bound;
+                                          var tmp = bound;
 
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8),
-                                          child: InkWell(
-                                            onTap: () {
-                                              if (selected ==
-                                                  InsuranceType.all) {
-                                                bloc.addInsuranceToAllPeople(
-                                                    e, tmp);
-                                              } else {
-                                                bloc.addInsuranceToPeople(
-                                                    e, tmp, state.selectedPax);
-                                              }
-                                              /*
-                                          if (selected == InsuranceType.all) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8),
+                                            child: InkWell(
+                                              onTap: () {
+                                                if (selected ==
+                                                    InsuranceType.all) {
+                                                  bloc.addInsuranceToAllPeople(
+                                                      e, tmp);
+                                                }
+                                                else if(selected ==
+                                                    InsuranceType.selected) {
+                                                  bloc.addInsuranceToPeople(
+                                                      e, tmp, state.selectedPax);
+                                                }
+                                                else {
+                                                  bloc.addInsuranceToPeople(
+                                                      e, tmp, state.selectedPax);
 
-                                            insuranceBloc.setLast(insurancesGroup?.outbound?.firstWhereOrNull((element) => element == e));
+                                                }
+                                                /*
+                                            if (selected == InsuranceType.all) {
 
-
-
-                                            context
-                                                .read<InsuranceCubit>()
-                                                .updateInsuranceToAllPassenger(
-                                                bound);
-
-                                          } else {
-                                            Bound? currentInsurance =
-                                                passengers[selectedPassengers]
-                                                    .getInsurance;
+                                              insuranceBloc.setLast(insurancesGroup?.outbound?.firstWhereOrNull((element) => element == e));
 
 
-                                            if (currentInsurance == null) {
 
                                               context
                                                   .read<InsuranceCubit>()
-                                                  .updateInsuranceToPassenger(
-                                                  selectedPassengers, bound,e.codeType);
+                                                  .updateInsuranceToAllPassenger(
+                                                  bound);
+
                                             } else {
+                                              Bound? currentInsurance =
+                                                  passengers[selectedPassengers]
+                                                      .getInsurance;
 
-                                              context
-                                                  .read<InsuranceCubit>()
-                                                  .updateInsuranceToPassenger(
-                                                  selectedPassengers, null,e.codeType);
-                                            }
-                                          }*/
-                                            },
-                                            child: Container(
-                                              padding: const EdgeInsets.all(16),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  border: Border.all(
-                                                      color: Styles
-                                                          .kDisabledButton)),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    AvailableInsurance
-                                                        .dataTitle(e, agentCms),
-                                                    style: kLargeHeavy,
-                                                  ),
-                                                  AvailableInsurance
-                                                      .buildSubtitle(
-                                                          e, agentCms),
-                                                  kVerticalSpacerSmall,
-                                                  MoneyWidgetCustom(
-                                                    currency: currency,
-                                                    myrSize: 20,
-                                                    amountSize: 20,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    textColor:
-                                                        Styles.kPrimaryColor,
-                                                    amount: e.finalAmount,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  kVerticalSpacer,
-                                                  IgnorePointer(
-                                                    ignoring: true,
-                                                    child: Radio<bool>(
-                                                      value: true,
-                                                      visualDensity:
-                                                          const VisualDensity(
-                                                        horizontal: -2,
-                                                        vertical: -2,
-                                                      ),
-                                                      materialTapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .shrinkWrap,
-                                                      groupValue: selected ==
-                                                              InsuranceType.all
-                                                          ? ((bloc
-                                                                      .state
-                                                                      .manageBookingResponse
-                                                                      ?.allInsuranceSelected ??
-                                                                  false) &&
-                                                              (e.codeType ==
-                                                                  state
-                                                                      .manageBookingResponse
-                                                                      ?.allInsuranceBundleSelected
-                                                                      ?.codeType))
-                                                          : ((state
-                                                                      .selectedPax
-                                                                      ?.newInsuranceBundleSelected
-                                                                      ?.codeType ??
-                                                                  '') ==
-                                                              e.codeType),
-                                                      onChanged: (value) {},
+
+                                              if (currentInsurance == null) {
+
+                                                context
+                                                    .read<InsuranceCubit>()
+                                                    .updateInsuranceToPassenger(
+                                                    selectedPassengers, bound,e.codeType);
+                                              } else {
+
+                                                context
+                                                    .read<InsuranceCubit>()
+                                                    .updateInsuranceToPassenger(
+                                                    selectedPassengers, null,e.codeType);
+                                              }
+                                            }*/
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.all(16),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(8),
+                                                    border: Border.all(
+                                                        color: Styles
+                                                            .kDisabledButton)),
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      AvailableInsurance
+                                                          .dataTitle(e, agentCms),
+                                                      style: kLargeHeavy,
                                                     ),
-                                                  ),
-                                                ],
+                                                    AvailableInsurance
+                                                        .buildSubtitle(
+                                                            e, agentCms),
+                                                    kVerticalSpacerSmall,
+                                                    MoneyWidgetCustom(
+                                                      currency: currency,
+                                                      myrSize: 20,
+                                                      amountSize: 20,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      textColor:
+                                                          Styles.kPrimaryColor,
+                                                      amount: e.finalAmount,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                    kVerticalSpacer,
+                                                    IgnorePointer(
+                                                      ignoring: true,
+                                                      child: Radio<bool>(
+                                                        value: true,
+                                                        visualDensity:
+                                                            const VisualDensity(
+                                                          horizontal: -2,
+                                                          vertical: -2,
+                                                        ),
+                                                        materialTapTargetSize:
+                                                            MaterialTapTargetSize
+                                                                .shrinkWrap,
+                                                        groupValue: selected ==
+                                                                InsuranceType.all
+                                                            ? ((bloc
+                                                                        .state
+                                                                        .manageBookingResponse
+                                                                        ?.allInsuranceSelected ??
+                                                                    false) &&
+                                                                (e.codeType ==
+                                                                    state
+                                                                        .manageBookingResponse
+                                                                        ?.allInsuranceBundleSelected
+                                                                        ?.codeType))
+                                                            : ((state
+                                                                        .selectedPax
+                                                                        ?.newInsuranceBundleSelected
+                                                                        ?.codeType ??
+                                                                    '') ==
+                                                                e.codeType),
+                                                        onChanged: (value) {},
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                    ).toList()
-                                  ],
+                                          );
+                                        },
+                                      ).toList()
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
           ),
           const Padding(
@@ -1275,8 +1302,8 @@ class InsuranceManageView extends StatelessWidget {
                 Expanded(
                   child: Container(),
                 ),
-                const MoneyWidget(
-                  amount: 0.00,
+                 MoneyWidget(
+                  amount:bloc.notConfirmedInsruanceTotalPrice ?? 0.0,
                   isDense: true,
                   isNormalMYR: true,
                 ),
@@ -1311,7 +1338,8 @@ class InsuranceManageView extends StatelessWidget {
         ] else ...[
           EmptyAddon(
             icon: "assets/images/icons/icoNoInsurance.png",
-            customText: 'insuranceTempUnavailable'.tr(),
+            customText: 'insuranceNotUnavailable'.tr(),
+            verticalSpace: 20,
           ),
         ],
       ],

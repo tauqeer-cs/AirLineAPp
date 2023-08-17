@@ -364,6 +364,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return total;
   }
 
+
   num get confirmedInsruanceTotalPrice {
     if ((state.flightSSR?.insuranceGroup?.outbound ?? []).isEmpty) {
       return 0.0;
@@ -376,10 +377,39 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         state.manageBookingResponse?.result?.passengersWithSSR ?? [];
     if (state.confirmedInsuranceType == InsuranceType.all) {
       total = totalPerPax * passengers.length;
-    } else if (state.confirmedInsuranceType == InsuranceType.selected) {
+    } else// if (state.confirmedInsuranceType == InsuranceType.selected)
+        {
       for (PassengersWithSSR currentUser in passengers) {
         total +=
-            currentUser.confirmedInsuranceBundleSelected?.finalAmount ?? 0.0;
+                  currentUser.confirmedInsuranceBundleSelected?.finalAmount ?? 0.0;
+        print('');
+
+      }
+    }
+
+    return total;
+  }
+
+  num get notConfirmedInsruanceTotalPrice {
+    if ((state.flightSSR?.insuranceGroup?.outbound ?? []).isEmpty) {
+      return 0.0;
+    }
+    num total = 0.0;
+    var totalPerPax =
+        state.flightSSR?.insuranceGroup?.outbound?.first.finalAmount ?? 0.0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+    if (state.insuranceType == InsuranceType.all) {
+      total = (state.manageBookingResponse?.allInsuranceBundleSelected?.amount ?? 0.0) * passengers.length;
+
+    } else if (state.insuranceType == InsuranceType.selected)
+    {
+      for (PassengersWithSSR currentUser in passengers) {
+        total +=
+            currentUser.newInsuranceBundleSelected?.finalAmount ?? 0.0;
+        print('');
+
       }
     }
 
@@ -428,6 +458,20 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
     return false;
   }
+
+  bool get dontShowAllInsuranceOption {
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for (PassengersWithSSR person in passengers) {
+      if ((person.insuranceSSRDetail?.totalAmount ?? 0.0) > 0.0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 
   num get confirmedMealsTotalPrice {
     num total = 0.0;
@@ -1646,6 +1690,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             checkReturn: false,
             superPnrNo: '',
             orderId: 0,
+            isPaying: false,
             pnrEntered: bookingReference,
             lastName: lastName),
       );
@@ -1661,6 +1706,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
                 dontShowError: showError ?? true),
             blocState: BlocState.failed,
             isLoadingInfo: false,
+            isPaying: false,
             dataLoaded: false),
       );
       return false;

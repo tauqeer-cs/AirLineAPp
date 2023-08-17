@@ -903,5 +903,6 @@
   "insuranceTotal": "Insurance\nSubtotal",
   "sports" : "Sports",
   "invalidVoucher" : "Invalid Voucher",
-    "pleaseSettleAmount" : "Please settle your outstanding amount first."
+    "pleaseSettleAmount" : "Please settle your outstanding amount first.",
+  "insuranceNotUnavailable" : "Insurance purchase\nnot unavailable"
 }

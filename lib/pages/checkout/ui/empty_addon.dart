@@ -7,18 +7,24 @@ class EmptyAddon extends StatelessWidget {
   final String? icon;
   final String? customText;
 
-  const EmptyAddon({Key? key, this.icon, this.customText}) : super(key: key);
+  final double? verticalSpace;
+
+  const EmptyAddon({Key? key, this.icon, this.customText, this.verticalSpace}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  Center(
       child:
       icon != null ? Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 60),
+        padding:  EdgeInsets.symmetric(horizontal: 16.0, vertical: verticalSpace ?? 60),
         child: Column(
           children: [
 
-            SizedBox(height: MediaQuery.of(context).size.height/8,),
+            if(verticalSpace != null) ... [
+            ] else ... [
+              SizedBox(height: MediaQuery.of(context).size.height/8,),
+            ],
+
 
             Image.asset("assets/images/icons/icoNoInsurance.png",width: 60,height: 60,),
             kVerticalSpacerSmall,
@@ -27,6 +33,12 @@ class EmptyAddon extends StatelessWidget {
               style: kHugeHeavy,
               textAlign: TextAlign.center,
             ),
+            if(verticalSpace != null) ... [
+              SizedBox(height: 24,),
+            ] else ... [
+
+            ],
+
           ],
         ),
       ) :
