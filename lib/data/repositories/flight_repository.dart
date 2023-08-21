@@ -53,7 +53,7 @@ class FlightRepository {
     return await _provider.holdLmsOption(token);
   }
 
-  Future<FlightResponse> searchFlight(SearchFlight searchFlight) async {
+  Future<FlightResponse> searchFlightRepo(SearchFlight searchFlight) async {
     return await _provider.searchFlight(searchFlight);
   }
 

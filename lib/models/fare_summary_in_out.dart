@@ -66,9 +66,9 @@ class BoundBookingSummary extends Equatable {
 class ItemConfirmation extends Equatable {
   @override
   List<Object?> get props => [
-        this.totalAmount,
-        this.currency,
-        this.itemList,
+        totalAmount,
+        currency,
+        itemList,
       ];
 
   ItemConfirmation({

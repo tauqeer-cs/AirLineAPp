@@ -9,6 +9,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../booking_details/ui/fee_expanded/fee_and_taxes_detail.dart';
+
 class FaresAndBundles extends StatelessWidget {
   final bool isDeparture;
 
@@ -38,7 +40,7 @@ class FaresAndBundles extends StatelessWidget {
         Row(
           children: [
              Text(
-              "feesTaxes".tr(),
+              "priceSection.fareBundles".tr(),
               style: k18Heavy,
             ),
             const Spacer(),
@@ -51,8 +53,27 @@ class FaresAndBundles extends StatelessWidget {
           ],
         ),
         kVerticalSpacerMini,
-        const FareDetailWidget(),
-        kVerticalSpacerSmall,
+         FareDetailWidget(isDeparture: isDeparture, currency: currency,),
+
+        if((fares?.totalAmount ?? 0.0 ) > 0.0) ... [
+
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "feesTaxes".tr(),
+              style: kLargeHeavy,
+            ),
+          ),
+
+          FeeAndTaxesDetailDetailed(
+            isDeparture: isDeparture,
+            padding: 0,
+            hideTicket: true,
+          ),
+          kVerticalSpacerSmall,
+
+        ],
+
       ],
     );
   }

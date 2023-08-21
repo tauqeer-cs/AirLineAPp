@@ -8,7 +8,9 @@ import 'package:app/pages/home/bloc/filter_cubit.dart';
 import 'package:app/utils/error_utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 part 'search_flight_state.dart';
 
@@ -274,8 +276,37 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
   searchFlights(FilterState filterState,String currency) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      final request = SearchFlight.fromFilter(filterState,currency);
-      final airports = await _repository.searchFlight(request);
+      var request = SearchFlight.fromFilter(filterState,currency);
+      if(request.searchFlightRequest?.departDate != null) {
+        var dateObjectDepart = DateTime.parse(request.searchFlightRequest?.departDate ?? '');
+
+        bool isToday = isSameDay(dateObjectDepart, DateTime.now());
+
+        if(isToday == true){
+
+
+ //         request.searchFlightRequest?.departDate = ;
+          var newOne = request.searchFlightRequest!.copyWith(departDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(DateTime.now().add(const Duration(minutes: 5))));
+          request = request.copyWith(searchFlightRequest: newOne);
+
+        }
+        print('');
+
+
+        var dateObjectReturn = DateTime.parse(request.searchFlightRequest?.returnDate ?? '');
+
+         isToday = isSameDay(dateObjectReturn, DateTime.now());
+
+
+        if(isToday == true){
+
+          var newOne = request.searchFlightRequest!.copyWith(returnDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(DateTime.now().add(const Duration(minutes: 5))));
+          request = request.copyWith(searchFlightRequest: newOne);
+
+        }
+
+      }
+      final airports = await _repository.searchFlightRepo(request);
       emit(
         state.copyWith(
           blocState: BlocState.finished,

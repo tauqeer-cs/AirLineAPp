@@ -12,6 +12,13 @@ class SearchFlight extends Equatable {
 
   const SearchFlight({this.searchFlightRequest});
 
+
+  SearchFlight copyWith({CommonFlightRequest? searchFlightRequest}) {
+    return SearchFlight(
+      searchFlightRequest: searchFlightRequest ?? this.searchFlightRequest,
+    );
+  }
+
   factory SearchFlight.fromJson(Map<String, dynamic> json) =>
       _$SearchFlightFromJson(json);
 
@@ -38,10 +45,51 @@ class SearchFlight extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [searchFlightRequest];
+
+
 }
 
 @JsonSerializable(includeIfNull: false)
 class CommonFlightRequest extends Equatable {
+
+  CommonFlightRequest copyWith({
+    String? originAirport,
+    String? destinationAirport,
+    String? departDate,
+    String? returnDate,
+    int? adults,
+    int? childrens,
+    int? infants,
+    bool? isReturn,
+    String? tripType,
+    String? currency,
+    List<OutboundFares>? outboundFares,
+    List<OutboundFares>? inboundFares,
+    num? totalAmount,
+    String? promoCode,
+    List<String>? outboundLFID,
+    List<String>? inboundLFID,
+  }) {
+    return CommonFlightRequest(
+      originAirport: originAirport ?? this.originAirport,
+      destinationAirport: destinationAirport ?? this.destinationAirport,
+      departDate: departDate ?? this.departDate,
+      returnDate: returnDate ?? this.returnDate,
+      adults: adults ?? this.adults,
+      childrens: childrens ?? this.childrens,
+      infants: infants ?? this.infants,
+      isReturn: isReturn ?? this.isReturn,
+      tripType: tripType ?? this.tripType,
+      currency: currency ?? this.currency,
+      outboundFares: outboundFares ?? this.outboundFares,
+      inboundFares: inboundFares ?? this.inboundFares,
+      totalAmount: totalAmount ?? this.totalAmount,
+      promoCode: promoCode ?? this.promoCode,
+      outboundLFID: outboundLFID ?? this.outboundLFID,
+      inboundLFID: inboundLFID ?? this.inboundLFID,
+    );
+  }
+
   @JsonKey(name: 'OriginAirport')
   final String? originAirport;
   @JsonKey(name: 'DestinationAirport')
