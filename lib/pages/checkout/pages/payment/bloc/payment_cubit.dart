@@ -32,6 +32,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     num? total,
     num? totalNeedPaid,
     String? redeemCodeToSend,
+   required Function(String error) errEction
   }) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
@@ -80,13 +81,29 @@ class PaymentCubit extends Cubit<PaymentState> {
         paymentRedirect: response.data,
       ));
     } catch (e, st) {
-      logger.e(e);
-      emit(
-        state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st),
-          blocState: BlocState.failed,
-        ),
-      );
+      if(ErrorUtils.getErrorMessage(e, st,dontShowError: true).contains('Dear customer')){
+
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st,dontShowError: true),
+            blocState: BlocState.failed,
+          ),
+        );
+
+        errEction(ErrorUtils.getErrorMessage(e, st,dontShowError: true));
+
+
+      }
+      else {
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed,
+          ),
+        );
+
+      }
+
     }
   }
 }

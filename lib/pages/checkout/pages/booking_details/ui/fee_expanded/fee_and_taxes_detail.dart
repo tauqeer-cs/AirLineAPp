@@ -1,6 +1,7 @@
 import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/data/responses/flight_response.dart';
+import 'package:app/data/responses/verify_response.dart';
 import 'package:app/theme/theme.dart';
 import 'package:app/utils/constant_utils.dart';
 import 'package:app/widgets/app_divider_widget.dart';
@@ -11,11 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class FeeAndTaxesDetail extends StatelessWidget {
+class FeeAndTaxesDetailDetailed extends StatelessWidget {
   final bool isDeparture;
   final double? padding;
+  final bool hideTicket;
 
-  const FeeAndTaxesDetail({Key? key, required this.isDeparture, this.padding})
+
+  const FeeAndTaxesDetailDetailed({Key? key, required this.isDeparture, this.padding,  this.hideTicket = false})
       : super(key: key);
 
   @override
@@ -24,6 +27,14 @@ class FeeAndTaxesDetail extends StatelessWidget {
     final segment = isDeparture
         ? bookingCubit.selectedDeparture
         : bookingCubit.selectedReturn;
+
+    List<ApplicableTaxDetails> allTaxes = bookingCubit.verifyResponse?.flightVerifyResponseV2?.result?.flightSegments?.first.fareTypes?.first.fareInfos?.first.applicableTaxDetails ?? [];
+
+    if(isDeparture == false) {
+
+      allTaxes = bookingCubit.verifyResponse?.flightVerifyResponseV2?.result?.flightSegments?.last.fareTypes?.first.fareInfos?.first.applicableTaxDetails ?? [];
+
+    }
     final info = segment?.fareTypeWithTaxDetails?.firstOrNull
         ?.fareInfoWithTaxDetails?.firstOrNull;
     final List<ApplicationTaxDetailBinds>? taxes =
@@ -35,7 +46,7 @@ class FeeAndTaxesDetail extends StatelessWidget {
     final infantOutbound =
         verifyResponse?.flightSSR?.infantGroup?.outbound?.firstOrNull;
     final infant = isDeparture ? infantOutbound : infantInbound;
-    if (taxes?.isEmpty ?? true) return const SizedBox();
+    if (allTaxes?.isEmpty ?? true) return const SizedBox();
     num discountTotal = 0;
 
     var currency = context.watch<SearchFlightCubit>().state.flights?.flightResult?.requestedCurrencyOfFareQuote ?? 'MYR';
@@ -58,82 +69,102 @@ class FeeAndTaxesDetail extends StatelessWidget {
 
     return Column(
       children: [
-        PriceContainer(
-          padding: padding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "ticket".tr(),
-                style: kSmallRegular.copyWith(color: Styles.kTextColor),
-              ),
-              Align(
-                  child: MoneyWidgetSmall(
-                      currency : currency,
-                      amount: info?.baseFareAmt, isDense: true)),
-            ],
-          ),
-        ),
-        ...taxes!
-            .map(
-              (e) => PriceContainer(
-                padding: padding,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        e.taxDetail?.taxDesc ?? "",
-                        style:
-                            kSmallRegular.copyWith(color: Styles.kTextColor),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "${filter?.numberPerson.totalPerson}x @",
-                          style: kSmallRegular.copyWith(
-                              color: Styles.kSubTextColor),
-                        ),
-                        kHorizontalSpacerMini,
-                        MoneyWidgetSmall(amount: e.amt, isDense: true,currency: currency,),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
-            .toList(),
-        Visibility(
-          visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,
-          child: PriceContainer(
+        if(hideTicket == true) ... [
+
+        ] else ... [
+          PriceContainer(
             padding: padding,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'infant'.tr(),
-                  style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                  "ticket".tr(),
+                  style: kSmallRegular.copyWith(color: Styles.kTextColor),
+                ),
+                if((filter?.numberPerson.totalPerson ?? 0) > 1) ... [
+                  Spacer(),
+                  Text(
+                    "${filter?.numberPerson.totalPerson}x @",
+                    style: kSmallRegular.copyWith(
+                        color: Styles.kSubTextColor),
+                  ),
+                  const SizedBox(width: 4,),
+                ],
+
+
+                Align(
+                    child: MoneyWidgetSmall(
+                        currency : currency,
+                        amount: info?.baseFareAmt, isDense: true)),
+              ],
+            ),
+          ),
+
+          Visibility(
+            visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,
+            child: PriceContainer(
+              padding: padding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'infant'.tr(),
+                    style: kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "${filter?.numberPerson.numberOfInfant ?? 0}x @",
+                        style:
+                        kSmallRegular.copyWith(color: Styles.kSubTextColor),
+                      ),
+                      kHorizontalSpacerMini,
+                      MoneyWidgetSmall(
+                          currency: currency,
+                          amount:
+                          infant?.finalAmount ?? segment?.infantPricePerPax,
+                          isDense: true),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+        ],
+
+        for(ApplicableTaxDetails currentTax in  allTaxes) ... [
+
+          PriceContainer(
+            padding: padding,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    currentTax.taxDesc ?? "",
+                    style:
+                    kSmallRegular.copyWith(color: Styles.kTextColor),
+                  ),
                 ),
                 Row(
                   children: [
-                    Text(
-                      "${filter?.numberPerson.numberOfInfant ?? 0}x @",
-                      style:
-                          kSmallRegular.copyWith(color: Styles.kSubTextColor),
+
+                   Text(
+                      "${filter?.numberPerson.totalPerson}x @",
+                      style: kSmallRegular.copyWith(
+                          color: Styles.kSubTextColor),
                     ),
                     kHorizontalSpacerMini,
-                    MoneyWidgetSmall(
-                      currency: currency,
-                        amount:
-                            infant?.finalAmount ?? segment?.infantPricePerPax,
-                        isDense: true),
+                    MoneyWidgetSmall(amount: currentTax.amt, isDense: true,currency: currency,),
                   ],
                 ),
               ],
             ),
           ),
-        ),
+        ],
+
+
         if (discountTotal > 0 && ConstantUtils.showPromoInFeesAndTaxes) ...[
           Visibility(
             visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,

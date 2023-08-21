@@ -8,12 +8,16 @@ import 'package:app/pages/checkout/pages/payment/ui/discount_summary.dart';
 import 'package:app/pages/checkout/pages/payment/ui/passenger_card.dart';
 import 'package:app/pages/checkout/pages/payment/ui/reward_and_discount.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 
+import '../../../../../app/app_router.dart';
+import '../../../../../blocs/timer/timer_bloc.dart';
 import '../../../../../theme/theme.dart';
+import '../../../../../widgets/dialogs/app_confirmation_dialog.dart';
 
 class PaymentView extends StatefulWidget {
   const PaymentView({Key? key, required this.promoReady}) : super(key: key);
@@ -134,6 +138,32 @@ class _PaymentViewState extends State<PaymentView> {
         totalNeedPaid:
             summaryResponse?.flightSummaryPnrResult?.summaryAmount ?? 0,
         promoCode: voucher,
-        redeemCodeToSend: redeemCodeToSend);
+        redeemCodeToSend: redeemCodeToSend, errEction: (String error) {
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: () async => true,
+            child: AppConfirmationDialog(
+              showCloseButton: false,
+              title: error,
+              subtitle: "",
+              onConfirm: () {
+
+                context.router.replaceAll([const NavigationRoute()]);
+                context.read<TimerBloc>().add(const TimerReset());
+
+              },
+              confirmText: "okay".tr(),
+            ),
+          );
+        },
+      );
+
+
+    },
+    );
   }
 }

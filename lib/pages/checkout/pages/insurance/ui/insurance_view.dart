@@ -17,8 +17,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../app/app_router.dart';
 import '../../../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
+import '../../../../../blocs/timer/timer_bloc.dart';
 import '../../../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../../../data/responses/verify_response.dart';
+import '../../../../../widgets/dialogs/app_confirmation_dialog.dart';
 import '../../../ui/empty_addon.dart';
 
 class InsuranceView extends StatefulWidget {
@@ -214,7 +216,31 @@ class _InsuranceViewState extends State<InsuranceView> {
 
                       context
                           .read<SummaryCubit>()
-                          .submitUpdateInsurance(summaryRequest);
+                          .submitUpdateInsurance(summaryRequest,(String error){
+
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return WillPopScope(
+                              onWillPop: () async => true,
+                              child: AppConfirmationDialog(
+                                showCloseButton: false,
+                                title: error,
+                                subtitle: "",
+                                onConfirm: () {
+
+                                  context.router.replaceAll([const NavigationRoute()]);
+                                  context.read<TimerBloc>().add(const TimerReset());
+
+                                },
+                                confirmText: "okay".tr(),
+                              ),
+                            );
+                          },
+                        );
+
+                      });
                     },
                     child: Text(
                       "continue".tr(),

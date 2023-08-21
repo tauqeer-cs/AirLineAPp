@@ -11,15 +11,19 @@ import 'package:app/pages/checkout/ui/booking_details_header.dart';
 import 'package:app/pages/checkout/ui/checkout_summary.dart';
 import 'package:app/pages/search_result/ui/booking_summary.dart';
 import 'package:app/pages/search_result/ui/summary_container_listener.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+import '../../../../../app/app_router.dart';
+import '../../../../../blocs/timer/timer_bloc.dart';
 import '../../../../../models/switch_setting.dart';
 import '../../../../../theme/theme.dart';
 import '../../../../../utils/ui_utils.dart';
+import '../../../../../widgets/dialogs/app_confirmation_dialog.dart';
 import '../../../../../widgets/settings_wrapper.dart';
 import 'insurance_terms.dart';
 
@@ -488,7 +492,31 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
         comment: value[formNameContactLastName],
       );
       LocalRepository().setPassengerInfo(savedPnr);
-      context.read<SummaryCubit>().submitSummary(summaryRequest);
+      context.read<SummaryCubit>().submitSummary(summaryRequest,(String error){
+
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return WillPopScope(
+              onWillPop: () async => true,
+              child: AppConfirmationDialog(
+                showCloseButton: false,
+                title: error,
+                subtitle: "",
+                onConfirm: () {
+
+                  context.router.replaceAll([const NavigationRoute()]);
+                  context.read<TimerBloc>().add(const TimerReset());
+
+                },
+                confirmText: "okay".tr(),
+              ),
+            );
+          },
+        );
+
+      });
     }
   }
 

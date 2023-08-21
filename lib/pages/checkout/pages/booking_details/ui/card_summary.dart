@@ -50,7 +50,6 @@ class CardSummary extends StatelessWidget {
           visible: state.filterState?.flightType == FlightType.round,
           child: FlightSegment(
             currency: currency,
-
             title: "return".tr(),
             subtitle: state.filterState?.beautifyReverseShort ?? "",
             dateTitle:

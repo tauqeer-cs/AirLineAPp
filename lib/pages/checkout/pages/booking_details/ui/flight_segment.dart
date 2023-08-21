@@ -34,7 +34,7 @@ final String? currency;
         child: Column(
           children: [
             Padding(
-              padding: !showFees ? EdgeInsets.fromLTRB(15,15,15,5) : EdgeInsets.all(0),
+              padding: !showFees ? const EdgeInsets.fromLTRB(15,15,15,5) : EdgeInsets.all(0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

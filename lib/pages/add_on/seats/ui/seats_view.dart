@@ -16,6 +16,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../widgets/dialogs/app_confirmation_dialog.dart';
 import '../../../checkout/bloc/selected_person_cubit.dart';
 
 class SeatsView extends StatefulWidget {
@@ -194,6 +195,10 @@ class ContinueButton extends StatelessWidget {
 
     return ElevatedButton(
       onPressed: () {
+
+
+
+
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(SeatsRoute(isDeparture: false));
         } else {

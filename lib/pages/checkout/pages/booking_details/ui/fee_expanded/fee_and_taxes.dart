@@ -45,7 +45,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
         discountPercent != null &&
         (discountPercent > 0)) {}
 
-    return Column(
+    return  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
@@ -76,7 +76,7 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             ),
           ),
         ),
-        FeeAndTaxesDetail(
+        FeeAndTaxesDetailDetailed(
           isDeparture: widget.isDeparture,
           padding: 0,
         ),

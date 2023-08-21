@@ -15,28 +15,47 @@ class SummaryCubit extends Cubit<SummaryState> {
   SummaryCubit() : super(const SummaryState());
   final _repository = FlightRepository();
 
-
-  submitSummary(SummaryRequest summaryRequest) async {
+  submitSummary(
+      SummaryRequest summaryRequest, Function(String error) errEction) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final response = await _repository.summaryFlight(summaryRequest);
-      emit(state.copyWith(
-        blocState: BlocState.finished,
-        summaryResponse: response,
-        summaryRequest: summaryRequest,
-
-      ));
-    } catch (e, st) {
       emit(
         state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st),
-          blocState: BlocState.failed,
+          blocState: BlocState.finished,
+          summaryResponse: response,
+          summaryRequest: summaryRequest,
         ),
       );
+    } catch (e, st) {
+
+      if(ErrorUtils.getErrorMessage(e, st,dontShowError: true).contains('Dear customer')){
+
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st,dontShowError: true),
+            blocState: BlocState.failed,
+          ),
+        );
+
+        errEction(ErrorUtils.getErrorMessage(e, st,dontShowError: true));
+
+
+      }
+      else {
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed,
+          ),
+        );
+
+      }
+
     }
   }
 
-  submitUpdateInsurance(InsuranceRequest insuranceRequest) async {
+  submitUpdateInsurance(InsuranceRequest insuranceRequest, Function(String error) errEction) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
       final response = await _repository.updateInsurance(insuranceRequest);
@@ -46,12 +65,28 @@ class SummaryCubit extends Cubit<SummaryState> {
         summaryRequest: state.summaryRequest,
       ));
     } catch (e, st) {
-      emit(
-        state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st),
-          blocState: BlocState.failed,
-        ),
-      );
+      if(ErrorUtils.getErrorMessage(e, st,dontShowError: true).contains('Dear customer')){
+
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st,dontShowError: true),
+            blocState: BlocState.failed,
+          ),
+        );
+
+        errEction(ErrorUtils.getErrorMessage(e, st,dontShowError: true));
+
+
+      }
+      else {
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed,
+          ),
+        );
+
+      }
     }
   }
 }

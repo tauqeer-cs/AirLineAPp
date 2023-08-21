@@ -144,8 +144,7 @@ class VoucherCubit extends Cubit<VoucherState> {
           return;
 
         }
-      }
-      emit(
+      }emit(
         state.copyWith(
           blocState: BlocState.finished,
           response: () => response,

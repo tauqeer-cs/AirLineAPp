@@ -75,11 +75,10 @@ class BookingCubit extends Cubit<BookingState> {
     emit(state.copyWith(superPnrNo: superPnrNo));
   }
 
-  verifyFlight(FilterState? filterState) async {
+  verifyFlight(FilterState? filterState,Function(String error) errEction) async {
     if (filterState == null) return;
     emit(state.copyWith(blocState: BlocState.loading, isVerify: false));
     var currency = state.selectedDeparture?.currency ?? 'MYR';
-
 
     try {
       final inboundLFID = state.selectedReturn?.lfid;
@@ -132,12 +131,32 @@ class BookingCubit extends Cubit<BookingState> {
         ),
       );
     } catch (e, st) {
-      emit(
-        state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st),
-          blocState: BlocState.failed,
-        ),
-      );
+
+      if(ErrorUtils.getErrorMessage(e, st,dontShowError: true).contains('Dear customer')){
+
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st,dontShowError: true),
+            blocState: BlocState.failed,
+          ),
+        );
+
+        errEction(ErrorUtils.getErrorMessage(e, st,dontShowError: true));
+
+
+      }
+      else {
+        emit(
+          state.copyWith(
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed,
+          ),
+        );
+
+      }
+
+
+
     }
   }
 

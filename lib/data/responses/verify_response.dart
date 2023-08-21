@@ -19,7 +19,7 @@ class VerifyResponse extends Equatable {
   @override
   List<Object?> get props => [
         flightVerifyRequest,
-        flightVerifyResponse,
+    flightVerifyResponseV2,
         flightSSR,
         flightSeat,
         orderID,
@@ -34,7 +34,7 @@ class VerifyResponse extends Equatable {
 
   Map<String, dynamic> toJson() => _$VerifyResponseToJson(this);
   final CommonFlightRequest? flightVerifyRequest;
-  final FlightVerifyResponse? flightVerifyResponse;
+  final FlightVerifyResponse? flightVerifyResponseV2;
   final FlightSSR? flightSSR;
   final FlightSeats? flightSeat;
   final FlightSummaryPnrRequest? flightSummaryPNRRequest;
@@ -45,7 +45,7 @@ class VerifyResponse extends Equatable {
 
   const VerifyResponse({
     this.flightVerifyRequest,
-    this.flightVerifyResponse,
+    this.flightVerifyResponseV2,
     this.flightSummaryPNRRequest,
     this.flightSSR,
     this.flightSeat,
@@ -68,7 +68,7 @@ class VerifyResponse extends Equatable {
   }) =>
       VerifyResponse(
         flightVerifyRequest: flightVerifyRequest ?? this.flightVerifyRequest,
-        flightVerifyResponse: flightVerifyResponse ?? this.flightVerifyResponse,
+        flightVerifyResponseV2: flightVerifyResponse ?? this.flightVerifyResponseV2,
         flightSummaryPNRRequest:
             flightSummaryPNRRequest ?? this.flightSummaryPNRRequest,
         flightSSR: flightSSR ?? this.flightSSR,
@@ -404,7 +404,7 @@ class FareInfos extends Equatable {
 @JsonSerializable(includeIfNull: false)
 class ApplicableTaxDetails extends Equatable {
   @override
-  List<Object?> get props => [taxID, amt, initiatingTaxID, commissionAmount];
+  List<Object?> get props => [taxID, amt, initiatingTaxID, commissionAmount,taxDesc,taxCurr];
 
   factory ApplicableTaxDetails.fromJson(Map<String, dynamic> json) =>
       _$ApplicableTaxDetailsFromJson(json);
@@ -414,9 +414,13 @@ class ApplicableTaxDetails extends Equatable {
   final num? amt;
   final num? initiatingTaxID;
   final num? commissionAmount;
+  final String? taxDesc;
+  final String? taxCurr;
+
+
 
   const ApplicableTaxDetails(
-      {this.taxID, this.amt, this.initiatingTaxID, this.commissionAmount});
+      {this.taxID, this.amt, this.initiatingTaxID, this.commissionAmount,this.taxDesc, this.taxCurr,});
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -497,7 +501,7 @@ class TaxDetails extends Equatable {
   final bool? isVat;
   final bool? includedInFare;
   final String? originalCurrency;
-  final num? exchangeRate;
+  final num? amt;
   final String? exchangeDate;
   final bool? commissionable;
 
@@ -511,7 +515,7 @@ class TaxDetails extends Equatable {
     this.isVat,
     this.includedInFare,
     this.originalCurrency,
-    this.exchangeRate,
+    this.amt,
     this.exchangeDate,
     this.commissionable,
   });

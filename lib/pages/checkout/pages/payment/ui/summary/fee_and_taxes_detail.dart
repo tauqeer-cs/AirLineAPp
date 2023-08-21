@@ -12,6 +12,8 @@ import 'package:collection/collection.dart';
 
 import '../../../../../../blocs/search_flight/search_flight_cubit.dart';
 import '../../../../../../utils/constant_utils.dart';
+import '../../../../ui/fee_and_taxes_detail.dart';
+import '../../../booking_details/ui/fee_expanded/fee_and_taxes_detail.dart';
 
 class FeeAndTaxesDetailPayment extends StatelessWidget {
   final bool isDeparture;
@@ -59,12 +61,12 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
       children: [
         kVerticalSpacerSmall,
         ...(pnrRequest?.passengers ?? []).map((e) {
-          final price = selectedFlight?.getPrice(e.paxType ?? "");
+          final price = selectedFlight?.getPriceWithoutTax(e.paxType ?? "",isDeparture);
           return Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: PriceRow(
               child1: Text(
-                "${e.titleToShow} ${e.firstName}",
+                "${e.titleToShow} ${e.firstName} (${'ticket'.tr()})",
                 style: kMediumRegular,
               ),
               child2: MoneyWidgetSummary(
@@ -75,6 +77,21 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
             ),
           );
         }).toList(),
+
+
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            "feesTaxes".tr(),
+            style: kLargeHeavy,
+          ),
+        ),
+        FeeAndTaxesDetailDetailed(
+          isDeparture: isDeparture,
+          hideTicket: true,
+          padding: 0,
+        ),
+
 
         if(ConstantUtils.showPromoInFareBreakDown && discountTotal > 0) ... [
           Padding(

@@ -13,9 +13,7 @@ class ConstantUtils {
   static bool showPromoInFeesAndTaxes = false;
 
   static bool showVoucherInChange = false;
-
   static bool showInfantSepeatlyInsurance = true;
-
 }
 
 

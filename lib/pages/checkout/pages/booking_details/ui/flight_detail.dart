@@ -153,7 +153,7 @@ class _FlightDetailState extends State<FlightDetail> {
                   ),
                 ),
                 kVerticalSpacer,
-                Visibility(
+               Visibility(
                   visible: widget.showDetailPayment,
                   child: BlocProvider(
                     create: (context) => IsPaymentPageCubit(true),
@@ -162,7 +162,7 @@ class _FlightDetailState extends State<FlightDetail> {
                         : Container(
                             padding: const EdgeInsets.all(12),
                             color: const Color.fromRGBO(229, 229, 229, 0.53),
-                            child:   const FeeAndTaxes(isDeparture: true),
+                            child:    FeeAndTaxes(isDeparture: widget.isDeparture),
                           ),
                   ),
                 ),

@@ -96,6 +96,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
 
     bloc = context.watch<ManageBookingCubit>();
+
+
     var state = bloc?.state;
     var voucherBloc = context.watch<VoucherCubit>();
     var voucherState = voucherBloc.state;
@@ -445,14 +447,18 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   height: 16,
                 ),
 
-                if(bloc?.state.isLoadingPromo == false && bloc?.state.redemptionOption != null) ... [
+                if( (voucherState.response?.addVoucherResult?.voucherDiscounts
+                    ?.firstOrNull?.discountAmount ??
+                    0.0)  == 0.0) ... [
                   RedeemVoucherView(
                     currency: currency,
                     promoReady: true,
                     isManageBooking: true,
                   ),
                 ],
-                if (AppFlavor.appFlavor == Flavor.staging) ...[
+
+                if((bloc?.state.rewardItem?.redemptionAmount ?? 0.0) == 0.0) ... [
+
                   VoucherCodeUi(
                     readOnly: false,
                     blocState: voucherState.blocState,
@@ -509,6 +515,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     height: 16,
                   ),
                 ],
+
+
                 const SizedBox(
                   height: 8,
                 ),
@@ -778,10 +786,11 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           conditionsCheckTwo == false || conditionsCheckThree == false)
                           ? null
                           : () async {
-                        final voucher = context
-                            .read<VoucherCubit>()
+                        final voucher = voucherBloc
                             .state
                             .appliedVoucher;
+
+
 
                         var redirectUrl =
                         await bloc?.checkOutForPayment(voucher);

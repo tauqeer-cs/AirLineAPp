@@ -158,6 +158,7 @@ class AddOnOptions extends StatelessWidget {
               ),
 
 
+              /*
               AddOnsCardItem(
                 isActive: bloc.state.addOnOptionSelected == AddonType.insurance,
                 name: 'insurance'.tr(),
@@ -170,7 +171,7 @@ class AddOnOptions extends StatelessWidget {
 
               const SizedBox(
                 width: 8,
-              ),
+              ),*/
 
               //.png
             ]),

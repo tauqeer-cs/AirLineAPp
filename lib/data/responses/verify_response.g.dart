@@ -12,10 +12,10 @@ VerifyResponse _$VerifyResponseFromJson(Map<String, dynamic> json) =>
           ? null
           : CommonFlightRequest.fromJson(
               json['flightVerifyRequest'] as Map<String, dynamic>),
-      flightVerifyResponse: json['flightVerifyResponse'] == null
+      flightVerifyResponseV2: json['flightVerifyResponseV2'] == null
           ? null
           : FlightVerifyResponse.fromJson(
-              json['flightVerifyResponse'] as Map<String, dynamic>),
+              json['flightVerifyResponseV2'] as Map<String, dynamic>),
       flightSummaryPNRRequest: json['flightSummaryPNRRequest'] == null
           ? null
           : FlightSummaryPnrRequest.fromJson(
@@ -44,7 +44,7 @@ Map<String, dynamic> _$VerifyResponseToJson(VerifyResponse instance) {
   }
 
   writeNotNull('flightVerifyRequest', instance.flightVerifyRequest);
-  writeNotNull('flightVerifyResponse', instance.flightVerifyResponse);
+  writeNotNull('flightVerifyResponseV2', instance.flightVerifyResponseV2);
   writeNotNull('flightSSR', instance.flightSSR);
   writeNotNull('flightSeat', instance.flightSeat);
   writeNotNull('flightSummaryPNRRequest', instance.flightSummaryPNRRequest);
@@ -220,6 +220,8 @@ FareTypes _$FareTypesFromJson(Map<String, dynamic> json) => FareTypes(
       fareInfos: (json['fareInfos'] as List<dynamic>?)
           ?.map((e) => FareInfos.fromJson(e as Map<String, dynamic>))
           .toList(),
+
+
     );
 
 Map<String, dynamic> _$FareTypesToJson(FareTypes instance) {
@@ -328,6 +330,9 @@ ApplicableTaxDetails _$ApplicableTaxDetailsFromJson(
       amt: json['amt'] as num?,
       initiatingTaxID: json['initiatingTaxID'] as num?,
       commissionAmount: json['commissionAmount'] as num?,
+      taxDesc: json['taxDesc'] as String?,
+        taxCurr: json['taxCurr'] as String?,
+
     );
 
 Map<String, dynamic> _$ApplicableTaxDetailsToJson(
@@ -344,6 +349,10 @@ Map<String, dynamic> _$ApplicableTaxDetailsToJson(
   writeNotNull('amt', instance.amt);
   writeNotNull('initiatingTaxID', instance.initiatingTaxID);
   writeNotNull('commissionAmount', instance.commissionAmount);
+
+  writeNotNull('taxDesc', instance.taxDesc);
+  writeNotNull('taxCurr', instance.taxCurr);
+
   return val;
 }
 
@@ -424,7 +433,7 @@ TaxDetails _$TaxDetailsFromJson(Map<String, dynamic> json) => TaxDetails(
       isVat: json['isVat'] as bool?,
       includedInFare: json['includedInFare'] as bool?,
       originalCurrency: json['originalCurrency'] as String?,
-      exchangeRate: json['exchangeRate'] as num?,
+  amt: json['amt'] as num?,
       exchangeDate: json['exchangeDate'] as String?,
       commissionable: json['commissionable'] as bool?,
     );
@@ -447,7 +456,7 @@ Map<String, dynamic> _$TaxDetailsToJson(TaxDetails instance) {
   writeNotNull('isVat', instance.isVat);
   writeNotNull('includedInFare', instance.includedInFare);
   writeNotNull('originalCurrency', instance.originalCurrency);
-  writeNotNull('exchangeRate', instance.exchangeRate);
+  writeNotNull('amt', instance.amt);
   writeNotNull('exchangeDate', instance.exchangeDate);
   writeNotNull('commissionable', instance.commissionable);
   return val;

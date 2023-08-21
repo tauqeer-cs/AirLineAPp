@@ -103,18 +103,6 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       userInsiderCallBack,
     );
 
-    print("init insider 3");
-
-    // This is an utility method, if you want to handle the push permission in iOS own your own you can omit the following method.
-    // try {
-    //   await FlutterInsider.Instance.visitHomePage();
-    // } catch (e) {
-    //   logger.e(e);
-    //   print("init insider error 5");
-    // }
-    print("init insider 4");
-
-    print("register with queit");
     FlutterInsider.Instance.registerWithQuietPermission(false);
   }
 
@@ -309,26 +297,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           ),
         );
       }
-      /*showDialog(
-        context: currentContext,
-        barrierDismissible: false,
-        builder: (context) {
-          return WillPopScope(
-            onWillPop: () async => true,
-            child: AppConfirmationDialog(
-              showCloseButton: false,
-              title: "sessionRetrySearch".tr(),
-              subtitle: "",
-              onConfirm: () {
-                currentContext.router.pop();
-                appRouter.replaceAll([const NavigationRoute()]);
-                currentContext.read<TimerBloc>().add(const TimerReset());
-              },
-              confirmText: "okay".tr(),
-            ),
-          );
-        },
-      );*/
+      /**/
     }
   }
 

@@ -18,6 +18,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/timer/timer_bloc.dart';
+import '../../../widgets/dialogs/app_confirmation_dialog.dart';
+
 class SearchResultView extends StatelessWidget {
   final scrollController = ScrollController();
 
@@ -116,7 +119,31 @@ class ContinueButton extends StatelessWidget {
       onPressed: isAllowedContinue
           ? () {
               if (booking.blocState == BlocState.loading) return;
-              context.read<BookingCubit>().verifyFlight(filterState);
+              context.read<BookingCubit>().verifyFlight(filterState,(String error){
+
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) {
+                    return WillPopScope(
+                      onWillPop: () async => true,
+                      child: AppConfirmationDialog(
+                        showCloseButton: false,
+                        title: error,
+                        subtitle: "",
+                        onConfirm: () {
+
+                          context.router.replaceAll([const NavigationRoute()]);
+                          context.read<TimerBloc>().add(const TimerReset());
+
+                        },
+                        confirmText: "okay".tr(),
+                      ),
+                    );
+                  },
+                );
+
+              });
               context.read<SearchFlightCubit>().resetFilterState(filter);
               context.router.push(SeatsRoute());
 

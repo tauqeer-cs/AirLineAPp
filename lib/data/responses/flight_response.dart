@@ -246,6 +246,26 @@ class InboundOutboundSegment extends Equatable {
         return 0;
     }
   }
+
+  getPriceWithoutTax(String pax,bool isDeparture) {
+    switch (pax.toUpperCase()) {
+      case "ADT":
+        if(isDeparture == false){
+          return fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.last.baseFareAmtNoTaxes;
+        }
+        return fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.baseFareAmtNoTaxes;
+      case "CHD":
+        if(isDeparture == false){
+          return fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.last.baseFareAmtNoTaxes;
+        }
+        return fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.baseFareAmtNoTaxes;
+        return childPricePerPax;
+      case "INF":
+        return infantPricePerPax;
+      default:
+        return 0;
+    }
+  }
 }
 
 @JsonSerializable()
