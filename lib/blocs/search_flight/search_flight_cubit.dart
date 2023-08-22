@@ -293,17 +293,20 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
         print('');
 
 
-        var dateObjectReturn = DateTime.parse(request.searchFlightRequest?.returnDate ?? '');
+        if(request.searchFlightRequest?.returnDate != null) {
+          var dateObjectReturn = DateTime.parse(request.searchFlightRequest?.returnDate ?? '');
 
-         isToday = isSameDay(dateObjectReturn, DateTime.now());
+          isToday = isSameDay(dateObjectReturn, DateTime.now());
 
 
-        if(isToday == true){
+          if(isToday == true){
 
-          var newOne = request.searchFlightRequest!.copyWith(returnDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(DateTime.now().add(const Duration(minutes: 5))));
-          request = request.copyWith(searchFlightRequest: newOne);
+            var newOne = request.searchFlightRequest!.copyWith(returnDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(DateTime.now().add(const Duration(minutes: 5))));
+            request = request.copyWith(searchFlightRequest: newOne);
 
+          }
         }
+
 
       }
       final airports = await _repository.searchFlightRepo(request);
