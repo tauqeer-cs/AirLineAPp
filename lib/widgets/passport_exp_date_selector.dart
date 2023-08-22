@@ -59,23 +59,30 @@ class _PassportExpiryDatePickerState extends State<PassportExpiryDatePicker> {
   @override
   void initState() {
     super.initState();
-    if(this.widget.initalValues != null) {
+    if(this.widget.initalValues != null ) {
 
       selectedDay =  widget.initalValues?.day ?? 1;
       selectedMonth = widget.initalValues?.month ?? 1;
       selectedYear = widget.initalValues?.year ?? 2024;
+      if(selectedYear == 1){
+        initSetup();
+      }
       maxYear = 2033;
 
     }
     else {
-      final currentDate = DateTime.now().add(Duration(days: 30));
-      selectedDay = currentDate.day;
-      selectedMonth = currentDate.month;
-      selectedYear = currentDate.year;
-      maxYear = currentDate.year + 10;
-      widget.onChanged(selectedDay, selectedMonth, selectedYear,true);
+      initSetup();
     }
 
+  }
+
+  void initSetup() {
+    final currentDate = DateTime.now().add(Duration(days: 30));
+    selectedDay = currentDate.day;
+    selectedMonth = currentDate.month;
+    selectedYear = currentDate.year;
+    maxYear = currentDate.year + 10;
+    widget.onChanged(selectedDay, selectedMonth, selectedYear,true);
   }
 
   @override
