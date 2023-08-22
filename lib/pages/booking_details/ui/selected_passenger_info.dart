@@ -240,7 +240,7 @@ class SelectedPassengerInfo extends StatelessWidget {
                 ),
                 kVerticalSpacerSmall,
 
-                PassportExpiryDatePicker(
+                    PassportExpiryDatePicker(
                   onChanged: (int date, int month, int year,bool ignore) {
                     if(ignore) {
                       return;
