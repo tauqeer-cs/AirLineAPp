@@ -268,7 +268,7 @@ class SelectedPassengerInfo extends StatelessWidget {
                   }, initalValues: null,
                 ),
 
-                FormBuilderDateTimePicker(
+                true ? Container() : FormBuilderDateTimePicker(
                   name: 'infformNameDob${i.toString()}',
                   firstDate: DateTime.now().add(Duration(days: 1)),
                   lastDate: DateTime.now().add(Duration(days: 5475)),
