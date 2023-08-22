@@ -184,6 +184,47 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     final persons =
         List<Person>.from(state.filterState?.numberPerson.persons ?? []);
     final selected = persons.indexWhere((element) => element == person);
+
+    if(isAdd) {
+      if(isDeparture) {
+        if((person?.departureMeal ?? []).isNotEmpty ){
+          num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
+          //BDMC
+          var allThisTypeOfMeal = person?.departureMeal.where((element) => element.codeType == meal.codeType).toList();
+
+          if((allThisTypeOfMeal ?? []).isNotEmpty){
+
+            if(allThisTypeOfMeal!.length >= maxCountAllowe) {
+              return;
+            }
+          }
+
+
+        }
+      }
+      else {
+        if((person?.returnMeal ?? []).isNotEmpty ){
+          num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
+          //BDMC
+          var allThisTypeOfMeal = person?.returnMeal.where((element) => element.codeType == meal.codeType).toList();
+
+          if((allThisTypeOfMeal ?? []).isNotEmpty){
+
+            if(allThisTypeOfMeal!.length >= maxCountAllowe) {
+              return;
+            }
+          }
+
+
+        }
+      }
+    }
+
+
+
+
+
+
     if (selected >= 0) {
       final person = persons[selected];
       final meals = isDeparture

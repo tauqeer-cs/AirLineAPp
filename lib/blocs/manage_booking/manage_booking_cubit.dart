@@ -3329,10 +3329,70 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       required bool isAdd,
       Person? person,
       required Bundle meal}) {
+
     var manageResponse = state.manageBookingResponse;
     var tmpObj = state.manageBookingResponse?.result?.passengersWithSSR
         ?.where((e) => e.personObject == person)
         .toList();
+
+    if(isAdd) {
+      if(isDeparture) {
+        if((person?.departureMeal ?? []).isNotEmpty ){
+          num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
+          //BDMC
+          var allThisTypeOfMeal = person?.departureMeal.where((element) => element.codeType == meal.codeType).toList();
+
+
+          if((tmpObj ?? []).isNotEmpty) {
+            int maxAdd = 0;
+
+            maxAdd = ((tmpObj ?? []).first.mealDetail?.departureMeals ?? []).length;
+
+            maxCountAllowe = (maxCountAllowe + 1);
+
+          }
+
+          if((allThisTypeOfMeal ?? []).isNotEmpty){
+
+            if(allThisTypeOfMeal!.length >= maxCountAllowe) {
+              return;
+            }
+          }
+
+
+        }
+      }
+      else {
+        if((person?.returnMeal ?? []).isNotEmpty ){
+          num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
+          //BDMC
+          var allThisTypeOfMeal = person?.returnMeal.where((element) => element.codeType == meal.codeType).toList();
+
+          if((tmpObj ?? []).isNotEmpty) {
+            int maxAdd = 0;
+
+            maxAdd = ((tmpObj ?? []).first.mealDetail?.returnMeals ?? []).length;
+
+            maxCountAllowe = (maxCountAllowe + 1);
+
+          }
+
+          if((allThisTypeOfMeal ?? []).isNotEmpty){
+
+            if(allThisTypeOfMeal!.length >= maxCountAllowe) {
+              return;
+            }
+          }
+
+
+        }
+      }
+
+    }
+
+
+
+
 
     if ((tmpObj ?? []).isNotEmpty) {
       var item = (tmpObj ?? []).first;
