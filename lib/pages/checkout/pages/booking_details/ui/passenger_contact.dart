@@ -129,14 +129,7 @@ class PassengerContactState extends State<PassengerContact> {
       lNameController.text = lastName ?? '';
       nationalityController.text =
           phoneCode ?? Country.defaultCountry.phoneCode ?? "";
-      //   .email
-      print('');
-  //  fullName
-  //  phone1 60182144125
-  //  emergencyPhoneCode 60
 
-    ///      nationalityController.text =
-    //           phoneCode ?? Country.defaultCountry.phoneCode ?? "";
     }
     else {
       email = profile?.emailShow ?? contact?.contactEmail.trim();

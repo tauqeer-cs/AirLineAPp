@@ -11,22 +11,24 @@ import '../../../theme/typography.dart';
 import '../../../utils/form_utils.dart';
 import '../../../widgets/containers/app_expanded_section.dart';
 import '../../../widgets/forms/app_input_text.dart';
+import '../../../widgets/passport_exp_date_selector.dart';
 import 'double_line_text.dart';
 
 class SelectedPassengerInfo extends StatelessWidget {
-
   final PassengersWithSSR? passengers;
 
   const SelectedPassengerInfo(this.passengers, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var bloc  = context.watch<ManageBookingCubit>();
+    var bloc = context.watch<ManageBookingCubit>();
 
-    var state  = context.watch<ManageBookingCubit>().state;
-    int i = state.manageBookingResponse?.result?.passengersWithSSR?.indexOf(passengers!) ?? 1;
+    var state = context.watch<ManageBookingCubit>().state;
+    int i = state.manageBookingResponse?.result?.passengersWithSSR
+            ?.indexOf(passengers!) ??
+        1;
 
-    if(i == -1) {
+    if (i == -1) {
       i = 0;
     }
     return Column(
@@ -39,74 +41,87 @@ class SelectedPassengerInfo extends StatelessWidget {
           ),
         ),
         kVerticalSpacerSmall,
-
-        DoubleLineTextTable( label: 'familyDetail.fName'.tr(), value: passengers?.passengers?.givenName ?? '',),
-
+        DoubleLineTextTable(
+          label: 'familyDetail.fName'.tr(),
+          value: passengers?.passengers?.givenName ?? '',
+        ),
         kVerticalSpacerSmall,
-
-        DoubleLineTextTable( label: 'familyDetail.lName'.tr(), value: passengers?.passengers?.surname ?? '',),
-
+        DoubleLineTextTable(
+          label: 'familyDetail.lName'.tr(),
+          value: passengers?.passengers?.surname ?? '',
+        ),
         kVerticalSpacerSmall,
-        DoubleLineTextTable( label: 'passengerDetail.nationality'.tr(), value: passengers?.passengers?.nationality ?? '',),
-
-        if(bloc.state.manageBookingResponse?.result?.isRequiredPassport == true) ... [
+        DoubleLineTextTable(
+          label: 'passengerDetail.nationality'.tr(),
+          value: passengers?.passengers?.nationality ?? '',
+        ),
+        if (bloc.state.manageBookingResponse?.result?.isRequiredPassport ==
+            true) ...[
           AppInputText(
             isRequired: true,
             name: 'passportKey${i.toString()}',
             hintText: 'passportNo'.tr(),
             label: 'passportNo'.tr(),
-            onChanged: (newValue){
+            onChanged: (newValue) {
               if (newValue != null) {
-
                 passengers?.checkInPassportNo = newValue;
+                bloc.anyThingChanged();
+
               }
             },
             initialValue: state.manageBookingResponse?.result
                 ?.passengersWithSSR?[i].passengers?.passport,
             textInputType: TextInputType.text,
-
-
           ),
           kVerticalSpacerSmall,
-          FormBuilderDateTimePicker(
+          PassportExpiryDatePicker(
+            onChanged: (int date, int month, int year,bool ignore) {
+              if(ignore) {
+                return;
+
+              }
+              DateTime newDate = DateTime(year, month, date);
+
+              passengers?.passExpdate = newDate.toString();
+              bloc.anyThingChanged();
+
+              print('');
+
+            }, initalValues: passengers?.passengers?.passportExpiryDate,
+          ),
+          true ? Container() : FormBuilderDateTimePicker(
             name: 'formNameDob${i.toString()}',
             firstDate: DateTime.now().add(const Duration(days: 1)),
             lastDate: DateTime.now().add(const Duration(days: 5475)),
             format: DateFormat("dd MMM yyyy"),
             onChanged: (newData) {
-              if(newData != null) {
+              if (newData != null) {
                 passengers?.passExpdate = newData.toString();
               }
-
             },
             initialDate: DateTime.now().add(const Duration(days: 365)),
             initialEntryMode: DatePickerEntryMode.calendar,
-            validator: (value){
-
-              if(state.manageBookingResponse?.result
-                  ?.passengersWithSSR?[i].paxSelected == true) {
-
-
-                if(value == null) {
+            validator: (value) {
+              if (state.manageBookingResponse?.result?.passengersWithSSR?[i]
+                      .paxSelected ==
+                  true) {
+                if (value == null) {
                   return 'expDateRequired'.tr();
                 }
               }
 
               return null;
-
             },
-
-            decoration:  InputDecoration(
-                hintText: "passportExpiry".tr(),
-                suffixIcon: const Icon(Icons.calendar_month_sharp),
-                contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 12),),
+            decoration: InputDecoration(
+              hintText: "passportExpiry".tr(),
+              suffixIcon: const Icon(Icons.calendar_month_sharp),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+            ),
             inputType: InputType.date,
           ),
         ],
-
         kVerticalSpacerSmall,
-
         AppInputText(
           name: 'rewardKey${i.toString()}',
           initialValue: state.manageBookingResponse?.result
@@ -114,22 +129,22 @@ class SelectedPassengerInfo extends StatelessWidget {
           hintText: 'passengerDetail.membershipID'.tr(),
           inputFormatters: [AppFormUtils.onlyNumber()],
           textInputType: TextInputType.number,
-          onChanged: (newText){
-            if(newText != null) {
-              state.manageBookingResponse?.result
-                  ?.passengersWithSSR?[i].checkInMemberID = newText;
+          onChanged: (newText) {
+            if (newText != null) {
+              state.manageBookingResponse?.result?.passengersWithSSR?[i]
+                  .checkInMemberID = newText;
+
+              bloc.anyThingChanged();
+
             }
           },
         ),
-
-        if(passengers?.haveInfant == true) ... [
-
+        if (passengers?.haveInfant == true) ...[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: InkWell(
               onTap: () {
                 bloc.changeInfantSelected(i);
-
               },
               child: Row(
                 children: [
@@ -143,46 +158,58 @@ class SelectedPassengerInfo extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       (state.manageBookingResponse?.result
-                          ?.passengersWithSSR?[i].infantExpanded ?? true)
+                                  ?.passengersWithSSR?[i].infantExpanded ??
+                              true)
                           ? Icons.keyboard_arrow_up
                           : Icons.keyboard_arrow_down,
                       size: 25,
                     ),
                   ),
-
                 ],
               ),
             ),
           ),
           ExpandedSection(
-            expand: state.manageBookingResponse?.result
-                ?.passengersWithSSR?[i].infantExpanded ?? false,
+            expand: state.manageBookingResponse?.result?.passengersWithSSR?[i]
+                    .infantExpanded ??
+                false,
             child: Column(
               children: [
-                DoubleLineTextTable( label: 'familyDetail.fName'.tr(), value: passengers?.infantGivenName ?? '',),
+                DoubleLineTextTable(
+                  label: 'familyDetail.fName'.tr(),
+                  value: passengers?.infantGivenName ?? '',
+                ),
                 kVerticalSpacerSmall,
-                DoubleLineTextTable( label: 'familyDetail.lName'.tr(), value: passengers?.infantSurname ?? '',),
+                DoubleLineTextTable(
+                  label: 'familyDetail.lName'.tr(),
+                  value: passengers?.infantSurname ?? '',
+                ),
                 kVerticalSpacerSmall,
-                DoubleLineTextTable( label: 'passengerDetail.nationality'.tr(), value: passengers?.infantNationality ?? '',),
+                DoubleLineTextTable(
+                  label: 'passengerDetail.nationality'.tr(),
+                  value: passengers?.infantNationality ?? '',
+                ),
                 kVerticalSpacer,
-
                 AppInputText(
                   isRequired: true,
                   name: 'infpassportKey${i.toString()}',
                   hintText: 'passportNo'.tr(),
                   label: 'passportNo'.tr(),
-                  onChanged: (newValue){
+                  onChanged: (newValue) {
                     if (newValue != null) {
-
                       state.manageBookingResponse?.result
-                          ?.infanct(state.manageBookingResponse?.result
-                          ?.passengersWithSSR?[i].infantGivenName ?? '',
-                          state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].infantSurname ?? '',
-                          state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].infantDob ?? '')?.checkInPassportNo = newValue;
-
-
+                          ?.infanct(
+                              state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantGivenName ??
+                                  '',
+                              state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantSurname ??
+                                  '',
+                              state.manageBookingResponse?.result
+                                      ?.passengersWithSSR?[i].infantDob ??
+                                  '')
+                          ?.checkInPassportNo = newValue;
+                      bloc.anyThingChanged();
 
 
                     }
@@ -192,16 +219,14 @@ class SelectedPassengerInfo extends StatelessWidget {
                   textInputType: TextInputType.text,
 
                   validators: [
-                        (value){
-
-                      if(state.manageBookingResponse?.result
-                          ?.passengersWithSSR?[i].paxSelected == true) {
-
-
-                        if(value == null) {
+                    (value) {
+                      if (state.manageBookingResponse?.result
+                              ?.passengersWithSSR?[i].paxSelected ==
+                          true) {
+                        if (value == null) {
                           return 'passportRequired'.tr();
                         }
-                        if(value.isEmpty) {
+                        if (value.isEmpty) {
                           return 'passportRequired'.tr();
                         }
                       }
@@ -212,9 +237,37 @@ class SelectedPassengerInfo extends StatelessWidget {
                   //  FormBuilderValidators.required(),
 
                   //],
-
                 ),
                 kVerticalSpacerSmall,
+
+                PassportExpiryDatePicker(
+                  onChanged: (int date, int month, int year,bool ignore) {
+                    if(ignore) {
+                      return;
+
+                    }
+                    DateTime newDate = DateTime(year, month, date);
+
+                    state.manageBookingResponse?.result
+                        ?.infanct(
+                        state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].infantGivenName ??
+                            '',
+                        state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].infantSurname ??
+                            '',
+                        state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].infantDob ??
+                            '')
+                        ?.passExpdate = newDate.toString();
+
+                    bloc.anyThingChanged();
+
+                    print('');
+
+                  }, initalValues: null,
+                ),
+
                 FormBuilderDateTimePicker(
                   name: 'infformNameDob${i.toString()}',
                   firstDate: DateTime.now().add(Duration(days: 1)),
@@ -222,56 +275,33 @@ class SelectedPassengerInfo extends StatelessWidget {
                   format: DateFormat("dd MMM yyyy"),
                   onChanged: (newData) {
 
-                    if(newData != null) {
-
-                      state.manageBookingResponse?.result
-                          ?.infanct(state.manageBookingResponse?.result
-                          ?.passengersWithSSR?[i].infantGivenName ?? '',
-                          state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].infantSurname ?? '',
-                          state.manageBookingResponse?.result
-                              ?.passengersWithSSR?[i].infantDob ?? '')?.passExpdate = newData.toString();
-
-
-                    }
-
-
-
                   },
                   initialDate: DateTime(2000),
                   initialEntryMode: DatePickerEntryMode.calendar,
-                  validator: (value){
-
-                    if(state.manageBookingResponse?.result
-                        ?.passengersWithSSR?[i].paxSelected == true) {
-
-
-                      if(value == null) {
+                  validator: (value) {
+                    if (state.manageBookingResponse?.result
+                            ?.passengersWithSSR?[i].paxSelected ==
+                        true) {
+                      if (value == null) {
                         return 'passportExpiry'.tr();
                       }
                     }
 
                     return null;
-
                   },
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                       hintText: "passportExpiry".tr(),
                       suffixIcon: const Icon(Icons.calendar_month_sharp),
-                      contentPadding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 12)),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 12)),
                   inputType: InputType.date,
                 ),
                 kVerticalSpacerSmall,
-
                 kVerticalSpacerMini,
-
-
               ],
             ),
-
           ),
         ],
-
       ],
     );
   }

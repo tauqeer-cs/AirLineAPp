@@ -3429,6 +3429,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   String? newContactPhNo;
   String? newContactEmail;
 
+  void anyThingChanged(){
+    emit(
+      state.copyWith(
+
+        anyContactValueChange: true,
+      ),
+    );
+  }
   void setContactnewValue(String value,
       {bool isFirstName = false,
       bool isLastName = false,

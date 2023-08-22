@@ -1,6 +1,17 @@
+import 'package:app/widgets/app_toast.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../theme/styles.dart';
+import '../theme/typography.dart';
+
 class PassportExpiryDatePicker extends StatefulWidget {
+  final Function(int, int, int,bool) onChanged;
+
+  final DateTime? initalValues;
+
+  const PassportExpiryDatePicker({super.key, required this.onChanged, required this.initalValues});
+
   @override
   _PassportExpiryDatePickerState createState() =>
       _PassportExpiryDatePickerState();
@@ -12,123 +23,327 @@ class _PassportExpiryDatePickerState extends State<PassportExpiryDatePicker> {
   late int selectedYear;
   late int maxYear;
 
+  bool isDateValid(int day, int month, int year) {
+    // Get the current date
+    DateTime currentDate = DateTime.now();
+
+    // Check if the provided year is in the future
+    if (year < currentDate.year) {
+      return false;
+    }
+
+    // Check if the provided month is valid (1 to 12)
+    if (month < 1 || month > 12) {
+      return false;
+    }
+
+    // Check if the provided day is valid for the given month and year
+    int daysInMonth = DateTime(year, month + 1, 0).day;
+    if (day < 1 || day > daysInMonth) {
+      return false;
+    }
+
+    // Create a DateTime object from the provided parameters
+    DateTime selectedDate = DateTime(year, month, day);
+
+    // Check if the selected date is today or in the past
+    if (selectedDate.isBefore(currentDate) ||
+        selectedDate.isAtSameMomentAs(currentDate)) {
+      return false;
+    }
+
+    // All checks passed, the date is valid and not in the past or today
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
-    final currentDate = DateTime.now();
-    selectedDay = currentDate.day;
-    selectedMonth = currentDate.month;
-    selectedYear = currentDate.year;
-    maxYear = currentDate.year + 10; // Allow selecting dates up to 10 years from now
+    if(this.widget.initalValues != null) {
+
+      selectedDay =  widget.initalValues?.day ?? 1;
+      selectedMonth = widget.initalValues?.month ?? 1;
+      selectedYear = widget.initalValues?.year ?? 2024;
+      maxYear = 2033;
+
+    }
+    else {
+      final currentDate = DateTime.now().add(Duration(days: 30));
+      selectedDay = currentDate.day;
+      selectedMonth = currentDate.month;
+      selectedYear = currentDate.year;
+      maxYear = currentDate.year + 10;
+      widget.onChanged(selectedDay, selectedMonth, selectedYear,true);
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
     final List<String> months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
 
     final List<int> daysInMonth = [
-      31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+      31,
+      28,
+      31,
+      30,
+      31,
+      30,
+      31,
+      31,
+      30,
+      31,
+      30,
+      31
     ];
 
-    int maxDays = daysInMonth[selectedMonth - 1];
-    if (selectedMonth == 2 && _isLeapYear(selectedYear)) {
-      maxDays = 29;
-    }
+    int maxDays = 31;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.only(bottom: 8),
           child: Text(
-            'Select Passport Expiry Date',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            'passportExpDate'.tr(),
+            style: kSmallSemiBold.copyWith(color: Styles.kTextColor),
           ),
         ),
         Row(
           children: [
             Expanded(
               flex: 1,
-              child: DropdownButton<int>(
-                value: selectedDay,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedDay = newValue!;
-                  });
-                },
-                items: List<DropdownMenuItem<int>>.generate(
-                  maxDays,
-                      (index) => DropdownMenuItem<int>(
-                    value: index + 1,
-                    child: Text((index + 1).toString()),
+              child: Container(
+                decoration: buildBoxDecoration(),
+                child: DropdownButton<int>(
+                  value: selectedDay,
+                  onChanged: (newValue) {
+                    if (newValue != null) {
+                      if (isDateValid(newValue, selectedMonth, selectedYear)) {
+                        setState(() {
+                          selectedDay = newValue;
+                        });
+                        widget.onChanged(newValue, selectedMonth, selectedYear,false);
+                      } else {
+                        Toast.of(context)
+                            .show(message: 'Invalid date selected');
+                      }
+                    } else {
+                      Toast.of(context).show(message: 'Invalid date selected');
+                    }
+                  },
+                  items: List<DropdownMenuItem<int>>.generate(
+                    maxDays,
+                    (index) => DropdownMenuItem<int>(
+                      value: index + 1,
+                      child: Center(
+                          child:
+                              Text((index + 1).toString())), // Center the text
+                    ),
                   ),
+                  underline: const SizedBox(),
+                  // Remove the underline
+                  icon: buildIcon(),
+                  // Dropdown arrow icon
+                  iconSize: 24,
+                  // Adjust the icon size
+                  elevation: 0,
+                  // No shadow
+                  isExpanded: true,
+                  style: setFont(),
+                  // Customize font size
+                  dropdownColor: Colors.white,
+                  // Customize dropdown background color
+                  itemHeight: itemHeight(),
+                  // Customize item height
+                  menuMaxHeight: 240, // Customize maximum menu height
                 ),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 8),
             Expanded(
               flex: 1,
-              child: DropdownButton<int>(
-                value: selectedMonth,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedMonth = newValue!;
-                  });
-                },
-                items: List<DropdownMenuItem<int>>.generate(
-                  12,
-                      (index) => DropdownMenuItem<int>(
-                    value: index + 1,
-                    child: Text(months[index]),
+              child: Container(
+                decoration: buildBoxDecoration(),
+                child: DropdownButton<int>(
+                  value: selectedMonth,
+                  onChanged: (newValue) {
+                    if (newValue != null) {
+                      if (isDateValid(selectedDay, newValue, selectedYear)) {
+                        setState(() {
+                          selectedMonth = newValue!;
+                        });
+                        widget.onChanged(selectedDay, newValue, selectedYear,false);
+                      } else {
+                        Toast.of(context)
+                            .show(message: 'Invalid month selected');
+                      }
+                    } else {
+                      Toast.of(context).show(message: 'Invalid month selected');
+                    }
+                  },
+                  items: List<DropdownMenuItem<int>>.generate(
+                    12,
+                    (index) => DropdownMenuItem<int>(
+                      value: index + 1,
+                      child:
+                          Center(child: Text(months[index])), // Center the text
+                    ),
                   ),
+                  underline: SizedBox(),
+                  // Remove the underline
+                  icon: buildIcon(),
+                  // Dropdown arrow icon
+                  iconSize: 32,
+                  // Adjust the icon size
+                  elevation: 0,
+                  // No shadow
+                  isExpanded: true,
+                  style: setFont(),
+                  // Customize font size
+                  dropdownColor: Colors.white,
+                  // Customize dropdown background color
+                  itemHeight: itemHeight(),
+                  // Customize item height
+                  menuMaxHeight: 240, // Customize maximum menu height
                 ),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 8),
             Expanded(
               flex: 1,
-              child: DropdownButton<int>(
-                value: selectedYear,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedYear = newValue!;
-                  });
-                },
-                items: List<DropdownMenuItem<int>>.generate(
-                  maxYear - selectedYear + 1,
-                      (index) => DropdownMenuItem<int>(
-                    value: selectedYear + index,
-                    child: Text((selectedYear + index).toString()),
-                  ),
+              child: Container(
+                decoration: buildBoxDecoration(),
+                child: DropdownButton<int>(
+                  value: selectedYear,
+                  onChanged: (newValue) {
+                    if (newValue != null) {
+                      if (isDateValid(selectedDay, selectedMonth, newValue)) {
+                        setState(() {
+                          selectedYear = newValue;
+                        });
+                        widget.onChanged(selectedDay, selectedMonth, newValue,false);
+                      } else {
+                        Toast.of(context)
+                            .show(message: 'Invalid month selected');
+                      }
+
+                      setState(() {
+                        selectedYear = newValue!;
+                      });
+                    } else {
+                      Toast.of(context).show(message: 'Invalid year selected');
+                    }
+                  },
+                  items: [
+                    DropdownMenuItem<int>(
+                      value: 2023,
+                      child: Center(
+                          child: Text((2023).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2024,
+                      child: Center(
+                          child: Text((2024).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2025,
+                      child: Center(
+                          child: Text((2025).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2026,
+                      child: Center(
+                          child: Text((2026).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2027,
+                      child: Center(
+                          child: Text((2027).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2028,
+                      child: Center(
+                          child: Text((2028).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2029,
+                      child: Center(
+                          child: Text((2029).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2030,
+                      child: Center(
+                          child: Text((2030).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2031,
+                      child: Center(
+                          child: Text((2031).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2032,
+                      child: Center(
+                          child: Text((2032).toString())), // Center the text
+                    ),
+                    DropdownMenuItem<int>(
+                      value: 2033,
+                      child: Center(
+                          child: Text((2033).toString())), // Center the text
+                    ),
+
+                  ],
+                  underline: SizedBox(),
+                  // Remove the underline
+                  icon: buildIcon(),
+                  // Dropdown arrow icon
+                  iconSize: 32,
+                  // Adjust the icon size
+                  elevation: 0,
+                  // No shadow
+                  isExpanded: true,
+                  style: setFont(),
+                  // Customize font size
+                  dropdownColor: Colors.white,
+                  // Customize dropdown background color
+                  itemHeight: itemHeight(),
+                  // Customize item height
+                  menuMaxHeight: 240, // Customize maximum menu height
                 ),
               ),
             ),
           ],
         ),
-        Text(
-          'Valid Month: ${_getValidMonth(selectedMonth)}',
-          style: TextStyle(fontSize: 14),
-        ),
       ],
     );
   }
 
-  bool _isLeapYear(int year) {
-    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+  BoxDecoration buildBoxDecoration() {
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(10.0),
+      border: Border.all(color: Styles.kInactiveColor),
+    );
   }
 
-  String _getValidMonth(int selectedMonth) {
-    final thirtyDaysMonths = [4, 6, 9, 11]; // April, June, September, November
-    if (selectedMonth == 2) {
-      return 'February';
-    } else if (thirtyDaysMonths.contains(selectedMonth)) {
-      return 'April, June, September, November';
-    } else {
-      return 'All months';
-    }
-  }
+  double itemHeight() => 48;
+
+  TextStyle setFont() => kMediumMedium.copyWith(color: Styles.kTextColor);
+
+  Icon buildIcon() => Icon(
+        Icons.keyboard_arrow_down_sharp,
+        color: Styles.kInactiveColor,
+      );
 }
-

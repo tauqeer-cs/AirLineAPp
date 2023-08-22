@@ -57,28 +57,6 @@ class ContactsSection extends StatelessWidget {
               manageBooking: true,
               bookingContact: bloc.state.manageBookingResponse?.result?.bookingContact,
             ),) :
-        ExpandedSection(
-          expand: state.contactsSectionExpanded,
-          child: Column(
-            children: [
-              kVerticalSpacerSmall,
-
-              DoubleLineTextTable( label: 'familyDetail.fName'.tr(), value: bookingContact?.givenName ?? '',),
-
-              kVerticalSpacer,
-              DoubleLineTextTable( label: 'familyDetail.lName'.tr(), value: bookingContact?.surname ?? '',),
-              kVerticalSpacer,
-              DoubleLineTextTable( label: 'passengerDetail.nationality'.tr(), value: bookingContact?.nationality ?? '',),
-              kVerticalSpacer,
-              DoubleLineTextTable( label: 'phoneNumber'.tr(), value: bookingContact?.phone1 ?? '',),
-              kVerticalSpacer,
-              DoubleLineTextTable( label: 'loginForm.email'.tr(), value: bookingContact?.email ?? '',),
-              kVerticalSpacer,
-
-            ],
-          ),
-
-        ),
 
         Divider(
           height: 1,

@@ -366,10 +366,10 @@ class ManageBookingDetailsView extends StatelessWidget {
                             ),
                             kVerticalSpacerSmall,
                             if (showSsr == true) ...[
-                              Padding(
+                              const Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: const AddOnOptions(),
+                                    EdgeInsets.symmetric(horizontal: 16),
+                                child: AddOnOptions(),
                               ),
                               kVerticalSpacer,
                               if (bloc?.state.addOnOptionSelected ==
