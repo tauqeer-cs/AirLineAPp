@@ -903,7 +903,8 @@
   "invalidVoucher" : "ชื่อไม่ถูกต้อง",
   "pleaseSettleAmount" : "กรุณาชำระยอดคงค้างของคุณก่อน",
   "insuranceNotUnavailable" : "การซื้อประกันภัยไม่สามารถใช้ได้ชั่วคราว",
-  "passportExpDate" : "หนังสือเดินทางหมดอายุ"
+  "passportExpDate" : "หนังสือเดินทางหมดอายุ",
+  "pay" : "ชำระเงิน"
 
 }
 

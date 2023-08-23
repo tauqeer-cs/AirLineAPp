@@ -32,6 +32,7 @@ class ManageBookingDetailsPage extends StatelessWidget {
           title: 'manageMyBookings'.tr(),
           height: 60.h,
           overrideInnerHeight: true,
+
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
