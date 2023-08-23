@@ -649,6 +649,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         final voucherPin = InsertVoucherPIN(
                                           voucherCode: voucher,
                                         );
+                                        bloc?.state.changeSsrResponse?.token ?? '';
+
                                         final token = bloc?.currentToken ?? '';
                                         final voucherRequest = VoucherRequest(
                                           voucherPins: [voucherPin],
@@ -926,73 +928,10 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
-                                        BuildContext? cyrreContext =
-                                            Scaffold.maybeOf(context)?.context;
 
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
-
-                                        return;
-
-                                        if (response != null) {
-                                          var redirectUrl =
-                                              await bloc?.checkOutForPaymentSSR(
-                                                  '', response);
-
-                                          if (redirectUrl != null) {
-                                            final result =
-                                                await cyrreContext?.router.push(
-                                              WebViewRoute(
-                                                  url: "",
-                                                  htmlContent: redirectUrl),
-                                            );
-
-                                            if (result != null &&
-                                                result is String) {
-                                              final urlParsed =
-                                                  Uri.parse(result);
-                                              var query =
-                                                  urlParsed.queryParametersAll;
-                                              String? status =
-                                                  query['status']?.first;
-                                              String? superPNR =
-                                                  query['pnr']?.first;
-
-                                              if (status != "FAIL") {
-                                                await showDialog(
-                                                  context: cyrreContext!,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return PaymentSuccessAlert(
-                                                      currency: response
-                                                              .assignFlightAddOnResponse
-                                                              ?.currency ??
-                                                          '',
-                                                      amount: response
-                                                              .assignFlightAddOnResponse
-                                                              ?.totalReservationAmount
-                                                              ?.toStringAsFixed(
-                                                                  2) ??
-                                                          '0.00',
-                                                    );
-                                                  },
-                                                );
-
-                                                await bloc
-                                                    ?.getBookingInformation(
-                                                        state.lastName ?? '',
-                                                        state.pnrEntered ?? '');
-
-                                                reloadView();
-
-                                                //// cyrreContext
-                                                // .read<VoucherCubit>()
-                                                // .resetState();
-                                              } else {}
-                                            } else {}
-                                          }
-                                        }
                                       },
                                       child:  Text('pay'.tr()),
                                     ),
