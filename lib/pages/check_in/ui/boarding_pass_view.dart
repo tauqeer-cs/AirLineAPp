@@ -1,6 +1,7 @@
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../data/responses/boardingpass_passenger_response.dart';
@@ -77,7 +78,7 @@ class BoardingPassView extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
 
-                    kVerticalSpacerSmall,
+                kVerticalSpacerSmall,
 
                 for (BoardingPassPassenger currentItem
                 in state.outboundBoardingPassPassenger ?? []) ...[
@@ -131,68 +132,68 @@ class BoardingPassView extends StatelessWidget {
 
 
               else if (
-                  state.checkReturn == true) ...[
-                kVerticalSpacer,
-                Text(
-                  'returningFlight'.tr(),
-                  style: kLargeHeavy.copyWith(
-                    color: Styles.kTextColor,
+              state.checkReturn == true) ...[
+                  kVerticalSpacer,
+                  Text(
+                    'returningFlight'.tr(),
+                    style: kLargeHeavy.copyWith(
+                      color: Styles.kTextColor,
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                kVerticalSpacerSmall,
+                  kVerticalSpacerSmall,
 
 
-                for (BoardingPassPassenger currentItem
-                    in state.inboundBoardingPassPassenger ?? []) ...[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: MyCheckbox(
-                          label: currentItem.fullName ?? '',
-                          changed: (bool value) {
-                            bloc.updateStatusOfInBoundCheckUserForDownload(
-                                currentItem, value);
-                          },
+                  for (BoardingPassPassenger currentItem
+                  in state.inboundBoardingPassPassenger ?? []) ...[
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: MyCheckbox(
+                            label: currentItem.fullName ?? '',
+                            changed: (bool value) {
+                              bloc.updateStatusOfInBoundCheckUserForDownload(
+                                  currentItem, value);
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ]
+                      ],
+                    ),
+                  ],
+                ]
 
               else if (
-              state.checkedDeparture == true) ...[
-                kVerticalSpacer,
-                Text(
-                  'departFlight'.tr(),
-                  style: kLargeHeavy.copyWith(
-                    color: Styles.kTextColor,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                kVerticalSpacerSmall,
+                state.checkedDeparture == true) ...[
+                    kVerticalSpacer,
+                    Text(
+                      'departFlight'.tr(),
+                      style: kLargeHeavy.copyWith(
+                        color: Styles.kTextColor,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    kVerticalSpacerSmall,
 
 
-                for (BoardingPassPassenger currentItem
-                in state.outboundBoardingPassPassenger ?? []) ...[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: MyCheckbox(
-                          label: currentItem.fullName ?? '',
-                          changed: (bool value) {
-                            bloc.updateStatusOfInBoundCheckUserForDownload(
-                                currentItem, value);
-                          },
-                        ),
+                    for (BoardingPassPassenger currentItem
+                    in state.outboundBoardingPassPassenger ?? []) ...[
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: MyCheckbox(
+                              label: currentItem.fullName ?? '',
+                              changed: (bool value) {
+                                bloc.updateStatusOfInBoundCheckUserForDownload(
+                                    currentItem, value);
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                ],
-              ] ,
+                  ] ,
 
 
 
@@ -309,24 +310,24 @@ class _MyCheckboxState extends State<MyCheckbox> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: isChecked
                     ? Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Icon(Icons.check,
-                            color: Styles.kPrimaryColor, size: 16),
-                      )
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Icon(Icons.check,
+                      color: Styles.kPrimaryColor, size: 16),
+                )
                     : Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: Colors.grey, width: 1),
-                        ),
-                      ),
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: Colors.grey, width: 1),
+                  ),
+                ),
               ),
               Text(
                 widget.label,
@@ -411,12 +412,13 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
             if (success == false) ...[
               TextFormField(
                 controller: _emailController,
+                inputFormatters: [NoSpaceInputFormatter()], // Add this line
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'pleaseEnterEmail'.tr();
                   }
-                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                      .hasMatch(value)) {
+                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}(;[\w-\.]+@([\w-]+\.)+[\w-]{2,4})*$')
+                      .hasMatch(value.trim())) {
                     return 'pleaseEnterEmail'.tr();
                   }
                   return null;
@@ -448,7 +450,7 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
                         onlySelected: widget.onlySelected,
                         boodSides: widget.bothSides,
                         email: true,
-                        emailText: _emailController.text);
+                        emailText: _emailController.text.trim());
 
                     if (response == true) {
                       setState(() {
@@ -472,3 +474,20 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
     super.dispose();
   }
 }
+
+class NoSpaceInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Allow only if the new value doesn't contain spaces
+    if (!newValue.text.contains(' ')) {
+      return newValue;
+    }
+    // If the new value contains spaces, return the old value
+    return oldValue;
+  }
+}
+
+
+
+
