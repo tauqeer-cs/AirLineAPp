@@ -93,6 +93,8 @@ class ManageBookingDetailsView extends StatelessWidget {
 
   ManageBookingCubit? bloc;
   static final fbKey = GlobalKey<FormBuilderState>();
+  static final _fbKey = GlobalKey<FormBuilderState>();
+
 
   @override
   Widget build(BuildContext context) {
