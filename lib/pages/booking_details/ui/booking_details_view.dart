@@ -651,7 +651,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         );
                                         bloc?.state.changeSsrResponse?.token ?? '';
 
-                                        final token = bloc?.currentToken ?? '';
+                                        final token = bloc?.state.changeSsrResponse?.token ?? '';
                                         final voucherRequest = VoucherRequest(
                                           voucherPins: [voucherPin],
                                           token: token,
