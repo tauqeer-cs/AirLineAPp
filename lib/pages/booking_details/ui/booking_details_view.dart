@@ -11,6 +11,7 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+emimport 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../blocs/search_flight/search_flight_cubit.dart';
 import '../../../data/requests/flight_summary_pnr_request.dart' as FS;
 import '../../../app/app_router.dart';
@@ -88,7 +89,8 @@ class ManageBookingDetailsView extends StatelessWidget {
   GlobalKey horizKeyW2 = GlobalKey();
 
   ManageBookingCubit? bloc;
-
+  static final fbKey = GlobalKey<FormBuilderState>();
+  
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
@@ -611,7 +613,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                child: const EmergencyContactsSection(),
+                                child:  EmergencyContactsSection(fbKey: fbKey,),
                               ),
                               kVerticalSpacer,
                               Padding(
@@ -843,9 +845,17 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
-                                        bloc?.saveContactChanges();
+                                        if(bloc?.state.manageBookingResponse?.result?.initalEmergencyEmpty == true) {
 
-                                        return;
+                                        }
+                                        else {
+                                          if(fbKey.currentState?.validate() == false) {
+                                            return;
+
+                                          }
+
+                                        }
+
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
