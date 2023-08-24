@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../app/app_bloc_helper.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../blocs/search_flight/search_flight_cubit.dart';
 import '../../../app/app_router.dart';
 import '../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
@@ -91,9 +92,7 @@ class ManageBookingDetailsView extends StatelessWidget {
   GlobalKey horizKeyW2 = GlobalKey();
 
   ManageBookingCubit? bloc;
-
-  final _fbKey = GlobalKey<FormBuilderState>();
-
+  static final fbKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -691,7 +690,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                child: const EmergencyContactsSection(),
+                                child:  EmergencyContactsSection(fbKey: fbKey,),
                               ),
                               kVerticalSpacer,
                               Padding(
@@ -950,7 +949,18 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
-                                        bloc?.saveContactChanges();
+
+                                        if(bloc?.state.manageBookingResponse?.result?.initalEmergencyEmpty == true) {
+
+                                        }
+                                        else {
+                                          if(fbKey.currentState?.validate() == false) {
+                                            return;
+
+                                          }
+
+                                        }
+
 
                                         return;
 
