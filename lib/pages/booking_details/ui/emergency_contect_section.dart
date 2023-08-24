@@ -16,7 +16,8 @@ import 'double_line_text.dart';
 class EmergencyContactsSection extends StatelessWidget {
   final GlobalKey fbKey;
 
-  const EmergencyContactsSection({Key? key, required this.fbKey}) : super(key: key);
+  const EmergencyContactsSection({Key? key, required this.fbKey})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,6 @@ class EmergencyContactsSection extends StatelessWidget {
 
     return FormBuilder(
       key: fbKey,
-
       child: Column(
         children: [
           Padding(
@@ -59,45 +59,17 @@ class EmergencyContactsSection extends StatelessWidget {
             ),
           ),
 
-          true
-              ? ExpandedSection(
+          ExpandedSection(
             expand: state.emergencySectionExpanded,
-                  child:  PassengerEmergencyContact(
-                    isManageBooking: true,
-                    bookingContact: bloc.state.manageBookingResponse?.result?.bookingContact,
-                  ),
-                )
-              : ExpandedSection(
-                  expand: state.emergencySectionExpanded,
-                  child: Column(
-                    children: [
-                      kVerticalSpacerSmall,
-                      DoubleLineTextTable(
-                        label: 'familyDetail.fName'.tr(),
-                        value: bookingContact?.emergencyGivenName ?? '',
-                      ),
-                      kVerticalSpacer,
-                      DoubleLineTextTable(
-                        label: 'familyDetail.lName'.tr(),
-                        value: bookingContact?.emergencySurname ?? '',
-                      ),
-                      kVerticalSpacer,
-                      DoubleLineTextTable(
-                        label: 'relationship'.tr(),
-                        value: bookingContact?.emergencyRelationship ?? '',
-                      ),
-                      kVerticalSpacer,
-                      //kVerticalSpacer,
-                      //DoubleLineTextTable( label: 'passengerDetail.nationality'.tr(), value: bookingContact?.nationality ?? '',),
-                      kVerticalSpacer,
-                      DoubleLineTextTable(
-                        label: 'phoneNumber'.tr(),
-                        value: bookingContact?.emergencyPhone ?? '',
-                      ),
-                      kVerticalSpacer,
-                    ],
-                  ),
-                ),
+            child: PassengerEmergencyContact(
+              isManageBooking: true,
+              mmbWasEmpty: bloc.state.manageBookingResponse?.result
+                      ?.initalEmergencyEmpty ??
+                  false,
+              bookingContact:
+                  bloc.state.manageBookingResponse?.result?.bookingContact,
+            ),
+          ),
 
           Divider(
             height: 1,

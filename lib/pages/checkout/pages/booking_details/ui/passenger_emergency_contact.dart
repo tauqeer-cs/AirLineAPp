@@ -22,10 +22,13 @@ class PassengerEmergencyContact extends StatefulWidget {
   final bool isManageBooking;
   final BookingContact? bookingContact;
 
+  final bool mmbWasEmpty;
+
   const PassengerEmergencyContact({
     Key? key,
     this.isManageBooking = false,
     this.bookingContact,
+    this.mmbWasEmpty = false,
   }) : super(key: key);
 
   @override
@@ -44,6 +47,8 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   final nationalityController = TextEditingController();
   final relationController = TextEditingController();
   final phoneNoController = TextEditingController();
+
+  bool isMMbEmpty = false;
 
   @override
   void initState() {
@@ -70,6 +75,7 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
 
       if (widget.bookingContact?.emergencyPhoneCode?.isNotEmpty ?? false) {
         nationalityController.text = widget.bookingContact?.emergencyPhoneCode ?? '';
+        //isMMbEmpty
       } else if (contact?.phoneCode?.isNotEmpty ?? false) {
         nationalityController.text = contact!.phoneCode!;
       }
@@ -234,6 +240,7 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               textEditingController: nationalityController,
               name: formNameEmergencyCountry,
               child: AppCountriesDropdown(
+                isMMB: widget.isManageBooking && isMMbEmpty,
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 isPhoneCode: true,
                 hintText: "phone".tr(),
