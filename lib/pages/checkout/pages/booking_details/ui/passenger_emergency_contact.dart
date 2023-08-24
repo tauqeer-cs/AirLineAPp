@@ -48,7 +48,7 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
   final relationController = TextEditingController();
   final phoneNoController = TextEditingController();
 
-  bool isMMbEmpty = false;
+
 
   @override
   void initState() {
@@ -240,7 +240,7 @@ class PassengerEmergencyContactState extends State<PassengerEmergencyContact> {
               textEditingController: nationalityController,
               name: formNameEmergencyCountry,
               child: AppCountriesDropdown(
-                isMMB: widget.isManageBooking && isMMbEmpty,
+                isMMB: widget.isManageBooking && widget.mmbWasEmpty,
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 isPhoneCode: true,
                 hintText: "phone".tr(),

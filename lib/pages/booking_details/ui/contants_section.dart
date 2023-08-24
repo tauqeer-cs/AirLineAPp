@@ -51,6 +51,12 @@ class ContactsSection extends StatelessWidget {
           ),
         ),
 
+        Divider(
+          height: 1,
+          color: Styles.kDisabledButton,
+        ),
+
+
         true ? ExpandedSection(
             expand: state.contactsSectionExpanded,
             child:  PassengerContact(
