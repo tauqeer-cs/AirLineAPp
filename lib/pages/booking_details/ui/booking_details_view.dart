@@ -95,7 +95,6 @@ class ManageBookingDetailsView extends StatelessWidget {
   static final fbKey = GlobalKey<FormBuilderState>();
   static final _fbKey = GlobalKey<FormBuilderState>();
 
-
   @override
   Widget build(BuildContext context) {
     bloc = context.watch<ManageBookingCubit>();
@@ -118,8 +117,6 @@ class ManageBookingDetailsView extends StatelessWidget {
           ?.result
           ?.passengersWithSSR
           ?.first;
-
-
 
       if (tmpSelectedPax != null) {
         bloc?.changeSelectedPax(tmpSelectedPax);
@@ -316,7 +313,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                           state.checkReturn) !=
                                                       true ||
                                                   bloc?.pendingPayOption ==
-                                                      true || bloc?.state.showingVoucher == true)
+                                                      true ||
+                                                  bloc?.state.showingVoucher ==
+                                                      true)
                                               ? null
                                               : () async {
                                                   //   context.router.replaceAll([const NavigationRoute()]);
@@ -358,33 +357,31 @@ class ManageBookingDetailsView extends StatelessWidget {
                               ),
                             ),
                             kVerticalSpacer,
-
-                            if(bloc?.state.showingVoucher == true) ... [
-
-                            ] else ... [
+                            if (bloc?.state.showingVoucher == true)
+                              ...[]
+                            else ...[
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: PassengerSelectorManageBooking(
                                   passengersWithSSR: bloc
-                                      ?.state
-                                      .manageBookingResponse
-                                      ?.result
-                                      ?.passengersWithSSRWithoutInfant ??
+                                          ?.state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.passengersWithSSRWithoutInfant ??
                                       [],
                                 ),
                               ),
                               kVerticalSpacer,
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: SelectedPassengerInfo(selectedPax),
                               ),
                               kVerticalSpacerSmall,
                               if (showSsr == true) ...[
                                 const Padding(
-                                  padding:
-                                  EdgeInsets.symmetric(horizontal: 16),
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
                                   child: AddOnOptions(),
                                 ),
                                 kVerticalSpacer,
@@ -393,7 +390,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   kVerticalSpacerMini,
                                   true ? Container() : kVerticalSpacerSmall,
                                   if (bloc?.state.manageBookingResponse?.result
-                                      ?.isReturn ==
+                                          ?.isReturn ==
                                       true) ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -408,26 +405,27 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               isSeat: true);
                                         },
                                         isSelectedOption1:
-                                        bloc?.state.seatDeparture ?? true,
+                                            bloc?.state.seatDeparture ?? true,
                                         textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                                         textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                                         customRadius: 12,
                                         customBorderWidth: 1,
                                         customVerticalPadding: 8,
                                         customSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kPrimaryColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
                                         customNoSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kLightBgColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
                                       ),
                                     ),
                                     kVerticalSpacer,
                                   ],
                                   const Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
                                     child: SeatLegendSimple(),
                                   ),
                                   kVerticalSpacer,
@@ -436,10 +434,10 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         horizontal: 16),
                                     child: PassengerViewerForSeats(
                                       passengersWithSSR: bloc
-                                          ?.state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.passengersWithSSRWithoutInfant ??
+                                              ?.state
+                                              .manageBookingResponse
+                                              ?.result
+                                              ?.passengersWithSSRWithoutInfant ??
                                           [],
                                     ),
                                   ),
@@ -459,12 +457,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   true
                                       ? Container()
                                       : WarningLabel(
-                                    message:
-                                    'mealAddOnsAreUnavailable'.tr(),
-                                  ),
+                                          message:
+                                              'mealAddOnsAreUnavailable'.tr(),
+                                        ),
                                   kVerticalSpacerSmall,
                                   if (bloc?.state.manageBookingResponse?.result
-                                      ?.isReturn ==
+                                          ?.isReturn ==
                                       true) ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -479,34 +477,34 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               isFood: true);
                                         },
                                         isSelectedOption1:
-                                        bloc?.state.foodDepearture ?? true,
+                                            bloc?.state.foodDepearture ?? true,
                                         textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                                         textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                                         customRadius: 12,
                                         customBorderWidth: 1,
                                         customVerticalPadding: 8,
                                         customSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kPrimaryColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
                                         customNoSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kLightBgColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
                                       ),
                                     ),
                                     kVerticalSpacerSmall,
                                   ],
                                   MealsSection(
                                     isDeparture:
-                                    bloc?.state.foodDepearture ?? false,
+                                        bloc?.state.foodDepearture ?? false,
                                     isManageBooking: true,
                                   ),
                                 ] else if (bloc?.state.addOnOptionSelected ==
                                     AddonType.baggage) ...[
                                   kVerticalSpacerSmall,
                                   if (bloc?.state.manageBookingResponse?.result
-                                      ?.isReturn ==
+                                          ?.isReturn ==
                                       true) ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -521,20 +519,21 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               isBaggage: true);
                                         },
                                         isSelectedOption1:
-                                        bloc?.state.baggageDeparture ?? true,
+                                            bloc?.state.baggageDeparture ??
+                                                true,
                                         textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                                         textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                                         customRadius: 12,
                                         customBorderWidth: 1,
                                         customVerticalPadding: 8,
                                         customSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kPrimaryColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
                                         customNoSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kLightBgColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
                                       ),
                                     ),
                                     kVerticalSpacerSmall,
@@ -546,7 +545,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     horizS2: horizKeyS2,
                                     isManageBooking: true,
                                     isDeparture:
-                                    bloc?.state.baggageDeparture ?? false,
+                                        bloc?.state.baggageDeparture ?? false,
                                     moveToTop: () {},
                                     moveToBottom: () {},
                                   ),
@@ -554,7 +553,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     AddonType.special) ...[
                                   kVerticalSpacer,
                                   if (bloc?.state.manageBookingResponse?.result
-                                      ?.isReturn ==
+                                          ?.isReturn ==
                                       true) ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -568,22 +567,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                                           bloc?.setSelectionDeparture(false,
                                               isSpecial: true);
                                         },
-                                        isSelectedOption1:
-                                        bloc?.state.specialAppOpsDeparture ??
+                                        isSelectedOption1: bloc?.state
+                                                .specialAppOpsDeparture ??
                                             true,
                                         textOne:
-                                        '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
                                         textTwo:
-                                        '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
                                         customRadius: 12,
                                         customBorderWidth: 1,
                                         customVerticalPadding: 8,
                                         customSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kPrimaryColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
                                         customNoSelectedStyle:
-                                        kMediumSemiBold.copyWith(
-                                            color: Styles.kLightBgColor),
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
                                       ),
                                     ),
                                     kVerticalSpacerSmall,
@@ -592,15 +591,15 @@ class ManageBookingDetailsView extends StatelessWidget {
                                       true) ...[
                                     WheelchairSection(
                                         key: horizKeyW1,
-                                        isDeparture:
-                                        bloc?.state.specialAppOpsDeparture ??
+                                        isDeparture: bloc?.state
+                                                .specialAppOpsDeparture ??
                                             false,
                                         isManageBooking: true),
                                   ] else ...[
                                     WheelchairSection(
                                         key: horizKeyW2,
-                                        isDeparture:
-                                        bloc?.state.specialAppOpsDeparture ??
+                                        isDeparture: bloc?.state
+                                                .specialAppOpsDeparture ??
                                             false,
                                         isManageBooking: true),
                                   ],
@@ -613,92 +612,109 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   ...[],
                               ],
                             ],
-
                             const Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: 16),
+                              padding: EdgeInsets.symmetric(horizontal: 16),
                               child: ManageFlightSummary(),
                             ),
-                            if(bloc?.state.showingVoucher == true)  ... [
-
+                            if (bloc?.state.showingVoucher == true) ...[
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: VoucherCodeUi(
                                   readOnly: false,
                                   blocState: voucherState.blocState,
-                                  voucherCodeInitial:
-                                  voucherState.insertedVoucher?.voucherCode ?? '',
+                                  voucherCodeInitial: voucherState
+                                          .insertedVoucher?.voucherCode ??
+                                      '',
                                   state: voucherState,
                                   onRemoveTapped: () {
                                     if (voucherState.response != null) {
-                                      removeVoucher(bloc?.currentToken ?? '', context);
+                                      removeVoucher(
+                                          bloc?.currentToken ?? '', context);
                                     } else {
                                       _fbKey.currentState!.reset();
                                     }
                                   },
-                                  onButtonTapped: voucherState.blocState == BlocState.loading
-                                  // || bookingState.superPnrNo != null
+                                  onButtonTapped: voucherState.blocState ==
+                                          BlocState.loading
+                                      // || bookingState.superPnrNo != null
                                       ? null
                                       : (voucherState.response != null)
-                                      ? () =>
-                                      removeVoucher(bloc?.currentToken ?? '', context)
-                                      : () {
-                                    if (_fbKey.currentState!.saveAndValidate()) {
-                                      if (ConstantUtils.showPinInVoucher) {
-                                        final value = _fbKey.currentState!.value;
-                                        final voucher = value["voucherCode"];
-                                        final voucherPin = InsertVoucherPIN(
-                                          voucherCode: voucher,
-                                        );
-                                        bloc?.state.changeSsrResponse?.token ?? '';
+                                          ? () => removeVoucher(
+                                              bloc?.currentToken ?? '', context)
+                                          : () {
+                                              if (_fbKey.currentState!
+                                                  .saveAndValidate()) {
+                                                if (ConstantUtils
+                                                    .showPinInVoucher) {
+                                                  final value = _fbKey
+                                                      .currentState!.value;
+                                                  final voucher =
+                                                      value["voucherCode"];
+                                                  final voucherPin =
+                                                      InsertVoucherPIN(
+                                                    voucherCode: voucher,
+                                                  );
+                                                  bloc?.state.changeSsrResponse
+                                                          ?.token ??
+                                                      '';
 
-                                        final token = bloc?.state.changeSsrResponse?.token ?? '';
-                                        final voucherRequest = VoucherRequest(
-                                          voucherPins: [voucherPin],
-                                          token: token,
-                                        );
-                                        context
-                                            .read<VoucherCubit>()
-                                            .addVoucher(voucherRequest);
-                                      } else {
-                                        final value = _fbKey.currentState!.value;
-                                        final voucher = value["voucherCode"];
-                                        final token = bloc?.currentToken ?? '';
-                                        final voucherRequest = VoucherRequest(
-                                          insertVoucher: voucher,
-                                          token: token,
-                                        );
-                                        context
-                                            .read<VoucherCubit>()
-                                            .addVoucher(voucherRequest);
-                                      }
-                                    }
-                                  },
-                                  fbKey: _fbKey, onOnlyTextRemove: () {  },
+                                                  final token = bloc
+                                                          ?.state
+                                                          .changeSsrResponse
+                                                          ?.token ??
+                                                      '';
+                                                  final voucherRequest =
+                                                      VoucherRequest(
+                                                    voucherPins: [voucherPin],
+                                                    token: token,
+                                                  );
+                                                  context
+                                                      .read<VoucherCubit>()
+                                                      .addVoucher(
+                                                          voucherRequest);
+                                                } else {
+                                                  final value = _fbKey
+                                                      .currentState!.value;
+                                                  final voucher =
+                                                      value["voucherCode"];
+                                                  final token =
+                                                      bloc?.currentToken ?? '';
+                                                  final voucherRequest =
+                                                      VoucherRequest(
+                                                    insertVoucher: voucher,
+                                                    token: token,
+                                                  );
+                                                  context
+                                                      .read<VoucherCubit>()
+                                                      .addVoucher(
+                                                          voucherRequest);
+                                                }
+                                              }
+                                            },
+                                  fbKey: _fbKey,
+                                  onOnlyTextRemove: () {},
                                 ),
                               ),
                               const SizedBox(
                                 height: 16,
                               ),
-
-                            ] else
-                            if (showPax == true) ...[
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: const ContactsSection(),
+                            ] else if (showPax == true) ...[
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: ContactsSection(),
                               ),
                               kVerticalSpacer,
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                child:  EmergencyContactsSection(fbKey: fbKey,),
+                                child: EmergencyContactsSection(
+                                  fbKey: fbKey,
+                                ),
                               ),
                               kVerticalSpacer,
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: const ComapnyTaxInvoiceSection(),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: ComapnyTaxInvoiceSection(),
                               ),
                               kVerticalSpacer,
                               Padding(
@@ -711,93 +727,91 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if(bloc?.state.showingVoucher == true) ... [
+                    if (bloc?.state.showingVoucher == true) ...[
                       SummaryContainer(
                         child: bloc?.state.isPaying == true
                             ? const AppLoading()
                             : Padding(
-                          padding: kPagePadding,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () async {
-                                  BuildContext? cyrreContext =
-                                      Scaffold.maybeOf(context)?.context;
+                                padding: kPagePadding,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        BuildContext? cyrreContext =
+                                            Scaffold.maybeOf(context)?.context;
 
-                                  ChangeSsrResponse? response = await bloc?.state.changeSsrResponse;
+                                        ChangeSsrResponse? response =
+                                            await bloc?.state.changeSsrResponse;
 
-                                  if (response != null) {
+                                        if (response != null) {
+                                          var redirectUrl =
+                                              await bloc?.checkOutForPaymentSSR(
+                                                  '', response);
 
-                                    var redirectUrl =
-                                    await bloc?.checkOutForPaymentSSR(
-                                        '', response);
+                                          if (redirectUrl != null) {
+                                            final result =
+                                                await cyrreContext?.router.push(
+                                              WebViewRoute(
+                                                  url: "",
+                                                  htmlContent: redirectUrl),
+                                            );
 
-                                    if (redirectUrl != null) {
-                                      final result =
-                                      await cyrreContext?.router.push(
-                                        WebViewRoute(
-                                            url: "",
-                                            htmlContent: redirectUrl),
-                                      );
+                                            if (result != null &&
+                                                result is String) {
+                                              final urlParsed =
+                                                  Uri.parse(result);
+                                              var query =
+                                                  urlParsed.queryParametersAll;
+                                              String? status =
+                                                  query['status']?.first;
+                                              String? superPNR =
+                                                  query['pnr']?.first;
 
-                                      if (result != null &&
-                                          result is String) {
-                                        final urlParsed =
-                                        Uri.parse(result);
-                                        var query =
-                                            urlParsed.queryParametersAll;
-                                        String? status =
-                                            query['status']?.first;
-                                        String? superPNR =
-                                            query['pnr']?.first;
+                                              if (status != "FAIL") {
+                                                await showDialog(
+                                                  context: cyrreContext!,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PaymentSuccessAlert(
+                                                      currency: response
+                                                              .assignFlightAddOnResponse
+                                                              ?.currency ??
+                                                          '',
+                                                      amount: response
+                                                              .assignFlightAddOnResponse
+                                                              ?.totalReservationAmount
+                                                              ?.toStringAsFixed(
+                                                                  2) ??
+                                                          '0.00',
+                                                    );
+                                                  },
+                                                );
 
-                                        if (status != "FAIL") {
-                                          await showDialog(
-                                            context: cyrreContext!,
-                                            builder:
-                                                (BuildContext context) {
-                                              return PaymentSuccessAlert(
-                                                currency: response
-                                                    .assignFlightAddOnResponse
-                                                    ?.currency ??
-                                                    '',
-                                                amount: response
-                                                    .assignFlightAddOnResponse
-                                                    ?.totalReservationAmount
-                                                    ?.toStringAsFixed(
-                                                    2) ??
-                                                    '0.00',
-                                              );
-                                            },
-                                          );
+                                                await bloc
+                                                    ?.getBookingInformation(
+                                                        state.lastName ?? '',
+                                                        state.pnrEntered ?? '');
 
-                                          await bloc
-                                              ?.getBookingInformation(
-                                              state.lastName ?? '',
-                                              state.pnrEntered ?? '');
+                                                reloadView();
 
-                                          reloadView();
+                                                //// cyrreContext
+                                                // .read<VoucherCubit>()
+                                                // .resetState();
+                                              } else {}
+                                            } else {}
+                                          }
+                                        }
 
-                                          //// cyrreContext
-                                          // .read<VoucherCubit>()
-                                          // .resetState();
-                                        } else {}
-                                      } else {}
-                                    }
-                                  }
-
-                                  return;
-
-                                },
-                                child:  Text('pay'.tr()),
+                                        return;
+                                      },
+                                      child: Text('pay'.tr()),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
                       ),
-                    ]
-                    else if (bloc?.pendingPayOption == true) ...[
+                    ] else if (bloc?.pendingPayOption == true) ...[
                       if (bloc?.state.isPaying == true && 1 == 2) ...[
                         const Center(
                           child: AppLoading(),
@@ -846,14 +860,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                                           var redirectUrl =
                                               await bloc?.checkOutPending();
 
-
-                                          if(bloc?.state.hasPendingError == true) {
-                                            showErrorDialog(context,redirectUrl ?? '');
-
-
+                                          if (bloc?.state.hasPendingError ==
+                                              true) {
+                                            showErrorDialog(
+                                                context, redirectUrl ?? '');
 
                                             return;
-
                                           }
                                           //
 
@@ -908,10 +920,15 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 // .read<VoucherCubit>()
                                                 // .resetState();
                                               } else {}
-                                            } else {}
+                                            }
+                                            else {
+
+                                            }
                                           }
                                         },
-                                        child:  Text('pay'.tr()),
+                                        child: Text(
+                                          'pay'.tr(),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -929,12 +946,81 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
+                                        BuildContext? cyrreContext =
+                                            Scaffold.maybeOf(context)?.context;
 
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
+
+
+
+                                        if (response != null) {
+                                          var redirectUrl =
+                                          await bloc?.checkOutForPaymentSSR(
+                                              '', response);
+
+                                          if (redirectUrl != null) {
+                                            final result =
+                                            await cyrreContext?.router.push(
+                                              WebViewRoute(
+                                                  url: "",
+                                                  htmlContent: redirectUrl),
+                                            );
+
+                                            if (result != null &&
+                                                result is String) {
+                                              final urlParsed =
+                                              Uri.parse(result);
+                                              var query =
+                                                  urlParsed.queryParametersAll;
+                                              String? status =
+                                                  query['status']?.first;
+                                              String? superPNR =
+                                                  query['pnr']?.first;
+
+                                              if (status != "FAIL") {
+                                                await showDialog(
+                                                  context: cyrreContext!,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PaymentSuccessAlert(
+                                                      currency: response
+                                                          .assignFlightAddOnResponse
+                                                          ?.currency ??
+                                                          '',
+                                                      amount: response
+                                                          .assignFlightAddOnResponse
+                                                          ?.totalReservationAmount
+                                                          ?.toStringAsFixed(
+                                                          2) ??
+                                                          '0.00',
+                                                    );
+                                                  },
+                                                );
+
+                                                await bloc
+                                                    ?.getBookingInformation(
+                                                    state.lastName ?? '',
+                                                    state.pnrEntered ?? '');
+
+                                                reloadView();
+
+                                                //// cyrreContext
+                                                // .read<VoucherCubit>()
+                                                // .resetState();
+                                              } else {}
+                                            } else {
+
+                                            }
+                                          }
+                                        }
+
+
                                       },
-                                      child:  Text('pay'.tr()),
+                                      child: Text(
+                                        'pay'.tr(),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -951,23 +1037,23 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
-
-                                        if(bloc?.state.manageBookingResponse?.result?.initalEmergencyEmpty == true) {
-
-                                        }
-                                        else {
-                                          if(fbKey.currentState?.validate() == false) {
+                                        if (bloc
+                                                ?.state
+                                                .manageBookingResponse
+                                                ?.result
+                                                ?.initalEmergencyEmpty ==
+                                            true) {
+                                        } else {
+                                          if (fbKey.currentState?.validate() ==
+                                              false) {
                                             return;
-
                                           }
-
                                         }
-
-
                                         return;
-
                                       },
-                                      child:  Text('accountDetail.save'.tr()),
+                                      child: Text(
+                                        'accountDetail.save'.tr(),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -984,21 +1070,16 @@ class ManageBookingDetailsView extends StatelessWidget {
   void removeVoucher(String currentToken, BuildContext context) {
     context.read<VoucherCubit>;
 
-
     final token = currentToken;
     final voucherRequest = VoucherRequest(
       token: token,
     );
     context.read<VoucherCubit>().removeVoucher(voucherRequest);
-    if(context.read<VoucherCubit>().state.dontShowVoucher == true){
-
-    }
-    else {
+    if (context.read<VoucherCubit>().state.dontShowVoucher == true) {
+    } else {
       _fbKey.currentState!.reset();
-
     }
   }
-
 
   bool isAllowedToContinue(ManageBookingState manageBookingState) {
     if (manageBookingState.checkedDeparture &&
@@ -1109,19 +1190,23 @@ class InsuranceManageView extends StatelessWidget {
 
     bool dontShowAll = bloc.dontShowAllInsuranceOption;
 
-    var insuranceValuesToShow = InsuranceType.values.where((element) => element != InsuranceType.none).toList();
+    var insuranceValuesToShow = InsuranceType.values
+        .where((element) => element != InsuranceType.none)
+        .toList();
 
-    if(dontShowAll == true){
-      insuranceValuesToShow =   insuranceValuesToShow.where((element) => element != InsuranceType.all).toList();
+    if (dontShowAll == true) {
+      insuranceValuesToShow = insuranceValuesToShow
+          .where((element) => element != InsuranceType.all)
+          .toList();
 
       print('');
     }
 
-    if(bloc.state.selectedPax?.insuranceSSRDetail != null){
-      if((bloc.state.selectedPax?.insuranceSSRDetail?.totalAmount ?? 0.0) > 0.0){
+    if (bloc.state.selectedPax?.insuranceSSRDetail != null) {
+      if ((bloc.state.selectedPax?.insuranceSSRDetail?.totalAmount ?? 0.0) >
+          0.0) {
         insuranceValuesToShow = [];
         insurances = [];
-
       }
     }
 
@@ -1204,7 +1289,8 @@ class InsuranceManageView extends StatelessWidget {
                                   SizedBox(
                                     height: 56,
                                     width: 56,
-                                    child: AvailableInsurance.getAssets(e) == null
+                                    child: AvailableInsurance.getAssets(e) ==
+                                            null
                                         ? const SizedBox()
                                         : Image.asset(
                                             AvailableInsurance.getAssets(e)!),
@@ -1212,7 +1298,8 @@ class InsuranceManageView extends StatelessWidget {
                                 ],
                               ),
                               Visibility(
-                                visible: e == selected && e != InsuranceType.none,
+                                visible:
+                                    e == selected && e != InsuranceType.none,
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
                                   child: Column(
@@ -1251,16 +1338,13 @@ class InsuranceManageView extends StatelessWidget {
                                                     InsuranceType.all) {
                                                   bloc.addInsuranceToAllPeople(
                                                       e, tmp);
-                                                }
-                                                else if(selected ==
+                                                } else if (selected ==
                                                     InsuranceType.selected) {
-                                                  bloc.addInsuranceToPeople(
-                                                      e, tmp, state.selectedPax);
-                                                }
-                                                else {
-                                                  bloc.addInsuranceToPeople(
-                                                      e, tmp, state.selectedPax);
-
+                                                  bloc.addInsuranceToPeople(e,
+                                                      tmp, state.selectedPax);
+                                                } else {
+                                                  bloc.addInsuranceToPeople(e,
+                                                      tmp, state.selectedPax);
                                                 }
                                                 /*
                                             if (selected == InsuranceType.all) {
@@ -1296,10 +1380,12 @@ class InsuranceManageView extends StatelessWidget {
                                             }*/
                                               },
                                               child: Container(
-                                                padding: const EdgeInsets.all(16),
+                                                padding:
+                                                    const EdgeInsets.all(16),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(8),
+                                                        BorderRadius.circular(
+                                                            8),
                                                     border: Border.all(
                                                         color: Styles
                                                             .kDisabledButton)),
@@ -1307,7 +1393,8 @@ class InsuranceManageView extends StatelessWidget {
                                                   children: [
                                                     Text(
                                                       AvailableInsurance
-                                                          .dataTitle(e, agentCms),
+                                                          .dataTitle(
+                                                              e, agentCms),
                                                       style: kLargeHeavy,
                                                     ),
                                                     AvailableInsurance
@@ -1324,7 +1411,8 @@ class InsuranceManageView extends StatelessWidget {
                                                       textColor:
                                                           Styles.kPrimaryColor,
                                                       amount: e.finalAmount,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     kVerticalSpacer,
                                                     IgnorePointer(
@@ -1340,7 +1428,8 @@ class InsuranceManageView extends StatelessWidget {
                                                             MaterialTapTargetSize
                                                                 .shrinkWrap,
                                                         groupValue: selected ==
-                                                                InsuranceType.all
+                                                                InsuranceType
+                                                                    .all
                                                             ? ((bloc
                                                                         .state
                                                                         .manageBookingResponse
@@ -1396,8 +1485,8 @@ class InsuranceManageView extends StatelessWidget {
                 Expanded(
                   child: Container(),
                 ),
-                 MoneyWidget(
-                  amount:bloc.notConfirmedInsruanceTotalPrice ?? 0.0,
+                MoneyWidget(
+                  amount: bloc.notConfirmedInsruanceTotalPrice ?? 0.0,
                   isDense: true,
                   isNormalMYR: true,
                 ),
