@@ -53,14 +53,14 @@ class RewardAndDiscount extends StatelessWidget {
           ),
           if(bloc.hasVoucherBeenUsed == false && 1 == 2) ... [
 
-           /* SettingsWrapper(
+            SettingsWrapper(
               settingType: AvailableSetting.myReward,
               child: RedeemVoucherView(
                 currency: currency,
                 promoReady: promoReady,
               ),
             ),
-            kVerticalSpacerSmall,*/
+            kVerticalSpacerSmall,
 
           ],
 
