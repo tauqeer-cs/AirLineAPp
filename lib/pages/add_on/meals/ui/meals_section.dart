@@ -190,7 +190,7 @@ class MealsSection extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '${'flightCharge.meal'.tr()} ${'flightCharge.total'.tr()}',
+                        '${'meal'.tr()} ${'flightCharge.total'.tr()}',
                         style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
                       ),
                       Expanded(

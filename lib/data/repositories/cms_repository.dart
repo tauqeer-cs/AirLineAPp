@@ -7,6 +7,7 @@ import 'package:app/data/responses/home_response.dart';
 import 'package:app/models/cms_flight.dart';
 import 'package:app/models/cms_route.dart';
 
+import '../../app/language_manager.dart';
 import '../responses/agent_sign_up_cms.dart';
 import '../responses/universal_shared_settings_routes_response.dart';
 
@@ -44,13 +45,15 @@ class CMSRepository {
 
   Future<HomeResponse> getHomeContent(String id,String language) async {
 
+
+
     await getCMSToken();
-    return await _provider.getHomeContent(id, DateTime.now().millisecondsSinceEpoch.toString(),lang: language == 'th' ? 'th-TH' : 'en-US');
+    return await _provider.getHomeContent(id, DateTime.now().millisecondsSinceEpoch.toString(),lang: LanguageManager.seeLanguage(language));
   }
 
   Future<CMSFlight> getSSRContent(String id,String language) async {
     await getCMSToken();
-    return await _provider.getSSRContent(id,language: language == 'th' ? 'th-TH' : 'en-US');
+    return await _provider.getSSRContent(id,language: LanguageManager.seeLanguage(language));
   }
 
   Future<HomeDetail> getContentDetail(String id) async {
@@ -66,7 +69,7 @@ class CMSRepository {
   Future<UniversalSharedSettingsRoutesResponse> agenInsurance(String id,String language) async {
 
     await getCMSToken();
-    return await _provider.getInsuranceName(id,timestamp: DateTime.now().millisecondsSinceEpoch.toString(),lang: language == 'th' ? 'th-TH' : 'en-US');
+    return await _provider.getInsuranceName(id,timestamp: DateTime.now().millisecondsSinceEpoch.toString(),lang: LanguageManager.seeLanguage(language));
   }
 
 }

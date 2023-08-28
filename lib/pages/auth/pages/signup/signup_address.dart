@@ -95,7 +95,7 @@ class SignupAddressPage extends StatelessWidget {
                           GenderInput(
                             onChanged: (value) => context
                                 .read<SignupCubit>()
-                                .editGender(value ?? 'signUp2.genderMale'.tr()),
+                                .editGender(value ?? 'male'.tr()),
                           ),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),

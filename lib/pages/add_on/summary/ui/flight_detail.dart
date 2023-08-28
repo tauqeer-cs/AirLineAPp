@@ -102,7 +102,7 @@ class FlightSummaryDetail extends StatelessWidget {
           kVerticalSpacerMini,
           ChildRow(
             child1: Text(
-              'flightDetail.depart'.tr(),
+              'depart'.tr(),
               style: kMediumRegular,
             ),
             child2: Text(

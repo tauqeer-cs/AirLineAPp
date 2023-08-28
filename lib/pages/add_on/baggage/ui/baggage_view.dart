@@ -58,7 +58,7 @@ class _BaggageViewState extends State<BaggageView>
               shrinkWrap: true,
               children: [
                 kVerticalSpacer,
-                TitleSummaryHeader(title: 'priceSection.baggageTitle'.tr()),
+                TitleSummaryHeader(title: 'baggage'.tr()),
                 kVerticalSpacer,
                 FlightDetailWidget(
                   isDeparture: widget.isDeparture,

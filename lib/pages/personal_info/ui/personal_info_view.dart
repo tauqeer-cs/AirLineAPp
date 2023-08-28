@@ -73,7 +73,7 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
             ),
             kVerticalSpacer,
             AddressInput(
-              title: 'infoDetail.address'.tr(),
+              title: 'address'.tr(),
               subText: '',
               hideSubText: true,
               greyMargin: 0,

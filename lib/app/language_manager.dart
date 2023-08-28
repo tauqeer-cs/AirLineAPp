@@ -15,9 +15,26 @@ class LanguageManager {
     if(language == 'th') {
       language = 'th-TH';
     }
+    else if(language == 'id'){
+      language = 'id-ID';
+    }
     else {
       language = 'en-US';
     }
     _currentLanguage = language;
   }
+
+  static String seeLanguage(String language) {
+    if(language == 'th') {
+      language = 'th-TH';
+    }
+    else if(language == 'id'){
+      language = 'id-ID';
+    }
+    else {
+      language = 'en-US';
+    }
+    return language;
+  }
+
 }

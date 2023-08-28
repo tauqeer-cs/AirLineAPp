@@ -50,6 +50,7 @@ import '../../checkout/pages/insurance/ui/available_insurance.dart';
 import '../../checkout/pages/insurance/ui/insurance_view.dart';
 import '../../checkout/pages/insurance/ui/passenger_insurance_selector.dart';
 import '../../checkout/pages/insurance/ui/zurich_container.dart';
+import '../../checkout/pages/payment/ui/discount_summary.dart';
 import '../../checkout/pages/payment/ui/voucher_ui.dart';
 import '../../checkout/ui/empty_addon.dart';
 import '../../search_result/ui/booking_summary.dart';
@@ -106,6 +107,7 @@ class ManageBookingDetailsView extends StatelessWidget {
 
     var voucherBloc = context.watch<VoucherCubit>();
     var voucherState = voucherBloc.state;
+    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount ?? 0;
 
     if (selectedPax == null) {
       print('');
@@ -243,7 +245,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             Expanded(
                                               child: FlightDataInfo(
                                                 headingLabel:
-                                                    'flightCharge.return'.tr(),
+                                                    'return'.tr(),
                                                 dateToShow: state
                                                         .manageBookingResponse
                                                         ?.result
@@ -616,15 +618,23 @@ class ManageBookingDetailsView extends StatelessWidget {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: ManageFlightSummary(),
                             ),
+
+
                             if (bloc?.state.showingVoucher == true) ...[
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: VoucherCodeUi(
+                                  onOnlyTextRemove: (){
+
+                                    _fbKey.currentState!.reset();
+                                    voucherBloc.dontShowVoucher();
+
+                                  },
                                   readOnly: false,
                                   blocState: voucherState.blocState,
-                                  voucherCodeInitial: voucherState
+                                  voucherCodeInitial:  voucherState.dontShowVoucher == true ? '' : (voucherState
                                           .insertedVoucher?.voucherCode ??
-                                      '',
+                                      ''),
                                   state: voucherState,
                                   onRemoveTapped: () {
                                     if (voucherState.response != null) {
@@ -692,12 +702,14 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               }
                                             },
                                   fbKey: _fbKey,
-                                  onOnlyTextRemove: () {},
+
                                 ),
                               ),
                               const SizedBox(
                                 height: 16,
                               ),
+
+
                             ] else if (showPax == true) ...[
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -727,7 +739,16 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
+
+
                     if (bloc?.state.showingVoucher == true) ...[
+                      if(bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount != null) ... [
+
+                        DiscountSummary(princToShow: (bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount ?? 0).toDouble()),
+
+                      ],
+
+
                       SummaryContainer(
                         child: bloc?.state.isPaying == true
                             ? const AppLoading()
@@ -736,6 +757,26 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
+                                    Text(
+                                      "flightResult.totalAmountDue".tr(),
+                                      style: kMediumRegular.copyWith(
+                                          color: Styles.kSubTextColor),
+                                    ),
+                                    MoneyWidget(
+                                      isDense: false,
+                                      currency: bloc
+                                          ?.state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.passengersWithSSR
+                                          ?.first
+                                          .fareAndBundleDetail
+                                          ?.currencyToShow ??
+                                          'MYR',
+                                      amount:
+                                      (bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount ?? 0.0) - discount,
+                                    ),
+
                                     ElevatedButton(
                                       onPressed: () async {
                                         BuildContext? cyrreContext =
@@ -952,6 +993,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
+                                        return;
 
 
 

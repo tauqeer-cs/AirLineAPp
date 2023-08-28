@@ -1662,12 +1662,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       ChangeSsrResponse response =
           await _repository.setAssignFlightAddon(request);
 
-      /*emit(
+      emit(
         state.copyWith(
             showingVoucher: true, isPaying: false, changeSsrResponse: response),
-      );*.
+      );
 
-       */
+
 
 
       ///getAvailablePromotionsMMb

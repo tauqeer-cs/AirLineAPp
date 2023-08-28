@@ -162,7 +162,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                               );
                             }
                           },
-                          child: Text('changeFlightView.continue'.tr()),
+                          child: Text('continue'.tr()),
                         ),
                 ],
               ),
@@ -200,7 +200,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('topForm.return'.tr(), style: k18Heavy),
+                            Text('return'.tr(), style: k18Heavy),
                             Text(
                                 state.manageBookingResponse?.result
                                     ?.departureToDestinationCode ??
@@ -259,7 +259,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
             )
           ] else ... [
             ChooseFlightSegment(
-              title: 'bundleTab.depart'.tr(),
+              title: 'depart'.tr(),
               currency: currency,
               subtitle: state.manageBookingResponse?.result
                   ?.departureToDestinationCode ??
@@ -308,7 +308,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('bundleTab.return'.tr(), style: k18Heavy),
+                            Text('return'.tr(), style: k18Heavy),
                             Text(
                                 state.manageBookingResponse?.result
                                         ?.returnToDestinationCode ??
@@ -370,7 +370,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
               //visible: state.filterState?.flightType == FlightType.round,
               child: ChooseFlightSegment(
     currency: currency,
-                title: 'bundleTab.return'.tr(),
+                title: 'return'.tr(),
                 subtitle: state.manageBookingResponse?.result
                         ?.returnToDestinationCode ??
                     '',

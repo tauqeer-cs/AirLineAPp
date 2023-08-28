@@ -13,7 +13,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import '../../blocs/routes/routes_cubit.dart';
 import '../home/bloc/home/home_cubit.dart';
 
-List<String> supportedLang = ["English", "Thai"];
+List<String> supportedLang = ["English", "Thai",'Bahasa Indonesia'];
 
 class LanguagePage extends StatelessWidget {
   const LanguagePage({Key? key}) : super(key: key);
@@ -65,16 +65,21 @@ class LanguagePage extends StatelessWidget {
                 const SizedBox(height: 6),
                 AppDropDown<String>(
                   items: supportedLang,
-                  defaultValue: locale == "en" ? "English" : "Thai",
+                  defaultValue: defaultValue(locale),
                   sheetTitle: 'language'.tr(),
                   onChanged: (value) async {
                     if (value == "English") {
                       setLocale(context, 'en');
                       context.read<RoutesCubit>().getRoutes();
 
-                    } else {
+                    } else if(value == 'Thai') {
 
                       setLocale(context, 'th');
+                      context.read<RoutesCubit>().getRoutes();
+
+                    }
+                    else {
+                      setLocale(context, 'in');
                       context.read<RoutesCubit>().getRoutes();
 
                     }
@@ -86,6 +91,13 @@ class LanguagePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String defaultValue(String locale) {
+    if(locale == 'id'){
+      return 'Bahasa Indonesia';
+    }
+  return  locale == "en" ? "English" : "Thai";
   }
 
   void setLocale(BuildContext context, String langCode) async {
