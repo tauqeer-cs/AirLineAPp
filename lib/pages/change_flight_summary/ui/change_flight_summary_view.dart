@@ -451,6 +451,9 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                 const SizedBox(
                   height: 16,
                 ),
+
+
+               /*
                 if ((voucherState.response?.addVoucherResult?.voucherDiscounts
                             ?.firstOrNull?.discountAmount ??
                         0.0) ==
@@ -522,6 +525,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     height: 16,
                   ),
                 ],
+                */
+
                 const SizedBox(
                   height: 8,
                 ),

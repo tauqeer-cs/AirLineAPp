@@ -164,11 +164,12 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                   ),
                   kVerticalSpacerSmall,
                   if ((state.manageBookingResponse?.isTwoWay ?? false)) ...[
-                    AppCard(
+                     AppCard(
                       edgeInsets:
                       const EdgeInsets.only(right: 15, top: 15, bottom: 15),
                       child: Row(
                         children: [
+
                           if (state.manageBookingResponse?.result
                               ?.inboundCheckingAllowed ==
                               false) ... [
@@ -189,7 +190,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                               ),
                             ),
                           ] else ... [
-                            Checkbox(
+                             Checkbox(
                               checkColor: Colors.white,
                               fillColor:
                               MaterialStateProperty.resolveWith(getColor),
@@ -202,9 +203,12 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                               },
                             ),
                           ],
-                          Expanded(
+                            Expanded(
                             child: FlightDataInfo(
                               headingLabel: 'return'.tr(),
+                              disabledView: state.manageBookingResponse?.result
+                                  ?.inboundCheckingAllowed ==
+                                  false,
                               dateToShow: state.manageBookingResponse?.result
                                   ?.returnDepartureDateToShow(locale) ??
                                   '',

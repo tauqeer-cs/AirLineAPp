@@ -1718,6 +1718,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           pNR: bookingReference,
           lastName: lastName,
           isInternational: verifyResponse.result?.isRequiredPassport ?? false);
+
       FightAddOns addOns =
           await _repository.getFlightAddonRequest(flightRequest);
 
@@ -2010,6 +2011,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         data: formData,
       );
 
+      /*
       emit(
         state.copyWith(
             hasPendingError: false,
@@ -2017,6 +2019,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             superPnrNo: superNo,
             message: ''),
       );
+      */
 
       return 1 == 1
           ? responseView.data
@@ -2335,8 +2338,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   }
 
   void changeSelectedPax(PassengersWithSSR person) {
+
+    var whichOne = state.addOnList?.paxAddOnSSR
+        ?.where((e) => e.passengerKey == person?.personOrgID)
+        .toList();
+
     emit(
       state.copyWith(
+        flightSSR: whichOne?.first.flightSSR,
         selectedPax: person,
       ),
     );
