@@ -260,6 +260,8 @@ class PassengerContactState extends State<PassengerContact> {
               name: formNameContactPhoneCode,
               child: AppCountriesDropdown(
                 hintText: 'phoneCode'.tr(),
+                isMMB: widget.manageBooking && (phoneCode ?? '').isEmpty,
+
                 isPhoneCode: true,
                 dropdownDecoration: Styles.getDefaultFieldDecoration(),
                 initialCountryCode: profile?.phoneCode ?? phoneCode,

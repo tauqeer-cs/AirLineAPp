@@ -495,6 +495,35 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
     return total;
   }
 
+  num get noOfNewMeals {
+    int total = 0;
+
+    List<PassengersWithSSR> passengers =
+        state.manageBookingResponse?.result?.passengersWithSSR ?? [];
+
+    for (PassengersWithSSR currentUser in passengers) {
+      num? totalAmount = currentUser.confirmedDepartMeals
+          ?.map((bundle) => bundle.amount ?? 0)
+          .fold(0, (previousValue, amount) => (previousValue ?? 0) + amount);
+
+      if (totalAmount != null) {
+        total += 1;
+      }
+
+      totalAmount = currentUser.confirmedReturnMeals
+          ?.map((bundle) => bundle.amount ?? 0)
+          .fold(0, (previousValue, amount) => (previousValue ?? 0) + amount);
+
+      if (currentUser.mealDetail != null) {}
+
+      if (totalAmount != null) {
+        total += 1;
+      }
+    }
+
+    return total;
+  }
+
   void selectedDepartureFlight(InboundOutboundSegment segment) {
     emit(
       state.copyWith(selectedDepartureFlight: segment),

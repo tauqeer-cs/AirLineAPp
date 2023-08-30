@@ -37,13 +37,18 @@ class MealSummaryDetail extends StatelessWidget {
 
     var showMeal = false;
 
+    num? noOfMeals;
     if(isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
 
 
+
+      noOfMeals = manageBookingCubit?.noOfNewMeals ?? 0;
+
+
       totalPrice = manageBookingCubit!.confirmedMealsTotalPrice;
 
-      if(totalPrice == 0){
+      if(totalPrice == 0 || noOfMeals > 0){
         showMeal = manageBookingCubit!.shouldShowAnyMeal;
 
       }

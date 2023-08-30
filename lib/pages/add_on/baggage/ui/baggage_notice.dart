@@ -1,4 +1,5 @@
 import 'package:app/blocs/cms/ssr/cms_ssr_cubit.dart';
+import 'package:app/pages/checkout/ui/empty_addon.dart';
 import 'package:app/theme/html_style.dart';
 import 'package:app/theme/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -368,7 +369,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       lastPersonUser = selectedPerson;
     }
 
-    if(this.widget.isManageBooking){
+    if(widget.isManageBooking){
 
     }
     else {
@@ -378,7 +379,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     }
 
     return widget.isManageBooking
-        ? Row(
+        ? (baggage ?? []).isEmpty ? EmptyAddon() : Row(
             children: [
               GestureDetector(
                 onTap: () {

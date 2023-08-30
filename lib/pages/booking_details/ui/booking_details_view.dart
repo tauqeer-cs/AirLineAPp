@@ -1086,6 +1086,27 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 ?.result
                                                 ?.initalEmergencyEmpty ==
                                             true) {
+
+                                          bool checkError = false;
+
+                                          if ( fbKey2.currentState?.validate() == false) {
+
+                                            checkError = true;
+                                            //  bloc?.setEmergenctyError(true, true);
+
+                                            // return;
+                                          }
+
+
+
+
+                                          bloc?.setEmergenctyError(false, checkError);
+
+                                          if(checkError == false){
+                                            bloc?.saveContactChanges();
+                                          }
+
+
                                         } else {
 
                                           //fbKey.currentState?.validate() ==
@@ -1611,6 +1632,9 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
             'MYR';
 
+    var ccc = bloc.noOfNewMeals;
+
+
     var totalPrice = bloc.confirmedSeatsTotalPrice +
         bloc.confirmedMealsTotalPrice +
         bloc.confirmedBaggageTotalPrice +
@@ -1618,7 +1642,7 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.confirmedWheelChairTotalPrice +
         bloc.confirmedInsruanceTotalPrice;
 
-    return (totalPrice == 0 && bloc.isThereNewWheelChaie == false)
+    return (totalPrice == 0 && bloc.isThereNewWheelChaie == false && ccc == 0)
         ? Container()
         : AppCard(
             child: Column(
