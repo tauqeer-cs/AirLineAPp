@@ -1735,12 +1735,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       oringalPNRNo = verifyResponse.result?.superPNR?.superPNRNo;
 
-      if (verifyResponse.result?.passengersWithSSRWithoutInfant.first != null) {
-        PassengersWithSSR? v =
-            verifyResponse.result?.passengersWithSSRWithoutInfant.first;
 
-        changeSelectedPax(v!);
-      }
 
       //  String? pNR;
       //   String? lastName;
@@ -1777,6 +1772,19 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
       }
 
+      emit(
+        state.copyWith(
+            addOnList: addOns,),
+      );
+
+      if (verifyResponse.result?.passengersWithSSRWithoutInfant.first != null) {
+        PassengersWithSSR? v =
+            verifyResponse.result?.passengersWithSSRWithoutInfant.first;
+
+
+        changeSelectedPax(v!);
+
+      }
       var whichOne = addOns.paxAddOnSSR
           ?.where((e) => e.passengerKey == selected?.personOrgID)
           .toList();
@@ -1801,8 +1809,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             lastName: lastName),
       );
 
+
       setSsrOfUser();
       //makeVerifyRequest();
+
 
       return true;
     } catch (e, st) {
