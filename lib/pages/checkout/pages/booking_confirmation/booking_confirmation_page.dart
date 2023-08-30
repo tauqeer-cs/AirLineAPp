@@ -73,7 +73,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
               //widget.status == 'PPB' || widget.status == 'BIP'
               if (state.bookingStatus.isNotEmpty) {
                 if (state.bookingStatus == 'PPB' ||
-                    state.bookingStatus == 'BIP') {
+                    state.bookingStatus == 'BIP' || state.bookingStatus == 'PPA' || state.bookingStatus == 'PEN') {
                   setState(() {
                     appAppNewTitle = 'confirmationView.statusPending'.tr();
                   });

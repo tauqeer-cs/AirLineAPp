@@ -993,8 +993,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
-                                        return;
-
 
 
                                         if (response != null) {
