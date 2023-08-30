@@ -609,7 +609,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   void setSsrOfUser() {
 
-    resetData();
+  //  resetData()
     /*
     var outBoundSeatRows = verifyResponse
         .flightSeat
@@ -1794,6 +1794,8 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             checkReturn: false,
             superPnrNo: '',
             orderId: 0,
+            showErrorOnContact: false,
+            showErrorOnEmergency: false,
             isPaying: false,
             pnrEntered: bookingReference,
             lastName: lastName),
