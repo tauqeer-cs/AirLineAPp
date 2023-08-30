@@ -276,13 +276,11 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
       String? lastSSRCode ;
 
-      num? lastBagNum;
 
       if(widget.isDeparting) {
         if(state.selectedPax?.baggageDetail != null) {
           if((state.selectedPax!.sportEquipmentDetail?.departureBaggages ?? []).isNotEmpty) {
             lastSSRCode =  (state.selectedPax!.sportEquipmentDetail?.departureBaggages ?? []).first.ssrCode;
-            lastBagNum  = (state.selectedPax!.sportEquipmentDetail?.departureBaggages ?? []).first.amount;
 
           }
         }
@@ -293,14 +291,13 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
         if(state.selectedPax?.sportEquipmentDetail != null) {
           if((state.selectedPax!.sportEquipmentDetail?.returnBaggages ?? []).isNotEmpty) {
             lastSSRCode =  (state.selectedPax!.sportEquipmentDetail?.returnBaggages ?? []).first.ssrCode;
-            lastBagNum  = (state.selectedPax!.sportEquipmentDetail?.returnBaggages ?? []).first.amount;
 
           }
         }
       }
 
       baggage = baggage?.where((e) => e.ssrCode != lastSSRCode ).toList();
-      baggage = baggage?.where((e) => e.ssrCode != 'NOSELECT' && (e.amount ?? 0.0) > (lastBagNum ?? 0.0)).toList();
+      baggage = baggage?.where((e) => e.ssrCode != 'NOSELECT').toList();
 
       var resultIndexFinder = baggage?.where((e) => e.description == selectedPerson?.departureSports?.description).toList();
 

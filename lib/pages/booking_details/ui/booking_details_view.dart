@@ -998,6 +998,11 @@ class ManageBookingDetailsView extends StatelessWidget {
 
 
 
+                                        print('object');
+
+                                        return;
+
+
                                         if (response != null) {
                                           var redirectUrl =
                                           await bloc?.checkOutForPaymentSSR(
@@ -1701,6 +1706,7 @@ class ManageFlightSummary extends StatelessWidget {
                 if (bloc.state.insuranceType == InsuranceType.all ||
                     bloc.state.insuranceType == InsuranceType.selected) ...[
                   if (bloc.confirmedInsruanceTotalPrice > 0) ...[
+
                     InsurancesSummaryDetail(
                       isManageBooking: true,
                     ),

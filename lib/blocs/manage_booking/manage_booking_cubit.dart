@@ -297,21 +297,16 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       if (currentUser.baggageDetail != null) {
         if (currentUser.confirmDepartBaggageSelected != null) {
           if ((currentUser.baggageDetail?.departureBaggages ?? []).isNotEmpty) {
-            total = total -
-                ((currentUser.baggageDetail?.departureBaggages ?? [])
-                        .first
-                        .amount ??
-                    0.0);
+            total = total;
           }
         }
 
         if (currentUser.confirmReturnBaggageSelected != null) {
           if ((currentUser.baggageDetail?.returnBaggages ?? []).isNotEmpty) {
-            total = total -
-                ((currentUser.baggageDetail?.returnBaggages ?? [])
-                        .first
-                        .amount ??
-                    0.0);
+            total = total;
+            /*
+            InsurancesSummaryDetail
+            * */
           }
         }
       }
@@ -336,22 +331,14 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         if (currentUser.sportEquipmentDetail != null) {
           if ((currentUser.sportEquipmentDetail?.departureBaggages ?? [])
               .isNotEmpty) {
-            total = total -
-                ((currentUser.sportEquipmentDetail?.departureBaggages ?? [])
-                        .first
-                        .amount ??
-                    0.0);
+            total = total;
           }
         }
 
         if (currentUser.confirmedReturnSportsSelected != null) {
           if ((currentUser.sportEquipmentDetail?.returnBaggages ?? [])
               .isNotEmpty) {
-            total = total -
-                ((currentUser.sportEquipmentDetail?.returnBaggages ?? [])
-                        .first
-                        .amount ??
-                    0.0);
+            total = total;
           }
         }
       }
@@ -1324,7 +1311,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   Future<ChangeSsrResponse?> checkSsrChange() async {
     emit(
       state.copyWith(
-        isPaying: true,
+        ///isPaying: true,
       ),
     );
     try {
@@ -1530,6 +1517,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
 
         if (currentItem.confirmDepartBaggageSelected != null) {
+          if(currentItem.previousDepartureBaggage != null){
+            tmpPassengerAddOn.sSR?.outbound?.add(
+              FS.Bound(
+                logicalFlightId:
+                currentItem.previousDepartureBaggage?.logicalFlightID,
+                ssrCode: currentItem.previousDepartureBaggage?.ssrCode ?? '',
+                servicesType: 'BAGGAGE',
+                quantity: 1,
+              ),
+            );
+          }
+
           tmpPassengerAddOn.sSR?.outbound?.add(
             FS.Bound(
               logicalFlightId:
@@ -1542,6 +1541,21 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
 
         if (currentItem.confirmedDepartSportsSelected != null) {
+
+
+          if(currentItem.previousDepartureSports != null){
+
+            tmpPassengerAddOn.sSR?.outbound?.add(
+              FS.Bound(
+                logicalFlightId:
+                currentItem.previousDepartureSports?.logicalFlightID,
+                ssrCode: currentItem.previousDepartureSports?.ssrCode ?? '',
+                servicesType: 'SPORT',
+                quantity: 1,
+              ),
+            );
+          }
+
           tmpPassengerAddOn.sSR?.outbound?.add(
             FS.Bound(
               logicalFlightId:
@@ -1554,11 +1568,23 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
 
         if (currentItem.confirmReturnBaggageSelected != null) {
+          if(currentItem.previousReturnBaggage != null){
+
+            tmpPassengerAddOn.sSR?.inbound?.add(
+              FS.Bound(
+                logicalFlightId:
+                currentItem.previousReturnBaggage?.logicalFlightID,
+                ssrCode: currentItem.previousReturnBaggage?.ssrCode ?? '',
+                servicesType: 'BAGGAGE',
+                quantity: 1,
+              ),
+            );
+          }
           tmpPassengerAddOn.sSR?.inbound?.add(
             FS.Bound(
               logicalFlightId:
-                  currentItem.confirmDepartBaggageSelected?.logicalFlightID,
-              ssrCode: currentItem.confirmDepartBaggageSelected?.ssrCode ?? '',
+                  currentItem.confirmReturnBaggageSelected?.logicalFlightID,
+              ssrCode: currentItem.confirmReturnBaggageSelected?.ssrCode ?? '',
               servicesType: 'BAGGAGE',
               quantity: 1,
             ),
@@ -1566,6 +1592,22 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         }
 
         if (currentItem.confirmedReturnSportsSelected != null) {
+
+          if(currentItem.previousReturnSports != null){
+
+            tmpPassengerAddOn.sSR?.outbound?.add(
+              FS.Bound(
+                logicalFlightId:
+                currentItem.previousReturnSports?.logicalFlightID,
+                ssrCode: currentItem.previousReturnSports?.ssrCode ?? '',
+                servicesType: 'SPORT',
+                quantity: 1,
+              ),
+            );
+
+          }
+
+
           tmpPassengerAddOn.sSR?.inbound?.add(
             FS.Bound(
               logicalFlightId:
@@ -1693,10 +1735,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       ChangeSsrResponse response =
           await _repository.setAssignFlightAddon(request);
 
-      emit(
+
+      /*emit(
         state.copyWith(
             showingVoucher: true, isPaying: false, changeSsrResponse: response),
-      );
+      );*/
+
+
 
 
 
@@ -1789,10 +1834,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           ?.where((e) => e.passengerKey == selected?.personOrgID)
           .toList();
 
+      bool useFirstOne = false;
+
+      if((whichOne ?? []).isEmpty == true) {
+        useFirstOne = true;
+        (addOns.paxAddOnSSR ?? []).first.flightSSR;
+
+
+      }
       emit(
         state.copyWith(
             flightSeats: addOns.flightSeats,
-            flightSSR: whichOne?.first.flightSSR,
+            flightSSR: useFirstOne ? (addOns.paxAddOnSSR ?? []).first.flightSSR : whichOne?.first.flightSSR,
             addOnList: addOns,
             blocState: BlocState.finished,
             dataLoaded: true,
@@ -2063,6 +2116,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             message: ''),
       );
       */
+
 
       return 1 == 1
           ? responseView.data
@@ -3131,10 +3185,13 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
         if (isRemoved) {
           item.newDepartBaggageSelected = null;
-        } else if ((item.originalDepartBaggagePrice ?? 0.0) >
+        }
+        /*else if ((item.originalDepartBaggagePrice ?? 0.0) >
             (baggage?.finalAmount.toDouble() ?? 0.0)) {
           item.newDepartBaggageSelected = null;
-        } else if (item.originalDepartBaggageCode == baggage?.codeType) {
+        } */
+
+        else if (item.originalDepartBaggageCode == baggage?.codeType) {
           item.newDepartBaggageSelected = null;
         } else {
           item.newDepartBaggageSelected = baggage;
@@ -3154,10 +3211,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
         if (isRemoved == true) {
           item.newReturnBaggageSelected = null;
-        } else if ((item.originalReturnBaggagePrice ?? 0.0) >
+        }
+        /*else if ((item.originalReturnBaggagePrice ?? 0.0) >
             (baggage?.finalAmount.toDouble() ?? 0.0)) {
           item.newReturnBaggageSelected = null;
-        } else if (item.originalReturnBaggageCode == baggage?.codeType) {
+        }*/
+        else if (item.originalReturnBaggageCode == baggage?.codeType) {
           item.newReturnBaggageSelected = null;
         } else {
           item.newReturnBaggageSelected = baggage;

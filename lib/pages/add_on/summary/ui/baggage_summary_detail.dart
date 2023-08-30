@@ -395,11 +395,12 @@ class BaggageSummaryDetail extends StatelessWidget {
                          ),
                        ),
 
+                       //(manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail.) ? Container() :
                      ],
                    ),
-                   child2: Padding(
+                   child2:  Padding(
                      padding: const EdgeInsets.only(top: 16),
-                     child: MoneyWidgetCustom(
+                     child: manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.totalAmount == 0 ? Container() : MoneyWidgetCustom(
                        currency: currency,
                        amount:  manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.departureBaggages.first.amount ?? 0.0,
 
@@ -434,7 +435,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                        ),
                        child2: Padding(
                          padding: const EdgeInsets.only(top: 16),
-                         child: MoneyWidgetCustom(
+                         child: manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.totalAmount == 0 ? Container() : MoneyWidgetCustom(
                            currency: currency,
                            amount:  manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.returnBaggages.first.amount ?? 0.0,
 

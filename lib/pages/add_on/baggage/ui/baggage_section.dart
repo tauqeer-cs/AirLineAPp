@@ -503,6 +503,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
   var selectedItem = '';
 
+
   @override
   void initState() {
     super.initState();
@@ -535,8 +536,6 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
         widget.isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
     String? lastBaggagePrice;
 
-    num? lastBagNum;
-
     if (widget.isDeparture) {
       if (state.selectedPax?.baggageDetail != null) {
         if ((state.selectedPax!.baggageDetail?.departureBaggages ?? [])
@@ -545,10 +544,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
               (state.selectedPax!.baggageDetail?.departureBaggages ?? [])
                   .first
                   .ssrCode;
-          lastBagNum =
-              (state.selectedPax!.baggageDetail?.departureBaggages ?? [])
-                  .first
-                  .amount;
+
         }
       }
     } else {
@@ -560,17 +556,20 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                   .first
                   .ssrCode;
 
+          /*
           lastBagNum =
               (state.selectedPax!.baggageDetail?.returnBaggages ?? [])
-                  .first.amount;
+                  .first.amount;*.
+
+           */
+
         }
       }
     }
 
 
-
     baggage = baggage
-        ?.where((e) => e.ssrCode != lastBaggagePrice && e.ssrCode != 'NOSELECT' && (e.amount ?? 0.0) > (lastBagNum ?? 0.0) )
+        ?.where((e) => e.ssrCode != lastBaggagePrice && e.ssrCode != 'NOSELECT' )
         .toList();
 
     Person? selectedPerson =
@@ -610,9 +609,42 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
         scrollToPositionInStart(indexOf);
       }
-    } else {
+    }
+    else if(widget.isDeparture == true && state.selectedPax?.newDepartBaggageSelected != null){
+
+      var ssrCode = state.selectedPax?.newDepartBaggageSelected?.ssrCode ?? '';
+      if(ssrCode.isNotEmpty) {
+        if((baggage ?? []).isNotEmpty ) {
+
+          var re = (baggage ?? []).where((e) => e.ssrCode == ssrCode).toList();
+
+          if((re ?? []).isNotEmpty){
+            selectedItem = ssrCode;
+
+          }
+        }
+      }
+    }
+    else if(widget.isDeparture == false && state.selectedPax?.newReturnBaggageSelected != null){
+
+      var ssrCode = state.selectedPax?.newReturnBaggageSelected?.ssrCode ?? '';
+      if(ssrCode.isNotEmpty) {
+        if((baggage ?? []).isNotEmpty ) {
+
+          var re = (baggage ?? []).where((e) => e.ssrCode == ssrCode).toList();
+
+          if((re ?? []).isNotEmpty){
+            selectedItem = ssrCode;
+
+          }
+        }
+      }
+
+    }
+    else {
       int indexOf = 0;
-      selectedItem = '';
+        selectedItem = '';
+
 
       //selectedItem = (baggage ?? []).first.ssrCode ?? '';
       scrollToPositionInStart(indexOf);
@@ -625,11 +657,8 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
             if (_currentIndex == 0) {
               return;
             }
-
             onlyOneTime = true;
-
             _currentIndex = _currentIndex - 1;
-
             pageController.animateToPage(_currentIndex,
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.ease);
@@ -661,11 +690,13 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                       selectedItem = (baggage ?? [])[index].ssrCode ?? '';
                       var response = bloc?.addBaggageToPerson(selectedPerson,
                           (baggage ?? [])[index], widget.isDeparture);
-                      if (response == true) {
+                      if (response == true)
+                      {
                         setState(() {
                           selectedItem = '';
                         });
                       } else {
+
                         setState(() {});
                       }
                     },
@@ -725,7 +756,6 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
             if (_currentIndex == ((baggage ?? []).length - 1)) {
               return;
             }
-            // onlyOneTime = true;
 
             _currentIndex = _currentIndex + 1;
             pageController.animateToPage(_currentIndex,
