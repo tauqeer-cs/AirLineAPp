@@ -2282,6 +2282,20 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       state.copyWith(
         checkedDeparture: false,
         checkReturn: false,
+        showErrorOnEmergency: false,
+        showErrorOnContact: false
+      ),
+    );
+  }
+
+
+  void setEmergenctyError(bool emer,bool contact) {
+
+
+    emit(
+      state.copyWith(
+          showErrorOnEmergency: emer,
+          showErrorOnContact: contact
       ),
     );
   }
@@ -3813,8 +3827,6 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         insuranceType: type,
       ),
     );
-
-    //insuranceType
   }
 
   void addInsuranceToAllPeople(Bundle bundle, FS.Bound bound) {

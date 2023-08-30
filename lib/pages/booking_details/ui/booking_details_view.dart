@@ -94,6 +94,7 @@ class ManageBookingDetailsView extends StatelessWidget {
 
   ManageBookingCubit? bloc;
   static final fbKey = GlobalKey<FormBuilderState>();
+  static final fbKey2 = GlobalKey<FormBuilderState>();
   static final _fbKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -711,9 +712,11 @@ class ManageBookingDetailsView extends StatelessWidget {
 
 
                             ] else if (showPax == true) ...[
-                              const Padding(
+
+
+                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: ContactsSection(),
+                                child: ContactsSection(fbKey: fbKey2,),
                               ),
                               kVerticalSpacer,
                               Padding(
@@ -1084,10 +1087,35 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 ?.initalEmergencyEmpty ==
                                             true) {
                                         } else {
-                                          if (fbKey.currentState?.validate() ==
-                                              false) {
-                                            return;
+
+                                          //fbKey.currentState?.validate() ==
+                                          //                                               false &&
+
+                                          bool checkError = false , checkErrorE = false;
+
+                                          if ( fbKey2.currentState?.validate() == false) {
+
+                                            checkError = true;
+                                            //  bloc?.setEmergenctyError(true, true);
+
+                                           // return;
                                           }
+
+                                          if ( fbKey.currentState?.validate() == false) {
+
+                                            checkErrorE = true;
+                                            //  bloc?.setEmergenctyError(true, true);
+
+                                            //return;
+                                          }
+
+
+                                          bloc?.setEmergenctyError(checkErrorE, checkError);
+
+                                          if(checkError == false && checkErrorE == false){
+                                           bloc?.saveContactChanges();
+                                          }
+
                                         }
                                         return;
                                       },

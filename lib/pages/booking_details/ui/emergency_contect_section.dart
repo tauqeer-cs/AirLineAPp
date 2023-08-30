@@ -39,12 +39,20 @@ class EmergencyContactsSection extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  Expanded(
-                    child: Text(
-                      'infoDetail.emergencyContact'.tr(),
-                      style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
-                    ),
+                  Text(
+                    'infoDetail.emergencyContact'.tr(),
+                    style: kHugeHeavy.copyWith(color: Styles.kDartBlack),
+                    maxLines: 1,
                   ),
+                  if(bloc.state.showErrorOnEmergency == true) ... [
+
+                    SizedBox(width: 4,),
+                    Text('mandatoryRequired'.tr(),style: kTinySemiBold.copyWith(
+                      color: Colors.red ,
+                    ),),
+                  ],
+
+                  Expanded(child: Container()),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(

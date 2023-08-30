@@ -24,6 +24,10 @@ class ManageBookingState extends Equatable {
 
   final bool isPaying;
 
+  final bool showErrorOnContact;
+  final bool showErrorOnEmergency;
+
+
 
 
   final String? newContactFirstName;
@@ -178,6 +182,9 @@ class ManageBookingState extends Equatable {
     this.redemptionOption,
     this.isLoadingPromo = false,
     this.hasPendingError = false,
+    this.showErrorOnContact = false,
+    this.showErrorOnEmergency = false,
+
   });
 
   @override
@@ -241,7 +248,10 @@ class ManageBookingState extends Equatable {
     showReward,
     hasPendingError,
     showingVoucher,
- changeSsrResponse
+ changeSsrResponse,
+  showErrorOnContact,
+  showErrorOnEmergency,
+
   ];
 
   ManageBookingState copyWith({
@@ -315,9 +325,15 @@ class ManageBookingState extends Equatable {
     bool? hasPendingError,
     bool? showingVoucher,
     ChangeSsrResponse? changeSsrResponse,
+     bool? showErrorOnContact,
+     bool? showErrorOnEmergency,
+
   }) {
     return ManageBookingState(
+
       changeSsrResponse : changeSsrResponse ?? this.changeSsrResponse,
+      showErrorOnContact : showErrorOnContact ?? this.showErrorOnContact,
+      showErrorOnEmergency : showErrorOnEmergency ?? this.showErrorOnEmergency,
       showingVoucher : showingVoucher ?? this.showingVoucher,
       showReward : showReward ?? this.showReward,
       rewardItem : rewardItem ?? this.rewardItem,
