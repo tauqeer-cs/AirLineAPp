@@ -379,13 +379,15 @@ class BaggageSummaryDetail extends StatelessWidget {
              ]
              else if(isDeparture && sports == true) ... [
                if(manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports != null || manageBookingCubit?.passengerFromPerson(e)?.confirmedDepartSportsSelected != null) ... [
-                 ChildRow(
-                   child1: Column(
+                 manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.totalAmount == 0 ? Container() : ChildRow(
+                   child1: manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.totalAmount == 0 ? Container() : Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: [
-                       Text(
+
+                       manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.totalAmount == 0 ? Container() : Text(
                          e.generateText(numberOfPerson, separator: "& "),
                        ),
+
 
                        Visibility(
                          visible: manageBookingCubit?.passengerFromPerson(e)?.previousDepartureSports != null,
@@ -414,7 +416,7 @@ class BaggageSummaryDetail extends StatelessWidget {
                else if(isDeparture == false&& sports == true) ... [
                    if(manageBookingCubit?.passengerFromPerson(e)?.previousReturnSports != null && manageBookingCubit?.passengerFromPerson(e)?.confirmedReturnSportsSelected != null) ... [
 
-                     ChildRow(
+                     manageBookingCubit?.passengerFromPerson(e)?.sportEquipmentDetail?.totalAmount == 0 ? Container() :  ChildRow(
                        child1: Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
