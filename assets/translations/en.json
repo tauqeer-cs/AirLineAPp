@@ -1,5 +1,6 @@
 {
   "roundTrip": "Round Trip",
+  "oneWayTrip": "One Way Trip",
   "from": "From",
   "to": "To",
   "passengers": "Passengers",
