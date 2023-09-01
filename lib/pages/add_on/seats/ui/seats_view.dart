@@ -52,7 +52,7 @@ class _SeatsViewState extends State<SeatsView> with TickerProviderStateMixin {
             shrinkWrap: true,
             children: [
               kVerticalSpacer,
-              TitleSummaryHeader(title: 'flightCharge.seat'.tr()),
+              TitleSummaryHeader(title: 'seat'.tr()),
               kVerticalSpacer,
               FlightDetailWidget(
                   isDeparture: widget.isDeparture, addonType: AddonType.seat),

@@ -65,7 +65,7 @@ class AddressInput extends StatelessWidget {
                 validators: [
                   //FormBuilderValidators.required(),
                 ],
-                hintText: 'infoDetail.address'.tr(),
+                hintText: 'address'.tr(),
                 initialValue: selectedAddress,
                 inputFormatters: [
                   AppFormUtils.denyQuestionMark(),
@@ -76,7 +76,7 @@ class AddressInput extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppCountriesDropdown(
-                      hintText: 'infoDetail.country'.tr(),
+                      hintText: 'country'.tr(),
                       isPhoneCode: false,
                       initialCountryCode: selectedCountry,
                       onChanged: (newCountry) {

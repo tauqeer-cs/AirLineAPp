@@ -96,7 +96,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                             ),
                             if ((bloc.state.checkedDeparture == true)) ...[
                               FlightDataInfo(
-                                headingLabel: 'flightSummary.departure'.tr(),
+                                headingLabel: 'departure'.tr(),
                                 dateToShow:
                                 flightSectionGoing?.departureDateToShow(locale) ?? '',
                                 departureToDestinationCode: state
@@ -129,7 +129,7 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                                 false) &&
                                 (bloc.state.checkReturn == true)) ...[
                               FlightDataInfo(
-                                headingLabel: 'flightCharge.return'.tr(),
+                                headingLabel: 'return'.tr(),
                                 dateToShow:
                                 flightSectionBack?.departureDateToShow(locale) ?? '',
                                 departureToDestinationCode: state.manageBookingResponse

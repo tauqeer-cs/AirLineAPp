@@ -37,13 +37,18 @@ class MealSummaryDetail extends StatelessWidget {
 
     var showMeal = false;
 
+    num? noOfMeals;
     if(isManageBooking) {
       manageBookingCubit = context.watch<ManageBookingCubit>();
 
 
+
+      noOfMeals = manageBookingCubit?.noOfNewMeals ?? 0;
+
+
       totalPrice = manageBookingCubit!.confirmedMealsTotalPrice;
 
-      if(totalPrice == 0){
+      if(totalPrice == 0 || noOfMeals > 0){
         showMeal = manageBookingCubit!.shouldShowAnyMeal;
 
       }
@@ -84,9 +89,11 @@ class MealSummaryDetail extends StatelessWidget {
           ),
           kVerticalSpacerMini,
           if(isManageBooking) ... [
+
             ...persons
                 .map((e) => buildMealComponentMMb(e, numberOfPerson, true))
                 .toList(),
+
           ] else ... [
             ...persons
                 .map((e) => buildMealComponent(e, numberOfPerson, true))
@@ -422,15 +429,18 @@ class MealSummaryDetail extends StatelessWidget {
             ),
           ],
 
-          if(mealOld.keys.isNotEmpty) ... [
+          if(1 == 1 || mealOld.keys.isNotEmpty) ... [
             ChildRow(
 
               child1: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   Text(
                     eP.generateText(numberOfPerson, separator: "& "),
                   ),
+
+
 
                   ...mealOld.entries
                       .map(
@@ -444,9 +454,10 @@ class MealSummaryDetail extends StatelessWidget {
                   )
                       .toList(),
 
+
                 ],
               ),
-              child2: MoneyWidgetCustom(
+              child2: mealOld.keys.isEmpty ? Container() : MoneyWidgetCustom(
                 currency: currency,
                 amount: eP.getOldMeanPrice(isDeparture),
               ),

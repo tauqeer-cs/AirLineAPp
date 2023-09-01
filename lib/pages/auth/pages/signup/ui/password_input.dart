@@ -73,7 +73,7 @@ class PasswordInput extends StatelessWidget {
                   final setting = state.switchSetting;
                   return AppInputPassword(
                     name: formNameConfirmPassword,
-                    hintText: 'signUp1.passwordConfirm'.tr(),
+                    hintText: 'confirmPassword'.tr(),
                     validators: [
                       FormBuilderValidators.required(),
                       FormBuilderValidators.match(

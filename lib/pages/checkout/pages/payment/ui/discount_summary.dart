@@ -10,9 +10,17 @@ import 'package:collection/collection.dart';
 
 class DiscountSummary extends StatelessWidget {
 
+  final bool manageBooking;
+
    final double princToShow;
 
-  const DiscountSummary({Key? key, required this.princToShow}) : super(key: key);
+   final bool isMMB;
+
+   final bool noPadding;
+
+   final double mmbDiscount;
+
+  const DiscountSummary({Key? key, required this.princToShow,  this.manageBooking = false,  this.isMMB = false,  this.mmbDiscount = 0.0,  this.noPadding = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +42,8 @@ class DiscountSummary extends StatelessWidget {
         offset: const Offset(0,20),
         child: Container(
           color: Styles.kDividerColor,
-          padding: const EdgeInsets.all(20),
-          margin: const EdgeInsets.only(top: 10,bottom: 10),
+          padding: EdgeInsets.all(  20),
+          margin:  EdgeInsets.only(top: this.noPadding ? 0 :  10,bottom: noPadding ? 0 : 10),
           child: Column(
             children: [
               Row(

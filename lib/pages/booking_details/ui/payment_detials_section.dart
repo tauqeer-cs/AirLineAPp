@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../data/responses/manage_booking_response.dart';
@@ -13,7 +14,8 @@ import '../../../widgets/containers/app_expanded_section.dart';
 import 'double_line_text.dart';
 
 class PaymentDetailsSecond extends StatelessWidget {
-  const PaymentDetailsSecond({Key? key}) : super(key: key);
+
+  const PaymentDetailsSecond({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +102,7 @@ class PaymentDetailsSecond extends StatelessWidget {
                         if(payment?.cardNumber != null) ... [
                           Expanded(
                             child: Text(
-                              'creditCard'.tr() +  ' - '  + (payment?.cardOption ?? '')  ,
+                              '${'creditCard'.tr()} - ${payment?.cardOption ?? ''}'  ,
                               style: kMediumRegular.copyWith(color: Styles.kTextColor),
                             ),
                           ),

@@ -51,6 +51,7 @@ import 'blocs/session/session_bloc.dart';
 import 'blocs/session/ticker_repository.dart';
 import 'pages/checkout/pages/insurance/bloc/insurance_cubit.dart';
 import 'widgets/dialogs/app_confirmation_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 final appRouter = AppRouter();
 final navigatorKey = GlobalKey<NavigatorState>();

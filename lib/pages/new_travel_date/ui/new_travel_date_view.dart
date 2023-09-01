@@ -324,7 +324,7 @@ class _SelectNewTravelDatesViewState extends State<SelectNewTravelDatesView> {
 
                                 }
                               },
-                              child:  Text('changeFlightView.apply'.tr()),
+                              child:  Text('apply'.tr()),
                             ),
                           ),
                         ],

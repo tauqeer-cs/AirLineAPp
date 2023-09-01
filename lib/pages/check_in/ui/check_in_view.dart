@@ -50,7 +50,7 @@ class CheckInView extends StatelessWidget {
                     kVerticalSpacer,
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
+                          const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0),
                       child: Text("onlineCheckIn".tr(), style: kGiantHeavy),
                     ),
                     kVerticalSpacerMini,

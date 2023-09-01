@@ -13,6 +13,8 @@ import 'forms/app_dropdown.dart';
 
 class AppCountriesDropdown extends StatefulWidget {
   final Country? initialValue;
+  final bool isMMB;
+
   final bool isPhoneCode;
   final String? hintText, initialCountryCode;
   final List<String? Function(Country?)>? validators;
@@ -23,6 +25,7 @@ class AppCountriesDropdown extends StatefulWidget {
   final  bool hideDefualttValue;
   const AppCountriesDropdown({
     Key? key,
+    this.isMMB = false,
     this.initialValue,
     required this.isPhoneCode,
     this.hintText,
@@ -113,7 +116,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
             numKey: widget.isPhoneCode,
             sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue: showOverrideValue ? newSelectedCountry : (
-                 selectedCountry ?? widget.initialValue ?? Country.defaultCountry),
+                 selectedCountry ?? widget.initialValue ?? (this.widget.isMMB ? null : Country.defaultCountry)),
             onChanged: widget.onChanged,
             dropdownDecoration: widget.dropdownDecoration,
             valueTransformerItem: (value, selected) {

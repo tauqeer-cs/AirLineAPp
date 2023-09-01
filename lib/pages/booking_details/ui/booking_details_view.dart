@@ -1,4 +1,3 @@
-import 'package:app/models/confirmation_model.dart';
 import 'package:app/pages/booking_details/ui/payment_detials_section.dart';
 import 'package:app/pages/booking_details/ui/payment_success.dart';
 import 'package:app/pages/booking_details/ui/selected_passenger_info.dart';
@@ -11,12 +10,15 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import '../../../app/app_bloc_helper.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../../blocs/search_flight/search_flight_cubit.dart';
-import '../../../data/requests/flight_summary_pnr_request.dart' as FS;
 import '../../../app/app_router.dart';
 import '../../../blocs/cms/agent_sign_up/agent_sign_up_cubit.dart';
 import '../../../blocs/manage_booking/manage_booking_cubit.dart';
 import '../../../blocs/voucher/voucher_cubit.dart';
+import '../../../data/requests/voucher_request.dart';
 import '../../../data/responses/change_ssr_response.dart';
 import '../../../data/responses/manage_booking_response.dart';
 import '../../../data/responses/verify_response.dart';
@@ -24,6 +26,7 @@ import '../../../models/number_person.dart';
 import '../../../theme/spacer.dart';
 import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
+import '../../../utils/constant_utils.dart';
 import '../../../utils/custom_segment.dart';
 import '../../../widgets/app_divider_widget.dart';
 import '../../../widgets/app_money_widget.dart';
@@ -47,6 +50,8 @@ import '../../checkout/pages/insurance/ui/available_insurance.dart';
 import '../../checkout/pages/insurance/ui/insurance_view.dart';
 import '../../checkout/pages/insurance/ui/passenger_insurance_selector.dart';
 import '../../checkout/pages/insurance/ui/zurich_container.dart';
+import '../../checkout/pages/payment/ui/discount_summary.dart';
+import '../../checkout/pages/payment/ui/voucher_ui.dart';
 import '../../checkout/ui/empty_addon.dart';
 import '../../search_result/ui/booking_summary.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
@@ -88,6 +93,9 @@ class ManageBookingDetailsView extends StatelessWidget {
   GlobalKey horizKeyW2 = GlobalKey();
 
   ManageBookingCubit? bloc;
+  static final fbKey = GlobalKey<FormBuilderState>();
+  static final fbKey2 = GlobalKey<FormBuilderState>();
+  static final _fbKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +105,10 @@ class ManageBookingDetailsView extends StatelessWidget {
 
     bool showSsr = true;
     bool showPax = true;
+
+    var voucherBloc = context.watch<VoucherCubit>();
+    var voucherState = voucherBloc.state;
+    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount ?? 0;
 
     if (selectedPax == null) {
       print('');
@@ -234,7 +246,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             Expanded(
                                               child: FlightDataInfo(
                                                 headingLabel:
-                                                    'flightCharge.return'.tr(),
+                                                    'return'.tr(),
                                                 dateToShow: state
                                                         .manageBookingResponse
                                                         ?.result
@@ -304,6 +316,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                           state.checkReturn) !=
                                                       true ||
                                                   bloc?.pendingPayOption ==
+                                                      true ||
+                                                  bloc?.state.showingVoucher ==
                                                       true)
                                               ? null
                                               : () async {
@@ -346,278 +360,376 @@ class ManageBookingDetailsView extends StatelessWidget {
                               ),
                             ),
                             kVerticalSpacer,
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: PassengerSelectorManageBooking(
-                                passengersWithSSR: bloc
-                                        ?.state
-                                        .manageBookingResponse
-                                        ?.result
-                                        ?.passengersWithSSRWithoutInfant ??
-                                    [],
-                              ),
-                            ),
-                            kVerticalSpacer,
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: SelectedPassengerInfo(selectedPax),
-                            ),
-                            kVerticalSpacerSmall,
-                            if (showSsr == true) ...[
-                              const Padding(
+                            if (bloc?.state.showingVoucher == true)
+                              ...[]
+                            else ...[
+                              Padding(
                                 padding:
-                                    EdgeInsets.symmetric(horizontal: 16),
-                                child: AddOnOptions(),
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: PassengerSelectorManageBooking(
+                                  passengersWithSSR: bloc
+                                          ?.state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.passengersWithSSRWithoutInfant ??
+                                      [],
+                                ),
                               ),
                               kVerticalSpacer,
-                              if (bloc?.state.addOnOptionSelected ==
-                                  AddonType.seat) ...[
-                                kVerticalSpacerMini,
-                                true ? Container() : kVerticalSpacerSmall,
-                                if (bloc?.state.manageBookingResponse?.result
-                                        ?.isReturn ==
-                                    true) ...[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: SelectedPassengerInfo(selectedPax),
+                              ),
+                              kVerticalSpacerSmall,
+                              if (showSsr == true) ...[
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  child: AddOnOptions(),
+                                ),
+                                kVerticalSpacer,
+                                if (bloc?.state.addOnOptionSelected ==
+                                    AddonType.seat) ...[
+                                  kVerticalSpacerMini,
+                                  true ? Container() : kVerticalSpacerSmall,
+                                  if (bloc?.state.manageBookingResponse?.result
+                                          ?.isReturn ==
+                                      true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: CustomSegmentControl(
+                                        optionOneTapped: () {
+                                          bloc?.setSelectionDeparture(true,
+                                              isSeat: true);
+                                        },
+                                        optionTwoTapped: () {
+                                          bloc?.setSelectionDeparture(false,
+                                              isSeat: true);
+                                        },
+                                        isSelectedOption1:
+                                            bloc?.state.seatDeparture ?? true,
+                                        textOne:
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                        textTwo:
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                        customRadius: 12,
+                                        customBorderWidth: 1,
+                                        customVerticalPadding: 8,
+                                        customSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
+                                        customNoSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
+                                      ),
+                                    ),
+                                    kVerticalSpacer,
+                                  ],
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                    child: SeatLegendSimple(),
+                                  ),
+                                  kVerticalSpacer,
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16),
-                                    child: CustomSegmentControl(
-                                      optionOneTapped: () {
-                                        bloc?.setSelectionDeparture(true,
-                                            isSeat: true);
-                                      },
-                                      optionTwoTapped: () {
-                                        bloc?.setSelectionDeparture(false,
-                                            isSeat: true);
-                                      },
-                                      isSelectedOption1:
-                                          bloc?.state.seatDeparture ?? true,
-                                      textOne:
-                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                      textTwo:
-                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                      customRadius: 12,
-                                      customBorderWidth: 1,
-                                      customVerticalPadding: 8,
-                                      customSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kLightBgColor),
+                                    child: PassengerViewerForSeats(
+                                      passengersWithSSR: bloc
+                                              ?.state
+                                              .manageBookingResponse
+                                              ?.result
+                                              ?.passengersWithSSRWithoutInfant ??
+                                          [],
                                     ),
                                   ),
                                   kVerticalSpacer,
-                                ],
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: SeatLegendSimple(),
-                                ),
-                                kVerticalSpacer,
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  child: PassengerViewerForSeats(
-                                    passengersWithSSR: bloc
-                                            ?.state
-                                            .manageBookingResponse
-                                            ?.result
-                                            ?.passengersWithSSRWithoutInfant ??
-                                        [],
+                                  SeatPlan(
+                                    moveToTop: () {
+                                      //moveToTop?.call();
+                                    },
+                                    moveToBottom: () {
+                                      //  moveToBottom?.call();
+                                    },
+                                    isManageBooking: true,
                                   ),
-                                ),
-                                kVerticalSpacer,
-                                SeatPlan(
-                                  moveToTop: () {
-                                    //moveToTop?.call();
-                                  },
-                                  moveToBottom: () {
-                                    //  moveToBottom?.call();
-                                  },
-                                  isManageBooking: true,
-                                ),
-                                kVerticalSpacer,
-                              ] else if (bloc?.state.addOnOptionSelected ==
-                                  AddonType.meal) ...[
-                                true
-                                    ? Container()
-                                    : WarningLabel(
-                                        message:
-                                            'mealAddOnsAreUnavailable'.tr(),
+                                  kVerticalSpacer,
+                                ] else if (bloc?.state.addOnOptionSelected ==
+                                    AddonType.meal) ...[
+                                  true
+                                      ? Container()
+                                      : WarningLabel(
+                                          message:
+                                              'mealAddOnsAreUnavailable'.tr(),
+                                        ),
+                                  kVerticalSpacerSmall,
+                                  if (bloc?.state.manageBookingResponse?.result
+                                          ?.isReturn ==
+                                      true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: CustomSegmentControl(
+                                        optionOneTapped: () {
+                                          bloc?.setSelectionDeparture(true,
+                                              isFood: true);
+                                        },
+                                        optionTwoTapped: () {
+                                          bloc?.setSelectionDeparture(false,
+                                              isFood: true);
+                                        },
+                                        isSelectedOption1:
+                                            bloc?.state.foodDepearture ?? true,
+                                        textOne:
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                        textTwo:
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                        customRadius: 12,
+                                        customBorderWidth: 1,
+                                        customVerticalPadding: 8,
+                                        customSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
+                                        customNoSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
                                       ),
-                                kVerticalSpacerSmall,
-                                if (bloc?.state.manageBookingResponse?.result
-                                        ?.isReturn ==
-                                    true) ...[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: CustomSegmentControl(
-                                      optionOneTapped: () {
-                                        bloc?.setSelectionDeparture(true,
-                                            isFood: true);
-                                      },
-                                      optionTwoTapped: () {
-                                        bloc?.setSelectionDeparture(false,
-                                            isFood: true);
-                                      },
-                                      isSelectedOption1:
-                                          bloc?.state.foodDepearture ?? true,
-                                      textOne:
-                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                      textTwo:
-                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                      customRadius: 12,
-                                      customBorderWidth: 1,
-                                      customVerticalPadding: 8,
-                                      customSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kLightBgColor),
                                     ),
+                                    kVerticalSpacerSmall,
+                                  ],
+                                  MealsSection(
+                                    isDeparture:
+                                        bloc?.state.foodDepearture ?? false,
+                                    isManageBooking: true,
                                   ),
+                                ] else if (bloc?.state.addOnOptionSelected ==
+                                    AddonType.baggage) ...[
                                   kVerticalSpacerSmall,
-                                ],
-                                MealsSection(
-                                  isDeparture:
-                                      bloc?.state.foodDepearture ?? false,
-                                  isManageBooking: true,
-                                ),
-                              ] else if (bloc?.state.addOnOptionSelected ==
-                                  AddonType.baggage) ...[
-                                kVerticalSpacerSmall,
-                                if (bloc?.state.manageBookingResponse?.result
-                                        ?.isReturn ==
-                                    true) ...[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: CustomSegmentControl(
-                                      optionOneTapped: () {
-                                        bloc?.setSelectionDeparture(true,
-                                            isBaggage: true);
-                                      },
-                                      optionTwoTapped: () {
-                                        bloc?.setSelectionDeparture(false,
-                                            isBaggage: true);
-                                      },
-                                      isSelectedOption1:
-                                          bloc?.state.baggageDeparture ?? true,
-                                      textOne:
-                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                      textTwo:
-                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                      customRadius: 12,
-                                      customBorderWidth: 1,
-                                      customVerticalPadding: 8,
-                                      customSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kLightBgColor),
+                                  if (bloc?.state.manageBookingResponse?.result
+                                          ?.isReturn ==
+                                      true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: CustomSegmentControl(
+                                        optionOneTapped: () {
+                                          bloc?.setSelectionDeparture(true,
+                                              isBaggage: true);
+                                        },
+                                        optionTwoTapped: () {
+                                          bloc?.setSelectionDeparture(false,
+                                              isBaggage: true);
+                                        },
+                                        isSelectedOption1:
+                                            bloc?.state.baggageDeparture ??
+                                                true,
+                                        textOne:
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                        textTwo:
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                        customRadius: 12,
+                                        customBorderWidth: 1,
+                                        customVerticalPadding: 8,
+                                        customSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
+                                        customNoSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
+                                      ),
                                     ),
+                                    kVerticalSpacerSmall,
+                                  ],
+                                  BaggageSection(
+                                    horiz1: horizKey1,
+                                    horiz2: horizKey2,
+                                    horizS1: horizKeyS1,
+                                    horizS2: horizKeyS2,
+                                    isManageBooking: true,
+                                    isDeparture:
+                                        bloc?.state.baggageDeparture ?? false,
+                                    moveToTop: () {},
+                                    moveToBottom: () {},
                                   ),
-                                  kVerticalSpacerSmall,
-                                ],
-                                BaggageSection(
-                                  horiz1: horizKey1,
-                                  horiz2: horizKey2,
-                                  horizS1: horizKeyS1,
-                                  horizS2: horizKeyS2,
-                                  isManageBooking: true,
-                                  isDeparture:
-                                      bloc?.state.baggageDeparture ?? false,
-                                  moveToTop: () {},
-                                  moveToBottom: () {},
-                                ),
-                              ] else if (bloc?.state.addOnOptionSelected ==
-                                  AddonType.special) ...[
-                                kVerticalSpacer,
-                                if (bloc?.state.manageBookingResponse?.result
-                                        ?.isReturn ==
-                                    true) ...[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: CustomSegmentControl(
-                                      optionOneTapped: () {
-                                        bloc?.setSelectionDeparture(true,
-                                            isSpecial: true);
-                                      },
-                                      optionTwoTapped: () {
-                                        bloc?.setSelectionDeparture(false,
-                                            isSpecial: true);
-                                      },
-                                      isSelectedOption1:
-                                          bloc?.state.specialAppOpsDeparture ??
-                                              true,
-                                      textOne:
-                                          '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
-                                      textTwo:
-                                          '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
-                                      customRadius: 12,
-                                      customBorderWidth: 1,
-                                      customVerticalPadding: 8,
-                                      customSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kPrimaryColor),
-                                      customNoSelectedStyle:
-                                          kMediumSemiBold.copyWith(
-                                              color: Styles.kLightBgColor),
+                                ] else if (bloc?.state.addOnOptionSelected ==
+                                    AddonType.special) ...[
+                                  kVerticalSpacer,
+                                  if (bloc?.state.manageBookingResponse?.result
+                                          ?.isReturn ==
+                                      true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: CustomSegmentControl(
+                                        optionOneTapped: () {
+                                          bloc?.setSelectionDeparture(true,
+                                              isSpecial: true);
+                                        },
+                                        optionTwoTapped: () {
+                                          bloc?.setSelectionDeparture(false,
+                                              isSpecial: true);
+                                        },
+                                        isSelectedOption1: bloc?.state
+                                                .specialAppOpsDeparture ??
+                                            true,
+                                        textOne:
+                                            '${'departFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.departureToDestinationCodeDash ?? ''})',
+                                        textTwo:
+                                            '${'returningFlight'.tr()}\n(${bloc?.state.manageBookingResponse?.result?.returnToDestinationCodeDash ?? ''})',
+                                        customRadius: 12,
+                                        customBorderWidth: 1,
+                                        customVerticalPadding: 8,
+                                        customSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kPrimaryColor),
+                                        customNoSelectedStyle:
+                                            kMediumSemiBold.copyWith(
+                                                color: Styles.kLightBgColor),
+                                      ),
                                     ),
-                                  ),
-                                  kVerticalSpacerSmall,
-                                ],
-                                if (bloc?.state.specialAppOpsDeparture ==
-                                    true) ...[
-                                  WheelchairSection(
-                                      key: horizKeyW1,
-                                      isDeparture:
-                                          bloc?.state.specialAppOpsDeparture ??
-                                              false,
-                                      isManageBooking: true),
-                                ] else ...[
-                                  WheelchairSection(
-                                      key: horizKeyW2,
-                                      isDeparture:
-                                          bloc?.state.specialAppOpsDeparture ??
-                                              false,
-                                      isManageBooking: true),
-                                ],
-                                kVerticalSpacer,
-                              ] else if (bloc?.state.addOnOptionSelected ==
-                                  AddonType.insurance) ...[
-                                //InsuranceView(isManageBooking: true,),
-                                const InsuranceManageView(),
-                              ] else
-                                ...[],
+                                    kVerticalSpacerSmall,
+                                  ],
+                                  if (bloc?.state.specialAppOpsDeparture ==
+                                      true) ...[
+                                    WheelchairSection(
+                                        key: horizKeyW1,
+                                        isDeparture: bloc?.state
+                                                .specialAppOpsDeparture ??
+                                            false,
+                                        isManageBooking: true),
+                                  ] else ...[
+                                    WheelchairSection(
+                                        key: horizKeyW2,
+                                        isDeparture: bloc?.state
+                                                .specialAppOpsDeparture ??
+                                            false,
+                                        isManageBooking: true),
+                                  ],
+                                  kVerticalSpacer,
+                                ] else if (bloc?.state.addOnOptionSelected ==
+                                    AddonType.insurance) ...[
+                                  //InsuranceView(isManageBooking: true,),
+                                  const InsuranceManageView(),
+                                ] else
+                                  ...[],
+                              ],
                             ],
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: const ManageFlightSummary(),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: ManageFlightSummary(),
                             ),
-                            if (showPax == true) ...[
+
+
+                            if (bloc?.state.showingVoucher == true) ...[
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: const ContactsSection(),
+                                padding: const EdgeInsets.all(16.0),
+                                child: VoucherCodeUi(
+                                  onOnlyTextRemove: (){
+
+                                    _fbKey.currentState!.reset();
+                                    voucherBloc.dontShowVoucher();
+
+                                  },
+                                  readOnly: false,
+                                  blocState: voucherState.blocState,
+                                  voucherCodeInitial:  voucherState.dontShowVoucher == true ? '' : (voucherState
+                                          .insertedVoucher?.voucherCode ??
+                                      ''),
+                                  state: voucherState,
+                                  onRemoveTapped: () {
+                                    if (voucherState.response != null) {
+                                      removeVoucher(
+                                          bloc?.currentToken ?? '', context);
+                                    } else {
+                                      _fbKey.currentState!.reset();
+                                    }
+                                  },
+                                  onButtonTapped: voucherState.blocState ==
+                                          BlocState.loading
+                                      // || bookingState.superPnrNo != null
+                                      ? null
+                                      : (voucherState.response != null)
+                                          ? () => removeVoucher(
+                                              bloc?.currentToken ?? '', context)
+                                          : () {
+                                              if (_fbKey.currentState!
+                                                  .saveAndValidate()) {
+                                                if (ConstantUtils
+                                                    .showPinInVoucher) {
+                                                  final value = _fbKey
+                                                      .currentState!.value;
+                                                  final voucher =
+                                                      value["voucherCode"];
+                                                  final voucherPin =
+                                                      InsertVoucherPIN(
+                                                    voucherCode: voucher,
+                                                  );
+                                                  bloc?.state.changeSsrResponse
+                                                          ?.token ??
+                                                      '';
+
+                                                  final token = bloc
+                                                          ?.state
+                                                          .changeSsrResponse
+                                                          ?.token ??
+                                                      '';
+                                                  final voucherRequest =
+                                                      VoucherRequest(
+                                                    voucherPins: [voucherPin],
+                                                    token: token,
+                                                  );
+                                                  context
+                                                      .read<VoucherCubit>()
+                                                      .addVoucher(
+                                                          voucherRequest);
+                                                } else {
+                                                  final value = _fbKey
+                                                      .currentState!.value;
+                                                  final voucher =
+                                                      value["voucherCode"];
+                                                  final token =
+                                                      bloc?.currentToken ?? '';
+                                                  final voucherRequest =
+                                                      VoucherRequest(
+                                                    insertVoucher: voucher,
+                                                    token: token,
+                                                  );
+                                                  context
+                                                      .read<VoucherCubit>()
+                                                      .addVoucher(
+                                                          voucherRequest);
+                                                }
+                                              }
+                                            },
+                                  fbKey: _fbKey,
+
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+
+
+                            ] else if (showPax == true) ...[
+
+
+                               Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: ContactsSection(fbKey: fbKey2,),
                               ),
                               kVerticalSpacer,
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                child: const EmergencyContactsSection(),
+                                child: EmergencyContactsSection(
+                                  fbKey: fbKey,
+                                ),
                               ),
                               kVerticalSpacer,
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: const ComapnyTaxInvoiceSection(),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: ComapnyTaxInvoiceSection(),
                               ),
                               kVerticalSpacer,
                               Padding(
@@ -630,128 +742,16 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (bloc?.pendingPayOption == true) ...[
-                      if (bloc?.state.isPaying == true && 1 == 2) ...[
-                        const Center(
-                          child: AppLoading(),
-                        ),
-                      ] else ...[
-                        SummaryContainer(
-                          child: bloc?.state.isPaying == true
-                              ? const AppLoading()
-                              : Padding(
-                                  padding: kPagePadding,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "flightResult.totalAmountDue".tr(),
-                                            style: kMediumRegular.copyWith(
-                                                color: Styles.kSubTextColor),
-                                          ),
-                                          MoneyWidget(
-                                            isDense: false,
-                                            currency: bloc
-                                                    ?.state
-                                                    .manageBookingResponse
-                                                    ?.result
-                                                    ?.passengersWithSSR
-                                                    ?.first
-                                                    .fareAndBundleDetail
-                                                    ?.currencyToShow ??
-                                                'MYR',
-                                            amount:
-                                                bloc?.pendingAmountToPay ?? 0.0,
-                                          ),
-                                          kVerticalSpacerSmall,
-                                        ],
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          BuildContext? cyrreContext =
-                                              Scaffold.maybeOf(context)
-                                                  ?.context;
-
-                                          var redirectUrl =
-                                              await bloc?.checkOutPending();
 
 
-                                          if(bloc?.state.hasPendingError == true) {
-                                            showErrorDialog(context,redirectUrl ?? '');
+                    if (bloc?.state.showingVoucher == true) ...[
+                      if(bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount != null) ... [
 
+                        DiscountSummary(princToShow: (bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount ?? 0).toDouble()),
 
-
-                                            return;
-
-                                          }
-                                          //
-
-                                          if (redirectUrl != null) {
-                                            final result =
-                                                await cyrreContext?.router.push(
-                                              WebViewRoute(
-                                                  url: "",
-                                                  htmlContent: redirectUrl),
-                                            );
-
-                                            if (result != null &&
-                                                result is String) {
-                                              final urlParsed =
-                                                  Uri.parse(result);
-                                              var query =
-                                                  urlParsed.queryParametersAll;
-                                              String? status =
-                                                  query['status']?.first;
-                                              String? superPNR =
-                                                  query['pnr']?.first;
-
-                                              if (status != "FAIL") {
-                                                await showDialog(
-                                                  context: cyrreContext!,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return PaymentSuccessAlert(
-                                                      currency: bloc
-                                                              ?.state
-                                                              .manageBookingResponse
-                                                              ?.result
-                                                              ?.passengersWithSSR
-                                                              ?.first
-                                                              .fareAndBundleDetail
-                                                              ?.currencyToShow ??
-                                                          'MYR',
-                                                      amount:
-                                                          '${bloc?.pendingAmountToPay ?? 0.0}',
-                                                    );
-                                                  },
-                                                );
-
-                                                await bloc
-                                                    ?.getBookingInformation(
-                                                        state.lastName ?? '',
-                                                        state.pnrEntered ?? '');
-
-                                                reloadView();
-
-                                                //// cyrreContext
-                                                // .read<VoucherCubit>()
-                                                // .resetState();
-                                              } else {}
-                                            } else {}
-                                          }
-                                        },
-                                        child: const Text('Pay'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                        ),
                       ],
-                    ] else if (bloc?.showPayOption == true) ...[
+
+
                       SummaryContainer(
                         child: bloc?.state.isPaying == true
                             ? const AppLoading()
@@ -760,13 +760,34 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
+                                    Text(
+                                      "flightResult.totalAmountDue".tr(),
+                                      style: kMediumRegular.copyWith(
+                                          color: Styles.kSubTextColor),
+                                    ),
+                                    MoneyWidget(
+                                      isDense: false,
+                                      currency: bloc
+                                          ?.state
+                                          .manageBookingResponse
+                                          ?.result
+                                          ?.passengersWithSSR
+                                          ?.first
+                                          .fareAndBundleDetail
+                                          ?.currencyToShow ??
+                                          'MYR',
+                                      amount:
+                                      (bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount ?? 0.0) - discount,
+                                    ),
+
                                     ElevatedButton(
                                       onPressed: () async {
                                         BuildContext? cyrreContext =
                                             Scaffold.maybeOf(context)?.context;
 
                                         ChangeSsrResponse? response =
-                                            await bloc?.checkSsrChange();
+                                            await bloc?.state.changeSsrResponse;
+
                                         if (response != null) {
                                           var redirectUrl =
                                               await bloc?.checkOutForPaymentSSR(
@@ -825,38 +846,76 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             } else {}
                                           }
                                         }
+
+                                        return;
                                       },
-                                      child: const Text('Pay'),
+                                      child: Text('pay'.tr()),
                                     ),
                                   ],
                                 ),
                               ),
                       ),
-                    ] else if (bloc?.state.anyContactValueChange == true) ...[
-                      SummaryContainer(
-                        child: bloc?.state.savingContactChanges == true
-                            ? const AppLoading()
-                            : Padding(
-                                padding: kPagePadding,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        bloc?.saveContactChanges();
+                    ] else if (bloc?.pendingPayOption == true) ...[
+                      if (bloc?.state.isPaying == true && 1 == 2) ...[
+                        const Center(
+                          child: AppLoading(),
+                        ),
+                      ] else ...[
+                        SummaryContainer(
+                          child: bloc?.state.isPaying == true
+                              ? const AppLoading()
+                              : Padding(
+                                  padding: kPagePadding,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "flightResult.totalAmountDue".tr(),
+                                            style: kMediumRegular.copyWith(
+                                                color: Styles.kSubTextColor),
+                                          ),
+                                          MoneyWidget(
+                                            isDense: false,
+                                            currency: bloc
+                                                    ?.state
+                                                    .manageBookingResponse
+                                                    ?.result
+                                                    ?.passengersWithSSR
+                                                    ?.first
+                                                    .fareAndBundleDetail
+                                                    ?.currencyToShow ??
+                                                'MYR',
+                                            amount:
+                                                bloc?.pendingAmountToPay ?? 0.0,
+                                          ),
+                                          kVerticalSpacerSmall,
+                                        ],
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          BuildContext? cyrreContext =
+                                              Scaffold.maybeOf(context)
+                                                  ?.context;
 
-                                        return;
-                                        ChangeSsrResponse? response =
-                                            await bloc?.checkSsrChange();
-
-                                        if (response != null) {
                                           var redirectUrl =
-                                              await bloc?.checkOutForPaymentSSR(
-                                                  '', response);
+                                              await bloc?.checkOutPending();
+
+                                          if (bloc?.state.hasPendingError ==
+                                              true) {
+                                            showErrorDialog(
+                                                context, redirectUrl ?? '');
+
+                                            return;
+                                          }
+                                          //
 
                                           if (redirectUrl != null) {
                                             final result =
-                                                await context.router.push(
+                                                await cyrreContext?.router.push(
                                               WebViewRoute(
                                                   url: "",
                                                   htmlContent: redirectUrl),
@@ -874,25 +933,215 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                   query['pnr']?.first;
 
                                               if (status != "FAIL") {
-                                                await bloc
-                                                    ?.reloadDataForConfirmation(
-                                                        status ?? '',
-                                                        superPNR ?? '',
-                                                        extraLoading: true);
+                                                await showDialog(
+                                                  context: cyrreContext!,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PaymentSuccessAlert(
+                                                      currency: bloc
+                                                              ?.state
+                                                              .manageBookingResponse
+                                                              ?.result
+                                                              ?.passengersWithSSR
+                                                              ?.first
+                                                              .fareAndBundleDetail
+                                                              ?.currencyToShow ??
+                                                          'MYR',
+                                                      amount:
+                                                          '${bloc?.pendingAmountToPay ?? 0.0}',
+                                                    );
+                                                  },
+                                                );
 
-                                                context.router.replaceAll([
-                                                  const NavigationRoute(),
-                                                  ChangeFlightConfirmationRoute(
-                                                    bookingId: superPNR ?? "",
-                                                    status: status ?? '',
-                                                  ),
-                                                ]);
+                                                await bloc
+                                                    ?.getBookingInformation(
+                                                        state.lastName ?? '',
+                                                        state.pnrEntered ?? '');
+
+                                                reloadView();
+
+                                                //// cyrreContext
+                                                // .read<VoucherCubit>()
+                                                // .resetState();
                                               } else {}
-                                            } else {}
+                                            }
+                                            else {
+
+                                            }
+                                          }
+                                        },
+                                        child: Text(
+                                          'pay'.tr(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ] else if (bloc?.showPayOption == true) ...[
+                      SummaryContainer(
+                        child: bloc?.state.isPaying == true
+                            ? const AppLoading()
+                            : Padding(
+                                padding: kPagePadding,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        BuildContext? cyrreContext =
+                                            Scaffold.maybeOf(context)?.context;
+
+                                        ChangeSsrResponse? response =
+                                            await bloc?.checkSsrChange();
+
+
+                                        if (response != null) {
+                                          var redirectUrl =
+                                          await bloc?.checkOutForPaymentSSR(
+                                              '', response);
+
+                                          if (redirectUrl != null) {
+                                            final result =
+                                            await cyrreContext?.router.push(
+                                              WebViewRoute(
+                                                  url: "",
+                                                  htmlContent: redirectUrl),
+                                            );
+
+                                            if (result != null &&
+                                                result is String) {
+                                              final urlParsed =
+                                              Uri.parse(result);
+                                              var query =
+                                                  urlParsed.queryParametersAll;
+                                              String? status =
+                                                  query['status']?.first;
+                                              String? superPNR =
+                                                  query['pnr']?.first;
+
+                                              if (status != "FAIL") {
+                                                await showDialog(
+                                                  context: cyrreContext!,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PaymentSuccessAlert(
+                                                      currency: response
+                                                          .assignFlightAddOnResponse
+                                                          ?.currency ??
+                                                          '',
+                                                      amount: response
+                                                          .assignFlightAddOnResponse
+                                                          ?.totalReservationAmount
+                                                          ?.toStringAsFixed(
+                                                          2) ??
+                                                          '0.00',
+                                                    );
+                                                  },
+                                                );
+
+                                                await bloc
+                                                    ?.getBookingInformation(
+                                                    state.lastName ?? '',
+                                                    state.pnrEntered ?? '');
+
+                                                reloadView();
+
+                                                //// cyrreContext
+                                                // .read<VoucherCubit>()
+                                                // .resetState();
+                                              } else {}
+                                            } else {
+
+                                            }
                                           }
                                         }
+
+
                                       },
-                                      child: const Text('Save'),
+                                      child: Text(
+                                        'pay'.tr(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ),
+                    ] else if (bloc?.state.anyContactValueChange == true) ...[
+                      SummaryContainer(
+                        child: bloc?.state.savingContactChanges == true
+                            ? const AppLoading()
+                            : Padding(
+                                padding: kPagePadding,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        if (bloc
+                                                ?.state
+                                                .manageBookingResponse
+                                                ?.result
+                                                ?.initalEmergencyEmpty ==
+                                            true) {
+
+                                          bool checkError = false;
+
+                                          if ( fbKey2.currentState?.validate() == false) {
+
+                                            checkError = true;
+                                            //  bloc?.setEmergenctyError(true, true);
+
+                                            // return;
+                                          }
+
+
+
+
+                                          bloc?.setEmergenctyError(false, checkError);
+
+                                          if(checkError == false){
+                                            bloc?.saveContactChanges();
+                                          }
+
+
+                                        } else {
+
+                                          //fbKey.currentState?.validate() ==
+                                          //                                               false &&
+
+                                          bool checkError = false , checkErrorE = false;
+
+                                          if ( fbKey2.currentState?.validate() == false) {
+
+                                            checkError = true;
+                                            //  bloc?.setEmergenctyError(true, true);
+
+                                           // return;
+                                          }
+
+                                          if ( fbKey.currentState?.validate() == false) {
+
+                                            checkErrorE = true;
+                                            //  bloc?.setEmergenctyError(true, true);
+
+                                            //return;
+                                          }
+
+
+                                          bloc?.setEmergenctyError(checkErrorE, checkError);
+
+                                          if(checkError == false && checkErrorE == false){
+                                           bloc?.saveContactChanges();
+                                          }
+
+                                        }
+                                        return;
+                                      },
+                                      child: Text(
+                                        'accountDetail.save'.tr(),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -904,6 +1153,20 @@ class ManageBookingDetailsView extends StatelessWidget {
               );
       },
     );
+  }
+
+  void removeVoucher(String currentToken, BuildContext context) {
+    context.read<VoucherCubit>;
+
+    final token = currentToken;
+    final voucherRequest = VoucherRequest(
+      token: token,
+    );
+    context.read<VoucherCubit>().removeVoucher(voucherRequest);
+    if (context.read<VoucherCubit>().state.dontShowVoucher == true) {
+    } else {
+      _fbKey.currentState!.reset();
+    }
   }
 
   bool isAllowedToContinue(ManageBookingState manageBookingState) {
@@ -1015,19 +1278,23 @@ class InsuranceManageView extends StatelessWidget {
 
     bool dontShowAll = bloc.dontShowAllInsuranceOption;
 
-    var insuranceValuesToShow = InsuranceType.values.where((element) => element != InsuranceType.none).toList();
+    var insuranceValuesToShow = InsuranceType.values
+        .where((element) => element != InsuranceType.none)
+        .toList();
 
-    if(dontShowAll == true){
-      insuranceValuesToShow =   insuranceValuesToShow.where((element) => element != InsuranceType.all).toList();
+    if (dontShowAll == true) {
+      insuranceValuesToShow = insuranceValuesToShow
+          .where((element) => element != InsuranceType.all)
+          .toList();
 
       print('');
     }
 
-    if(bloc.state.selectedPax?.insuranceSSRDetail != null){
-      if((bloc.state.selectedPax?.insuranceSSRDetail?.totalAmount ?? 0.0) > 0.0){
+    if (bloc.state.selectedPax?.insuranceSSRDetail != null) {
+      if ((bloc.state.selectedPax?.insuranceSSRDetail?.totalAmount ?? 0.0) >
+          0.0) {
         insuranceValuesToShow = [];
         insurances = [];
-
       }
     }
 
@@ -1110,7 +1377,8 @@ class InsuranceManageView extends StatelessWidget {
                                   SizedBox(
                                     height: 56,
                                     width: 56,
-                                    child: AvailableInsurance.getAssets(e) == null
+                                    child: AvailableInsurance.getAssets(e) ==
+                                            null
                                         ? const SizedBox()
                                         : Image.asset(
                                             AvailableInsurance.getAssets(e)!),
@@ -1118,7 +1386,8 @@ class InsuranceManageView extends StatelessWidget {
                                 ],
                               ),
                               Visibility(
-                                visible: e == selected && e != InsuranceType.none,
+                                visible:
+                                    e == selected && e != InsuranceType.none,
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
                                   child: Column(
@@ -1157,16 +1426,13 @@ class InsuranceManageView extends StatelessWidget {
                                                     InsuranceType.all) {
                                                   bloc.addInsuranceToAllPeople(
                                                       e, tmp);
-                                                }
-                                                else if(selected ==
+                                                } else if (selected ==
                                                     InsuranceType.selected) {
-                                                  bloc.addInsuranceToPeople(
-                                                      e, tmp, state.selectedPax);
-                                                }
-                                                else {
-                                                  bloc.addInsuranceToPeople(
-                                                      e, tmp, state.selectedPax);
-
+                                                  bloc.addInsuranceToPeople(e,
+                                                      tmp, state.selectedPax);
+                                                } else {
+                                                  bloc.addInsuranceToPeople(e,
+                                                      tmp, state.selectedPax);
                                                 }
                                                 /*
                                             if (selected == InsuranceType.all) {
@@ -1202,10 +1468,12 @@ class InsuranceManageView extends StatelessWidget {
                                             }*/
                                               },
                                               child: Container(
-                                                padding: const EdgeInsets.all(16),
+                                                padding:
+                                                    const EdgeInsets.all(16),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(8),
+                                                        BorderRadius.circular(
+                                                            8),
                                                     border: Border.all(
                                                         color: Styles
                                                             .kDisabledButton)),
@@ -1213,7 +1481,8 @@ class InsuranceManageView extends StatelessWidget {
                                                   children: [
                                                     Text(
                                                       AvailableInsurance
-                                                          .dataTitle(e, agentCms),
+                                                          .dataTitle(
+                                                              e, agentCms),
                                                       style: kLargeHeavy,
                                                     ),
                                                     AvailableInsurance
@@ -1230,7 +1499,8 @@ class InsuranceManageView extends StatelessWidget {
                                                       textColor:
                                                           Styles.kPrimaryColor,
                                                       amount: e.finalAmount,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     kVerticalSpacer,
                                                     IgnorePointer(
@@ -1246,7 +1516,8 @@ class InsuranceManageView extends StatelessWidget {
                                                             MaterialTapTargetSize
                                                                 .shrinkWrap,
                                                         groupValue: selected ==
-                                                                InsuranceType.all
+                                                                InsuranceType
+                                                                    .all
                                                             ? ((bloc
                                                                         .state
                                                                         .manageBookingResponse
@@ -1302,8 +1573,8 @@ class InsuranceManageView extends StatelessWidget {
                 Expanded(
                   child: Container(),
                 ),
-                 MoneyWidget(
-                  amount:bloc.notConfirmedInsruanceTotalPrice ?? 0.0,
+                MoneyWidget(
+                  amount: bloc.notConfirmedInsruanceTotalPrice ?? 0.0,
                   isDense: true,
                   isNormalMYR: true,
                 ),
@@ -1360,6 +1631,9 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
             'MYR';
 
+    var ccc = bloc.noOfNewMeals;
+
+
     var totalPrice = bloc.confirmedSeatsTotalPrice +
         bloc.confirmedMealsTotalPrice +
         bloc.confirmedBaggageTotalPrice +
@@ -1367,7 +1641,7 @@ class ManageFlightSummary extends StatelessWidget {
         bloc.confirmedWheelChairTotalPrice +
         bloc.confirmedInsruanceTotalPrice;
 
-    return (totalPrice == 0 && bloc.isThereNewWheelChaie == false)
+    return (totalPrice == 0 && bloc.isThereNewWheelChaie == false && ccc == 0)
         ? Container()
         : AppCard(
             child: Column(
@@ -1426,6 +1700,7 @@ class ManageFlightSummary extends StatelessWidget {
                 if (bloc.state.insuranceType == InsuranceType.all ||
                     bloc.state.insuranceType == InsuranceType.selected) ...[
                   if (bloc.confirmedInsruanceTotalPrice > 0) ...[
+
                     InsurancesSummaryDetail(
                       isManageBooking: true,
                     ),

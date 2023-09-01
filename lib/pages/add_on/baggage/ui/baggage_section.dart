@@ -220,7 +220,7 @@ class BaggageSection extends StatelessWidget {
         padding: kPageHorizontalPadding,
         child: HorizontalBaggageCards(
           isDeparture: isDeparture,
-          key: this.horiz1,
+          key: horiz1,
         ),
       );
     } else if (isManageBooking == true && isDeparture == false) {
@@ -503,6 +503,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
   var selectedItem = '';
 
+
   @override
   void initState() {
     super.initState();
@@ -522,6 +523,11 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
     baggageGroup = state.flightSSR?.baggageGroup;
 
+    if(state.addOnList != null) {
+
+
+    }
+
     String currency = 'MYR';
     currency =
         state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
@@ -538,6 +544,7 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
               (state.selectedPax!.baggageDetail?.departureBaggages ?? [])
                   .first
                   .ssrCode;
+
         }
       }
     } else {
@@ -548,31 +555,50 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
               (state.selectedPax!.baggageDetail?.returnBaggages ?? [])
                   .first
                   .ssrCode;
+
+          /*
+          lastBagNum =
+              (state.selectedPax!.baggageDetail?.returnBaggages ?? [])
+                  .first.amount;*.
+
+           */
+
         }
       }
     }
 
+
     baggage = baggage
-        ?.where((e) => e.ssrCode != lastBaggagePrice && e.ssrCode != 'NOSELECT')
+        ?.where((e) => e.ssrCode != lastBaggagePrice && e.ssrCode != 'NOSELECT' )
         .toList();
 
     Person? selectedPerson =
         context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
+    var dontGotIndex = false;
+
     var resultIndexFinder = baggage
         ?.where((e) =>
             e.description == selectedPerson?.departureBaggage?.description)
         .toList();
 
+    if(selectedPerson?.departureBaggage?.description == null){
+      dontGotIndex = true;
+    }
     if (widget.isDeparture == false) {
       resultIndexFinder = baggage
           ?.where((e) =>
               e.description == selectedPerson?.returnBaggage?.description)
           .toList();
+
+      if(selectedPerson?.returnBaggage?.description == null){
+        dontGotIndex = true;
+      }
     } else {}
 
     baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo((b.amount ?? 0.0)));
 
-    if ((resultIndexFinder ?? []).isNotEmpty) {
+    if ((resultIndexFinder ?? []).isNotEmpty && dontGotIndex == false) {
       int indexOf = baggage?.indexOf((resultIndexFinder ?? []).first) ?? 0;
       print('');
 
@@ -583,24 +609,56 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
 
         scrollToPositionInStart(indexOf);
       }
-    } else {
+    }
+    else if(widget.isDeparture == true && state.selectedPax?.newDepartBaggageSelected != null){
+
+      var ssrCode = state.selectedPax?.newDepartBaggageSelected?.ssrCode ?? '';
+      if(ssrCode.isNotEmpty) {
+        if((baggage ?? []).isNotEmpty ) {
+
+          var re = (baggage ?? []).where((e) => e.ssrCode == ssrCode).toList();
+
+          if((re ?? []).isNotEmpty){
+            selectedItem = ssrCode;
+
+          }
+        }
+      }
+    }
+    else if(widget.isDeparture == false && state.selectedPax?.newReturnBaggageSelected != null){
+
+      var ssrCode = state.selectedPax?.newReturnBaggageSelected?.ssrCode ?? '';
+      if(ssrCode.isNotEmpty) {
+        if((baggage ?? []).isNotEmpty ) {
+
+          var re = (baggage ?? []).where((e) => e.ssrCode == ssrCode).toList();
+
+          if((re ?? []).isNotEmpty){
+            selectedItem = ssrCode;
+
+          }
+        }
+      }
+
+    }
+    else {
       int indexOf = 0;
+        selectedItem = '';
+
+
       //selectedItem = (baggage ?? []).first.ssrCode ?? '';
       scrollToPositionInStart(indexOf);
     }
 
-    return Row(
+    return (baggage ?? []).isEmpty ? EmptyAddon() : Row(
       children: [
         GestureDetector(
           onTap: () {
             if (_currentIndex == 0) {
               return;
             }
-
             onlyOneTime = true;
-
             _currentIndex = _currentIndex - 1;
-
             pageController.animateToPage(_currentIndex,
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.ease);
@@ -632,11 +690,13 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
                       selectedItem = (baggage ?? [])[index].ssrCode ?? '';
                       var response = bloc?.addBaggageToPerson(selectedPerson,
                           (baggage ?? [])[index], widget.isDeparture);
-                      if (response == true) {
+                      if (response == true)
+                      {
                         setState(() {
                           selectedItem = '';
                         });
                       } else {
+
                         setState(() {});
                       }
                     },
@@ -696,7 +756,6 @@ class _HorizontalBaggageCardsState extends State<HorizontalBaggageCards> {
             if (_currentIndex == ((baggage ?? []).length - 1)) {
               return;
             }
-            // onlyOneTime = true;
 
             _currentIndex = _currentIndex + 1;
             pageController.animateToPage(_currentIndex,

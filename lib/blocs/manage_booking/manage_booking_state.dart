@@ -4,6 +4,8 @@ part of 'manage_booking_cubit.dart';
 class ManageBookingState extends Equatable {
   final AddonType? addOnOptionSelected;
 
+  final bool showingVoucher;
+
   final FightAddOns? addOnList;
 
   final AvailableRedeemOptions? rewardItem;
@@ -13,12 +15,18 @@ class ManageBookingState extends Equatable {
   final String? flightToken;
   final RedemptionOption? redemptionOption;
 
+  final ChangeSsrResponse? changeSsrResponse;
+
   final bool showReward;
 
 
   final bool isLoadingPromo;
 
   final bool isPaying;
+
+  final bool showErrorOnContact;
+  final bool showErrorOnEmergency;
+
 
 
 
@@ -115,12 +123,14 @@ class ManageBookingState extends Equatable {
     this.anyContactValueChange = false,
     this.selectedPax,
     this.flightToken,
+    this.changeSsrResponse,
     this.isPaying = false,
     this.foodDepearture = true,
     this.baggageDeparture = true,
     this.specialAppOpsDeparture = true,
     this.insuranceType,
     this.rewardItem,
+    this.showingVoucher = false,
     this.contactsSectionExpanded = false,
     this.emergencySectionExpanded = false,
     this.companyTaxInvoiceExpanded = false,
@@ -172,6 +182,9 @@ class ManageBookingState extends Equatable {
     this.redemptionOption,
     this.isLoadingPromo = false,
     this.hasPendingError = false,
+    this.showErrorOnContact = false,
+    this.showErrorOnEmergency = false,
+
   });
 
   @override
@@ -234,6 +247,11 @@ class ManageBookingState extends Equatable {
     rewardItem,
     showReward,
     hasPendingError,
+    showingVoucher,
+ changeSsrResponse,
+  showErrorOnContact,
+  showErrorOnEmergency,
+
   ];
 
   ManageBookingState copyWith({
@@ -305,9 +323,18 @@ class ManageBookingState extends Equatable {
     AvailableRedeemOptions? rewardItem,
     bool? showReward,
     bool? hasPendingError,
+    bool? showingVoucher,
+    ChangeSsrResponse? changeSsrResponse,
+     bool? showErrorOnContact,
+     bool? showErrorOnEmergency,
 
   }) {
     return ManageBookingState(
+
+      changeSsrResponse : changeSsrResponse ?? this.changeSsrResponse,
+      showErrorOnContact : showErrorOnContact ?? this.showErrorOnContact,
+      showErrorOnEmergency : showErrorOnEmergency ?? this.showErrorOnEmergency,
+      showingVoucher : showingVoucher ?? this.showingVoucher,
       showReward : showReward ?? this.showReward,
       rewardItem : rewardItem ?? this.rewardItem,
       confirmedInsuranceType : confirmedInsuranceType ?? this.confirmedInsuranceType,
@@ -384,8 +411,6 @@ class ManageBookingState extends Equatable {
       newCompanyTaxEmailAddress : newCompanyTaxEmailAddress ?? this.newCompanyTaxEmailAddress,
       isLoadingPromo : isLoadingPromo ?? this.isLoadingPromo,
       hasPendingError : hasPendingError ?? this.hasPendingError,
-
-
     );
   }
 }

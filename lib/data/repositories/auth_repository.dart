@@ -26,6 +26,7 @@ const String tokenBoxName = "tokenBox";
 class AuthenticationRepository {
   static final AuthenticationRepository _instance =
       AuthenticationRepository._internal();
+
   final _controller = StreamController<User>();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn.standard();

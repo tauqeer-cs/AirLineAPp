@@ -1,6 +1,7 @@
 import 'package:app/widgets/app_loading_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../data/responses/boardingpass_passenger_response.dart';
@@ -411,12 +412,13 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
             if (success == false) ...[
               TextFormField(
                 controller: _emailController,
+                inputFormatters: [NoSpaceInputFormatter()], // Add this line
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'pleaseEnterEmail'.tr();
                   }
-                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                      .hasMatch(value)) {
+                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}(;[\w-\.]+@([\w-]+\.)+[\w-]{2,4})*$')
+                      .hasMatch(value.trim())) {
                     return 'pleaseEnterEmail'.tr();
                   }
                   return null;
@@ -448,7 +450,7 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
                         onlySelected: widget.onlySelected,
                         boodSides: widget.bothSides,
                         email: true,
-                        emailText: _emailController.text);
+                        emailText: _emailController.text.trim());
 
                     if (response == true) {
                       setState(() {
@@ -472,3 +474,17 @@ class _EmailBoardingPassViewState extends State<EmailBoardingPassView> {
     super.dispose();
   }
 }
+
+class NoSpaceInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // Allow only if the new value doesn't contain spaces
+    if (!newValue.text.contains(' ')) {
+      return newValue;
+    }
+    // If the new value contains spaces, return the old value
+    return oldValue;
+  }
+}
+

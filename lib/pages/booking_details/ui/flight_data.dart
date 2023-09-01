@@ -68,7 +68,7 @@ class FlightDataInfo extends StatelessWidget {
             Expanded(
               flex: 4,
               child: FlightInto(
-                label: 'flightSummary.depart'.tr(),
+                label: 'depart'.tr(),
                 timeString: departureDateWithTime,
                 location: departureAirportName,
                 showDisabled: disabledView,

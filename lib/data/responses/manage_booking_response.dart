@@ -483,6 +483,8 @@ class Result {
         this.message,
       this.success});
 
+  bool initalEmergencyEmpty = false;
+
   Result.fromJson(Map<String, dynamic> json) {
      superPNR =
         json['superPNR'] != null ? SuperPNR.fromJson(json['superPNR']) : null;
@@ -493,6 +495,11 @@ class Result {
     bookingContact = json['bookingContact'] != null
         ? BookingContact.fromJson(json['bookingContact'])
         : null;
+    if((bookingContact?.emergencyGivenName ?? '').isEmpty == true && (bookingContact?.emergencySurname ?? '').isEmpty == true && (bookingContact?.emergencyPhone ?? '').isEmpty == true){
+      initalEmergencyEmpty = true;
+
+    }
+
     if (json['passengersWithSSR'] != null) {
       passengersWithSSR = <PassengersWithSSR>[];
 

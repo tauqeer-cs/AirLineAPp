@@ -190,7 +190,7 @@ class MealsSection extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '${'flightCharge.meal'.tr()} ${'flightCharge.total'.tr()}',
+                        '${'meal'.tr()} ${'flightCharge.total'.tr()}',
                         style: kHugeSemiBold.copyWith(color: Styles.kTextColor),
                       ),
                       Expanded(
@@ -281,9 +281,17 @@ class NewMealCard extends StatelessWidget {
 
 
         if(isAdd == false) {
-          if(person?.departureMeal.length == meals.length){
-            return;
+          if(this.isDeparture) {
+            if(person?.departureMeal.length == meals.length){
+              return;
+            }
           }
+          else {
+            if(person?.returnMeal.length == meals.length){
+              return;
+            }
+          }
+
 
         }
         print('');
