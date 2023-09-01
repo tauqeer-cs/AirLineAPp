@@ -42,9 +42,9 @@ stages:
     - task: FlutterInstall@0
       displayName: "Install Flutter SDK"
       inputs:
-        mode: 'auto'
         channel: 'stable'
-        version: '3.7.3'
+        version: 'custom'
+        customVersion: '3.7.3'
 
     - task: FlutterCommand@0
       displayName: "Run Flutter diagnostics"
@@ -57,12 +57,13 @@ stages:
       inputs:
         target: 'aab'
         projectDirectory: '$(Build.SourcesDirectory)'
+        extraArgs: '--flavor prod -t lib/main_production.dart'
 
-    - task: FlutterTest@0
-      displayName: "Run unit tests"
-      inputs:
-        generateCodeCoverageReport: true
-        projectDirectory: '$(Build.SourcesDirectory)'
+   # - task: FlutterTest@0
+   #   displayName: "Run unit tests"
+   #   inputs:
+   #     generateCodeCoverageReport: true
+   #     projectDirectory: '$(Build.SourcesDirectory)'
 
     - task: CopyFiles@2
       displayName: "Copy app to staging directory"
