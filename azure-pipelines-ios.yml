@@ -46,6 +46,7 @@ stages:
         target: ipa
         projectDirectory: '$(Build.SourcesDirectory)'
         exportOptionsPlist: 'ios/runner/Info.plist'
+        extraArgs: '--flavor prod -t lib/main_production.dart'
 
     - task: CopyFiles@2
       displayName: "Copy app to staging directory"
