@@ -3,7 +3,6 @@ trigger:
 
 - stage: iOSStage
   pool: 
-    name: 'default'
     vmImage: 'macos-latest'
   dependsOn: []
   displayName: iOS
