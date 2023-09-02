@@ -817,26 +817,7 @@ List<String> availableTitleAll = [
   "Dato Seri",
   "Dato' Sri",
   "Datin Sri",
-  "Miss",
   "Master",
   "Puan Sri",
-  "Tan Sri",
   "Toh Puan",
-  "Tun",
 ];
-
-//Datin
-// Dato
-// Datuk
-// Datuk Seri
-// Datuk Sri
-// Datin Seri
-//Dato Seri
-// Dato' Sri
-// Datin Sri
-// Miss
-// Master
-// Puan Sri
-//Tan Sri
-// Toh Puan
-// Tun

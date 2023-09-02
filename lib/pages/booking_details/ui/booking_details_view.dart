@@ -1021,7 +1021,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               String? superPNR =
                                                   query['pnr']?.first;
 
-                                              if (status != "FAIL") {
+                                              if (status == "CON") {
                                                 await showDialog(
                                                   context: cyrreContext!,
                                                   builder:
@@ -1051,8 +1051,18 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 //// cyrreContext
                                                 // .read<VoucherCubit>()
                                                 // .resetState();
-                                              } else {}
+                                              } else {
+
+                                                context.router.replaceAll([
+                                                  const NavigationRoute(),
+                                                  BookingConfirmationRoute(
+                                                    bookingId: superPNR ?? "", status: status ?? '',)
+                                                ]);
+
+
+                                              }
                                             } else {
+
 
                                             }
                                           }

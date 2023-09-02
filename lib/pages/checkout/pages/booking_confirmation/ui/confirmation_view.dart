@@ -18,11 +18,17 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ConfirmationView extends StatefulWidget {
+  final bool isMMb;
   final String pnr;
   final String status;
+  final Widget? summaryToShow;
 
   const ConfirmationView({
-    Key? key, required this.pnr, required this.status,
+    Key? key,
+    required this.pnr,
+    required this.status,
+    this.isMMb = false,
+    this.summaryToShow,
   }) : super(key: key);
 
   @override
@@ -52,11 +58,17 @@ class _ConfirmationViewState extends State<ConfirmationView> {
   @override
   Widget build(BuildContext context) {
     final confirmationDetail = context.watch<ConfirmationCubit>().state;
-    final currencyToShow = context.watch<ConfirmationCubit>().state.confirmationModel?.value?.fareAndBundleDetail?.currencyToShow ?? 'MYR';
+    final currencyToShow = context
+            .watch<ConfirmationCubit>()
+            .state
+            .confirmationModel
+            ?.value
+            ?.fareAndBundleDetail
+            ?.currencyToShow ??
+        'MYR';
 
     return SingleChildScrollView(
       controller: _controllerSroll,
-
       child: Screenshot(
         controller: screenshotController,
         child: Container(
@@ -67,25 +79,26 @@ class _ConfirmationViewState extends State<ConfirmationView> {
             padding: kPagePadding,
             children: [
               kVerticalSpacerSmall,
+              if (widget.status == 'PPB' ||
+                  widget.status == 'BIP' ||
+                  widget.status == 'PPA' ||
+                  widget.status == 'PEN') ...[
 
-              if(widget.status == 'PPB' || widget.status == 'BIP') ... [
-
-
-                Text(
+                    Text(
                   "confirmationView.bookingPayment".tr(),
                   style: kMediumRegular.copyWith(
                       color: Styles.kSubTextColor, height: 1.5),
                   textAlign: TextAlign.center,
                 ),
 
-              ] else if(widget.status == 'EXP') ... [
+              ] else if (widget.status == 'EXP') ...[
                 Text(
                   "confirmationView.statusExpired".tr(),
                   style: kMediumRegular.copyWith(
                       color: Styles.kSubTextColor, height: 1.5),
                   textAlign: TextAlign.center,
                 ),
-              ] else if(widget.status == 'CON') ... [
+              ] else if (widget.status == 'CON') ...[
                 Text(
                   "confirmationView.bookingConfirm".tr(),
                   style: kMediumRegular.copyWith(
@@ -98,7 +111,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                       color: Styles.kTextColor, height: 1.5),
                   textAlign: TextAlign.center,
                 ),
-              ] else ... [
+              ] else ...[
                 Text(
                   "confirmationView.statusDefault".tr(),
                   style: kMediumRegular.copyWith(
@@ -106,8 +119,6 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   textAlign: TextAlign.center,
                 ),
               ],
-
-
               kVerticalSpacerSmall,
               Text(
                 "${'confirmationView.bookingReference'.tr()} :  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
@@ -135,7 +146,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     // kVerticalSpacerSmall,
                     Row(
                       children: [
-                         Text("flightCharge.total".tr(), style: kGiantHeavy),
+                        Text("flightCharge.total".tr(), style: kGiantHeavy),
                         const Spacer(),
                         MoneyWidget(
                           amount: (confirmationDetail.confirmationModel?.value
@@ -156,23 +167,18 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               kVerticalSpacer,
               kVerticalSpacerSmall,
               const PaymentInfo(),
-
-
               Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   child: FloatingActionButton(
                     onPressed: () {
-
-
                       _controllerSroll.animateTo(
-                      _controllerSroll.position.minScrollExtent,
+                        _controllerSroll.position.minScrollExtent,
                         duration: const Duration(seconds: 1),
                         curve: Curves.fastOutSlowIn,
                       );
-
-
                     },
                     backgroundColor: Styles.kPrimaryColor,
                     child: const Icon(Icons.keyboard_arrow_up),
@@ -186,14 +192,14 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                     ? const AppLoading(
                         size: 20,
                       )
-                    :  Text("flightChange.share".tr()),
+                    : Text("flightChange.share".tr()),
               ),
               kVerticalSpacerSmall,
               ElevatedButton(
                 onPressed: () {
                   context.router.replaceAll([const NavigationRoute()]);
                 },
-                child:  Text("backHome".tr()),
+                child: Text("backHome".tr()),
               ),
             ],
           ),

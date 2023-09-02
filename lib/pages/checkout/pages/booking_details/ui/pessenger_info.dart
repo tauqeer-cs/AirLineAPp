@@ -545,8 +545,13 @@ class _PassengerInfoState extends State<PassengerInfo> {
 
 
       nationalityController.text = profileBloc.state.profile?.userProfile?.nationality ?? '';
+      if(nationalityController.text == 'MY') {
+        nationalityController.text == 'MYS';
+      }
       nationalityController.text =  countryWidgetKey.currentState
           ?.changeCurrentCountry(profileBloc.state.profile?.userProfile?.nationality ?? '') ?? '';
+
+      print(nationalityController.text);
 
     } else {
       changeSetValue(

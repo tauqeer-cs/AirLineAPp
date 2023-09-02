@@ -283,7 +283,7 @@ class Passenger extends HiveObject with EquatableMixin {
     this.infantAssociateIndex = 0,
     this.isPrimaryPassenger = true,
     this.knownTravelerNumber = "",
-    this.nationality = "",
+    this.nationality = "MYS",
     this.nationalityLanguageId = 0,
     this.passport = "",
     this.paxType = "",
@@ -323,6 +323,7 @@ class Passenger extends HiveObject with EquatableMixin {
     return null;
   }
 
+  @JsonKey(name: 'Gender')
   final String? gender;
   @JsonKey(name: 'InfantAssociateIndex')
   final num? infantAssociateIndex;

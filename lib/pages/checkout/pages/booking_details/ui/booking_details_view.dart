@@ -431,9 +431,8 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
                   true
               ? null
               : (value["${person.toString()}$formNameMYRewardId"] as String?),
-          title: (value["${person.toString()}$formNameTitle"] as String?)
-              ?.toUpperCase().replaceAll('.', ''),
-          nationality: value["${person.toString()}$formNameNationality"],
+          title: fixTitle(value, person),
+          nationality: value["${person.toString()}$formNameNationality"] == '' ? 'MYS' : value["${person.toString()}$formNameNationality"],
           dob: value["${person.toString()}$formNameDob"],
           gender: "Male",
           relation: "Self",
@@ -518,6 +517,53 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
 
       });
     }
+  }
+
+  String? fixTitle(Map<String, dynamic> value, Person person) {
+    var valueOf = (value["${person.toString()}$formNameTitle"] as String?)
+        ?.toUpperCase().replaceAll('.', '');
+
+    if(valueOf == 'TAN SRI'){
+      return 'TANSRI';
+    }
+    if(valueOf == 'TOH PUAN'){
+      return 'TOHPN';
+    }
+    if(valueOf == 'TAN SRO'){
+      return 'TANSRI';
+    }
+    if(valueOf == 'PUAN SRI'){
+      return 'PNSRI';
+    }
+    if(valueOf == 'MASTER'){
+      return 'MSTR';
+    }
+    if(valueOf == 'DATO SERI') {
+      return 'DTSR';
+    }
+    if(valueOf == 'DATIN SRI'){
+      return 'DTSRI';
+    }
+    if(valueOf == 'DATO SRI'){
+      return 'DTSR';
+    }
+    if(valueOf == 'DATIN SERI'){
+      return 'DTSER';
+    }
+    if(valueOf == 'DATIN SERI'){
+      return 'DTSER';
+    }
+    if(valueOf == 'DATUK SRI'){
+      return 'DTKSRI';
+    }
+    if(valueOf == 'DATUK SERI'){
+      return 'DTKSR';
+    }
+    if(valueOf == 'DATO\u0027 SRI'){
+      return 'DT\u0027SR';
+    }
+    return (value["${person.toString()}$formNameTitle"] as String?)
+            ?.toUpperCase().replaceAll('.', '');
   }
 
   String makeLowerCaseName(
