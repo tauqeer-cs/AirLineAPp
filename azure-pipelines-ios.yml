@@ -1,0 +1,62 @@
+trigger:
+  - develop 
+
+- stage: iOSStage
+  pool: 
+    name: 'default'
+    vmImage: 'macos-latest'
+  dependsOn: []
+  displayName: iOS
+  jobs:
+ 
+  - job: iOSJob
+    displayName: iOS
+    steps:
+
+    - task: InstallAppleCertificate@2
+      displayName: Install certificate
+      inputs:
+        certSecureFile: 'AuthKey_CC8AK4683X.p8'
+        #certPwd: 'yourPwd'
+        keychain: 'temp'
+
+    - task: InstallAppleProvisioningProfile@1
+      displayName: Install provisioning file
+      inputs:
+        provisioningProfileLocation: 'secureFiles'
+        provProfileSecureFile: 'MYAirline_ExpiredOn20231117.mobileprovision'
+
+    - task: FlutterInstall@0
+      displayName: "Install Flutter SDK"
+      inputs:
+        channel: 'stable'
+        version: 'custom'
+        customVersion: '3.7.3'
+
+    - task: FlutterCommand@0
+      displayName: "Run Flutter diagnostics"
+      inputs:
+        projectDirectory: '.'
+        arguments: 'doctor -v'
+
+    - task: FlutterBuild@0
+      displayName: "Build application"
+      inputs:
+        target: ipa
+        projectDirectory: '$(Build.SourcesDirectory)'
+        exportOptionsPlist: 'ios/runner/Info.plist'
+
+    - task: CopyFiles@2
+      displayName: "Copy app to staging directory"
+      inputs:
+        sourceFolder: '$(Agent.BuildDirectory)'
+        contents: '**/ipa/*.ipa'
+        targetFolder: '$(Build.StagingDirectory)'
+        flattenFolders: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: "Publish IPA file"
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'IPA'
+        publishLocation: 'Container'        
