@@ -14,12 +14,12 @@ stages:
     displayName: iOS
     steps:
 
-    - task: InstallAppleCertificate@2
-      displayName: Install certificate
-      inputs:
-        certSecureFile: 'AuthKey_CC8AK4683X.p8'
+    #- task: InstallAppleCertificate@2
+    #  displayName: Install certificate
+    #  inputs:
+    #    certSecureFile: 'AuthKey_CC8AK4683X.p8'
         #certPwd: 'yourPwd'
-        keychain: 'temp'
+    #    keychain: 'temp'
 
     - task: InstallAppleProvisioningProfile@1
       displayName: Install provisioning file
