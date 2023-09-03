@@ -825,5 +825,6 @@
   "passportExpDate" : "Passport Expiry Date",
   "pay" : "Pay",
   "checkInErrorInfo" : "• Passport number and name keyed in\n  match the number and name shown on \n  your passport.\n• Your passport is valid and fulfils the \n  regulations set by the destination country.\n• Your passport meets the minimum validity \n  rule set by the destination country. \n• You have ALL the required supporting \n  travel document(s) and/or other relevant \n  secondary document(s) ready. Do also verify \n  them at the airport check-in counter\n• Passenger, Contact and Emergency Contact Information are checked & correctly filled in, for your “Manage Booking” section.",
-  "mandatoryRequired" : "(Mandatory field\nrequired)"
+  "mandatoryRequired" : "(Mandatory field\nrequired)",
+  "backToMmb" : "Back to Manage Booking"
 }

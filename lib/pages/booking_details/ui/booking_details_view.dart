@@ -108,7 +108,9 @@ class ManageBookingDetailsView extends StatelessWidget {
 
     var voucherBloc = context.watch<VoucherCubit>();
     var voucherState = voucherBloc.state;
-    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts?.firstOrNull?.discountAmount ?? 0;
+    final discount = voucherState.response?.addVoucherResult?.voucherDiscounts
+            ?.firstOrNull?.discountAmount ??
+        0;
 
     if (selectedPax == null) {
       print('');
@@ -245,8 +247,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             ),
                                             Expanded(
                                               child: FlightDataInfo(
-                                                headingLabel:
-                                                    'return'.tr(),
+                                                headingLabel: 'return'.tr(),
                                                 dateToShow: state
                                                         .manageBookingResponse
                                                         ?.result
@@ -619,23 +620,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: ManageFlightSummary(),
                             ),
-
-
                             if (bloc?.state.showingVoucher == true) ...[
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: VoucherCodeUi(
-                                  onOnlyTextRemove: (){
-
+                                  onOnlyTextRemove: () {
                                     _fbKey.currentState!.reset();
                                     voucherBloc.dontShowVoucher();
-
                                   },
                                   readOnly: false,
                                   blocState: voucherState.blocState,
-                                  voucherCodeInitial:  voucherState.dontShowVoucher == true ? '' : (voucherState
-                                          .insertedVoucher?.voucherCode ??
-                                      ''),
+                                  voucherCodeInitial:
+                                      voucherState.dontShowVoucher == true
+                                          ? ''
+                                          : (voucherState.insertedVoucher
+                                                  ?.voucherCode ??
+                                              ''),
                                   state: voucherState,
                                   onRemoveTapped: () {
                                     if (voucherState.response != null) {
@@ -703,20 +703,17 @@ class ManageBookingDetailsView extends StatelessWidget {
                                               }
                                             },
                                   fbKey: _fbKey,
-
                                 ),
                               ),
                               const SizedBox(
                                 height: 16,
                               ),
-
-
                             ] else if (showPax == true) ...[
-
-
-                               Padding(
+                              Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: ContactsSection(fbKey: fbKey2,),
+                                child: ContactsSection(
+                                  fbKey: fbKey2,
+                                ),
                               ),
                               kVerticalSpacer,
                               Padding(
@@ -742,16 +739,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
-
-
                     if (bloc?.state.showingVoucher == true) ...[
-                      if(bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount != null) ... [
-
-                        DiscountSummary(princToShow: (bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount ?? 0).toDouble()),
-
+                      if (bloc
+                              ?.state
+                              .changeSsrResponse
+                              ?.assignFlightAddOnResponse
+                              ?.totalReservationAmount !=
+                          null) ...[
+                        DiscountSummary(
+                            princToShow: (bloc
+                                        ?.state
+                                        .changeSsrResponse
+                                        ?.assignFlightAddOnResponse
+                                        ?.totalReservationAmount ??
+                                    0)
+                                .toDouble()),
                       ],
-
-
                       SummaryContainer(
                         child: bloc?.state.isPaying == true
                             ? const AppLoading()
@@ -768,18 +771,22 @@ class ManageBookingDetailsView extends StatelessWidget {
                                     MoneyWidget(
                                       isDense: false,
                                       currency: bloc
-                                          ?.state
-                                          .manageBookingResponse
-                                          ?.result
-                                          ?.passengersWithSSR
-                                          ?.first
-                                          .fareAndBundleDetail
-                                          ?.currencyToShow ??
+                                              ?.state
+                                              .manageBookingResponse
+                                              ?.result
+                                              ?.passengersWithSSR
+                                              ?.first
+                                              .fareAndBundleDetail
+                                              ?.currencyToShow ??
                                           'MYR',
-                                      amount:
-                                      (bloc?.state.changeSsrResponse?.assignFlightAddOnResponse?.totalReservationAmount ?? 0.0) - discount,
+                                      amount: (bloc
+                                                  ?.state
+                                                  .changeSsrResponse
+                                                  ?.assignFlightAddOnResponse
+                                                  ?.totalReservationAmount ??
+                                              0.0) -
+                                          discount,
                                     ),
-
                                     ElevatedButton(
                                       onPressed: () async {
                                         BuildContext? cyrreContext =
@@ -964,10 +971,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 // .read<VoucherCubit>()
                                                 // .resetState();
                                               } else {}
-                                            }
-                                            else {
-
-                                            }
+                                            } else {}
                                           }
                                         },
                                         child: Text(
@@ -990,21 +994,41 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
+
+                                        /*
+                                        var cc  = state.manageBookingResponse?.result?.superPNRNo;
+
+                                        context.router.replaceAll([
+                                          const NavigationRoute(),
+                                          BookingConfirmationRoute(
+                                              bookingId: 'FBK8H2D' ?? "",
+                                              status: 'RHI' ?? '',
+                                              isMmb: true,
+
+                                              summary:
+                                              const ManageFlightSummary(),
+
+                                          )
+                                        ]);
+
+                                        return;*/
+
+
+
                                         BuildContext? cyrreContext =
                                             Scaffold.maybeOf(context)?.context;
 
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
-
                                         if (response != null) {
                                           var redirectUrl =
-                                          await bloc?.checkOutForPaymentSSR(
-                                              '', response);
+                                              await bloc?.checkOutForPaymentSSR(
+                                                  '', response);
 
                                           if (redirectUrl != null) {
                                             final result =
-                                            await cyrreContext?.router.push(
+                                                await cyrreContext?.router.push(
                                               WebViewRoute(
                                                   url: "",
                                                   htmlContent: redirectUrl),
@@ -1013,7 +1037,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             if (result != null &&
                                                 result is String) {
                                               final urlParsed =
-                                              Uri.parse(result);
+                                                  Uri.parse(result);
                                               var query =
                                                   urlParsed.queryParametersAll;
                                               String? status =
@@ -1028,14 +1052,14 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                       (BuildContext context) {
                                                     return PaymentSuccessAlert(
                                                       currency: response
-                                                          .assignFlightAddOnResponse
-                                                          ?.currency ??
+                                                              .assignFlightAddOnResponse
+                                                              ?.currency ??
                                                           '',
                                                       amount: response
-                                                          .assignFlightAddOnResponse
-                                                          ?.totalReservationAmount
-                                                          ?.toStringAsFixed(
-                                                          2) ??
+                                                              .assignFlightAddOnResponse
+                                                              ?.totalReservationAmount
+                                                              ?.toStringAsFixed(
+                                                                  2) ??
                                                           '0.00',
                                                     );
                                                   },
@@ -1043,32 +1067,29 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                                                 await bloc
                                                     ?.getBookingInformation(
-                                                    state.lastName ?? '',
-                                                    state.pnrEntered ?? '');
+                                                        state.lastName ?? '',
+                                                        state.pnrEntered ?? '');
 
                                                 reloadView();
 
                                                 //// cyrreContext
                                                 // .read<VoucherCubit>()
                                                 // .resetState();
+                                              } else if (status == 'FAIL') {
                                               } else {
-
                                                 context.router.replaceAll([
                                                   const NavigationRoute(),
                                                   BookingConfirmationRoute(
-                                                    bookingId: superPNR ?? "", status: status ?? '',)
+                                                      bookingId: superPNR ?? "",
+                                                      status: status ?? '',
+                                                      isMmb: true,
+                                                      summary:
+                                                          const ManageFlightSummary())
                                                 ]);
-
-
                                               }
-                                            } else {
-
-
-                                            }
+                                            } else {}
                                           }
                                         }
-
-
                                       },
                                       child: Text(
                                         'pay'.tr(),
@@ -1095,57 +1116,52 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 ?.result
                                                 ?.initalEmergencyEmpty ==
                                             true) {
-
                                           bool checkError = false;
 
-                                          if ( fbKey2.currentState?.validate() == false) {
-
+                                          if (fbKey2.currentState?.validate() ==
+                                              false) {
                                             checkError = true;
                                             //  bloc?.setEmergenctyError(true, true);
 
                                             // return;
                                           }
 
+                                          bloc?.setEmergenctyError(
+                                              false, checkError);
 
-
-
-                                          bloc?.setEmergenctyError(false, checkError);
-
-                                          if(checkError == false){
+                                          if (checkError == false) {
                                             bloc?.saveContactChanges();
                                           }
-
-
                                         } else {
-
                                           //fbKey.currentState?.validate() ==
                                           //                                               false &&
 
-                                          bool checkError = false , checkErrorE = false;
+                                          bool checkError = false,
+                                              checkErrorE = false;
 
-                                          if ( fbKey2.currentState?.validate() == false) {
-
+                                          if (fbKey2.currentState?.validate() ==
+                                              false) {
                                             checkError = true;
                                             //  bloc?.setEmergenctyError(true, true);
 
-                                           // return;
+                                            // return;
                                           }
 
-                                          if ( fbKey.currentState?.validate() == false) {
-
+                                          if (fbKey.currentState?.validate() ==
+                                              false) {
                                             checkErrorE = true;
                                             //  bloc?.setEmergenctyError(true, true);
 
                                             //return;
                                           }
 
+                                          bloc?.setEmergenctyError(
+                                              checkErrorE, checkError);
 
-                                          bloc?.setEmergenctyError(checkErrorE, checkError);
-
-                                          if(checkError == false && checkErrorE == false){
-                                           bloc?.saveContactChanges();
+                                          if (checkError == false &&
+                                              checkErrorE == false) {
+                                            bloc?.saveContactChanges();
                                           }
-
                                         }
                                         return;
                                       },
@@ -1643,7 +1659,6 @@ class ManageFlightSummary extends StatelessWidget {
 
     var ccc = bloc.noOfNewMeals;
 
-
     var totalPrice = bloc.confirmedSeatsTotalPrice +
         bloc.confirmedMealsTotalPrice +
         bloc.confirmedBaggageTotalPrice +
@@ -1710,7 +1725,6 @@ class ManageFlightSummary extends StatelessWidget {
                 if (bloc.state.insuranceType == InsuranceType.all ||
                     bloc.state.insuranceType == InsuranceType.selected) ...[
                   if (bloc.confirmedInsruanceTotalPrice > 0) ...[
-
                     InsurancesSummaryDetail(
                       isManageBooking: true,
                     ),

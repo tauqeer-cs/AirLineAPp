@@ -55,6 +55,17 @@ class _ConfirmationViewState extends State<ConfirmationView> {
     Share.shareXFiles([XFile('$directory/$fileName')]);
   }
 
+  bool isPendingStatus() {
+    if(widget.status == 'PPB' ||
+        widget.status == 'BIP' ||
+        widget.status == 'PPA' ||
+        widget.status == 'PEN'){
+      return true;
+    }
+
+    return false;
+
+  }
   @override
   Widget build(BuildContext context) {
     final confirmationDetail = context.watch<ConfirmationCubit>().state;
@@ -83,14 +94,12 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   widget.status == 'BIP' ||
                   widget.status == 'PPA' ||
                   widget.status == 'PEN') ...[
-
-                    Text(
+                Text(
                   "confirmationView.bookingPayment".tr(),
                   style: kMediumRegular.copyWith(
                       color: Styles.kSubTextColor, height: 1.5),
                   textAlign: TextAlign.center,
                 ),
-
               ] else if (widget.status == 'EXP') ...[
                 Text(
                   "confirmationView.statusExpired".tr(),
@@ -120,87 +129,131 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                 ),
               ],
               kVerticalSpacerSmall,
-              Text(
-                "${'confirmationView.bookingReference'.tr()} :  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
-                style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
-                textAlign: TextAlign.center,
-              ),
-              kVerticalSpacer,
-              AppCard(
-                child: Column(
-                  children: const [
-                    PassengersWidget(),
-                  ],
+
+              if(this.widget.isMMb == true) ... [
+                Text(
+                  "${'confirmationView.bookingReference'.tr()} :  ${widget.pnr}",
+                  style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                  textAlign: TextAlign.center,
                 ),
-              ),
+              ] else ... [
+                Text(
+                  "${'confirmationView.bookingReference'.tr()} :  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
+                  style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+
+              kVerticalSpacer,
+              if(widget.isMMb == true) ... [
+                if(isPendingStatus() == true) ... [
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 16),
+                    child: PaymentInfo(showPending: true,isMMB: true,forcePending: true,),
+                  ),
+                ],
+              ],
+              if (this.widget.isMMb == true) ...[
+                if(isPendingStatus())  ... [
+                  widget.summaryToShow!,
+                  kVerticalSpacer,
+                ] else ... [
+
+                  SizedBox(height: MediaQuery.of(context).size.height/1.5,),
+                ],
+
+
+                ElevatedButton(
+                  onPressed: () {
+                    context.router.replaceAll([const NavigationRoute()]);
+                  },
+                  child: Text("backToMmb".tr()),
+                ),
+              ] else ...[
+                AppCard(
+                  child: Column(
+                    children: const [
+                      const PaymentInfo(),
+                      PassengersWidget(),
+                    ],
+                  ),
+                ),
+              ],
               kVerticalSpacer,
               const SummaryWidget(),
               kVerticalSpacer,
-              AppCard(
-                child: Column(
-                  children: [
-                    //1 == 1 ? Container() :
-                    const ConfirmationPromo(),
-                    // kVerticalSpacerSmall,
-                    // const AppDividerWidget(),
-                    // kVerticalSpacerSmall,
-                    Row(
-                      children: [
-                        Text("flightCharge.total".tr(), style: kGiantHeavy),
-                        const Spacer(),
-                        MoneyWidget(
-                          amount: (confirmationDetail.confirmationModel?.value
-                                      ?.superPNROrder?.totalBookingAmt ??
-                                  0) -
-                              (confirmationDetail.confirmationModel?.value
-                                      ?.superPNROrder?.voucherDiscountAmt ??
-                                  0),
-                          isDense: false,
-                          isNormalMYR: true,
-                          currency: currencyToShow,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              kVerticalSpacer,
-              kVerticalSpacerSmall,
-              const PaymentInfo(),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      _controllerSroll.animateTo(
-                        _controllerSroll.position.minScrollExtent,
-                        duration: const Duration(seconds: 1),
-                        curve: Curves.fastOutSlowIn,
-                      );
-                    },
-                    backgroundColor: Styles.kPrimaryColor,
-                    child: const Icon(Icons.keyboard_arrow_up),
+
+              if(this.widget.isMMb == true) ... [
+
+              ] else ... [
+                AppCard(
+                  child: Column(
+                    children: [
+                      //1 == 1 ? Container() :
+                      const ConfirmationPromo(),
+                      // kVerticalSpacerSmall,
+                      // const AppDividerWidget(),
+                      // kVerticalSpacerSmall,
+                      Row(
+                        children: [
+                          Text("flightCharge.total".tr(), style: kGiantHeavy),
+                          const Spacer(),
+                          MoneyWidget(
+                            amount: (confirmationDetail.confirmationModel?.value
+                                ?.superPNROrder?.totalBookingAmt ??
+                                0) -
+                                (confirmationDetail.confirmationModel?.value
+                                    ?.superPNROrder?.voucherDiscountAmt ??
+                                    0),
+                            isDense: false,
+                            isNormalMYR: true,
+                            currency: currencyToShow,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              kVerticalSpacer,
-              OutlinedButton(
-                onPressed: isLoading ? null : onShare,
-                child: isLoading
-                    ? const AppLoading(
-                        size: 20,
-                      )
-                    : Text("flightChange.share".tr()),
-              ),
-              kVerticalSpacerSmall,
-              ElevatedButton(
-                onPressed: () {
-                  context.router.replaceAll([const NavigationRoute()]);
-                },
-                child: Text("backHome".tr()),
-              ),
+                kVerticalSpacer,
+                kVerticalSpacerSmall,
+                const PaymentInfo(),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        _controllerSroll.animateTo(
+                          _controllerSroll.position.minScrollExtent,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.fastOutSlowIn,
+                        );
+                      },
+                      backgroundColor: Styles.kPrimaryColor,
+                      child: const Icon(Icons.keyboard_arrow_up),
+                    ),
+                  ),
+                ),
+                kVerticalSpacer,
+                OutlinedButton(
+                  onPressed: isLoading ? null : onShare,
+                  child: isLoading
+                      ? const AppLoading(
+                    size: 20,
+                  )
+                      : Text("flightChange.share".tr()),
+                ),
+                kVerticalSpacerSmall,
+                ElevatedButton(
+                  onPressed: () {
+                    context.router.replaceAll([const NavigationRoute()]);
+                  },
+                  child: Text("backHome".tr()),
+                ),
+              ],
+
+
             ],
           ),
         ),

@@ -223,6 +223,9 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           bookingId: args.bookingId,
           status: args.status,
+          isMMb: args.isMmb,
+          summaryToShow: args.summary,
+          pnr: args.pnr,
         ),
       );
     },
@@ -1190,6 +1193,10 @@ class BookingConfirmationRoute
     Key? key,
     required String bookingId,
     required String status,
+    required bool isMmb,
+    Widget? summary,
+    String? pnr
+
   }) : super(
           BookingConfirmationRoute.name,
           path: '/booking-confirmation/:id',
@@ -1197,6 +1204,9 @@ class BookingConfirmationRoute
             key: key,
             bookingId: bookingId,
             status: status,
+              isMmb : isMmb,
+              summary : summary,
+            pnr: pnr ?? '',
           ),
           rawPathParams: {'id': bookingId},
         );
@@ -1209,6 +1219,9 @@ class BookingConfirmationRouteArgs {
     this.key,
     required this.bookingId,
     required this.status,
+    required this.isMmb,
+    this.summary,
+    this.pnr = '',
   });
 
   final Key? key;
@@ -1216,6 +1229,10 @@ class BookingConfirmationRouteArgs {
   final String bookingId;
 
   final String status;
+  final String pnr;
+  final bool isMmb;
+  final Widget? summary;
+
 
   @override
   String toString() {

@@ -18,6 +18,7 @@ class ConfirmationCubit extends Cubit<ConfirmationState> {
   ConfirmationCubit() : super(const ConfirmationState());
 
   String get bookingViewHeading {
+
     if (state.bookingStatus.isEmpty) {
       return 'confirmation'.tr();
     } else if (state.bookingStatus == 'PPB' || state.bookingStatus == 'BIP') {
@@ -82,5 +83,16 @@ class ConfirmationCubit extends Cubit<ConfirmationState> {
 
       ),
     );
+  }
+
+  void refreshData2() async {
+    emit(state.copyWith(blocState: BlocState.loading));
+
+
+    await Future.delayed(const Duration(seconds: 6));
+
+    emit(state.copyWith(blocState: BlocState.finished));
+
+
   }
 }

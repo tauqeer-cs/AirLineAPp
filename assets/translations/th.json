@@ -821,6 +821,7 @@
   "passportExpDate" : "หนังสือเดินทางหมดอายุ",
   "pay" : "ชำระเงิน",
   "checkInErrorInfo" : "• หมายเลขหนังสือเดินทางและชื่อที่ป้อนตรงกับหมายเลขและชื่อที่ปรากฏบนหนังสือเดินทางของคุณ\n• หนังสือเดินทางของคุณถูกต้องและเป็นไปตามระเบียบที่กำหนดโดยประเทศปลายทาง\n• หนังสือเดินทางของคุณเป็นไปตามกฎอายุขั้นต่ำที่กำหนดโดยประเทศปลายทาง \n• คุณมีเอกสารการเดินทางที่จำเป็นทั้งหมดและ/หรือเอกสารรองอื่นๆ ที่เกี่ยวข้องพร้อมแล้ว ตรวจสอบด้วย\n  ที่เคาน์เตอร์เช็คอินในสนามบิน\n• Passenger, Contact and Emergency Contact Information are checked & correctly filled in, for your “Manage Booking” section.",
-  "mandatoryRequired" : "Mandatory field\nrequired"
+  "mandatoryRequired" : "Mandatory field\nrequired",
+  "backToMmb" : "Back to Manage Booking"
 }
 

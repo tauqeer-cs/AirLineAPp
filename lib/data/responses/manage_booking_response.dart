@@ -485,9 +485,22 @@ class Result {
 
   bool initalEmergencyEmpty = false;
 
+  num? superPNRID;
+  String? superPNRNo = '';
+
   Result.fromJson(Map<String, dynamic> json) {
      superPNR =
         json['superPNR'] != null ? SuperPNR.fromJson(json['superPNR']) : null;
+
+     if(superPNR != null) {
+       if(superPNR?.superPNRID != null) {
+         superPNRID = superPNR?.superPNRID;
+       }
+       if(superPNR?.superPNRNo != null) {
+         superPNRNo = superPNR?.superPNRNo;
+       }
+
+     }
     superPNROrder = json['superPNROrder'] != null
         ? SuperPNROrder.fromJson(json['superPNROrder'])
         : null;

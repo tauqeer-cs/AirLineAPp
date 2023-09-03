@@ -13,7 +13,7 @@ import '../../../../../widgets/containers/app_expanded_section.dart';
 
 class PaymentInfo extends StatefulWidget {
   final bool isMMB;
-
+  final bool forcePending;
   final bool isChange;
   final bool showPending;
 
@@ -24,6 +24,7 @@ class PaymentInfo extends StatefulWidget {
       this.isChange = false,
         this.isMMB = false,
       this.paymentOrders,
+        this.forcePending = false,
       this.showPending = false})
       : super(key: key);
 
@@ -43,10 +44,24 @@ class _PaymentInfoState extends State<PaymentInfo> {
 
     ManageBookingCubit? bloc;
     String paymentState = '';
+    if(widget.forcePending == true){
+      payments = context
+          .watch<ConfirmationCubit>()
+          .state
+          .confirmationModel
+          ?.value
+          ?.paymentOrders;
+
+      confirmationBloc = context
+          .watch<ConfirmationCubit>();
+
+      paymentState = context.watch<ConfirmationCubit>().state.bookingStatus;
+    }
     if (widget.isChange || widget.isMMB) {
       payments = widget.paymentOrders;
       bloc = context.watch<ManageBookingCubit>();
-    } else {
+    }
+    else {
       payments = context
           .watch<ConfirmationCubit>()
           .state
@@ -65,10 +80,31 @@ class _PaymentInfoState extends State<PaymentInfo> {
     return AppCard(
       child: Column(
         children: [
-          if ((
+          if(this.widget.forcePending == true) ... [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "paymentView.paymentTitle".tr(),
+                style: kHugeSemiBold,
+              ),
+            ),
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 120, horizontal: 60),
+              child: OutlinedButton(
+                onPressed: () {
+
+                    confirmationBloc?.refreshData2();
+
+                },
+                child: const Text('Refresh'),
+              ),
+            ),
+          ]
+          else if ((
               (
               (payments?.isEmpty ?? false) ) &&
-              (paymentState == 'PPB' || paymentState == 'BIP') )
+              (paymentState == 'PPB' || paymentState == 'BIP' || paymentState == 'PPA' || paymentState == 'PEN') )
           || ( widget.isChange && widget.showPending)
 
           ) ...[
