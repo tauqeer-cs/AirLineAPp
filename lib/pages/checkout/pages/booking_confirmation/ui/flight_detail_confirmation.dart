@@ -9,6 +9,10 @@ import 'package:app/widgets/app_divider_widget.dart';
 import 'package:app/widgets/containers/app_expanded_section.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../blocs/booking/booking_cubit.dart';
+import '../../../../../blocs/search_flight/search_flight_cubit.dart';
 
 class FlightDetailConfirmation extends StatefulWidget {
   final String title;
@@ -38,6 +42,7 @@ class _FlightDetailConfirmationState extends State<FlightDetailConfirmation> {
 
   @override
   Widget build(BuildContext context) {
+
     final locale = context.locale.toString();
 
     return Column(

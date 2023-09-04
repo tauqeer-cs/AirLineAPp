@@ -5,6 +5,8 @@ class SearchFlightState extends Equatable {
   final FilterState? filterState;
   final BlocState blocState;
   final String message;
+  final String? promoUsed;
+
 
   final bool? isVisaPromo;
 
@@ -15,6 +17,7 @@ class SearchFlightState extends Equatable {
     this.message = '',
     this.filterState,
     this.isVisaPromo,
+    this.promoUsed,
   });
 
   SearchFlightState copyWith({
@@ -22,7 +25,8 @@ class SearchFlightState extends Equatable {
     String? message,
     FilterState? filterState,
     SearchFlightResponse? flights,
-    bool? visaPromo
+    bool? visaPromo,
+    String? promoUsed,
   }) {
     return SearchFlightState(
       blocState: blocState ?? this.blocState,
@@ -30,11 +34,12 @@ class SearchFlightState extends Equatable {
       filterState: filterState ?? this.filterState,
       flights: flights ?? this.flights,
       isVisaPromo: visaPromo ?? isVisaPromo,
+      promoUsed: promoUsed ?? this.promoUsed
     );
   }
 
   @override
-  List<Object?> get props => [flights, blocState, message, filterState,isVisaPromo];
+  List<Object?> get props => [flights, blocState, message, filterState,isVisaPromo,promoUsed];
 
   void reloadView() {}
 

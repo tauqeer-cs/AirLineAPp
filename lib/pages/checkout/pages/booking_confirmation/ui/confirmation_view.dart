@@ -54,7 +54,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
     final confirmationDetail = context.watch<ConfirmationCubit>().state;
     final currencyToShow = context.watch<ConfirmationCubit>().state.confirmationModel?.value?.fareAndBundleDetail?.currencyToShow ?? 'MYR';
 
-    return SingleChildScrollView(
+    return  SingleChildScrollView(
       controller: _controllerSroll,
 
       child: Screenshot(

@@ -6,14 +6,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def defProperties = new Properties()
-def defPropertiesFile = rootProject.file('key.properties')
-if (defPropertiesFile.exists()) {
-    defPropertiesFile.withReader('UTF-8') { reader ->
-        defProperties.load(reader)
-    }
-}
-
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
@@ -92,12 +84,6 @@ android {
                 storePassword System.getenv()["CM_KEYSTORE_PASSWORD"]
                 keyAlias System.getenv()["CM_KEY_ALIAS"]
                 keyPassword System.getenv()["CM_KEY_PASSWORD"]
-            }
-            else {
-                keyAlias defProperties['keyAlias']
-                keyPassword defProperties['keyPassword']
-                storeFile file(defProperties['storeFile'])
-                storePassword defProperties['storePassword']
             }
         }
     }

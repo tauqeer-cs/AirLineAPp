@@ -16,9 +16,11 @@ class FeeAndTaxesDetailDetailed extends StatelessWidget {
   final bool isDeparture;
   final double? padding;
   final bool hideTicket;
+  final String? promoName;
+  final num? promoAmount;
 
 
-  const FeeAndTaxesDetailDetailed({Key? key, required this.isDeparture, this.padding,  this.hideTicket = false})
+  const FeeAndTaxesDetailDetailed({Key? key, required this.isDeparture, this.padding,  this.hideTicket = false, this.promoName, this.promoAmount})
       : super(key: key);
 
   @override
@@ -165,6 +167,26 @@ class FeeAndTaxesDetailDetailed extends StatelessWidget {
         ],
 
 
+        if(promoName != null) ... [
+          PriceContainer(
+            padding: padding,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    this.promoName ?? '',
+                    style:
+                    kSmallRegular.copyWith(color: Styles.kTextColor),
+                  ),
+                ),
+                kHorizontalSpacerMini,
+                MoneyWidgetSmall(amount: promoAmount ?? 0.0, isDense: true,currency: currency,isNegative: true,),
+
+              ],
+            ),
+          ),
+        ],
         if (discountTotal > 0 && ConstantUtils.showPromoInFeesAndTaxes) ...[
           Visibility(
             visible: (filter?.numberPerson.numberOfInfant ?? 0) > 0,

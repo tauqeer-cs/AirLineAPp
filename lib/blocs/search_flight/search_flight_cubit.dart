@@ -50,10 +50,12 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     final persons =
         List<Person>.from(state.filterState?.numberPerson.persons ?? []);
     Bundle? wheelChair;
-    if(okId?.isNotEmpty ?? false){
-      wheelChair = wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHC");
-    }else{
-      wheelChair = wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHR");
+    if (okId?.isNotEmpty ?? false) {
+      wheelChair =
+          wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHC");
+    } else {
+      wheelChair =
+          wheelChairs.firstWhereOrNull((element) => element.codeType == "WCHR");
     }
     wheelChair ??= wheelChairs.firstOrNull;
 
@@ -179,51 +181,41 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     required bool isDeparture,
     required bool isAdd,
   }) {
-
-
     final persons =
         List<Person>.from(state.filterState?.numberPerson.persons ?? []);
     final selected = persons.indexWhere((element) => element == person);
 
-    if(isAdd) {
-      if(isDeparture) {
-        if((person?.departureMeal ?? []).isNotEmpty ){
+    if (isAdd) {
+      if (isDeparture) {
+        if ((person?.departureMeal ?? []).isNotEmpty) {
           num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
           //BDMC
-          var allThisTypeOfMeal = person?.departureMeal.where((element) => element.codeType == meal.codeType).toList();
+          var allThisTypeOfMeal = person?.departureMeal
+              .where((element) => element.codeType == meal.codeType)
+              .toList();
 
-          if((allThisTypeOfMeal ?? []).isNotEmpty){
-
-            if(allThisTypeOfMeal!.length >= maxCountAllowe) {
+          if ((allThisTypeOfMeal ?? []).isNotEmpty) {
+            if (allThisTypeOfMeal!.length >= maxCountAllowe) {
               return;
             }
           }
-
-
         }
-      }
-      else {
-        if((person?.returnMeal ?? []).isNotEmpty ){
+      } else {
+        if ((person?.returnMeal ?? []).isNotEmpty) {
           num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
           //BDMC
-          var allThisTypeOfMeal = person?.returnMeal.where((element) => element.codeType == meal.codeType).toList();
+          var allThisTypeOfMeal = person?.returnMeal
+              .where((element) => element.codeType == meal.codeType)
+              .toList();
 
-          if((allThisTypeOfMeal ?? []).isNotEmpty){
-
-            if(allThisTypeOfMeal!.length >= maxCountAllowe) {
+          if ((allThisTypeOfMeal ?? []).isNotEmpty) {
+            if (allThisTypeOfMeal!.length >= maxCountAllowe) {
               return;
             }
           }
-
-
         }
       }
     }
-
-
-
-
-
 
     if (selected >= 0) {
       final person = persons[selected];
@@ -231,12 +223,10 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
           ? List<Bundle>.from(person.departureMeal)
           : List<Bundle>.from(person.returnMeal);
       if (isAdd) {
-
         meals.add(meal);
-        if(isAdd){
-          if(meals.length == 10) {
+        if (isAdd) {
+          if (meals.length == 10) {
             //return;
-
           }
         }
       } else {
@@ -314,57 +304,54 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
-  searchFlights(FilterState filterState,String currency) async {
+  searchFlights(FilterState filterState, String currency) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      var request = SearchFlight.fromFilter(filterState,currency);
-      if(request.searchFlightRequest?.departDate != null) {
-        var dateObjectDepart = DateTime.parse(request.searchFlightRequest?.departDate ?? '');
+      var request = SearchFlight.fromFilter(filterState, currency);
+      if (request.searchFlightRequest?.departDate != null) {
+        var dateObjectDepart =
+            DateTime.parse(request.searchFlightRequest?.departDate ?? '');
 
         bool isToday = isSameDay(dateObjectDepart, DateTime.now());
 
-        if(isToday == true){
-
-
- //         request.searchFlightRequest?.departDate = ;
-          var newOne = request.searchFlightRequest!.copyWith(departDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(DateTime.now().add(const Duration(minutes: 5))));
+        if (isToday == true) {
+          //         request.searchFlightRequest?.departDate = ;
+          var newOne = request.searchFlightRequest!.copyWith(
+              departDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+                  .format(DateTime.now().add(const Duration(minutes: 5))));
           request = request.copyWith(searchFlightRequest: newOne);
-
         }
         print('');
 
-
-        if(request.searchFlightRequest?.returnDate != null) {
-          var dateObjectReturn = DateTime.parse(request.searchFlightRequest?.returnDate ?? '');
+        if (request.searchFlightRequest?.returnDate != null) {
+          var dateObjectReturn =
+              DateTime.parse(request.searchFlightRequest?.returnDate ?? '');
 
           isToday = isSameDay(dateObjectReturn, DateTime.now());
 
-
-          if(isToday == true){
-
-            var newOne = request.searchFlightRequest!.copyWith(returnDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(DateTime.now().add(const Duration(minutes: 5))));
+          if (isToday == true) {
+            var newOne = request.searchFlightRequest!.copyWith(
+                returnDate: DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+                    .format(DateTime.now().add(const Duration(minutes: 5))));
             request = request.copyWith(searchFlightRequest: newOne);
-
           }
         }
-
-
       }
       final airports = await _repository.searchFlightRepo(request);
       emit(
         state.copyWith(
-          blocState: BlocState.finished,
-          filterState: filterState,
-          flights: airports.searchFlightResponse,
-          visaPromo: airports.isVisaCampaign,
-        ),
+            blocState: BlocState.finished,
+            filterState: filterState,
+            flights: airports.searchFlightResponse,
+            visaPromo: airports.isVisaCampaign,
+            promoUsed: filterState.promoCode),
       );
     } catch (e, st) {
       emit(
         state.copyWith(
-          message: ErrorUtils.getErrorMessage(e, st),
-          blocState: BlocState.failed,
-        ),
+            message: ErrorUtils.getErrorMessage(e, st),
+            blocState: BlocState.failed,
+            promoUsed: filterState.promoCode),
       );
     }
   }

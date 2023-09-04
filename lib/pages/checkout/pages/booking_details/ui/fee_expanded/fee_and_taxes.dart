@@ -45,6 +45,19 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
         discountPercent != null &&
         (discountPercent > 0)) {}
 
+    num? promoAmount = bookingTotal.selectedDeparture?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.promotionAmount;
+
+    String? promoName;
+
+    if(widget.isDeparture == false){
+
+      promoAmount = bookingTotal.selectedReturn?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.promotionAmount;
+    }
+
+    if((promoAmount ?? 0.0) > 0){
+      promoName = filter?.promoCode;
+    }
+
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -76,9 +89,12 @@ class _FeeAndTaxesState extends State<FeeAndTaxes> {
             ),
           ),
         ),
+
         FeeAndTaxesDetailDetailed(
           isDeparture: widget.isDeparture,
           padding: 0,
+          promoAmount: promoAmount,
+          promoName: promoName,
         ),
         Visibility(
           visible: (filter?.numberPerson.getTotalBundlesPartial(

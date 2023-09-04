@@ -36,6 +36,20 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
     final insurance = context.watch<InsuranceCubit>().state.totalInsurance();
     print("insurance is $insurance");
     final bookingTotal = context.watch<BookingCubit>().state;
+
+
+    num? promoAmount = bookingTotal.selectedDeparture?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.promotionAmount;
+
+    String? promoName;
+
+    if(widget.isDeparture == false){
+
+      promoAmount = bookingTotal.selectedReturn?.fareTypeWithTaxDetails?.first.fareInfoWithTaxDetails?.first.promotionAmount;
+    }
+
+    if((promoAmount ?? 0.0) > 0){
+      promoName = filter?.promoCode;
+    }
     return Column(
       children: [
         kVerticalSpacer,
@@ -51,7 +65,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
                 : bookingTotal.selectedReturn?.getTotalPriceDisplay,
           ),
         ),
-        FeeAndTaxesDetailPayment(isDeparture: widget.isDeparture,currency: widget.currency,),
+        FeeAndTaxesDetailPayment(isDeparture: widget.isDeparture,currency: widget.currency,promoAmount: promoAmount,promoName: promoName,),
         Visibility(
           visible: (filter?.numberPerson
                       .getTotalBundlesPartial(widget.isDeparture) ??
@@ -60,6 +74,7 @@ class _FeeAndTaxesPaymentState extends State<FeeAndTaxesPayment> {
           child: FaresAndBundlesPayment(
             currency: widget.currency,
             isDeparture: widget.isDeparture,
+
 
           ),
         ),

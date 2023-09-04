@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../../blocs/booking/booking_cubit.dart';
+import '../../../../../blocs/search_flight/search_flight_cubit.dart';
+
 class SummaryWidget extends StatelessWidget {
   const SummaryWidget({Key? key}) : super(key: key);
 
@@ -17,6 +20,8 @@ class SummaryWidget extends StatelessWidget {
         context.watch<ConfirmationCubit>().state.confirmationModel?.value;
     final flights = confirmationModel?.flightSegments ?? [];
     final bookingInOut = confirmationModel?.fareSummaryInOut;
+
+
     return Column(
       children: flights
           .map((e) => Column(

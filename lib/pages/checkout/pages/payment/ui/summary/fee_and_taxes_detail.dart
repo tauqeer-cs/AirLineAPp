@@ -19,7 +19,11 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
   final bool isDeparture;
   final String? currency;
 
-  const FeeAndTaxesDetailPayment({Key? key, required this.isDeparture, this.currency})
+  final String? promoName;
+  final num? promoAmount;
+
+
+  const FeeAndTaxesDetailPayment({Key? key, required this.isDeparture, this.currency, this.promoName, this.promoAmount})
       : super(key: key);
 
   @override
@@ -38,6 +42,8 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
     final selectedFlight = isDeparture
         ? bookingState.selectedDeparture
         : bookingState.selectedReturn;
+
+
     if (taxes?.isEmpty ?? true) return const SizedBox();
     log(pnrRequest?.toJson().toString() ?? "");
     num discountTotal = 0;
@@ -90,6 +96,8 @@ class FeeAndTaxesDetailPayment extends StatelessWidget {
           isDeparture: isDeparture,
           hideTicket: true,
           padding: 0,
+          promoName: promoName,
+          promoAmount: promoAmount,
         ),
 
 

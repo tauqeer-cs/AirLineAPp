@@ -14,8 +14,11 @@ import '../../booking_details/ui/fee_expanded/fee_and_taxes_detail.dart';
 class FaresAndBundles extends StatelessWidget {
   final bool isDeparture;
 
+  final String? promo;
+  final num? promoAmount;
 
-  const FaresAndBundles({Key? key, required this.isDeparture})
+
+  const FaresAndBundles({Key? key, required this.isDeparture, this.promo, this.promoAmount})
       : super(key: key);
 
   @override
@@ -69,6 +72,8 @@ class FaresAndBundles extends StatelessWidget {
             isDeparture: isDeparture,
             padding: 0,
             hideTicket: true,
+            promoAmount: promoAmount,
+            promoName: promo,
           ),
           kVerticalSpacerSmall,
 
