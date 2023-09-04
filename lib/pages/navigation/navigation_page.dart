@@ -42,7 +42,9 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     final isLogin =
         context.watch<AuthBloc>().state.status == AppStatus.authenticated;
-    return AutoTabsScaffold(
+    return
+      AutoTabsScaffold(
+
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationBar(
           type: BottomNavigationBarType.fixed,

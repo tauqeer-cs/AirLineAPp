@@ -1311,7 +1311,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   Future<ChangeSsrResponse?> checkSsrChange() async {
     emit(
       state.copyWith(
-        ///isPaying: true,
+        isPaying: true,
       ),
     );
     try {

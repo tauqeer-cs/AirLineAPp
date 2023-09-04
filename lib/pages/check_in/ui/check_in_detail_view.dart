@@ -38,6 +38,15 @@ State<CheckInDetailView> createState() => _CheckInDetailViewState();
 }
 
 class _CheckInDetailViewState extends State<CheckInDetailView> {
+
+  DateTime calculateNextYearDate() {
+    // Calculate the date for January 1st of the next year
+    DateTime currentDate = DateTime.now();
+    print(DateTime(currentDate.year + 1, 1, 1));
+
+    return DateTime(currentDate.year + 1, 1, 1);
+  }
+
   @override
   Widget build(BuildContext context) {
     var bloc = context.watch<CheckInCubit>();
@@ -620,7 +629,8 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
 
 
                           },
-                          initialDate: DateTime.now().add(const Duration(days: 365)),
+                          //initialValue: calculateNextYearDate(),
+                          initialDate: calculateNextYearDate(),
                           initialEntryMode: DatePickerEntryMode.calendar,
                           validator: (value){
 

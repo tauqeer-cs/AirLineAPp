@@ -347,7 +347,7 @@ class Passenger extends HiveObject with EquatableMixin {
         return 'Datin Seri';
       }
       else if(title!.toUpperCase() == 'DTSR') {
-        return 'Dato Sri';
+        return 'Dato Seri';
       }
       else if(title!.toUpperCase() == 'DTSRI') {
         return 'Datin Sri';
