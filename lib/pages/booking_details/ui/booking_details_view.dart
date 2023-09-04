@@ -1076,6 +1076,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 // .read<VoucherCubit>()
                                                 // .resetState();
                                               } else if (status == 'FAIL') {
+                                                Toast.of(context).show(message: 'paymentFailed'.tr());
+
                                               } else {
                                                 context.router.replaceAll([
                                                   const NavigationRoute(),
