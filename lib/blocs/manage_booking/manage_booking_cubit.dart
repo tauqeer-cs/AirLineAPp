@@ -1765,7 +1765,12 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
   String? oringalPNRNo;
 
   Future<bool?> getBookingInformation(String lastName, String bookingReference,
-      {bool? showError}) async {
+      {bool? showError,bool makeWithPaying = false}) async {
+    if(makeWithPaying == true) {
+
+    }else {
+
+    }
     emit(
       state.copyWith(
         isLoadingInfo: true,

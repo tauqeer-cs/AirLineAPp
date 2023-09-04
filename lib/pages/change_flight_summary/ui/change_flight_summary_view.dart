@@ -808,7 +808,8 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                           totalAmountToShow: calculateMoneyToShow(
                               changeFlightRequestResponse, discount),
                         ),
-                        (bloc?.state.loadingCheckoutPayment == true)
+                        (bloc?.state.loadingCheckoutPayment == true ||
+                                bloc?.state.isLoadingInfo == true)
                             ? const AppLoading()
                             : ElevatedButton(
                                 onPressed: (conditionsCheckOne == false ||
@@ -842,6 +843,22 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
 
                                             if (status != "FAIL") {
                                               if (status == 'CON') {
+                                                 bloc
+                                                    ?.getBookingInformation(
+                                                    bloc?.state.lastName ??
+                                                        '',
+                                                    bloc?.state
+                                                        .pnrEntered ??
+                                                        '');
+
+                                                 bloc
+                                                    ?.getBookingInformation(
+                                                    bloc?.state.lastName ??
+                                                        '',
+                                                    bloc?.state
+                                                        .pnrEntered ??
+                                                        '');
+
                                                 await showDialog(
                                                   context: context,
                                                   builder:
@@ -849,15 +866,32 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                                     return PaymentSuccessAlert(
                                                       currency: 'MYR',
                                                       amount: calculateMoneyToShow(
-                                                              changeFlightRequestResponse,
-                                                              discount)?.toStringAsFixed(2) ??
+                                                                  changeFlightRequestResponse,
+                                                                  discount)
+                                                              ?.toStringAsFixed(
+                                                                  2) ??
                                                           '0.00',
                                                     );
                                                   },
                                                 );
 
-                                                return;
+                                                //getBookingsListing
+
+
+
+                                                 context.router.replaceAll([
+                                                   const NavigationRoute(),
+                                                   ManageBookingDetailsRoute(
+
+                                                   ),
+                                                 ]);
+
+
+
+                                                  return;
+
                                               }
+
 
                                               bloc?.reloadDataForConfirmation(
                                                   status ?? '', superPNR ?? '');
@@ -903,7 +937,9 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                         }
                                         //if (flag == true) {}
                                       },
-                                child: Text('continue'.tr()),
+                                child: Text(
+                                  'continue'.tr(),
+                                ),
                               ),
                       ],
                     ),
