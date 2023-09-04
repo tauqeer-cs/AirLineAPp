@@ -130,7 +130,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               ],
               kVerticalSpacerSmall,
 
-              if(this.widget.isMMb == true) ... [
+              if(widget.isMMb == true) ... [
                 Text(
                   "${'confirmationView.bookingReference'.tr()} :  ${widget.pnr}",
                   style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
@@ -153,7 +153,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   ),
                 ],
               ],
-              if (this.widget.isMMb == true) ...[
+              if (widget.isMMb == true) ...[
                 if(isPendingStatus())  ... [
                   widget.summaryToShow!,
                   kVerticalSpacer,
@@ -173,7 +173,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                 AppCard(
                   child: Column(
                     children: const [
-                      const PaymentInfo(),
+                      //const PaymentInfo(),
                       PassengersWidget(),
                     ],
                   ),
@@ -183,7 +183,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
               const SummaryWidget(),
               kVerticalSpacer,
 
-              if(this.widget.isMMb == true) ... [
+              if(widget.isMMb == true) ... [
 
               ] else ... [
                 AppCard(

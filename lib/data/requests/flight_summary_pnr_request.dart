@@ -316,11 +316,62 @@ class Passenger extends HiveObject with EquatableMixin {
 
   String? get titleToShow {
 
+
     if(title != null) {
+
+      /*
+          if (valueOf == '') {
+      return '';
+    }
+    if (valueOf == '') {
+      return '';
+    }
+    if (valueOf == '') {
+      return '';
+    }
+
+      * */
+      if(title!.toUpperCase() == 'DT\u0027SR') {
+        return 'Dato\u0027 Sri';
+      }
+      else if(title!.toUpperCase() == 'DTKSR') {
+        return 'Datuk Seri';
+      }
+      else if(title!.toUpperCase() == 'DTKSRI') {
+        return 'Datuk Sri';
+      }
+      else if(title!.toUpperCase() == 'DTSER') {
+        return 'Datin Seri';
+      }
+      else if(title!.toUpperCase() == 'DTSER') {
+        return 'Datin Seri';
+      }
+      else if(title!.toUpperCase() == 'DTSR') {
+        return 'Dato Sri';
+      }
+      else if(title!.toUpperCase() == 'DTSRI') {
+        return 'Datin Sri';
+      }
+      else if(title!.toUpperCase() == 'DTSR') {
+        return 'Dato Seri';
+      }
+      else if(title!.toUpperCase() == 'MSTR') {
+        return 'Master';
+      }
+      else if(title!.toUpperCase() == 'PNSRI') {
+        return 'Puan Sri';
+      }
+      else if(title!.toUpperCase() == 'TANSRI') {//
+        return 'Tan Sri';
+      }
+      else if(title!.toUpperCase() == 'TOHPN') {//TANSRI
+        return 'Toh Puan';
+      }
+
 
       return title!.capitalize();
     }
-    return null;
+    return '';
   }
 
   @JsonKey(name: 'Gender')

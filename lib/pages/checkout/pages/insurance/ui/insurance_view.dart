@@ -130,6 +130,7 @@ class _InsuranceViewState extends State<InsuranceView> {
 
     }*/
 
+    final insuranceBloc = context.watch<InsuranceCubit>();
 
     return Stack(
       children: [
@@ -168,22 +169,23 @@ class _InsuranceViewState extends State<InsuranceView> {
             ],
           ),
         ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: SummaryContainer(
-            child: Padding(
-              padding: kPagePadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  BookingSummary(
-                      additionalNumber: insuranceState.totalInsurance()),
-                  ElevatedButton(
-                    onPressed: () {
+        if((insurances.isNotEmpty )) ... [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: SummaryContainer(
+              child: Padding(
+                padding: kPagePadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BookingSummary(
+                        additionalNumber: insuranceState.totalInsurance()),
+                    ElevatedButton(
+                      onPressed: insuranceBloc.state.insuranceType == null ? null :  () {
 
-                      /*
+                        /*
                       if(hasSeat) {
                         context.router.push(const PaymentRoute());
                         return;
@@ -191,66 +193,152 @@ class _InsuranceViewState extends State<InsuranceView> {
                       }*/
 
 
-                      final bookingState = context.read<BookingCubit>().state;
-                      final token = bookingState.verifyResponse?.token;
-                      if (token == null) {
-                        Toast.of(context).show(message: "Token is empty");
-                        return;
-                      }
+                        final bookingState = context.read<BookingCubit>().state;
+                        final token = bookingState.verifyResponse?.token;
+                        if (token == null) {
+                          Toast.of(context).show(message: "Token is empty");
+                          return;
+                        }
 
 
-                      final summaryRequest = InsuranceRequest(
-                          token: token,
-                          updateInsuranceRequest: UpdateInsuranceRequest(
-                            isRemoveInsurance: context
-                                .read<InsuranceCubit>()
-                                .state
-                                .anyPassengersHas,
-                            passengers: context
-                                .read<InsuranceCubit>()
-                                .state
-                                .passengersWithOutInfants,
-                          ));
+                        final summaryRequest = InsuranceRequest(
+                            token: token,
+                            updateInsuranceRequest: UpdateInsuranceRequest(
+                              isRemoveInsurance: context
+                                  .read<InsuranceCubit>()
+                                  .state
+                                  .anyPassengersHas,
+                              passengers: context
+                                  .read<InsuranceCubit>()
+                                  .state
+                                  .passengersWithOutInfants,
+                            ));
 
 
 
-                      context
-                          .read<SummaryCubit>()
-                          .submitUpdateInsurance(summaryRequest,(String error){
+                        context
+                            .read<SummaryCubit>()
+                            .submitUpdateInsurance(summaryRequest,(String error){
 
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) {
-                            return WillPopScope(
-                              onWillPop: () async => true,
-                              child: AppConfirmationDialog(
-                                showCloseButton: false,
-                                title: error,
-                                subtitle: "",
-                                onConfirm: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return WillPopScope(
+                                onWillPop: () async => true,
+                                child: AppConfirmationDialog(
+                                  showCloseButton: false,
+                                  title: error,
+                                  subtitle: "",
+                                  onConfirm: () {
 
-                                  context.router.replaceAll([const NavigationRoute()]);
-                                  context.read<TimerBloc>().add(const TimerReset());
+                                    context.router.replaceAll([const NavigationRoute()]);
+                                    context.read<TimerBloc>().add(const TimerReset());
 
-                                },
-                                confirmText: "okay".tr(),
-                              ),
-                            );
-                          },
-                        );
+                                  },
+                                  confirmText: "okay".tr(),
+                                ),
+                              );
+                            },
+                          );
 
-                      });
-                    },
-                    child: Text(
-                      "continue".tr(),
+                        });
+                      },
+                      child: Text(
+                        "continue".tr(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        ] else ... [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: SummaryContainer(
+              child: Padding(
+                padding: kPagePadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    BookingSummary(
+                        additionalNumber: insuranceState.totalInsurance()),
+                    ElevatedButton(
+                      onPressed: () {
+
+                        /*
+                      if(hasSeat) {
+                        context.router.push(const PaymentRoute());
+                        return;
+
+                      }*/
+
+
+                        final bookingState = context.read<BookingCubit>().state;
+                        final token = bookingState.verifyResponse?.token;
+                        if (token == null) {
+                          Toast.of(context).show(message: "Token is empty");
+                          return;
+                        }
+
+
+                        final summaryRequest = InsuranceRequest(
+                            token: token,
+                            updateInsuranceRequest: UpdateInsuranceRequest(
+                              isRemoveInsurance: context
+                                  .read<InsuranceCubit>()
+                                  .state
+                                  .anyPassengersHas,
+                              passengers: context
+                                  .read<InsuranceCubit>()
+                                  .state
+                                  .passengersWithOutInfants,
+                            ));
+
+
+
+                        context
+                            .read<SummaryCubit>()
+                            .submitUpdateInsurance(summaryRequest,(String error){
+
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return WillPopScope(
+                                onWillPop: () async => true,
+                                child: AppConfirmationDialog(
+                                  showCloseButton: false,
+                                  title: error,
+                                  subtitle: "",
+                                  onConfirm: () {
+
+                                    context.router.replaceAll([const NavigationRoute()]);
+                                    context.read<TimerBloc>().add(const TimerReset());
+
+                                  },
+                                  confirmText: "okay".tr(),
+                                ),
+                              );
+                            },
+                          );
+
+                        });
+                      },
+                      child: Text(
+                        "continue".tr(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+
       ],
     );
   }

@@ -78,9 +78,9 @@ class _PassportExpiryDatePickerState extends State<PassportExpiryDatePicker> {
 
   void initSetup() {
     final currentDate = DateTime.now().add(Duration(days: 30));
-    selectedDay = currentDate.day;
-    selectedMonth = currentDate.month;
-    selectedYear = currentDate.year;
+    selectedDay = 1;
+    selectedMonth = 1;
+    selectedYear = currentDate.year+1;
     maxYear = currentDate.year + 10;
     widget.onChanged(selectedDay, selectedMonth, selectedYear,true);
   }

@@ -49,7 +49,7 @@ class CheckingListing extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 0.0.w),
               child: Text(
-                'myBookings'.tr(),
+                'checkInDash'.tr(),
                 style: kGiantHeavy.copyWith(color: Styles.kTextColor),
               ),
             ),

@@ -994,7 +994,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () async {
-
                                         /*
                                         var cc  = state.manageBookingResponse?.result?.superPNRNo;
 
@@ -1012,8 +1011,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ]);
 
                                         return;*/
-
-
 
                                         BuildContext? cyrreContext =
                                             Scaffold.maybeOf(context)?.context;
@@ -1076,17 +1073,19 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                 // .read<VoucherCubit>()
                                                 // .resetState();
                                               } else if (status == 'FAIL') {
-                                                Toast.of(context).show(message: 'paymentFailed'.tr());
-
+                                                Toast.of(context).show(
+                                                    message:
+                                                        'paymentFailed'.tr());
                                               } else {
                                                 context.router.replaceAll([
                                                   const NavigationRoute(),
                                                   BookingConfirmationRoute(
-                                                      bookingId: superPNR ?? "",
-                                                      status: status ?? '',
-                                                      isMmb: true,
-                                                      summary:
-                                                          const ManageFlightSummary())
+                                                    bookingId: superPNR ?? "",
+                                                    status: status ?? '',
+                                                    isMmb: true,
+                                                    summary:
+                                                        const ManageFlightSummary(),
+                                                  )
                                                 ]);
                                               }
                                             } else {}

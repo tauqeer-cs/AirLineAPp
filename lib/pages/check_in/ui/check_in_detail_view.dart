@@ -608,7 +608,7 @@ class _CheckInDetailViewState extends State<CheckInDetailView> {
                           locale: localObject,
                           name: 'formNameDob${i.toString()}',
                           firstDate: DateTime.now().add(const Duration(days: 1)),
-                          lastDate: DateTime.now().add(Duration(days: 5475)),
+                          lastDate: DateTime.now().add(Duration(days: 3660 )),
                           format: DateFormat("dd MMM yyyy",locale),
                           onChanged: (newData) {
 
