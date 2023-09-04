@@ -1,6 +1,6 @@
 {
-  "roundTrip": "Perjalanan Pulang-Pergi",
-  "oneWayTrip": "Perjalanan Sekali Jalan",
+  "roundTrip": "Perjalanan\nPulang-Pergi",
+  "oneWayTrip": "Perjalanan\nSekali Jalan",
   "from": "Dari",
   "to": "Ke",
   "passengers": "Penumpang",
@@ -182,8 +182,6 @@
   "pickMySeats": "Pick my seats for me",
   "systemPickMySeat": "Izinkan sistem memilihkan kursi bagi Anda.",
   "departing": "Berangkat",
-  "flightCharge.total": "Total",
-  "subtotal" : "Subtotal",
   "travellingSports": "Bepergian dengan Perlengkapan Olahraga?",
   "sportsFAQ": "Anda bisa membeli jatah bagasi perlengkapan olahraga apa pun yang tidak melampaui ukuran tertentu. Silakan baca FAQ kami untuk informasi selengkapnya.",
   "carryOnAllowance": "Anda memiliki jatah bagasi jinjing sebesar 7 kg",
