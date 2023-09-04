@@ -51,7 +51,7 @@ class FaresAndBundles extends StatelessWidget {
               amount: detail?.fareAndTax?.totalAmount,
               isDense: true,
               isNormalMYR: true,
-              currency: currency,
+                 currency: currency,
             ),
           ],
         ),

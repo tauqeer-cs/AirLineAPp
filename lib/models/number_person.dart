@@ -25,27 +25,26 @@ class NumberPerson extends Equatable {
   static const adult = NumberPerson(persons: [Person.adult]);
 
   bool get hasAdult {
+    var person = persons.where((e) => e.peopleType == PeopleType.adult)
+        .toList();
 
-    var person = persons.where((e) => e.peopleType == PeopleType.adult).toList();
-
-    if(person.isNotEmpty ){
+    if (person.isNotEmpty) {
       return true;
     }
 
     return false;
-   }
+  }
 
   bool get hasOneAdult {
-
-    var person = persons.where((e) => e.peopleType == PeopleType.adult).toList();
-    if(person.isNotEmpty ){
-      if(person.length == 1) {
+    var person = persons.where((e) => e.peopleType == PeopleType.adult)
+        .toList();
+    if (person.isNotEmpty) {
+      if (person.length == 1) {
         return true;
       }
       return false;
     }
     return false;
-
   }
 
   List<Seats?> selectedSeats(bool isDeparture) {
@@ -60,7 +59,7 @@ class NumberPerson extends Equatable {
   Person? getPersonBySeat(Seats seat, bool isDeparture) {
     if (isDeparture) {
       var returnValue = persons
-        .firstWhereOrNull((element) => element.departureSeats == seat);
+          .firstWhereOrNull((element) => element.departureSeats == seat);
       return returnValue;
     }
     return persons.firstWhereOrNull((element) => element.returnSeats == seat);
@@ -78,31 +77,40 @@ class NumberPerson extends Equatable {
   }
 
   int get numberOfAdult =>
-      persons.where((element) => element.peopleType == PeopleType.adult).length;
+      persons
+          .where((element) => element.peopleType == PeopleType.adult)
+          .length;
 
   int get numberOfChildren =>
-      persons.where((element) => element.peopleType == PeopleType.child).length;
+      persons
+          .where((element) => element.peopleType == PeopleType.child)
+          .length;
 
-  int get numberOfInfant => persons
-      .where((element) => element.peopleType == PeopleType.infant)
-      .length;
+  int get numberOfInfant =>
+      persons
+          .where((element) => element.peopleType == PeopleType.infant)
+          .length;
 
   @override
   String toString() {
     List<String> texts = [];
     if (numberOfAdult > 0) {
       final text =
-          "$numberOfAdult ${numberOfAdult > 1 ? 'customerSelect.adults'.tr() : 'adult'.tr()}";
+          "$numberOfAdult ${numberOfAdult > 1
+          ? 'customerSelect.adults'.tr()
+          : 'adult'.tr()}";
       texts.add(text);
     }
     if (numberOfChildren > 0) {
       final text =
-          "$numberOfChildren ${numberOfChildren > 1 ? 'customerSelect.children'.tr() : 'child'.tr()}";
+          "$numberOfChildren ${numberOfChildren > 1 ? 'customerSelect.children'
+          .tr() : 'child'.tr()}";
       texts.add(text);
     }
     if (numberOfInfant > 0) {
       final text =
-          "$numberOfInfant ${numberOfInfant > 1 ? 'infants'.tr() : 'infant'.tr()}";
+          "$numberOfInfant ${numberOfInfant > 1 ? 'infants'.tr() : 'infant'
+          .tr()}";
       texts.add(text);
     }
     return texts.join(", ");
@@ -238,7 +246,6 @@ class Person extends Equatable {
   final Passenger? passenger;
 
 
-
   const Person({
     this.peopleType,
     this.departureBundle,
@@ -308,7 +315,7 @@ class Person extends Equatable {
     List<Bound> inboundSSR = [];
     //bundle
     final infantIndex = peopleType == PeopleType.adult &&
-            ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))
+        ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))
         ? 1
         : 0;
     //infant
@@ -395,8 +402,8 @@ class Person extends Equatable {
         ),
         seat: Seat(
           outbound:
-              outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ??
-                  const Outbound(),
+          outboundSeat?.copyWith(physicalFlightId: outboundPhysicalId) ??
+              const Outbound(),
           inbound: inboundSeat?.copyWith(physicalFlightId: inboundPhysicalId) ??
               const Outbound(),
         ),
@@ -553,8 +560,8 @@ class Person extends Equatable {
     return false;
   }
 
-  String getPersonSelectorText(
-      bool isActive, bool isDeparture, AddonType addonType,
+  String getPersonSelectorText(bool isActive, bool isDeparture,
+      AddonType addonType,
       {List<Rows> rows = const []}) {
     if (isActive) return "selecting".tr();
     switch (addonType) {
@@ -563,28 +570,31 @@ class Person extends Equatable {
         if (!isDeparture && returnSeats == null) return "noSeatSelected".tr();
         final seats = isDeparture ? departureSeats : returnSeats;
         final row =
-            rows.firstWhereOrNull((element) => element.rowId == seats?.rowId);
+        rows.firstWhereOrNull((element) => element.rowId == seats?.rowId);
         return '${seats?.seatColumn}${row?.rowNumber}';
       case AddonType.meal:
         if (isDeparture && departureMeal.isEmpty) return "noMeal".tr();
         if (!isDeparture && returnMeal.isEmpty) return "noMeal".tr();
         final meals = isDeparture ? departureMeal : returnMeal;
-        return '${meals.length} ${meals.length > 1 ? " meals".tr() : "meal".tr()}';
+        return '${meals.length} ${meals.length > 1 ? " meals".tr() : "meal"
+            .tr()}';
       case AddonType.baggage:
-        if (isDeparture && departureBaggage == null && departureSports == null) {
+        if (isDeparture && departureBaggage == null &&
+            departureSports == null) {
           return "noBaggageSelected".tr();
         }
-        if (!isDeparture && returnBaggage == null && returnSports == null) return "noBaggageSelected".tr();
+        if (!isDeparture && returnBaggage == null && returnSports == null)
+          return "noBaggageSelected".tr();
         final baggage = isDeparture ? departureBaggage : returnBaggage;
         final sportsBaggage = isDeparture ? departureSports : returnSports;
 
-        if(baggage != null && sportsBaggage != null) {
+        if (baggage != null && sportsBaggage != null) {
           return '2 Baggage';
         }
-        else if(baggage != null) {
+        else if (baggage != null) {
           return '1 Baggage';
         }
-        else if(sportsBaggage != null) {
+        else if (sportsBaggage != null) {
           return '1 Baggage';
         }
         return '1 Baggage';
@@ -594,12 +604,14 @@ class Person extends Equatable {
         if (!isDeparture && returnWheelChair != null) number = number + 1;
         if (isDeparture && departureInsurance != null) number = number + 1;
         if (!isDeparture && returnInsurance != null) number = number + 1;
-        return "$number ${number > 1 ? 'items'.tr() : 'item'.tr()} ${'selected'.tr()}";
+        return "$number ${number > 1 ? 'items'.tr() : 'item'.tr()} ${'selected'
+            .tr()}";
       case AddonType.bundle:
         if (isDeparture && departureBundle == null) {
           return "noBundleSelected".tr();
         }
-        if (!isDeparture && returnBundle == null) return "noBundleSelected".tr();
+        if (!isDeparture && returnBundle == null)
+          return "noBundleSelected".tr();
         final bundle = isDeparture ? departureBundle : returnBundle;
         return '${bundle?.detail?.bundleDescription}';
       case AddonType.none:
@@ -633,26 +645,26 @@ class Person extends Equatable {
       peopleType: peopleType ?? this.peopleType,
       returnBundle: returnBundle != null ? returnBundle() : this.returnBundle,
       departureBundle:
-          departureBundle != null ? departureBundle() : this.departureBundle,
+      departureBundle != null ? departureBundle() : this.departureBundle,
       returnSeats: returnSeats != null ? returnSeats() : this.returnSeats,
       departureSeats:
-          departureSeats != null ? departureSeats() : this.departureSeats,
+      departureSeats != null ? departureSeats() : this.departureSeats,
       departureMeal: departureMeal ?? this.departureMeal,
       returnMeal: returnMeal ?? this.returnMeal,
       departureBaggage:
-          departureBaggage != null ? departureBaggage() : this.departureBaggage,
+      departureBaggage != null ? departureBaggage() : this.departureBaggage,
       returnBaggage:
-          returnBaggage != null ? returnBaggage() : this.returnBaggage,
+      returnBaggage != null ? returnBaggage() : this.returnBaggage,
       departureSports:
-          departureSports != null ? departureSports() : this.departureSports,
+      departureSports != null ? departureSports() : this.departureSports,
       returnSports: returnSports != null ? returnSports() : this.returnSports,
       departureWheelChair: departureWheelChair != null
           ? departureWheelChair()
           : this.departureWheelChair,
       returnWheelChair:
-          returnWheelChair != null ? returnWheelChair() : this.returnWheelChair,
+      returnWheelChair != null ? returnWheelChair() : this.returnWheelChair,
       departureOkId:
-          departureOkId != null ? departureOkId() : this.departureOkId,
+      departureOkId != null ? departureOkId() : this.departureOkId,
       returnOkId: returnOkId != null ? returnOkId() : this.returnOkId,
       numberOrder: numberOrder ?? this.numberOrder,
       insuranceGroup: insuranceEmpty ? (null) : insurance ?? insuranceGroup,
@@ -665,7 +677,6 @@ class Person extends Equatable {
 
   @override
   String toString() {
-
     var cc = peopleType?.name;
 
     return "${peopleType?.name.tr() ?? ""} $numberOrder";
@@ -678,7 +689,8 @@ class Person extends Equatable {
   String generateText(NumberPerson? numberPerson, {String? separator}) {
     if (peopleType == PeopleType.adult &&
         ((numberPerson?.numberOfInfant ?? 0) >= (numberOrder ?? 0))) {
-      return "${peopleType?.name.tr() ?? ""} $numberOrder ${separator ?? "+ "}${PeopleType.infant.name.tr()} $numberOrder";
+      return "${peopleType?.name.tr() ?? ""} $numberOrder ${separator ??
+          "+ "}${PeopleType.infant.name.tr()} $numberOrder";
     }
 
     return "${peopleType?.name.tr() ?? ""} $numberOrder";
@@ -741,39 +753,12 @@ extension PeopleTypeToString on PeopleType {
   }
 }
 
-List<String> availableTitle = ["Mr.", "Mrs.", "Ms.", "Tun", "Tan Sri", "Miss",
-  "Datin",
-  "Dato",
-  "Datuk",
-  "Datuk Seri",
-  "Datuk Sri",
-  "Datin Seri",
-  "Dato Seri",
-  "Dato' Sri",
-  "Datin Sri",
-  "Miss",
-  "Master",
-  "Puan Sri",
-  "Tan Sri",
-  "Toh Puan",
-  "Tun",];
-// "Miss",
-//   "Datin",
-//   "Dato",
-//   "Datuk",
-//   "Datuk Seri",
-//   "Datuk Sri",
-//   "Datin Seri",
-//   "Dato Seri",
-//   "Dato' Sri",
-//   "Datin Sri",
-//   "Miss",
-//   "Master",
-//   "Puan Sri",
-//   "Tan Sri",
-//   "Toh Puan",
-//   "Tun",
+List<String> availableTitle = [  "Mr.",  "Mrs.",  "Ms.",  "Tun",  "Tan Sri",  "Miss",
+  "Datin",  "Dato",  "Datuk",  "Datuk Seri",  "Datuk Sri",  "Datin Seri",  "Dato Seri",  "Dato' Sri",  "Datin Sri",  "Master",  "Puan Sri",  "Toh Puan"];
+
+
 List<String> availableTitleChild = ["Mstr.", "Miss"];
+
 List<String> get availableRelations {
   return [
     "family".tr(),
@@ -783,9 +768,6 @@ List<String> get availableRelations {
     "others".tr()
   ];
 }
-
-
-
 
 
 Map<String, String> get availableRelationsMapping {
@@ -799,8 +781,8 @@ Map<String, String> get availableRelationsMapping {
 }
 
 
-
-List<String> availableTitleAll = [
+List<String> availableTitleAll =
+[
   "Mr.",
   "Mrs.",
   "Ms.",
@@ -817,13 +799,11 @@ List<String> availableTitleAll = [
   "Dato Seri",
   "Dato' Sri",
   "Datin Sri",
-  "Miss",
   "Master",
   "Puan Sri",
-  "Tan Sri",
-  "Toh Puan",
-  "Tun",
+  "Toh Puan"
 ];
+
 
 //Datin
 // Dato
