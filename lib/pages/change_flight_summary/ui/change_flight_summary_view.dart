@@ -20,7 +20,9 @@ import '../../../utils/constant_utils.dart';
 import '../../../utils/date_utils.dart';
 import '../../../widgets/app_card.dart';
 import '../../../widgets/app_loading_screen.dart';
+import '../../../widgets/app_toast.dart';
 import '../../booking_details/ui/flight_data.dart';
+import '../../booking_details/ui/payment_success.dart';
 import '../../checkout/pages/payment/ui/discount_summary.dart';
 import '../../checkout/pages/payment/ui/redeem_voucher.dart';
 import '../../checkout/pages/payment/ui/voucher_ui.dart';
@@ -452,8 +454,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   height: 16,
                 ),
 
-
-               /*
+                /*
                 if ((voucherState.response?.addVoucherResult?.voucherDiscounts
                             ?.firstOrNull?.discountAmount ??
                         0.0) ==
@@ -751,16 +752,10 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                 const SizedBox(
                   height: 200,
                 ),
-
               ],
             ),
           ),
         ),
-
-
-
-
-
         Positioned(
           bottom: 0,
           right: 15,
@@ -776,14 +771,12 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
             child: const Icon(Icons.keyboard_arrow_up),
           ),
         ),
-
         Positioned(
           bottom: 0,
           left: 0,
           right: 0,
           child: Column(
             children: [
-
               /*if (bloc?.state.changeFlightResponse?.result?.changeFlightResponse
 
                   ?.totalReservationAmount !=
@@ -802,8 +795,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                 SizedBox(height: 8,),
               ],*/
 
-
-
               SummaryContainer(
                 child: Padding(
                   padding: kPagePadding,
@@ -811,8 +802,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-
-
                         BookingSummary(
                           changeFlightCurrency: bloc?.currentCurrency,
                           labelToShow: 'flightResult.totalAmountDue'.tr(),
@@ -830,23 +819,46 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                         final voucher =
                                             voucherBloc.state.appliedVoucher;
 
-                                        var redirectUrl =
-                                            await bloc?.checkOutForPayment(voucher);
+                                        var redirectUrl = await bloc
+                                            ?.checkOutForPayment(voucher);
 
                                         if (redirectUrl != null) {
-                                          final result = await context.router.push(
+                                          final result =
+                                              await context.router.push(
                                             WebViewRoute(
-                                                url: "", htmlContent: redirectUrl),
+                                                url: "",
+                                                htmlContent: redirectUrl),
                                           );
 
-                                          if (result != null && result is String) {
+                                          if (result != null &&
+                                              result is String) {
                                             final urlParsed = Uri.parse(result);
                                             var query =
                                                 urlParsed.queryParametersAll;
-                                            String? status = query['status']?.first;
-                                            String? superPNR = query['pnr']?.first;
+                                            String? status =
+                                                query['status']?.first;
+                                            String? superPNR =
+                                                query['pnr']?.first;
 
                                             if (status != "FAIL") {
+                                              if (status == 'CON') {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PaymentSuccessAlert(
+                                                      currency: 'MYR',
+                                                      amount: calculateMoneyToShow(
+                                                              changeFlightRequestResponse,
+                                                              discount)?.toStringAsFixed(2) ??
+                                                          '0.00',
+                                                    );
+                                                  },
+                                                );
+
+                                                return;
+                                              }
+
                                               bloc?.reloadDataForConfirmation(
                                                   status ?? '', superPNR ?? '');
 
@@ -882,7 +894,11 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                                   status: status ?? '',
                                                 ),
                                               ]);
-                                            } else {}
+                                            } else {
+                                              Toast.of(context).show(
+                                                  message:
+                                                      'paymentFailed'.tr());
+                                            }
                                           } else {}
                                         }
                                         //if (flag == true) {}

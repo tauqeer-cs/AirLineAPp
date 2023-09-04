@@ -570,7 +570,7 @@ class Person extends Equatable {
         if (!isDeparture && returnSeats == null) return "noSeatSelected".tr();
         final seats = isDeparture ? departureSeats : returnSeats;
         final row =
-        rows.firstWhereOrNull((element) => element.rowId == seats?.rowId);
+            rows.firstWhereOrNull((element) => element.rowId == seats?.rowId);
         return '${seats?.seatColumn}${row?.rowNumber}';
       case AddonType.meal:
         if (isDeparture && departureMeal.isEmpty) return "noMeal".tr();
@@ -804,19 +804,3 @@ List<String> availableTitleAll =
   "Toh Puan"
 ];
 
-
-//Datin
-// Dato
-// Datuk
-// Datuk Seri
-// Datuk Sri
-// Datin Seri
-//Dato Seri
-// Dato' Sri
-// Datin Sri
-// Miss
-// Master
-// Puan Sri
-//Tan Sri
-// Toh Puan
-// Tun

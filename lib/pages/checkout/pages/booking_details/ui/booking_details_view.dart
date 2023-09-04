@@ -71,7 +71,7 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
   final keySummary = GlobalKey();
   final bookingSummary = GlobalKey();
 
-   bool callRebuild = false;
+  bool callRebuild = false;
 
   void rebuild() {
     void rebuild(Element el) {
@@ -87,12 +87,7 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
 
     //listOfPassengersKey?.currentState?.rebuild();
 
-    setState(() {
-
-
-    });
-
-
+    setState(() {});
   }
 
   void rebuildSummary() {
@@ -114,8 +109,8 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
 
   SearchFlightState? currentState;
 
-  GlobalKey<ListOfPassengerInfoState> listOfPassengersKey = GlobalKey<ListOfPassengerInfoState>();
-
+  GlobalKey<ListOfPassengerInfoState> listOfPassengersKey =
+      GlobalKey<ListOfPassengerInfoState>();
 
   void rebuildAllChildren(BuildContext context) {
     callRebuild = false;
@@ -124,21 +119,20 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
       el.markNeedsBuild();
       el.visitChildren(rebuild);
     }
-    (context as Element).visitChildren(rebuild);
 
+    (context as Element).visitChildren(rebuild);
   }
 
   int waitToValidate = 0;
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<SearchFlightCubit>();
     currentState = bloc.state;
 
-    if(callRebuild) {
+    if (callRebuild) {
       rebuildAllChildren(context);
-
     }
-
 
     bool showInsuranceTerms =
         context.watch<SearchFlightCubit>().showInsuranceCheck();
@@ -158,7 +152,8 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
 
             BookingDetailsView.fbKey.currentState!.save();
 
-            if(BookingDetailsView.fbKey.currentState?.value['Adult 1_title'] == '') {
+            if (BookingDetailsView.fbKey.currentState?.value['Adult 1_title'] ==
+                '') {
               return;
             }
             if (BookingDetailsView.fbKey.currentState!.validate()) {
@@ -185,7 +180,7 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
                       children: [
                         const BookingDetailsHeader(),
                         kVerticalSpacer,
-                       const CardSummary(showFees: false),
+                        const CardSummary(showFees: false),
                         kVerticalSpacerSmall,
                         ListOfPassengerInfo(
                           key: listOfPassengersKey,
@@ -401,7 +396,6 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
       String lfidDeparture = bookingState.selectedDeparture?.lfid ?? '';
       String lfidReturn = bookingState.selectedDeparture?.lfid ?? '';
 
-
       List<Passenger> passengers = [];
       for (Person person in (persons?.persons ?? [])) {
         final passenger = person.toPassenger(
@@ -420,7 +414,9 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
               ?.retrieveFlightSeatMapResponse
               ?.physicalFlights
               ?.firstOrNull
-              ?.physicalFlightID, lfIdDeparture: lfidDeparture, lfIdReturn: lfidReturn,
+              ?.physicalFlightID,
+          lfIdDeparture: lfidDeparture,
+          lfIdReturn: lfidReturn,
         );
         final filledPassenger = passenger.copyWith(
           firstName: value["${person.toString()}$formNameFirstName"],
@@ -431,9 +427,10 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
                   true
               ? null
               : (value["${person.toString()}$formNameMYRewardId"] as String?),
-          title: (value["${person.toString()}$formNameTitle"] as String?)
-              ?.toUpperCase().replaceAll('.', ''),
-          nationality: value["${person.toString()}$formNameNationality"],
+          title: fixTitle(value, person),
+          nationality: value["${person.toString()}$formNameNationality"] == ''
+              ? 'MYS'
+              : value["${person.toString()}$formNameNationality"],
           dob: value["${person.toString()}$formNameDob"],
           gender: "Male",
           relation: "Self",
@@ -447,8 +444,6 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
         }
         passengers.add(filledPassenger);
       }
-
-
 
       final pnrRequest = FlightSummaryPnrRequest(
         contactEmail: value[formNameContactEmail],
@@ -478,13 +473,13 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
           lastName: value[formNameEmergencyLastName],
           phoneCode: value[formNameEmergencyCountry],
           phoneNumber: value[formNameEmergencyPhone],
-          relationship: false ? null : availableRelationsMapping[value[formNameEmergencyRelation]],
+          relationship: false
+              ? null
+              : availableRelationsMapping[value[formNameEmergencyRelation]],
           email: false ? 'emergen@gmail.com' : value[formNameEmergencyEmail],
         ),
         passengers: passengers,
       );
-
-
 
       final summaryRequest = SummaryRequest(
           token: verifyToken ?? "", flightSummaryPNRRequest: pnrRequest);
@@ -492,8 +487,8 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
         comment: value[formNameContactLastName],
       );
       LocalRepository().setPassengerInfo(savedPnr);
-      context.read<SummaryCubit>().submitSummary(summaryRequest,(String error){
-
+      context.read<SummaryCubit>().submitSummary(summaryRequest,
+          (String error) {
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -505,19 +500,65 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
                 title: error,
                 subtitle: "",
                 onConfirm: () {
-
                   context.router.replaceAll([const NavigationRoute()]);
                   context.read<TimerBloc>().add(const TimerReset());
-
                 },
                 confirmText: "okay".tr(),
               ),
             );
           },
         );
-
       });
     }
+  }
+
+  String? fixTitle(Map<String, dynamic> value, Person person) {
+    var valueOf = (value["${person.toString()}$formNameTitle"] as String?)
+        ?.toUpperCase()
+        .replaceAll('.', '');
+
+    if (valueOf == 'TAN SRI') {
+      return 'TANSRI';
+    }
+    if (valueOf == 'TOH PUAN') {
+      return 'TOHPN';
+    }
+    if (valueOf == 'TAN SRO') {
+      return 'TANSRI';
+    }
+    if (valueOf == 'PUAN SRI') {
+      return 'PNSRI';
+    }
+    if (valueOf == 'MASTER') {
+      return 'MSTR';
+    }
+    if (valueOf == 'DATO SERI') {
+      return 'DTSR';
+    }
+    if (valueOf == 'DATIN SRI') {
+      return 'DTSRI';
+    }
+    if (valueOf == 'DATO SRI') {
+      return 'DTSR';
+    }
+    if (valueOf == 'DATIN SERI') {
+      return 'DTSER';
+    }
+    if (valueOf == 'DATIN SERI') {
+      return 'DTSER';
+    }
+    if (valueOf == 'DATUK SRI') {
+      return 'DTKSRI';
+    }
+    if (valueOf == 'DATUK SERI') {
+      return 'DTKSR';
+    }
+    if (valueOf == 'DATO\u0027 SRI') {
+      return 'DT\u0027SR';
+    }
+    return (value["${person.toString()}$formNameTitle"] as String?)
+        ?.toUpperCase()
+        .replaceAll('.', '');
   }
 
   String makeLowerCaseName(
@@ -529,11 +570,9 @@ class BookingDetailsViewState extends State<BookingDetailsView> {
   void showSameNameError() {
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyFirstName,
-        errorText:
-            'emergencyContactSameError'.tr());
+        errorText: 'emergencyContactSameError'.tr());
     BookingDetailsView.fbKey.currentState!.invalidateField(
         name: formNameEmergencyLastName,
-        errorText:
-            'emergencyContactSameError'.tr());
+        errorText: 'emergencyContactSameError'.tr());
   }
 }

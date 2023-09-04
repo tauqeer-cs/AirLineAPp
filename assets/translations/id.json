@@ -951,18 +951,20 @@
   "termsAndConditions" : "Terms and Conditions",
   "mealTotal" : "Meal Total",
   "specialAddOnSubtotalLine": "Special Add-on\nSubtotal",
-  "manage" : "Manage",
-  "paymentSuccessful" : "Payment Successful",
+  "manage" : "Mengelola",
+  "paymentSuccessful" : "Pembayaran berhasil",
   "paymentSuccessMessage1_1": "Your payment for new add-ons\n",
   "paymentSuccessMessage1_2": "is successful.",
   "paymentSuccessMessage2" : "The new total add-ons amount and total payment will be updated in your booking.",
   "insuranceTotal": "Insurance\nSubtotal",
-  "sports" : "Sports",
+  "sports" : "Olahraga",
   "invalidVoucher" : "Invalid Voucher",
   "pleaseSettleAmount" : "Please settle your outstanding amount first.",
-  "insuranceNotUnavailable" : "Insurance purchase\nnot unavailable",
-  "passportExpDate" : "Passport Expiry Date",
-  "pay" : "Pay",
+  "insuranceNotUnavailable" : "Pembelian asuransi\ntidak tersedia",
+  "passportExpDate" : "Tanggal Kedaluwarsa Paspor",
+  "pay" : "Membayar",
   "checkInErrorInfo": "• Nomor dan nama paspor yang diketik\nsesuai dengan nomor dan nama\nyang ditampilkan di paspor Anda.\n• Paspor Anda sah dan memenuhi \n  peraturan yang ditentukan oleh negara tujuan.\n• Paspor Anda memenuhi set aturan validitas \n  minimum yang ditetapkan negara tujuan. \n• Anda memiliki SEMUA dokumen perjalanan penyokong \n  yang diwajibkan dan\/atau dokumen tambahan relevan \n lainnya telah siap. Lakukan juga verifikasi terhadap \n  berbagai dokumen tersebut di konter check-in bandara\n Passenger, Contact and Emergency Contact Information are checked & correctly filled in, for your “Manage Booking” section.",
-  "mandatoryRequired" : "Mandatory field\nrequired"
+  "mandatoryRequired" : "Bidang wajib\ndiperlukan",
+  "backToMmb" : "Kembali ke Kelola Pemesanan"
+
 }
