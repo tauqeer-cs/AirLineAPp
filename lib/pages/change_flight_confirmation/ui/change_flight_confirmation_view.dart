@@ -16,10 +16,12 @@ import '../../checkout/pages/booking_confirmation/ui/payment_info.dart';
 import '../../select_change_flight/ui/booking_refrence_label.dart';
 
 class ChangeFlightConfirmationView extends StatelessWidget {
-  const ChangeFlightConfirmationView({Key? key, required this.onShare})
+  const ChangeFlightConfirmationView({Key? key, required this.onShare, this.summaryWidget, required this.status})
       : super(key: key);
 
   final VoidCallback onShare;
+  final Widget? summaryWidget;
+  final String status;
 
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -31,6 +33,18 @@ class ChangeFlightConfirmationView extends StatelessWidget {
       return Styles.kTextColor;
     }
     return Styles.kPrimaryColor;
+  }
+
+  bool isPendingStatus() {
+    if(status == 'PPB' ||
+        status == 'BIP' ||
+        status == 'PPA' ||
+        status == 'PEN'){
+      return true;
+    }
+
+    return false;
+
   }
 
   @override
@@ -62,9 +76,18 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  BookingReferenceLabel(
-                    refText: bloc.state.pnrEntered,
+
+
+
+                  Center(
+                    child: Text(
+                      "${'confirmationView.bookingReference'.tr()} :  ${bloc.state.pnrEntered ?? ''}",
+                      style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
+
+
 
                   const SizedBox(
                     height: 16,
@@ -328,6 +351,35 @@ class ChangeFlightConfirmationView extends StatelessWidget {
                     paymentOrders:
                         bloc.state.manageBookingResponse?.result?.paymentOrders,
                   ),
+
+
+                  if(isPendingStatus() == true) ... [
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    summaryWidget!,
+
+                    const SizedBox(
+                      height: 16,
+                    ),
+                  ],
+
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.router.replaceAll([const NavigationRoute()]);
+                    },
+                    child: Text("backToMmb".tr()),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+
                 ],
               ),
             ),

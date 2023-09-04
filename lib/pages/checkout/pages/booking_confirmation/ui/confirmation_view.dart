@@ -137,11 +137,23 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   textAlign: TextAlign.center,
                 ),
               ] else ... [
-                Text(
-                  "${'confirmationView.bookingReference'.tr()} :  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
-                  style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
-                  textAlign: TextAlign.center,
-                ),
+
+                if(confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo == null) ... [
+                  Text(
+                    "${'confirmationView.bookingReference'.tr()} :  ${widget.pnr}",
+                    style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                    textAlign: TextAlign.center,
+                  ),
+
+                ] else ... [
+                  Text(
+                    "${'confirmationView.bookingReference'.tr()} :  ${confirmationDetail.confirmationModel?.value?.flightBookings?.firstOrNull?.supplierBookingNo}",
+                    style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+
+
               ],
 
               kVerticalSpacer,

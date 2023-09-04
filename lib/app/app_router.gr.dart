@@ -323,6 +323,8 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           bookingId: args.bookingId,
           status: args.status,
+          summaryWidget: args.summaryWidget,
+
         ),
       );
     },
@@ -1430,13 +1432,14 @@ class ChangeFlightConfirmationRoute
     Key? key,
     required String bookingId,
     required String status,
+    required Widget? summaryWidget,
   }) : super(
           ChangeFlightConfirmationRoute.name,
           path: '/change-flight-confirmation',
           args: ChangeFlightConfirmationRouteArgs(
             key: key,
             bookingId: bookingId,
-            status: status,
+            status: status, summaryWidget: summaryWidget,
           ),
         );
 
@@ -1448,8 +1451,12 @@ class ChangeFlightConfirmationRouteArgs {
     this.key,
     required this.bookingId,
     required this.status,
+    required this.summaryWidget,
   });
 
+  final Widget? summaryWidget;
+
+  
   final Key? key;
 
   final String bookingId;

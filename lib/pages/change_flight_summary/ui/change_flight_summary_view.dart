@@ -23,6 +23,7 @@ import '../../../widgets/app_loading_screen.dart';
 import '../../../widgets/app_toast.dart';
 import '../../booking_details/ui/flight_data.dart';
 import '../../booking_details/ui/payment_success.dart';
+import '../../check_in/bloc/check_in_cubit.dart';
 import '../../checkout/pages/payment/ui/discount_summary.dart';
 import '../../checkout/pages/payment/ui/redeem_voucher.dart';
 import '../../checkout/pages/payment/ui/voucher_ui.dart';
@@ -160,6 +161,10 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
     String currency = bloc?.state.manageBookingResponse?.result
             ?.fareAndBundleDetail?.currencyToShow ??
         'MYR';
+
+
+    CheckInCubit? changeBloc = context.watch<CheckInCubit>();
+
 
     return Stack(
       children: [
@@ -324,129 +329,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                 const SizedBox(
                   height: 16,
                 ),
-                AppCard(
-                  edgeInsets: EdgeInsets.zero,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'summary'.tr(),
-                              style: kLargeHeavy,
-                            ),
-                            const Spacer(),
-                            Text(
-                              changeFlightRequestResponse
-                                      ?.result
-                                      ?.changeFlightResponse
-                                      ?.totalReservationAmountString ??
-                                  '',
-                              style: kLargeHeavy.copyWith(
-                                color: Styles.kPrimaryColor,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        for (PassengersWithSSRFareBreakDown currentPerson
-                            in changeFlightRequestResponse
-                                    ?.result
-                                    ?.changeFlightResponse
-                                    ?.passengersWithSSRFareBreakDown ??
-                                []) ...[
-                          PersonHeader(
-                              currentPerson: currentPerson, bloc: bloc),
-                          kVerticalSpacerMini,
-                          PersonDeparture(
-                            changeFlightRequestResponse:
-                                changeFlightRequestResponse!,
-                            currentPerson: currentPerson,
-                            bloc: bloc!,
-                            local: locale,
-                          ),
-                          kVerticalSpacerSmall,
-                        ],
-                        kVerticalSpacerSmall,
-                        Row(
-                          children: [
-                            Text(
-                              'flightChange.fee'.tr(),
-                              style: kMediumHeavy,
-                            ),
-                            const Spacer(),
-                            Text(
-                              changeFlightRequestResponse
-                                      ?.result
-                                      ?.changeFlightResponse
-                                      ?.flightChangAmountString ??
-                                  '',
-                              style: kMediumHeavy.copyWith(
-                                color: Styles.kPrimaryColor,
-                              ),
-                            )
-                          ],
-                        ),
-                        const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          child: Divider(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    RedCircle(
-                                      circleColor: Styles.kPrimaryColor,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'flightCharge.changes'.tr(),
-                                      style: kSmallRegular.copyWith(
-                                        color: Styles.kTextColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    RedCircle(
-                                      circleColor: Styles.kTextColor,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'flightCharge.existingAddons'.tr(),
-                                      style: kSmallRegular.copyWith(
-                                        color: Styles.kTextColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                buildSummary(changeFlightRequestResponse, locale),
                 const SizedBox(
                   height: 20,
                 ),
@@ -843,21 +726,12 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
 
                                             if (status != "FAIL") {
                                               if (status == 'CON') {
-                                                 bloc
-                                                    ?.getBookingInformation(
-                                                    bloc?.state.lastName ??
-                                                        '',
-                                                    bloc?.state
-                                                        .pnrEntered ??
-                                                        '');
 
-                                                 bloc
-                                                    ?.getBookingInformation(
-                                                    bloc?.state.lastName ??
-                                                        '',
-                                                    bloc?.state
-                                                        .pnrEntered ??
-                                                        '');
+                                                if (changeBloc.state.outboundBoardingPassPassenger != null) {
+                                                  changeBloc.getBookingsListing();
+                                                }
+
+
 
                                                 await showDialog(
                                                   context: context,
@@ -875,16 +749,28 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                                   },
                                                 );
 
-                                                //getBookingsListing
+
+                                                 await bloc
+                                                     ?.getBookingInformation(
+                                                     bloc?.state.lastName ??
+                                                         '',
+                                                     bloc?.state
+                                                         .pnrEntered ??
+                                                         '');
+
+                                                 //getBookingsListing
 
 
 
-                                                 context.router.replaceAll([
-                                                   const NavigationRoute(),
-                                                   ManageBookingDetailsRoute(
+                                                 if(mounted) {
+                                                   context.router.replaceAll([
+                                                     const NavigationRoute(),
+                                                     ManageBookingDetailsRoute(
 
-                                                   ),
-                                                 ]);
+                                                     ),
+                                                   ]);
+                                                 }
+
 
 
 
@@ -925,7 +811,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                                 const NavigationRoute(),
                                                 ChangeFlightConfirmationRoute(
                                                   bookingId: superPNR ?? "",
-                                                  status: status ?? '',
+                                                  status: status ?? '', summaryWidget: buildSummary(changeFlightRequestResponse, locale),
                                                 ),
                                               ]);
                                             } else {
@@ -951,6 +837,132 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
         ),
       ],
     );
+  }
+
+  AppCard buildSummary(ChangeFlightRequestResponse? changeFlightRequestResponse, String locale) {
+    return AppCard(
+                edgeInsets: EdgeInsets.zero,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'summary'.tr(),
+                            style: kLargeHeavy,
+                          ),
+                          const Spacer(),
+                          Text(
+                            changeFlightRequestResponse
+                                    ?.result
+                                    ?.changeFlightResponse
+                                    ?.totalReservationAmountString ??
+                                '',
+                            style: kLargeHeavy.copyWith(
+                              color: Styles.kPrimaryColor,
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      for (PassengersWithSSRFareBreakDown currentPerson
+                          in changeFlightRequestResponse
+                                  ?.result
+                                  ?.changeFlightResponse
+                                  ?.passengersWithSSRFareBreakDown ??
+                              []) ...[
+                        PersonHeader(
+                            currentPerson: currentPerson, bloc: bloc),
+                        kVerticalSpacerMini,
+                        PersonDeparture(
+                          changeFlightRequestResponse:
+                              changeFlightRequestResponse!,
+                          currentPerson: currentPerson,
+                          bloc: bloc!,
+                          local: locale,
+                        ),
+                        kVerticalSpacerSmall,
+                      ],
+                      kVerticalSpacerSmall,
+                      Row(
+                        children: [
+                          Text(
+                            'flightChange.fee'.tr(),
+                            style: kMediumHeavy,
+                          ),
+                          const Spacer(),
+                          Text(
+                            changeFlightRequestResponse
+                                    ?.result
+                                    ?.changeFlightResponse
+                                    ?.flightChangAmountString ??
+                                '',
+                            style: kMediumHeavy.copyWith(
+                              color: Styles.kPrimaryColor,
+                            ),
+                          )
+                        ],
+                      ),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Divider(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  RedCircle(
+                                    circleColor: Styles.kPrimaryColor,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    'flightCharge.changes'.tr(),
+                                    style: kSmallRegular.copyWith(
+                                      color: Styles.kTextColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  RedCircle(
+                                    circleColor: Styles.kTextColor,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    'flightCharge.existingAddons'.tr(),
+                                    style: kSmallRegular.copyWith(
+                                      color: Styles.kTextColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                    ],
+                  ),
+                ),
+              );
   }
 
   double? calculateMoneyToShow(

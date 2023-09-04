@@ -45,6 +45,10 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    CheckInCubit? changeBloc = context.watch<CheckInCubit>();
+
+
+
     return WillPopScope(
       onWillPop: () async {
         final superPnr = context.read<BookingCubit>().state.superPnrNo;
@@ -151,6 +155,10 @@ class _PaymentPageState extends State<PaymentPage> {
                               );
                             }
 
+
+                            if (changeBloc.state.outboundBoardingPassPassenger != null) {
+                              changeBloc.getBookingsListing();
+                            }
 
                             context.router.replaceAll([
                               const NavigationRoute(),

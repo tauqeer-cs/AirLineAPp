@@ -13,11 +13,12 @@ import '../../widgets/app_app_bar.dart';
 class ChangeFlightConfirmationPage extends StatelessWidget {
   final String bookingId;
 
+  final Widget? summaryWidget;
   final String status;
 
   ScreenshotController screenshotController = ScreenshotController();
 
-  ChangeFlightConfirmationPage({Key? key, required this.bookingId, required this.status})
+  ChangeFlightConfirmationPage({Key? key, required this.bookingId, required this.status, this.summaryWidget, })
       : super(key: key);
 
   onShare() async {
@@ -49,7 +50,7 @@ class ChangeFlightConfirmationPage extends StatelessWidget {
 
               onShare();
 
-            },);
+            },summaryWidget: summaryWidget, status: this.status,);
           },
         ),
       ),

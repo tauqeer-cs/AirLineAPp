@@ -21,7 +21,6 @@ import '../../../../../widgets/dialogs/app_confirmation_dialog.dart';
 
 class PaymentView extends StatefulWidget {
   const PaymentView({Key? key, required this.promoReady}) : super(key: key);
-
   final bool promoReady;
 
   @override
