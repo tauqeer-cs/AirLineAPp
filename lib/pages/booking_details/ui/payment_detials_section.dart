@@ -24,6 +24,9 @@ class PaymentDetailsSecond extends StatelessWidget {
 
     final locale = context.locale.toString();
 
+    if((state.manageBookingResponse?.result?.paymentOrders ?? [] ).isEmpty) {
+      return Container();
+    }
     PaymentOrder? payment =
         state.manageBookingResponse?.result?.paymentOrders?.last;
 

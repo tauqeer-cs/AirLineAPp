@@ -940,37 +940,56 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                   query['pnr']?.first;
 
                                               if (status != "FAIL") {
-                                                await showDialog(
-                                                  context: cyrreContext!,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return PaymentSuccessAlert(
-                                                      currency: bloc
-                                                              ?.state
-                                                              .manageBookingResponse
-                                                              ?.result
-                                                              ?.passengersWithSSR
-                                                              ?.first
-                                                              .fareAndBundleDetail
-                                                              ?.currencyToShow ??
-                                                          'MYR',
-                                                      amount:
-                                                          '${bloc?.pendingAmountToPay ?? 0.0}',
-                                                    );
-                                                  },
-                                                );
 
-                                                await bloc
-                                                    ?.getBookingInformation(
-                                                        state.lastName ?? '',
-                                                        state.pnrEntered ?? '');
+                                                if (status == "CON") {
+                                                  await showDialog(
+                                                    context: cyrreContext!,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return PaymentSuccessAlert(
+                                                        currency: bloc
+                                                            ?.state
+                                                            .manageBookingResponse
+                                                            ?.result
+                                                            ?.passengersWithSSR
+                                                            ?.first
+                                                            .fareAndBundleDetail
+                                                            ?.currencyToShow ??
+                                                            'MYR',
+                                                        amount:
+                                                        '${bloc?.pendingAmountToPay ?? 0.0}',
+                                                      );
+                                                    },
+                                                  );
 
-                                                reloadView();
+                                                  await bloc
+                                                      ?.getBookingInformation(
+                                                      state.lastName ?? '',
+                                                      state.pnrEntered ?? '');
+
+                                                  reloadView();
+                                                }
+                                                else {
+                                                  context.router.replaceAll([
+                                                    const NavigationRoute(),
+                                                    BookingConfirmationRoute(
+                                                      bookingId: superPNR ?? "",
+                                                      status: status ?? '',
+                                                      isMmb: true,
+                                                      summary:
+                                                      const ManageFlightSummary(),
+                                                    )
+                                                  ]);
+                                                }
 
                                                 //// cyrreContext
                                                 // .read<VoucherCubit>()
                                                 // .resetState();
-                                              } else {}
+                                              } else {
+                                                Toast.of(context).show(
+                                                    message:
+                                                    'paymentFailed'.tr());
+                                              }
                                             } else {}
                                           }
                                         },

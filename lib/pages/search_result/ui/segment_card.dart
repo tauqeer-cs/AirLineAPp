@@ -138,17 +138,22 @@ class SegmentCard extends StatelessWidget {
                               ),
                             ),
                             const Spacer(),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  "assets/images/icons/icoVisa.png",
-                                  width: 32,
-                                  height: 32,
-                                  fit: BoxFit.cover,
+                            if(selected == null) ... [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    "assets/images/icons/icoVisa.png",
+                                    width: 32,
+                                    height: 32,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
+                            ] else ... [
+
+                            ],
+
                             const Spacer(),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

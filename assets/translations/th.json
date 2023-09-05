@@ -476,7 +476,6 @@
   "changeFlightView.bookingInterrupt" : "เรียนคุณลูกค้า การจองของคุณถูกขัดจังหวะ โปรดเลือกที่นั่งหรือค่าโดยสารอื่น",
   "manageBookingView.changeFlight" : "เปลี่ยนเที่ยวบิน",
   "manageBookingView.bookingReference" : "การอ้างอิงการจอง:",
-  "selectDateView.changeFlight" : "เปลี่ยนเที่ยวบิน",
   "selectDateView.bookingReference" : "การอ้างอิงการจอง:",
   "selectDateView.selectDates" : "เลือกวันที่",
   "selectDateView.confirm" : "ยืนยัน",

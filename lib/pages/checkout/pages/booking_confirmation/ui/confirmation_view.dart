@@ -132,7 +132,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
 
               if(widget.isMMb == true) ... [
                 Text(
-                  "${'confirmationView.bookingReference'.tr()} :  ${widget.pnr}",
+                  "${'confirmationView.bookingReference'.tr()}  ${widget.pnr}",
                   style: kHugeSemiBold.copyWith(color: Styles.kPrimaryColor),
                   textAlign: TextAlign.center,
                 ),
