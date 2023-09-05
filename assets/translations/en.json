@@ -506,6 +506,7 @@
   "signUp1.firstNameValidation": "First name should not include number and special characters.",
   "signUp1.surnameValidation": "Last name should not include number and special characters.",
   "signUp1.minCharsValidation": "Minimum 8 characters with at least one lower case letter, upper case letter, a number, and a symbol.",
+  "minCharsValidation" : "Minimum 8 characters with at least one lower case letter, upper case letter, a number, and a symbol.",
   "signUp1.emailValidation": "Please enter a valid email.",
   "signUp1.emailMax": "Maximum email length is 45 characters.",
   "signUp1.mobileRules": "Mobile number should not include alphabet and special characters.",

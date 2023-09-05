@@ -43,9 +43,6 @@ class AccountSettingView extends StatelessWidget {
                 hintText: 'yourCurrentPass'.tr(),
                 validators: [
                   FormBuilderValidators.required(),
-                  FormBuilderValidators.match(
-                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                      errorText: 'minCharsValidation'.tr())
                 ],
               ),
             ),
