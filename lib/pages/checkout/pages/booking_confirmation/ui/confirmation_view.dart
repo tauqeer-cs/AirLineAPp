@@ -121,12 +121,23 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   textAlign: TextAlign.center,
                 ),
               ] else ...[
-                Text(
-                  "confirmationView.statusDefault".tr(),
-                  style: kMediumRegular.copyWith(
-                      color: Styles.kSubTextColor, height: 1.5),
-                  textAlign: TextAlign.center,
-                ),
+
+                if(this.widget.isMMb) ... [
+                  Text(
+                    "A problem occured with your manage booking. Please contact our customer service to continue.".tr(),
+                    style: kMediumRegular.copyWith(
+                        color: Styles.kSubTextColor, height: 1.5),
+                    textAlign: TextAlign.center,
+                  ),
+                ] else ... [
+                  Text(
+                    "confirmationView.statusDefault".tr(),
+                    style: kMediumRegular.copyWith(
+                        color: Styles.kSubTextColor, height: 1.5),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+
               ],
               kVerticalSpacerSmall,
 
@@ -171,7 +182,7 @@ class _ConfirmationViewState extends State<ConfirmationView> {
                   kVerticalSpacer,
                 ] else ... [
 
-                  SizedBox(height: MediaQuery.of(context).size.height/1.5,),
+                  SizedBox(height: MediaQuery.of(context).size.height/1.7,),
                 ],
 
 

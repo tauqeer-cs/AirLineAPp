@@ -152,6 +152,11 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage> {
       return 'confirmationView.statusExpired'.tr();
     }
 
+    if(this.widget.isMMb ) {
+
+      return ("Unsuccessful".tr());
+
+    }
     return ("confirmation".tr());
   }
 }
