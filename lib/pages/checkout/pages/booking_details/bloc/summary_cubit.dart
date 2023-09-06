@@ -19,7 +19,7 @@ class SummaryCubit extends Cubit<SummaryState> {
       SummaryRequest summaryRequest, Function(String error) errEction) async {
     emit(state.copyWith(blocState: BlocState.loading));
     try {
-      final response = await _repository.summaryFlight(summaryRequest);
+      final response = await _repository.summaryFlightRepo(summaryRequest);
       emit(
         state.copyWith(
           blocState: BlocState.finished,

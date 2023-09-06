@@ -16,6 +16,7 @@ import 'package:collection/collection.dart';
 
 import '../../../../../app/app_router.dart';
 import '../../../../../blocs/timer/timer_bloc.dart';
+import '../../../../../data/requests/flight_summary_pnr_request.dart';
 import '../../../../../theme/theme.dart';
 import '../../../../../widgets/dialogs/app_confirmation_dialog.dart';
 
@@ -121,6 +122,28 @@ class _PaymentViewState extends State<PaymentView> {
     final token = bookingState.verifyResponse?.token;
     final pnrRequest = bookingState.summaryRequest?.flightSummaryPNRRequest;
 
+    /*
+    for(Passenger currentItem in pnrRequest?.passengers ?? [] ) {
+
+      if((currentItem.ssr?.outbound ?? []).isNotEmpty ) {
+
+        var itemBoSelect = (currentItem.ssr?.outbound ?? []).where((e) => e.ssrCode == 'NOSELECT').toList();
+
+
+        if(itemBoSelect.isNotEmpty) {
+          (currentItem.ssr?.outbound ?? []).removeWhere((e) => e.ssrCode == 'NOSELECT');
+        }
+        //Bound(null, NOSELECT, BAGGAGE, 1, 0, no baggage)
+        print('object');
+      }
+
+      if((currentItem.ssr?.inbound ?? []).isNotEmpty ) {
+        print('object');
+      }
+    }*/
+
+
+
     String? redeemCodeToSend;
 
     if (context.read<VoucherCubit>().state.selectedRedeemOption != null) {
@@ -130,7 +153,7 @@ class _PaymentViewState extends State<PaymentView> {
           .selectedRedeemOption!
           .redemptionName!;
     }
-    context.read<PaymentCubit>().pay(
+    context.read<PaymentCubit>().payDo(
         flightSummaryPnrRequest: pnrRequest,
         token: token,
         total: summaryResponse?.flightSummaryPnrResult?.summaryAmount ?? 0,

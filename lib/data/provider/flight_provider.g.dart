@@ -210,7 +210,7 @@ class _FlightProvider implements FlightProvider {
   }
 
   @override
-  Future<PayRedirectionValue> bookFlight(bookRequest) async {
+  Future<PayRedirectionValue> bookFlightProvider(bookRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

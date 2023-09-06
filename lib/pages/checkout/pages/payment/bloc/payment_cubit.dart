@@ -24,7 +24,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     }
   }
 
-  pay({
+  payDo({
     String? voucherCode,
     String? promoCode,
     FlightSummaryPnrRequest? flightSummaryPnrRequest,
@@ -61,7 +61,7 @@ class PaymentCubit extends Cubit<PaymentState> {
               paymentDetail: paymentDetail,
               flightSummaryPNRRequest: flightSummaryPnrRequestNew,
             );
-      final payRedirection = await _repository.bookFlight(bookRequest);
+      final payRedirection = await _repository.bookFlightRepo(bookRequest);
       if(payRedirection.value?.paymentRedirectData?.isAlreadySuccessPayment ?? false){
 
       }

@@ -15,6 +15,9 @@ class InsuranceTerms extends StatelessWidget {
   Widget build(BuildContext context) {
     final insuranceCubit = context.watch<InsuranceCubit>().state;
     final selected = insuranceCubit.insuranceType;
+    if(selected == InsuranceType.none) {
+      return Container();
+    }
     return Visibility(
       visible: selected != null,
       child: Column(

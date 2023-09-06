@@ -368,11 +368,25 @@ class Person extends Equatable {
       inboundSSR.add(inboundMeal);
     });
     //baggage
+    //
+
+
     if (departureBaggage?.toBound() != null) {
-      outboundSSR.add(departureBaggage!.toBound());
+      if(departureBaggage?.ssrCode == 'NOSELECT') {
+
+      } else {
+        outboundSSR.add(departureBaggage!.toBound());
+      }
+
     }
     if (returnBaggage?.toBound() != null) {
-      inboundSSR.add(returnBaggage!.toBound());
+      if(returnBaggage?.ssrCode == 'NOSELECT') {
+
+      }
+      else {
+        inboundSSR.add(returnBaggage!.toBound());
+      }
+
     }
 
     if (departureWheelChair?.toBound() != null) {
@@ -383,11 +397,22 @@ class Person extends Equatable {
     }
 
     if (departureSports?.toBound(sports: true) != null) {
-      outboundSSR.add(departureSports!.toBound(sports: true));
+      if(departureSports?.ssrCode == 'NOSELECT') {
+
+      }
+      else {
+        outboundSSR.add(departureSports!.toBound(sports: true));
+      }
+
     }
 
     if (returnSports?.toBound(sports: true) != null) {
-      inboundSSR.add(returnSports!.toBound(sports: true));
+      if(departureSports?.ssrCode == 'NOSELECT') {
+
+      }else {
+        inboundSSR.add(returnSports!.toBound(sports: true));
+
+      }
     }
 
     //if(this.)

@@ -73,7 +73,7 @@ class FlightRepository {
     return await _provider.reverifyPnr(verifyRequest);
   }
 
-  Future<SummaryResponse> summaryFlight(SummaryRequest summaryRequest) async {
+  Future<SummaryResponse> summaryFlightRepo(SummaryRequest summaryRequest) async {
     return await _provider.summaryFlight(summaryRequest);
   }
 
@@ -81,8 +81,8 @@ class FlightRepository {
     return await _provider.updateInsurance(insuranceRequest);
   }
 
-  Future<PayRedirectionValue> bookFlight(BookRequest bookRequest) async {
-    return await _provider.bookFlight(bookRequest);
+  Future<PayRedirectionValue> bookFlightRepo(BookRequest bookRequest) async {
+    return await _provider.bookFlightProvider(bookRequest);
   }
 
   Future<ConfirmationModel> bookingDetail(String bookingId) async {

@@ -51,7 +51,7 @@ abstract class FlightProvider {
   Future<SummaryResponse> updateInsurance(@Body() InsuranceRequest insuranceRequest);
 
   @POST('checkout/bookflight')
-  Future<PayRedirectionValue> bookFlight(@Body() BookRequest bookRequest);
+  Future<PayRedirectionValue> bookFlightProvider(@Body() BookRequest bookRequest);
 
   @GET('checkout/flightbookingdetail')
   Future<ConfirmationModel> bookingDetail(@Query("superPNRNo") String key);
