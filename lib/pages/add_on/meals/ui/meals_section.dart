@@ -259,7 +259,6 @@ class NewMealCard extends StatelessWidget {
     if (isManageBooking) {
 
       var result = manageCubit?.state.manageBookingResponse?.result?.passengersWithSSR?.where((element) => element.personObject == person).toList();
-      int? num;
 
       if((result ?? []) .isNotEmpty){
 
@@ -270,7 +269,22 @@ class NewMealCard extends StatelessWidget {
 
         }
         var rsule = manageCubit?.state.manageBookingResponse?.result?.mealDetail?.meals?.where((element) => element.givenName == (result ?? []).first.passengers?.givenName && (result ?? []).first.passengers?.surname == element.surName).toList();
+
+        var thisMealPrevious = 0;
+        if((rsule ?? []).isNotEmpty) {
+
+          if( ((rsule ?? []).first.mealList ?? []).isNotEmpty ) {
+            var meals = ((rsule ?? []).first.mealList ?? []);
+            thisMealPrevious =  meals.where((e) => e.mealName?.toLowerCase() == meal.description?.toLowerCase() && e.departReturn?.toLowerCase() == stDepar.toLowerCase() ).length;
+
+            print('object');
+          }
+          print('object');
+        }
+
         //rsule.where((element) => element.surName)
+
+        //if()
         List<MealList> meals = [];
         for(Meal currentItems in (rsule ?? []) ){
           var list = currentItems.mealList?.where((element) => element.departReturn == stDepar).toList();
@@ -280,11 +294,38 @@ class NewMealCard extends StatelessWidget {
         }
 
 
+        print('object');
+
         if(isAdd == false) {
           if(this.isDeparture) {
+            var thisBefore = person?.departureMeal.where((e) => e.description?.toLowerCase() == meal.description?.toLowerCase()).toList();
+
+            if(thisMealPrevious == (thisBefore ?? []).length) {
+              return;
+            }
+            print('');
+
+          }
+          else {
+              var thisBefore = person?.returnMeal.where((e) => e.description?.toLowerCase() == meal.description?.toLowerCase()).toList();
+
+              if(thisMealPrevious == (thisBefore ?? []).length) {
+                return;
+              }
+              print('');
+
+
+
+          }
+        }
+        /*
+        if(isAdd == false) {
+          if(this.isDeparture) {
+
             if(person?.departureMeal.length == meals.length){
               return;
             }
+
           }
           else {
             if(person?.returnMeal.length == meals.length){
@@ -294,6 +335,7 @@ class NewMealCard extends StatelessWidget {
 
 
         }
+        */
         print('');
 
 
