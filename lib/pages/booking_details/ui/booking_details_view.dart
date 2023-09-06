@@ -729,9 +729,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 child: ComapnyTaxInvoiceSection(),
                               ),
                               kVerticalSpacer,
-                              Padding(
+                              const Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                    EdgeInsets.symmetric(horizontal: 16),
                                 child: PaymentDetailsSecond(),
                               ),
                             ],

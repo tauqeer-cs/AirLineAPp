@@ -89,7 +89,7 @@ class BaggageSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if(isManageBooking == false) ... [
-              PassengerSelector(
+               PassengerSelector(
                 isDeparture: isDeparture,
                 addonType: AddonType.baggage,
                 onCountChanged: personIndex
@@ -317,6 +317,10 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
       persons = state.filterState?.numberPerson;
       focusedPerson = persons?.persons
           .firstWhereOrNull((element) => element == selectedPerson);
+
+      if(focusedPerson?.departureBaggage == null) {
+
+      }
       currency = context
               .watch<SearchFlightCubit>()
               .state
@@ -345,13 +349,6 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
           if ((nextIndex! + 1) < persons!.persons.length) {
             var nextItem = (persons.persons[nextIndex + 1]);
             if (nextItem.peopleType?.code == 'INF') {
-              /*
-              context
-                  .read<SelectedPersonCubit>()
-                  .selectPerson(persons.persons[0]);
-              await Future.delayed(const Duration(milliseconds: 500));
-              widget.moveToBottom?.call();
-              */
               return;
             }
             await Future.delayed(const Duration(seconds: 1));

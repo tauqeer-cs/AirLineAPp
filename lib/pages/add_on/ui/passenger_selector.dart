@@ -56,17 +56,17 @@ class PassengerSelector extends StatelessWidget {
     }
 	
     double moveToRight = (onCountChanged - 1) * 170;
-    Future.delayed(Duration(milliseconds: 250), () {
-      print("onCountChanged ${onCountChanged}");
+    Future.delayed(const Duration(milliseconds: 250), () {
       if(onCountChanged >= 2) {
-        if (scrollPassengerController.hasClients)
+        if (scrollPassengerController.hasClients) {
           scrollPassengerController.animateTo(
               moveToRight, duration: Duration(milliseconds: 250),
               curve: Curves.linear);
+        }
       }
     });
 	
-    return Column(
+    return  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -74,7 +74,7 @@ class PassengerSelector extends StatelessWidget {
           style: kLargeHeavy,
         ),
         kVerticalSpacerSmall,
-        Container(
+         Container(
           constraints: const BoxConstraints(
             minHeight: 50,
           ),
@@ -88,7 +88,7 @@ class PassengerSelector extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: persons.map((person) {
                 bool isActive = selectedPerson == person;
-                return GestureDetector(
+                return  GestureDetector(
                   onTap: (){
                     context.read<SelectedPersonCubit>().selectPerson(person);
                     var index = persons.indexOf(person);

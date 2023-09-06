@@ -1,4 +1,5 @@
 import 'package:app/app/app_router.dart';
+import 'package:app/blocs/booking/booking_cubit.dart';
 import 'package:app/blocs/is_departure/is_departure_cubit.dart';
 import 'package:app/blocs/search_flight/search_flight_cubit.dart';
 import 'package:app/models/number_person.dart';
@@ -127,17 +128,69 @@ class ContinueButton extends StatelessWidget {
     final filter = context.watch<SearchFlightCubit>().state.filterState;
     final numberOfPerson = filter?.numberPerson;
     List<Person> persons = List<Person>.from(numberOfPerson?.persons ?? []);
+    final book = context.watch<BookingCubit>();
+    var baggagesOut =
+        book.state.verifyResponse?.flightSSR?.baggageGroup?.outbound;
 
+    var sportOutBound =
+        book.state.verifyResponse?.flightSSR?.sportGroup?.outbound;
+
+    bool isTwoWay = false;
+
+    if (flightType?.message != "One Way") {
+
+      isTwoWay = true;
+
+      print('object');
+    }
+
+    var searchFlightCupit = context.read<SearchFlightCubit>();
 
     return ElevatedButton(
       onPressed: () {
+        for (var currentPerson in persons) {
+          if (currentPerson.peopleType != PeopleType.infant) {
+            if (currentPerson.departureBaggage == null) {
+              searchFlightCupit.addBaggageToPerson(
+                  currentPerson, baggagesOut?.first, true);
+            }
+
+            if (currentPerson.departureSports == null) {
+              searchFlightCupit.addSportEquipmentToPerson(
+                  currentPerson, sportOutBound?.first, true);
+            }
+
+
+            if (isTwoWay) {
+              if (currentPerson.returnBaggage == null) {
+                var inBound =
+                    book.state.verifyResponse?.flightSSR?.baggageGroup?.inbound;
+
+
+                searchFlightCupit.addBaggageToPerson(
+                    currentPerson, inBound?.first, false);
+              }
+
+              if (currentPerson.returnSports == null) {
+                var inBound =
+                    book.state.verifyResponse?.flightSSR?.sportGroup?.inbound;
+
+
+                searchFlightCupit.addSportEquipmentToPerson(
+                    currentPerson, inBound?.first, false);
+              }
+
+
+            }
+          } else {}
+        }
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(MealsRoute(isDeparture: false));
         } else {
           context.router.push(BaggageRoute());
         }
 
-        if(persons.isNotEmpty) {
+        if (persons.isNotEmpty) {
           context.read<SelectedPersonCubit>().selectPerson(persons.first);
         }
       },

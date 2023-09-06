@@ -583,21 +583,35 @@ class Person extends Equatable {
             departureSports == null) {
           return "noBaggageSelected".tr();
         }
-        if (!isDeparture && returnBaggage == null && returnSports == null)
+        if (!isDeparture && returnBaggage == null && returnSports == null) {
           return "noBaggageSelected".tr();
-        final baggage = isDeparture ? departureBaggage : returnBaggage;
-        final sportsBaggage = isDeparture ? departureSports : returnSports;
+        }
+        var baggage = isDeparture ? departureBaggage : returnBaggage;
+        var sportsBaggage = isDeparture ? departureSports : returnSports;
+
+        if(baggage != null) {
+          if(baggage.ssrCode == 'NOSELECT') {
+            baggage = null;
+          }
+        }
+
+        if(sportsBaggage != null) {
+          if(sportsBaggage.ssrCode == 'NOSELECT') {
+            sportsBaggage = null;
+          }
+        }
+
 
         if (baggage != null && sportsBaggage != null) {
-          return '2 Baggage';
+          return '2 ${'baggage'.tr()}';
         }
         else if (baggage != null) {
-          return '1 Baggage';
+          return '1 ${'baggage'.tr()}';
         }
         else if (sportsBaggage != null) {
           return '1 Baggage';
         }
-        return '1 Baggage';
+        return 'noBundleSelected'.tr();
       case AddonType.special:
         int number = 0;
         if (isDeparture && departureWheelChair != null) number = number + 1;
