@@ -97,9 +97,9 @@ class ManageBookingRepository {
     return profile;
   }
 
-
-
-
-
+  Future<CommonResponse> removecheckinRepo(ManageBookingRequest request) async {
+    final profile = await _provider.removecheckin(request);
+    return profile;
+  }
 
 }

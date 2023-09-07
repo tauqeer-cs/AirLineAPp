@@ -336,6 +336,9 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
               ?.requestedCurrencyOfFareQuote ??
           'MYR';
       selectedPerson = context.watch<SelectedPersonCubit>().state;
+
+
+
       isDeparture = context.watch<IsDepartureCubit>().state;
 
 
@@ -373,6 +376,25 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       baggage =
       isDeparture ? baggageGroup?.outbound : baggageGroup?.inbound;
       baggage?.sort((a, b) => (a.amount ?? 0.0).compareTo( (b.amount ?? 0.0)));
+
+      if(isDeparture) {
+        if(selectedPerson?.departureSports == null){
+          selectedPerson = selectedPerson?.copyWith(departureSports: () => (baggage ?? []).first );
+        }
+
+        selectedItem = 'NOSELECT';
+      }
+      else {
+
+        if(selectedPerson?.returnSports == null){
+          selectedPerson =  selectedPerson?.copyWith(departureSports: () => (baggage ?? []).first );
+        }
+
+        selectedItem = 'NOSELECT';
+      }
+
+
+
     }
 
     return widget.isManageBooking

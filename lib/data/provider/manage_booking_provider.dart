@@ -55,12 +55,13 @@ abstract class ManageBookingProvider {
   @POST('checkout/getflightaddon')
   Future<FightAddOns> loadFlightAddonRequest(@Body() GetFlightAddonRequest request);
 
-
-
   @POST('checkout/assignflightaddon')
   Future<ChangeSsrResponse> assignFlightAddon(@Body() RequestAssignFlightAddOnRequest request);
 
+  //https://uat-nav-api.myairline.my/api/v1/checkout/removecheckin
 
+  @POST('checkout/removecheckin')
+  Future<CommonResponse> removecheckin(@Body() ManageBookingRequest request);
 
 
 }

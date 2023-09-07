@@ -464,6 +464,7 @@ class MealSummaryDetail extends StatelessWidget {
             ),
           ],
 
+
           if(eP.getPartialPriceMealForNew(isDeparture) != 0.0) ... [
             ChildRow(
               child1: Column(
@@ -495,6 +496,7 @@ class MealSummaryDetail extends StatelessWidget {
               ),
             ),
           ],
+
 
 
         ],
