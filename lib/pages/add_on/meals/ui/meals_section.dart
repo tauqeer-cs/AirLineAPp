@@ -39,6 +39,7 @@ class MealsSection extends StatelessWidget {
     List<Bundle> meals = [];
     bool isFlightUnderAnHour = false;
     bool isFlightOver24Hour = false;
+    List<Bundle> sortedMeals = [];
 
     int personIndex = 0;
 
@@ -50,6 +51,31 @@ class MealsSection extends StatelessWidget {
       mealGroup = state.flightSSR?.mealGroup;
 
       meals = (isDeparture ? mealGroup?.outbound : mealGroup?.inbound) ?? [];
+
+      final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
+
+      final cmsDetail = cmsMeals;
+      var newThink  = cmsMeals.map((e) => e.code).toList();
+
+
+      for(var currentItem in newThink) {
+        Bundle? tmpMEal = meals.firstWhereOrNull((element) => element.ssrCode == currentItem);
+
+        if(tmpMEal != null) {
+          sortedMeals.add(tmpMEal);
+
+        }
+        else {
+
+          print('object');
+
+        }
+
+      }
+      meals = sortedMeals;
+
+      print('object');
+
       DateTime departDate = state.manageBookingResponse?.result?.flightSegments
               ?.first.outbound![0].departureDateTime ??
           DateTime.now();
@@ -87,6 +113,31 @@ class MealsSection extends StatelessWidget {
       final state = context.watch<SearchFlightCubit>().state;
 
       meals = (isDeparture ? mealGroup?.outbound : mealGroup?.inbound) ?? [];
+
+      final cmsMeals = context.watch<CmsSsrCubit>().state.mealGroups;
+
+      final cmsDetail = cmsMeals;
+      var newThink  = cmsMeals.map((e) => e.code).toList();
+
+
+      for(var currentItem in newThink) {
+        Bundle? tmpMEal = meals.firstWhereOrNull((element) => element.ssrCode == currentItem);
+
+        if(tmpMEal != null) {
+          sortedMeals.add(tmpMEal);
+
+        }
+        else {
+
+          print('object');
+
+        }
+
+      }
+      meals = sortedMeals;
+
+      print('object');
+
 
       isFlightUnderAnHour = isDeparture
           ? state.filterState!.departDate!
@@ -444,7 +495,7 @@ class NewMealCard extends StatelessWidget {
                       Wrap(
                         children: [
                           Text(
-                            meal.description ?? "",
+                            cmsDetail?.name ?? (meal.description ?? ""),
                             style: kMediumRegular,
                             textAlign: TextAlign.center,
                           ),

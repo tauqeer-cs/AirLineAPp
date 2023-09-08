@@ -47,7 +47,10 @@ class AvailableInsurance extends StatelessWidget {
     final agentCms = context.watch<AgentSignUpCubit>();
     Bundle? lastInsuranceSelected = insuranceCubit.lastInsuranceSelected;
 
+    if(insuranceBloc.state.insuranceType == null) {
+      insuranceBloc.changeInsuranceType(InsuranceType.all, firstInsurance?.toBound(isInsurance: true));
 
+    }
     return  Visibility(
       visible: insurances.isNotEmpty,
       replacement: const EmptyAddon(),

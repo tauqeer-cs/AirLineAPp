@@ -132,6 +132,7 @@ class _InsuranceViewState extends State<InsuranceView> {
 
     final insuranceBloc = context.watch<InsuranceCubit>();
 
+
     return Stack(
       children: [
         SummaryContainerListener(

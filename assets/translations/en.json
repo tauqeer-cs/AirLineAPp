@@ -154,7 +154,7 @@
   "phone": "Phone",
   "phoneNumber": "Phone Number",
   "passwordTitle": "Let's create your password.",
-  "passwordDesc1": "Your password cannot contain parts of your first or last name. It must contain 8 -16 characters, with the following requirements",
+  "passwordDesc1": "Your password cannot contain parts of your first or last name. It must contain 8 - 16 characters, with the following requirements :",
   "passwordDesc2": "Lower case letter",
   "passwordDesc3": "Upper case letter",
   "passwordDesc4": "Number",

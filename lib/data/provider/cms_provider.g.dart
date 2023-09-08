@@ -48,7 +48,7 @@ class _CMSProvider implements CMSProvider {
     key,
     timestamp, {
     query =
-        "key,images,img,title,subtitle,description,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg,currency",
+        "key,images,img,title,subtitle,description,sort,image,price,link,from,to,style,titleBold,buttonText,cardSectionTitleNoBold,cardSectionTitleBold,mimg,currency",
     lang = 'en_US',
   }) async {
     const _extra = <String, dynamic>{};
@@ -81,7 +81,7 @@ class _CMSProvider implements CMSProvider {
   @override
   Future<CMSFlight> getSSRContent(
     key, {
-    query = "content,image,title,description,code,banner,bannerUrl",
+    query = "content,image,title,description,code,banner,sort,,bannerUrl",
     deep = "6",
     language = "en",
   }) async {
@@ -200,7 +200,7 @@ class _CMSProvider implements CMSProvider {
   @override
   Future<UniversalSharedSettingsRoutesResponse> getInsuranceName(
     key, {
-    query = "ssrName,content,image,title,description,banner,bannerUrl,code,pdf",
+    query = "ssrName,content,image,title,description,banner,sort,,bannerUrl,code,pdf",
     deep = "6",
     timestamp = '1650012345',
     lang = 'en_US',
