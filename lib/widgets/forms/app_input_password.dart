@@ -62,8 +62,8 @@ class _AppInputPasswordState extends State<AppInputPassword> {
       decoration: InputDecoration(
         hintText: widget.hintText ?? "",
         prefixIcon: widget.prefixIcon,
+        counterText: '',
         label: widget.label != null ? Text(widget.label!) : null,
-    counter: Container(),
             suffixIconConstraints: const BoxConstraints(
           minWidth: 40,
           minHeight: 20,
