@@ -46,12 +46,14 @@ class PasswordInput extends StatelessWidget {
                 builder: (context, state) {
                   final setting = state.switchSetting;
                   return AppInputPassword(
-
                     textEditingController: pass,
                     name: formNamePassword,
                     hintText: 'password'.tr(),
+                    maxLengthAllowed: setting.passwordMaxLength,
                     validators: [
                       FormBuilderValidators.required(),
+                      FormBuilderValidators.minLength(setting.passwordMinLength),
+                      FormBuilderValidators.maxLength(setting.passwordMaxLength),
                       FormBuilderValidators.match(
                         // ignore: prefer_interpolation_to_compose_strings
                         r'' + setting.passwordRegex + '',
@@ -74,8 +76,11 @@ class PasswordInput extends StatelessWidget {
                   return AppInputPassword(
                     name: formNameConfirmPassword,
                     hintText: 'confirmPassword'.tr(),
+                    maxLengthAllowed: setting.passwordMaxLength,
                     validators: [
                       FormBuilderValidators.required(),
+                      FormBuilderValidators.minLength(setting.passwordMinLength),
+                      FormBuilderValidators.maxLength(setting.passwordMaxLength),
                       FormBuilderValidators.match(
                         // ignore: prefer_interpolation_to_compose_strings
                         r'' + setting.passwordRegex + '',

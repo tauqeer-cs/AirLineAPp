@@ -14,16 +14,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
+import '../../../blocs/settings/settings_cubit.dart';
 import '../../../theme/theme.dart';
 
 class AccountSettingView extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
   final bool isChangingTempPassword;
 
-  const AccountSettingView({Key? key, required this.isChangingTempPassword}) : super(key: key);
+  const AccountSettingView({Key? key, required this.isChangingTempPassword})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final setting = context.watch<SettingsCubit>().state.switchSetting;
+
+
     return FormBuilder(
       key: _fbKey,
       child: SingleChildScrollView(
@@ -41,16 +46,21 @@ class AccountSettingView extends StatelessWidget {
               child: AppInputPassword(
                 name: formNameNewPassword,
                 hintText: 'yourCurrentPass'.tr(),
+                maxLengthAllowed: setting.passwordMaxLength,
                 validators: [
                   FormBuilderValidators.required(),
+                  FormBuilderValidators.minLength(setting.passwordMinLength),
+                  FormBuilderValidators.maxLength(setting.passwordMaxLength),
                 ],
               ),
             ),
             kVerticalSpacer,
             kVerticalSpacerSmall,
-            PasswordInput(title: 'accountDetail.setNewPassword'.tr()),
+            PasswordInput(
+              title: 'accountDetail.setNewPassword'.tr(),
+            ),
             kVerticalSpacerSmall,
-            if(!isChangingTempPassword) ... [
+            if (!isChangingTempPassword) ...[
               OutlinedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -58,14 +68,13 @@ class AccountSettingView extends StatelessWidget {
                 child: Text('infoDetail.cancel'.tr()),
               ),
             ],
-
             kVerticalSpacerSmall,
             ElevatedButton(
               onPressed: () => onChangePassword(context),
               child: Text('accountDetail.save'.tr()),
             ),
             kVerticalSpacerMini,
-            if(!isChangingTempPassword) ... [
+            if (!isChangingTempPassword) ...[
               Center(
                 child: TextButton(
                   onPressed: () {
@@ -78,7 +87,6 @@ class AccountSettingView extends StatelessWidget {
                 ),
               ),
             ],
-
           ],
         ),
       ),

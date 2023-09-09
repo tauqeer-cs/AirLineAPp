@@ -19,6 +19,8 @@ class AppInputPassword extends StatefulWidget {
   final TextEditingController? textEditingController;
   final InputDecoration? inputDecoration;
 
+  final int? maxLengthAllowed;
+
   final bool showShadow;
 
   const AppInputPassword({
@@ -35,6 +37,7 @@ class AppInputPassword extends StatefulWidget {
     this.showShadow = false,
     this.textEditingController,
     this.inputDecoration,
+    this.maxLengthAllowed,
   }) : super(key: key);
 
   @override
@@ -49,6 +52,7 @@ class _AppInputPasswordState extends State<AppInputPassword> {
     return FormBuilderTextField(
       controller: widget.textEditingController,
       name: widget.name,
+      maxLength: widget.maxLengthAllowed,
       initialValue: widget.defaultValue,
       maxLines: widget.maxLines,
       validator: FormBuilderValidators.compose(widget.validators ?? []),
@@ -59,7 +63,8 @@ class _AppInputPasswordState extends State<AppInputPassword> {
         hintText: widget.hintText ?? "",
         prefixIcon: widget.prefixIcon,
         label: widget.label != null ? Text(widget.label!) : null,
-        suffixIconConstraints: const BoxConstraints(
+    counter: Container(),
+            suffixIconConstraints: const BoxConstraints(
           minWidth: 40,
           minHeight: 20,
           maxHeight: 20,
