@@ -18,13 +18,13 @@ import '../../../app/app_bloc_helper.dart';
 import '../../../app/app_logger.dart';
 import '../../../blocs/profile/profile_cubit.dart';
 import '../../../blocs/session/session_bloc.dart';
+import '../../../blocs/settings/settings_cubit.dart';
 
 class JosKeys {
   static final gKeysAuth = GlobalKey<FormBuilderState>();
   static final gKeysSearch = GlobalKey<FormBuilderState>();
   static final gKeysBooking = GlobalKey<FormBuilderState>();
   static final gKeysVoucher = GlobalKey<FormBuilderState>();
-
 }
 
 class LoginForm extends StatefulWidget {
@@ -33,7 +33,8 @@ class LoginForm extends StatefulWidget {
     required this.showContinueButton,
     required this.formEmailLoginName,
     required this.formPasswordLoginName,
-    required this.fbKey, required this.fromPopUp,
+    required this.fbKey,
+    required this.fromPopUp,
   }) : super(key: key);
   final GlobalKey<FormBuilderState> fbKey;
   final String formEmailLoginName;
@@ -46,7 +47,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  onLogin(BuildContext context,bool fromPopUp) async {
+  onLogin(BuildContext context, bool fromPopUp) async {
     if (widget.fbKey.currentState!.saveAndValidate()) {
       setState(() {
         isLoading = true;
@@ -58,58 +59,41 @@ class _LoginFormState extends State<LoginForm> {
       final password = value[widget.formPasswordLoginName];
       var result = await context
           .read<LoginCubit>()
-          .logInWithCredentialsFromPopUp(email, password,(){
+          .logInWithCredentialsFromPopUp(email, password, () {
         sendUserToPassword = true;
-            print('');
-
+        print('');
       });
 
-
-
-
-
-      if(fromPopUp)
-      {
-
-
-
-        if(result == true) {
-          await  context.read<ProfileCubit>().getProfile();
+      if (fromPopUp) {
+        if (result == true) {
+          await context.read<ProfileCubit>().getProfile();
           logger.e("Save session start time");
           final nowUTC = DateTime.now().toUtc();
           //final diff = expiredInUTC.difference(nowUTC);
           context.read<SessionBloc>().add(
-            SessionStarted(
-              duration: 600,
-              expiredTime: nowUTC.add(const Duration(seconds: 600)),
-            ),
-          );
-        }
-        else {
+                SessionStarted(
+                  duration: 600,
+                  expiredTime: nowUTC.add(const Duration(seconds: 600)),
+                ),
+              );
+        } else {
           setState(() {
             isLoading = false;
           });
 
           return;
-
         }
-
-
-      }
-      else {
-
+      } else {
         context.read<ProfileCubit>().getProfile();
 
-        if(sendUserToPassword) {
+        if (sendUserToPassword) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AccountSettingPage(isChangingTempPassword: true)),
+            MaterialPageRoute(
+                builder: (context) =>
+                    const AccountSettingPage(isChangingTempPassword: true)),
           );
-
-
-
         }
-
       }
       setState(() {
         isLoading = false;
@@ -123,7 +107,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    var logicCubit =  context.read<LoginCubit>();
+    var logicCubit = context.read<LoginCubit>();
+    final setting = context.watch<SettingsCubit>().state.switchSetting;
 
     return FormBuilder(
       autoFocusOnValidationFailure: true,
@@ -150,9 +135,11 @@ class _LoginFormState extends State<LoginForm> {
               children: [
                 kVerticalSpacer,
                 ElevatedButton(
-                    onPressed: () => context.router.pop(),
-                    child:
-                     Text('continueGuest'.tr())),
+                  onPressed: () => context.router.pop(),
+                  child: Text(
+                    'continueGuest'.tr(),
+                  ),
+                ),
                 kVerticalSpacerSmall,
                 Row(
                   children: [
@@ -162,14 +149,12 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                     kHorizontalSpacerMini,
-                     Text(
-                        'loginVerify.or'.tr()
-                    ),
+                    Text('loginVerify.or'.tr()),
                     kHorizontalSpacerMini,
                     Expanded(
                         child: AppDividerWidget(
-                          color: Styles.kSubTextColor,
-                        )),
+                      color: Styles.kSubTextColor,
+                    )),
                   ],
                 ),
                 kVerticalSpacerSmall,
@@ -203,31 +188,36 @@ class _LoginFormState extends State<LoginForm> {
             ),
             child: AppInputPassword(
               name: widget.formPasswordLoginName,
+              maxLengthAllowed: setting.passwordMaxLength,
               hintText: 'password'.tr(),
-              validators: [FormBuilderValidators.required()],
+              validators: [
+                FormBuilderValidators.required(),
+                FormBuilderValidators.minLength(setting.passwordMinLength),
+                FormBuilderValidators.maxLength(setting.passwordMaxLength),
+              ],
               isDarkBackground: false,
             ),
           ),
           kVerticalSpacerMini,
           TextButton(
-              onPressed: () {
-                context.router.push(const ForgetPasswordRoute());
-              },
-              child: Text(
-                'forgottenYourPassword'.tr(),
-                style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
-              )),
+            onPressed: () {
+              context.router.push(
+                const ForgetPasswordRoute(),
+              );
+            },
+            child: Text(
+              'forgottenYourPassword'.tr(),
+              style: kMediumRegular.copyWith(color: Styles.kSubTextColor),
+            ),
+          ),
           kVerticalSpacerMini,
-          if(isLoading == true && widget.fromPopUp) ... [
-
+          if (isLoading == true && widget.fromPopUp) ...[
             AppLoading(),
-          ] else ... [
+          ] else ...[
             ElevatedButton(
-              onPressed: () => onLogin(context,widget.fromPopUp),
-              child:  Text(
+              onPressed: () => onLogin(context, widget.fromPopUp),
+              child: Text(
                 'loginVerify.logIn'.tr(),
-
-
                 style: kLargeHeavy,
               ),
             ),
@@ -236,15 +226,12 @@ class _LoginFormState extends State<LoginForm> {
               onPressed: () => context.router.push(
                 const SignupWrapperRoute(),
               ), //kMedium15Heavy
-              child:
-              Text('createAccount'.tr(),
+              child: Text(
+                'createAccount'.tr(),
                 style: kLargeHeavy,
               ),
-
             ),
-
           ],
-
         ],
       ),
     );
