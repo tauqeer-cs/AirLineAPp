@@ -1938,6 +1938,9 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   Future<bool?> changeFlight() async {
     try {
+
+
+
       var departureDate =
           '${state.selectedDepartureFlight?.departureDate?.toIso8601String() ?? ''}Z'; //  ';
       var returnDate =
@@ -2022,6 +2025,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             blocState: BlocState.initial,
             message: ''),
       );
+
+      CommonResponse responses = await _repository.removecheckinRepo(
+          ManageBookingRequest(
+              pnr: state.pnrEntered, lastname: state.lastName));
 
       var response = await _repository.changeFlight(
         ChangingFlightRequest(changeFlightRequest: request),

@@ -11,6 +11,7 @@ import '../../../theme/styles.dart';
 import '../../../theme/typography.dart';
 import '../../../utils/date_utils.dart';
 import '../../../widgets/app_loading_screen.dart';
+import '../../check_in/bloc/check_in_cubit.dart';
 import '../../search_result/ui/booking_summary.dart';
 import '../../search_result/ui/choose_flight_segment.dart';
 import '../../search_result/ui/summary_container_listener.dart';
@@ -56,6 +57,7 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
     bloc = context.watch<ManageBookingCubit>();
 
     final locale = context.locale.toString();
+    CheckInCubit? changeBloc = context.watch<CheckInCubit>();
 
     String noOfPerson =
         bloc?.state.manageBookingResponse?.result?.toBeautify() ?? '1';
@@ -156,6 +158,11 @@ class _SelectChangeFlightViewState extends State<SelectChangeFlightView> {
                             if (flag == true) {
 
                               bloc?.getAvailablePromotionsMMb(null);
+
+                              if (changeBloc.state.outboundBoardingPassPassenger != null) {
+                                changeBloc.getBookingsListing();
+                              }
+
 
                               context.router.push(
                                 const ChangeFlightSummaryRoute(),

@@ -44,6 +44,7 @@ import '../../add_on/summary/ui/special_summary_detail.dart';
 import '../../add_on/ui/passenger_selector.dart';
 import '../../add_on/ui/summary_list_item.dart';
 import '../../change_flight_summary/ui/change_flight_summary_view.dart';
+import '../../check_in/bloc/check_in_cubit.dart';
 import '../../check_in/ui/check_in_view.dart';
 import '../../checkout/pages/insurance/bloc/insurance_cubit.dart';
 import '../../checkout/pages/insurance/ui/available_insurance.dart';
@@ -102,6 +103,7 @@ class ManageBookingDetailsView extends StatelessWidget {
     bloc = context.watch<ManageBookingCubit>();
     final locale = context.locale.toString();
     var selectedPax = context.watch<ManageBookingCubit>().state.selectedPax;
+    CheckInCubit? changeBloc = context.watch<CheckInCubit>();
 
     bool showSsr = true;
     bool showPax = true;
@@ -911,6 +913,9 @@ class ManageBookingDetailsView extends StatelessWidget {
                                           var redirectUrl =
                                               await bloc?.checkOutPending();
 
+
+
+
                                           if (bloc?.state.hasPendingError ==
                                               true) {
                                             showErrorDialog(
@@ -1036,6 +1041,11 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
+
+                                        if (changeBloc.state.outboundBoardingPassPassenger != null) {
+                                          changeBloc.getBookingsListing();
+                                        }
+
 
                                         if (response != null) {
                                           var redirectUrl =
