@@ -148,6 +148,7 @@ class ContinueButton extends StatelessWidget {
 
     return ElevatedButton(
       onPressed: () {
+        /*
         for (var currentPerson in persons) {
           if (currentPerson.peopleType != PeopleType.infant) {
             if (currentPerson.departureBaggage == null) {
@@ -184,6 +185,7 @@ class ContinueButton extends StatelessWidget {
             }
           } else {}
         }
+        */
         if (flightType == FlightType.round && isDeparture) {
           context.router.push(MealsRoute(isDeparture: false));
         } else {

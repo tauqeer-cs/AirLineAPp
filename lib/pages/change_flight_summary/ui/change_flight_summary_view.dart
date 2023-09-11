@@ -727,11 +727,6 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                             if (status != "FAIL") {
                                               if (status == 'CON') {
 
-                                                if (changeBloc.state.outboundBoardingPassPassenger != null) {
-                                                  changeBloc.getBookingsListing();
-                                                }
-
-
 
                                                 await showDialog(
                                                   context: context,
@@ -761,8 +756,15 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                                                  //getBookingsListing
 
 
+                                                if (changeBloc.state.outboundBoardingPassPassenger != null) {
+                                                  changeBloc.getBookingsListing();
+                                                }
 
-                                                 if(mounted) {
+
+
+
+
+                                                if(mounted) {
                                                    context.router.replaceAll([
                                                      const NavigationRoute(),
                                                      ManageBookingDetailsRoute(

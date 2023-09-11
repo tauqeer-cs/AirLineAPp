@@ -328,6 +328,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                   final allowedChange =
                                                       isAllowedToContinue(
                                                           state);
+
                                                   if (!allowedChange) {
                                                     Toast.of(context).show(
                                                         success: false,
@@ -1042,9 +1043,6 @@ class ManageBookingDetailsView extends StatelessWidget {
                                         ChangeSsrResponse? response =
                                             await bloc?.checkSsrChange();
 
-                                        if (changeBloc.state.outboundBoardingPassPassenger != null) {
-                                          changeBloc.getBookingsListing();
-                                        }
 
 
                                         if (response != null) {
@@ -1098,9 +1096,11 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                                                 reloadView();
 
-                                                //// cyrreContext
-                                                // .read<VoucherCubit>()
-                                                // .resetState();
+
+                                                if (changeBloc.state.outboundBoardingPassPassenger != null) {
+                                                  changeBloc.getBookingsListing();
+                                                }
+
                                               } else if (status == 'FAIL') {
                                                 Toast.of(context).show(
                                                     message:

@@ -334,6 +334,13 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
         ? focusedPerson?.departureBaggage
         : focusedPerson?.returnBaggage;
 
+    if(baggage == null) {
+
+      if(widget.selectedBaggage.ssrCode == 'NOSELECT') {
+        baggage = widget.selectedBaggage;
+      }
+    }
+
     return InkWell(
       onTap: () async {
         var responseFlag = context.read<SearchFlightCubit>().addBaggageToPerson(
@@ -388,9 +395,7 @@ class _NewBaggageCardState extends State<NewBaggageCard> {
                   IgnorePointer(
                     child: Radio<Bundle?>(
                       activeColor: Styles.kPrimaryColor,
-                      value: widget.selectedBaggage.ssrCode == ''
-                          ? null
-                          : widget.selectedBaggage,
+                      value: widget.selectedBaggage,
                       groupValue: baggage,
                       onChanged: (value) async {},
                     ),
