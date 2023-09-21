@@ -162,6 +162,7 @@ class BaggageSection extends StatelessWidget {
                                   0.0,
                               isDense: true,
                               isNormalMYR: true,
+                              currency: manageBookingCubit?.state.manageBookingResponse?.result?.fareAndBundleDetail?.currencyToShow ?? '',
                             ),
                           ],
                         ),

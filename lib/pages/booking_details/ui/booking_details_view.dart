@@ -1684,8 +1684,7 @@ class ManageFlightSummary extends StatelessWidget {
     final bloc = context.watch<ManageBookingCubit>();
 
     String currency =
-        bloc.state.manageBookingResponse?.result?.superPNROrder?.currencyCode ??
-            'MYR';
+        bloc.state.manageBookingResponse?.result?.fareAndBundleDetail?.currencyToShow ?? '';
 
     var ccc = bloc.noOfNewMeals;
 

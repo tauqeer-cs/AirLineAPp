@@ -288,6 +288,7 @@ class SeatPlan extends StatelessWidget {
                         manageBookingCubit?.notConfirmedSeatsTotalPrice ?? 0.0,
                     isDense: true,
                     isNormalMYR: true,
+                    currency: manageBookingCubit?.state.manageBookingResponse?.result?.fareAndBundleDetail?.currencyToShow ?? '',
                   ),
                 ],
               ),

@@ -251,6 +251,7 @@ class MealsSection extends StatelessWidget {
                         amount: manageBookingCubit?.notConfirmedMealsTotalPrice ?? 0.0,
                         isDense: true,
                         isNormalMYR: true,
+                        currency: manageBookingCubit?.state.manageBookingResponse?.result?.fareAndBundleDetail?.currencyToShow ?? '',
                       ),
                     ],
                   ),
