@@ -207,6 +207,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
   void initState() {
     super.initState();
     selectedItem = '';
+    lastPersonUser = null;
+
   }
 
   Widget amountToShow(Bundle currentItem, {bool red = false}) {
