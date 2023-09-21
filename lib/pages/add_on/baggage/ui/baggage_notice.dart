@@ -119,7 +119,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   ] else ... [
                     SportsEquipmentCard(
                       isManageBooking: widget.isManageBooking, isDeparting: widget.isDeparting,
-                      key: this.widget.horizS2,
+                      key: widget.horizS2,
                     ),
                   ],
 
@@ -243,10 +243,11 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     initialPage: 0,
   );
   ManageBookingCubit? managebloc;
+  Person? selectedPerson;
   @override
   Widget build(BuildContext context) {
     String currency = 'MYR';
-    Person? selectedPerson;
+
     bool isDeparture = false;
     BundleGroupSeat? baggageGroup;
     List<Bundle>? baggage;
@@ -264,8 +265,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       currency = bloc.state.manageBookingResponse?.result?.superPNROrder
               ?.currencyCode ??
           'MYR';
-      selectedPerson =
-          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+      selectedPerson = context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
 
       baggageGroup = bloc.state.flightSSR?.sportGroup;
       isDeparture = widget.isDeparting;
@@ -337,8 +338,15 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
               ?.flightResult
               ?.requestedCurrencyOfFareQuote ??
           'MYR';
-      selectedPerson = context.watch<SelectedPersonCubit>().state;
-      ///var cc = context.watch<SearchFlightCubit>().state.filterState?.numberPerson.persons.where((e) => e.passenger.in);
+
+      if(selectedPerson?.numberOrder != context.watch<SelectedPersonCubit>().state?.numberOrder) {
+        selectedPerson = context.watch<SelectedPersonCubit>().state;
+
+      }
+      else {
+        selectedPerson ??= context.watch<SelectedPersonCubit>().state;
+
+      }
 
 
       isDeparture = context.watch<IsDepartureCubit>().state;
@@ -555,7 +563,12 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                     isDeparture);
 
                             if(responseFlag != null) {
-                              selectedCubit?.updatePerson(responseFlag);
+                              setState(() {
+                                selectedPerson = responseFlag;
+
+                              });
+
+                            //  selectedCubit?.updatePerson(responseFlag);
                             }
 
                           },
