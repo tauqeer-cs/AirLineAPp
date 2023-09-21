@@ -3458,7 +3458,34 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       if (isDeparture) {
         if ((person?.departureMeal ?? []).isNotEmpty) {
           num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
-          //BDMC
+
+          var persons = state.manageBookingResponse?.result?.passengersWithSSR?.map((e) => e.personObject).toList();
+
+          int countSSR = (persons ?? []).fold(0, (int totalCount, Person? person) {
+
+            return totalCount + (person?.departureMeal.where((e) => e.ssrCode == meal.codeType).length ?? 0);
+
+          });
+
+          if(countSSR >= maxCountAllowe){
+            return;
+          }
+
+          /*int? countSSR = persons?.fold(0, (int totalCount, Person? person) {
+            // Iterate through the departureMeal list of each person
+            int personCount = person.returnMeal.fold(0, (int mealCount, Bundle bundle) {
+              // Check if the codeType of the bundle is 'SSR'
+              if (bundle.codeType ==  meal.codeType) {
+                return mealCount + 1;
+              }
+              return mealCount;
+            });
+
+            return totalCount + personCount;
+          });*/
+
+
+
           var allThisTypeOfMeal = person?.departureMeal
               .where((element) => element.codeType == meal.codeType)
               .toList();
@@ -3485,6 +3512,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           var allThisTypeOfMeal = person?.returnMeal
               .where((element) => element.codeType == meal.codeType)
               .toList();
+
+          var persons = state.manageBookingResponse?.result?.passengersWithSSR?.map((e) => e.personObject).toList();
+
+          int countSSR = (persons ?? []).fold(0, (int totalCount, Person? person) {
+
+            return totalCount + (person?.returnMeal.where((e) => e.ssrCode == meal.codeType).length ?? 0);
+
+          });
+
+          if(countSSR >= maxCountAllowe){
+            return;
+          }
 
           if ((tmpObj ?? []).isNotEmpty) {
             int maxAdd = 0;

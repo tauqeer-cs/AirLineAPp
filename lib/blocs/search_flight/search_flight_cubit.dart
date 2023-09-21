@@ -189,10 +189,31 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
       if (isDeparture) {
         if ((person?.departureMeal ?? []).isNotEmpty) {
           num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
-          //BDMC
+
+          int countSSR = persons.fold(0, (int totalCount, Person person) {
+            // Iterate through the departureMeal list of each person
+            int personCount = person.departureMeal.fold(0, (int mealCount, Bundle bundle) {
+              // Check if the codeType of the bundle is 'SSR'
+              if (bundle.codeType ==  meal.codeType) {
+                return mealCount + 1;
+              }
+              return mealCount;
+            });
+
+            return totalCount + personCount;
+          });
+
+
+          print('object');
+
+
+          if(countSSR >= maxCountAllowe){
+            return;
+          }
           var allThisTypeOfMeal = person?.departureMeal
               .where((element) => element.codeType == meal.codeType)
               .toList();
+
 
           if ((allThisTypeOfMeal ?? []).isNotEmpty) {
             if (allThisTypeOfMeal!.length >= maxCountAllowe) {
@@ -204,6 +225,28 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
         if ((person?.returnMeal ?? []).isNotEmpty) {
           num maxCountAllowe = meal.maxCountServiceLevel ?? 0.0;
           //BDMC
+
+          int countSSR = persons.fold(0, (int totalCount, Person person) {
+            // Iterate through the departureMeal list of each person
+            int personCount = person.returnMeal.fold(0, (int mealCount, Bundle bundle) {
+              // Check if the codeType of the bundle is 'SSR'
+              if (bundle.codeType ==  meal.codeType) {
+                return mealCount + 1;
+              }
+              return mealCount;
+            });
+
+            return totalCount + personCount;
+          });
+
+
+          print('object');
+
+
+          if(countSSR >= maxCountAllowe){
+            return;
+          }
+
           var allThisTypeOfMeal = person?.returnMeal
               .where((element) => element.codeType == meal.codeType)
               .toList();
