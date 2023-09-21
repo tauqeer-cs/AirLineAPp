@@ -11,16 +11,7 @@ class AppSheetHandler extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Center(
-        //   child: Container(
-        //     width: 80,
-        //     height: 6,
-        //     decoration: BoxDecoration(
-        //       color: const Color(0xFFDBDBDB),
-        //       borderRadius: BorderRadius.circular(6),
-        //     ),
-        //   ),
-        // ),
+
         //kVerticalSpacer,
         kVerticalSpacerMini,
         Padding(
@@ -32,12 +23,7 @@ class AppSheetHandler extends StatelessWidget {
                 title ?? "",
                 style: kMediumHeavy,
               ),
-              // IconButton(
-              //   icon: const Icon(Icons.close),
-              //   onPressed: () {
-              //     Navigator.pop(context);
-              //   },
-              // )
+
             ],
           ),
         ),

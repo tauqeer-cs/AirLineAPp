@@ -251,6 +251,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     BundleGroupSeat? baggageGroup;
     List<Bundle>? baggage;
 
+    var selectedCubit = context.watch<SelectedPersonCubit>();
+
     if (widget.isManageBooking) {
 
       var bloc = context.watch<ManageBookingCubit>();
@@ -336,7 +338,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
               ?.requestedCurrencyOfFareQuote ??
           'MYR';
       selectedPerson = context.watch<SelectedPersonCubit>().state;
-
+      ///var cc = context.watch<SearchFlightCubit>().state.filterState?.numberPerson.persons.where((e) => e.passenger.in);
 
 
       isDeparture = context.watch<IsDepartureCubit>().state;
@@ -380,17 +382,18 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       if(isDeparture) {
         if(selectedPerson?.departureSports == null){
           selectedPerson = selectedPerson?.copyWith(departureSports: () => (baggage ?? []).first );
+          selectedItem = 'NOSELECT';
         }
 
-        selectedItem = 'NOSELECT';
       }
       else {
 
         if(selectedPerson?.returnSports == null){
           selectedPerson =  selectedPerson?.copyWith(departureSports: () => (baggage ?? []).first );
+          selectedItem = 'NOSELECT';
+
         }
 
-        selectedItem = 'NOSELECT';
       }
 
 
@@ -550,6 +553,11 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                         ? null
                                         : currentItem,
                                     isDeparture);
+
+                            if(responseFlag != null) {
+                              selectedCubit?.updatePerson(responseFlag);
+                            }
+
                           },
                           child: AppCard(
                             edgeInsets: EdgeInsets.zero,
