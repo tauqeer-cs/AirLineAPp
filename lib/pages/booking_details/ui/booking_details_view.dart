@@ -713,7 +713,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                               ),
                             ] else if (showPax == true) ...[
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: ContactsSection(
                                   fbKey: fbKey2,
                                 ),
@@ -1044,6 +1044,8 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             await bloc?.checkSsrChange();
 
 
+
+                                        return;
 
                                         if (response != null) {
                                           var redirectUrl =
