@@ -349,7 +349,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   ),
                 ],
                 if ((bloc?.state.rewardItem?.redemptionAmount ?? 0.0) == 0.0) ...[
-                  VoucherCodeUi(
+                  /*VoucherCodeUi(
                     readOnly: false,
                     blocState: voucherState.blocState,
                     voucherCodeInitial:  voucherState.dontShowVoucher == true ? '' :
@@ -408,6 +408,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   const SizedBox(
                     height: 16,
                   ),
+                  */
                 ],
 
 
