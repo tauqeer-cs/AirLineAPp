@@ -337,7 +337,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                   height: 16,
                 ),
 
-                /*
+
                 if ((voucherState.response?.addVoucherResult?.voucherDiscounts
                             ?.firstOrNull?.discountAmount ??
                         0.0) ==
@@ -409,7 +409,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                     height: 16,
                   ),
                 ],
-                */
+
 
                 const SizedBox(
                   height: 8,
@@ -660,7 +660,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
           right: 0,
           child: Column(
             children: [
-              /*if (bloc?.state.changeFlightResponse?.result?.changeFlightResponse
+              if (bloc?.state.changeFlightResponse?.result?.changeFlightResponse
 
                   ?.totalReservationAmount !=
                   null) ... [
@@ -676,7 +676,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                 ),
 
                 SizedBox(height: 8,),
-              ],*/
+              ],
 
               SummaryContainer(
                 child: Padding(

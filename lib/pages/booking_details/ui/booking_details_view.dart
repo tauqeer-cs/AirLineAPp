@@ -94,9 +94,9 @@ class ManageBookingDetailsView extends StatelessWidget {
   GlobalKey horizKeyW2 = GlobalKey();
 
   ManageBookingCubit? bloc;
-  static final fbKey = GlobalKey<FormBuilderState>();
-  static final fbKey2 = GlobalKey<FormBuilderState>();
-  static final _fbKey = GlobalKey<FormBuilderState>();
+   final fbKey = GlobalKey<FormBuilderState>();
+   final fbKey2 = GlobalKey<FormBuilderState>();
+   final _fbKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget build(BuildContext context) {
@@ -299,6 +299,7 @@ class ManageBookingDetailsView extends StatelessWidget {
                                             horizontal: 16),
                                         child: OutlinedButton(
                                           onPressed: () {
+
                                             onSharedTapped();
                                           }, //isLoading ? null :
                                           child:
@@ -804,12 +805,45 @@ class ManageBookingDetailsView extends StatelessWidget {
                                                   '', response);
 
                                           if (redirectUrl != null) {
+                                            if(redirectUrl == 'ssr') {
+
+                                              await showDialog(
+                                                context: cyrreContext!,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return PaymentSuccessAlert(
+                                                    currency: response
+                                                        .assignFlightAddOnResponse
+                                                        ?.currency ??
+                                                        '',
+                                                    amount: response
+                                                        .assignFlightAddOnResponse
+                                                        ?.totalReservationAmount
+                                                        ?.toStringAsFixed(
+                                                        2) ??
+                                                        '0.00',
+                                                  );
+                                                },
+                                              );
+
+                                              await bloc
+                                                  ?.getBookingInformation(
+                                                  state.lastName ?? '',
+                                                  state.pnrEntered ?? '');
+
+                                              reloadView();
+
+                                              return;
+
+                                            }
+
                                             final result =
                                                 await cyrreContext?.router.push(
                                               WebViewRoute(
                                                   url: "",
                                                   htmlContent: redirectUrl),
                                             );
+
 
                                             if (result != null &&
                                                 result is String) {
