@@ -13,7 +13,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import '../../blocs/routes/routes_cubit.dart';
 import '../home/bloc/home/home_cubit.dart';
 
-List<String> supportedLang = ["English", "Thai",];//'Bahasa Indonesia'
+List<String> supportedLang = ["English", "Thai",'Bahasa Indonesia'];
 
 class LanguagePage extends StatelessWidget {
   const LanguagePage({Key? key}) : super(key: key);
