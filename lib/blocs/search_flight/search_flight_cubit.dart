@@ -292,7 +292,7 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
     }
   }
 
-  bool addSportEquipmentToPerson(
+  Person? addSportEquipmentToPerson(
       Person? person, Bundle? bundle, bool isDeparture) {
     try {
       final persons =
@@ -313,10 +313,13 @@ class SearchFlightCubit extends Cubit<SearchFlightState> {
               filterState: filterState,
               message: "${DateTime.now().millisecondsSinceEpoch}"),
         );
+        return newPerson;
+
       }
-      return true;
+      return null;
+
     } catch (e) {
-      return false;
+      return null;
     }
   }
 

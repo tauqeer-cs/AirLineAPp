@@ -10,4 +10,8 @@ class SelectedPersonCubit extends Cubit<Person?> {
   selectPerson(Person? person){
     emit(person);
   }
+
+  void updatePerson(Person responseFlag) {
+    emit(responseFlag);
+  }
 }

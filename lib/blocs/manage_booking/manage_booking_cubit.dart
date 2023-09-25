@@ -1753,10 +1753,10 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       ChangeSsrResponse response =
           await _repository.setAssignFlightAddon(request);
 
-      /*emit(
+      emit(
         state.copyWith(
             showingVoucher: true, isPaying: false, changeSsrResponse: response),
-      );*/
+      );
 
       ///getAvailablePromotionsMMb
       return response;
@@ -1851,6 +1851,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         useFirstOne = true;
         (addOns.paxAddOnSSR ?? []).first.flightSSR;
       }
+      //reset all the data here
       emit(
         state.copyWith(
             flightSeats: addOns.flightSeats,
@@ -1866,6 +1867,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             checkReturn: false,
             superPnrNo: '',
             orderId: 0,
+            showingVoucher: false,
             showErrorOnContact: false,
             showErrorOnEmergency: false,
             isPaying: false,
@@ -1885,6 +1887,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
             blocState: BlocState.failed,
             isLoadingInfo: false,
             isPaying: false,
+            showingVoucher: false,
             dataLoaded: false),
       );
       return false;
@@ -2216,6 +2219,18 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
         orderId = response.value?.orderId;
       }
       //loadingCheckoutPayment
+      if((response.value?.paymentRedirectData?.paymentUrl ?? '').contains('booked')) {
+
+        emit(
+          state.copyWith(
+              loadingCheckoutPayment: false,
+              orderId: orderId,
+              superPnrNo: superNo,
+              message: ''),
+        );
+        return 'ssr';
+
+      }
       FormData formData = FormData.fromMap(
           response.value?.paymentRedirectData?.redirectMap() ?? {});
 

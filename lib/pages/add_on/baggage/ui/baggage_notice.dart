@@ -119,7 +119,7 @@ class _BaggageNoticeState extends State<BaggageNotice> {
                   ] else ... [
                     SportsEquipmentCard(
                       isManageBooking: widget.isManageBooking, isDeparting: widget.isDeparting,
-                      key: this.widget.horizS2,
+                      key: widget.horizS2,
                     ),
                   ],
 
@@ -207,6 +207,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
   void initState() {
     super.initState();
     selectedItem = '';
+    lastPersonUser = null;
+
   }
 
   Widget amountToShow(Bundle currentItem, {bool red = false}) {
@@ -243,13 +245,16 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     initialPage: 0,
   );
   ManageBookingCubit? managebloc;
+  Person? selectedPerson;
   @override
   Widget build(BuildContext context) {
     String currency = 'MYR';
-    Person? selectedPerson;
+
     bool isDeparture = false;
     BundleGroupSeat? baggageGroup;
     List<Bundle>? baggage;
+
+    var selectedCubit = context.watch<SelectedPersonCubit>();
 
     if (widget.isManageBooking) {
 
@@ -262,8 +267,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       currency = bloc.state.manageBookingResponse?.result?.superPNROrder
               ?.currencyCode ??
           'MYR';
-      selectedPerson =
-          context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+      selectedPerson = context.watch<ManageBookingCubit>().state.selectedPax?.personObject;
+
 
       baggageGroup = bloc.state.flightSSR?.sportGroup;
       isDeparture = widget.isDeparting;
@@ -335,8 +340,15 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
               ?.flightResult
               ?.requestedCurrencyOfFareQuote ??
           'MYR';
-      selectedPerson = context.watch<SelectedPersonCubit>().state;
 
+      if(selectedPerson?.numberOrder != context.watch<SelectedPersonCubit>().state?.numberOrder) {
+        selectedPerson = context.watch<SelectedPersonCubit>().state;
+
+      }
+      else {
+        selectedPerson ??= context.watch<SelectedPersonCubit>().state;
+
+      }
 
 
       isDeparture = context.watch<IsDepartureCubit>().state;
@@ -380,17 +392,18 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
       if(isDeparture) {
         if(selectedPerson?.departureSports == null){
           selectedPerson = selectedPerson?.copyWith(departureSports: () => (baggage ?? []).first );
+          selectedItem = 'NOSELECT';
         }
 
-        selectedItem = 'NOSELECT';
       }
       else {
 
         if(selectedPerson?.returnSports == null){
           selectedPerson =  selectedPerson?.copyWith(departureSports: () => (baggage ?? []).first );
+          selectedItem = 'NOSELECT';
+
         }
 
-        selectedItem = 'NOSELECT';
       }
 
 
@@ -550,6 +563,16 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                         ? null
                                         : currentItem,
                                     isDeparture);
+
+                            if(responseFlag != null) {
+                              setState(() {
+                                selectedPerson = responseFlag;
+
+                              });
+
+                            //  selectedCubit?.updatePerson(responseFlag);
+                            }
+
                           },
                           child: AppCard(
                             edgeInsets: EdgeInsets.zero,
