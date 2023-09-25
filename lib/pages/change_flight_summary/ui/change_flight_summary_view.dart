@@ -342,7 +342,7 @@ class _ChangeFlightSummaryViewState extends State<ChangeFlightSummaryView> {
                             ?.firstOrNull?.discountAmount ??
                         0.0) ==
                     0.0) ...[
-                  true ? Container() : RedeemVoucherView(
+                   RedeemVoucherView(
                     currency: currency,
                     promoReady: true,
                     isManageBooking: true,
