@@ -240,7 +240,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                       ? Colors.white
                                       : isBefore
                                       ? Styles.kBorderColor
-                                      : Styles.kPrimaryColor,//change this to red to make it red. It was null before
+                                      : null,//change this to red to make it red. It was null before
                                 ),
                               ),
                               Expanded(
@@ -269,7 +269,7 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                                 .copyWith(
                                                 color: inRange
                                                     ? Colors.white
-                                                    : Styles.kPrimaryColor,////change this to red to make it red. It was null before
+                                                    : null,////change this to red to make it red. It was null before
                                                 fontSize: 6),
                                           ),
                                         ),
@@ -294,12 +294,12 @@ class CalendarSheetVerticalState extends State<CalendarSheetVertical> {
                                                 ? kMediumHeavy.copyWith(
                                               color: inRange
                                                   ? Colors.white
-                                                  : Styles.kPrimaryColor,////change this to red to make it red. It was null before,
+                                                  : null,////change this to red to make it red. It was null before,
                                             )
                                                 : kLargeHeavy.copyWith(
                                               color: inRange
                                                   ? Colors.white
-                                                  : Styles.kPrimaryColor,////change this to red to make it red. It was null before,
+                                                  : null,////change this to red to make it red. It was null before,
                                             ),
                                           ),
                                         ),
