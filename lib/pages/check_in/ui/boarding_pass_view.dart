@@ -185,7 +185,7 @@ class BoardingPassView extends StatelessWidget {
                         child: MyCheckbox(
                           label: currentItem.fullName ?? '',
                           changed: (bool value) {
-                            bloc.updateStatusOfInBoundCheckUserForDownload(
+                            bloc.updateStatusOfOutBoundCheckUserForDownload(
                                 currentItem, value);
                           },
                         ),
@@ -204,6 +204,15 @@ class BoardingPassView extends StatelessWidget {
               kVerticalSpacer,
               OutlinedButton(
                 onPressed: () async {
+
+                  if(bloc.anythingChecked == false ){
+
+
+                    Fluttertoast.showToast(msg: 'Please select passenger.');
+
+                    return;
+
+                  }
                   String? email = await showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -232,6 +241,14 @@ class BoardingPassView extends StatelessWidget {
 
               ElevatedButton(
                 onPressed: () async {
+                  if(bloc.anythingChecked == false ){
+
+
+                    Fluttertoast.showToast(msg: 'Please select passenger.');
+
+                    return;
+
+                  }
                   var departure = true;
                   if (state.checkedDeparture == false &&
                       state.checkReturn == true) {

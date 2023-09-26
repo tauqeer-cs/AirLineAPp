@@ -178,6 +178,29 @@ class CheckInCubit extends Cubit<CheckInState> {
     );
   }
 
+  bool? get anythingChecked {
+
+    if((state.outboundBoardingPassPassenger ?? []).isNotEmpty ) {
+
+      for(BoardingPassPassenger currentItem in (state.outboundBoardingPassPassenger ?? [])){
+        if(currentItem.checkedToDownload == true){
+          return true;
+
+        }
+      }
+    }
+
+    if((state.inboundBoardingPassPassenger ?? []).isNotEmpty ) {
+      for(BoardingPassPassenger currentItem in (state.inboundBoardingPassPassenger ?? [])){
+        if(currentItem.checkedToDownload == true){
+          return true;
+
+        }
+      }
+    }
+    return false;
+
+  }
   Future<bool?> getBoardingPassPassengers(
     bool outbound, {
     bool onlySelected = false,
