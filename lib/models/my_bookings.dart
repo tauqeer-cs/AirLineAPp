@@ -54,22 +54,30 @@ class UpcomingBookings {
 
 
   String dateToShow(String? locale) {
-    if (departureToShow) {
-      var date = (DateTime.parse(outboundFlight?.departureDate ?? ''));
+    try {
+      if (departureToShow) {
+        var date = (DateTime.parse(outboundFlight?.departureDate ?? ''));
+        if(locale != null) {
+          final formatter = DateFormat('E dd MMM yyyy h:mm a',locale);
+          return formatter.format(date);
+        }
+        final formatter = DateFormat('E dd MMM yyyy h:mm a');
+        return formatter.format(date);
+      }
+      var date = (DateTime.parse(inboundFlight?.departureDate ?? ''));
       if(locale != null) {
         final formatter = DateFormat('E dd MMM yyyy h:mm a',locale);
-        return formatter.format(date);
+        return formatter.format(date,);
       }
       final formatter = DateFormat('E dd MMM yyyy h:mm a');
       return formatter.format(date);
     }
-    var date = (DateTime.parse(inboundFlight?.departureDate ?? ''));
-    if(locale != null) {
-      final formatter = DateFormat('E dd MMM yyyy h:mm a',locale);
-      return formatter.format(date,);
+    catch(e){
+      return '';
     }
-    final formatter = DateFormat('E dd MMM yyyy h:mm a');
-    return formatter.format(date);
+
+    return '';
+
   }
 
   String pastDateToShow(String? locale) {

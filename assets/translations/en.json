@@ -511,7 +511,6 @@
   "signUp1.emailMax": "Maximum email length is 45 characters.",
   "signUp1.mobileRules": "Mobile number should not include alphabet and special characters.",
   "signUp2.personalInformationDesc": "First we'll ask you questions to comply with MYAirline guidelines.",
-  "signUp2.birthdayQuestion": "When's your birthday?",
   "signUp2.birthday": "Birthday",
   "signUp2.day": "Day",
   "signUp2.month": "Month",

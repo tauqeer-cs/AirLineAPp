@@ -1366,7 +1366,7 @@ class InsuranceManageView extends StatelessWidget {
 
     final agentCms = context.watch<AgentSignUpCubit>();
 
-    bool dontShowAll = bloc.dontShowAllInsuranceOption;
+    bool dontShowAll = true;
 
     var insuranceValuesToShow = InsuranceType.values
         .where((element) => element != InsuranceType.none)
@@ -1380,9 +1380,13 @@ class InsuranceManageView extends StatelessWidget {
       print('');
     }
 
+    bool thisPersonHAsAlreadyInsurance = false;
+
     if (bloc.state.selectedPax?.insuranceSSRDetail != null) {
       if ((bloc.state.selectedPax?.insuranceSSRDetail?.totalAmount ?? 0.0) >
           0.0) {
+        thisPersonHAsAlreadyInsurance = true;
+
         insuranceValuesToShow = [];
         insurances = [];
       }
@@ -1699,7 +1703,7 @@ class InsuranceManageView extends StatelessWidget {
         ] else ...[
           EmptyAddon(
             icon: "assets/images/icons/icoNoInsurance.png",
-            customText: 'insuranceNotUnavailable'.tr(),
+            customText: thisPersonHAsAlreadyInsurance ? 'Passenger already purchased\ninsurance before .' : 'insuranceNotUnavailable'.tr(),
             verticalSpace: 20,
           ),
         ],

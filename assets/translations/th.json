@@ -509,7 +509,6 @@
   "signUp1.emailMax" : " ความยาวอีเมลสูงสุดคือ 45 อักขระ",
   "signUp1.mobileRules" : "หมายเลขโทรศัพท์มือถือต้องไม่มีตัวอักษรและอักขระพิเศษ",
   "signUp2.personalInformationDesc" : "ก่อนอื่น เราจะถามคำถามคุณเพื่อให้เป็นไปตามหลักเกณฑ์ของ MYAirline",
-  "signUp2.birthdayQuestion" : "โปรดระบุวัดเกิดของคุณ",
   "signUp2.birthday" : "วันเกิด",
   "signUp2.day" :  "วัน",
   "signUp2.month" : "เดือน",

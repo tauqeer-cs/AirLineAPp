@@ -30,7 +30,7 @@ class DobInput extends StatelessWidget {
             name: formNameDob,
             validator: FormBuilderValidators.required(),
             firstDate: DateTime(1920),
-            lastDate: DateTime.now(),
+            lastDate: DateTime.now().subtract(Duration(days: 730)),
             format: DateFormat("dd MMM yyyy",locale),
             initialDate: DateTime(2000),
             initialEntryMode: DatePickerEntryMode.calendar,

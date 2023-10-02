@@ -24,11 +24,48 @@ class SignupAddressPage extends StatelessWidget {
   onSignup(BuildContext context) {
     if (_fbKey.currentState!.saveAndValidate()) {
 
+
       final value = _fbKey.currentState!.value;
+
+      String addressString  = value[formNameAddress] ?? '';
+      String addressCityString = value[formNameCity] ?? '';
+      String poString = value[formNamePostCode] ?? '';
+      String stateString = value[formNameState] ?? '';
+
+
+
+      bool isValidAddress = true;
+
+      if(addressString.isNotEmpty) {
+
+        if(addressCityString.isEmpty){
+          _fbKey.currentState!.invalidateField(name: formNameCity,errorText: 'personalInfo.required'.tr());
+          isValidAddress = false && isValidAddress;
+        }
+
+
+        if(poString.isEmpty){
+          _fbKey.currentState!.invalidateField(name: formNamePostCode,errorText: 'personalInfo.required'.tr());
+          isValidAddress = false && isValidAddress;
+        }
+
+        if(stateString.isEmpty){
+          _fbKey.currentState!.invalidateField(name: formNameState,errorText: 'personalInfo.required'.tr());
+          isValidAddress = false && isValidAddress;
+        }
+
+
+      }
+
+      if(isValidAddress == false ){
+        return;
+
+      }
       String state = (value[formNameState] ?? '');
       if(state.isNotEmpty) {
         state = state.substring(0,2);
       }
+
       final signupRequest = SignupRequest(
         city: value[formNameCity],
         address: value[formNameAddress],
