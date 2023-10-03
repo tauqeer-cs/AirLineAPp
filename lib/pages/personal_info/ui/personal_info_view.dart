@@ -160,6 +160,126 @@ class _PersonalInfoViewState extends State<PersonalInfoView> {
                   }
                   String? ePhoneNo = value[formNamePhoneNoRelationship];
 
+                  /*
+                                    String? address = value[formNameAddress];
+                  String? state = value[formNameState];
+                  String? city = value[formNameCity];
+                  String? posCode = value[formNamePostCode];
+                  * */
+
+                  String addressString = value[formNameAddress] ?? '';
+                  String addressCityString = value[formNameCity] ?? '';
+                  String poString = value[formNamePostCode] ?? '';
+                  String stateString = value[formNameState] ?? '';
+
+                  bool isValidAddress = true;
+                  var _fbKey = PersonalInfoView._fbKey;
+
+                  if (addressString.isNotEmpty) {
+                    if (addressCityString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameCity,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+
+                    if (poString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNamePostCode,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+
+                    if (stateString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameState,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+                  } else if (addressCityString.isNotEmpty) {
+                    if (addressString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameAddress,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+
+                    if (poString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNamePostCode,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+
+                      isValidAddress = false && isValidAddress;
+                    }
+                    if (stateString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameState,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+                  } else if (poString.isNotEmpty) {
+                    if (addressString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameAddress,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+
+                    if (addressCityString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameCity,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+
+                    if (stateString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameState,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+                  } else if (stateString.isNotEmpty) {
+                    if (poString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNamePostCode,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+
+                    if (addressString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameAddress,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+
+                    if (addressCityString.isEmpty) {
+                      _fbKey.currentState!.invalidateField(
+                        name: formNameCity,
+                        errorText: 'personalInfo.required'.tr(),
+                      );
+                      isValidAddress = false && isValidAddress;
+                    }
+                  } else {
+                    // If address is empty, invalidate all address-related fields if they are not empty.
+                  }
+
+                  if (!isValidAddress) {
+                    return;
+                  }
+
+
                   var userProfile = context
                       .read<ProfileCubit>()
                       .state
