@@ -12,6 +12,7 @@ ManageBookingRequest _$ManageBookingRequestFromJson(
       pnr: json['pnr'] as String?,
       lastname: json['lastname'] as String?,
       email: json['email'] as String?,
+      paxForCheckOut: json['passengers']
     );
 
 Map<String, dynamic> _$ManageBookingRequestToJson(
@@ -27,5 +28,10 @@ Map<String, dynamic> _$ManageBookingRequestToJson(
   writeNotNull('pnr', instance.pnr);
   writeNotNull('lastname', instance.lastname);
   writeNotNull('email', instance.email);
+  if(instance.paxForCheckOut != null) {
+    writeNotNull('passengers', instance.paxForCheckOut);
+  }
+
+
   return val;
 }

@@ -7,6 +7,7 @@ class FightAddOns {
 
   FightAddOns({this.paxAddOnSSR, });
 
+
   FightAddOns.fromJson(Map<String, dynamic> json) {
     if (json['paxAddOnSSR'] != null) {
       paxAddOnSSR = <PaxAddOnSSR>[];
@@ -125,3 +126,5 @@ class FlightSSR {
     return data;
   }
 }
+
+

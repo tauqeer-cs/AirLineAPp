@@ -1310,35 +1310,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
   Future<ChangeSsrResponse?> checkSsrChange(
       {bool checkOutService = true}) async {
-    if (checkOutService) {
-      emit(
-        state.copyWith(
-          isPaying: true,
-        ),
-      );
 
-      CommonResponse response = await _repository.removecheckinRepo(
-          ManageBookingRequest(
-              pnr: state.pnrEntered, lastname: state.lastName));
-
-      if (response.success == false) {
-
-        emit(
-          state.copyWith(
-            message: response.message ?? 'Error while cancelling user Check-In',
-            isPaying: false,
-          ),
-        );
-
-        return null;
-      }
-    } else {
-      emit(
-        state.copyWith(
-          isPaying: true,
-        ),
-      );
-    }
 
     try {
       var request = RequestAssignFlightAddOnRequest();
@@ -1750,6 +1722,86 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
       }
 
       request.assignFlightAddOnRequest?.passengerAddOn = passengerAddOn;
+
+
+      if (checkOutService) {
+        emit(
+          state.copyWith(
+            isPaying: true,
+          ),
+        );
+        List<PaxForMmbCheckout> passenger = [];
+
+        print('object');
+
+
+        for(PassengerAddOn currentItem in request.assignFlightAddOnRequest?.passengerAddOn ?? []) {
+          currentItem.passengerKey;
+          //this.state.manageBookingResponse;
+
+          var outLogicalFlightIdToUse = '';
+          var inLogicalFlightIdToUse = '';
+
+            if((currentItem.sSR?.outbound ?? []).isNotEmpty ) {
+              outLogicalFlightIdToUse = (currentItem.sSR?.outbound ?? []).first.logicalFlightId ?? '';
+
+            } else {
+              if(currentItem.seat?.outbound != null) {
+
+                outLogicalFlightIdToUse = currentItem.seat?.outbound?.physicalFlightId ?? '';
+
+              }
+            }
+
+          if((currentItem.sSR?.inbound ?? []).isNotEmpty ) {
+            inLogicalFlightIdToUse = (currentItem.sSR?.inbound ?? []).first.logicalFlightId ?? '';
+
+          } else {
+            if(currentItem.seat?.inbound != null) {
+
+              inLogicalFlightIdToUse = currentItem.seat?.inbound?.physicalFlightId ?? '';
+
+            }
+          }
+
+
+          passenger.add(PaxForMmbCheckout(
+              passengerKey : currentItem.passengerKey,
+            outboundLogicalFlightID: outLogicalFlightIdToUse,
+            inboundLogicalFlightID: inLogicalFlightIdToUse
+          ));
+
+        }
+
+
+
+
+
+        CommonResponse response = await _repository.removecheckinRepo(
+            ManageBookingRequest(
+                pnr: state.pnrEntered, lastname: state.lastName,paxForCheckOut: passenger));
+
+        if (response.success == false) {
+
+          emit(
+            state.copyWith(
+              message: response.message ?? 'Error while cancelling user Check-In',
+              isPaying: false,
+            ),
+          );
+
+          return null;
+        }
+      } else {
+        emit(
+          state.copyWith(
+            isPaying: true,
+          ),
+        );
+      }
+
+
+
       ChangeSsrResponse response =
           await _repository.setAssignFlightAddon(request);
 

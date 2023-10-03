@@ -951,7 +951,6 @@ class ManageBookingDetailsView extends StatelessWidget {
 
 
 
-
                                           if (bloc?.state.hasPendingError ==
                                               true) {
                                             showErrorDialog(
@@ -959,7 +958,7 @@ class ManageBookingDetailsView extends StatelessWidget {
 
                                             return;
                                           }
-                                          //
+
 
                                           if (redirectUrl != null) {
                                             final result =
@@ -1324,6 +1323,11 @@ class InsuranceManageView extends StatelessWidget {
     Bundle? lastInsuranceSelected;
     InsuranceType? selected = state.insuranceType;
 
+    if(selected == null) {
+      bloc.selectInsuranceType(InsuranceType.selected);
+
+    }
+
     String currency = 'MYR';
 
     if ((insurances ?? []).isNotEmpty) {
@@ -1414,6 +1418,8 @@ class InsuranceManageView extends StatelessWidget {
                     .map(
                       (e) => InkWell(
                         onTap: () {
+                          return;;
+
                           print('');
 
                           var options =
