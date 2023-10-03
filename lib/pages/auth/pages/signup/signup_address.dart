@@ -21,50 +21,127 @@ class SignupAddressPage extends StatelessWidget {
   static final _fbKey = GlobalKey<FormBuilderState>();
   final step = 2;
 
-  onSignup(BuildContext context) {
+  void onSignup(BuildContext context) {
     if (_fbKey.currentState!.saveAndValidate()) {
-
-
       final value = _fbKey.currentState!.value;
 
-      String addressString  = value[formNameAddress] ?? '';
+      String addressString = value[formNameAddress] ?? '';
       String addressCityString = value[formNameCity] ?? '';
       String poString = value[formNamePostCode] ?? '';
       String stateString = value[formNameState] ?? '';
 
-
-
       bool isValidAddress = true;
 
-      if(addressString.isNotEmpty) {
-
-        if(addressCityString.isEmpty){
-          _fbKey.currentState!.invalidateField(name: formNameCity,errorText: 'personalInfo.required'.tr());
+      if (addressString.isNotEmpty) {
+        if (addressCityString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameCity,
+            errorText: 'personalInfo.required'.tr(),
+          );
           isValidAddress = false && isValidAddress;
         }
 
-
-        if(poString.isEmpty){
-          _fbKey.currentState!.invalidateField(name: formNamePostCode,errorText: 'personalInfo.required'.tr());
+        if (poString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNamePostCode,
+            errorText: 'personalInfo.required'.tr(),
+          );
           isValidAddress = false && isValidAddress;
         }
 
-        if(stateString.isEmpty){
-          _fbKey.currentState!.invalidateField(name: formNameState,errorText: 'personalInfo.required'.tr());
+        if (stateString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameState,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+      } else if (addressCityString.isNotEmpty) {
+        if (addressString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameAddress,
+            errorText: 'personalInfo.required'.tr(),
+          );
           isValidAddress = false && isValidAddress;
         }
 
+        if (poString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNamePostCode,
+            errorText: 'personalInfo.required'.tr(),
+          );
 
+          isValidAddress = false && isValidAddress;
+        }
+        if (stateString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameState,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+      } else if (poString.isNotEmpty) {
+        if (addressString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameAddress,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+
+        if (addressCityString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameCity,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+
+        if (stateString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameState,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+      } else if (stateString.isNotEmpty) {
+        if (poString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNamePostCode,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+
+        if (addressString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameAddress,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+
+        if (addressCityString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameCity,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+      } else {
+        // If address is empty, invalidate all address-related fields if they are not empty.
       }
 
-      if(isValidAddress == false ){
+      if (!isValidAddress) {
         return;
+      }
 
-      }
       String state = (value[formNameState] ?? '');
-      if(state.isNotEmpty) {
-        state = state.substring(0,2);
+      if (state.isNotEmpty) {
+        state = state.substring(0, 2);
       }
+
+      return;
 
       final signupRequest = SignupRequest(
         city: value[formNameCity],
@@ -147,9 +224,8 @@ class SignupAddressPage extends StatelessWidget {
                           kVerticalSpacer,
                           ElevatedButton(
                             onPressed: () {
-
                               //context
-                                //  .read<SignupCubit>().valideAddress();
+                              //  .read<SignupCubit>().valideAddress();
 
                               onSignup(context);
                             },
