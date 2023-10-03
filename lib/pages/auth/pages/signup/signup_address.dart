@@ -141,7 +141,6 @@ class SignupAddressPage extends StatelessWidget {
         state = state.substring(0, 2);
       }
 
-      return;
 
       final signupRequest = SignupRequest(
         city: value[formNameCity],
