@@ -116,7 +116,7 @@ class AppCountriesDropdownState extends State<AppCountriesDropdown> {
             numKey: widget.isPhoneCode,
             sheetTitle: widget.isPhoneCode ? "phone".tr() : "country".tr(),
             defaultValue: showOverrideValue ? newSelectedCountry : (
-                 selectedCountry ?? widget.initialValue ?? (this.widget.isMMB ? null : Country.defaultCountry)),
+                 selectedCountry ?? widget.initialValue ?? (widget.isMMB || widget.hideDefualttValue ? null : Country.defaultCountry)),
             onChanged: widget.onChanged,
             dropdownDecoration: widget.dropdownDecoration,
             valueTransformerItem: (value, selected) {

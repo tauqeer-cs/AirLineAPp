@@ -76,6 +76,7 @@ class AddressInput extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppCountriesDropdown(
+                        hideDefualttValue  : true,
                       hintText: 'country'.tr(),
                       isPhoneCode: false,
                       initialCountryCode: selectedCountry,
