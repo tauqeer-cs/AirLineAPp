@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../../../../models/country.dart';
+import '../../../../../checkout/pages/booking_details/ui/shadow_input.dart';
 
 class AddressInput extends StatelessWidget {
   final String? title;
@@ -28,7 +29,10 @@ class AddressInput extends StatelessWidget {
   final String? selectedPosCode;
   final Function(Country?)? onAddressCountryChange;
 
-  const AddressInput(
+  final TextEditingController _controller = TextEditingController();
+
+
+   AddressInput(
       {Key? key,
       this.title,
       this.subText,
@@ -74,18 +78,24 @@ class AddressInput extends StatelessWidget {
               kVerticalSpacer,
               Row(
                 children: [
+
                   Expanded(
-                    child: AppCountriesDropdown(
-                        hideDefualttValue  : true,
-                      hintText: 'country'.tr(),
-                      isPhoneCode: false,
-                      initialCountryCode: selectedCountry,
-                      onChanged: (newCountry) {
-                        onAddressCountryChange?.call(newCountry);
-                        context
-                            .read<SignupCubit>()
-                            .editCountry(newCountry?.countryCode ?? "");
-                      },
+                    child: ShadowInput(
+                      name: formNameCountry,
+
+                      textEditingController: _controller,
+                      child: AppCountriesDropdown(
+                          hideDefualttValue  : true,
+                        hintText: 'country'.tr(),
+                        isPhoneCode: false,
+                        initialCountryCode: selectedCountry,
+                        onChanged: (newCountry) {
+                          onAddressCountryChange?.call(newCountry);
+                          context
+                              .read<SignupCubit>()
+                              .editCountry(newCountry?.countryCode ?? "");
+                        },
+                      ),
                     ),
                   ),
                   kHorizontalSpacerMini,

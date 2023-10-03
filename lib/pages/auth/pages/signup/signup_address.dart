@@ -30,6 +30,10 @@ class SignupAddressPage extends StatelessWidget {
       String poString = value[formNamePostCode] ?? '';
       String stateString = value[formNameState] ?? '';
 
+      //    final newData = state.signupRequest.copyWith(country: country);
+
+      String countryString = context.read<SignupCubit>().state.signupRequest.country ?? '';
+
       bool isValidAddress = true;
 
       if (addressString.isNotEmpty) {
@@ -56,7 +60,18 @@ class SignupAddressPage extends StatelessWidget {
           );
           isValidAddress = false && isValidAddress;
         }
-      } else if (addressCityString.isNotEmpty) {
+
+        if (countryString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameCountry,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+      }
+
+      else
+        if (addressCityString.isNotEmpty) {
         if (addressString.isEmpty) {
           _fbKey.currentState!.invalidateField(
             name: formNameAddress,
@@ -76,6 +91,13 @@ class SignupAddressPage extends StatelessWidget {
         if (stateString.isEmpty) {
           _fbKey.currentState!.invalidateField(
             name: formNameState,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+        if (countryString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameCountry,
             errorText: 'personalInfo.required'.tr(),
           );
           isValidAddress = false && isValidAddress;
@@ -104,6 +126,16 @@ class SignupAddressPage extends StatelessWidget {
           );
           isValidAddress = false && isValidAddress;
         }
+
+        if (countryString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameCountry,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+
+
       } else if (stateString.isNotEmpty) {
         if (poString.isEmpty) {
           _fbKey.currentState!.invalidateField(
@@ -128,7 +160,47 @@ class SignupAddressPage extends StatelessWidget {
           );
           isValidAddress = false && isValidAddress;
         }
-      } else {
+        if (countryString.isEmpty) {
+          _fbKey.currentState!.invalidateField(
+            name: formNameCountry,
+            errorText: 'personalInfo.required'.tr(),
+          );
+          isValidAddress = false && isValidAddress;
+        }
+      }
+        else if (countryString.isNotEmpty) {
+          if (poString.isEmpty) {
+            _fbKey.currentState!.invalidateField(
+              name: formNamePostCode,
+              errorText: 'personalInfo.required'.tr(),
+            );
+            isValidAddress = false && isValidAddress;
+          }
+
+          if (addressString.isEmpty) {
+            _fbKey.currentState!.invalidateField(
+              name: formNameAddress,
+              errorText: 'personalInfo.required'.tr(),
+            );
+            isValidAddress = false && isValidAddress;
+          }
+
+          if (addressCityString.isEmpty) {
+            _fbKey.currentState!.invalidateField(
+              name: formNameCity,
+              errorText: 'personalInfo.required'.tr(),
+            );
+            isValidAddress = false && isValidAddress;
+          }
+          if (stateString.isEmpty) {
+            _fbKey.currentState!.invalidateField(
+              name: formNameState,
+              errorText: 'personalInfo.required'.tr(),
+            );
+            isValidAddress = false && isValidAddress;
+          }
+        }
+        else {
         // If address is empty, invalidate all address-related fields if they are not empty.
       }
 
@@ -140,6 +212,7 @@ class SignupAddressPage extends StatelessWidget {
       if (state.isNotEmpty) {
         state = state.substring(0, 2);
       }
+
 
 
       final signupRequest = SignupRequest(
@@ -217,7 +290,7 @@ class SignupAddressPage extends StatelessWidget {
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,
-                          const AddressInput(),
+                           AddressInput(),
                           kVerticalSpacer,
                           AppDividerWidget(color: Styles.kTextColor),
                           kVerticalSpacer,

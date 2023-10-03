@@ -17,7 +17,7 @@ class SignupRequest extends Equatable {
     this.gender = "male",
     this.dob,
     this.address,
-    this.country = "MYS",
+    this.country = "",
     this.state,
     this.city,
     this.postCode,
