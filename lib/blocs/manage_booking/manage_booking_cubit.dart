@@ -2115,7 +2115,7 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
 
       CommonResponse responses = await _repository.removecheckinRepo(
           ManageBookingRequest(
-              pnr: state.pnrEntered, lastname: state.lastName));
+              pnr: state.pnrEntered, lastname: state.lastName,paxForCheckOut: passenger));
 
       if (responses.success == false) {
         emit(
