@@ -2117,6 +2117,19 @@ class ManageBookingCubit extends Cubit<ManageBookingState> {
           ManageBookingRequest(
               pnr: state.pnrEntered, lastname: state.lastName));
 
+      if (responses.success == false) {
+        emit(
+          state.copyWith(
+            message:
+            responses.message ?? 'Error while cancelling user Check-In',
+            isPaying: false,
+            isLoadingInfo: false,
+            loadingSelectingFlight: false,
+          ),
+        );
+
+        return null;
+      }
       var response = await _repository.changeFlight(
         ChangingFlightRequest(changeFlightRequest: request),
       );
