@@ -125,10 +125,7 @@ class _InsuranceViewState extends State<InsuranceView> {
 
     var seat = passengers.firstWhereOrNull((e) => e.seat != null)?.seat;
 
-    /*if(seat != null) {
-      hasSeat = true;
 
-    }*/
 
     final insuranceBloc = context.watch<InsuranceCubit>();
 

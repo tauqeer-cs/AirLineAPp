@@ -728,10 +728,12 @@ class ManageBookingDetailsView extends StatelessWidget {
                                 ),
                               ),
                               kVerticalSpacer,
-                              const Padding(
+
+                              /*const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 child: ComapnyTaxInvoiceSection(),
-                              ),
+                              ),*/
+
 
                               kVerticalSpacer,
                               const Padding(

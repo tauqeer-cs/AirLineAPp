@@ -83,6 +83,9 @@ class InsuranceState extends Equatable {
     );
   }
 
+
+
+
   @override
   List<Object?> get props =>
       [
@@ -102,6 +105,23 @@ class InsuranceState extends Equatable {
     }
     return totalInsurance;
   }
+
+  InsuranceState copyWithNull({
+
+    bool summaryResponse = false,
+    bool insuranceType = false,
+    bool selectedPassenger = false,
+    bool lastInsuranceSelected = false,
+  }) {
+    return InsuranceState(
+
+      summaryResponse: summaryResponse ? null : this.summaryResponse,
+      insuranceType: insuranceType ? null : this.insuranceType,
+      lastInsuranceSelected: lastInsuranceSelected ? null : this.lastInsuranceSelected,
+    );
+  }
+
+
 }
 
 enum InsuranceType {

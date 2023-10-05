@@ -113,4 +113,13 @@ class InsuranceCubit extends Cubit<InsuranceState> {
       ));
     }
   }
+
+  void resetStates() {
+
+    emit(state.copyWithNull(
+        insuranceType : true,
+      selectedPassenger:  true,
+
+    ));
+  }
 }

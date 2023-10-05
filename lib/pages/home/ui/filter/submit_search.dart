@@ -7,6 +7,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../checkout/pages/insurance/bloc/insurance_cubit.dart';
+
 class SubmitSearch extends StatelessWidget {
   final bool isHomePage;
 
@@ -16,6 +18,9 @@ class SubmitSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     final filter = context.watch<FilterCubit>().state;
     final isValid = filter.isValid;
+    final insuranceBloc = context.watch<InsuranceCubit>();
+
+
     return ElevatedButton(
       onPressed: !isValid
           ? null
@@ -25,9 +30,12 @@ class SubmitSearch extends StatelessWidget {
                   .searchFlights(filter,  filter.origin?.currency ?? 'MYR');
 
               if (isHomePage) {
+
                 UserInsider.of(context).registerStandardEvent(
                   InsiderConstants.searchFlightButtonClicked,
                 );
+                insuranceBloc.resetStates();
+
                 context.router
                     .push(SearchResultRoute(showLoginDialog: isHomePage));
               } else {

@@ -42,15 +42,21 @@ class AvailableInsurance extends StatelessWidget {
     final insurances =
         bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
     final selectedPassengers = insuranceCubit.selectedPassenger;
-    final firstInsurance = insurances.firstOrNull;
 
     final agentCms = context.watch<AgentSignUpCubit>();
     Bundle? lastInsuranceSelected = insuranceCubit.lastInsuranceSelected;
+    final firstInsurance = insurances.firstOrNull;
+
+    /*
+        final insurances =
+        bookingState.verifyResponse?.flightSSR?.insuranceGroup?.outbound ?? [];
+
+        final firstInsurance = insurances.firstOrNull;
 
     if(insuranceBloc.state.insuranceType == null) {
       insuranceBloc.changeInsuranceType(InsuranceType.all, firstInsurance?.toBound(isInsurance: true));
-
     }
+    */
     return  Visibility(
       visible: insurances.isNotEmpty,
       replacement: const EmptyAddon(),
