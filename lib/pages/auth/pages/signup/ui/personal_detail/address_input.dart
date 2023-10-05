@@ -120,8 +120,7 @@ class AddressInput extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AppInputText(
-                    //  isRequired: true,
-
+                      maxLength : 32,
                       validators: [
                        // FormBuilderValidators.required(),
                       ],

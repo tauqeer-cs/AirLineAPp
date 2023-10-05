@@ -65,6 +65,7 @@ class NameInput extends StatelessWidget {
               ),
               kVerticalSpacer,
                AppInputText(
+                 maxLength: 32,
                 isRequired: false,
                 textInputType: TextInputType.name,
                 name: formNameFirstName,
@@ -76,6 +77,7 @@ class NameInput extends StatelessWidget {
               ),
               kVerticalSpacer,
               AppInputText(
+                maxLength: 32,
                 isRequired: false,
                 textInputType: TextInputType.name,
                 name: formNameLastName,
