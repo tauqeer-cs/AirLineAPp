@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeDetailView extends StatelessWidget {
   final String url;
@@ -38,6 +39,27 @@ class HomeDetailView extends StatelessWidget {
               children: [
                 Html(
                   data: state.content?.data?.current?.content ?? "",
+
+                  onAnchorTap: (a,b,c,d){
+
+                    if(a != null) {
+                      launchUrl(Uri.parse(a ?? ''));
+                    }
+
+
+                    print('object');
+
+                  },
+                  onLinkTap: (a,b,c,d){
+
+                    if(a != null) {
+                      launchUrl(Uri.parse(a ?? ''));
+                    }
+
+
+                    print('object');
+
+                  },
                 ),
                 ElevatedButton(
                   onPressed: () => context.router.pop(),

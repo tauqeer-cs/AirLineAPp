@@ -5,6 +5,7 @@ import 'package:app/app/app_flavor.dart';
 import 'package:app/theme/styles.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewStack extends StatefulWidget {
@@ -33,6 +34,7 @@ class _WebViewStackState extends State<WebViewStack> {
       children: [
         WebView(
           initialUrl: widget.htmlContent!=null ? 'about:blank':widget.url,
+
           onWebViewCreated: (webViewController) {
             widget.controller.complete(webViewController);
             if(widget.htmlContent!=null){
@@ -62,6 +64,15 @@ class _WebViewStackState extends State<WebViewStack> {
             if(navigation.url.contains(AppFlavor.paymentRedirectUrl)){
               context.router.pop(navigation.url);
             }
+            final tappedUrl = navigation.url;
+            if (tappedUrl.contains('.pdf')) {
+              // Don't navigate to PDF links
+
+              launchUrl(Uri.parse(tappedUrl ?? ''));
+
+              return NavigationDecision.prevent;
+            }
+
             final host = Uri.parse(navigation.url).host;
             if (host.contains('youtube.com')) {
               ScaffoldMessenger.of(context).showSnackBar(

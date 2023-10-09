@@ -43,6 +43,7 @@ class _WebViewPageState extends State<WebViewPage> {
               ),
             )
           : WebViewStack(
+
               controller: controller,
               url: widget.url,
         htmlContent: widget.htmlContent,
