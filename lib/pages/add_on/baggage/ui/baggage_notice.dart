@@ -211,6 +211,8 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
 
     personSingle.selectedPerson = null;
+    personSingle.selectedPersonReturn = null;
+
 
 
   }
@@ -346,8 +348,11 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
           'MYR';
 
 
-      if(personSingle.selectedPerson != null) {
+      if(this.widget.isDeparting == true && personSingle.selectedPerson != null){
         selectedPerson = personSingle.selectedPerson;
+      }
+      else if(widget.isDeparting == false && personSingle.selectedPersonReturn != null){
+        selectedPerson = personSingle.selectedPersonReturn;
       }
       else {
         selectedPerson = context.watch<SelectedPersonCubit>().state;
@@ -571,9 +576,15 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                             if(responseFlag != null) {
 
                               selectedCubit
-                                  .selectPerson(selectedPerson);
+                                  .selectPerson(responseFlag);
 
-                              personSingle.selectedPerson = selectedPerson;
+                              if(this.widget.isDeparting) {
+                                personSingle.selectedPerson = responseFlag;
+                              }
+                              else {
+                                personSingle.selectedPersonReturn = responseFlag;
+                              }
+
 
                               setState(() {
 
@@ -694,6 +705,7 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
 
 class PersonSingleton {
   Person? selectedPerson;
+  Person? selectedPersonReturn;
 
   factory PersonSingleton() {
     return personSingle;

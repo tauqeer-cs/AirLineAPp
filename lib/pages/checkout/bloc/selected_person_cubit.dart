@@ -17,6 +17,7 @@ class SelectedPersonCubit extends Cubit<Person?> {
 }
   selectPerson(Person? person){
     personSingle.selectedPerson = null;
+    personSingle.selectedPersonReturn = null;
 
     emit(person?.copyWith());
   }
