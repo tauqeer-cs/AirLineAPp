@@ -68,7 +68,7 @@ class _WebViewStackState extends State<WebViewStack> {
             if (tappedUrl.contains('.pdf')) {
               // Don't navigate to PDF links
 
-              launchUrl(Uri.parse(tappedUrl ?? ''));
+              launchUrl(Uri.parse(tappedUrl ?? ''),mode: LaunchMode.externalApplication);
 
               return NavigationDecision.prevent;
             }
