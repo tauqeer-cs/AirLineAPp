@@ -209,6 +209,10 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     selectedItem = '';
     lastPersonUser = null;
 
+
+    personSingle.selectedPerson = null;
+
+
   }
 
   Widget amountToShow(Bundle currentItem, {bool red = false}) {
@@ -341,14 +345,14 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
               ?.requestedCurrencyOfFareQuote ??
           'MYR';
 
-      if(selectedPerson?.numberOrder != context.watch<SelectedPersonCubit>().state?.numberOrder) {
-        selectedPerson = context.watch<SelectedPersonCubit>().state;
 
+      if(personSingle.selectedPerson != null) {
+        selectedPerson = personSingle.selectedPerson;
       }
       else {
-        selectedPerson ??= context.watch<SelectedPersonCubit>().state;
-
+        selectedPerson = context.watch<SelectedPersonCubit>().state;
       }
+
 
 
       isDeparture = context.watch<IsDepartureCubit>().state;
@@ -565,8 +569,13 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
                                     isDeparture);
 
                             if(responseFlag != null) {
+
+                              selectedCubit
+                                  .selectPerson(selectedPerson);
+
+                              personSingle.selectedPerson = selectedPerson;
+
                               setState(() {
-                                selectedPerson = responseFlag;
 
                               });
 
@@ -679,4 +688,16 @@ class _SportsEquipmentCardState extends State<SportsEquipmentCard> {
     pageController.animateToPage(indexOf, duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 
+}
+
+ final PersonSingleton personSingle = PersonSingleton._internal();
+
+class PersonSingleton {
+  Person? selectedPerson;
+
+  factory PersonSingleton() {
+    return personSingle;
+  }
+
+  PersonSingleton._internal();
 }
